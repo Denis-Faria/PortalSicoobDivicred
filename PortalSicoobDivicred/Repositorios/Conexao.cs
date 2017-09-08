@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using MySql.Data.MySqlClient;
+
+namespace Port.Repositorios
+{
+    public class Conexao : IDisposable
+    {
+        private MySqlConnection conexao;
+
+        public void Dispose()
+        {
+            if (conexao == null) return;
+
+            conexao.Dispose();
+            conexao = null;
+        }
+
+        public int ExecutaComando(string comandoSQL)
+        {
+            var resultado = 0;
+            if (string.IsNullOrEmpty(comandoSQL))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexao();
+                var cmdComando = CriarComando(comandoSQL);
+                resultado = cmdComando.ExecuteNonQuery();
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return resultado;
+        }
+
+        public string ExecutaComandoCandidato(string comandoSQL)
+        {
+            long id;
+            if (string.IsNullOrEmpty(comandoSQL))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexao();
+                var cmdComando = CriarComando(comandoSQL);
+                cmdComando.ExecuteNonQuery();
+                id = cmdComando.LastInsertedId;
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return id.ToString();
+        }
+
+
+        public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSQL)
+        {
+            List<Dictionary<string, string>> linhas = null;
+
+            if (string.IsNullOrEmpty(comandoSQL))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexao();
+                var cmdComando = CriarComando(comandoSQL);
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return linhas;
+        }
+        public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSQL)
+        {
+            List<Dictionary<string, string>> linhas = null;
+
+            if (string.IsNullOrEmpty(comandoSQL))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexaoPortal();
+                var cmdComando = CriarComando(comandoSQL);
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return linhas;
+        }
+
+        private MySqlCommand CriarComando(string comandoSQL)
+        {
+            var cmdComando = conexao.CreateCommand();
+            cmdComando.CommandText = comandoSQL;
+            return cmdComando;
+        }
+
+        private void AbrirConexao()
+        {
+            var conexaoString = ConfigurationManager.ConnectionStrings["portalinterno"].ConnectionString;
+            conexao = new MySqlConnection(conexaoString);
+
+            if (conexao.State == ConnectionState.Open) return;
+
+            conexao.Open();
+        }
+        private void AbrirConexaoPortal()
+        {
+            var conexaoString = ConfigurationManager.ConnectionStrings["portaldetalentos"].ConnectionString;
+            conexao = new MySqlConnection(conexaoString);
+
+            if (conexao.State == ConnectionState.Open) return;
+
+            conexao.Open();
+        }
+
+        private void FecharConexao()
+        {
+            if (conexao.State == ConnectionState.Open)
+                conexao.Close();
+        }
+    }
+}

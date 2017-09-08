@@ -1,0 +1,84 @@
+﻿@model PortalSicoobDivicred.Models.Usuario
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+    <link href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <title>Perfil Candidato</title>
+</head>
+<body>
+<style>
+    
+</style>
+<div>
+    <article class="media">
+        <div class="media-left">
+            <p class="image is-64x64">
+                <img src="@TempData["ImagemPerfil"]">
+            </p>
+        </div>
+        <div class="media-content">
+            <div class="content">
+                <p></p>
+                <p></p>
+                <p>
+                    <h1><strong class="is-size-10">@Model.NomeCompleto</strong></h1>
+                </p>
+            </div>
+        </div>
+    </article>
+    <br/>
+    <br/>
+    <p><strong>Telefone Principal: </strong>@Model.TelefonePrincipal |<strong>Telefone Secundário: </strong> @Model.TelefoneSecundario</p>
+    <p><strong>E-mail: </strong>@Model.Email | <strong>Data Nascimento: </strong>@Model.Idade |<strong>Sexo: </strong> @Model.Sexo | <strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
+    <p><strong>CPF: </strong>@Model.Cpf | <strong>Identidade: </strong>@Model.Identidade
+    </p>
+    <p><strong>N° CNH: </strong>@Model.Cnh | <strong> Categoria CNH: </strong>@Model.CatCnh | <strong>Data Primeira CNH: </strong>@Model.PrimeiraCnh</p>
+    <p><strong>Disponibilidade de Viagem: </strong>@TempData["Disponibilidades"]</p>
+    <p><strong>Tipo de Deficiencia: </strong>@Model.TipoDeficiencia</p>
+    <p><strong>Quantidade de Filhos: </strong>@Model.QuantidadeFilho</p>
+    <p><strong>CEP: </strong>@Model.Cep</p>
+    <p><strong>Endereço: </strong>@Model.Rua, <strong>n°</strong>@Model.Numero, Complemento:@Model.Complemento, Bairro:@Model.Bairro, Cidade: @Model.Cidade, Estado: @Model.Uf
+    </p>
+    <hr/>
+    <strong class="is-size-6">Dados Educacionais</strong>
+    <p><strong>Formação: </strong>@TempData["Escolaridade"]</p>
+    @for (var i = 0; i < Model.NomeInstituicao.Count; i++)
+    {
+
+        <p><strong>Tipo Formação: </strong>@Model.TipoFormacao[i]</p>
+        <p><strong>Nome Instituição: </strong>@Model.NomeInstituicao[i]</p>
+        <p><strong>Nome Curso: </strong>@Model.NomeCurso[i]</p>
+        <p><strong>Ano Inicio: </strong>@Model.AnoInicio[i] | <strong>Ano Fim: </strong>@Model.AnoTermino[i]</p>
+        <hr/>
+    }
+    <br/>
+    <strong class="is-size-6">Dados Profissionais</strong>
+    @for (var i = 0; i < Model.NomeEmpresa.Count; i++)
+    {
+        <p><strong>Nome Empresa: </strong>@Model.NomeEmpresa[i]</p>
+        <p><strong>Nome Cargo: </strong>@Model.NomeCargo[i]</p>
+        <p><strong>Data Entrada: </strong>@Model.DataEntrada[i] | <strong>Data Saída: </strong>@Model.DataSaida[i]</p>
+        <p><strong>Emprego Atual: </strong>@TempData["EmpregoAtual" + i]
+        </p>
+        <p><strong>Atividades Desempenhadas:</strong>@Model.Atividades[i]</p>
+
+        <hr/>
+    }
+    <br/>
+    <strong class="is-size-6">Resumo</strong>
+    <p>@Model.Resumo</p>
+
+    <p><strong>Conhecimento em Informatica: </strong>@Model.Informatica</p>
+    <p><strong>Como chegou: </strong>@TempData["Conhecido"]</p>
+    <p><strong>Certificação: </strong>@Model.Certificacao</p>
+</div>
+</body>
+</html>

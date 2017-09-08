@@ -1,0 +1,155 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+    <link href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+
+
+    <meta name="viewport" content="width=device-width"/>
+
+    <title>Principal</title>
+
+
+    <script>
+        function Curriculo() {
+            $("#Conteudo").empty();
+            $.ajax(
+                {
+                    type: 'GET',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    success: function(data) {
+                        $.get('/Principal/Curriculo',
+                            function(data) {
+                                $("#Conteudo").append(data);
+
+                            });
+                    }
+                });
+           
+        }
+        function Dash() {
+            $("#Conteudo").empty();
+            $.ajax(
+                {
+                    type: 'GET',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    success: function(data) {
+                        $.get('/Principal/Dashboard',
+                            function(data) {
+                                $("#Conteudo").append(data);
+
+                            });
+                    }
+                });
+           
+        }
+
+        $(document).ready(function() {
+            window.history.pushState("state", "title", "/Principal/Principal");
+        });
+     
+      
+  
+    </script>
+</head>
+<body>
+<style>
+    body { background: #e6e6e6; }
+</style>
+<nav class="nav"style="background: rgb(42, 63, 84)">
+    <div class="nav-left">
+        <a class="nav-item">
+            <img src="/Images/LogoBranca.png" alt="Bulma logo">
+        </a>
+    </div>
+
+    <div class="nav-center">
+        <a class="nav-item">
+
+        </a>
+        <a class="nav-item">
+            <img src="/Images/user.png" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip"/> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
+        </a>
+    </div>
+    <span class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
+
+</nav>
+<div class="columns">
+    <aside class="column is-2 aside hero is-fullheight is-hidden-mobile " style="background: rgb(42, 63, 84)">
+        <ul class="menu-list is-centered" style="text-align: justify;padding: 10px;">
+            <p class="item"></p>
+                <p class="menu-label" style="color: white">
+                    Geral
+                </p>
+                <a href="javascript:Dash()" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-tachometer"></i>
+                    </span><span class="name"> Dashboard</span>
+                </a>
+                <a href="#" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                    </span><span class="name"> WebDesk</span>
+                </a>
+                <a href="#" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-folder-o" aria-hidden="true"></i>
+                    </span><span class="name"> PGD</span>
+                </a>
+
+
+                <p class="menu-label" style="color: white">
+                    Específicos
+                </p>
+                <a href="javascript:Curriculo()" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-suitcase"></i>
+                    </span><span class="name"> Currículo</span>
+                </a>
+                <a href="#" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-user-circle-o"></i>
+                    </span><span class="name"> Portal do Colaborador</span>
+                </a>
+</ul>
+    </aside>
+    <div class="column is-10" id="Conteudo" name="Conteudo">
+        @if (TempData["Mensagem"] != null)
+        {
+            @Html.Label("")
+            
+
+            <script>
+
+                iziToast.success({
+                    title: 'Sucesso',
+                    position: "center",
+                    message: '@TempData["Mensagem"]',
+                });
+
+            </script>
+        }
+        @Html.Action("" + TempData["Opcao"])
+    </div>
+</div>
+
+</>
+</body>
+</html>

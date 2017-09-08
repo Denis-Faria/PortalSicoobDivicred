@@ -1,0 +1,60 @@
+﻿@model PortalSicoobDivicred.Models.Login
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/Login.js")"></script>
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <link href="@Url.Content("~/Assets/css/Login.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("http://fonts.googleapis.com/icon?family=Material+Icons")" rel="stylesheet"/>
+    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Raleway:300,200")" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css")" type="text/css">
+    <meta name="viewport" content="width=device-width"/>
+
+
+    <meta name="viewport" content="width=device-width"/>
+    <title>Portal Sicoob Divicred - Login</title>
+</head>
+<body>
+@using (Html.BeginForm("Login", "Login"))
+{
+    <div class="form">
+        <div class="forceColor"></div>
+        <div class="topbar">
+            <div class="spanColor"></div>
+            @Html.ValidationSummary(true, "", new {@class = "red-text col s3 offset-s7"})
+
+            @Html.TextBoxFor(m => m.Usuario, null, new {id = "Usuario", @class = "input", placeholder = "Usuário"})
+            @Html.Password("Senha", null, new {@class = "input", placeholder = "Senha"})
+
+            @if (TempData["Erro"] != null)
+            {
+                @Html.Label("")
+                ;
+
+                <script>
+
+                    iziToast.error({
+                        title: 'Erro',
+                        position: "center",
+                        message: '@TempData["Erro"]',
+                    });
+
+                </script>
+            }
+        </div>
+        <button class="submit" id="submit">Login</button>
+    </div>
+}
+
+</body>
+</html>

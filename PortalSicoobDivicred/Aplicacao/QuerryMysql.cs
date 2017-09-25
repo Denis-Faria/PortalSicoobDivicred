@@ -41,22 +41,60 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
-
-
-        public List<Dictionary<string, string>> RecuperaCurriculosHistorico(string IdVaga)
+        public List<Dictionary<string, string>> RecuperaCurriculosProcesso(string IdVaga)
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga="+IdVaga+"";
+                "select a.nome,a.cpf,a.email,b.* from candidatos a, processosseletivos b where a.id=b.idcandidato and b.idvaga="+IdVaga+" and aprovado!='Reprovado';";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
+        public bool VerificaProcesso(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select * from processosseletivos where idvaga="+IdVaga+"";
+            var DadosVaga = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            if (DadosVaga.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<Dictionary<string, string>> RecuperaCurriculosAlfabetico()
+        {
+            var QuerrySelecionaCurriculo =
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato  order by a.nome asc  ";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
+        public List<Dictionary<string, string>> RecuperaCurriculosStatus()
+        {
+            var QuerrySelecionaCurriculo =
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato order by status asc ";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
 
 
+        public List<Dictionary<string, string>> RecuperaCurriculosHistorico(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select a.cpf, a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
+                IdVaga + "";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
 
         public List<Dictionary<string, string>> RecuperaVagas()
         {
             var QuerrySelecionaVagas =
-                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas";
+                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas ORDER BY ativa DESC";
             var DadosVagas = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaVagas);
             return DadosVagas;
         }
@@ -64,25 +102,115 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaVagasId(string Id)
         {
             var QuerrySelecionaVagas =
-                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas where id="+Id+"";
+                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas where id=" + Id + "";
             var DadosVagas = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaVagas);
             return DadosVagas;
         }
 
 
-        public void CadastrarVaga(string Descricao,string AreaInteresse,string Salario,string Requisito,string Titulo,DateTime Data,string Local)
+        public List<Dictionary<string, string>> CadastrarVaga(string Descricao, string AreaInteresse, string Salario, string Requisito,
+            string Titulo, string Beneficio)
         {
             var QuerrySelecionaCurriculo =
-                "INSERT INTO vagas (descricao,areadeinteresse,salario,requisito,titulo,data,localentrevista) VALUES('"+Descricao+"','"+AreaInteresse+"','"+Salario+"','"+Requisito+"','"+Titulo+"','"+Data.Date.ToString("yyyy/MM/dd")+"','"+Local+"')";
+                "INSERT INTO vagas (descricao,areadeinteresse,salario,requisito,titulo,beneficio,datainicio) VALUES('" +
+                Descricao + "','" + AreaInteresse + "','" + Salario + "','" + Requisito + "','" + Titulo + "','" +
+                Beneficio + "',now())";
             contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            var QuerrySelecionaEmailVagas =
+                "select a.email from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND b.descricao like'%"+AreaInteresse+"%'";
+            var Email = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaEmailVagas);
+            return Email;
+        }
+
+        public void IniciarProcessoSeletivo(string Cpf,string IdVaga)
+        {
+            var QuerrySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='"+Cpf+"';";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
+            var QuerryIniciaProcesso = "INSERT INTO processosseletivos (idvaga,idcandidato) VALUES(" + IdVaga + "," +
+                                       DadosCandidatos[0]["id"] + ")";
+            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+        }
+        public void AtualizarProcessoSeletivoStatus(string Cpf, string IdVaga,string Resultado)
+        {
+            var QuerrySelecionaIdCandidato = "select id FROM candidatos where cpf='" + Cpf + "';";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
+
+            var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";"; ;
+            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+
+            var QueryMudaDataFim = "UPDATE vagas SET datafim=NOW() WHERE id="+IdVaga+"";
+            contexto.ExecutaComandoComRetornoPortal(QueryMudaDataFim);
+
+        }
+        public void AtualizarProcessoSeletivoGerente(string Cpf, string IdVaga,string Resultado)
+        {
+            var QuerrySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + Cpf + "';";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
+            var QuerryIniciaProcesso = "Update processosseletivos set gerente= '"+Resultado+"' WHERE idvaga = "+IdVaga+" AND idcandidato = "+ DadosCandidatos[0]["id"] + "; ";
+            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+        }
+        public void AtualizaProcessoSeletivoPsicologico(string Cpf, string IdVaga,string Resultado)
+        {
+            var QuerrySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + Cpf + "';";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
+            var QuerryIniciaProcesso = "Update processosseletivos set psicologico='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+        }
+        public void AtualizaProcessoSeletivoTeorico(string Cpf, string IdVaga,string Resultado)
+        {
+            var QuerrySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + Cpf + "';";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
+            var QuerryIniciaProcesso = "Update processosseletivos set prova="+Resultado+" WHERE idvaga="+IdVaga+" AND idcandidato="+ DadosCandidatos[0]["id"] + ";";
+            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+        }
+        public void CadastrarAlerta(string Alerta)
+        {
+            var QuerrySelecionaVagas =
+                "select id FROM candidatos";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaVagas);
+
+            for (var i = 0; i < DadosCandidatos.Count; i++)
+            {
+                var QuerrySelecionaCurriculo =
+                    "INSERT INTO alertas (alerta,idcandidato) VALUES('" + Alerta + "'," + DadosCandidatos[i]["id"] +
+                    ")";
+                contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            }
+        }
+        public void CadastrarAlertaEspecifico(string Alerta,string IdCandidato)
+        {
             
+          
+                var QuerrySelecionaCurriculo =
+                    "INSERT INTO alertas (alerta,idcandidato) VALUES('" + Alerta + "'," + IdCandidato +
+                    ")";
+                contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            
+        }
+
+        public void CadastrarMensagem(string Mensagem)
+        {
+            var QuerrySelecionaVagas =
+                "select id FROM candidatos";
+            var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaVagas);
+
+            for (var i = 0; i < DadosCandidatos.Count; i++)
+            {
+                var QuerrySelecionaCurriculo =
+                    "INSERT INTO mensagens (mensagem,idcandidato) VALUES('" + Mensagem + "'," +
+                    DadosCandidatos[i]["id"] + ")";
+                contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            }
         }
 
         public void EncerrarVaga(string IdVaga)
         {
-            var QuerrySelecionaCurriculo ="UPDATE vagas SET ativa='N' WHERE id="+IdVaga+"";
+            var QuerrySelecionaCurriculo = "UPDATE vagas SET ativa='N' WHERE id=" + IdVaga + "";
             contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
-
         }
 
 
@@ -105,6 +233,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+
         public List<Dictionary<string, string>> RecuperaDadosCandidato(string Cpf)
         {
             var QuerryRecuperaUsuario =
@@ -117,6 +246,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+
         public List<Dictionary<string, string>> RecuperaDadosUsuariosProissional(string IdCandidato)
         {
             var QuerryRecuperaProfissional = "SELECT * FROM dadosprofissionais WHERE idcandidato='" + IdCandidato + "'";
@@ -138,7 +268,16 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+        public List<Dictionary<string, string>> RecuperaEmail(string Cpf)
+        {
+            var QuerryRecuperaEducacional = "SELECT id,email FROM candidatos WHERE cpf='" + Cpf + "'";
 
+
+            var rows = contexto.ExecutaComandoComRetornoPortal(QuerryRecuperaEducacional);
+
+
+            return rows;
+        }
         public List<Dictionary<string, string>> RecuperaAreaInteresseUsuarios(string IdCandidato)
         {
             var QuerryRecuperaAreasInteresse = "SELECT * FROM areasinteresses WHERE idcandidato=" + IdCandidato + "";
@@ -149,6 +288,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+
         public string RecuperaEstadoCivilCandidato(string Id)
         {
             var QuerryRecuperaAreasInteresse = "SELECT * FROM tiposestadoscivis WHERE id=" + Id + "";
@@ -159,6 +299,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RecuperaEscolaridadeCandidato(string Id)
         {
             var QuerryRecuperaAreasInteresse = "SELECT * FROM tiposescolaridades WHERE id=" + Id + "";
@@ -173,7 +314,8 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RecuperaIdEscolaridade(string Descricao)
         {
-            var QuerryRecuperaAreasInteresse = "SELECT * FROM tiposescolaridades WHERE descricao like'%" + Descricao + "%'";
+            var QuerryRecuperaAreasInteresse =
+                "SELECT * FROM tiposescolaridades WHERE descricao like'%" + Descricao + "%'";
 
 
             var rows = contexto.ExecutaComandoComRetornoPortal(QuerryRecuperaAreasInteresse);
@@ -181,11 +323,11 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+
         public List<Dictionary<string, string>> FiltroVaga(string Query)
         {
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(Query);
             return DadosCurriculos;
         }
-
     }
 }

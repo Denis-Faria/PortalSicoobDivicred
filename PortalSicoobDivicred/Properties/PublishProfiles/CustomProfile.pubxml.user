@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Esse arquivo é usado pelo processo de publicação/pacote do seu projeto Web. É possível personalizar o comportamento deste processo
+ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Davi\Desktop\PortalSicoob</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Assets/css/animate.css">
+      <publishTime>09/14/2017 08:49:45</publishTime>
+    </File>
+    <File Include="Assets/css/asc.png">
+      <publishTime>08/03/2007 17:04:42</publishTime>
+    </File>
+    <File Include="Assets/css/balloon.css">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/css/bg.png">
+      <publishTime>08/03/2007 17:04:42</publishTime>
+    </File>
+    <File Include="Assets/css/desc.png">
+      <publishTime>08/03/2007 17:04:42</publishTime>
+    </File>
+    <File Include="Assets/css/font-awesome.min.css">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/css/iziToast.css">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/css/iziToast.min.css">
+      <publishTime>04/05/2017 11:54:22</publishTime>
+    </File>
+    <File Include="Assets/css/Login.css">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Assets/css/over.css">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/css/style.css">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/fonts/Apache License.txt">
+      <publishTime>02/16/2017 12:33:16</publishTime>
+    </File>
+    <File Include="Assets/fonts/dropify.svg">
+      <publishTime>08/06/2016 14:21:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/dropify.ttf">
+      <publishTime>08/06/2016 14:21:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/dropify.woff">
+      <publishTime>08/06/2016 14:21:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Flat-it License.txt">
+      <publishTime>02/16/2017 12:27:18</publishTime>
+    </File>
+    <File Include="Assets/fonts/fontawesome-webfont.eot">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/fontawesome-webfont.svg">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/fontawesome-webfont.ttf">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/fontawesome-webfont.woff">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/fontawesome-webfont.woff2">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/FontAwesome.otf">
+      <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-Bold.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-ExtraLight.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-Light.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-Medium.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-Regular.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Oswald-SemiBold.ttf">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Black.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-BlackItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Bold.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Bold.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Bold.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Bold.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-BoldItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Italic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Light.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Light.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Light.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Light.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-LightItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Medium.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Medium.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Medium.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Medium.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-MediumItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Regular.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Regular.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Regular.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Regular.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Thin.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Thin.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Thin.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-Thin.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/Roboto-ThinItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/LemonMilk.otf">
+      <publishTime>01/28/2016 17:24:24</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Black.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-BlackItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Bold.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Bold.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Bold.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Bold.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-BoldItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Italic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Light.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Light.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Light.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Light.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-LightItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Medium.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Medium.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Medium.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Medium.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-MediumItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Regular.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Regular.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Regular.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Regular.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Thin.eot">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Thin.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Thin.woff">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-Thin.woff2">
+      <publishTime>02/04/2016 05:02:22</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/Roboto-ThinItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-Bold.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-BoldItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-Italic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-Light.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-LightItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/roboto/RobotoCondensed-Regular.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-Bold.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-BoldItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-Italic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-Light.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-LightItalic.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/fonts/RobotoCondensed-Regular.ttf">
+      <publishTime>02/16/2017 12:31:04</publishTime>
+    </File>
+    <File Include="Assets/js/iziToast.js">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/js/iziToast.min.js">
+      <publishTime>04/05/2017 11:54:22</publishTime>
+    </File>
+    <File Include="Assets/js/jquery-ui.min.js">
+      <publishTime>09/14/2016 17:34:06</publishTime>
+    </File>
+    <File Include="Assets/js/jquery.mask.js">
+      <publishTime>05/26/2017 12:05:12</publishTime>
+    </File>
+    <File Include="Assets/js/jquery.mask.min.js">
+      <publishTime>02/13/2017 06:18:26</publishTime>
+    </File>
+    <File Include="Assets/js/jquery.tablesorter.min.js">
+      <publishTime>10/15/2010 11:55:44</publishTime>
+    </File>
+    <File Include="Assets/js/jquery.validate.min.js">
+      <publishTime>02/12/2016 10:50:38</publishTime>
+    </File>
+    <File Include="Assets/js/Login.js">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Assets/js/split_text_to_size.js">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/js/standard_fonts_metrics.js">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/js/sweetalert-dev.js">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Assets/js/sweetalert.min.js">
+      <publishTime>12/15/2016 01:39:02</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>12/13/2016 04:10:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/01/2012 12:08:46</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.dll">
+      <publishTime>06/17/2016 18:28:04</publishTime>
+    </File>
+    <File Include="bin/PortalSicoobDivicred.dll">
+      <publishTime>09/18/2017 15:22:41</publishTime>
+    </File>
+    <File Include="bin/PortalSicoobDivicred.pdb">
+      <publishTime>09/18/2017 15:22:41</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
+      <publishTime>01/28/2015 05:04:40</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Mvc.resources.dll">
+      <publishTime>01/28/2015 05:02:28</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Razor.resources.dll">
+      <publishTime>01/28/2015 05:02:40</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.Deployment.resources.dll">
+      <publishTime>01/28/2015 05:04:40</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.Razor.resources.dll">
+      <publishTime>01/28/2015 05:04:40</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.resources.dll">
+      <publishTime>01/28/2015 05:04:40</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe.config">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.rsp">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.exe">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/csi.rsp">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.AppContext.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Diagnostics.StackTrace.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe.config">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.rsp">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>06/27/2016 14:50:24</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>01/28/2015 05:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>01/28/2015 05:02:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>01/28/2015 05:02:32</publishTime>
+    </File>
+    <File Include="bin/System.Web.Webpages.Deployment.dll">
+      <publishTime>01/28/2015 05:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Webpages.dll">
+      <publishTime>01/28/2015 05:04:30</publishTime>
+    </File>
+    <File Include="bin/System.Web.Webpages.Razor.dll">
+      <publishTime>01/28/2015 05:04:30</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Images/PortalLogin.png">
+      <publishTime>05/06/2017 11:30:53</publishTime>
+    </File>
+    <File Include="Images/sucesso.png">
+      <publishTime>09/18/2017 14:06:57</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.js">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.min.js">
+      <publishTime>04/17/2017 10:44:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.min.map">
+      <publishTime>04/17/2017 10:44:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.slim.js">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.slim.min.js">
+      <publishTime>04/17/2017 10:44:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery-3.1.1.slim.min.map">
+      <publishTime>04/17/2017 10:44:20</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>04/04/2017 16:35:04</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>07/06/2017 09:18:51</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>04/04/2017 16:34:27</publishTime>
+    </File>
+    <File Include="Views/Login/Login.cshtml">
+      <publishTime>09/13/2017 14:26:02</publishTime>
+    </File>
+    <File Include="Views/Principal/Curriculo.cshtml">
+      <publishTime>09/15/2017 14:11:04</publishTime>
+    </File>
+    <File Include="Views/Principal/Dashboard.cshtml">
+      <publishTime>09/15/2017 11:30:21</publishTime>
+    </File>
+    <File Include="Views/Principal/GerenciarVaga.cshtml">
+      <publishTime>09/18/2017 14:39:11</publishTime>
+    </File>
+    <File Include="Views/Principal/ModalPerfil.cshtml">
+      <publishTime>09/13/2017 16:27:50</publishTime>
+    </File>
+    <File Include="Views/Principal/PerfilProcesso.cshtml">
+      <publishTime>09/18/2017 08:52:43</publishTime>
+    </File>
+    <File Include="Views/Principal/Principal.cshtml">
+      <publishTime>09/13/2017 14:26:03</publishTime>
+    </File>
+    <File Include="Views/Principal/ResultadoProcesso.cshtml">
+      <publishTime>09/18/2017 10:36:48</publishTime>
+    </File>
+    <File Include="Views/web.config">
+      <publishTime>09/13/2017 14:26:03</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>09/18/2017 15:22:42</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

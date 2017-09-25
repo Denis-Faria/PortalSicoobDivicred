@@ -27,15 +27,6 @@ C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSico
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.dll.config
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.dll
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.pdb
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Helpers.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Mvc.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Razor.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.Deployment.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.dll
-C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.Razor.dll
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.xml
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Razor.xml
@@ -54,3 +45,4 @@ C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSico
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
 C:\Users\davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CoreCompileInputs.cache
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Newtonsoft.Json.xml

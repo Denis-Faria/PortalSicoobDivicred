@@ -13,7 +13,7 @@ namespace PortalSicoobDivicred.Models
         public string NomeCompleto { get; set; }
 
         [Required(ErrorMessage = "Favor informar sua data de nascimento.")]
-      [DisplayName("Data Nascimento")]
+        [DisplayName("Data Nascimento")]
         public DateTime Idade { get; set; }
 
         [DisplayName("Estado Civil")]
@@ -124,7 +124,6 @@ namespace PortalSicoobDivicred.Models
 
         [DisplayName("Nome do Curso")]
         public List<string> TipoFormacao { get; set; }
-
 
 
         [DisplayName("Nome do Curso")]

@@ -94,6 +94,7 @@ namespace Port.Repositorios
 
             return linhas;
         }
+
         public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSQL)
         {
             List<Dictionary<string, string>> linhas = null;
@@ -147,6 +148,7 @@ namespace Port.Repositorios
 
             conexao.Open();
         }
+
         private void AbrirConexaoPortal()
         {
             var conexaoString = ConfigurationManager.ConnectionStrings["portaldetalentos"].ConnectionString;

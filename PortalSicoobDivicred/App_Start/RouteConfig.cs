@@ -12,13 +12,12 @@ namespace PortalSicoobDivicred
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
-                new { controller = "Login", action = "Login", id = UrlParameter.Optional }
-
+                new {controller = "Login", action = "Login", id = UrlParameter.Optional}
             );
             routes.MapRoute(
                 "Principal",
                 "{controller}/{action}/{Acao}/{Mensagem}",
-                new { controller = "Principal", action = "Principal", id = UrlParameter.Optional });
+                new {controller = "Principal", action = "Principal", id = UrlParameter.Optional});
         }
     }
 }

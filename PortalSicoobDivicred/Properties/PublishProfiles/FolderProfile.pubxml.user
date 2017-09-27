@@ -6,7 +6,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\Davi\Desktop\PortalSicoob</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\Davi\Desktop\Portal</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Assets/css/animate.css">
@@ -343,13 +343,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/02/2017 17:46:32</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>09/25/2017 14:24:17</publishTime>
+      <publishTime>09/27/2017 11:07:54</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>09/13/2017 14:26:03</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>09/25/2017 14:24:17</publishTime>
+      <publishTime>09/27/2017 11:07:54</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 05:04:40</publishTime>
@@ -535,7 +535,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/15/2017 11:30:21</publishTime>
     </File>
     <File Include="Views/Principal/GerenciarVaga.cshtml">
-      <publishTime>09/25/2017 09:19:23</publishTime>
+      <publishTime>09/27/2017 11:02:57</publishTime>
     </File>
     <File Include="Views/Principal/ModalPerfil.cshtml">
       <publishTime>09/13/2017 16:27:50</publishTime>
@@ -553,7 +553,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/13/2017 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/18/2017 15:22:42</publishTime>
+      <publishTime>09/25/2017 14:36:48</publishTime>
     </File>
   </ItemGroup>
 </Project>

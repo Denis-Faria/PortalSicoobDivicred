@@ -44,7 +44,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculosProcesso(string IdVaga)
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.cpf,a.email,b.* from candidatos a, processosseletivos b where a.id=b.idcandidato and b.idvaga="+IdVaga+" and aprovado!='Reprovado';";
+                "select a.nome,a.cpf,a.email,b.* from candidatos a, processosseletivos b where a.id=b.idcandidato and b.idvaga="+IdVaga+ " and (aprovado!='Reprovado' or aprovado is null);";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
@@ -62,6 +62,20 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 return false;
             }
+        }
+        public List<Dictionary<string, string>> RecuperaProcesso(string IdCandidato)
+        {
+            var QuerrySelecionaCurriculo =
+                "SELECT a.*,b.titulo as nomevaga from processosseletivos a , vagas b where a.idvaga=b.id and idcandidato="+IdCandidato+";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+        public List<Dictionary<string, string>> RecuperaFormulario(string IdCandidato)
+        {
+            var QuerrySelecionaCurriculo =
+                "SELECT * from formulariosiniciais where  idcandidato=" + IdCandidato + ";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
         }
 
         public List<Dictionary<string, string>> RecuperaCurriculosAlfabetico()
@@ -97,6 +111,13 @@ namespace PortalSicoobDivicred.Aplicacao
                 "select id,titulo,descricao,areadeinteresse,ativa FROM vagas ORDER BY ativa DESC";
             var DadosVagas = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaVagas);
             return DadosVagas;
+        }
+        public void CriaBalao(string Cpf)
+        {
+            var QuerryAdcionaBalao =
+                "UPDATE candidatos SET balao='S' WHERE cpf="+Cpf+";";
+            contexto.ExecutaComandoComRetornoPortal(QuerryAdcionaBalao);
+            
         }
 
         public List<Dictionary<string, string>> RecuperaVagasId(string Id)

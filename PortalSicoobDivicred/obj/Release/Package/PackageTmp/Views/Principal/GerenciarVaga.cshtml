@@ -7,15 +7,15 @@
 <script>
 
     function LinhaSeleciona() {
-            $('#TabelaCurriculo').find('tr').each(function () {
-                var row = $(this);
-                if (row.find('input[type="checkbox"]').is(':checked')) {
-                    row.addClass("is-selected");
-                } else {
-                    row.removeClass("is-selected");
-                }
+        $('#TabelaCurriculo').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                row.addClass("is-selected");
+            } else {
+                row.removeClass("is-selected");
+            }
 
-            });
+        });
 
     }
 
@@ -30,58 +30,15 @@
                 cache: true,
                 async: true,
                 data: { "Ordenacao": "" },
-                success: function(data) {
+                success: function (data) {
                     $("#Conteudo").append(data);
 
 
                 }
             });
-
     }
 
-    function Encerrar(Id) {
-        var IdVaga = Id;
-        var form = $("#Curriculos").serialize();
-        iziToast.show({
-            title: 'Processo seletivo.',
-            message: 'Você tem certeza que todas as informações estão corretas e deseja encerrar este processo seletivo ?',
-            position: 'center',
-            progressBarColor: 'rgb(0, 255, 184)',
-            buttons: [
-                [
-                    '<button>Sim</button>', function (instance, toast) {
-                        alert("Ola");
 
-                        $("#FormEncerraPRocesso").submit();
-
-                        }
-
-                ],
-                [
-                    '<button>Não</button>', function (instance, toast) {
-                        instance.hide({
-                            transitionOut: 'fadeOutUp',
-                            onClosing: function (instance, toast, closedBy) {
-                                console.info('closedBy: ' + closedBy); //btn2
-                            }
-                        },
-                            toast,
-                            'close',
-                            'btn2');
-                    }
-                ]
-            ],
-            onOpening: function (instance, toast) {
-                console.info('callback abriu!');
-            },
-            onClosing: function (instance, toast, closedBy) {
-                console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-            }
-        });
-
-
-
-    }
     function VerPerfil(Cpf) {
         $("#PerfilCompleto").empty();
         $.ajax(
@@ -92,7 +49,7 @@
                 cache: true,
                 async: true,
                 data: { "Cpf": Cpf },
-                success: function(data) {
+                success: function (data) {
                     $("#PerfilCompleto").append(data);
                     $('#ModalPerfil').removeClass();
                     $('#ModalPerfil').addClass('modal is-active');
@@ -103,6 +60,7 @@
     }
 
     function EncerrarProcesso(IdVaga) {
+        var id = IdVaga;
         $("#ProcessoCompleto").empty();
         $.ajax(
             {
@@ -111,7 +69,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdVaga": IdVaga },
+                data: { "IdVaga": id },
                 success: function (data) {
                     $("#ProcessoCompleto").append(data);
                     $('#ModalEncerramento').removeClass();
@@ -142,16 +100,17 @@
             });
     }
 
-    $("#FiltroPerfil").submit(function() {
+
+    $("#FiltroPerfil").submit(function () {
         $.ajax({
             type: "POST",
             url: "/Principal/FiltrarPerfilVaga",
             data: $("#FiltroPerfil").serialize(),
-            success: function(data) {
+            success: function (data) {
                 $("#Conteudo").empty();
                 $("#Conteudo").append(data);
             },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert("epic fail!");
             }
         });
@@ -166,9 +125,9 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function(data) {
+                success: function (data) {
                     $.get('/Principal/Dashboard',
-                        function(data) {
+                        function (data) {
                             $("#Conteudo").append(data);
 
                         });
@@ -177,76 +136,93 @@
 
     }
 
-    $(document).ready(function() {
+    function SelecionaTodas() {
+        alert("Ola");
+        $('#TabelaCurriculo').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                row.removeClass("is-selected");
+                row.find('input[type="checkbox"]').prop("checked", false);
+            } else {
+                row.find('input[type="checkbox"]').prop("checked", true);
+                row.addClass("is-selected");
+            }
+        });
+    }
+
+    $(document).ready(function () {
         window.history.pushState("state", "title", "/Principal/Principal");
 
     });
 
-    $(function() {
+    $(function () {
         $("#TabelaCurriculo").tablesorter();
     });
 
     function AbrirProcesso(Id) {
-        var IdVaga = Id;
-        var form = $("#Curriculos").serialize();
-        iziToast.show({
-            title: 'Processo seletivo.',
-            message: 'Você tem certeza que deseja abrir um processo seletivo com os curriculos filtrados ?',
-            position: 'center',
-            progressBarColor: 'rgb(0, 255, 184)',
-            buttons: [
-                [
-                    '<button>Sim</button>', function(instance, toast) {
-                        var count = 0;
-                        $('#TabelaCurriculo').find('tr').each(function () {
-                            var row = $(this);
-                            if (row.find('input[type="checkbox"]').is(':checked')) {
-                                count++;
-                            }
-                        });
-                        if (count == 0) {
-                            instance.hide({
+        if ($("#AbrirProcesso").is(":disabled")) { }
+        else {
+            var IdVaga = Id;
+            var form = $("#Curriculos").serialize();
+            iziToast.show({
+                title: 'Processo seletivo.',
+                message: 'Você tem certeza que deseja abrir um processo seletivo com os curriculos filtrados ?',
+                position: 'center',
+                progressBarColor: 'rgb(0, 255, 184)',
+                buttons: [
+                    [
+                        '<button>Sim</button>', function (instance, toast) {
+                            var count = 0;
+                            $('#TabelaCurriculo').find('tr').each(function () {
+                                var row = $(this);
+                                if (row.find('input[type="checkbox"]').is(':checked')) {
+                                    count++;
+                                }
+                            });
+                            if (count == 0) {
+                                instance.hide({
                                     transitionOut: 'fadeOutUp',
-                                    onClosing: function(instance, toast, closedBy) {
+                                    onClosing: function (instance, toast, closedBy) {
                                         console.info('closedBy: ' + closedBy); //btn2
                                     }
                                 },
-                                toast,
-                                'close',
-                                'btn2');
-                            iziToast.error({
-                                title: 'Error',
-                                message: 'Favor selecionar os curriculos que participaram do processo seletivo',
-                                position: 'center'
-                            });
-                        }
-                        else{
-                            $("#FormCurriculo").submit();
+                                    toast,
+                                    'close',
+                                    'btn2');
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: 'Favor selecionar os curriculos que participaram do processo seletivo',
+                                    position: 'center'
+                                });
+                            }
+                            else {
+                                $("#FormCurriculo").submit();
                             }
 
-                    }
-                ],
-                [
-                    '<button>Não</button>', function(instance, toast) {
-                        instance.hide({
+                        }
+                    ],
+                    [
+                        '<button>Não</button>', function (instance, toast) {
+                            instance.hide({
                                 transitionOut: 'fadeOutUp',
-                                onClosing: function(instance, toast, closedBy) {
+                                onClosing: function (instance, toast, closedBy) {
                                     console.info('closedBy: ' + closedBy); //btn2
                                 }
                             },
-                            toast,
-                            'close',
-                            'btn2');
-                    }
-                ]
-            ],
-            onOpening: function(instance, toast) {
-                console.info('callback abriu!');
-            },
-            onClosing: function(instance, toast, closedBy) {
-                console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-            }
-        });
+                                toast,
+                                'close',
+                                'btn2');
+                        }
+                    ]
+                ],
+                onOpening: function (instance, toast) {
+                    console.info('callback abriu!');
+                },
+                onClosing: function (instance, toast, closedBy) {
+                    console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+                }
+            });
+        }
     }
 
 </script>
@@ -298,14 +274,14 @@
                     <i class="fa fa-venus-mars" aria-hidden="true"></i>
                 </span>
             </p>
-            <div class="field">
-                <p class="control has-icons-left">
-                    <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
-                    <span class="icon is-small is-left">
-                        <i class="fa fa-bank"></i>
-                    </span>
-                </p>
-            </div>
+
+            <p class="control has-icons-left">
+                <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-bank"></i>
+                </span>
+            </p>
+
             <p class="control has-icons-left">
                 <span class="select">
                     <select id="FiltroGraduacao" name="FiltroGraduacao">
@@ -321,14 +297,23 @@
                 </span>
             </p>
 
-            <div class="field">
-                <p class="control has-icons-left">
-                    <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
-                    <span class="icon is-small is-left">
-                        <i class="fa fa-calendar-o"></i>
-                    </span>
-                </p>
-            </div>
+
+            <p class="control has-icons-left">
+                <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-calendar-o"></i>
+                </span>
+            </p>
+
+
+
+            <p class="control has-icons-left">
+                <input id="FiltroCurso" name="FiltroCurso" class="input" type="text" placeholder="Curso Graduação">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-sticky-note"></i>
+                </span>
+            </p>
+
 
             <p class="control has-icons-left">
                 <span class="select">
@@ -345,16 +330,13 @@
                     <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                 </span>
             </p>
+            <p class="control has-icons-left">
+                <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-certificate"></i>
+                </span>
+            </p>
 
-
-            <div class="field">
-                <p class="control has-icons-left">
-                    <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
-                    <span class="icon is-small is-left">
-                        <i class="fa fa-certificate"></i>
-                    </span>
-                </p>
-            </div>
 
         </div>
         <!--
@@ -368,20 +350,20 @@
                 <span>Aplicar Filtro</span>
             </button>
 
-            <a type="button" @TempData["ProcessoAtivo"] href="javascript:AbrirProcesso();" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
+            <button type="button" @TempData["ProcessoAtivo"] onclick="location.href='javascript:AbrirProcesso();'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
                 <span class="icon is-small">
                     <i class="fa fa-bolt" aria-hidden="true"> </i>
                 </span> <span>Iniciar Processo Seletivo</span>
-            </a>
+            </button>
             <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
                 <span class="icon is-small">
                     <i class="fa fa-check-square" aria-hidden="true"> </i>
                 </span> <span>Ver Resultado</span>
             </a>
-            <a @TempData["Ativa"] type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]')" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-danger" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
+            <a  type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]')" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
                 <span class="icon is-small">
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"> </i>
-                </span><span> Encerrar Processo Seletivo</span>
+                    <i class="fa fa-comments" aria-hidden="true"> </i>
+                </span><span> Gerenciar Processo Seletivo</span>
             </a>
             <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Principal", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
                 <span class="icon is-small">
@@ -401,9 +383,24 @@
     @using (Html.BeginForm("AbrirProcesso", "Principal", FormMethod.Post, new { id = "FormCurriculo" }))
     {
         <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
+        <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+        <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+        <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
+        <div class="field">
+            <label class="label">Alerta:</label>
+            <p class="control">
+                <input class="input" id="Alerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="Alerta" type="text" placeholder="Ex: Novas vagas lançadas !!!">
+                <span class="field-validation-valid" data-valmsg-for="Alerta" data-valmsg-replace="true" style="color: red"></span>
+            </p>
+        </div>
         <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered" style="text-align: center">
             <thead>
-            <th></th>
+            <th>
+                <label class="checkbox">
+                    <input type="checkbox" onclick="SelecionaTodas()">
+                    Selecionar Todos
+                </label>
+            </th>
             <th>Nome</th>
             <th>Email</th>
             <th>Cidade</th>
@@ -445,34 +442,8 @@
 
 
 
-    <div id="ModalEncerramento" class="modal is-narrow">
-        <div class="modal-background"></div>
-        <div class="modal-card is-narrow" style="width: 1800px">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Processo Seletivo</p>
-                <a href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');" class="delete"></a>
-            </header>
-            <section class="modal-card-body is-narrow">
-                <div id="ProcessoCompleto">
+    <div id="ProcessoCompleto"></div>
 
-                </div>
-
-            </section>
-            <footer class="modal-card-foot">
-                <p class="field">
-                    <button onclick="Encerrar(@TempData["IdVaga"])" type="submit" class="button is-success">
-                        <span class="icon">
-                            <i class="fa fa-comments-o"></i>
-                        </span>
-                        <span>Encerrar Processo Seletivo</span>
-                    </button>
-
-                    <a class="button" href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEcerramento').addClass('modal');">Cancelar</a>
-                </p>
-            </footer>
-        </div>
-
-    </div>
 
     <!--
 
@@ -515,27 +486,12 @@
             <header class="modal-card-head">
                 <button class="delete" aria-label="close" onclick="javascript:$('#ModalResultado').removeClass();$('#ModalResultado').addClass('modal');"></button>
             </header>
-            <section class="modal-card-body">
-                <div>
-                    <figure class=" image  is-128x128">
-                        <img src="/Images/sucesso.png" />
-                    </figure>
-                </div>
+            <section class="modal-card-body is-centered">
+
                 <div id="ResultadoCompleto">
 
                 </div>
             </section>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
+</div>

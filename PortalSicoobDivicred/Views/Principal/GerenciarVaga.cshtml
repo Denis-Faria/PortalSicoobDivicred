@@ -60,6 +60,7 @@
     }
 
     function EncerrarProcesso(IdVaga) {
+        var id = IdVaga;
         $("#ProcessoCompleto").empty();
         $.ajax(
             {
@@ -68,7 +69,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdVaga": IdVaga },
+                data: { "IdVaga": id },
                 success: function (data) {
                     $("#ProcessoCompleto").append(data);
                     $('#ModalEncerramento').removeClass();
@@ -260,6 +261,18 @@
         <input id="TituloVaga" name="TituloVaga" value="@TempData["TituloVaga"]" hidden="true" />
         <br />
         <div class="field is-grouped">
+            <p class="control has-icons-left">
+                <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-calendar-o"></i>
+                </span>
+            </p>
+            <p class="control has-icons-left">
+                <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-bank"></i>
+                </span>
+            </p>
 
             <p class="control has-icons-left">
                 <span class="select">
@@ -274,12 +287,7 @@
                 </span>
             </p>
 
-            <p class="control has-icons-left">
-                <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
-                <span class="icon is-small is-left">
-                    <i class="fa fa-bank"></i>
-                </span>
-            </p>
+          
 
             <p class="control has-icons-left">
                 <span class="select">
@@ -297,12 +305,7 @@
             </p>
 
 
-            <p class="control has-icons-left">
-                <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
-                <span class="icon is-small is-left">
-                    <i class="fa fa-calendar-o"></i>
-                </span>
-            </p>
+        
 
 
 
@@ -329,49 +332,59 @@
                     <i class="fa fa-birthday-cake" aria-hidden="true"></i>
                 </span>
             </p>
+            
+
+
+        </div>
+        <div class="field is-grouped">
             <p class="control has-icons-left">
                 <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
                 <span class="icon is-small is-left">
                     <i class="fa fa-certificate"></i>
                 </span>
             </p>
-
-
+            <p class="control has-icons-left">
+                <input id="FiltroProfissional" name="FiltroProfissional" class="input" type="text" placeholder="Profissional">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-users"></i>
+                </span>
+            </p>
         </div>
-        <!--
+
+            <!--
         Parte Superior com tabela
         -->
-        <p class="field">
-            <button type="submit" class="button is-success" data-balloon="Clique para filtrar os perfis para esta vaga" data-balloon-pos="down" id="Filtro" name="Filtro" onmouseleave="$('#Filtro').removeClass('animated pulse')" onmouseover="$('#Filtro').addClass('animated pulse');">
-                <span class="icon is-small">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                </span>
-                <span>Aplicar Filtro</span>
-            </button>
+            <p class="field">
+                <button type="submit" class="button is-success" data-balloon="Clique para filtrar os perfis para esta vaga" data-balloon-pos="down" id="Filtro" name="Filtro" onmouseleave="$('#Filtro').removeClass('animated pulse')" onmouseover="$('#Filtro').addClass('animated pulse');">
+                    <span class="icon is-small">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </span>
+                    <span>Aplicar Filtro</span>
+                </button>
 
-            <button type="button" @TempData["ProcessoAtivo"] onclick="location.href='javascript:AbrirProcesso();'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-bolt" aria-hidden="true"> </i>
-                </span> <span>Iniciar Processo Seletivo</span>
-            </button>
-            <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-check-square" aria-hidden="true"> </i>
-                </span> <span>Ver Resultado</span>
-            </a>
-            <a @TempData["Ativa"] type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]')" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-comments" aria-hidden="true"> </i>
-                </span><span> Gerenciar Processo Seletivo</span>
-            </a>
-            <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Principal", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
-                <span class="icon is-small">
-                    <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
-                </span> <span>Encerrar Vaga</span>
-            </a>
-        </p>
-        <hr />
-    </form>
+                <button type="button" @TempData["ProcessoAtivo"] onclick="location.href='javascript:AbrirProcesso();'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-bolt" aria-hidden="true"> </i>
+                    </span> <span>Iniciar Processo Seletivo</span>
+                </button>
+                <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-check-square" aria-hidden="true"> </i>
+                    </span> <span>Ver Resultado</span>
+                </a>
+                <a type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]')" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-comments" aria-hidden="true"> </i>
+                    </span><span> Gerenciar Processo Seletivo</span>
+                </a>
+                <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Principal", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
+                    <span class="icon is-small">
+                        <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
+                    </span> <span>Encerrar Vaga</span>
+                </a>
+            </p>
+            <hr />
+</form>
     <!--
     Parte Inferior com tabela
     -->

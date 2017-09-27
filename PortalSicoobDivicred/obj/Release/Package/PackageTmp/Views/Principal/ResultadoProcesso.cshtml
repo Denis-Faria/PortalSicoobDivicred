@@ -1,1 +1,29 @@
 ﻿
+<div class="content" style="display: block;margin: auto;width: 25%;">
+    <figure class="image is-128x128 ">
+        <img src="/Images/sucesso.png" />
+    </figure>
+    <br />
+</div>
+<br />
+        <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-narrow" style="text-align: center">
+            <thead>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Cpf</th>
+            </thead>
+            <tbody>
+
+            @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
+            {
+                <tr class="@TempData["Aprovado"+i]">
+                    <td class="is-narrow">
+                        <a href="javascript:VerPerfil('@TempData["Cpf" + i]')">@TempData["Nome" + i].ToString()</a> <strong></strong>
+                    </td>
+                    <td class="is-narrow">@TempData["Email" + i].ToString()</td>
+                    <td class="is-narrow">@TempData["Cpf" + i].ToString()</td>
+                </tr>
+            }
+            <tbody>
+        </table>
+

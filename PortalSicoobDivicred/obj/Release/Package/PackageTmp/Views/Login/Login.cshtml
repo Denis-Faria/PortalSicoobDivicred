@@ -10,51 +10,94 @@
     <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-    <script type="text/javascript" src="@Url.Content("~/Assets/js/Login.js")"></script>
     <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
-    <link href="@Url.Content("~/Assets/css/Login.css")" rel="stylesheet"/>
     <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
-    <link href="@Url.Content("http://fonts.googleapis.com/icon?family=Material+Icons")" rel="stylesheet"/>
-    <link href="@Url.Content("http://fonts.googleapis.com/css?family=Raleway:300,200")" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css")" type="text/css">
     <meta name="viewport" content="width=device-width"/>
-
-
-    <meta name="viewport" content="width=device-width"/>
-    <title>Portal Sicoob Divicred - Login</title>
-</head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Portal Sicoob Divicred</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" id="bulma" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css" />
+        <link rel="stylesheet" type="text/css" href="/Assets/css/Login.css">
+    </head>
 <body>
 @using (Html.BeginForm("Login", "Login"))
 {
-    <div class="form">
-        <div class="forceColor"></div>
-        <div class="topbar">
-            <div class="spanColor"></div>
-            @Html.ValidationSummary(true, "", new {@class = "red-text col s3 offset-s7"})
-
-            @Html.TextBoxFor(m => m.Usuario, null, new {id = "Usuario", @class = "input", placeholder = "Usuário"})
-            @Html.Password("Senha", null, new {@class = "input", placeholder = "Senha"})
-
-            @if (TempData["Erro"] != null)
-            {
-                @Html.Label("")
-                ;
-
-                <script>
-
-                    iziToast.error({
-                        title: 'Erro',
-                        position: "center",
-                        message: '@TempData["Erro"]',
-                    });
-
-                </script>
-            }
-        </div>
-        <button class="submit" id="submit">Login</button>
+<div class="login-wrapper columns">
+    <div class="column is-8 is-hidden-mobile hero-banner">
+        <section class="hero is-fullheight is-dark">
+            <div class="hero-body">
+                <div class="container section">
+                    <div class="has-text-right">
+                        <h1 class="title is-1">Portal</h1> <br>
+                        <p class="title is-3">Sicoob Divicred</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-footer">
+                <p class="has-text-centered">Image © Glenn Carstens-Peters via unsplash</p>
+            </div>
+        </section>
     </div>
-}
+    <div class="column is-4">
+        <section class="hero is-fullheight">
+            <div class="hero-heading">
+                <div class="section has-text-centered">
+                    <img src="/Images/logo.png" alt="Bulma logo" width="150px">
+                </div>
+            </div>
+            <div class="hero-body">
+                <div class="container">
+                    <div class="columns">
+                        <div class="column is-8 is-offset-2">
+                            <div class="login-form">
+                                <p class="control has-icon has-icon-right">
+                                    @Html.TextBoxFor(m => m.Usuario, null, new {id = "Usuario", @class = "input email-input", placeholder = "Usuário"})
+                                    <span class="icon user">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </p>
+                                <p class="control has-icon has-icon-right">
+                                    @Html.Password("Senha", null, new {@class = "input password-input", placeholder = "Senha"})
+                                    <span class="icon user">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </p>
+                                <p class="control login">
+                                    <button class="button is-success is-outlined is-large is-fullwidth">Login</button>
+                                </p>
+                            </div>
+                            @if (TempData["Erro"] != null)
+                            {
+                                @Html.Label("")
+                                ;
 
+                                <script>
+
+                                    iziToast.error({
+                                        title: 'Erro',
+                                        position: "center",
+                                        message: '@TempData["Erro"]',
+                                    });
+
+                                </script>
+                            }
+                            <div class="section forgot-password">
+                                <p class="has-text-centered">
+                                    <a href="#">Esqueceu sua senha </a>
+                                    <a href="#">Precisa de ajuda?</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+}
 </body>
 </html>
+

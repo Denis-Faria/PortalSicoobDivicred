@@ -164,10 +164,10 @@ namespace PortalSicoobDivicred.Controllers
             }
             else
             {
-                TempData["ProcessoAtivo"] = "disabled";
-                TempData["DicaProcesso"] = "Esta vaga está encerrada.";
-                TempData["DicaEncerramento"] = "Esta vaga está encerrada";
-                TempData["EncerraAtivo"] = "disabled";
+                TempData["ProcessoAtivo"] = "";
+                TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo.";
+                TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
+                TempData["EncerraAtivo"] = "";
                 TempData["Ativa"] = "disabled";
                 TempData["Dica"] = "Esta vaga já esta encerrada.";
 
@@ -228,6 +228,64 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QuerryMysql();
 
             var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato(cpf);
+
+            var DadosProcessosSeletivos = VerificaDados.RecuperaProcesso(DadosUsuarioBanco[0]["id"]);
+            var Formulario = VerificaDados.RecuperaFormulario(DadosUsuarioBanco[0]["id"]);
+
+            if (Formulario.Count > 0)
+            {
+                TempData["ExisteFormulario"] = true;
+                TempData["IdFormulario"] = Formulario[0]["id"];
+            }
+            else
+            {
+                TempData["ExisteFormulario"] = false;
+                TempData["IdFormulario"] = 0;
+            }
+
+            if (DadosProcessosSeletivos.Count > 0)
+            {
+                TempData["ExisteProcesso"] = true;
+                TempData["TotalProcessos"] = DadosProcessosSeletivos.Count;
+                for (int i = 0; i < DadosProcessosSeletivos.Count; i++)
+                {
+                    TempData["NomeVaga" +i] = DadosProcessosSeletivos[i]["nomevaga"];
+                    TempData["Escrita"+i] = DadosProcessosSeletivos[i]["prova"];
+                    if (Convert.ToInt32(DadosProcessosSeletivos[i]["prova"]) >= 70)
+                    {
+                        TempData["CorEscrita"+i] = "green";
+                    }
+                    else
+                    {
+                        TempData["CorEscrita"+i] = "red";
+                        TempData["Aprovado" + i] = "red";
+                    }
+                    TempData["Psicologico"+i] = DadosProcessosSeletivos[i]["psicologico"];
+                    if (DadosProcessosSeletivos[i]["psicologico"].Equals("Aprovado"))
+                    {
+                        TempData["CorPsicologico"+i] = "green";
+                    }
+                    else
+                    {
+                        TempData["CorPsicologico"+i] = "red";
+                        TempData["Aprovado" + i] = "red";
+                    }
+                    TempData["Gerente"+i] = DadosProcessosSeletivos[i]["gerente"];
+                    if (DadosProcessosSeletivos[i]["gerente"].Equals("Aprovado"))
+                    {
+                        TempData["CorGerente"+i] = "green";
+                    }
+                    else
+                    {
+                        TempData["CorGerente"+i] = "red";
+                        TempData["Aprovado" + i] = "red";
+                    }
+                }
+            }
+            else
+            {
+                TempData["ExisteProcesso"] = false;
+            }
 
             if (!DadosUsuarioBanco[0]["idarquivogoogle"].Equals("0"))
             {
@@ -361,6 +419,7 @@ namespace PortalSicoobDivicred.Controllers
             var FaixaEtaria = Filtros["FiltroFaixaEtaria"];
             var Certificacao = Filtros["FiltroCertificacao"];
             var CursoGraduacao = Filtros["FiltroCurso"];
+            var Profissional = Filtros["FiltroProfissional"];
             var IdVaga = Filtros["TituloVaga"].Split('-');
             var Query =
                 "select a.cpf,a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
@@ -399,7 +458,10 @@ namespace PortalSicoobDivicred.Controllers
             if (CursoGraduacao.Length > 0)
                 Query = Query + " AND (SELECT count(id) FROM dadosescolares where nomecurso like'%" + CursoGraduacao +
                         "%' and idcandidato=a.id)>=1";
-
+            if (Profissional.Length > 0)
+            {
+                Query = Query + " AND (SELECT count(id) FROM dadosprofissionais where atividadedesempenhada like'%"+Profissional+"%' and idcandidato=a.id)>=1";
+            }
             var DadosCurriculos = Filtrar.FiltroVaga(Query);
 
             var DadosVagas = Filtrar.RecuperaVagasId(IdVaga[0]);
@@ -481,7 +543,7 @@ namespace PortalSicoobDivicred.Controllers
                     IniciarProcesso.IniciarProcessoSeletivo(Curriculos.Keys[i], Vaga[0]);
                     var Email = IniciarProcesso.RecuperaEmail(Curriculos.Keys[i]);
                     Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                    string[] recipients = { Email[0]["email"] };
+                    string[] recipients = { Email[0]["email"]+"; rh@divicred.com.br" };
                     var subject = "Parabéns";
                     var fromEmail = "correio@divicred.com.br";
                     var fromName = "Sicoob Divicred";
@@ -506,8 +568,8 @@ namespace PortalSicoobDivicred.Controllers
                     if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
                     {
                         Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                        string[] recipients = {DadosCurriculos[j]["email"]};
-                        var subject = "Parabéns";
+                        string[] recipients = {DadosCurriculos[j]["email"] + "; rh@divicred.com.br" };
+                        var subject = "Atualização de Status";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
                         var bodyText = "";
@@ -540,13 +602,13 @@ namespace PortalSicoobDivicred.Controllers
 
             for (int i = 0; i < DadosProcesso.Count; i++)
             {
-                if (DadosProcesso[i]["prova"].Length == 0)
+                if (DadosProcesso[i]["prova"]==null)
                 {
                     TempData["ResultadoProva"] = DadosProcesso[i]["prova"];
                     TempData["EscondePsicologico"] = "hidden disabled";
                     TempData["EscondeGerente"] = "hidden disabled";
                 }
-                if (DadosProcesso[i]["psicologico"].Length == 0)
+                if (DadosProcesso[i]["psicologico"]==null)
                 {
                     TempData["ResultadoProva"] = DadosProcesso[i]["prova"];
                     TempData["ResultadoPsicologico"] = DadosProcesso[i]["psicologico"];
@@ -602,6 +664,7 @@ namespace PortalSicoobDivicred.Controllers
                 if (Cpf[0].Contains("Teorica"))
                 {
                     Status.AtualizaProcessoSeletivoTeorico(Cpf[1], Resultado["Vaga"], Resultado[i]);
+                    
                 }
                 if (Cpf[0].Contains("Gerencial"))
                 {
@@ -618,7 +681,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         var Email = Status.RecuperaEmail(Cpf[1]);
                         Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                        string[] recipients = { Email[0]["email"] };
+                        string[] recipients = { Email[0]["email"] + "; rh@divicred.com.br" };
                         var subject = "Parabéns";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
@@ -641,7 +704,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         var Email = Status.RecuperaEmail(Cpf[1]);
                         Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                        string[] recipients = { Email[0]["email"]};
+                        string[] recipients = { Email[0]["email"] + "; rh@divicred.com.br" };
                         var subject = "Atualização de processo seletivo";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
@@ -658,6 +721,8 @@ namespace PortalSicoobDivicred.Controllers
                         catch
                         {
                         }
+                        Status.CriaBalao(Cpf[1]);
+
                     }
                 }
 

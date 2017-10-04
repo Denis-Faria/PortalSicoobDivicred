@@ -11,6 +11,9 @@
         if (Valor == "Excedente") {
             document.getElementById(dados).style.color = "blue";
         }
+        if (Valor == "Ausente") {
+            document.getElementById(dados).style.color = "yellow";
+        }
     }
 </script>
 
@@ -21,7 +24,7 @@
         <div class="modal-card is-narrow" style="width: 1800px">
             <header class="modal-card-head">
 <p class="modal-card-title">Processo Seletivo</p>
-<a href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');" class="delete"></a>
+<a href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');void(0);" class="delete"></a>
                  </header>
 <section class="modal-card-body is-narrow">
     <div id="ProcessoCompleto">
@@ -52,7 +55,7 @@
                 {
                     <tr>
                         <td class="is-narrow">
-                            <a href="javascript:VerPerfil('@TempData["Cpf" + i]')">@TempData["Nome" + i].ToString()</a> <strong></strong>
+                            <a href="javascript:VerPerfil('@TempData["Cpf" + i]');void(0);">@TempData["Nome" + i].ToString()</a> <strong></strong>
                         </td>
                         <td class="is-narrow">@TempData["Email" + i].ToString()</td>
                         <td class="is-narrow">@TempData["Cpf" + i].ToString()</td>
@@ -104,6 +107,7 @@
                                             <option value="Aprovado" selected>Aprovado</option>
                                             <option value="Excedente">Excedente</option>
                                             <option value="Reprovado">Reprovado</option>
+                                            <option value="Ausente">Reprovado</option>
                                         </select>
                                     </span>
                                     <span class="icon is-small is-left">
@@ -128,7 +132,7 @@
             <span>Atualizar Processo Seletivo</span>
         </button>
 
-        <a class="button" href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');">Cancelar</a>
+        <a class="button" href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');void(0);">Cancelar</a>
     </p>
 </footer>
         </div>

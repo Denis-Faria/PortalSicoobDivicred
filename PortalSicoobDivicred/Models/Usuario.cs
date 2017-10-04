@@ -156,6 +156,9 @@ namespace PortalSicoobDivicred.Models
         [DisplayName("Atividades Desempenhadas")]
         public List<string> Atividades { get; set; }
 
+        [DisplayName("Emprego Atual")]
+        public List<string> EmpregoAtual { get; set; }
+
         [DisplayName("Tipo de Deficiência")]
         public string Conhecido { get; set; }
 

@@ -9,6 +9,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <_PublishTargetUrl>C:\Users\Davi\Desktop\Portal</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="Assets/Aprovado %28copy 01%29.html">
+      <publishTime>09/29/2017 14:41:59</publishTime>
+    </File>
     <File Include="Assets/css/animate.css">
       <publishTime>09/14/2017 08:49:45</publishTime>
     </File>
@@ -26,6 +29,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Assets/css/font-awesome.min.css">
       <publishTime>12/22/2016 15:50:34</publishTime>
+    </File>
+    <File Include="Assets/css/Imprimir.css">
+      <publishTime>10/04/2017 10:03:22</publishTime>
     </File>
     <File Include="Assets/css/iziToast.css">
       <publishTime>09/13/2017 14:26:02</publishTime>
@@ -70,7 +76,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>12/22/2016 15:50:34</publishTime>
     </File>
     <File Include="Assets/fonts/fontawesome-webfont.woff2">
-      <publishTime>12/22/2016 15:50:34</publishTime>
+      <publishTime>10/04/2017 11:15:52</publishTime>
     </File>
     <File Include="Assets/fonts/FontAwesome.otf">
       <publishTime>12/22/2016 15:50:34</publishTime>
@@ -333,6 +339,36 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>12/13/2016 04:10:32</publishTime>
     </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Abstractions.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.FileExtensions.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Configuration.Json.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.Abstractions.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.FileProviders.Abstractions.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.FileProviders.Physical.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.FileSystemGlobbing.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Options.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Primitives.dll">
+      <publishTime>04/27/2017 18:53:26</publishTime>
+    </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>01/05/2012 12:08:46</publishTime>
     </File>
@@ -343,13 +379,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/02/2017 17:46:32</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>09/27/2017 11:07:54</publishTime>
+      <publishTime>10/04/2017 16:51:24</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
-      <publishTime>09/13/2017 14:26:03</publishTime>
+      <publishTime>09/29/2017 14:37:26</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>09/27/2017 11:07:54</publishTime>
+      <publishTime>10/04/2017 16:51:24</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 05:04:40</publishTime>
@@ -447,6 +483,12 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>06/27/2016 14:50:24</publishTime>
     </File>
+    <File Include="bin/System.Runtime.CompilerServices.Unsafe.dll">
+      <publishTime>11/05/2016 04:56:46</publishTime>
+    </File>
+    <File Include="bin/System.Runtime.InteropServices.RuntimeInformation.dll">
+      <publishTime>11/05/2016 04:57:00</publishTime>
+    </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 05:04:30</publishTime>
     </File>
@@ -493,7 +535,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/13/2017 11:27:55</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>09/22/2017 10:59:52</publishTime>
+      <publishTime>09/29/2017 14:37:26</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.js">
       <publishTime>06/07/2017 09:18:51</publishTime>
@@ -528,23 +570,32 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Views/Login/Login.cshtml">
       <publishTime>09/22/2017 16:27:00</publishTime>
     </File>
+    <File Include="Views/PainelColaborador/Perfil.cshtml">
+      <publishTime>10/03/2017 10:44:47</publishTime>
+    </File>
     <File Include="Views/Principal/Curriculo.cshtml">
-      <publishTime>09/15/2017 14:11:04</publishTime>
+      <publishTime>10/04/2017 12:52:01</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
       <publishTime>09/15/2017 11:30:21</publishTime>
     </File>
+    <File Include="Views/Principal/FormularioInicial.cshtml">
+      <publishTime>10/04/2017 10:06:22</publishTime>
+    </File>
     <File Include="Views/Principal/GerenciarVaga.cshtml">
-      <publishTime>09/27/2017 11:02:57</publishTime>
+      <publishTime>10/04/2017 15:26:19</publishTime>
+    </File>
+    <File Include="Views/Principal/ImprimirTodos.cshtml">
+      <publishTime>10/02/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/ModalPerfil.cshtml">
-      <publishTime>09/13/2017 16:27:50</publishTime>
+      <publishTime>10/04/2017 13:47:08</publishTime>
     </File>
     <File Include="Views/Principal/PerfilProcesso.cshtml">
-      <publishTime>09/22/2017 15:22:20</publishTime>
+      <publishTime>10/04/2017 09:37:23</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
-      <publishTime>09/13/2017 14:26:03</publishTime>
+      <publishTime>10/04/2017 16:50:32</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
       <publishTime>09/22/2017 12:55:15</publishTime>
@@ -553,7 +604,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/13/2017 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>09/25/2017 14:36:48</publishTime>
+      <publishTime>10/02/2017 15:00:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

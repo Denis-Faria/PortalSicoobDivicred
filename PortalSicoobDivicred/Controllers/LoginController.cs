@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -36,6 +38,16 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Erro"] = ModelState["Usuario"].Errors[0].ErrorMessage + "\\n" +
                                    ModelState["Senha"].Errors[0].ErrorMessage;
             return View();
+        }
+        public ActionResult Logoff()
+        {
+            if (Request.Cookies["CookieFarm"] != null)
+            {
+                var Cookie = new HttpCookie("CookieFarm");
+                Cookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(Cookie);
+            }
+            return RedirectToAction("Login");
         }
     }
 }

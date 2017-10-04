@@ -31,7 +31,10 @@
                 async: true,
                 data: { "Ordenacao": "" },
                 success: function (data) {
+                    var tamanho = $(window).height();
+                    $("body").css('height', tamanho);
                     $("#Conteudo").append(data);
+
 
 
                 }
@@ -108,6 +111,8 @@
             data: $("#FiltroPerfil").serialize(),
             success: function (data) {
                 $("#Conteudo").empty();
+                var tamanho = $(window).height();
+                $("body").css('height', tamanho);
                 $("#Conteudo").append(data);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -128,6 +133,8 @@
                 success: function (data) {
                     $.get('/Principal/Dashboard',
                         function (data) {
+                            var tamanho = $(window).height();
+                            $("body").css('height', tamanho);
                             $("#Conteudo").append(data);
 
                         });
@@ -137,7 +144,6 @@
     }
 
     function SelecionaTodas() {
-        alert("Ola");
         $('#TabelaCurriculo').find('tr').each(function () {
             var row = $(this);
             if (row.find('input[type="checkbox"]').is(':checked')) {
@@ -231,14 +237,14 @@
 <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
         <li>
-            <a href="javascript:Dash()">
+            <a href="javascript:Dash();void(0);">
                 <span class="icon is-small">
                     <i class="fa fa-home"></i>
                 </span><span>DashBoard</span>
             </a>
         </li>
         <li>
-            <a href="javascript:Curriculo()">
+            <a href="javascript:Curriculo();void(0);">
                 <span class="icon is-small">
                     <i class="fa fa-book"></i>
                 </span><span>Curriculos</span>
@@ -362,17 +368,17 @@
                     <span>Aplicar Filtro</span>
                 </button>
 
-                <button type="button" @TempData["ProcessoAtivo"] onclick="location.href='javascript:AbrirProcesso();'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
+                <button type="button" @TempData["ProcessoAtivo"] onclick="location.href='javascript:AbrirProcesso();void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
                     <span class="icon is-small">
                         <i class="fa fa-bolt" aria-hidden="true"> </i>
                     </span> <span>Iniciar Processo Seletivo</span>
                 </button>
-                <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
+                <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);void(0);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
                     <span class="icon is-small">
                         <i class="fa fa-check-square" aria-hidden="true"> </i>
                     </span> <span>Ver Resultado</span>
                 </a>
-                <a type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]')" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
+                <a type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]');void(0);" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
                     <span class="icon is-small">
                         <i class="fa fa-comments" aria-hidden="true"> </i>
                     </span><span> Gerenciar Processo Seletivo</span>
@@ -381,6 +387,12 @@
                     <span class="icon is-small">
                         <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
                     </span> <span>Encerrar Vaga</span>
+                </a>
+                <a target="_blank" href="@Url.Action("ImprimirTodos","Principal", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success">
+                    <span class="icon">
+                        <i class="fa fa-print"></i>
+                    </span>
+                    <span>Imprimir Todos</span>
                 </a>
             </p>
             <hr />
@@ -405,7 +417,7 @@
                 <span class="field-validation-valid" data-valmsg-for="Alerta" data-valmsg-replace="true" style="color: red"></span>
             </p>
         </div>
-        <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered" style="text-align: center">
+        <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-fullwidth is-fullheight" style="text-align: center">
             <thead>
             <th>
                 <label class="checkbox">
@@ -430,14 +442,14 @@
                         <td>
                             <article class="media">
                                 <div class="media-left grow pic">
-                                    <figure class="image is-32x32">
+                                    <figure class="image is-32x32 is-square">
                                         <img src="@TempData["Imagem" + i]" />
                                     </figure>
                                 </div>
                                 <div class="media-content">
                                     <div class="content">
                                         <p>
-                                            <a href="javascript:VerPerfil('@TempData["Cpf" + i]')">@TempData["Nome" + i].ToString()</a> <strong></strong>
+                                            <a href="javascript:VerPerfil('@TempData["Cpf" + i]');void(0);">@TempData["Nome" + i].ToString()</a> <strong></strong>
                                         </p>
                                     </div>
                                 </div>
@@ -468,7 +480,7 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Perfil</p>
-                <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');" class="delete"></a>
+                <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);" class="delete"></a>
             </header>
             <section class="modal-card-body">
                 <div id="PerfilCompleto">
@@ -486,7 +498,7 @@
                         <span>Imprimir</span>
                     </button>
 
-                    <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');">Cancelar</a>
+                    <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
                 </p>
             </footer>
         </div>
@@ -496,7 +508,7 @@
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <button class="delete" aria-label="close" onclick="javascript:$('#ModalResultado').removeClass();$('#ModalResultado').addClass('modal');"></button>
+                <button class="delete" aria-label="close" onclick="javascript:$('#ModalResultado').removeClass();$('#ModalResultado').addClass('modal');void(0);"></button>
             </header>
             <section class="modal-card-body is-centered">
 

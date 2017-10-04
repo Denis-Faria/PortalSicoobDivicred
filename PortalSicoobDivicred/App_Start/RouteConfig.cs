@@ -18,6 +18,10 @@ namespace PortalSicoobDivicred
                 "Principal",
                 "{controller}/{action}/{Acao}/{Mensagem}",
                 new {controller = "Principal", action = "Principal", id = UrlParameter.Optional});
+            routes.MapRoute(
+                "PainelColaborador",
+                "{controller}/{action}/",
+                new { controller = "Principal", action = "Perfil", id = UrlParameter.Optional });
         }
     }
 }

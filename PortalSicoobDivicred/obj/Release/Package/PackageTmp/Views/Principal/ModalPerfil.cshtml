@@ -1,80 +1,215 @@
 ﻿@model PortalSicoobDivicred.Models.Usuario
-<article class="media">
-    <div class="media-left">
-        <p class="image is-64x64">
-            <img src="@TempData["ImagemPerfil"]" height="64" width="64" name="FotoPerfil" onmouseover="FotoPerfil.width='300';FotoPerfil.height='200';" onmouseout="FotoPerfil.width='64';FotoPerfil.height='64';"/>
+
+<script>
+    $(function () {
+        $("#TabPerfil").tabs();
+    });
+</script>
+<div id="TabPerfil">
+    <div class="tabs is-boxed is-centered">
+        <ul>
+            <li id="AbaCurriculoPerfil" class="is-active">
+                <a href="#CurriculoPerfil" onclick="javascript:$('#AbaHistoricoCandidato').removeClass();$('#AbaCurriculoPerfil').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                    </span>
+                    <span>Currículo</span>
+                </a>
+            </li>
+            <li id="AbaHistoricoCandidato">
+                <a href="#HistoricoCandidato" onclick="javascript:$('#AbaCurriculoPerfil').removeClass();$('#AbaHistoricoCandidato').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-history"></i>
+                    </span>
+                    <span>Histórico Candidato</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="CurriculoPerfil">
+        <article class="media">
+            <div class="media-left">
+                <p class="image is-64x64">
+                    <img src="@TempData["ImagemPerfil"]" height="64" width="64" name="FotoPerfil" onmouseover="FotoPerfil.width='300';FotoPerfil.height='200';" onmouseout="FotoPerfil.width='64';FotoPerfil.height='64';" />
+                </p>
+            </div>
+            <div class="media-content">
+                <div class="content">
+                    <p></p>
+                    <p></p>
+                    <p>
+                        <h1 id="Nome">
+                            <strong class="is-size-10">@Model.NomeCompleto</strong>
+                        </h1>
+                    </p>
+                </div>
+            </div>
+        </article>
+        <br />
+        <br />
+        <p><strong>Telefone Principal: </strong>@Model.TelefonePrincipal |<strong>Telefone Secundário: </strong> @Model.TelefoneSecundario</p>
+        <p><strong>E-mail: </strong>@Model.Email | <strong>Data Nascimento: </strong>@Model.Idade |<strong>Sexo: </strong> @Model.Sexo | <strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
+        <p>
+            <strong>CPF: </strong>@Model.Cpf | <strong>Identidade: </strong>@Model.Identidade
         </p>
-    </div>
-    <div class="media-content">
-        <div class="content">
-            <p></p>
-            <p></p>
+        <p><strong>N° CNH: </strong>@Model.Cnh | <strong> Categoria CNH: </strong>@Model.CatCnh | <strong>Data Primeira CNH: </strong>@Model.PrimeiraCnh</p>
+        <p>
+            <strong>Disponibilidade de Viagem: </strong>@TempData["Disponibilidades"]
+        </p>
+        <p>
+            <strong>Tipo de Deficiencia: </strong>@Model.TipoDeficiencia
+        </p>
+        <p>
+            <strong>Quantidade de Filhos: </strong>@Model.QuantidadeFilho
+        </p>
+        <p>
+            <strong>CEP: </strong>@Model.Cep
+        </p>
+        <p>
+            <strong>Endereço: </strong>@Model.Rua, <strong>n°</strong>@Model.Numero, Complemento:@Model.Complemento, Bairro:@Model.Bairro, Cidade: @Model.Cidade, Estado: @Model.Uf
+        </p>
+        <hr />
+        <strong class="is-size-6">Dados Educacionais</strong>
+        <p>
+            <strong>Formação: </strong>@TempData["Escolaridade"]
+        </p>
+        @for (var i = 0; i < Model.NomeInstituicao.Count; i++)
+        {
             <p>
-                <h1 id="Nome">
-                    <strong class="is-size-10">@Model.NomeCompleto</strong>
-                </h1>
+                <strong>Tipo Formação: </strong>@Model.TipoFormacao[i]
             </p>
-        </div>
+            <p>
+                <strong>Nome Instituição: </strong>@Model.NomeInstituicao[i]
+            </p>
+            <p>
+                <strong>Nome Curso: </strong>@Model.NomeCurso[i]
+            </p>
+            <p><strong>Ano Inicio: </strong>@Model.AnoInicio[i] | <strong>Ano Fim: </strong>@Model.AnoTermino[i]</p>
+            <hr />
+        }
+        <br />
+        <strong class="is-size-6">Dados Profissionais</strong>
+        @for (var i = 0; i < Model.NomeEmpresa.Count; i++)
+        {
+            <p>
+                <strong>Nome Empresa: </strong>@Model.NomeEmpresa[i]
+            </p>
+            <p>
+                <strong>Nome Cargo: </strong>@Model.NomeCargo[i]
+            </p>
+            <p><strong>Data Entrada: </strong>@Model.DataEntrada[i] | <strong>Data Saída: </strong>@Model.DataSaida[i]</p>
+            <p>
+                <strong>Emprego Atual: </strong>@TempData["EmpregoAtual" + i]
+            </p>
+            <p>
+                <strong>Atividades Desempenhadas:</strong>@Model.Atividades[i]
+            </p>
+
+            <hr />
+        }
+        <br />
+        <strong class="is-size-6">Resumo</strong>
+        <p>@Model.Resumo</p>
+
+        <p>
+            <strong>Conhecimento em Informatica: </strong>@Model.Informatica
+        </p>
+        <p>
+            <strong>Como chegou: </strong>@TempData["Conhecido"]
+        </p>
+        <p>
+            <strong>Certificação: </strong>@Model.Certificacao
+        </p>
+
     </div>
-</article>
-<br/>
-<br/>
-<p><strong>Telefone Principal: </strong>@Model.TelefonePrincipal |<strong>Telefone Secundário: </strong> @Model.TelefoneSecundario</p>
-<p><strong>E-mail: </strong>@Model.Email | <strong>Data Nascimento: </strong>@Model.Idade |<strong>Sexo: </strong> @Model.Sexo | <strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
-<p>
-    <strong>CPF: </strong>@Model.Cpf | <strong>Identidade: </strong>@Model.Identidade
-</p>
-<p><strong>N° CNH: </strong>@Model.Cnh | <strong> Categoria CNH: </strong>@Model.CatCnh | <strong>Data Primeira CNH: </strong>@Model.PrimeiraCnh</p>
-<p>
-    <strong>Disponibilidade de Viagem: </strong>@TempData["Disponibilidades"]</p>
-<p>
-    <strong>Tipo de Deficiencia: </strong>@Model.TipoDeficiencia</p>
-<p>
-    <strong>Quantidade de Filhos: </strong>@Model.QuantidadeFilho</p>
-<p>
-    <strong>CEP: </strong>@Model.Cep</p>
-<p>
-    <strong>Endereço: </strong>@Model.Rua, <strong>n°</strong>@Model.Numero, Complemento:@Model.Complemento, Bairro:@Model.Bairro, Cidade: @Model.Cidade, Estado: @Model.Uf
-</p>
-<hr/>
-<strong class="is-size-6">Dados Educacionais</strong>
-<p>
-    <strong>Formação: </strong>@TempData["Escolaridade"]</p>
-@for (var i = 0; i < Model.NomeInstituicao.Count; i++)
-{
-    <p>
-        <strong>Tipo Formação: </strong>@Model.TipoFormacao[i]</p>
-    <p>
-        <strong>Nome Instituição: </strong>@Model.NomeInstituicao[i]</p>
-    <p>
-        <strong>Nome Curso: </strong>@Model.NomeCurso[i]</p>
-    <p><strong>Ano Inicio: </strong>@Model.AnoInicio[i] | <strong>Ano Fim: </strong>@Model.AnoTermino[i]</p>
-    <hr/>
-}
-<br/>
-<strong class="is-size-6">Dados Profissionais</strong>
-@for (var i = 0; i < Model.NomeEmpresa.Count; i++)
-{
-    <p>
-        <strong>Nome Empresa: </strong>@Model.NomeEmpresa[i]</p>
-    <p>
-        <strong>Nome Cargo: </strong>@Model.NomeCargo[i]</p>
-    <p><strong>Data Entrada: </strong>@Model.DataEntrada[i] | <strong>Data Saída: </strong>@Model.DataSaida[i]</p>
-    <p>
-        <strong>Emprego Atual: </strong>@TempData["EmpregoAtual" + i]
-    </p>
-    <p>
-        <strong>Atividades Desempenhadas:</strong>@Model.Atividades[i]</p>
+    <div id="HistoricoCandidato">
+    @using (Html.BeginForm("AtribuirVagaEspecifica", "Principal"))
+    {
+        <div class="content">
+            <input name="CpfAtribui" id="CpfAtribui" hidden value="@Model.Cpf"/>
+            <blockquote>
 
-    <hr/>
-}
-<br/>
-<strong class="is-size-6">Resumo</strong>
-<p>@Model.Resumo</p>
+               Selecione a vaga para atribuir:
+                <br/>
+                <br/>
+                <p class="control has-icons-left">
+                    <span class="select">
+                        <select id="VagaEspecifica" name="VagaEspecifica">
+                            @for (int i = 0; i < Convert.ToInt32(TempData["TotalVaga"]); i++)
+                            {
+                                <option value="@TempData["IdVaga" + i]">@TempData["NomeVaga" + i].ToString()</option>
+                            }
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-id-badge"></i>
+                    </span>
+                </p>
+                <button type="submit" class="button is-success">Atribuir</button>
+            </blockquote>
+        </div>
+    }
+        @if (Convert.ToBoolean(TempData["ExisteFormulario"]))
+        {
+            <div class="content">
+                <blockquote>Clique <a target="_blank" href="@Url.Action("FormularioInicial", "Principal", new {Cpf = @Model.Cpf})">aqui</a> e veja as resposta para o questionário inicial.</blockquote>
+            </div>
+        }
+        @if (Convert.ToBoolean(TempData["ExisteProcesso"]))
+        {
+            for (int i = 0; i < Convert.ToInt32(TempData["TotalProcessos"]); i++)
+            {
+                <aside class="menu">
+                    <p class="menu-label">
+                        Processos Anteriores
+                    </p>
+                    <ul class="menu-list">
+                        <li>
+                            <a class="is-active" style="background-color: @TempData["Aprovado" + i]">@TempData["NomeVaga" + i]</a>
+                            <ul>
+                                <li>
+                                    <a>
+                                        <span class="icon is-small">
+                                            <i class="fa fa-percent"></i>
+                                        </span>
+                                        Prova Escrita
+                                    </a>
+                                    <ul>
+                                        <li style="color: @TempData["CorEscrita" + i]">@TempData["Escrita" + i]</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="icon is-small">
+                                            <i class="fa fa-id-badge"></i>
+                                        </span>Perfil Psicologico
+                                    </a>
+                                    <ul>
+                                        <li style="color: @TempData["CorPsicologico" + i]">@TempData["Psicologico" + i]</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a>
+                                        <span class="icon is-small">
+                                            <i class="fa fa-black-tie"></i>
+                                        </span>Parecer Gerencial
+                                    </a>
+                                    <ul>
+                                        <li style="color: @TempData["CorGerente" + i]">@TempData["Gerente" + i]</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
 
-<p>
-    <strong>Conhecimento em Informatica: </strong>@Model.Informatica</p>
-<p>
-    <strong>Como chegou: </strong>@TempData["Conhecido"]</p>
-<p>
-    <strong>Certificação: </strong>@Model.Certificacao</p>
+                </aside>
+            }
+        }
+        else
+        {
+            <div class="content">
+                <blockquote>Este candidato ainda não possui histórico.</blockquote>
+            </div>
+        }
+    </div>
+</div>

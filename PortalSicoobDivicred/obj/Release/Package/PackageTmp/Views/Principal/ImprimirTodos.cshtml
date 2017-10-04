@@ -1,0 +1,121 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Imprimir Todos</title>
+</head>
+<body>
+<div>
+    <div id="CurriculoPerfil">
+        @for (int i = 0; i < Convert.ToInt32(TempData["TotalCurriculos"]); i++)
+        {
+            <article class="media">
+                <div class="media-left">
+                    <p class="image is-64x64">
+                        <img src="@TempData["ImagemPerfil"+i]" height="64" width="64" name="FotoPerfil" onmouseover="FotoPerfil.width='300';FotoPerfil.height='200';" onmouseout="FotoPerfil.width='64';FotoPerfil.height='64';" />
+                    </p>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p></p>
+                        <p></p>
+                        <p>
+                            <h1 id="Nome">
+                                <strong class="is-size-10">@Model[i].NomeCompleto</strong>
+                            </h1>
+                        </p>
+                    </div>
+                </div>
+            </article>
+            <br />
+            <br />
+            <p><strong>Telefone Principal: </strong>@Model[i].TelefonePrincipal |<strong>Telefone Secundário: </strong> @Model[i].TelefoneSecundario</p>
+            <p><strong>E-mail: </strong>@Model[i].Email | <strong>Data Nascimento: </strong>@Model[i].Idade |<strong>Sexo: </strong> @Model[i].Sexo | <strong>Estado Civil: </strong>@TempData["EstadoCivil"+i]</p>
+            <p>
+                <strong>CPF: </strong>@Model[i].Cpf | <strong>Identidade: </strong>@Model[i].Identidade
+            </p>
+            <p><strong>N° CNH: </strong>@Model[i].Cnh | <strong> Categoria CNH: </strong>@Model[i].CatCnh | <strong>Data Primeira CNH: </strong>@Model[i].PrimeiraCnh</p>
+            <p>
+                <strong>Disponibilidade de Viagem: </strong>@TempData["Disponibilidades"+i]
+            </p>
+            <p>
+                <strong>Tipo de Deficiencia: </strong>@Model[i].TipoDeficiencia
+            </p>
+            <p>
+                <strong>Quantidade de Filhos: </strong>@Model[i].QuantidadeFilho
+            </p>
+            <p>
+                <strong>CEP: </strong>@Model[i].Cep
+            </p>
+            <p>
+                <strong>Endereço: </strong>@Model[i].Rua, <strong>n°</strong>@Model[i].Numero, Complemento:@Model[i].Complemento, Bairro:@Model[i].Bairro, Cidade: @Model[i].Cidade, Estado: @Model[i].Uf
+            </p>
+            <hr />
+            <strong class="is-size-6">Dados Educacionais</strong>
+            <p>
+                <strong>Formação: </strong>@TempData["Escolaridade"+i]
+            </p>
+            for (var j = 0; j < Model[i].NomeInstituicao.Count; j++)
+            {
+                <p>
+                    <strong>Tipo Formação: </strong>@Model[i].TipoFormacao[j]
+                </p>
+                <p>
+                    <strong>Nome Instituição: </strong>@Model[i].NomeInstituicao[j]
+                </p>
+                <p>
+                    <strong>Nome Curso: </strong>@Model[i].NomeCurso[j]
+                </p>
+                <p><strong>Ano Inicio: </strong>@Model[i].AnoInicio[j] | <strong>Ano Fim: </strong>@Model[i].AnoTermino[j]</p>
+                <hr />
+            }
+            <br />
+            <strong class="is-size-6">Dados Profissionais</strong>
+            for (var k = 0; k < Model[i].NomeEmpresa.Count; k++)
+            {
+                <p>
+                    <strong>Nome Empresa: </strong>@Model[i].NomeEmpresa[k]
+                </p>
+                <p>
+                    <strong>Nome Cargo: </strong>@Model[i].NomeCargo[k]
+                </p>
+                <p><strong>Data Entrada: </strong>@Model[i].DataEntrada[k] | <strong>Data Saída: </strong>@Model[i].DataSaida[k]</p>
+                <p>
+                    <strong>Emprego Atual: </strong>@Model[i].EmpregoAtual[k]
+                </p>
+                <p>
+                    <strong>Atividades Desempenhadas:</strong>@Model[i].Atividades[k]
+                </p>
+
+                <hr />
+            }
+            <br />
+            <strong class="is-size-6">Resumo</strong>
+            <p>@Model[i].Resumo</p>
+
+            <p>
+                <strong>Conhecimento em Informatica: </strong>@Model[i].Informatica
+            </p>
+            <p>
+                <strong>Como chegou: </strong>@TempData["Conhecido"+i]
+            </p>
+            <p>
+                <strong>Certificação: </strong>@Model[i].Certificacao
+            </p>
+
+            <br/>
+            <br/>
+            <hr/>
+            <br/>
+            <br/>
+        }
+    </div>
+</div>
+</body>
+</html>

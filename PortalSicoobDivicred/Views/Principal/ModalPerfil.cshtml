@@ -1,11 +1,9 @@
 ﻿@model PortalSicoobDivicred.Models.Usuario
-<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
-    $( function() {
-        $( "#TabPerfil" ).tabs();
-    } );
+    $(function () {
+        $("#TabPerfil").tabs();
+    });
 </script>
 <div id="TabPerfil">
     <div class="tabs is-boxed is-centered">
@@ -125,10 +123,36 @@
 
     </div>
     <div id="HistoricoCandidato">
+    @using (Html.BeginForm("AtribuirVagaEspecifica", "Principal"))
+    {
+        <div class="content">
+            <input name="CpfAtribui" id="CpfAtribui" hidden value="@Model.Cpf"/>
+            <blockquote>
+
+               Selecione a vaga para atribuir:
+                <br/>
+                <br/>
+                <p class="control has-icons-left">
+                    <span class="select">
+                        <select id="VagaEspecifica" name="VagaEspecifica">
+                            @for (int i = 0; i < Convert.ToInt32(TempData["TotalVaga"]); i++)
+                            {
+                                <option value="@TempData["IdVaga" + i]">@TempData["NomeVaga" + i].ToString()</option>
+                            }
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-id-badge"></i>
+                    </span>
+                </p>
+                <button type="submit" class="button is-success">Atribuir</button>
+            </blockquote>
+        </div>
+    }
         @if (Convert.ToBoolean(TempData["ExisteFormulario"]))
         {
             <div class="content">
-                <blockquote>Clique <a href="javascript:MostrarFormulario('@TempData["IdFormulario"]')">aqui</a> e veja as resposta para o questionário inicial.</blockquote>
+                <blockquote>Clique <a target="_blank" href="@Url.Action("FormularioInicial", "Principal", new {Cpf = @Model.Cpf})">aqui</a> e veja as resposta para o questionário inicial.</blockquote>
             </div>
         }
         @if (Convert.ToBoolean(TempData["ExisteProcesso"]))
@@ -141,7 +165,7 @@
                     </p>
                     <ul class="menu-list">
                         <li>
-                            <a class="is-active" style="background-color: @TempData["Aprovado"+i]">@TempData["NomeVaga" + i]</a>
+                            <a class="is-active" style="background-color: @TempData["Aprovado" + i]">@TempData["NomeVaga" + i]</a>
                             <ul>
                                 <li>
                                     <a>
@@ -188,4 +212,4 @@
             </div>
         }
     </div>
-    </div>
+</div>

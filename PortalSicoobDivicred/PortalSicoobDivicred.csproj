@@ -250,6 +250,7 @@
   <ItemGroup>
     <Compile Include="Aplicacao\QuerryMysql.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
@@ -259,6 +260,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\ParecerProcesso.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -358,6 +360,8 @@
     <Content Include="Views\Principal\FormularioInicial.cshtml" />
     <Content Include="Views\Principal\ImprimirTodos.cshtml" />
     <Content Include="Views\PainelColaborador\Perfil.cshtml" />
+    <Content Include="Views\FormulariosMig\RecrutamentoSelecao.cshtml" />
+    <Content Include="Views\FormulariosMig\ParecerProcesso.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -234,11 +234,8 @@
                 <p class="menu-label" style="color: white">
                     Específicos
                 </p>
-                <a href="javascript:Curriculo();void(0);" class="item" style="color: #38d5c5;">
-                    <span class="icon">
-                        <i class="fa fa-book"></i>
-                    </span><span class="name"> Currículo</span>
-                </a>
+                @(new HtmlString(@TempData["PermissaoCurriculo"].ToString()))
+               
                 <a href="javascript:PerfilColaborador();void(0);" class="item" style="color: #38d5c5;">
                     <span class="icon">
                         <i class="fa fa-user-circle-o"></i>

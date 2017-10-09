@@ -379,13 +379,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/02/2017 17:46:32</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>10/04/2017 16:51:24</publishTime>
+      <publishTime>10/09/2017 10:59:50</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
-      <publishTime>09/29/2017 14:37:26</publishTime>
+      <publishTime>10/09/2017 10:00:53</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>10/04/2017 16:51:24</publishTime>
+      <publishTime>10/09/2017 10:59:50</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 05:04:40</publishTime>
@@ -567,6 +567,12 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
       <publishTime>04/04/2017 16:34:27</publishTime>
     </File>
+    <File Include="Views/FormulariosMig/ParecerProcesso.cshtml">
+      <publishTime>10/09/2017 10:59:11</publishTime>
+    </File>
+    <File Include="Views/FormulariosMig/RecrutamentoSelecao.cshtml">
+      <publishTime>10/05/2017 09:04:05</publishTime>
+    </File>
     <File Include="Views/Login/Login.cshtml">
       <publishTime>09/22/2017 16:27:00</publishTime>
     </File>
@@ -574,28 +580,28 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/03/2017 10:44:47</publishTime>
     </File>
     <File Include="Views/Principal/Curriculo.cshtml">
-      <publishTime>10/04/2017 12:52:01</publishTime>
+      <publishTime>10/06/2017 10:28:13</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
       <publishTime>09/15/2017 11:30:21</publishTime>
     </File>
     <File Include="Views/Principal/FormularioInicial.cshtml">
-      <publishTime>10/04/2017 10:06:22</publishTime>
+      <publishTime>10/05/2017 09:49:10</publishTime>
     </File>
     <File Include="Views/Principal/GerenciarVaga.cshtml">
-      <publishTime>10/04/2017 15:26:19</publishTime>
+      <publishTime>10/05/2017 09:20:45</publishTime>
     </File>
     <File Include="Views/Principal/ImprimirTodos.cshtml">
       <publishTime>10/02/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/ModalPerfil.cshtml">
-      <publishTime>10/04/2017 13:47:08</publishTime>
+      <publishTime>10/06/2017 09:53:50</publishTime>
     </File>
     <File Include="Views/Principal/PerfilProcesso.cshtml">
-      <publishTime>10/04/2017 09:37:23</publishTime>
+      <publishTime>10/05/2017 09:21:51</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
-      <publishTime>10/04/2017 16:50:32</publishTime>
+      <publishTime>10/09/2017 10:14:19</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
       <publishTime>09/22/2017 12:55:15</publishTime>
@@ -604,7 +610,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/13/2017 14:26:03</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/02/2017 15:00:00</publishTime>
+      <publishTime>10/09/2017 10:59:51</publishTime>
     </File>
   </ItemGroup>
 </Project>

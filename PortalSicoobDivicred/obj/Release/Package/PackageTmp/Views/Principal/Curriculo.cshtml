@@ -405,7 +405,7 @@
         }
         <nav class="pagination" role="navigation" aria-label="pagination">
             <ul class="pagination-list">
-                @for (var i = 1; i <= Convert.ToInt32(TempData["TotalCurriculo"].ToString()) / 10; i++)
+                @for (var i = 1; i <= Convert.ToInt32(TempData["TotalCurriculo"].ToString()) / 20; i++)
                 {
                     <li>
                         <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>

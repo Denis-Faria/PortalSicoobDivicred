@@ -45,6 +45,15 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
+                if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                {
+                    TempData["PermissaoCurriculo"] = " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
+                }
+                else
+                {
+                    TempData["PermissaoCurriculo"] ="";
+                    
+                }
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                 TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
 
@@ -341,6 +350,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["IdVaga"+f] = VagasEspecificas[f]["id"];
                         TempData["NomeVaga"+f]= VagasEspecificas[f]["descricao"];
                 }
+
                 var DadosUsuario = new Usuario();
                 var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato(cpf);
 
@@ -365,6 +375,7 @@ namespace PortalSicoobDivicred.Controllers
                     for (int i = 0; i < DadosProcessosSeletivos.Count; i++)
                     {
                         TempData["NomeVaga" + i] = DadosProcessosSeletivos[i]["nomevaga"];
+                        TempData["IdVaga" + i] = DadosProcessosSeletivos[i]["idvaga"];
                         TempData["Escrita" + i] = DadosProcessosSeletivos[i]["prova"];
                         if (Convert.ToInt32(DadosProcessosSeletivos[i]["prova"]) >= 60)
                         {

@@ -123,32 +123,31 @@
 
     </div>
     <div id="HistoricoCandidato">
-    @using (Html.BeginForm("AtribuirVagaEspecifica", "Principal"))
-    {
-        <div class="content">
-            <input name="CpfAtribui" id="CpfAtribui" hidden value="@Model.Cpf"/>
-            <blockquote>
-
-               Selecione a vaga para atribuir:
-                <br/>
-                <br/>
-                <p class="control has-icons-left">
-                    <span class="select">
-                        <select id="VagaEspecifica" name="VagaEspecifica">
-                            @for (int i = 0; i < Convert.ToInt32(TempData["TotalVaga"]); i++)
-                            {
-                                <option value="@TempData["IdVaga" + i]">@TempData["NomeVaga" + i].ToString()</option>
-                            }
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left">
-                        <i class="fa fa-id-badge"></i>
-                    </span>
-                </p>
-                <button type="submit" class="button is-success">Atribuir</button>
-            </blockquote>
-        </div>
-    }
+        @using (Html.BeginForm("AtribuirVagaEspecifica", "Principal"))
+        {
+            <div class="content">
+                <input name="CpfAtribui" id="CpfAtribui" hidden value="@Model.Cpf" />
+                <blockquote>
+                    Selecione a vaga para atribuir:
+                    <br />
+                    <br />
+                    <p class="control has-icons-left">
+                        <span class="select">
+                            <select id="VagaEspecifica" name="VagaEspecifica">
+                                @for (int i = 0; i < Convert.ToInt32(TempData["TotalVaga"]); i++)
+                                {
+                                    <option value="@TempData["IdVaga" + i]">@TempData["NomeVaga" + i].ToString()</option>
+                                }
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-id-badge"></i>
+                        </span>
+                    </p>
+                    <button type="submit" class="button is-success">Atribuir</button>
+                </blockquote>
+            </div>
+        }
         @if (Convert.ToBoolean(TempData["ExisteFormulario"]))
         {
             <div class="content">
@@ -163,9 +162,19 @@
                     <p class="menu-label">
                         Processos Anteriores
                     </p>
-                    <ul class="menu-list">
-                        <li>
-                            <a class="is-active" style="background-color: @TempData["Aprovado" + i]">@TempData["NomeVaga" + i]</a>
+                <ul class="menu-list">
+                    <li>
+                        <a class="is-active" style="background-color: @TempData["Aprovado" + i]">@TempData["NomeVaga" + i] </a>
+
+                        <p class="field">
+                            <a target="_blank" href="@Url.Action("ParecerProcesso", "FormulariosMig", new {Cpf = @Model.Cpf,IdVaga= @TempData["IdVaga" + i]})" type="submit" class="button is-danger">
+                                <span class="icon">
+                                    <i class="fa fa-file-text"></i>
+                                </span>
+                                <span>Parecer Processo Seletivo</span>
+                            </a>
+                        </p>
+
                             <ul>
                                 <li>
                                     <a>
@@ -201,7 +210,6 @@
                             </ul>
                         </li>
                     </ul>
-
                 </aside>
             }
         }

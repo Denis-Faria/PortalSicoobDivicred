@@ -112,8 +112,12 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Area" + i] = DadosCurriculos[i]["descricao"].Replace(";", " ");
                     if (DadosCurriculos[i]["status"].Equals("S"))
                         TempData["Status" + i] = "green";
-                    else
+                    if (DadosCurriculos[i]["status"].Equals("N"))
                         TempData["Status" + i] = "red";
+                    if (DadosCurriculos[i]["status"].Equals("E"))
+                        TempData["Status" + i] = "blue";
+                    if (DadosCurriculos[i]["status"].Equals("A"))
+                        TempData["Status" + i] = "yellow";
 
                     if (DadosCurriculos[i]["idarquivogoogle"].Equals("0"))
                         TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";

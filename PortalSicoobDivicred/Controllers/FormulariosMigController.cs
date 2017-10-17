@@ -147,25 +147,32 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-
-
-
-
-
-
-
-
-
-
-        public ActionResult RecrutamentoSelecao()
+        public ActionResult RecrutamentoSelecao(string IdVaga)
         {
+            QuerryMysql Formulario = new QuerryMysql();
+
+
+            var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
+            var DadosHistorico= Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
+            var DadosProcesso= Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
+            TempData["IdVaga"] = IdVaga;
+            TempData["Vaga"] = DadosVaga[0]["titulo"];
+            TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
+            TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
+            TempData["ProcessoSeletivo"]= DadosProcesso[0]["count"];
+
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult RecrutamentoSelecao(FormCollection Formulario)
+        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormuario , FormCollection Formulario)
         {
-            return View();
+
+
+
+            return RedirectToAction("RecrutamentoSelecao",
+                new { IdVaga = Formulario["IdVaga"] });
         }
 
 

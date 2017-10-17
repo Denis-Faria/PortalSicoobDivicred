@@ -261,6 +261,7 @@
     </Compile>
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
+    <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

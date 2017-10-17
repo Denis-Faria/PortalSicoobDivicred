@@ -58,7 +58,37 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculos()
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato";
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoVaga(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select titulo,DATE_FORMAT(datainicio,'%d/%m/%Y') as datainicio from vagas where id=" + IdVaga+" ;";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoHistorico(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select count(id) as count from historicos where idvaga="+IdVaga+"";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoProcesso(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select count(id) as count from processosseletivos where idvaga="+IdVaga+";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
+        public List<Dictionary<string, string>> InserirFormularioRecrutamentoSelecao(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select count(id) as count from processosseletivos where idvaga=" + IdVaga + ";";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
@@ -141,7 +171,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area,string Cidade,string Certificacao)
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
                 Area + "%' AND a.id=b.idcandidato AND a.cidade like'%"+Cidade+"%' AND a.certificacao like'%"+Certificacao+"%'";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
@@ -188,7 +218,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculosAlfabetico()
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato  order by a.nome asc  ";
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato  order by a.nome asc  ";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
@@ -196,7 +226,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculosStatus()
         {
             var QuerrySelecionaCurriculo =
-                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='N')>0,'N','S') as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato order by status asc ";
+                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato order by status asc ";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }

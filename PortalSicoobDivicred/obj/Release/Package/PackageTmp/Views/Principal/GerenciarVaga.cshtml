@@ -388,13 +388,13 @@
                     <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
                 </span> <span>Encerrar Vaga</span>
             </a>
-            <a target="_blank" href="@Url.Action("ImprimirTodos","Principal", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success">
+            <a target="_blank" href="@Url.Action("ImprimirTodos","Principal", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success" id="ImprimirTodos" onmouseleave="$('#ImprimirTodos').removeClass('animated pulse')" onmouseover="$('#ImprimirTodos').addClass('animated pulse');" data-balloon="Clique para imprimir todos os currículos." data-balloon-pos="down">
                 <span class="icon">
                     <i class="fa fa-print"></i>
                 </span>
                 <span>Imprimir Todos</span>
             </a>
-            <a target="_blank" href="@Url.Action("RecrutamentoSelecao","FormulariosMig", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success">
+            <a target="_blank" href="@Url.Action("RecrutamentoSelecao","FormulariosMig", new{IdVaga =@TempData["IdVaga"]})" id="Recrutamento" type="submit" class="button is-success" onmouseleave="$('#Recrutamento').removeClass('animated pulse')" onmouseover="$('#Recrutamento').addClass('animated pulse');" data-balloon="Clique para preencher os dados do formulário de recrutamento." data-balloon-pos="down">
                 <span class="icon">
                     <i class="fa fa-file"></i>
                 </span>

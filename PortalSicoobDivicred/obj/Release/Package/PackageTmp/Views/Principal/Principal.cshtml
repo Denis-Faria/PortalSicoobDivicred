@@ -11,13 +11,17 @@
     <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
-
+    <script src="//messaging-public.realtime.co/js/2.1.0/ortc.js"></script>
     <meta name="viewport" content="width=device-width" />
 
     <title>Principal</title>
 
-
     <script>
+
+
+
+
+
         function Curriculo() {
             $("#Conteudo").empty();
             $.ajax(
@@ -92,9 +96,9 @@
             $('#CorpoPrincipal').css('background', '#e6e6e6');
             animating = true;
             $('#Lateral').animate({
-                left: -100,
-                opacity: 0
-            },
+                    left: -100,
+                    opacity: 0
+                },
                 500,
                 function () {
                     animating = false;
@@ -120,9 +124,9 @@
                 $('#CorpoPrincipal').css('background', '#e6e6e6');
                 animating = true;
                 $('#Lateral').animate({
-                    left: 0,
-                    opacity: 1
-                },
+                        left: 0,
+                        opacity: 1
+                    },
                     200,
                     function () {
                         animating = false;
@@ -134,9 +138,9 @@
                 $('#CorpoPrincipal').css('background', '#e6e6e6');
                 animating = true;
                 $('#Lateral').animate({
-                    left: -100,
-                    opacity: 0
-                },
+                        left: -100,
+                        opacity: 0
+                    },
                     500,
                     function () {
                         animating = false;
@@ -253,11 +257,11 @@
 
                     <script>
 
-                    iziToast.success({
-                        title: 'Sucesso',
-                        position: "center",
-                        message: '@TempData["Mensagem"]',
-                    });
+                        iziToast.success({
+                            title: 'Sucesso',
+                            position: "center",
+                            message: '@TempData["Mensagem"]',
+                        });
 
                     </script>
                 }

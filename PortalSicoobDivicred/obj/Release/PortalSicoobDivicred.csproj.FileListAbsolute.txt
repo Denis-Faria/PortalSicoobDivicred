@@ -69,3 +69,7 @@ C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSico
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Extensions.Options.xml
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Extensions.Primitives.xml
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.dll
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\OneApi.dll
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\RestSharp.dll
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.xml

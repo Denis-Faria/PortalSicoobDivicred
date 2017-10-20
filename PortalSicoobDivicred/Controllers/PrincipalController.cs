@@ -10,6 +10,10 @@ using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 using ElasticEmailClient;
+using OneApi.Client.Impl;
+using OneApi.Config;
+using OneApi.Model;
+using RestSharp;
 
 namespace PortalSicoobDivicred.Controllers
 {
@@ -47,12 +51,13 @@ namespace PortalSicoobDivicred.Controllers
 
                 if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
                 {
-                    TempData["PermissaoCurriculo"] = " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
+                    TempData["PermissaoCurriculo"] =
+                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
                 }
                 else
                 {
-                    TempData["PermissaoCurriculo"] ="";
-                    
+                    TempData["PermissaoCurriculo"] = "";
+
                 }
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                 TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
@@ -147,7 +152,7 @@ namespace PortalSicoobDivicred.Controllers
             }
         }
 
-        public ActionResult CurriculoArea(string Ordenacao,string Cidade,string Certificacao)
+        public ActionResult CurriculoArea(string Ordenacao, string Cidade, string Certificacao)
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -161,7 +166,7 @@ namespace PortalSicoobDivicred.Controllers
                         DadosCurriculos = CarregaDados.RecuperaCurriculos();
                     else
                     {
-                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Ordenacao, Cidade,Certificacao);
+                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Ordenacao, Cidade, Certificacao);
                     }
                 }
                 catch
@@ -351,8 +356,8 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalVaga"] = VagasEspecificas.Count;
                 for (int f = 0; f < VagasEspecificas.Count; f++)
                 {
-                    TempData["IdVaga"+f] = VagasEspecificas[f]["id"];
-                        TempData["NomeVaga"+f]= VagasEspecificas[f]["descricao"];
+                    TempData["IdVaga" + f] = VagasEspecificas[f]["id"];
+                    TempData["NomeVaga" + f] = VagasEspecificas[f]["descricao"];
                 }
 
                 var DadosUsuario = new Usuario();
@@ -381,7 +386,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["NomeVaga" + i] = DadosProcessosSeletivos[i]["nomevaga"];
                         TempData["IdVaga" + i] = DadosProcessosSeletivos[i]["idvaga"];
                         TempData["Escrita" + i] = DadosProcessosSeletivos[i]["prova"];
-                        if (Convert.ToInt32(DadosProcessosSeletivos[i]["prova"]) >= 60)
+                        if (Convert.ToDecimal(DadosProcessosSeletivos[i]["prova"]) >= 60)
                         {
                             TempData["CorEscrita" + i] = "green";
                         }
@@ -679,7 +684,8 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         public ActionResult EncerrarVaga(string IdVaga)
-        { var VerificaDados = new QuerryMysql();
+        {
+            var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -732,35 +738,35 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-                    var DadosCurriculos = IniciarProcesso.RecuperaCurriculosHistorico(Vaga[0]);
-                    var Emails="";
-                    for (int j = 0; j < DadosCurriculos.Count; j++)
+                var DadosCurriculos = IniciarProcesso.RecuperaCurriculosHistorico(Vaga[0]);
+                var Emails = "";
+                for (int j = 0; j < DadosCurriculos.Count; j++)
+                {
+                    if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
                     {
-                        if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
-                        {
-                             Emails= Emails+";"+DadosCurriculos[j]["email"];
-                        }
+                        Emails = Emails + ";" + DadosCurriculos[j]["email"];
                     }
-                    Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                    string[] recipients2 = { Emails };
-                    var subject2 = "Atualização de Status";
-                    var fromEmail2 = "correio@divicred.com.br";
-                    var fromName2 = "Sicoob Divicred";
-                    var bodyText2 = "";
-                    var bodyHtml2 = Api.Template.LoadTemplate(5394).BodyHtml;
+                }
+                Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                string[] recipients2 = {Emails};
+                var subject2 = "Atualização de Status";
+                var fromEmail2 = "correio@divicred.com.br";
+                var fromName2 = "Sicoob Divicred";
+                var bodyText2 = "";
+                var bodyHtml2 = Api.Template.LoadTemplate(5394).BodyHtml;
 
-                    ApiTypes.EmailSend result2 = null;
+                ApiTypes.EmailSend result2 = null;
 
-                    try
-                    {
-                        result2 = Api.Email.Send(subject2, fromEmail2, fromName2, to: recipients2,
-                            bodyText: bodyText2, bodyHtml: bodyHtml2);
-                    }
-                    catch
-                    {
-                    }
+                try
+                {
+                    result2 = Api.Email.Send(subject2, fromEmail2, fromName2, to: recipients2,
+                        bodyText: bodyText2, bodyHtml: bodyHtml2);
+                }
+                catch
+                {
+                }
 
-                
+
                 return RedirectToAction("Principal",
                     new {Acao = "Curriculo", Mensagem = "Processo seletivo inciado com sucesso !"});
             }
@@ -771,7 +777,8 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         public async Task<ActionResult> PerfilCandidatoProcesso(string IdVaga)
-        { var VerificaDados = new QuerryMysql();
+        {
+            var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -784,21 +791,21 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     if (DadosProcesso[i]["prova"] == null)
                     {
-                        TempData["ResultadoProva"] = DadosProcesso[i]["prova"];
+                        TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
                         TempData["EscondePsicologico"] = "hidden disabled";
                         TempData["EscondeGerente"] = "hidden disabled";
                     }
                     if (DadosProcesso[i]["psicologico"] == null)
                     {
-                        TempData["ResultadoProva"] = DadosProcesso[i]["prova"];
-                        TempData["ResultadoPsicologico"] = DadosProcesso[i]["psicologico"];
+                        TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
+                        TempData["ResultadoPsicologico" +i] = DadosProcesso[i]["psicologico"];
                         TempData["EscondeGerente"] = "hidden disabled";
                     }
                     else
                     {
-                        TempData["ResultadoProva"] = DadosProcesso[i]["prova"];
-                        TempData["ResultadoPsicologico"] = DadosProcesso[i]["psicologico"];
-                        TempData["ResultadoGerente"] = DadosProcesso[i]["gerente"];
+                        TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
+                        TempData["ResultadoPsicologico"+i] = DadosProcesso[i]["psicologico"];
+                        TempData["ResultadoGerente"+i] = DadosProcesso[i]["gerente"];
                         TempData["EscondePsicologico"] = "";
                         TempData["EscondeGerente"] = "";
                     }
@@ -837,7 +844,8 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         public ActionResult CadastrarMensagem(FormCollection Mensagem)
-        { var VerificaDados = new QuerryMysql();
+        {
+            var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -869,7 +877,7 @@ namespace PortalSicoobDivicred.Controllers
                     var Cpf = Resultado.Keys[i].ToString().Split(' ');
                     if (Cpf[0].Contains("Teorica"))
                     {
-                        
+
                         Status.AtualizaProcessoSeletivoTeorico(Cpf[1], Resultado["Vaga"], Resultado[i]);
 
                     }
@@ -911,7 +919,7 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             var Email = Status.RecuperaEmail(Cpf[1]);
                             Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                            string[] recipients = { Email[0]["email"] + "; rh@divicred.com.br" };
+                            string[] recipients = {Email[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -967,7 +975,8 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         public ActionResult ResultadoProcesso(string IdVaga)
-        { var VerificaDados = new QuerryMysql();
+        {
+            var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -1083,15 +1092,15 @@ namespace PortalSicoobDivicred.Controllers
                 for (int l = 0; l < DadosCurriculos.Count; l++)
                 {
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato(DadosCurriculos[l]["cpf"]);
-                    DadosUsuario[l]= new Usuario();
+                    DadosUsuario[l] = new Usuario();
                     if (!DadosUsuarioBanco[0]["idarquivogoogle"].Equals("0"))
                     {
-                        TempData["ImagemPerfil"+l] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                   DadosUsuarioBanco[0]["idarquivogoogle"];
+                        TempData["ImagemPerfil" + l] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                       DadosUsuarioBanco[0]["idarquivogoogle"];
                     }
                     else
                     {
-                        TempData["ImagemPerfil"+l] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        TempData["ImagemPerfil" + l] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     }
                     var AreasInteresse = VerificaDados.RecuperaAreaInteresseUsuarios(DadosUsuarioBanco[0]["id"]);
 
@@ -1114,22 +1123,22 @@ namespace PortalSicoobDivicred.Controllers
                     DadosUsuario[l].Complemento = DadosUsuarioBanco[0]["complemento"];
                     DadosUsuario[l].Resumo = DadosUsuarioBanco[0]["resumo"];
                     DadosUsuario[l].Certificacao = DadosUsuarioBanco[0]["certificacao"];
-                    TempData["Conhecido"+l] = DadosUsuarioBanco[0]["conhecido"];
+                    TempData["Conhecido" + l] = DadosUsuarioBanco[0]["conhecido"];
 
 
                     if (DadosUsuarioBanco[0]["disponibilidadeviagem"].Equals("S"))
-                        TempData["Disponibilidades"+l] = "SIM";
+                        TempData["Disponibilidades" + l] = "SIM";
                     else
-                        TempData["Disponibilidades"+l] = "NÃO";
+                        TempData["Disponibilidades" + l] = "NÃO";
 
                     DadosUsuario[l].QuantidadeFilho = DadosUsuarioBanco[0]["quantidadefilhos"];
                     DadosUsuario[l].TipoDeficiencia = DadosUsuarioBanco[0]["tipodeficiencia"];
                     DadosUsuario[l].Cnh = DadosUsuarioBanco[0]["cnh"];
                     DadosUsuario[l].PrimeiraCnh = DadosUsuarioBanco[0]["dataprimeiracnh"];
                     DadosUsuario[l].CatCnh = DadosUsuarioBanco[0]["categoriacnh"];
-                    TempData["estadocivil"+l] =
+                    TempData["estadocivil" + l] =
                         VerificaDados.RecuperaEstadoCivilCandidato(DadosUsuarioBanco[0]["estadocivil"]);
-                    TempData["Escolaridade"+l] =
+                    TempData["Escolaridade" + l] =
                         VerificaDados.RecuperaEscolaridadeCandidato(DadosUsuarioBanco[0]["idtipoescolaridade"]);
                     var Profissional = VerificaDados.RecuperaDadosUsuariosProissional(DadosUsuarioBanco[0]["id"]);
 
@@ -1191,7 +1200,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     var Areas = AreasInteresse[0]["descricao"].Split(';');
 
-                    TempData["Area"+l] = Areas;
+                    TempData["Area" + l] = Areas;
                 }
                 return View("ImprimirTodos", DadosUsuario);
             }
@@ -1212,16 +1221,16 @@ namespace PortalSicoobDivicred.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    CadastrarVaga.CadastrarVaga(Vaga.Descricao,"Especifica", Vaga.Salario.Replace(",", "."),
+                    CadastrarVaga.CadastrarVaga(Vaga.Descricao, "Especifica", Vaga.Salario.Replace(",", "."),
                         Vaga.Requisitos,
                         Vaga.Titulo, Vaga.Beneficio);
-                    
+
                     TempData["Opcao"] = "Curriculo";
 
                     return RedirectToAction("Principal",
-                        new { Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !" });
+                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !"});
                 }
-                return RedirectToAction("Principal", new { Acao = "Curriculo" });
+                return RedirectToAction("Principal", new {Acao = "Curriculo"});
             }
             else
             {
@@ -1237,14 +1246,14 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var CadastrarVaga = new QuerryMysql();
 
-               
-                    CadastrarVaga.AtribuirVaga(Vaga["CpfAtribui"], Vaga["VagaEspecifica"]);
 
-                    TempData["Opcao"] = "Curriculo";
+                CadastrarVaga.AtribuirVaga(Vaga["CpfAtribui"], Vaga["VagaEspecifica"]);
 
-                    return RedirectToAction("Principal",
-                        new { Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!" });
-                
+                TempData["Opcao"] = "Curriculo";
+
+                return RedirectToAction("Principal",
+                    new {Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!"});
+
             }
             else
             {
@@ -1252,5 +1261,20 @@ namespace PortalSicoobDivicred.Controllers
             }
         }
 
+
+        public void SMS()
+        {
+
+
+            Configuration configuration = new Configuration("Divicred", "Euder17!");
+            SMSClient smsClient = new SMSClient(configuration);
+            string[] envio= new string[3];
+            envio[0] = "5537999883728";
+            envio[1]="5537999531512";
+            envio[2]="5537999527911";
+            SMSRequest smsRequest = new SMSRequest("Portal de Talentos Sicoob Divicred", "Parabéns você foi aprovado para proxima etapa do processo seletivo de Caixa Cajuru.Acontecera no dia 20/10/2017 no local Av.Primeiro de Junho -Centro - Divinópolis ", envio);
+            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+        }
     }
 }

@@ -12,6 +12,9 @@
 <link href="@Url.Content("~/Assets/css/over.css")" rel="stylesheet"/>
 <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 
+
+
+
 <script>
 
     function GerenciarVaga(IdVaga) {
@@ -36,7 +39,22 @@
             });
 
     }
+    function SendSMS() {
+        $("#Conteudo").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Principal/SMS',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function(data) {
+                    alert("OK");
 
+                }
+            });
+
+    }
     function FiltroPerfil(Filtro) {
         var filtro = Filtro.value;
         $("#Conteudo").empty();
@@ -58,6 +76,7 @@
                 }
             });
     }
+
 
     function FiltroArea(Filtro) {
         var filtro = Filtro.value;
@@ -276,6 +295,14 @@
                 <i class="fa fa-users" aria-hidden="true"></i>
             </span>
             <span class="name">Criar Vaga Específica</span>
+        </a>
+    </p>
+    <p class="control">
+        <a class="button is-primary" href="javascript:SendSMS();void(0);" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fa fa-users" aria-hidden="true"></i>
+            </span>
+            <span class="name">Teste SMS</span>
         </a>
     </p>
 

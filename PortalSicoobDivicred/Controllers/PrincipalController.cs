@@ -44,29 +44,41 @@ namespace PortalSicoobDivicred.Controllers
             }
             if (Logado)
             {
+
+
+
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-                var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
-
-                if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+               /* if (VerificaDados.PrimeiroLogin(Login))
                 {
-                    TempData["PermissaoCurriculo"] =
-                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
+                    //   return View("FormularioCadastro");
+                    return View();
                 }
                 else
-                {
-                    TempData["PermissaoCurriculo"] = "";
+                {*/
+                    var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
+                    if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                    {
+                        TempData["PermissaoCurriculo"] =
+                            " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
+                    }
+                    else
+                    {
+                        TempData["PermissaoCurriculo"] = "";
+
+                    }
+                    TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                    TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+
+                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    return View();
                 }
-                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
-                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
-
-                TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                return View();
-            }
+            
             return RedirectToAction("Login", "Login");
-        }
+            }
+        
 
         public ActionResult Dashboard()
         {
@@ -308,13 +320,24 @@ namespace PortalSicoobDivicred.Controllers
                         Areas = Areas + Vagas[i] + ";";
                     }
                     var TodosEmail = "";
-                    var Email = CadastrarVaga.CadastrarVaga(Vaga.Descricao, Areas, Vaga.Salario.Replace(",", "."),
+                    
+                    var EmailCelular = CadastrarVaga.CadastrarVaga(Vaga.Descricao, Areas, Vaga.Salario.Replace(",", "."),
                         Vaga.Requisitos,
                         Vaga.Titulo, Vaga.Beneficio);
-                    for (int j = 0; j < Email.Count; j++)
+                    var EnvioSms = new string[EmailCelular.Count];
+                    for (int j = 0; j < EmailCelular.Count; j++)
                     {
-                        TodosEmail = TodosEmail + ";" + Email[j]["email"];
+                        TodosEmail = TodosEmail + ";" + EmailCelular[j]["email"];
+                        var Certo = "55" + EmailCelular[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        EnvioSms[j] = Certo.Replace(" ", "");
                     }
+                    Configuration configuration = new Configuration("Divicred", "Euder17!");
+                    SMSClient smsClient = new SMSClient(configuration);
+                    SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", EnvioSms);
+                    SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+
+
                     Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
                     string[] recipients = {TodosEmail};
                     var subject = "Novas Vagas";
@@ -322,7 +345,6 @@ namespace PortalSicoobDivicred.Controllers
                     var fromName = "Sicoob Divicred";
                     var bodyText = "";
                     var bodyHtml = Api.Template.LoadTemplate(5381).BodyHtml;
-
                     ApiTypes.EmailSend result = null;
 
                     try
@@ -714,10 +736,19 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     if (!Curriculos.Keys[i].Contains("vaga") && !Curriculos.Keys[i].Equals("Alerta"))
                     {
+
+
                         IniciarProcesso.IniciarProcessoSeletivo(Curriculos.Keys[i], Vaga[0]);
-                        var Email = IniciarProcesso.RecuperaEmail(Curriculos.Keys[i]);
+                        var EmailCelular = IniciarProcesso.RecuperaEmail(Curriculos.Keys[i]);
+
+                        var Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        Configuration configuration = new Configuration("Divicred", "Euder17!");
+                        SMSClient smsClient = new SMSClient(configuration);
+                        SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", Curriculos["Alerta"], Certo.Replace(" ",""));
+                        SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
                         Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                        string[] recipients = {Email[0]["email"]};
+                        string[] recipients = {EmailCelular[0]["email"]};
                         var subject = "Parabéns";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
@@ -734,19 +765,32 @@ namespace PortalSicoobDivicred.Controllers
                         catch
                         {
                         }
-                        IniciarProcesso.CadastrarAlertaEspecifico(Curriculos["Alerta"], Email[0]["id"]);
+                        IniciarProcesso.CadastrarAlertaEspecifico(Curriculos["Alerta"], EmailCelular[0]["id"]);
                     }
                 }
 
                 var DadosCurriculos = IniciarProcesso.RecuperaCurriculosHistorico(Vaga[0]);
                 var Emails = "";
+                var SmsNegado = new string[DadosCurriculos.Count];
+                var Count = 0;
                 for (int j = 0; j < DadosCurriculos.Count; j++)
                 {
                     if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
                     {
                         Emails = Emails + ";" + DadosCurriculos[j]["email"];
+                        var TelefoneCerto = "55" + DadosCurriculos[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        SmsNegado[Count] = TelefoneCerto.Replace(" ", "");
+                        Count++;
                     }
                 }
+
+                
+
+                Configuration configuration2 = new Configuration("Divicred", "Euder17!");
+                SMSClient smsClient2 = new SMSClient(configuration2);
+                SMSRequest smsRequest2 = new SMSRequest("Portal Sicoob Divicred","Portal Sicoob Divicred. Infelizmente você não foi selecionado para proxima etapa do processo seletivo.", SmsNegado);
+                SendMessageResult requestId2 = smsClient2.SmsMessagingClient.SendSMS(smsRequest2);
+
                 Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
                 string[] recipients2 = {Emails};
                 var subject2 = "Atualização de Status";
@@ -789,11 +833,11 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (int i = 0; i < DadosProcesso.Count; i++)
                 {
-                    if (DadosProcesso[i]["prova"] == null)
+                    if (DadosProcesso[i]["prova"] == null || Convert.ToDecimal(DadosProcesso[i]["prova"].Replace(',','.')) < 60)
                     {
                         TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
-                        TempData["EscondePsicologico"] = "hidden disabled";
-                        TempData["EscondeGerente"] = "hidden disabled";
+                        TempData["EscondePsicologico"+i] = "hidden disabled";
+                        TempData["EscondeGerente"+i] = "hidden disabled";
                     }
                     if (DadosProcesso[i]["psicologico"] == null)
                     {
@@ -809,6 +853,18 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["EscondePsicologico"] = "";
                         TempData["EscondeGerente"] = "";
                     }
+                    if (DadosProcesso[i]["aprovado"].Equals("Aprovado") ||
+                        DadosProcesso[i]["aprovado"].Equals("Excedente"))
+                    {
+                        TempData["EscondePsicologico" + i] = "";
+                        TempData["EscondeGerente" + i] = "";
+                    }
+                    else
+                    {
+                        TempData["EscondePsicologico" + i] = "hidden disabled";
+                        TempData["EscondeGerente" + i] = "hidden disabled";
+                    }
+                    TempData["Status"+i]= DadosProcesso[i]["aprovado"];
                     TempData["Cpf" + i] = DadosProcesso[i]["cpf"];
 
                     TempData["Email" + i] = DadosProcesso[i]["email"];
@@ -894,9 +950,19 @@ namespace PortalSicoobDivicred.Controllers
                         Status.AtualizarProcessoSeletivoStatus(Cpf[1], Resultado["Vaga"], Resultado[i]);
                         if (Resultado[i].Equals("Aprovado"))
                         {
-                            var Email = Status.RecuperaEmail(Cpf[1]);
+
+                            var EmailCelular = Status.RecuperaEmail(Cpf[1]);
+                            var EnvioSms = new string[1];
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            EnvioSms[0] = certo.Replace(" ", "");
+                            Configuration configuration = new Configuration("Divicred", "Euder17!");
+                            SMSClient smsClient = new SMSClient(configuration);
+                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Parabén você foi aprovado para proxima etapa. ", EnvioSms);
+                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+                            
                             Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                            string[] recipients = {Email[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Parabéns";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -913,13 +979,24 @@ namespace PortalSicoobDivicred.Controllers
                             catch
                             {
                             }
-                            Status.CadastrarAlertaEspecifico(Resultado["Alerta"], Email[0]["id"]);
+                            Status.CadastrarAlertaEspecifico(Resultado["Alerta"], EmailCelular[0]["id"]);
                         }
-                        if (Resultado[i].Equals("Aprovado"))
+                        if (Resultado[i].Equals("Reprovado"))
                         {
-                            var Email = Status.RecuperaEmail(Cpf[1]);
+                            var EmailCelular = Status.RecuperaEmail(Cpf[1]);
+                            var EnvioSms = new string[1];
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            EnvioSms[0] = certo.Replace(" ", "");
+
+                            Configuration configuration = new Configuration("Divicred", "Euder17!");
+                            SMSClient smsClient = new SMSClient(configuration);
+                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.", EnvioSms);
+                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+
+                            
                             Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                            string[] recipients = {Email[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -939,9 +1016,19 @@ namespace PortalSicoobDivicred.Controllers
                         }
                         else
                         {
-                            var Email = Status.RecuperaEmail(Cpf[1]);
+                            var EmailCelular = Status.RecuperaEmail(Cpf[1]);
+                            var EnvioSms = new string[1];
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            EnvioSms[0] = certo.Replace(" ", "");
+
+                            Configuration configuration = new Configuration("Divicred", "Euder17!");
+                            SMSClient smsClient = new SMSClient(configuration);
+                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.", EnvioSms);
+                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+                            
                             Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
-                            string[] recipients = {Email[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -1264,17 +1351,17 @@ namespace PortalSicoobDivicred.Controllers
 
         public void SMS()
         {
+            string Celular = "(37) 99988-3728";
+            var EnvioSms = new string[1];
+            var certo = "55" + Celular.Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+       EnvioSms[0] =certo.Replace(" ","");
+        
+        Configuration configuration = new Configuration("Divicred", "Euder17!");
+        SMSClient smsClient = new SMSClient(configuration);
+        SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Novas vagas cadastradas. ", EnvioSms);
+        SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
-            Configuration configuration = new Configuration("Divicred", "Euder17!");
-            SMSClient smsClient = new SMSClient(configuration);
-            string[] envio= new string[3];
-            envio[0] = "5537999883728";
-            envio[1]="5537999531512";
-            envio[2]="5537999527911";
-            SMSRequest smsRequest = new SMSRequest("Portal de Talentos Sicoob Divicred", "Parabéns você foi aprovado para proxima etapa do processo seletivo de Caixa Cajuru.Acontecera no dia 20/10/2017 no local Av.Primeiro de Junho -Centro - Divinópolis ", envio);
-            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
-
-        }
+    }
     }
 }

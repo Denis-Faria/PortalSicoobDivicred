@@ -32,6 +32,20 @@ namespace PortalSicoobDivicred.Aplicacao
             HttpContext.Current.Response.Cookies.Add(CookieUsuario);
             return true;
         }
+        public bool PrimeiroLogin(string Usuario)
+        {
+            var QuerryConfirmaLogin = "SELECT perfilcompleto FROM funcionarios WHERE login='" + Usuario + "';";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryConfirmaLogin);
+
+            if (rows[0]["perfilcompleto"].Equals("S"))
+                return false;
+            else
+            return true;
+        }
+
+
+
         public bool PermissaoCurriculos(string Usuario)
         {
             var QuerryConfirmaLogin = "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='"+Usuario+"' and a.idaplicativo=9 ";
@@ -235,7 +249,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaCurriculosHistorico(string IdVaga)
         {
             var QuerrySelecionaCurriculo =
-                "select a.cpf, a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
+                "select a.cpf, a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao,a.telefoneprincipal from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
                 IdVaga + "";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
@@ -275,7 +289,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 Beneficio + "',now())";
             contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             var QuerrySelecionaEmailVagas =
-                "select a.email from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND b.descricao like'%"+AreaInteresse+"%'";
+                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND b.descricao like'%"+AreaInteresse+"%'";
             var Email = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaEmailVagas);
             return Email;
         }
@@ -441,7 +455,7 @@ namespace PortalSicoobDivicred.Aplicacao
         }
         public List<Dictionary<string, string>> RecuperaEmail(string Cpf)
         {
-            var QuerryRecuperaEducacional = "SELECT id,email FROM candidatos WHERE cpf='" + Cpf + "'";
+            var QuerryRecuperaEducacional = "SELECT id,email,telefoneprincipal FROM candidatos WHERE cpf='" + Cpf + "'";
 
 
             var rows = contexto.ExecutaComandoComRetornoPortal(QuerryRecuperaEducacional);

@@ -1,0 +1,22 @@
+﻿[
+  {
+    "outputFile": "Assets/css/_all.css",
+    "inputFile": "Assets/css/_all.scss"
+  },
+  {
+    "outputFile": "Assets/css/steps.css",
+    "inputFile": "Assets/css/steps.scss"
+  },
+  {
+    "outputFile": "Assets/css/bulma-steps-component/bulma-steps.css",
+    "inputFile": "Assets/css/bulma-steps-component/bulma-steps.sass"
+  },
+  {
+    "outputFile": "Assets/css/bulma-steps-component/bulma/bulma.css",
+    "inputFile": "Assets/css/bulma-steps-component/bulma/bulma.sass"
+  },
+  {
+    "outputFile": "Assets/css/StyleSheet1.css",
+    "inputFile": "Assets/css/StyleSheet1.scss"
+  }
+]

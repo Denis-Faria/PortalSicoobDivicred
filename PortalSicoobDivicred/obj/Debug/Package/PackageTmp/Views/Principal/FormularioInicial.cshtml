@@ -1,0 +1,119 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+    <link href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/Imprimir.css")" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Formulario Inicial</title>
+</head>
+<body>
+
+<div>
+    <br/>
+    <div  class="container">
+        <div class="box">
+            <article id="printable" class="media" >
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="@TempData["ImagemPerfil"]" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <span class="tag is-primary">
+                            1. DADOS PESSOAIS
+                        </span>
+                        <br/>
+                        <strong>@TempData["Nome"]</strong>
+                        <br>
+                        <p> <strong>Local de moradia: </strong>@TempData["EnderecoCompleto"]</p>
+                        <p><strong>Idade: </strong>@TempData["Idade"]</p>
+                        <p><strong> Nível de escolaridade: </strong>@TempData["NivelFormacao"]</p>
+                        <p><strong>Naturalidade: </strong>@TempData["Naturalidade"]</p>
+                        <p><strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
+
+
+                        <span class="tag is-primary">
+                            2. DADOS OCUPACIONAIS
+                        </span>
+                        <p>Conte sobre sua trajetória profissional:</p>
+                        <blockquote>@TempData["Questao1"]</blockquote>
+                        <p>O seu trabalho atual o satisfaz? Se não em que aspectos você está insatisfeito?</p>
+                        <blockquote>@TempData["Questao2"]</blockquote>
+                        <p>O que você espera do Sicoob Divicred?</p>
+                        <blockquote>@TempData["Questao3"]</blockquote>
+                        <br  style="page-break-before:always"/>
+                        <p> O que te deixa motivado em trabalhar em uma empresa?</p>
+                        <blockquote>@TempData["Questao4"]</blockquote>
+                        <p>Quais são as suas características mais marcantes na realização de trabalhos profissionais?</p>
+                        <blockquote>@TempData["Questao5"]</blockquote>
+                        <p> Quais são as suas características mais marcantes nas suas relações com as pessoas?</p>
+                        <blockquote>@TempData["Questao6"]</blockquote>
+                        <p>Houve alguma ocasião em que você teve problemas com colegas de trabalho? Como você resolveu o problema?</p>
+                        <blockquote>@TempData["Questao7"]</blockquote>
+                        <p> Houve alguma ocasião em que você teve problemas com seu chefe? Como você resolveu o problema?</p>
+                        <blockquote>@TempData["Questao8"]</blockquote>
+                        <p> O que você mais gosta de fazer em seu trabalho? Por que?</p>
+                        <blockquote>@TempData["Questao9"]</blockquote>
+                        <p> O que você menos gosta? Por que?</p>
+                        <blockquote>@TempData["Questao10"]</blockquote>
+                        <br style="page-break-before:always" />
+                        <p> Já participou de algum processo seletivo do Sicoob Divicred?</p>
+                        <blockquote>@TempData["Questao11"]</blockquote>
+                        <span class="tag is-primary">3. ENTREVISTA POR COMPETÊNCIAS</span>
+                        <p> Qual a meta mais ousada que você já perseguiu e teve sucesso e o que fez para alcançá-la?</p>
+                        <blockquote>@TempData["Questao12"]</blockquote>
+                        <p> O que você faz para ter um bom fluxo de informações (equipe/empresa)?</p>
+                        <blockquote>@TempData["Questao13"]</blockquote>
+                        <p> Conte-me uma situação em que você teve que administrar a falta de recursos para solucionar um problema e como conseguiu:</p>
+                        <blockquote>@TempData["Questao14"]</blockquote>
+                        <p> Conte uma situação de conflito que tenha vivido na equipe de trabalho e como solucionou:</p>
+                        <blockquote>@TempData["Questao15"]</blockquote>
+                        <p> Fala-me sobre uma meta que você estabeleceu em sua carreira profissional que você não conseguiu atingir:</p>
+                        <blockquote>@TempData["Questao16"]</blockquote>
+                        <p> Conte-me sobre uma situação na qual um cliente se sentiu bem atendido e compartilhou isso com você:</p>
+                        <blockquote>@TempData["Questao17"]</blockquote>
+                        <p> Conte-me uma situação onde você tenha dado um feedback e a pessoa se sentiu desmotivada. Como foi e o que fez para reverter à situação?</p>
+                        <blockquote>@TempData["Questao18"]</blockquote>
+                        <span class="tag is-primary"> 4. AMBIÇÕES PROFISSIONAIS</span>
+                        <p> Quais suas expectativas para o presente?</p>
+                        <blockquote>@TempData["Questao19"]</blockquote>
+                        <p> Quais suas expectativas futuras? Você teme o futuro?</p>
+                        <blockquote>@TempData["Questao20"]</blockquote>
+                        <p> O que a empresa ganharia se contratasse você? Faça um marketing pessoal:</p>
+                        <blockquote>@TempData["Questao21"]</blockquote>
+                    </div>
+                    <nav class="level is-mobile">
+                        <div class="level-left">
+
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

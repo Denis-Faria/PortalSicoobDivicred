@@ -11,6 +11,12 @@ namespace PortalSicoobDivicred.Controllers
         // GET: PainelColaborador
         public ActionResult Perfil()
         {
+
+
+
+
+
+
             return PartialView("Perfil");
         }
     }

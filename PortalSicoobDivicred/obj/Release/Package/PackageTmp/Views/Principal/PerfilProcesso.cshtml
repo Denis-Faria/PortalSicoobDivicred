@@ -15,6 +15,7 @@
             document.getElementById(dados).style.color = "yellow";
         }
     }
+
 </script>
 
 <p class="is-narrow">
@@ -70,10 +71,10 @@
                             </div>
                         </td>
                         <td>
-                            <div @TempData["EscondePsicologico"] class="field is-narrow">
+                            <div @TempData["EscondePsicologico"+i] class="field is-narrow">
                                 <p class="control has-icons-left">
                                     <span class="select">
-                                        <select @TempData["EscondePsicologico"] id="Psicologico @TempData["Cpf" +i]" name="Psicologico @TempData["Cpf" +i]">
+                                        <select @TempData["EscondePsicologico"+i] id="Psicologico @TempData["Cpf" +i]" name="Psicologico @TempData["Cpf" +i]">
                                             <option>Aprovado</option>
                                             <option>Reprovado</option>
                                         </select>
@@ -83,12 +84,22 @@
                                     </span>
                                 </p>
                             </div>
+                            @Html.Label("")
+                            <script>
+                                $(document).ready(function() {
+                                    document.getElementById("Psicologico @TempData["Cpf" + i]").value = "@TempData["ResultadoPsicologico" + i]";
+                                    MudaCor(document.getElementById("Status @TempData["Cpf" + i]"),@i);
+                                });
+
+
+                            </script>
+
                         </td>
                         <td>
                             <div @TempData["EscondeGerente"] class="field is-narrow">
                                 <p class="control has-icons-left">
                                     <span class="select">
-                                        <select @TempData["EscondeGerente"] id="Gerencial @TempData["Cpf" +i]" name="Gerencial @TempData["Cpf" +i]">
+                                        <select @TempData["EscondeGerente"+i] id="Gerencial @TempData["Cpf" +i]" name="Gerencial @TempData["Cpf" +i]">
                                             <option>Aprovado</option>
                                             <option>Reprovado</option>
                                         </select>
@@ -103,7 +114,7 @@
                             <div class="field">
                                 <p class="control has-icons-left">
                                     <span class="select">
-                                        <select onchange="MudaCor(this.value, @i)" id="Status @TempData["Cpf" +i]" name="Status @TempData["Cpf" +i]">
+                                        <select onchange="MudaCor(this.value, @i)" id="Status @TempData["Cpf" +i]" name="Status @TempData["Cpf" +i]" value="@TempData["Status"+i]">
                                             <option value="Aprovado" selected>Aprovado</option>
                                             <option value="Excedente">Excedente</option>
                                             <option value="Reprovado">Reprovado</option>
@@ -115,6 +126,27 @@
                                     </span>
                                 </p>
                             </div>
+                            @Html.Label("")
+                            <script>
+                                $(document).ready(function() {
+                                    document.getElementById("Status @TempData["Cpf" + i]").value = "@TempData["Status" + i]";
+                                    var dados = "Status " + @i;
+                                    if ("@TempData["Status" + i]" == "Reprovado") {
+                                        document.getElementById(dados).style.color = "red";
+                                    }
+                                    if ("@TempData["Status" + i]" == "Aprovado") {
+                                        document.getElementById(dados).style.color = "green";
+                                    }
+                                    if ("@TempData["Status" + i]" == "Excedente") {
+                                        document.getElementById(dados).style.color = "blue";
+                                    }
+                                    if ("@TempData["Status" + i]" == "Ausente") {
+                                        document.getElementById(dados).style.color = "yellow";
+                                    }
+                                });
+
+
+                            </script>
                         </td>
                     </tr>
                 }

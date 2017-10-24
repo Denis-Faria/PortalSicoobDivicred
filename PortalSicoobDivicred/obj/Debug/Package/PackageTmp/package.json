@@ -1,0 +1,10 @@
+{
+  "name": "myproject",
+  "version": "1.0.0",
+  "devDependencies": {
+    "bulma": "^0.6.0",
+    "bulma-steps": "0.0.2",
+    "bulma-steps-component": "^0.5.3",
+    "install": "^0.10.1"
+  }
+}

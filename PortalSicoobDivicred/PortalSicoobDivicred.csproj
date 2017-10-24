@@ -148,7 +148,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Aprovado %28copy 01%29.html" />
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\asc.png" />
     <Content Include="Assets\css\balloon.css" />
@@ -161,6 +160,12 @@
     <Content Include="Assets\css\Login.css" />
     <Content Include="Assets\css\over.css" />
     <Content Include="Assets\css\style.css" />
+    <Content Include="Assets\css\StyleSheet1.css">
+      <DependentUpon>StyleSheet1.scss</DependentUpon>
+    </Content>
+    <Content Include="Assets\css\StyleSheet1.min.css">
+      <DependentUpon>StyleSheet1.css</DependentUpon>
+    </Content>
     <Content Include="Assets\fonts\Apache License.txt" />
     <Content Include="Assets\fonts\dropify.svg" />
     <Content Include="Assets\fonts\Flat-it License.txt" />
@@ -238,6 +243,94 @@
     <Content Include="bin\roslyn\vbc.exe.config" />
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
+    <Content Include="Assets\css\StyleSheet1.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Assets\css\Bulma\bulma\css\bulma.css" />
+    <Content Include="Assets\css\Bulma\_layouts\default.html" />
+    <Content Include="Assets\css\bulma-steps\bulma-steps-example.png" />
+    <Content Include="Assets\css\bulma-steps\steps.js" />
+    <Content Include="node_modules\install\docs\docco.css" />
+    <Content Include="node_modules\install\docs\install.html" />
+    <Content Include="node_modules\install\docs\public\stylesheets\normalize.css" />
+    <Content Include="node_modules\install\install.js" />
+    <Content Include="node_modules\install\install.min.js" />
+    <Content Include="package.json" />
+    <Content Include="Assets\css\Bulma\bulma\bulma.sass" />
+    <Content Include="Assets\css\Bulma\bulma\CHANGELOG.md" />
+    <Content Include="Assets\css\Bulma\bulma\css\bulma.css.map" />
+    <Content Include="Assets\css\Bulma\bulma\LICENSE" />
+    <Content Include="Assets\css\Bulma\bulma\package.json" />
+    <Content Include="Assets\css\Bulma\bulma\README.md" />
+    <Content Include="Assets\css\Bulma\bulma\sass\base\generic.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\base\helpers.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\base\minireset.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\base\_all.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\breadcrumb.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\card.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\dropdown.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\level.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\media.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\menu.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\message.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\modal.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\nav.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\navbar.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\pagination.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\panel.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\tabs.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\components\_all.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\box.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\button.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\container.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\content.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\form.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\icon.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\image.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\notification.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\other.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\progress.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\table.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\tag.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\title.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\elements\_all.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\grid\columns.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\grid\tiles.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\grid\_all.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\layout\footer.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\layout\hero.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\layout\section.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\layout\_all.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\animations.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\controls.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\derived-variables.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\functions.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\initial-variables.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\mixins.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\variables.sass" />
+    <Content Include="Assets\css\Bulma\bulma\sass\utilities\_all.sass" />
+    <Content Include="node_modules\install\.npmignore" />
+    <Content Include="node_modules\install\.travis.yml" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-bold.eot" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-bold.ttf" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-bold.woff" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-light.eot" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-light.ttf" />
+    <Content Include="node_modules\install\docs\public\fonts\aller-light.woff" />
+    <Content Include="node_modules\install\docs\public\fonts\roboto-black.eot" />
+    <Content Include="node_modules\install\docs\public\fonts\roboto-black.ttf" />
+    <Content Include="node_modules\install\docs\public\fonts\roboto-black.woff" />
+    <Content Include="node_modules\install\LICENSE" />
+    <Content Include="node_modules\install\package.json" />
+    <Content Include="node_modules\install\README.md" />
+    <Content Include="node_modules\install\scripts\docs.sh" />
+    <Content Include="node_modules\install\scripts\prepublish.sh" />
+    <Content Include="Assets\css\bulma-steps\LICENSE" />
+    <Content Include="Assets\css\bulma-steps\package.json" />
+    <Content Include="Assets\css\bulma-steps\README.md" />
+    <Content Include="Assets\css\bulma-steps\steps.sass" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -372,6 +465,7 @@
     <Content Include="Views\PainelColaborador\Perfil.cshtml" />
     <Content Include="Views\FormulariosMig\RecrutamentoSelecao.cshtml" />
     <Content Include="Views\FormulariosMig\ParecerProcesso.cshtml" />
+    <Content Include="Views\Principal\FormularioCadastro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -50,13 +50,13 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-               /* if (VerificaDados.PrimeiroLogin(Login))
+                if (VerificaDados.PrimeiroLogin(Login))
                 {
-                    //   return View("FormularioCadastro");
-                    return View();
+                    return View("FormularioCadastro");
+
                 }
                 else
-                {*/
+                {
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
                     if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
@@ -75,7 +75,8 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     return View();
                 }
-            
+            }
+
             return RedirectToAction("Login", "Login");
             }
         

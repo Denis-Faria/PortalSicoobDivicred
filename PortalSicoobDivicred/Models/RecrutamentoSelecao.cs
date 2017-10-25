@@ -19,6 +19,9 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor inserir quem solicitou!")]
         public string ChefiaImediata { get; set; }
 
+        [Required(ErrorMessage = "Favor inserir o setor da vaga!")]
+        public string Setor { get; set; }
+
         [Required(ErrorMessage = "Favor inserir o mês de admissão!")]
         public string MesAdmissao { get; set; }
 

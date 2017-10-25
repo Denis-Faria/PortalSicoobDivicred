@@ -98,14 +98,36 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
-
-        public List<Dictionary<string, string>> InserirFormularioRecrutamentoSelecao(string IdVaga)
+        public List<Dictionary<string, string>> ExisteFormularioRecrutamentoSelecaoProcesso(string IdVaga)
         {
             var QuerrySelecionaCurriculo =
-                "select count(id) as count from processosseletivos where idvaga=" + IdVaga + ";";
+                "select count(id) as count from recrutamentoselecao where idvaga=" + IdVaga + ";";
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
+
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecao(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo =
+                "select * from recrutamentoselecao where idvaga=" + IdVaga + ";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
+
+        public void InserirFormularioRecrutamentoSelecao(string IdVaga,string ClasseCargo,string NivelCargo,string NumeroVaga,string ChefiaImediata,string MesAdmissao,string MotivoSelecao,string EmpregadoSubstituido, string PrevisaoOrcamento, string FormaRecrutamento, string DinamicaGrupo, string DinamicaNumero, string DinamicaPreNumero, string ConhecimentoTeste, string ConhecimentoNumero, string ConhecimentoPreNumero, string PsicologicoTeste, string PsicologicoNumero, string PsicologicoPreNumero, string Psicologaentrevistador, string PsicologaNumero, string PsicologaPreNumero, string Setor)
+        {
+            var QuerrySelecionaCurriculo = "INSERT INTO recrutamentoselecao (idvaga,classecargo,nivelcargo,numerovaga,chefiaimediata,mesadmissao,motivoselecao,nomeempregadosubstituido,previsaoorcamento,formarecrutamento,dinamicagrupo,dinamicanumero,dinamicaprenumero,conhecimentoteste,conhecimentonumero,conhecimentoprenumero,psicologicoteste,psicologiconumero,psicologicoprenumero,psicologaentrevistador,psicologanumero,psicologaprenumero,setor) VALUES(" + IdVaga + ",'"+ClasseCargo+"','"+NivelCargo+"',"+NumeroVaga+",'"+ChefiaImediata+"','"+MesAdmissao+"','"+MotivoSelecao+"','"+EmpregadoSubstituido+"','"+PrevisaoOrcamento+"','"+FormaRecrutamento+"','"+DinamicaGrupo+"',"+DinamicaNumero+","+DinamicaPreNumero+",'"+ConhecimentoTeste+"',"+ConhecimentoNumero+","+ConhecimentoPreNumero+",'"+PsicologicoTeste+"',"+PsicologicoNumero+","+PsicologicoPreNumero+",'"+Psicologaentrevistador+"'," +PsicologaNumero+"," +PsicologaPreNumero+", '"+Setor+"');";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+          
+        }
+
+        public void AtualizarFormularioRecrutamentoSelecao(string IdVaga, string ClasseCargo, string NivelCargo, string NumeroVaga, string ChefiaImediata, string MesAdmissao, string MotivoSelecao, string EmpregadoSubstituido, string PrevisaoOrcamento, string FormaRecrutamento, string DinamicaGrupo, string DinamicaNumero, string DinamicaPreNumero, string ConhecimentoTeste, string ConhecimentoNumero, string ConhecimentoPreNumero, string PsicologicoTeste, string PsicologicoNumero, string PsicologicoPreNumero, string Psicologaentrevistador, string PsicologaNumero, string PsicologaPreNumero, string Setor)
+        {
+            var QuerrySelecionaCurriculo = "UPDATE recrutamentoselecao set classecargo='"+ClasseCargo+"',nivelcargo='"+NivelCargo+"',numerovaga="+NumeroVaga+",chefiaimediata='"+ChefiaImediata+"',mesadmissao='"+MesAdmissao+"',motivoselecao='"+MotivoSelecao+"',nomeempregadosubstituido='"+EmpregadoSubstituido+"',previsaoorcamento='"+PrevisaoOrcamento+"',formarecrutamento='"+FormaRecrutamento+"',dinamicagrupo='"+DinamicaGrupo+"',dinamicanumero="+DinamicaNumero+",dinamicaprenumero="+DinamicaPreNumero+",conhecimentoteste='"+ConhecimentoTeste+"',conhecimentonumero="+ConhecimentoNumero+",conhecimentoprenumero="+ConhecimentoPreNumero+",psicologicoteste='"+PsicologicoTeste+"',psicologiconumero="+PsicologicoNumero+",psicologicoprenumero="+PsicologicoPreNumero+",psicologaentrevistador='"+Psicologaentrevistador+"',psicologanumero="+PsicologaNumero+",psicologaprenumero="+PsicologaPreNumero+",setor='"+Setor+"' WHERE idvaga="+IdVaga+";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            
+        }
+
 
 
         public List<Dictionary<string, string>> FormularioParecerProcessoDadosPessoais(string Cpf, string IdVaga)
@@ -303,12 +325,12 @@ namespace PortalSicoobDivicred.Aplicacao
                                        DadosCandidatos[0]["id"] + ")";
             contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
         }
-        public void AtualizarProcessoSeletivoStatus(string Cpf, string IdVaga,string Resultado)
+        public void AtualizarProcessoSeletivoStatus(string Cpf, string IdVaga,string Resultado,string Restricao)
         {
             var QuerrySelecionaIdCandidato = "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
 
-            var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";"; ;
+            var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ", restricao='"+Restricao+"';"; ;
             contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
 
             var QueryMudaDataFim = "UPDATE vagas SET datafim=NOW() WHERE id="+IdVaga+"";

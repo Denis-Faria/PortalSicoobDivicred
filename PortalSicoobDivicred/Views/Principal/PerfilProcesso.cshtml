@@ -14,6 +14,9 @@
         if (Valor == "Ausente") {
             document.getElementById(dados).style.color = "yellow";
         }
+        if (Valor == "Restricao") {
+            document.getElementById(dados).style.color = "orange";
+        }
     }
 
 </script>
@@ -50,6 +53,7 @@
             <th class="is-narrow">Perfil Psicológico</th>
             <th class="is-narrow">Parecer Gerente</th>
             <th class="is-narrow">Status</th>
+            <th class="is-narrow">Restrição</th>
             </thead>
             <tbody>
                 @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
@@ -119,6 +123,7 @@
                                             <option value="Excedente">Excedente</option>
                                             <option value="Reprovado">Reprovado</option>
                                             <option value="Ausente">Ausente</option>
+                                            <option value="Restricao">Restrição</option>
                                         </select>
                                     </span>
                                     <span class="icon is-small is-left">
@@ -143,10 +148,23 @@
                                     if ("@TempData["Status" + i]" == "Ausente") {
                                         document.getElementById(dados).style.color = "yellow";
                                     }
+                                    if ("@TempData["Status" + i]" == "Restricao") {
+                                        document.getElementById(dados).style.color = "orange";
+                                    }
                                 });
 
 
                             </script>
+                        </td>
+                        <td>
+                            <div class="">
+                                <p class="control has-icons-left has-icons-right">
+                                    <input id="Restricao @i" name="Restricao @i" class="input" value="@TempData["Restricao"+i]" type="text">
+                                    <span class="icon is-small is-right">
+                                        <i class="fa fa-ban"></i>
+                                    </span>
+                                </p>
+                            </div>
                         </td>
                     </tr>
                 }

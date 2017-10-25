@@ -151,28 +151,114 @@ namespace PortalSicoobDivicred.Controllers
         {
             QuerryMysql Formulario = new QuerryMysql();
 
+            var Logado = Formulario.UsuarioLogado();
+            if (Logado)
+            {
+               var Existe = Formulario.ExisteFormularioRecrutamentoSelecaoProcesso(IdVaga);
+                if (Existe[0]["count"].Equals(0))
+                {
+                    var Dados = new RecrutamentoSelecao();
+                    var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
+                    var DadosHistorico = Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
+                    var DadosProcesso = Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
+                    var FormularioCompleto = Formulario.FormularioRecrutamentoSelecao(IdVaga);
 
-            var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
-            var DadosHistorico= Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
-            var DadosProcesso= Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
-            TempData["IdVaga"] = IdVaga;
-            TempData["Vaga"] = DadosVaga[0]["titulo"];
-            TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
-            TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
-            TempData["ProcessoSeletivo"]= DadosProcesso[0]["count"];
+                    Dados.ClasseCargo = FormularioCompleto[0]["classecargo"];
+                    Dados.NivelCargo = FormularioCompleto[0]["nivelcargo"];
+                    Dados.NumeroVaga = FormularioCompleto[0]["numerovaga"];
+                    Dados.ChefiaImediata = FormularioCompleto[0]["chefiaimediata"];
+                    Dados.MesAdmissao = FormularioCompleto[0]["mesadmissao"];
+                    Dados.DinamicaNumero = FormularioCompleto[0]["dinamicanumero"];
+                    Dados.DinamicaNumeroPreSelecionado = FormularioCompleto[0]["dinamicaprenumero"];
+                    Dados.ConhecimentoTeste = FormularioCompleto[0]["conhecimentoteste"];
+                    Dados.ConhecimentoNumero = FormularioCompleto[0]["conhecimentonumero"];
+                    Dados.ConhecimentoNumeroPreSelecionado= FormularioCompleto[0]["conhecimentoprenumero"];
+                    Dados.PsicologicaTeste = FormularioCompleto[0]["psicologicoteste"];
+                    Dados.PsicologicaNumero = FormularioCompleto[0]["psicologiconumero"];
+                    Dados.PsicologicaNumeroPreSelecionado = FormularioCompleto[0]["psicologicoprenumero"];
+                    Dados.NomeEntrevistador = FormularioCompleto[0]["psicologaentrevistador"];
+                    Dados.EntrevistaNumero = FormularioCompleto[0]["psicologanumero"];
+                    Dados.EntrevistaNumeroPreSelecionado = FormularioCompleto[0]["psicologaprenumero"];
+                    Dados.Setor = FormularioCompleto[0]["setor"];
 
+                    TempData["NomeEmpregado"] = FormularioCompleto[0]["nomeempregadosubstituido"];
+                    TempData["Dinamica"]= FormularioCompleto[0]["dinamicagrupo"];
+                    TempData["TipoSelecao"]= FormularioCompleto[0]["motivoselecao"];
+                    TempData["FormaRecrutamento"] = FormularioCompleto[0]["formarecrutamento"];
+                    TempData["PrevisaoOrcamento"]= FormularioCompleto[0]["previsaoorcamento"];
 
-            return View();
+                    TempData["IdVaga"] = IdVaga;
+                    TempData["Vaga"] = DadosVaga[0]["titulo"];
+                    TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
+                    TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
+                    TempData["ProcessoSeletivo"] = DadosProcesso[0]["count"];
+                    TempData["Atualiza"] = "Atualizar";
+                    return View(Dados);
+                }
+                else
+                {
+                    var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
+                    var DadosHistorico = Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
+                    var DadosProcesso = Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
+                    TempData["IdVaga"] = IdVaga;
+                    TempData["Vaga"] = DadosVaga[0]["titulo"];
+                    TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
+                    TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
+                    TempData["ProcessoSeletivo"] = DadosProcesso[0]["count"];
+                    TempData["Atualiza"] = "";
+                    return View();
+                }
+            }
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
-        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormuario , FormCollection Formulario)
+        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormulario , FormCollection Formulario)
         {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                if (ModelState.IsValid)
+                {
+                    if (!Formulario["Atualiza"].Equals("Atualizar"))
+                    {
+                        VerificaDados.InserirFormularioRecrutamentoSelecao(Formulario["IdVaga"],
+                            DadosFormulario.ClasseCargo, DadosFormulario.NivelCargo, DadosFormulario.NumeroVaga,
+                            DadosFormulario.ChefiaImediata, DadosFormulario.MesAdmissao, Formulario["MotivoSelecao"],
+                            Formulario["EmpregadoSubstituido"], Formulario["PrevisaoOrcamento"],
+                            Formulario["TipoRecrutamento"], Formulario["Dinamica"],
+                            DadosFormulario.DinamicaNumero, DadosFormulario.DinamicaNumeroPreSelecionado,
+                            DadosFormulario.ConhecimentoTeste, DadosFormulario.ConhecimentoNumero,
+                            DadosFormulario.ConhecimentoNumeroPreSelecionado, DadosFormulario.PsicologicaTeste,
+                            DadosFormulario.PsicologicaNumero, DadosFormulario.PsicologicaNumeroPreSelecionado,
+                            DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
+                            DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
+                        return RedirectToAction("RecrutamentoSelecao",
+                            new { IdVaga = Formulario["IdVaga"] });
+                    }
+                    else
+                    {
+                        VerificaDados.AtualizarFormularioRecrutamentoSelecao(Formulario["IdVaga"],
+                            DadosFormulario.ClasseCargo, DadosFormulario.NivelCargo, DadosFormulario.NumeroVaga,
+                            DadosFormulario.ChefiaImediata, DadosFormulario.MesAdmissao, Formulario["MotivoSelecao"],
+                            Formulario["EmpregadoSubstituido"], Formulario["PrevisaoOrcamento"],
+                            Formulario["TipoRecrutamento"], Formulario["Dinamica"],
+                            DadosFormulario.DinamicaNumero, DadosFormulario.DinamicaNumeroPreSelecionado,
+                            DadosFormulario.ConhecimentoTeste, DadosFormulario.ConhecimentoNumero,
+                            DadosFormulario.ConhecimentoNumeroPreSelecionado, DadosFormulario.PsicologicaTeste,
+                            DadosFormulario.PsicologicaNumero, DadosFormulario.PsicologicaNumeroPreSelecionado,
+                            DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
+                            DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
+                        return RedirectToAction("RecrutamentoSelecao",
+                            new { IdVaga = Formulario["IdVaga"] });
+                    }
+                }
+            }
+            return RedirectToAction("Login", "Login");
 
 
-
-            return RedirectToAction("RecrutamentoSelecao",
-                new { IdVaga = Formulario["IdVaga"] });
+            
         }
 
 

@@ -48,6 +48,24 @@
                                             @Html.TextBoxFor(m => m.NivelCargo, null, new { @class = "input", placeholder = "Nivel Cargo" })
                                         </div>
                                     </div>
+                                    <div class="field control">
+                                        <label class="label">Número de vagas</label>
+                                        <div class="control">
+                                            @Html.TextBoxFor(m => m.NumeroVaga, null, new { @class = "input", placeholder = "Número de vagas" })
+                                        </div>
+                                    </div>
+                                    <div class="field control">
+                                        <label class="label">Setor</label>
+                                        <div class="control">
+                                            @Html.TextBoxFor(m => m.Setor, null, new { @class = "input", placeholder = "Setor" })
+                                        </div>
+                                    </div>
+                                    <div class="field control">
+                                        <label class="label">Chefia Imediata</label>
+                                        <div class="control">
+                                            @Html.TextBoxFor(m => m.ChefiaImediata, null, new { @class = "input", placeholder = "Chefia imediata" })
+                                        </div>
+                                    </div>
                                 </div>
                                 <p><strong>Data Solicitação: </strong>@TempData["Solicitacao"]</p>
                                 <div class="field">
@@ -67,11 +85,19 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("MotivoSelecao").value = "@TempData["TipoSelecao"]";
+                                            
+                                        });
+
+
+                                    </script>
                                 </div>
                                 <div class="field">
                                     <label class="label">Nome do empregado substituído</label>
                                     <div class="control">
-                                        <input hidden class="input" type="text" placeholder="Ex: João da Silva">
+                                        <input hidden name="EmpregadoSubstituido" id="EmpregadoSubstituido" class="input" value="@TempData["NomeEmpregado"]" type="text" placeholder="Ex: João da Silva">
                                     </div>
                                 </div>
                                 <div class="field">
@@ -84,6 +110,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("PrevisaoOrcamento").value = "@TempData["PrevisaoOrcamento"]";
+                                            
+                                        });
+
+
+                                    </script>
                                 </div>
 
                                 <span class="tag is-primary">
@@ -99,6 +133,14 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("TipoRecrutamento").value = "@TempData["FormaRecrutamento"]";
+                                            
+                                        });
+
+
+                                    </script>
                                 </div>
                                 <span class="tag is-primary">
                                     Etapas de seleção
@@ -110,7 +152,7 @@
                                 <div class="field is-grouped">
                                     <p> <strong>Número de currículos recebidos: </strong>@TempData["TenhoInteresse"]  ||  
 
-                                     <strong>Número de currículos triados:</strong>@TempData["ProcessoSeletivo"]</p>
+                                     <strong>Número de currículos triados: </strong>@TempData["ProcessoSeletivo"]</p>
                                 </div>
 
                                 <span class="tag is-primary">
@@ -127,6 +169,13 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @Html.Label("")
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("Dinamica").value = "@TempData["Dinamica"]";
+                                            
+                                        });
+                                    </script>
                                 </div>
                                 <div class="field is-grouped">
                                     <div class="field control">

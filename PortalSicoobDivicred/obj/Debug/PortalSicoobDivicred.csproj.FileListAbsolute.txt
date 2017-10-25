@@ -57,6 +57,7 @@ C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSico
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CoreCompileInputs.cache
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
+C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.dll
@@ -82,4 +83,3 @@ C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSico
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Webpages.Razor.resources.dll
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Mvc.resources.dll
-C:\Users\Davi\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache

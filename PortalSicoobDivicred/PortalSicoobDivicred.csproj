@@ -244,6 +244,13 @@
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="Assets\css\StyleSheet1.scss" />
+    <Content Include="Assets\css\bulma-timeline\.travis\sass-compile-tester.sh" />
+    <Content Include="Assets\css\bulma-timeline\.travis.yml" />
+    <Content Include="Assets\css\bulma-timeline\bulma-timeline.sass" />
+    <Content Include="Assets\css\bulma-timeline\LICENSE" />
+    <Content Include="Assets\css\bulma-timeline\package.json" />
+    <Content Include="Assets\css\bulma-timeline\README.md" />
+    <Content Include="Assets\css\bulma-timeline\timeline.sass" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -331,6 +338,13 @@
     <Content Include="Assets\css\bulma-steps\package.json" />
     <Content Include="Assets\css\bulma-steps\README.md" />
     <Content Include="Assets\css\bulma-steps\steps.sass" />
+    <Content Include="node_modules\bulma-timeline\.travis.yml" />
+    <Content Include="node_modules\bulma-timeline\.travis\sass-compile-tester.sh" />
+    <Content Include="node_modules\bulma-timeline\bulma-timeline.sass" />
+    <Content Include="node_modules\bulma-timeline\LICENSE" />
+    <Content Include="node_modules\bulma-timeline\package.json" />
+    <Content Include="node_modules\bulma-timeline\README.md" />
+    <Content Include="node_modules\bulma-timeline\timeline.sass" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />

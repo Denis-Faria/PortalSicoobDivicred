@@ -865,6 +865,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["EscondeGerente" + i] = "hidden disabled";
                     }
                     TempData["Status"+i]= DadosProcesso[i]["aprovado"];
+                    TempData["Restricao" + i] = DadosProcesso[i]["restricao"];
                     TempData["Cpf" + i] = DadosProcesso[i]["cpf"];
 
                     TempData["Email" + i] = DadosProcesso[i]["email"];
@@ -947,7 +948,7 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     if (Cpf[0].Contains("Status"))
                     {
-                        Status.AtualizarProcessoSeletivoStatus(Cpf[1], Resultado["Vaga"], Resultado[i]);
+                        Status.AtualizarProcessoSeletivoStatus(Cpf[1], Resultado["Vaga"], Resultado[i],Resultado["Restricao"+i]);
                         if (Resultado[i].Equals("Aprovado"))
                         {
 

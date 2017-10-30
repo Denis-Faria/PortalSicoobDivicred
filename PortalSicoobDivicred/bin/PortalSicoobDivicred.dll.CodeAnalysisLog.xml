@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio\2017\community\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="15.0">
+ <Targets>
+  <Target Name="C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.dll">
+   <Modules>
+    <Module Name="portalsicoobdivicred.dll">
+     <Namespaces>
+      <Namespace Name="Port.Repositorios">
+       <Types>
+        <Type Name="Conexao" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="Breaking">
+           <Issue Name="ProvideDisposeBool" Certainty="95" Level="Error">Forneça uma implementação substituível de Dispose(bool) em 'Conexao' ou marque o tipo como lacrado. Uma chamada para Dispose(false) deve limpar somente os recursos nativos. Uma chamada para Dispose(true) deve limpar os recursos gerenciados e nativos.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#CriarComando(System.String)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Revisar as consultas SQL em busca de vulnerabilidades de segurança" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="DependsOnFix">
+             <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\Repositorios" File="Conexao.cs" Line="138">A cadeia de caracteres de consulta passada para 'MySqlCommand.CommandText.set(string)' em 'Conexao.CriarComando(string)' pode conter as seguintes variáveis 'comandoSQL'. Se qualquer uma destas variáveis for proveniente da entrada do usuário, considere usar um procedimento armazenado ou uma consulta SQL parametrizada antes de compilar a consulta com concatenações de cadeias de caracteres.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Dispose()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="Breaking">
+             <Issue Name="DisposeImplementation" Certainty="95" Level="Error" Path="C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\Repositorios" File="Conexao.cs" Line="14">Modifique 'Conexao.Dispose()' para chamar Dispose(true), depois chamar GC.SuppressFinalize na instância de objeto atual ("this" ou "Me" no Visual Basic) e retornar.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="PortalSicoobDivicred.Aplicacao">
+       <Types>
+        <Type Name="QuerryMysql" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implemente IDisposable em 'QuerryMysql' porque cria membros dos seguintes tipos IDisposable: 'Conexao'. Se 'QuerryMysql' tiver enviado anteriormente, adicionar novos membros que implementem IDisposable a esse tipo é considerado uma alteração interruptiva para os consumidores existentes.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="PortalSicoobDivicred.Models">
+       <Types>
+        <Type Name="Criptografa" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Criptografar(System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\Models" File="Criptografa.cs" Line="37">'Criptografa.Criptografar(string)' relança uma exceção capturada e a especifica explicitamente como um argumento. Em vez disso, use 'throw' sem um argumento a fim de preservar o local da pilha em que a exceção foi inicialmente gerada.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Descriptografar(System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2017-10-30 13:02:26Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\Models" File="Criptografa.cs" Line="67">'Criptografa.Descriptografar(string)' relança uma exceção capturada e a especifica explicitamente como um argumento. Em vez disso, use 'throw' sem um argumento a fim de preservar o local da pilha em que a exceção foi inicialmente gerada.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="ImplementIDisposableCorrectly" Category="Microsoft.Design" CheckId="CA1063">
+   <Name>Implementar IDisposable corretamente</Name>
+   <Description>Todos os tipos IDisposable devem implementar o padrão Dispose corretamente.</Description>
+   <Resolution Name="DisposeImplementation">Modifique {0} para chamar Dispose(true), depois chamar GC.SuppressFinalize na instância de objeto atual ("this" ou "Me" no Visual Basic) e retornar.</Resolution>
+   <Resolution Name="ProvideDisposeBool">Forneça uma implementação substituível de Dispose(bool) em {0} ou marque o tipo como lacrado. Uma chamada para Dispose(false) deve limpar somente os recursos nativos. Uma chamada para Dispose(true) deve limpar os recursos gerenciados e nativos.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms244737.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200">
+   <Name>Relançar para preservar detalhes da pilha</Name>
+   <Description>Use a instrução IL rethrow para preservar os detalhes da pilha original ao reacionar uma exceção capturada.</Description>
+   <Resolution Name="Default">{0} relança uma exceção capturada e a especifica explicitamente como um argumento. Em vez disso, use 'throw' sem um argumento a fim de preservar o local da pilha em que a exceção foi inicialmente gerada.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182363.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="usagerules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="Revisar as consultas SQL em busca de vulnerabilidades de segurança" Category="Microsoft.Security" CheckId="CA2100">
+   <Name>Revisar as consultas SQL em busca de vulnerabilidades de segurança</Name>
+   <Description>Uma cadeia de caracteres de comando SQL compilada de uma entrada do usuário é vulnerável a ataques de injeção SQL. O Microsoft SQL Server e outros servidores de banco de dados oferecem suporte a procedimentos armazenados e consultas SQL parametrizadas, o que reduz o risco de ataques de injeção.</Description>
+   <Resolution Name="WithNonLiterals">A cadeia de caracteres de consulta passada para {0} em {1} pode conter as seguintes variáveis {2}. Se qualquer uma destas variáveis for proveniente da entrada do usuário, considere usar um procedimento armazenado ou uma consulta SQL parametrizada antes de compilar a consulta com concatenações de cadeias de caracteres.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182310.aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="15.0.0.0" />
+  </Rule>
+  <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+   <Name>Tipos que possuem campos descartáveis devem ser descartáveis</Name>
+   <Description>Os tipos que declaram membros descartáveis também devem implementar IDisposable. Se o tipo não tiver recursos próprios não gerenciados, não implemente um finalizador nele.</Description>
+   <Resolution Name="DependsOnFix">Implemente IDisposable em {0} porque cria membros dos seguintes tipos IDisposable: {1}. Se {0} tiver enviado anteriormente, adicionar novos membros que implementem IDisposable a esse tipo é considerado uma alteração interruptiva para os consumidores existentes.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182172.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="15.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Categoria</String>
+  <String Key="Certainty">Certeza</String>
+  <String Key="CollapseAll">Recolher Tudo</String>
+  <String Key="CheckId">Verificar ID</String>
+  <String Key="Error">Erro</String>
+  <String Key="Errors">erro(s)</String>
+  <String Key="ExpandAll">Expandir Tudo</String>
+  <String Key="Help">Ajuda</String>
+  <String Key="Line">Linha</String>
+  <String Key="Messages">mensagem(ns)</String>
+  <String Key="LocationNotStoredInPdb">[Local não armazenado em Pdb]</String>
+  <String Key="Project">Projeto</String>
+  <String Key="Resolution">Resolução</String>
+  <String Key="Rule">Regra</String>
+  <String Key="RuleFile">Arquivo de Regra</String>
+  <String Key="RuleDescription">Descrição da Regra</String>
+  <String Key="Source">Origem</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Destino</String>
+  <String Key="Warning">Aviso</String>
+  <String Key="Warnings">aviso(s)</String>
+  <String Key="ReportTitle">Relatório de Análise de Código</String>
+ </Localized>
+</FxCopReport>

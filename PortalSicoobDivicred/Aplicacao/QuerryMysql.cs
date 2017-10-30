@@ -311,7 +311,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 Beneficio + "',now())";
             contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             var QuerrySelecionaEmailVagas =
-                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND b.descricao like'%"+AreaInteresse+"%'";
+                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato ANDMATCH(b.descricao) AGAINST('" + AreaInteresse+"')";
             var Email = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaEmailVagas);
             return Email;
         }
@@ -329,9 +329,16 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var QuerrySelecionaIdCandidato = "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
-
-            var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ", restricao='"+Restricao+"';"; ;
-            contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+            if (Restricao.Length > 0)
+            {
+                var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';"; ;
+                contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+            }
+            else
+            {
+                var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+                contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+            }
 
             var QueryMudaDataFim = "UPDATE vagas SET datafim=NOW() WHERE id="+IdVaga+"";
             contexto.ExecutaComandoComRetornoPortal(QueryMudaDataFim);

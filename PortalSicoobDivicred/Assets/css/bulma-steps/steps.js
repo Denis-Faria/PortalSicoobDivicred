@@ -137,20 +137,22 @@ class StepsWizard {
    * Activate a single step,
    * will deactivate all other steps.
    */
-  activate_step( step ) {
+  activate_step(step) {
     this.updateActions( step );
 
     for ( var i = 0; i < this.steps.length; i++ ) {
       var _step = this.steps[ i ];
 
       if ( _step == step ) {
-        continue;
+          continue;
+          
       }
 
-      this.deactivate_step( _step );
+      this.deactivate_step(_step);
     }
+    step.classList.add(this.options.active_class);
 
-    step.classList.add( this.options.active_class );
+   
   }
 
   complete_step( step ) {

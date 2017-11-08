@@ -149,10 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\css\animate.css" />
-    <Content Include="Assets\css\asc.png" />
     <Content Include="Assets\css\balloon.css" />
-    <Content Include="Assets\css\bg.png" />
-    <Content Include="Assets\css\desc.png" />
     <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\css\Imprimir.css" />
     <Content Include="Assets\css\iziToast.css" />

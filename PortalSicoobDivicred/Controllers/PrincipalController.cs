@@ -50,13 +50,13 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-               if (VerificaDados.PrimeiroLogin(Login))
+              /*  if (VerificaDados.PrimeiroLogin(Login))
                 {
                     return View("FormularioCadastro");
 
                 }
                 else
-                {
+                {*/
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
                     if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
@@ -74,7 +74,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     return View();
-                }
+               // }
             }
 
             return RedirectToAction("Login", "Login");
@@ -741,8 +741,11 @@ namespace PortalSicoobDivicred.Controllers
 
                         IniciarProcesso.IniciarProcessoSeletivo(Curriculos.Keys[i], Vaga[0]);
                         var EmailCelular = IniciarProcesso.RecuperaEmail(Curriculos.Keys[i]);
-
-                        var Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        var Certo = "";
+                        if (EmailCelular[0]["telefoneprincipal"] != null)
+                        {
+                            Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        }
                         Configuration configuration = new Configuration("Divicred", "Euder17!");
                         SMSClient smsClient = new SMSClient(configuration);
                         SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", Curriculos["Alerta"], Certo.Replace(" ",""));
@@ -779,18 +782,24 @@ namespace PortalSicoobDivicred.Controllers
                     if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
                     {
                         Emails = Emails + ";" + DadosCurriculos[j]["email"];
-                        var TelefoneCerto = "55" + DadosCurriculos[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
-                        SmsNegado[Count] = TelefoneCerto.Replace(" ", "");
-                        Count++;
+                        var TelefoneCerto = "";
+                        if (DadosCurriculos[j]["telefoneprincipal"] != null || DadosCurriculos[j]["telefoneprincipal"].Length>0)
+                        {
+                            TelefoneCerto = "55" + DadosCurriculos[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            SmsNegado[Count] = TelefoneCerto.Replace(" ", "");
+                            Count++;
+                        }
+                        
+                        
                     }
                 }
 
                 
 
-                Configuration configuration2 = new Configuration("Divicred", "Euder17!");
+                /*Configuration configuration2 = new Configuration("Divicred", "Euder17!");
                 SMSClient smsClient2 = new SMSClient(configuration2);
                 SMSRequest smsRequest2 = new SMSRequest("Portal Sicoob Divicred","Portal Sicoob Divicred. Infelizmente você não foi selecionado para proxima etapa do processo seletivo.", SmsNegado);
-                SendMessageResult requestId2 = smsClient2.SmsMessagingClient.SendSMS(smsRequest2);
+                SendMessageResult requestId2 = smsClient2.SmsMessagingClient.SendSMS(smsRequest2);*/
 
                 Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
                 string[] recipients2 = {Emails};
@@ -854,13 +863,21 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["EscondePsicologico"] = "";
                         TempData["EscondeGerente"] = "";
                     }
-                    if (DadosProcesso[i]["aprovado"].Equals("Aprovado") ||
-                        DadosProcesso[i]["aprovado"].Equals("Excedente"))
+                    try
                     {
-                        TempData["EscondePsicologico" + i] = "";
-                        TempData["EscondeGerente" + i] = "";
+                        if (DadosProcesso[i]["aprovado"].Equals("Aprovado") ||
+                            DadosProcesso[i]["aprovado"].Equals("Excedente"))
+                        {
+                            TempData["EscondePsicologico" + i] = "";
+                            TempData["EscondeGerente" + i] = "";
+                        }
+                        else
+                        {
+                            TempData["EscondePsicologico" + i] = "hidden disabled";
+                            TempData["EscondeGerente" + i] = "hidden disabled";
+                        }
                     }
-                    else
+                    catch
                     {
                         TempData["EscondePsicologico" + i] = "hidden disabled";
                         TempData["EscondeGerente" + i] = "hidden disabled";

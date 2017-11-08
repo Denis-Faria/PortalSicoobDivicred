@@ -37,7 +37,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/23/2017 12:58:47</publishTime>
     </File>
     <File Include="Assets/css/bulma-steps/steps.js">
-      <publishTime>10/23/2017 12:58:47</publishTime>
+      <publishTime>11/06/2017 11:08:01</publishTime>
     </File>
     <File Include="Assets/css/bulma-steps/steps.sass">
       <publishTime>10/23/2017 13:47:05</publishTime>
@@ -598,13 +598,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>10/30/2017 11:07:12</publishTime>
+      <publishTime>11/08/2017 10:26:39</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>10/20/2017 15:57:51</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>10/30/2017 11:07:12</publishTime>
+      <publishTime>11/08/2017 10:26:39</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -895,7 +895,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/23/2017 13:35:15</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
-      <publishTime>10/25/2017 16:25:22</publishTime>
+      <publishTime>11/07/2017 14:55:22</publishTime>
     </File>
     <File Include="Views/Principal/FormularioInicial.cshtml">
       <publishTime>10/05/2017 09:49:10</publishTime>

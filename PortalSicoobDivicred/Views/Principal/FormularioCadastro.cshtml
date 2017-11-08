@@ -17,7 +17,7 @@
                 for (var i = 0; i < cusid_ele.length; ++i) {
 
                     var item = cusid_ele[i];
-                    if (item.className.endsWith(" is-active")) {                        
+                    if (item.className.endsWith(" is-active")) {
                         if (item.id == "Profissionais") {
                             document.getElementById("Pessoais").hidden = true;
                             document.getElementById("Pro").removeAttribute("hidden");
@@ -25,10 +25,13 @@
                         if (item.id == "ConteMais") {
                             document.getElementById("Pro").hidden = true;
                             document.getElementById("Mais").removeAttribute("hidden");
+                            document.getElementById("Confirma").hidden = true;
                         }
                         if (item.id == "Confirmar") {
-                            document.getElementById("Mais").hidden = true;
-                            document.getElementById("Confirme").removeAttribute("hidden");
+                            document.getElementById("Pessoais").removeAttribute("hidden");
+                            document.getElementById("Pro").removeAttribute("hidden");
+                            document.getElementById("Mais").removeAttribute("hidden");
+                            document.getElementById("Confirma").removeAttribute("style");
                         }
                     }
                 }
@@ -39,27 +42,31 @@
 
                     var item = cusid_ele[i];
                     if (item.className.endsWith(" is-active")) {
-                        if (item.id == "ConteMais") {                            
+                        if (item.id == "ConteMais") {
                             document.getElementById("Pessoais").hidden = false;
-                            document.getElementById("Pro").hidden=true;
-                            
+                            document.getElementById("Pro").hidden = true;
+
                         }
-                        if (item.id == "Confirmar") {                            
+                        if (item.id == "Confirmar") {
                             document.getElementById("Pro").hidden = false;
                             document.getElementById("Mais").hidden = true;
+                            document.getElementById("Confirma").hidden = true;
                         }
                         if (item.id == "Ultimo") {
                             document.getElementById("Mais").hidden = false;
-                            document.getElementById("Confirme").hidden = true;
+                            document.getElementById("Pro").hidden = true;
+                            document.getElementById("Pessoais").hidden = true;
+                            $("#Confirma").hide();
+                            
                         }
-                        
+
                     }
                 }
             }
         }
 
-        
-  
+
+
     </script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
     <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet" />
@@ -68,165 +75,165 @@
     <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
     <title>Formulario Cadastro</title>
-   
+
 </head>
 <body>
-<div class="container">
-    <div class="box">
-        <div class="steps" id="stepsDemo">
-            <div class="step-item is-active" id="Profissionais">
-                <div class="step-marker">
-                    <span class="icon">
-                        <i class="fa fa-user"></i>
-                    </span>
-                </div>
-                <div class="step-details">
-                    <p class="step-title">Passo 1</p>
-                    <p>Dados Pessoais</p>
-                </div>
-            </div>
-            <div class="step-item" id="ConteMais">
-                <div class="step-marker">
-                    <span class="icon">
-                        <i class="fa fa-address-card"></i>
-                    </span>
-                </div>
-                <div class="step-details">
-                    <p class="step-title">Passo 2</p>
-                    <p>Dados Profissionais.</p>
-                </div>
-            </div>
-            <div class="step-item" id="Confirmar">
-                <div class="step-marker">
-                    <span class="icon">
-                        <i class="fa fa-smile-o"></i>
-                    </span>
-                </div>
-                <div class="step-details">
-                    <p class="step-title">Passo 3</p>
-                    <p>Conte-nos mais sobre você </p>
-                </div>
-            </div>
-            <div class="step-item" id="Ultimo">
-                <div class="step-marker">
-                    <span class="icon">
-                        <i class="fa fa-flag"></i>
-                    </span>
-                </div>
-                <div class="step-details">
-                    <p class="step-title">Passo 4</p>
-                    <p>Confirme os dados.</p>
-                </div>
-            </div>
-            <div class="steps-actions">
-                <div class="steps-action">
-                    <button data-nav="previous" onclick="javascript: Oculta('Anterior');void (0);"class="button is-primary">Anterior</button>
-                </div>
-                <div class="steps-action">
-                    <button data-nav="next" class="button is-primary" onclick="javascript: Oculta('Proximo');void (0);">Proximo</button>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="content" id="Pessoais">
-            <div class="field is-grouped">
-                <p class="control column is-3">
-                    <label class="label">Nome</label>
-                    <input class="input" type="text" placeholder="Ex: Zé Maria Souza Silva">
-                </p>
-                <div class="control column is-2">
-                    <label class="label">CPF</label>
-                    <input class="input" type="text" placeholder="Ex: 999.999.999-99">
-                </div>
-                <div class="control column is-2">
-                    <label class="label">RG</label>
-                    <input class="input" type="text" placeholder="Ex: 99990099">
-                </div>
-                <div class="control column is-2">
-                    <label class="label">PIS</label>
-                    <input class="input" type="text" placeholder="999.99999.99-9">
-                </div>
-                <div class="control column is-2">
-                    <label class="label">Data Nascimento</label>
-                    <input class="input" type="text" placeholder="99/99/9999">
-                </div>
-            </div>
-
-            <hr />
-
-            <div class="field is-grouped column">
-                <div class="control is-2">
-                    <label class="label">Sexo</label>
-                    <div class="select">
-                        <select>
-                            <option>Masculino</option>
-                            <option>Feminino</option>
-                            <option>Outro</option>
-                        </select>
+    <div class="container">
+        <div class="box">
+            <div class="steps" id="stepsDemo">
+                <div class="step-item is-active" id="Profissionais">
+                    <div class="step-marker">
+                        <span class="icon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Passo 1</p>
+                        <p>Dados Pessoais</p>
                     </div>
                 </div>
-                <div class="control is-2">
-                    <label class="label">Descrição Sexo:</label>
-                    <input class="input" type="text" placeholder="Text input">
-                </div>
-                <div class="control ">
-                    <label class="label">Etnia/Raça</label>
-                    <div class="select">
-                        <select>
-                            <option>Branco(a)</option>
-                            <option>Pardo(a)</option>
-                            <option>Negro(a)</option>
-                            <option>Amarelo(a)</option>
-                            <option>Indígena</option>
-                            <option>Não Quero Declarar</option>
-                            <option>Não Sei</option>
-                        </select>
+                <div class="step-item" id="ConteMais">
+                    <div class="step-marker">
+                        <span class="icon">
+                            <i class="fa fa-address-card"></i>
+                        </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Passo 2</p>
+                        <p>Dados Profissionais.</p>
                     </div>
                 </div>
-                <div class="control ">
-                    <label class="label">Estado Civil</label>
-                    <div class="select">
-                        <select>
-                            <option>Solteiro(a)</option>
-                            <option>Casado(a)</option>
-                            <option>Divorciado(a)</option>
-                            <option>Viúvo(a)</option>
-                        </select>
+                <div class="step-item" id="Confirmar">
+                    <div class="step-marker">
+                        <span class="icon">
+                            <i class="fa fa-smile-o"></i>
+                        </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Passo 3</p>
+                        <p>Conte-nos mais sobre você </p>
+                    </div>
+                </div>
+                <div class="step-item" id="Ultimo">
+                    <div class="step-marker">
+                        <span class="icon">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Passo 4</p>
+                        <p>Confirme os dados.</p>
+                    </div>
+                </div>
+                <div class="steps-actions">
+                    <div class="steps-action">
+                        <button data-nav="previous" onclick="javascript: Oculta('Anterior');void (0);" class="button is-primary">Anterior</button>
+                    </div>
+                    <div class="steps-action">
+                        <button data-nav="next" class="button is-primary" onclick="javascript: Oculta('Proximo');void (0);">Proximo</button>
                     </div>
                 </div>
 
             </div>
 
-            <hr />
-            <div class="field is-grouped column">
-                <div class="control is-2 ">
-                    <label class="label">Formação</label>
-                    <div class="select">
-                        <select>
-                            <option>Ensino Médio Incompleto</option>
-                            <option>Ensino Médio Completo</option>
-                            <option>Superior Incompleto</option>
-                            <option>Superior Completo</option>
-                            <option>Pós-Graduação Incompleta</option>
-                            <option>Pós-Graduação Completa</option>
-                            <option>Mestrado/Doutorado Incompleto</option>
-                            <option>Mestrado/Doutorado Completo</option>
-                        </select>
+
+            <div class="content" id="Pessoais">
+                <div class="field is-grouped">
+                    <p class="control column is-3">
+                        <label class="label">Nome</label>
+                        <input class="input" type="text" placeholder="Ex: Zé Maria Souza Silva">
+                    </p>
+                    <div class="control column is-2">
+                        <label class="label">CPF</label>
+                        <input class="input" type="text" placeholder="Ex: 999.999.999-99">
                     </div>
-                </div>            
+                    <div class="control column is-2">
+                        <label class="label">RG</label>
+                        <input class="input" type="text" placeholder="Ex: 99990099">
+                    </div>
+                    <div class="control column is-2">
+                        <label class="label">PIS</label>
+                        <input class="input" type="text" placeholder="999.99999.99-9">
+                    </div>
+                    <div class="control column is-2">
+                        <label class="label">Data Nascimento</label>
+                        <input class="input" type="text" placeholder="99/99/9999">
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="field is-grouped column">
+                    <div class="control is-2">
+                        <label class="label">Sexo</label>
+                        <div class="select">
+                            <select>
+                                <option>Masculino</option>
+                                <option>Feminino</option>
+                                <option>Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control is-2">
+                        <label class="label">Descrição Sexo:</label>
+                        <input class="input" type="text" placeholder="Text input">
+                    </div>
+                    <div class="control ">
+                        <label class="label">Etnia/Raça</label>
+                        <div class="select">
+                            <select>
+                                <option>Branco(a)</option>
+                                <option>Pardo(a)</option>
+                                <option>Negro(a)</option>
+                                <option>Amarelo(a)</option>
+                                <option>Indígena</option>
+                                <option>Não Quero Declarar</option>
+                                <option>Não Sei</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control ">
+                        <label class="label">Estado Civil</label>
+                        <div class="select">
+                            <select>
+                                <option>Solteiro(a)</option>
+                                <option>Casado(a)</option>
+                                <option>Divorciado(a)</option>
+                                <option>Viúvo(a)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr />
+                <div class="field is-grouped column">
+                    <div class="control is-2 ">
+                        <label class="label">Formação</label>
+                        <div class="select">
+                            <select>
+                                <option>Ensino Médio Incompleto</option>
+                                <option>Ensino Médio Completo</option>
+                                <option>Superior Incompleto</option>
+                                <option>Superior Completo</option>
+                                <option>Pós-Graduação Incompleta</option>
+                                <option>Pós-Graduação Completa</option>
+                                <option>Mestrado/Doutorado Incompleto</option>
+                                <option>Mestrado/Doutorado Completo</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="control is-2">
                         <label class="label">Formação Acadêmica</label>
                         <input class="input" type="text" placeholder="Ex: Adminiação ">
                     </div>
-                
+
                     <div class="control is-2">
                         <label class="label">Usuário do Sistema</label>
                         <input class="input" type="text" placeholder="Ex: SicoobD4030_00">
                     </div>
 
-                 
+
                     <div class="control is-2">
                         <label class="label">E-mail</label>
                         <input class="input " type="text" placeholder="Ex: teste@divicred.com.br">
@@ -238,20 +245,20 @@
                     </div>
 
                 </div>
-            <hr />
-            <div class="field is-grouped column">
-                   
+                <hr />
+                <div class="field is-grouped column">
+
                     <div class="control is-2">
                         <label class="label">Rua</label>
                         <input class="input" type="text" placeholder="Ex: Av. Primeiro de Junho">
                     </div>
-                   
+
                     <div class="control is-2">
                         <label class="label">N°</label>
                         <input class="input" type="text" placeholder="Ex:4030">
                     </div>
 
-                   
+
                     <div class="control is-2">
                         <label class="label">Bairro</label>
                         <input class="input" type="text" placeholder="Ex: Centro">
@@ -261,19 +268,65 @@
                         <label class="label">Cidade</label>
                         <input class="input" type="text" placeholder="Ex: Divinópolis">
                     </div>
-            </div>
+                </div>
 
-        </div>
-        <div id="Pro" hidden class="content">
-            <h1>Teste</h1>
+            </div>
+            <div id="Pro" hidden class="content">
+                <div class="field is-grouped column">
+                    <div class="control is-2 ">
+                        <label class="label">Setor</label>
+                        <div class="select">
+                            <select></select>
+                        </div>
+                    </div>
+                    <div class="control is-4">
+                        <label class="label">Função</label>
+                        <input class="input" type="text" placeholder="Ex: Assistente">
+                    </div>
+                </div>
+                <div class="field">
+                    <blockquote>
+                        <p><b>Salário Base:@TempData["Salario"]</b>  ||  <b>Estagiário:@TempData["Estagiario"]</b>  ||  <b>Contrato Estágio:@TempData["DataEstagio"]</b></p>
+                    <b>Quebra de Caixa:@TempData["QuebraCaixa"]</b>
+                    <br />
+                    <b>Anuênio:@TempData["Anuenio"]</b>
+                    <br />
+                    <b>Ticket:@TempData["Ticket"]</b>
+                    <br />
+                </blockquote>
+            </div>
         </div>
         <div id="Mais" hidden class="content">
-            <h1>Teste2</h1>
+            <div class="field">
+                <div class="control">
+                    <label class="label">Quantos Filhos você tem ?</label>
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <label class="label">Em caso de uma emergência devemos ligar para  quem ?</label>
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <label class="label">Quais são seus principais hobbies ?</label>
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <label class="label">Qual sua comida favorita?</label>
+                    <input class="input" type="text">
+                </div>
+                <div class="control">
+                    <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
+                    <input class="input" type="text">
+                </div>
+                <br />
+                
+            </div>
         </div>
-        <div id="Confirme" hidden class="content">
-            <h1>Teste3</h1>
-        </div>
-
+            <button type="submit" style="display: none;" id="Confirma" class="button is-primary is-right">Confirmar Dados</button>
     </div>
 </div>
 </body>

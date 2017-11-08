@@ -329,12 +329,20 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var QuerrySelecionaIdCandidato = "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaIdCandidato);
-            if (Restricao.Length > 0)
+            try
             {
-                var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';"; ;
-                contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+                if (Restricao.Length > 0 || Restricao != null)
+                {
+                    var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';"; ;
+                    contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+                }
+                else
+                {
+                    var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+                    contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);
+                }
             }
-            else
+            catch
             {
                 var QuerryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" + IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
                 contexto.ExecutaComandoComRetornoPortal(QuerryIniciaProcesso);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.SqlServer.Server;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
 
@@ -573,6 +574,15 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+        public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionariosPerfil(string UsuarioSistema)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT * FROM funcionarios WHERE login='" + UsuarioSistema + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
 
         public List<SelectListItem> RetornaEstadoCivil()
         {
@@ -658,6 +668,61 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return EstadoCivil;
         }
+
+        public void AtualizaDadosFuncionarioFormulario(string Nome, string Cpf, string Rg, string Pis,
+            string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
+            string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
+            string Numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
+            string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
+            string Viagem)
+        {
+            string QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
+                                               Rg + "', pis='" + Pis + "',datanascimento='" +
+                                               Convert.ToDateTime(DataNascimentoFuncionario).ToString("yyyy/MM/dd") +
+                                               "', sexo=" + Sexo + ",descricaosexo='" + DescricaoSexo + "',etnia=" +
+                                               Etnia + ",idestadocivil=" + EstadoCivil + ",  idescolaridade=" +
+                                               Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
+                                               UsuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
+                                               Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
+                                               Cidade + "', idsetor=" + Setor + ", funcao='" + Funcao +
+                                               "', quantidadefilho='" + QuatidadeFilhos + "',datanascimentofilho='" +
+                                               DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
+                                               "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
+                                               ComidaFavorita + "',viagem='"+Viagem+ "', perfilcompleto='S' WHERE nome='"+Nome+"'";
+            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+        }
+
+
+        public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
+            string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
+            string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
+            string Numero, string Bairro, string Cidade)
+        {
+            string QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
+                                               Rg + "', pis='" + Pis + "',datanascimento='" +
+                                               Convert.ToDateTime(DataNascimentoFuncionario).ToString("yyyy/MM/dd") +
+                                               "', sexo=" + Sexo + ",descricaosexo='" + DescricaoSexo + "',etnia=" +
+                                               Etnia + ",idestadocivil=" + EstadoCivil + ",  idescolaridade=" +
+                                               Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
+                                               UsuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
+                                               Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
+                                               Cidade + "' WHERE login='" + UsuarioSistema + "'";
+            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+        }
+
+        public void AtualizaDadosFuncionarioProfissional(string Setor, string Funcao,string UsuarioSistema)
+        {
+            string QuerryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +"' WHERE login='" + UsuarioSistema + "'";
+            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+        }
+
+        public void AtualizaFoto(string Foto,string UsuarioSistema)
+        {
+            string QuerryAtualizaFuncionario = "UPDATE funcionarios SET foto='" + Foto + "' WHERE login='" + UsuarioSistema + "'";
+            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+        }
+
+
 
 
 

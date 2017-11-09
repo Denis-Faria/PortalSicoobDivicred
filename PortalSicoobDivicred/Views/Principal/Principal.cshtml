@@ -265,7 +265,14 @@
 
                     </script>
                 }
-                @Html.Action("" + TempData["Opcao"])
+                @try
+                {
+                    @Html.Action(TempData["Opcao"].ToString(), TempData["Controlle"].ToString())
+                }
+                catch
+                {
+                    @Html.Action("Dashboard","Principal")
+                }
             </div>
         </div>
     </div>

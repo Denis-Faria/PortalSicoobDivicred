@@ -21,6 +21,8 @@ namespace PortalSicoobDivicred.Models
 
         public string DataNascimentoFuncionario { get; set; }
 
+        public string DescricaoSexo { get; set; }
+
         public string FormacaoAcademica { get; set; }
 
         public string UsuarioSistema { get; set; }

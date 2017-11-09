@@ -91,209 +91,212 @@
 </head>
 <body>
     <div class="container">
-        <div class="box">
-            <div class="steps" id="stepsDemo">
-                <div class="step-item is-active" id="Profissionais">
-                    <div class="step-marker">
-                        <span class="icon">
-                            <i class="fa fa-user"></i>
-                        </span>
-                    </div>
-                    <div class="step-details">
-                        <p class="step-title">Passo 1</p>
-                        <p>Dados Pessoais</p>
+    <div class="box">
+    <div class="steps" id="stepsDemo">
+        <div class="step-item is-active" id="Profissionais">
+            <div class="step-marker">
+                <span class="icon">
+                    <i class="fa fa-user"></i>
+                </span>
+            </div>
+            <div class="step-details">
+                <p class="step-title">Passo 1</p>
+                <p>Dados Pessoais</p>
+            </div>
+        </div>
+        <div class="step-item" id="ConteMais">
+            <div class="step-marker">
+                <span class="icon">
+                    <i class="fa fa-address-card"></i>
+                </span>
+            </div>
+            <div class="step-details">
+                <p class="step-title">Passo 2</p>
+                <p>Dados Profissionais.</p>
+            </div>
+        </div>
+        <div class="step-item" id="Confirmar">
+            <div class="step-marker">
+                <span class="icon">
+                    <i class="fa fa-smile-o"></i>
+                </span>
+            </div>
+            <div class="step-details">
+                <p class="step-title">Passo 3</p>
+                <p>Conte-nos mais sobre você </p>
+            </div>
+        </div>
+        <div class="step-item" id="Ultimo">
+            <div class="step-marker">
+                <span class="icon">
+                    <i class="fa fa-flag"></i>
+                </span>
+            </div>
+            <div class="step-details">
+                <p class="step-title">Passo 4</p>
+                <p>Confirme os dados.</p>
+            </div>
+        </div>
+        <div class="steps-actions">
+            <div class="steps-action">
+                <button data-nav="previous" onclick="javascript: Oculta('Anterior');void (0);" class="button is-primary">Anterior</button>
+            </div>
+            <div class="steps-action">
+                <button data-nav="next" class="button is-primary" onclick="javascript: Oculta('Proximo');void (0);">Proximo</button>
+            </div>
+        </div>
+
+    </div>
+
+    @using (Html.BeginForm("FormularioCadastro", "Principal"))
+    {
+        <div class="content" id="Pessoais">
+            <div class="field is-grouped">
+                <p class="control column is-3">
+                    <label class="label">Nome</label>
+                    @Html.TextBoxFor(m => m.NomeFuncionario, null, new {@class = "input", placeholder = "Ex:José Da Silva"})
+                    @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new {style = "color:red"})
+                </p>
+                <div class="control column is-2">
+                    <label class="label">CPF</label>
+                    @Html.TextBoxFor(m => m.CpfFuncionario, null, new {@class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario"})
+                    @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new {style = "color:red"})
+                </div>
+                <div class="control column is-2">
+                    <label class="label">RG</label>
+                    @Html.TextBoxFor(m => m.RgFuncionario, null, new {@class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario"})
+                    @Html.ValidationMessageFor(m => m.RgFuncionario, null, new {style = "color:red"})
+                </div>
+                <div class="control column is-2">
+                    <label class="label">PIS</label>
+                    @Html.TextBoxFor(m => m.PisFuncionario, null, new {@class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario"})
+                    @Html.ValidationMessageFor(m => m.PisFuncionario, null, new {style = "color:red"})
+                </div>
+                <div class="control column is-2">
+                    <label class="label">Data Nascimento</label>
+                    @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new {@class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario"})
+                    @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new {style = "color:red"})
+
+                </div>
+            </div>
+
+            <hr/>
+
+            <div class="field is-grouped column">
+                <div class="control is-2">
+                    <label class="label">Sexo</label>
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU SEXO", new {id = "Sexo"})
                     </div>
                 </div>
-                <div class="step-item" id="ConteMais">
-                    <div class="step-marker">
-                        <span class="icon">
-                            <i class="fa fa-address-card"></i>
-                        </span>
-                    </div>
-                    <div class="step-details">
-                        <p class="step-title">Passo 2</p>
-                        <p>Dados Profissionais.</p>
+                <div class="control is-2">
+                    <label class="label">Descrição Sexo:</label>
+                    @Html.TextBoxFor(m => m.DescricaoSexo, null, new {@class = "input",  id = "DescricaosexoFuncionario"})
+                    @Html.ValidationMessageFor(m => m.DescricaoSexo, null, new {style = "color:red"})
+                </div>
+                <div class="control ">
+                    <label class="label">Etnia/Raça</label>
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new {id = "Etnia"})
                     </div>
                 </div>
-                <div class="step-item" id="Confirmar">
-                    <div class="step-marker">
-                        <span class="icon">
-                            <i class="fa fa-smile-o"></i>
-                        </span>
-                    </div>
-                    <div class="step-details">
-                        <p class="step-title">Passo 3</p>
-                        <p>Conte-nos mais sobre você </p>
-                    </div>
-                </div>
-                <div class="step-item" id="Ultimo">
-                    <div class="step-marker">
-                        <span class="icon">
-                            <i class="fa fa-flag"></i>
-                        </span>
-                    </div>
-                    <div class="step-details">
-                        <p class="step-title">Passo 4</p>
-                        <p>Confirme os dados.</p>
-                    </div>
-                </div>
-                <div class="steps-actions">
-                    <div class="steps-action">
-                        <button data-nav="previous" onclick="javascript: Oculta('Anterior');void (0);" class="button is-primary">Anterior</button>
-                    </div>
-                    <div class="steps-action">
-                        <button data-nav="next" class="button is-primary" onclick="javascript: Oculta('Proximo');void (0);">Proximo</button>
+                <div class="control ">
+                    <label class="label">Estado Civil</label>
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new {id = "EstadoCivil"})
                     </div>
                 </div>
 
             </div>
 
+            <hr/>
+            <div class="field is-grouped column">
+                <div class="control is-2 ">
+                    <label class="label">Formação</label>
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new {id = "Formacao"})
+                    </div>
+                </div>
+                <div class="control is-2">
+                    <label class="label">Formação Acadêmica</label>
+                    @Html.TextBoxFor(m => m.FormacaoAcademica, null, new {@class = "input", placeholder = "Ex: Administração", id = "FormacaoFuncionario"})
+                    @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new {style = "color:red"})
+                </div>
 
-            <div class="content" id="Pessoais">
-                <div class="field is-grouped">
-                    <p class="control column is-3">
-                        <label class="label">Nome</label>
-                        @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", placeholder = "Ex:José Da Silva" })
-                        @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new { style = "color:red" })
+                <div class="control is-2">
+                    <label class="label">Usuário do Sistema</label>
+                    @Html.TextBoxFor(m => m.UsuarioSistema, null, new {@class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario"})
+                    @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new {style = "color:red"})
+                </div>
+
+
+                <div class="control is-2">
+                    <label class="label">E-mail</label>
+                    @Html.TextBoxFor(m => m.Email, null, new {@class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Email, null, new {style = "color:red"})
+                </div>
+
+                <div class="control is-2">
+                    <label class="label">PA</label>
+                    @Html.TextBoxFor(m => m.PA, null, new {@class = "input", placeholder = "Ex:99", id = "PaFuncionario"})
+                    @Html.ValidationMessageFor(m => m.PA, null, new {style = "color:red"})
+                </div>
+
+            </div>
+            <hr/>
+            <div class="field is-grouped column">
+
+                <div class="control is-2">
+                    <label class="label">Rua</label>
+                    @Html.TextBoxFor(m => m.Rua, null, new {@class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Rua, null, new {style = "color:red"})
+                </div>
+
+                <div class="control is-2">
+                    <label class="label">N°</label>
+                    @Html.TextBoxFor(m => m.Numero, null, new {@class = "input", placeholder = "Ex: 210", id = "NumeroFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Numero, null, new {style = "color:red"})
+                </div>
+
+
+                <div class="control is-2">
+                    <label class="label">Bairro</label>
+                    @Html.TextBoxFor(m => m.Bairro, null, new {@class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Bairro, null, new {style = "color:red"})
+                </div>
+
+                <div class="control is-2">
+                    <label class="label">Cidade</label>
+                    @Html.TextBoxFor(m => m.Cidade, null, new {@class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Cidade, null, new {style = "color:red"})
+                </div>
+            </div>
+
+        </div>
+        <div id="Pro" hidden class="content">
+            <div class="field is-grouped column">
+                <div class="control is-2 ">
+                    <label class="label">Setor</label>
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new {id = "Setor"})
+                    </div>
+                </div>
+                <div class="control is-4">
+                    <label class="label">Função</label>
+                    @Html.TextBoxFor(m => m.Funcao, null, new {@class = "input", placeholder = "Ex: Assistente ", id = "FuncaoFuncionario"})
+                    @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
+                </div>
+            </div>
+            <div class="field">
+                <blockquote>
+                    <p><b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
                     </p>
-                    <div class="control column is-2">
-                        <label class="label">CPF</label>
-                        @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario" })
-                        @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })                        
-                    </div>
-                    <div class="control column is-2">
-                        <label class="label">RG</label>
-                        @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario" })
-                        @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })                        
-                    </div>
-                    <div class="control column is-2">
-                        <label class="label">PIS</label>
-                        @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
-                        @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })                        
-                    </div>
-                    <div class="control column is-2">
-                        <label class="label">Data Nascimento</label>
-                        @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
-                        @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
-                        
-                    </div>
-                </div>
-
-                <hr />
-
-                <div class="field is-grouped column">
-                    <div class="control is-2">
-                        <label class="label">Sexo</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"),"SELECIONE O SEU SEXO", new {  id = "Sexo" })
-                        </div>
-                    </div>
-                    <div class="control is-2">
-                        <label class="label">Descrição Sexo:</label>
-                        <input class="input" type="text" placeholder="Text input">
-                    </div>
-                    <div class="control ">
-                        <label class="label">Etnia/Raça</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"),"SELECIONE A SUA ETNIA/RAÇA", new {  id = "Etnia" })
-                        </div>
-                    </div>
-                    <div class="control ">
-                        <label class="label">Estado Civil</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"),"SELECIONE O SEU ESTADO CIVIL", new {  id = "EstadoCivil" })
-                        </div>
-                        </div>
-
-                </div>
-
-                <hr />
-                <div class="field is-grouped column">
-                    <div class="control is-2 ">
-                        <label class="label">Formação</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new { id = "Formacao" })
-                        </div>
-                    </div>
-                    <div class="control is-2">
-                        <label class="label">Formação Acadêmica</label>
-                       @Html.TextBoxFor(m => m.FormacaoAcademica, null, new { @class = "input", placeholder = "Ex: Administração", id = "FormacaoFuncionario" })
-                    @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new { style = "color:red" })
-                    </div>
-
-                    <div class="control is-2">
-                        <label class="label">Usuário do Sistema</label>
-                       @Html.TextBoxFor(m => m.UsuarioSistema, null, new { @class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario" })
-                       @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new { style = "color:red" })
-                    </div>
-
-
-                    <div class="control is-2">
-                        <label class="label">E-mail</label>
-                        @Html.TextBoxFor(m => m.Email, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
-                        @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
-                    </div>
-
-                    <div class="control is-2">
-                        <label class="label">PA</label>
-                       @Html.TextBoxFor(m => m.PA, null, new { @class = "input", placeholder = "Ex:99", id = "PaFuncionario" })
-                    @Html.ValidationMessageFor(m => m.PA, null, new { style = "color:red" })
-                    </div>
-
-                </div>
-                <hr />
-                <div class="field is-grouped column">
-
-                    <div class="control is-2">
-                        <label class="label">Rua</label>
-                       @Html.TextBoxFor(m => m.Rua, null, new { @class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario" })
-                       @Html.ValidationMessageFor(m => m.Rua, null, new { style = "color:red" })
-                    </div>
-
-                    <div class="control is-2">
-                        <label class="label">N°</label>
-                        @Html.TextBoxFor(m => m.Numero, null, new { @class = "input", placeholder = "Ex: 210", id = "NumeroFuncionario" })
-                        @Html.ValidationMessageFor(m => m.Numero, null, new { style = "color:red" })
-                    </div>
-
-
-                    <div class="control is-2">
-                        <label class="label">Bairro</label>
-                        @Html.TextBoxFor(m => m.Bairro, null, new { @class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario" })
-                        @Html.ValidationMessageFor(m => m.Bairro, null, new { style = "color:red" })
-                    </div>
-
-                    <div class="control is-2">
-                        <label class="label">Cidade</label>
-                        @Html.TextBoxFor(m => m.Cidade, null, new { @class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario" })
-                        @Html.ValidationMessageFor(m => m.Cidade, null, new { style = "color:red" })
-                    </div>
-                </div>
-
-            </div>
-            <div id="Pro" hidden class="content">
-                <div class="field is-grouped column">
-                    <div class="control is-2 ">
-                        <label class="label">Setor</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"),"SELECIONE O SEU SETOR", new {  id = "Setor" })
-                        </div>
-                    </div>
-                    <div class="control is-4">
-                        <label class="label">Função</label>
-                        @Html.TextBoxFor(m => m.Funcao, null, new { @class = "input", placeholder = "Ex: Assistente ", id = "FuncaoFuncionario" })
-                        @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
-                    </div>
-                </div>
-                <div class="field">
-                    <blockquote>
-                        <p><b>Salário Base: R$@TempData["Salario"]</b>  ||  <b>Estagiário: @TempData["Estagiario"]</b>  ||  <b>Contrato Estágio: @TempData["DataEstagio"]</b></p>
                     <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
-                    <br />
+                    <br/>
                     <b>Anuênio: R$@TempData["Anuenio"]</b>
-                    <br />
+                    <br/>
                     <b>Ticket: R$@TempData["Ticket"]</b>
-                    <br />
+                    <br/>
                 </blockquote>
             </div>
         </div>
@@ -301,42 +304,44 @@
             <div class="field">
                 <div class="control">
                     <label class="label">Quantos Filhos você tem ?</label>
-                    @Html.TextBoxFor(m => m.QuatidadeFilho, null, new { @class = "input"})
-                    @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.QuatidadeFilho, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new {style = "color:red"})
                 </div>
                 <div class="control">
                     <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
-                    @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new {style = "color:red"})
                 </div>
                 <div class="control">
-                    <label class="label">Em caso de uma emergência devemos ligar para  quem ?</label>
-                    @Html.TextBoxFor(m => m.ContatoEmergencia, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new { style = "color:red" })
+                    <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
+                    @Html.TextBoxFor(m => m.ContatoEmergencia, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new {style = "color:red"})
                 </div>
                 <div class="control">
                     <label class="label">Quais são seus principais hobbies ?</label>
-                    @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new {style = "color:red"})
                 </div>
                 <div class="control">
                     <label class="label">Qual sua comida favorita?</label>
-                    @Html.TextBoxFor(m => m.ComidaFavorita, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.ComidaFavorita, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new {style = "color:red"})
                 </div>
                 <div class="control">
                     <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
-                    @Html.TextBoxFor(m => m.Viagem, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.Viagem, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.Viagem, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.Viagem, null, new {style = "color:red"})
                 </div>
-                <br />
-                
+                <br/>
+
             </div>
         </div>
-            <div class="buttons has-addons is-right">
-                <button type="submit" style="display: none;" id="Confirma" class="button is-primary ">Confirmar Dados</button>
-            </div>
-    </div>
+        <div class="buttons has-addons is-right">
+            <button type="submit" style="display: none;" id="Confirma" class="button is-primary ">Confirmar Dados</button>
+        </div>
+    }
+        </div >
+  
 </div>
 </body>
 </html>

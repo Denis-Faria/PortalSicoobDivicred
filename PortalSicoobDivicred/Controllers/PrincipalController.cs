@@ -20,7 +20,7 @@ namespace PortalSicoobDivicred.Controllers
     public class PrincipalController : Controller
     {
         // GET: Principal
-        public ActionResult Principal(string Acao, string Mensagem)
+        public ActionResult Principal(string Acao, string Mensagem,string Controlle)
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -31,16 +31,19 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Opcao"] = Acao;
                     TempData["Mensagem"] = Mensagem;
+                    TempData["Controlle"] = Controlle;
                     ModelState.Clear();
                 }
                 else
                 {
                     TempData["Opcao"] = "Dashboard";
+                    TempData["Controle"] = "Principal";
                 }
             }
             catch
             {
                 TempData["Opcao"] = "Dashboard";
+                TempData["Controle"] = "Principal";
             }
             if (Logado)
             {
@@ -359,7 +362,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Opcao"] = "Curriculo";
 
                     return RedirectToAction("Principal",
-                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !"});
+                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Principal" });
                 }
                 return RedirectToAction("Principal", new {Acao = "Curriculo"});
             }
@@ -716,7 +719,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Vaga = IdVaga.Split('-');
                 RecuperaDados.EncerrarVaga(Vaga[0]);
                 return RedirectToAction("Principal",
-                    new {Acao = "Curriculo", Mensagem = "Vaga encerrada com sucesso !"});
+                    new {Acao = "Curriculo", Mensagem = "Vaga encerrada com sucesso !", Controlle = "Principal" });
             }
             else
             {
@@ -910,7 +913,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Opcao"] = "Curriculo";
 
                 return RedirectToAction("Principal",
-                    new {Acao = "Curriculo", Mensagem = "Alerta cadastrado com sucesso !"});
+                    new {Acao = "Curriculo", Mensagem = "Alerta cadastrado com sucesso !", Controlle = "Principal" });
             }
             else
             {
@@ -930,7 +933,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Opcao"] = "Curriculo";
 
                 return RedirectToAction("Principal",
-                    new {Acao = "Curriculo", Mensagem = "Mensagem cadastrada com sucesso !"});
+                    new {Acao = "Curriculo", Mensagem = "Mensagem cadastrada com sucesso !", Controlle = "Principal" });
             }
             else
             {
@@ -1072,7 +1075,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
                 return RedirectToAction("Principal",
-                    new {Acao = "Curriculo", Mensagem = "Processo seletivo encerrado com sucesso !"});
+                    new {Acao = "Curriculo", Mensagem = "Processo seletivo encerrado com sucesso !", Controlle = "Principal" });
             }
             else
             {
@@ -1334,7 +1337,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Opcao"] = "Curriculo";
 
                     return RedirectToAction("Principal",
-                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !"});
+                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Principal" });
                 }
                 return RedirectToAction("Principal", new {Acao = "Curriculo"});
             }
@@ -1358,7 +1361,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Opcao"] = "Curriculo";
 
                 return RedirectToAction("Principal",
-                    new {Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!"});
+                    new {Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!", Controlle = "Principal" });
 
             }
             else
@@ -1393,8 +1396,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
-                var DadosTabelaFuncionario =
-                    VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+                var DadosTabelaFuncionario =VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
 
                 Funcionario DadosFuncionario = new Funcionario();
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
@@ -1404,7 +1406,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.DataNascimentoFuncionario = Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
                 DadosFuncionario.UsuarioSistema = DadosTabelaUsuario[0]["login"];
-                DadosFuncionario.Email = DadosTabelaUsuario[0]["email"];
+                DadosFuncionario.Email = DadosTabelaFuncionario[0]["email"];
                 DadosFuncionario.PA = DadosTabelaFuncionario[0]["idpa"];
                 DadosFuncionario.Rua = DadosTabelaFuncionario[0]["rua"];
                 DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
@@ -1414,7 +1416,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
                 DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
                 DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];
-                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario[0]["principaishobbies"];
+                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario[0]["principalhobbie"];
                 DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
 
@@ -1445,17 +1447,51 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Estagiario"] = "NÃO";
                     TempData["DataEstagio"] = "-";
                 }
-                
-
-
-
-
-
-
-
-
 
                 return View(DadosFuncionario);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        [HttpPost]
+        public ActionResult FormularioCadastro(Funcionario DadosFuncionario)
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                if (ModelState.IsValid)
+                {
+                    var DescricaoSexo = "";
+                    var DataNascimentoFilho = "";
+                    if (DadosFuncionario.DescricaoSexo==null)
+                    {
+                        DescricaoSexo = "NÃO INFORMOU";
+                    }
+                    else
+                    {
+                        DescricaoSexo = DadosFuncionario.DescricaoSexo;
+                    }
+                    if (DadosFuncionario.DataNascimentoFilho==null)
+                    {
+                        DataNascimentoFilho = "NÂO TEM";
+                    }
+                    else
+                    {
+                        DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
+                    }
+                    VerificaDados.AtualizaDadosFuncionarioFormulario(DadosFuncionario.NomeFuncionario,
+                        DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
+                        DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,
+                        DadosFuncionario.IdSexo.ToString(), DescricaoSexo, DadosFuncionario.IdEtnia.ToString(),
+                        DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(), DadosFuncionario.FormacaoAcademica,
+                        DadosFuncionario.UsuarioSistema, DadosFuncionario.Email, DadosFuncionario.PA,
+                        DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
+                        DadosFuncionario.IdSetor.ToString(), DadosFuncionario.Funcao, DadosFuncionario.QuatidadeFilho,
+                        DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
+                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
+                    return RedirectToAction("Principal", "Principal");
+                }
             }
             return RedirectToAction("Login", "Login");
         }

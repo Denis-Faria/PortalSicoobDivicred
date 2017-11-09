@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Mvc;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
 
@@ -236,6 +237,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             }
         }
+
         public List<Dictionary<string, string>> RecuperaProcesso(string IdCandidato)
         {
             var QuerrySelecionaCurriculo =
@@ -551,5 +553,114 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(Query);
             return DadosCurriculos;
         }
+
+
+        public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaUsuario(string Usuario)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT * FROM usuarios WHERE login='"+Usuario+"'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
+        public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionarios(string NomeFuncionario)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT * FROM funcionarios WHERE nome like'%" + NomeFuncionario + "%'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
+
+        public List<SelectListItem> RetornaEstadoCivil()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaEstadoCivil = "SELECT id,descricao FROM tiposestadoscivis";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaEstadoCivil);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+
+        public List<SelectListItem> RetornaSexo()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaSexo = "SELECT id,descricao FROM tipossexos";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSexo);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+
+        public List<SelectListItem> RetornaEtnia()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaEtnia = "SELECT id,descricao FROM tiposetnias";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaEtnia);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+
+        public List<SelectListItem> RetornaFormacao()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaFormacao = "SELECT id,descricao FROM tiposformacoes";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaFormacao);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+
+        public List<SelectListItem> RetornaSetor()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaSetor= "SELECT id,descricao FROM setores";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSetor);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+
+
+
+
     }
 }

@@ -17,6 +17,8 @@
 
         $(document).ready(function () {
             $('#CpfFuncionario').mask('000.000.000-00');
+            $('#DataNascimentoFuncionario').mask('00/00/0000');
+            $('#PisFuncionario').mask('000.00000.00-0');
         });
 
 
@@ -183,11 +185,7 @@
                     <div class="control is-2">
                         <label class="label">Sexo</label>
                         <div class="select">
-                            <select>
-                                <option>Masculino</option>
-                                <option>Feminino</option>
-                                <option>Outro</option>
-                            </select>
+                            @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"),"SELECIONE O SEU SEXO", new {  id = "Sexo" })
                         </div>
                     </div>
                     <div class="control is-2">
@@ -197,28 +195,15 @@
                     <div class="control ">
                         <label class="label">Etnia/Raça</label>
                         <div class="select">
-                            <select>
-                                <option>Branco(a)</option>
-                                <option>Pardo(a)</option>
-                                <option>Negro(a)</option>
-                                <option>Amarelo(a)</option>
-                                <option>Indígena</option>
-                                <option>Não Quero Declarar</option>
-                                <option>Não Sei</option>
-                            </select>
+                            @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"),"SELECIONE A SUA ETNIA/RAÇA", new {  id = "Etnia" })
                         </div>
                     </div>
                     <div class="control ">
                         <label class="label">Estado Civil</label>
                         <div class="select">
-                            <select>
-                                <option>Solteiro(a)</option>
-                                <option>Casado(a)</option>
-                                <option>Divorciado(a)</option>
-                                <option>Viúvo(a)</option>
-                            </select>
+                            @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"),"SELECIONE O SEU ESTADO CIVIL", new {  id = "EstadoCivil" })
                         </div>
-                    </div>
+                        </div>
 
                 </div>
 
@@ -227,16 +212,7 @@
                     <div class="control is-2 ">
                         <label class="label">Formação</label>
                         <div class="select">
-                            <select>
-                                <option>Ensino Médio Incompleto</option>
-                                <option>Ensino Médio Completo</option>
-                                <option>Superior Incompleto</option>
-                                <option>Superior Completo</option>
-                                <option>Pós-Graduação Incompleta</option>
-                                <option>Pós-Graduação Completa</option>
-                                <option>Mestrado/Doutorado Incompleto</option>
-                                <option>Mestrado/Doutorado Completo</option>
-                            </select>
+                            @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new { id = "Formacao" })
                         </div>
                     </div>
                     <div class="control is-2">
@@ -254,7 +230,8 @@
 
                     <div class="control is-2">
                         <label class="label">E-mail</label>
-                        <input class="input " type="text" placeholder="Ex: teste@divicred.com.br">
+                        @Html.TextBoxFor(m => m.Email, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
+                        @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
                     </div>
 
                     <div class="control is-2">
@@ -299,7 +276,7 @@
                     <div class="control is-2 ">
                         <label class="label">Setor</label>
                         <div class="select">
-                            <select></select>
+                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"),"SELECIONE O SEU SETOR", new {  id = "Setor" })
                         </div>
                     </div>
                     <div class="control is-4">
@@ -310,12 +287,12 @@
                 </div>
                 <div class="field">
                     <blockquote>
-                        <p><b>Salário Base:@TempData["Salario"]</b>  ||  <b>Estagiário:@TempData["Estagiario"]</b>  ||  <b>Contrato Estágio:@TempData["DataEstagio"]</b></p>
-                    <b>Quebra de Caixa:@TempData["QuebraCaixa"]</b>
+                        <p><b>Salário Base: R$@TempData["Salario"]</b>  ||  <b>Estagiário: @TempData["Estagiario"]</b>  ||  <b>Contrato Estágio: @TempData["DataEstagio"]</b></p>
+                    <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
                     <br />
-                    <b>Anuênio:@TempData["Anuenio"]</b>
+                    <b>Anuênio: R$@TempData["Anuenio"]</b>
                     <br />
-                    <b>Ticket:@TempData["Ticket"]</b>
+                    <b>Ticket: R$@TempData["Ticket"]</b>
                     <br />
                 </blockquote>
             </div>

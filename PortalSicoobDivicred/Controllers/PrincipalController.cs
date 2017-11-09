@@ -52,7 +52,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                if (VerificaDados.PrimeiroLogin(Login))
                 {
-                    return View("FormularioCadastro");
+                    return RedirectToAction("FormularioCadastro", "Principal");
 
                 }
                 else
@@ -1382,5 +1382,82 @@ namespace PortalSicoobDivicred.Controllers
 
 
     }
+
+        public ActionResult FormularioCadastro()
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
+                var DadosTabelaFuncionario =
+                    VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+
+                Funcionario DadosFuncionario = new Funcionario();
+                DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
+                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
+                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
+                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario[0]["pis"];
+                DadosFuncionario.DataNascimentoFuncionario = Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
+                DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
+                DadosFuncionario.UsuarioSistema = DadosTabelaUsuario[0]["login"];
+                DadosFuncionario.Email = DadosTabelaUsuario[0]["email"];
+                DadosFuncionario.PA = DadosTabelaFuncionario[0]["idpa"];
+                DadosFuncionario.Rua = DadosTabelaFuncionario[0]["rua"];
+                DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
+                DadosFuncionario.Bairro = DadosTabelaFuncionario[0]["bairro"];
+                DadosFuncionario.Cidade = DadosTabelaFuncionario[0]["cidade"];
+                DadosFuncionario.Funcao = DadosTabelaFuncionario[0]["funcao"];
+                DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
+                DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
+                DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];
+                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario[0]["principaishobbies"];
+                DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
+                DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
+
+                var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                var Sexo = VerificaDados.RetornaSexo();
+                var Etnia = VerificaDados.RetornaEtnia();
+                var Formacao = VerificaDados.RetornaFormacao();
+                var Setor = VerificaDados.RetornaSetor();
+
+                DadosFuncionario.EstadoCivil = EstadoCivil;
+                DadosFuncionario.Sexo = Sexo;
+                DadosFuncionario.Etnia = Etnia;
+                DadosFuncionario.Formacao = Formacao;
+                DadosFuncionario.Setor = Setor;
+
+                TempData["Salario"]= DadosTabelaFuncionario[0]["salariobase"];
+                TempData["QuebraCaixa"]= DadosTabelaFuncionario[0]["quebradecaixa"];
+                TempData["Anuenio"]= DadosTabelaFuncionario[0]["anuenio"];
+                TempData["Ticket"]= DadosTabelaFuncionario[0]["ticket"];
+
+                if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
+                {
+                    TempData["Estagiario"] = "SIM";
+                    TempData["DataEstagio"] = DadosTabelaFuncionario[0]["contratoestagio"];
+                }
+                else
+                {
+                    TempData["Estagiario"] = "NÃO";
+                    TempData["DataEstagio"] = "-";
+                }
+                
+
+
+
+
+
+
+
+
+
+                return View(DadosFuncionario);
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

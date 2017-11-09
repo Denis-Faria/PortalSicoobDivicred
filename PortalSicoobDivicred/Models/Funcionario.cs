@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PortalSicoobDivicred.Models
 {
@@ -48,6 +51,40 @@ namespace PortalSicoobDivicred.Models
 
         public string Viagem { get; set; }
 
-        
+        [DisplayName("Estado Civil")]
+        public List<SelectListItem> EstadoCivil { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o estado civil!")]
+        [DisplayName("IdEstadoCivil")]
+        public int IdEstadoCivil { get; set; }
+
+
+        [DisplayName("Sexo")]
+        public List<SelectListItem> Sexo { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o seu sexo!")]
+        [DisplayName("IdSexo")]
+        public int IdSexo { get; set; }
+
+        [DisplayName("Formação")]
+        public List<SelectListItem> Formacao { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a sua Formação!")]
+        [DisplayName("IdFormacao")]
+        public int IdFormacao { get; set; }
+
+        [DisplayName("Etnia/Raça")]
+        public List<SelectListItem> Etnia { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a sua etnia!")]
+        [DisplayName("IdEtnia")]
+        public int IdEtnia { get; set; }
+
+        [DisplayName("Setor")]
+        public List<SelectListItem> Setor { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o seu Setor!")]
+        [DisplayName("IdSetor")]
+        public int IdSetor { get; set; }
     }
 }

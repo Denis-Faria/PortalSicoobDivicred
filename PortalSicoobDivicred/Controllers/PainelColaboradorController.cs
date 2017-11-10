@@ -190,5 +190,30 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+        [HttpPost]
+        public ActionResult AtualizarFormularioPessoal(Funcionario DadosFuncionario)
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+                var DataNascimentoFilho = "";
+                if (DadosFuncionario.DataNascimentoFilho == null)
+                {
+                    DataNascimentoFilho = "NÂO TEM";
+                }
+                else
+                {
+                    DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
+                }
+                VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho,DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
+                    DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
+
+                return RedirectToAction("Principal", "Principal", new { Acao = "Perfil", Mensagem = "Formulário Pessoal atualizado com sucesso !", Controlle = "PainelColaborador" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

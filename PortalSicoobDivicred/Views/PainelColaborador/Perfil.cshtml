@@ -43,6 +43,17 @@
             $("#ArquivoPessoal").show();
         }
     }
+    function EscondeFormularioPessoal() {
+        if ($("#FormularioPessoal").is(":visible")) {
+            $("#FormularioPessoal").addClass("animated fadeOut");
+
+            $("#FormularioPessoal").hide();
+        } else {
+            $("#FormularioPessoal").removeClass("animated fadeOut");
+            $("#FormularioPessoal").addClass("animated fadeIn");
+            $("#FormularioPessoal").show();
+        }
+    }
 
     $("#file-input").change(function() {
         document.body.style.cursor = "wait";
@@ -87,9 +98,9 @@
                     <p>
                         <strong>@TempData["NomeFuncionario"]</strong>
                         <br/>
-                        @TempData["Funcao"]
+                        <strong>Função: </strong>@TempData["Funcao"]
                         <br/>
-                        @TempData["DataAdmissao"]
+                        <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
                         <br>
                     </p>
                 </div>
@@ -190,7 +201,66 @@
         </div>
 
         <br/>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Formulário Pessoal
+                </p>
+                <a href="javascript:EscondeFormularioPessoal();void(0);" class="card-header-icon" aria-label="more options">
+                    <span class="icon">
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </header>
+            @using (Html.BeginForm("AtualizarFormularioPessoal", "PainelColaborador", FormMethod.Post, new { id = "FormPerguntas" }))
+            {
+                <div id="FormularioPessoal">
+                    <div class="card-content">
+                        <div class="field">
+                            <div class="control">
+                                <label class="label">Quantos Filhos você tem ?</label>
+                                @Html.TextBoxFor(m => m.QuatidadeFilho, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new { style = "color:red" })
+                            </div>
+                            <div class="control">
+                                <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
+                                @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new { style = "color:red" })
+                            </div>
+                            <div class="control">
+                                <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
+                                @Html.TextBoxFor(m => m.ContatoEmergencia, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new { style = "color:red" })
+                            </div>
+                            <div class="control">
+                                <label class="label">Quais são seus principais hobbies ?</label>
+                                @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new { style = "color:red" })
+                            </div>
+                            <div class="control">
+                                <label class="label">Qual sua comida favorita?</label>
+                                @Html.TextBoxFor(m => m.ComidaFavorita, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new { style = "color:red" })
+                            </div>
+                            <div class="control">
+                                <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
+                                @Html.TextBoxFor(m => m.Viagem, null, new { @class = "input" })
+                                @Html.ValidationMessageFor(m => m.Viagem, null, new { style = "color:red" })
+                            </div>
+                            <br />
 
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a onclick="FormPerguntas.submit();" class="card-footer-item">Salvar</a>
+                    </footer>
+                </div>
+            }
+        </div>
+
+        
+        
+        <br/>
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
@@ -204,26 +274,159 @@
             </header>
             <div id="ArquivoPessoal">
                 <div class="card-content">
-                    <div class="file has-name is-fullwidth is-primary">
+                    <div class="file has-name is-fullwidth ">
                         <label class="file-label">
                             <input class="file-input " type="file" name="resume">
                             <span class="file-cta">
                                 <span class="file-icon">
-                                    <i class="fa fa-check"></i>
+                                    <i class="fa fa-upload"></i>
                                 </span>
                                 <span class="file-label">
-                                    Identidade
+                                    Foto 3/4
                                 </span>
                             </span>
                             <span class="file-name">
-                                Screen Shot 2017-07-29 at 15.54.25.png
+                                
                             </span>
                         </label>
                     </div>
-                    <br/>
-                    <div class="file has-name is-fullwidth">
+                    <br />
+                <div class="file has-name is-fullwidth">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                               CTPS
+                            </span>
+                        </span>
+                        <span class="file-name">
+                           
+                        </span>
+                    </label>
+                </div>
+
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input" type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                PIS
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                CPF
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                RG
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Título de Eleitor
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                               Cartão SUS
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-check"></i>
+                            </span>
+                            <span class="file-label">
+                                CNH
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth">
                         <label class="file-label">
-                            <input class="file-input" type="file" name="resume">
+                            <input class="file-input " type="file" name="resume">
                             <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fa fa-upload"></i>
@@ -233,30 +436,93 @@
                                 </span>
                             </span>
                             <span class="file-name">
-                                Screen Shot 2017-07-29 at 15.54.25.png
+                                
                             </span>
                         </label>
                     </div>
-                    <br/>
-                    <div class="file has-name is-fullwidth is-danger">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="resume">
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fa fa-exclamation-circle"></i>
-                                </span>
-                                <span class="file-label">
-                                    Certidão Casamento
-                                </span>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
                             </span>
-                            <span class="file-name">
-                                Screen Shot 2017-07-29 at 15.54.25.png
+                            <span class="file-label">
+                                Tipo Sanguíneo
                             </span>
-                        </label>
-                    </div>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+
+                <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                               Certidão Nascimento/Casamento
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+                    
+                    <div class="file has-name is-fullwidth ">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Certidão(Filhos)
+                            </span>
+                        </span>
+                        <span class="file-name">
+                           
+                        </span>
+                    </label>
+                </div>
+                    
+                <br />
+                    
+
+                <div class="file has-name is-fullwidth">
+                    <label class="file-label">
+                        <input class="file-input " type="file" name="resume">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                  Certificado de Reservista
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            
+                        </span>
+                    </label>
+                </div>
+
                 </div>
             </div>
         </div>
+
+
     </div>
 
         

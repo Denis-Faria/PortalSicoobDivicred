@@ -74,8 +74,14 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                     TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
-
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    if (DadosUsuarioBanco[0]["foto"] == null)
+                    {
+                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    }
+                    else
+                    {
+                        TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+                    }
                     return View();
                 }
             }

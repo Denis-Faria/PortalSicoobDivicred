@@ -89,6 +89,7 @@
         }
 
         $(document).ready(function () {
+
             window.history.pushState("state", "title", "/Principal/Principal");
             var windowHeight = $(document).height();
             $('#Lateral').css('position', "absolute");
@@ -107,20 +108,19 @@
 
         var mouse_position;
         var animating = false;
-        //GET MOUSE POSITION
+        
         $(document).mousemove(function (e) {
-            //$("body").on("mousemove", function(mouse_pointer) {
-            //console.log(mouse_pointer.pageX - $(window).scrollLeft());
-            //mouse_position = mouse_pointer.pageX - $(window).scrollLeft();
+           
             if (animating) {
                 return;
             }
             mouse_position = e.clientX;
+            var windowHeight = document.height;
             if (mouse_position <= 100) {
-                var windowHeight = $(document).height();
-                $('#Lateral').css('height', $(window).height());
+                
+                $('#Lateral').css('height',$(window).height);
                 $('#Lateral').css('position', "relative");
-                $('#CorpoPrincipal').css('height', windowHeight);
+
                 $('#CorpoPrincipal').css('background', '#e6e6e6');
                 animating = true;
                 $('#Lateral').animate({
@@ -132,9 +132,8 @@
                         animating = false;
                     });
             } else if (mouse_position > 100) {
-                var windowHeight = $(document).height();
+               
                 $('#Lateral').css('position', "absolute");
-                $('#CorpoPrincipal').css('height', windowHeight);
                 $('#CorpoPrincipal').css('background', '#e6e6e6');
                 animating = true;
                 $('#Lateral').animate({
@@ -154,63 +153,62 @@
     <style>
         html {
             height: 100vh;
+            
         }
 
         body {
             background: #e6e6e6;
+            
+        }
+        #main {
+            overflow: hidden;
         }
 
-        #Lateral {
-            height: 100vh;
-            width: 280px;
-            position: relative;
-            left: -100px;
-            top: 2;
-        }
 
     </style>
-    <nav class="nav" style="background: rgb(42, 63, 84)">
-        <div class="nav-left">
-            <a class="nav-item">
-                <img src="/Images/LogoBranca.png" alt="Bulma logo">
-            </a>
-        </div>
+<nav class="nav" style="background: rgb(42, 63, 84)">
+    <div class="nav-left">
+        <a class="nav-item">
+            <img src="/Images/LogoBranca.png" alt="Bulma logo">
+        </a>
+    </div>
 
-        <div class="nav-center">
+    <div class="nav-center">
 
-            <a class="nav-item">
-                <div class="dropdown is-hoverable">
-                    <div class="dropdown-trigger">
-                        <button class="button is-link" aria-haspopup="true" aria-controls="dropdown-menu4" style="background: rgb(42, 63, 84);">
-                            <img src="/Images/user.png" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip"/> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
-                            <span class="icon is-small">
-                                <i class="fa fa-angle-down" aria-hidden="true" style="color: white"></i>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                        <div class="dropdown-content">
-                            <a href="javascript:PerfilColaborador()"class="dropdown-item">
-                                <span class="icon is-small"><i class="fa fa-user"></i> </span>Editar Perfil
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a class="dropdown-item" href="@Url.Action("Logoff", "Login")">
-                                <span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair
-                            </a>
+        <a class="nav-item">
+            <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                    <button class="button is-link" aria-haspopup="true" aria-controls="dropdown-menu4" style="background: rgb(42, 63, 84);">
+                        <img src="/Uploads/@TempData["ImagemPerfil"]" style="border-radius: 50%;" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip"/> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
+                        <span class="icon is-small">
+                            <i class="fa fa-angle-down" aria-hidden="true" style="color: white"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                    <div class="dropdown-content">
+                        <a href="javascript:PerfilColaborador()"class="dropdown-item">
+                            <span class="icon is-small"><i class="fa fa-user"></i> </span>Editar Perfil
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a class="dropdown-item" href="@Url.Action("Logoff", "Login")">
+                            <span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair
+                        </a>
 
-                        </div>
                     </div>
                 </div>
+            </div>
 
-            </a>
-        </div>
-        <span class="nav-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </span>
+        </a>
+    </div>
+    <span class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </span>
 
-    </nav>
+</nav>
+<div id-="main">
     <div class="columns">
         <aside id="Lateral" class=" column is-2 aside hero is-fullheight is-hidden-mobile " style="background: rgb(42, 63, 84)">
             <ul class="menu-list is-centered" style="padding: 10px; text-align: justify;">
@@ -265,11 +263,18 @@
 
                     </script>
                 }
-                @Html.Action("" + TempData["Opcao"])
+                @try
+                {
+                    @Html.Action(TempData["Opcao"].ToString(), TempData["Controlle"].ToString())
+                }
+                catch
+                {
+                    @Html.Action("Dashboard","Principal")
+                }
             </div>
         </div>
     </div>
 
-    </>
+    </div>
 </body>
 </html>

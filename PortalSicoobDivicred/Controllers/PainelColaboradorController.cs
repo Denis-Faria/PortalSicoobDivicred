@@ -22,7 +22,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
 
-                var DadosTabelaFuncionario =VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
 
                 Funcionario DadosFuncionario = new Funcionario();
 
@@ -54,7 +54,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 else
                 {
-                    TempData["Foto"] = "/Uploads/"+DadosTabelaFuncionario[0]["foto"];
+                    TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
                 }
                 TempData["IdEstadoCivil"] = DadosTabelaFuncionario[0]["idestadocivil"];
                 TempData["IdSexo"] = DadosTabelaFuncionario[0]["sexo"];
@@ -96,7 +96,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
 
-                return PartialView("Perfil",DadosFuncionario);
+                return PartialView("Perfil", DadosFuncionario);
             }
             return RedirectToAction("Login", "Login");
         }
@@ -111,9 +111,9 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
-                VerificaDados.AtualizaDadosFuncionarioProfissional(DadosFuncionario.IdSetor.ToString(), DadosFuncionario.Funcao,Login);
+                VerificaDados.AtualizaDadosFuncionarioProfissional(DadosFuncionario.IdSetor.ToString(), DadosFuncionario.Funcao, Login);
 
-                return RedirectToAction("Principal","Principal",new { Acao = "Perfil", Mensagem = "Dados Profissionais atualizados com sucesso !", Controlle="PainelColaborador" });
+                return RedirectToAction("Principal", "Principal", new { Acao = "Perfil", Mensagem = "Dados Profissionais atualizados com sucesso !", Controlle = "PainelColaborador" });
 
             }
             return RedirectToAction("Login", "Login");
@@ -158,8 +158,8 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var Arquivo = Request.Files[0];
-            var NomeArquivo = Path.GetFileName(Arquivo.FileName);
-            var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
+                var NomeArquivo = Path.GetFileName(Arquivo.FileName);
+                var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
                 if (System.IO.File.Exists(Caminho))
                 {
                     int counter = 1;
@@ -190,6 +190,34 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult UploadArquivo(string Nome)
+        {
+            var InserirFoto = new QuerryMysql();
+            var Logado = InserirFoto.UsuarioLogado();
+            if (Logado)
+            {
+                var Arquivo = Request.Files[0];
+                var NomeArquivo = Path.GetFileName(Arquivo.FileName);
+                var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
+                byte[] fileData = null;
+                using (var binaryReader = new BinaryReader(Arquivo.InputStream))
+                {
+                    fileData = binaryReader.ReadBytes(Arquivo.ContentLength);
+                }
+                
+                var cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(cookie.Value);
+                InserirFoto.AtualizarArquivoPessoal(NomeArquivo,fileData, Login);
+                return Content("Imagem alterada com sucesso!");
+
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
+
         [HttpPost]
         public ActionResult AtualizarFormularioPessoal(Funcionario DadosFuncionario)
         {
@@ -208,7 +236,7 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
                 }
-                VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho,DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
+                VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho, DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
                     DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
 
                 return RedirectToAction("Principal", "Principal", new { Acao = "Perfil", Mensagem = "Formulário Pessoal atualizado com sucesso !", Controlle = "PainelColaborador" });

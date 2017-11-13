@@ -81,6 +81,36 @@
         });
     });
 
+    function UloadArquivoPessoal(NomeArquivo)
+    {
+        document.body.style.cursor = "wait";
+        var formData = new FormData();
+        var totalFiles = document.getElementById(NomeArquivo).files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById(NomeArquivo).files[i];
+
+            formData.append(NomeArquivo, file,NomeArquivo);
+        }
+        alert(NomeArquivo);
+        
+        $.ajax({
+            type: "POST",
+            url: '/PainelColaborador/UploadArquivo',
+            data:  formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Imagem alterada com sucesso.");
+                document.location.href = "/Principal/Principal";
+            }
+        });
+    }
+
+
 </script>
 
 
@@ -276,7 +306,7 @@
                 <div class="card-content">
                     <div class="file has-name is-fullwidth ">
                         <label class="file-label">
-                            <input class="file-input " type="file" name="resume">
+                            <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
                             <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fa fa-upload"></i>
@@ -293,7 +323,7 @@
                     <br />
                 <div class="file has-name is-fullwidth">
                     <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" id="CTPS"  onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -312,7 +342,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input" type="file" name="resume">
+                        <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -331,7 +361,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -350,7 +380,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -369,7 +399,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor"type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -388,7 +418,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -407,7 +437,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')"type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-check"></i>
@@ -426,7 +456,7 @@
 
                 <div class="file has-name is-fullwidth">
                         <label class="file-label">
-                            <input class="file-input " type="file" name="resume">
+                            <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
                             <span class="file-cta">
                                 <span class="file-icon">
                                     <i class="fa fa-upload"></i>
@@ -445,7 +475,7 @@
 
                 <div class="file has-name is-fullwidth">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="TipoRecrutamento Sanguineo"  onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -464,7 +494,7 @@
 
                 <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -483,7 +513,7 @@
                     
                     <div class="file has-name is-fullwidth ">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -503,7 +533,7 @@
 
                 <div class="file has-name is-fullwidth">
                     <label class="file-label">
-                        <input class="file-input " type="file" name="resume">
+                        <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fa fa-upload"></i>

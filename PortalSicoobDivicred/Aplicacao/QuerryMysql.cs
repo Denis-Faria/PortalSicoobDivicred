@@ -314,7 +314,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 Beneficio + "',now())";
             contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             var QuerrySelecionaEmailVagas =
-                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato ANDMATCH(b.descricao) AGAINST('" + AreaInteresse + "')";
+                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND MATCH(b.descricao) AGAINST('" + AreaInteresse + "')";
             var Email = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaEmailVagas);
             return Email;
         }
@@ -731,6 +731,37 @@ namespace PortalSicoobDivicred.Aplicacao
                                                ComidaFavorita + "',viagem='" + Viagem +
                                                "', perfilcompleto='S' WHERE login='" + UsuarioSistema + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+        }
+
+        public void AtualizarArquivoPessoal(string NomeArquivo,byte[] Foto ,string Login)
+        {
+
+            string QueryIdFuncionario = "SELECT id FROM funcionarios WHERE login='" + Login + "'";
+            var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
+
+            string QueryArquivoUsuario = "SELECT count(id) as count FROM documentospessoaisfuncionarios WHERE idfuncionario='" + row[0]["id"] + "' and nomearquivo='"+NomeArquivo+"'";
+            var row2 = contexto.ExecutaComandoComRetorno(QueryArquivoUsuario);
+
+            if (Convert.ToInt32(row2[0]["count"]) == 0)
+            {
+                string QuerryAtualizaFuncionario =
+                    "INSERT INTO documentospessoaisfuncionarios (idfuncionario,nomearquivo,arquivo,dataupload) VALUES(" +
+                    row[0]["id"] + ",'" + NomeArquivo + "',@image ,NOW()) ";
+                contexto.ExecutaComandoArquivo(QuerryAtualizaFuncionario, Foto);
+            }
+            else
+            {
+                string QuerryAtualizaFuncionario =
+                    "UPDATE documentospessoaisfuncionarios SET arquivo=@image and dataupload=NOW() WHERE idfuncionario=" + row[0]["id"] + " AND nomearquivo='" + NomeArquivo + "'";
+                contexto.ExecutaComandoArquivo(QuerryAtualizaFuncionario, Foto);
+            }
+        }
+
+        public List<Dictionary<string, string>> RecuperaTodosArquivos(string Login)
+        {
+            string QueryIdFuncionario = "SELECT nomearquivo, dataupload FROM documentospessoaisfuncionarios WHERE login='" + Login + "'";
+            var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
+            return row;
         }
 
 

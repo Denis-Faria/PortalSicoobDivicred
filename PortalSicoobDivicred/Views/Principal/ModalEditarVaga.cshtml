@@ -1,4 +1,5 @@
-﻿@model PortalSicoobDivicred.Models.Vagas
+﻿@using System.Web.Mvc.Html
+@model PortalSicoobDivicred.Models.Vagas
 
 <div class="field">
     <label class="label">Titulo da Vaga:</label>
@@ -10,16 +11,16 @@
 
 <div class="field">
     <label class="label">Descrição da vaga:</label>
-    <p class="control">
-        @Html.TextBoxFor(m => m.Descricao, null, new { @class = "input", placeholder = "Descrição das atividades" })
+    <div class="control">
+        @Html.TextAreaFor(m => m.Descricao, new { @class = "input", placeholder = "Descrição das atividades", rows="30"})
         @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
-    </p>
+    </div>
 </div>
 
 <div class="field">
-    <label class="label">Requisitos:</label>
+    <label class="label">Requisitos</label>
     <p class="control">
-        @Html.TextBoxFor(m => m.Requisitos, null, new { @class = "input", placeholder = "Ex: Certificação" })
+        @Html.TextAreaFor(m => m.Requisitos, new { @class = "input", placeholder = "Ex: Certificação",  rows ="30" })
         @Html.ValidationMessageFor(m => m.Requisitos, null, new { style = "color:red" })
     </p>
 </div>

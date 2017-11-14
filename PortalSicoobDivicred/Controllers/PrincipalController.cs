@@ -1514,7 +1514,7 @@ namespace PortalSicoobDivicred.Controllers
                 Vaga.Descricao = DadosVaga[0]["descricao"];
                 Vaga.Beneficio = DadosVaga[0]["beneficio"];
                 Vaga.Salario = DadosVaga[0]["salario"];
-                Vaga.Requisitos = DadosVaga[0]["requisitos"];
+                Vaga.Requisitos = DadosVaga[0]["requisito"];
 
 
                 return PartialView("ModalEditarVaga",Vaga);

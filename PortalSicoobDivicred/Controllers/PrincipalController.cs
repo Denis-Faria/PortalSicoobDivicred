@@ -1501,5 +1501,27 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult AlterarVaga(string IdVaga)
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var DadosVaga = VerificaDados.RecuperaDadosVaga(IdVaga);
+                Vagas Vaga = new Vagas();
+                Vaga.Titulo = DadosVaga[0]["titulo"];
+                Vaga.Descricao = DadosVaga[0]["descricao"];
+                Vaga.Beneficio = DadosVaga[0]["beneficio"];
+                Vaga.Salario = DadosVaga[0]["salario"];
+                Vaga.Requisitos = DadosVaga[0]["requisitos"];
+
+
+                return PartialView("ModalEditarVaga",Vaga);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+       
     }
 }

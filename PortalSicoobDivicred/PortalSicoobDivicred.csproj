@@ -481,6 +481,7 @@
     <Content Include="Views\FormulariosMig\RecrutamentoSelecao.cshtml" />
     <Content Include="Views\FormulariosMig\ParecerProcesso.cshtml" />
     <Content Include="Views\Principal\FormularioCadastro.cshtml" />
+    <Content Include="Views\Principal\ModalEditarVaga.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

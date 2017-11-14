@@ -239,6 +239,12 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
+        public List<Dictionary<string, string>> RecuperaDadosVaga(string IdVaga)
+        {
+            var QuerrySelecionaCurriculo = "SELECT * from vagas where id="+IdVaga+";";
+            var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            return DadosCurriculos;
+        }
         public List<Dictionary<string, string>> RecuperaProcesso(string IdCandidato)
         {
             var QuerrySelecionaCurriculo =

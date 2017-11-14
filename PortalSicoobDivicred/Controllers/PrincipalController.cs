@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 using ElasticEmailClient;
+using Microsoft.SqlServer.Server;
 using OneApi.Client.Impl;
 using OneApi.Config;
 using OneApi.Model;
@@ -53,13 +54,13 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-               if (VerificaDados.PrimeiroLogin(Login))
+               /*if (VerificaDados.PrimeiroLogin(Login))
                 {
                     return RedirectToAction("FormularioCadastro", "Principal");
 
                 }
                 else
-                {
+                {*/
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
                     if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
@@ -83,7 +84,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
                     }
                     return View();
-                }
+                //}
             }
 
             return RedirectToAction("Login", "Login");
@@ -1515,9 +1516,113 @@ namespace PortalSicoobDivicred.Controllers
                 Vaga.Beneficio = DadosVaga[0]["beneficio"];
                 Vaga.Salario = DadosVaga[0]["salario"];
                 Vaga.Requisitos = DadosVaga[0]["requisito"];
+                @TempData["IdVaga"] = IdVaga;
+
+                if (DadosVaga[0]["ativa"].Equals("S"))
+                {
+                    @TempData["Ativa"] = "checked";
+                    @TempData["Status"] = "Ativa";
+                }
+                else
+                {
+                    @TempData["Ativa"] = "";
+                    @TempData["Status"] = "Desativada";
+                }
+
+                var Areas = DadosVaga[0]["areadeinteresse"].Split(';');
+
+                for (var j = 0; j < Areas.Length; j++)
+                    switch (Areas[j])
+                    {
+                        case "Administrativo":
+                            TempData["Area1"] = "checked";
+                            break;
+                        case "Contabilidade":
+                            TempData["Area2"] = "checked";
+                            break;
+                        case "Recursos Humanos":
+                            TempData["Area3"] = "checked";
+                            break;
+                        case "Gerência":
+                            TempData["Area4"] = "checked";
+                            break;
+                        case "Atendimento":
+                            TempData["Area5"] = "checked";
+                            break;
+                        case "Departamento Pessoal":
+                            TempData["Area6"] = "checked";
+                            break;
+                        case "Caixas":
+                            TempData["Area7"] = "checked";
+                            break;
+                        case "Retaguarda":
+                            TempData["Area8"] = "checked";
+                            break;
+                        case "Tecnologia da Informação":
+                            TempData["Area9"] = "checked";
+                            break;
+                        case "Jurídico":
+                            TempData["Area10"] = "checked";
+                            break;
+                        case "Crédito":
+                            TempData["Area11"] = "checked";
+                            break;
+                        case "Produtos e Serviços":
+                            TempData["Area12"] = "checked";
+                            break;
+                        case "Cadastro":
+                            TempData["Area13"] = "checked";
+                            break;
+                        case "Marketing":
+                            TempData["Area14"] = "checked";
+                            break;
+                        case "Controle Interno":
+                            TempData["Area15"] = "checked";
+                            break;
+                        case "Recuperação de Crédito":
+                            TempData["Area16"] = "checked";
+                            break;
+                        case "Tesouraria":
+                            TempData["Area17"] = "checked";
+                            break;
+                    }
 
 
                 return PartialView("ModalEditarVaga",Vaga);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        [HttpPost]
+        public ActionResult AtualizarVaga(Vagas DadosVaga, FormCollection Dados)
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Ativa ="";
+                var Areas = "";
+                for (var i = 6; i < Dados.Count; i++)
+                {
+                    Areas = Areas + Dados[i] + ";";
+                }
+
+                try
+                {
+                    if (Dados["Ativa"].Equals("Ativa"))
+                    {
+                        Ativa = "S";
+                    }
+                }
+                catch
+                {
+                    Ativa = "N";
+                }
+
+
+
+                VerificaDados.AtualizarVaga(Dados["IdVaga"],DadosVaga.Descricao,DadosVaga.Salario,DadosVaga.Requisitos,DadosVaga.Titulo,DadosVaga.Beneficio,Ativa,Areas);
+                return RedirectToAction("Principal",
+                    new { Acao = "Curriculo", Mensagem = "Vaga altrada com sucesso!", Controlle = "Principal" });
             }
             return RedirectToAction("Login", "Login");
         }

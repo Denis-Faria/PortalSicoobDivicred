@@ -238,7 +238,12 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             }
         }
-
+        public void AtualizarVaga(string IdVaga,string Descricao,string Salario,string Requisito,string Titulo,string Beneficio,string Ativa,string Areas)
+        {
+            var QuerrySelecionaCurriculo = "UPDATE vagas SET descricao='"+Descricao+"',salario='"+Salario.Replace(",",".")+"',requisito='"+Requisito+"',titulo='"+Titulo+"', beneficio='"+Beneficio+"', ativa='"+Ativa+"', areadeinteresse='"+Areas+"' where id=" + IdVaga + ";";
+            contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
+            
+        }
         public List<Dictionary<string, string>> RecuperaDadosVaga(string IdVaga)
         {
             var QuerrySelecionaCurriculo = "SELECT * from vagas where id="+IdVaga+";";

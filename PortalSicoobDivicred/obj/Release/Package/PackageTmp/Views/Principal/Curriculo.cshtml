@@ -39,6 +39,25 @@
             });
 
     }
+    function AlterarVaga(IdVaga) {
+        $("#VagaCompleta").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Principal/AlterarVaga',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": IdVaga },
+                success: function(data) {
+                    $("#VagaCompleta").append(data);
+                    $('#ModalEditarVaga').removeClass();
+                    $('#ModalEditarVaga').addClass('modal is-active');
+
+                }
+            });
+
+    }
     function SendSMS() {
         $("#Conteudo").empty();
         $.ajax(
@@ -500,6 +519,7 @@
         <th>Descrição</th>
         <th>Status</th>
         <th>Area de Interesse</th>
+        <th>Alterar Vaga</th>
         </thead>
         <tbody>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)
@@ -515,6 +535,10 @@
                     </span>
                 </td>
                 <td>@TempData["AreaVaga" + i].ToString()</td>
+                <td><a href="javascript:AlterarVaga(@TempData["IdVaga" + i].ToString());void(0);" class="button is-primary"> <span class="icon is-small">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                    <span class="name">Editar Vaga</span></a> </td>
             </tr>
         }
         <tbody>
@@ -812,6 +836,38 @@ MODAL PERFIL
                 </button>
 
                 <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
+            </p>
+        </footer>
+    </div>
+</div>
+
+
+<div id="ModalEditarVaga" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Perfil</p>
+            <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
+        </header>
+        <section class="modal-card-body">
+        @using (Html.BeginForm("AlterarVaga", "Principal"))
+        {
+            <div id="VagaCompleta">
+
+            </div>
+        }
+
+        </section>
+        <footer class="modal-card-foot">
+            <p class="field">
+                <button  type="submit" class="button is-success">
+                    <span class="icon">
+                        <i class="fa fa-print"></i>
+                    </span>
+                    <span>Salvar Vaga</span>
+                </button>
+
+                <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
             </p>
         </footer>
     </div>

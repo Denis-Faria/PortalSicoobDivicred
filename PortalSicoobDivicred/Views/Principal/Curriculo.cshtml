@@ -841,38 +841,41 @@ MODAL PERFIL
     </div>
 </div>
 
+@using (Html.BeginForm("AtualizarVaga", "Principal"))
+{
+    <div id="ModalEditarVaga" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Perfil</p>
+                <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
+            </header>
 
-<div id="ModalEditarVaga" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Perfil</p>
-            <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
-        </header>
-        <section class="modal-card-body">
-        @using (Html.BeginForm("AlterarVaga", "Principal"))
-        {
-            <div id="VagaCompleta">
+            <section class="modal-card-body">
 
-            </div>
-        }
+                <div id="VagaCompleta">
 
-        </section>
-        <footer class="modal-card-foot">
-            <p class="field">
-                <button  type="submit" class="button is-success">
-                    <span class="icon">
-                        <i class="fa fa-print"></i>
-                    </span>
-                    <span>Salvar Vaga</span>
-                </button>
+                </div>
 
-                <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
-            </p>
-        </footer>
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-floppy-o"></i>
+                        </span>
+                        <span>Salvar Vaga</span>
+                    </button>
+
+                    <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
+                </p>
+
+            </footer>
+
+
+        </div>
     </div>
-</div>
-
+}
 
 @using (Html.BeginForm("CadastrarVagaEspecifica", "Principal"))
 {

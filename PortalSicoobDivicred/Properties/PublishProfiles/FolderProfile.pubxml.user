@@ -598,13 +598,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>11/14/2017 14:36:50</publishTime>
+      <publishTime>11/14/2017 17:02:58</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>10/20/2017 15:57:51</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>11/14/2017 14:36:50</publishTime>
+      <publishTime>11/14/2017 17:02:58</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -898,7 +898,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>11/10/2017 16:14:56</publishTime>
     </File>
     <File Include="Views/Principal/Curriculo.cshtml">
-      <publishTime>11/14/2017 11:10:54</publishTime>
+      <publishTime>11/14/2017 15:48:04</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
       <publishTime>10/23/2017 13:35:15</publishTime>
@@ -916,7 +916,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/02/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/ModalEditarVaga.cshtml">
-      <publishTime>11/14/2017 13:48:09</publishTime>
+      <publishTime>11/14/2017 16:48:10</publishTime>
     </File>
     <File Include="Views/Principal/ModalPerfil.cshtml">
       <publishTime>10/25/2017 11:00:45</publishTime>

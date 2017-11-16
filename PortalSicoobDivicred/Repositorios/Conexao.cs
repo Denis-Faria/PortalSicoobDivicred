@@ -95,9 +95,8 @@ namespace Port.Repositorios
             return linhas;
         }
 
-        public List<Dictionary<string, string>> ExecutaComandoArquivo(string comandoSQL,byte[] Imagem)
+        public void ExecutaComandoArquivo(string comandoSQL,byte[] Imagem)
         {
-            List<Dictionary<string, string>> linhas = null;
 
             if (string.IsNullOrEmpty(comandoSQL))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
@@ -107,30 +106,14 @@ namespace Port.Repositorios
                 var cmdComando = new MySqlCommand(comandoSQL,conexao);
                 cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = Imagem;
                 cmdComando.ExecuteNonQuery();
-                using (var reader = cmdComando.ExecuteReader())
-                {
-                    linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
-                    {
-                        var linha = new Dictionary<string, string>();
-
-                        for (var i = 0; i < reader.FieldCount; i++)
-                        {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
-                        }
-
-                        linhas.Add(linha);
-                    }
-                }
+                
             }
             finally
             {
                 FecharConexao();
             }
 
-            return linhas;
+            
         }
 
         public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSQL)

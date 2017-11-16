@@ -231,16 +231,20 @@
                         <i class="fa fa-folder-o" aria-hidden="true"></i>
                     </span><span class="name"> PGD</span>
                 </a>
-
+                <a href="javascript:PerfilColaborador();void(0);" class="item" style="color: #38d5c5;">
+                    <span class="icon">
+                        <i class="fa fa-user-circle-o"></i>
+                    </span><span class="name"> Perfil do Colaborador</span>
+                </a>
 
                 <p class="menu-label" style="color: white">
                     Específicos
                 </p>
                 @(new HtmlString(@TempData["PermissaoCurriculo"].ToString()))
-               
+
                 <a href="javascript:PerfilColaborador();void(0);" class="item" style="color: #38d5c5;">
                     <span class="icon">
-                        <i class="fa fa-user-circle-o"></i>
+                        <i class="fa fa-user-plus"></i>
                     </span><span class="name"> Portal do Colaborador</span>
                 </a>
             </ul>

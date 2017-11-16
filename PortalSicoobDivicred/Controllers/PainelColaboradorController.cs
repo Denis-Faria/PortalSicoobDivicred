@@ -23,7 +23,13 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario(Login);
 
+                for (int i=0;i<DocumentosUpados.Count;i++)
+                {
+                    TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
+                    TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
+                }
                 Funcionario DadosFuncionario = new Funcionario();
 
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];

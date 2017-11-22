@@ -1585,6 +1585,9 @@ namespace PortalSicoobDivicred.Controllers
                         case "Tesouraria":
                             TempData["Area17"] = "checked";
                             break;
+                        case "Aprendiz":
+                            TempData["Area18"] = "checked";
+                            break;
                     }
 
 

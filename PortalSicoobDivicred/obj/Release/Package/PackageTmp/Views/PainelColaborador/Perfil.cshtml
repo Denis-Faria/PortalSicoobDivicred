@@ -91,8 +91,6 @@
 
             formData.append(NomeArquivo, file,NomeArquivo);
         }
-        alert(NomeArquivo);
-        
         $.ajax({
             type: "POST",
             url: '/PainelColaborador/UploadArquivo',
@@ -104,8 +102,7 @@
                 alert(data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("Imagem alterada com sucesso.");
-                document.location.href = "/Principal/Principal";
+                document.location.href = "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
             }
         });
     }
@@ -304,7 +301,7 @@
             </header>
             <div id="ArquivoPessoal">
                 <div class="card-content">
-                    <div class="file has-name is-fullwidth ">
+                    <div class="file has-name is-fullwidth @TempData["StatusFoto"]">
                         <label class="file-label">
                             <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
                             <span class="file-cta">
@@ -316,12 +313,12 @@
                                 </span>
                             </span>
                             <span class="file-name">
-                                
+                                @TempData["NomeFoto"]
                             </span>
                         </label>
                     </div>
                     <br />
-                <div class="file has-name is-fullwidth">
+                <div class="file has-name is-fullwidth @TempData["StatusCTPS"]">
                     <label class="file-label">
                         <input class="file-input" id="CTPS"  onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
                         <span class="file-cta">
@@ -333,14 +330,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                           
+                            @TempData["NomeCTPS"]
                         </span>
                     </label>
                 </div>
 
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusPIS"]">
                     <label class="file-label">
                         <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
                         <span class="file-cta">
@@ -352,14 +349,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomePIS"]
                         </span>
                     </label>
                 </div>
 
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusCPF"]">
                     <label class="file-label">
                         <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
                         <span class="file-cta">
@@ -371,14 +368,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeCPF"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusRG"]">
                     <label class="file-label">
                         <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
                         <span class="file-cta">
@@ -390,14 +387,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeRG"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusTitulo Eleitor"]">
                     <label class="file-label">
                         <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor"type="file" name="resume">
                         <span class="file-cta">
@@ -409,14 +406,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeTitulo Eleitor"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusCartao SUS"]">
                     <label class="file-label">
                         <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
                         <span class="file-cta">
@@ -428,14 +425,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeCartao SUS"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusCNH"] ">
                     <label class="file-label">
                         <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')"type="file" name="resume">
                         <span class="file-cta">
@@ -447,14 +444,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeCNH"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth">
+                <div class="file has-name is-fullwidth @TempData["StatusComprovante Endereco"]">
                         <label class="file-label">
                             <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
                             <span class="file-cta">
@@ -466,14 +463,14 @@
                                 </span>
                             </span>
                             <span class="file-name">
-                                
+                                @TempData["NomeComprovante Endereco"]
                             </span>
                         </label>
                     </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth">
+                <div class="file has-name is-fullwidth @TempData["StatusTipo Sanguineo"]">
                     <label class="file-label">
                         <input class="file-input " id="TipoRecrutamento Sanguineo"  onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
                         <span class="file-cta">
@@ -485,14 +482,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeTipo Sanguineo"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
 
-                <div class="file has-name is-fullwidth ">
+                <div class="file has-name is-fullwidth @TempData["StatusCertidao"]">
                     <label class="file-label">
                         <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
                         <span class="file-cta">
@@ -504,14 +501,14 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeCertidao"]
                         </span>
                     </label>
                 </div>
                     
                 <br />
                     
-                    <div class="file has-name is-fullwidth ">
+                    <div class="file has-name is-fullwidth @TempData["StatusCertidao Filho"]">
                     <label class="file-label">
                         <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
                         <span class="file-cta">
@@ -523,7 +520,7 @@
                             </span>
                         </span>
                         <span class="file-name">
-                           
+                            @TempData["NomeCertidao Filho"]
                         </span>
                     </label>
                 </div>
@@ -531,7 +528,7 @@
                 <br />
                     
 
-                <div class="file has-name is-fullwidth">
+                <div class="file has-name is-fullwidth @TempData["StatusReservista"]">
                     <label class="file-label">
                         <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
                         <span class="file-cta">
@@ -543,7 +540,7 @@
                             </span>
                         </span>
                         <span class="file-name">
-                            
+                            @TempData["NomeReservista"]
                         </span>
                     </label>
                 </div>

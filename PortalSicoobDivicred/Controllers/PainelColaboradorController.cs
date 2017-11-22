@@ -220,10 +220,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
-
-
-
-
+        
         [HttpPost]
         public ActionResult AtualizarFormularioPessoal(Funcionario DadosFuncionario)
         {
@@ -249,5 +246,40 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult ColaboradorRh()
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var CarregaDados = new QuerryMysql();
+                var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
+
+                TempData["TotalColaborador"] = DadosColaborador.Count;
+
+                for (var i = 0; i < DadosColaborador.Count; i++)
+                {
+
+                    TempData["Nome" + i] = DadosColaborador[i]["nome"];
+                    TempData["Setor" + i] = DadosColaborador[i]["setor"];
+                    TempData["PA" + i] = DadosColaborador[i]["idpa"];
+                    TempData["Login" + i] = DadosColaborador[i]["login"];
+
+                    if (DadosColaborador[i]["foto"].Equals("0"))
+                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    else
+                        TempData["Imagem" + i] = "/Uploads/" + DadosColaborador[i]["foto"] + "";
+                }
+
+                return PartialView("ColaboradorRh");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+        }
+
+        
     }
 }

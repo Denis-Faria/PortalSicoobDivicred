@@ -78,6 +78,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = contexto.ExecutaComandoComRetornoPortal(QuerrySelecionaCurriculo);
             return DadosCurriculos;
         }
+
         public List<Dictionary<string, string>> RecuperaDocumentosFuncionario(string Login)
         {
 
@@ -464,7 +465,17 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows;
         }
+        public List<Dictionary<string, string>> RecuperaDadosFuncionarios()
+        {
+            var QuerryRecuperaUsuario =
+                "SELECT a.*,b.descricao as setor  FROM funcionarios a, setores b where a.idsetor=b.id and a.ativo='S'";
 
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaUsuario);
+
+
+            return rows;
+        }
         public List<Dictionary<string, string>> RecuperaDadosCandidato(string Cpf)
         {
             var QuerryRecuperaUsuario =

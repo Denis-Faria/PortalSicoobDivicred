@@ -483,6 +483,7 @@
     <Content Include="Views\Principal\FormularioCadastro.cshtml" />
     <Content Include="Views\Principal\ModalEditarVaga.cshtml" />
     <Content Include="Views\PainelColaborador\ColaboradorRh.cshtml" />
+    <Content Include="Views\PainelColaborador\ModalPerfil.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

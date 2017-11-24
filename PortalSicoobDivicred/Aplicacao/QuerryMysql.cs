@@ -50,7 +50,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public bool PermissaoCurriculos(string Usuario)
         {
-            var QuerryConfirmaLogin = "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" + Usuario + "' and a.idaplicativo=9 ";
+            var QuerryConfirmaLogin = "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" + Usuario + "' and a.idaplicativo=9";
 
             var rows = contexto.ExecutaComandoComRetorno(QuerryConfirmaLogin);
             try

@@ -54,13 +54,13 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-               /*if (VerificaDados.PrimeiroLogin(Login))
+               if (VerificaDados.PrimeiroLogin(Login))
                 {
                     return RedirectToAction("FormularioCadastro", "Principal");
 
                 }
                 else
-                {*/
+                {
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
 
                     if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
@@ -84,7 +84,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
                     }
                     return View();
-                //}
+                }
             }
 
             return RedirectToAction("Login", "Login");
@@ -853,6 +853,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (int i = 0; i < DadosProcesso.Count; i++)
                 {
+
                     if (DadosProcesso[i]["prova"] == null || Convert.ToDecimal(DadosProcesso[i]["prova"].Replace(',','.')) < 60)
                     {
                         TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
@@ -863,15 +864,16 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
                         TempData["ResultadoPsicologico" +i] = DadosProcesso[i]["psicologico"];
+                        TempData["ResultadoGerente" + i] = DadosProcesso[i]["gerente"];
                         TempData["EscondeGerente"] = "hidden disabled";
+                        TempData["EscondeGerente"] = "";
                     }
                     else
                     {
                         TempData["ResultadoProva"+i] = DadosProcesso[i]["prova"];
                         TempData["ResultadoPsicologico"+i] = DadosProcesso[i]["psicologico"];
-                        TempData["ResultadoGerente"+i] = DadosProcesso[i]["gerente"];
                         TempData["EscondePsicologico"] = "";
-                        TempData["EscondeGerente"] = "";
+                        
                     }
                     try
                     {

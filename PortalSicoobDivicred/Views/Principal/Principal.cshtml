@@ -12,6 +12,8 @@
     <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
     <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+
     <meta name="viewport" content="width=device-width" />
 
     <title>Principal</title>
@@ -39,6 +41,22 @@
                         windowHeight = $(document).height();
                         $('#CorpoPrincipal').css('height', windowHeight);
                         $('#CorpoPrincipal').css('background', '#e6e6e6');
+
+                    }
+                });
+
+        }
+        function LogOff() {
+            $.ajax(
+                {
+                    type: 'GET',
+                    dataType: 'html',
+                    url: '/Login/Logoff',
+                    cache: true,
+                    async: true,
+                    data: { "Ordenacao": "" },
+                    success: function (data) {
+                        document.location.href = "/Login/Login";
 
                     }
                 });
@@ -222,13 +240,15 @@
                 </div>
                 <div class="dropdown-menu"  role="menu">
                     <div class="dropdown-content">
-                        <div class="dropdown-item" onclick="javascript:PerfilColaborador()">
+                        <div class="dropdown-item" onclick="javascript:PerfilColaborador()" id="PerfilNav" onmouseleave="$('#PerfilNav').removeClass('animated rubberBand')" onmouseover="$('#PerfilNav').addClass('animated rubberBand');">
                             <p style="color:#20b2aa"><span class="icon is-small"><i class="fa fa-user"></i> </span>Editar Perfil</p>
                         </div>
                         <hr class="dropdown-divider">
-                        <div class="dropdown-item" onclick="@Url.Action("Logoff", "Login")">
-                            <p style="color:#20b2aa"><span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair</p>
+                       
+                        <div class="dropdown-item" onclick="javascript: LogOff();" id="Sair" onmouseleave="$('#Sair').removeClass('animated rubberBand')" onmouseover="$('#Sair').addClass('animated rubberBand');" >
+                            <p  style="color:#20b2aa" ><span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair</p>
                         </div>
+                     
                     </div>
                 </div>
             </div>

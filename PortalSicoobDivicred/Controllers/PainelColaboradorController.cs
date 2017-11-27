@@ -46,7 +46,6 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
                 DadosFuncionario.Bairro = DadosTabelaFuncionario[0]["bairro"];
                 DadosFuncionario.Cidade = DadosTabelaFuncionario[0]["cidade"];
-                DadosFuncionario.Funcao = DadosTabelaFuncionario[0]["funcao"];
                 DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
                 DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
                 DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];
@@ -120,7 +119,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 VerificaDados.AtualizaDadosFuncionarioProfissional(DadosFuncionario.IdSetor.ToString(),
-                    DadosFuncionario.Funcao, Login);
+                    DadosFuncionario.IdFuncao.ToString(), Login);
 
                 return RedirectToAction("Principal", "Principal",
                     new
@@ -340,7 +339,6 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
                 DadosFuncionario.Bairro = DadosTabelaFuncionario[0]["bairro"];
                 DadosFuncionario.Cidade = DadosTabelaFuncionario[0]["cidade"];
-                DadosFuncionario.Funcao = DadosTabelaFuncionario[0]["funcao"];
                 DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
                 DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
                 DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];

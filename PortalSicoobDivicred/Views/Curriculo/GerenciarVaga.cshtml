@@ -26,7 +26,7 @@
             {
                 type: 'GET',
                 dataType: 'html',
-                url: '/Principal/Curriculo',
+                url: '/Curriculo/Curriculo',
                 cache: true,
                 async: true,
                 data: { "Ordenacao": "" },
@@ -47,7 +47,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: '/Principal/PerfilCandidato',
+                url: '/Curriculo/PerfilCandidato',
                 dataType: 'html',
                 cache: true,
                 async: true,
@@ -68,7 +68,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: '/Principal/PerfilCandidatoProcesso',
+                url: '/Curriculo/PerfilCandidatoProcesso',
                 dataType: 'html',
                 cache: true,
                 async: true,
@@ -88,7 +88,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: '/Principal/ResultadoProcesso',
+                url: '/Curriculo/ResultadoProcesso',
                 dataType: 'html',
                 cache: true,
                 async: true,
@@ -107,7 +107,7 @@
     $("#FiltroPerfil").submit(function () {
         $.ajax({
             type: "POST",
-            url: "/Principal/FiltrarPerfilVaga",
+            url: "/Curriculo/FiltrarPerfilVaga",
             data: $("#FiltroPerfil").serialize(),
             success: function (data) {
                 $("#Conteudo").empty();
@@ -383,12 +383,12 @@
                     <i class="fa fa-comments" aria-hidden="true"> </i>
                 </span><span> Gerenciar Processo Seletivo</span>
             </a>
-            <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Principal", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
+            <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Curriculo", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
                 <span class="icon is-small">
                     <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
                 </span> <span>Encerrar Vaga</span>
             </a>
-            <a target="_blank" href="@Url.Action("ImprimirTodos","Principal", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success" id="ImprimirTodos" onmouseleave="$('#ImprimirTodos').removeClass('animated pulse')" onmouseover="$('#ImprimirTodos').addClass('animated pulse');" data-balloon="Clique para imprimir todos os currículos." data-balloon-pos="down">
+            <a target="_blank" href="@Url.Action("ImprimirTodos","Curriculo", new{IdVaga =@TempData["IdVaga"]})" type="submit" class="button is-success" id="ImprimirTodos" onmouseleave="$('#ImprimirTodos').removeClass('animated pulse')" onmouseover="$('#ImprimirTodos').addClass('animated pulse');" data-balloon="Clique para imprimir todos os currículos." data-balloon-pos="down">
                 <span class="icon">
                     <i class="fa fa-print"></i>
                 </span>
@@ -410,7 +410,7 @@
         <h2 class="subtitle">@TempData["QuantidadeCurriculo"]</h2>
     </span>
     <br />
-    @using (Html.BeginForm("AbrirProcesso", "Principal", FormMethod.Post, new { id = "FormCurriculo" }))
+    @using (Html.BeginForm("AbrirProcesso", "Curriculo", FormMethod.Post, new { id = "FormCurriculo" }))
     {
         <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
         <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>

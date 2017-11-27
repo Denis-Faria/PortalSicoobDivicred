@@ -614,6 +614,24 @@ namespace PortalSicoobDivicred.Aplicacao
             return rows;
         }
 
+        public List<Dictionary<string, string>> RetornaCertificacao(string IdCertificao)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM certificacoesfuncionarios WHERE id='" + IdCertificao + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
+        public List<Dictionary<string, string>> RetornaCertificacaoFuncao(string IdFuncao)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT idcertificacao FROM funcoes WHERE id='" + IdFuncao + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
         public List<SelectListItem> RetornaEstadoCivil()
         {
             var EstadoCivil = new List<SelectListItem>();
@@ -698,6 +716,23 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return EstadoCivil;
         }
+        public List<SelectListItem> RetornaFuncao()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QuerryRetornaSetor = "SELECT id,descricao FROM funcoes";
+
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSetor);
+            foreach (var row in rows)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+        
 
         public void AtualizaDadosFuncionarioFormulario(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,

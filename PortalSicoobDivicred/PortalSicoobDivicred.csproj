@@ -366,6 +366,7 @@
   <ItemGroup>
     <Compile Include="Aplicacao\QuerryMysql.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
@@ -470,20 +471,21 @@
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-    <Content Include="Views\Principal\Curriculo.cshtml" />
-    <Content Include="Views\Principal\GerenciarVaga.cshtml" />
-    <Content Include="Views\Principal\ModalPerfil.cshtml" />
-    <Content Include="Views\Principal\PerfilProcesso.cshtml" />
-    <Content Include="Views\Principal\ResultadoProcesso.cshtml" />
-    <Content Include="Views\Principal\FormularioInicial.cshtml" />
-    <Content Include="Views\Principal\ImprimirTodos.cshtml" />
+    <Content Include="Views\Curriculo\Curriculo.cshtml" />
+    <Content Include="Views\Curriculo\GerenciarVaga.cshtml" />
+    <Content Include="Views\Curriculo\ModalPerfil.cshtml" />
+    <Content Include="Views\Curriculo\PerfilProcesso.cshtml" />
+    <Content Include="Views\Curriculo\ResultadoProcesso.cshtml" />
+    <Content Include="Views\Curriculo\FormularioInicial.cshtml" />
+    <Content Include="Views\Curriculo\ImprimirTodos.cshtml" />
     <Content Include="Views\PainelColaborador\Perfil.cshtml" />
     <Content Include="Views\FormulariosMig\RecrutamentoSelecao.cshtml" />
     <Content Include="Views\FormulariosMig\ParecerProcesso.cshtml" />
     <Content Include="Views\Principal\FormularioCadastro.cshtml" />
-    <Content Include="Views\Principal\ModalEditarVaga.cshtml" />
+    <Content Include="Views\Curriculo\ModalEditarVaga.cshtml" />
     <Content Include="Views\PainelColaborador\ColaboradorRh.cshtml" />
     <Content Include="Views\PainelColaborador\ModalPerfil.cshtml" />
+    <Content Include="Views\Principal\CertificacaoFuncao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

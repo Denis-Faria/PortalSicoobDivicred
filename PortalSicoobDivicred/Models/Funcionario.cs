@@ -39,8 +39,6 @@ namespace PortalSicoobDivicred.Models
 
         public string Cidade { get; set; }
 
-        public string Funcao { get; set; }
-
         public string QuatidadeFilho { get; set; }
 
         public string DataNascimentoFilho { get; set; }
@@ -88,5 +86,12 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o seu Setor!")]
         [DisplayName("IdSetor")]
         public int IdSetor { get; set; }
+
+        [DisplayName("Estado Civil")]
+        public List<SelectListItem> Funcao { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o estado civil!")]
+        [DisplayName("IdEstadoCivil")]
+        public int IdFuncao { get; set; }
     }
 }

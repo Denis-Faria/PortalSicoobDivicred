@@ -21,6 +21,24 @@
             $('#PisFuncionario').mask('000.00000.00-0');
         });
 
+        function BuscaCertificacao(Nome) {
+            alert(Nome.value);
+            $("#Conteudo").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Principal/BuscaCertificacao',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdFuncao": Nome.value },
+                    success: function(data) {
+                        $("#Conteudo").append(data);
+                        $("#Certificacoes").removeAttr("hidden"); 
+
+                    }
+                });
+        }
 
         function Oculta(Qual) {
             var QualAcao = Qual;
@@ -283,10 +301,23 @@
                 </div>
                 <div class="control is-4">
                     <label class="label">Função</label>
-                    @Html.TextBoxFor(m => m.Funcao, null, new {@class = "input", placeholder = "Ex: Assistente ", id = "FuncaoFuncionario"})
-                    @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
+                    <div class="select">
+                        @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao" , onchange="BuscaCertificacao(this)"})
+                        @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
+                    </div>
                 </div>
             </div>
+            <blockquote id="Certificacoes" hidden>
+                <b>Certificações Obrigatórias</b>
+                <div id="Conteudo">
+
+                </div>
+                <br/>
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Possuo todas as certificações acima.
+                </label>
+            </blockquote>
             <div class="field">
                 <blockquote>
                     <p><b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>

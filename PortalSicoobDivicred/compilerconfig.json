@@ -18,5 +18,17 @@
   {
     "outputFile": "Assets/css/StyleSheet1.css",
     "inputFile": "Assets/css/StyleSheet1.scss"
+  },
+  {
+    "outputFile": "Assets/css/bulma-steps/steps.css",
+    "inputFile": "Assets/css/bulma-steps/steps.sass"
+  },
+  {
+    "outputFile": "Assets/css/bulma-timeline/timeline.css",
+    "inputFile": "Assets/css/bulma-timeline/timeline.sass"
+  },
+  {
+    "outputFile": "Assets/css/Bulma/bulma/bulma.css",
+    "inputFile": "Assets/css/Bulma/bulma/bulma.sass"
   }
 ]

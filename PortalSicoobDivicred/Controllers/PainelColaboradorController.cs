@@ -18,6 +18,10 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+
+
+
+
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
@@ -54,6 +58,28 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
                 DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
 
+
+                var CertificacoesFuncao = VerificaDados.RetornaCertificacaoFuncao(DadosTabelaFuncionario[0]["funcao"]);
+                var IdCertificacoes = CertificacoesFuncao[0]["idcertificacao"].Split(';');
+
+                TempData["TotalCertificacao"] = IdCertificacoes.Length;
+
+                for (int j = 0; j < IdCertificacoes.Length; j++)
+                {
+                    var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
+                    @TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                }
+
+
+
+                if (DadosTabelaFuncionario[0]["confirmacaocertificacao"].Equals("S"))
+                {
+                    TempData["ConfirmaCertificacao"] = "Checked";
+                }
+                else
+                {
+                    TempData["ConfirmaCertificacao"] = "";
+                }
                 if (DadosTabelaFuncionario[0]["foto"] == null)
                 {
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
@@ -77,12 +103,15 @@ namespace PortalSicoobDivicred.Controllers
                 var Etnia = VerificaDados.RetornaEtnia();
                 var Formacao = VerificaDados.RetornaFormacao();
                 var Setor = VerificaDados.RetornaSetor();
+                var Funcao = VerificaDados.RetornaFuncao();
 
                 DadosFuncionario.EstadoCivil = EstadoCivil;
                 DadosFuncionario.Sexo = Sexo;
                 DadosFuncionario.Etnia = Etnia;
                 DadosFuncionario.Formacao = Formacao;
                 DadosFuncionario.Setor = Setor;
+                DadosFuncionario.Funcao = Funcao;
+
 
                 TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
                 TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
@@ -404,7 +433,7 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Principal", "Principal",
                 new
                 {
-                    Acao = "Perfil",
+                    Acao = "ColaboradorRh ",
                     Mensagem = "Formulário Pessoal atualizado com sucesso !",
                     Controlle = "PainelColaborador"
                 });

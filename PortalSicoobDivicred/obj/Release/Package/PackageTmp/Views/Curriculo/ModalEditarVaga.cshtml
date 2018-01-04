@@ -1,0 +1,173 @@
+﻿@using System.Web.Mvc.Html
+@model PortalSicoobDivicred.Models.Vagas
+
+<script>
+    function MudaCorAtiva() {
+        if (document.getElementById("Ativacao").innerHTML=="Desativa") {
+            document.getElementById("Ativacao").innerHTML = "Ativa";
+            $("#Ativacao").removeClass();
+            $("#Ativacao").addClass("is-primary");
+            
+        } else {
+            document.getElementById("Ativacao").innerHTML = "Desativada";
+            $("#Ativacao").removeClass();
+            $("#Ativacao").addClass("is-danger");
+        }
+        
+    }
+</script>
+<input id="Idvaga" name="IdVaga" hidden value="@TempData["IdVaga"]" />
+
+
+
+<label class="checkbox">
+    <input type="checkbox" @TempData["Ativa"] onchange="MudaCorAtiva()" value="Ativa" id="Ativa" name="Ativa">
+    A vaga está <a id="Ativacao" class="is-danger">@TempData["Status"]</a>
+</label>
+<br />
+<div class="field">
+    <label class="label">Titulo da Vaga:</label>
+    <p class="control">
+        @Html.TextBoxFor(m => m.Titulo, null, new {@class = "input", placeholder = "Ex: Assistente de T.I"})
+        @Html.ValidationMessageFor(m => m.Titulo, null, new {style = "color:red"})
+    </p>
+</div>
+
+<div class="field">
+    <label class="label">Descrição da vaga:</label>
+    <div class="control">
+        @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", placeholder = "Descrição das atividades", rows="5"})
+        @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
+    </div>
+</div>
+
+<div class="field">
+    <label class="label">Requisitos</label>
+    <p class="control">
+        @Html.TextAreaFor(m => m.Requisitos, new { @class = "textarea", placeholder = "Ex: Certificação",  rows ="10" })
+        @Html.ValidationMessageFor(m => m.Requisitos, null, new { style = "color:red" })
+    </p>
+</div>
+
+<div class="field is-grouped">
+    <div class="field control">
+        <label class="label">Salário:</label>
+        <p class="control">
+            @Html.TextBoxFor(m => m.Salario, null, new { @class = "input", placeholder = "Ex: 1715.00" })
+            @Html.ValidationMessageFor(m => m.Salario, null, new { style = "color:red" })
+        </p>
+
+    </div>
+    <div class="control field">
+        <label class="label">Benefício:</label>
+        <p class="control">
+            @Html.TextBoxFor(m => m.Beneficio, null, new { @class = "input", placeholder = "Ex: Ticket, etc" })
+            @Html.ValidationMessageFor(m => m.Beneficio, null, new { style = "color:red" })
+        </p>
+    </div>
+</div>
+
+<label class="label">Áreas de Interesse:</label>
+<span style="color: blue">*Selecione ao menos uma área de interesse.</span>
+<div style="align-content: center">
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area1" @TempData["Area1"] value="Administrativo" type="checkbox">
+                Administrativo
+            </label>
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area2" @TempData["Area2"]  value="Contabilidade" type="checkbox">
+                Contabilidade
+            </label>
+            <label class="checkbox">
+                <input name="Area3" @TempData["Area3"]  value="Recursos Humanos" type="checkbox">
+                Recursos Humanos
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area4" @TempData["Area4"]  value="Gerência" type="checkbox">
+                Gerência
+            </label>
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area5" @TempData["Area5"]  value="Atendimento" type="checkbox">
+                Atendimento
+            </label>
+            <label class="checkbox">
+                <input name="Area6"  @TempData["Area6"]  value="Departamento Pessoal" type="checkbox">
+                Departamento Pessoal
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area7"  @TempData["Area7"]  value="Caixas" type="checkbox">
+                Caixas
+            </label>
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area8"  @TempData["Area8"] value="Retaguarda" type="checkbox">
+                Retaguarda
+            </label>
+            <label class="checkbox">
+                <input name="Area9"  @TempData["Area9"] value="Tecnologia da Informação" type="checkbox">
+                Tecnologia da Informação
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area10"  @TempData["Area10"] value="Jurídico" type="checkbox">
+                Jurídico
+            </label>
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area11"  @TempData["Area11"] value="Crédito" type="checkbox">
+                Crédito
+            </label>
+            <label class="checkbox">
+                <input name="Area12"  @TempData["Area12"] value="Produtos e Serviços" type="checkbox">
+                Produtos e Serviços
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area13"  @TempData["Area13"] value="Cadastro" type="checkbox">
+                Cadastro
+            </label>
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area14"  @TempData["Area14"] value="Marketing" type="checkbox">
+                Marketing
+            </label>
+            <label class="checkbox">
+                <input name="Area15"  @TempData["Area15"] value="Controle Interno" type="checkbox">
+                Controle Interno
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area16"  @TempData["Area16"] value="Tesouraria" type="checkbox">
+                Tesouraria
+            </label>
+            <label class="checkbox">
+                <input name="Area17"  @TempData["Area17"] value="Recuperação de Crédito" type="checkbox">
+                Recuperação de Crédito
+            </label>
+        </p>
+    </div>
+    <div class="field">
+        <p class="control">
+            <label class="checkbox" style="display: inline-block; width: 180px;">
+                <input name="Area18" value="Aprendiz" type="checkbox">
+                Menor Aprendiz/Estagiário
+            </label>
+        </p>
+    </div>
+</div>

@@ -189,7 +189,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult FormularioCadastro(Funcionario DadosFuncionario)
+        public ActionResult FormularioCadastro(Funcionario DadosFuncionario, FormCollection Formulario)
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -216,6 +216,15 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
                     }
+                    var Confirma = "";
+                    if (Formulario["ConfirmacaoCertificacao"].Equals("on"))
+                    {
+                        Confirma = "S";
+                    }
+                    else
+                    {
+                        Confirma = "N";
+                    }
                     VerificaDados.AtualizaDadosFuncionarioFormulario(DadosFuncionario.NomeFuncionario,
                         DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                         DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,
@@ -225,7 +234,7 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
                         DadosFuncionario.IdSetor.ToString(), DadosFuncionario.IdFuncao.ToString(), DadosFuncionario.QuatidadeFilho,
                         DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
-                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
+                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem,Confirma);
                     return RedirectToAction("Principal", "Principal");
                 }
             }

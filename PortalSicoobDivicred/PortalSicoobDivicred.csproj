@@ -150,6 +150,12 @@
   <ItemGroup>
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\balloon.css" />
+    <Content Include="Assets\css\Bulma\bulma\bulma.css">
+      <DependentUpon>bulma.sass</DependentUpon>
+    </Content>
+    <Content Include="Assets\css\Bulma\bulma\bulma.min.css">
+      <DependentUpon>bulma.css</DependentUpon>
+    </Content>
     <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\css\Imprimir.css" />
     <Content Include="Assets\css\iziToast.css" />

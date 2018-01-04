@@ -204,56 +204,43 @@
 
 
     </style>
-<nav class="nav" style="background: rgb(42, 63, 84)">
+<nav class="navbar is-transparent" style="background: rgb(42, 63, 84)">
     <div class="nav-left">
-        <a class="nav-item">
-            <img src="/Images/LogoBranca.png" alt="Bulma logo">
+        <a class="navbar-item">
+            <img src="/Images/LogoBranca.png" alt="Divicred Logo">
         </a>
     </div>
 
-    <div class="nav-center">
-        <a class="nav-item">
-            <div class="dropdown is-hoverable">
-                <div class="dropdown-trigger">
-                    <button class="button is-link" style="background: rgb(42, 63, 84);" aria-haspopup="true">
-                        <span class="icon"><i class="fa fa-bell" style="color: white"></i> </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                        <div class="dropdown-item" onclick="alert('Ola');">
-                            <p><strong>any type of content</strong> within the dropdown menu.</p>
-                        </div>
-                    </div>
-                </div>
+    <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" style="background: rgb(42, 63, 84);" aria-haspopup="true">
+                    <span class="icon"><i class="fa fa-bell" style="color: white"></i> </span>
+                </a>
+            <div class="navbar-dropdown is-boxed" role="menu">
+                    <a class="navbar-item" onclick="alert('Ola');">
+                        <strong>any type of content</strong> within the dropdown menu.
+                    </a>
             </div>
-        </a>
-        <a class="nav-item">
-            <div class="dropdown is-hoverable">
-                <div class="dropdown-trigger">
-                    <button class="button is-link" aria-haspopup="true"  style="background: rgb(42, 63, 84);">
+        </div>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link" aria-haspopup="true"  style="background: rgb(42, 63, 84);">
                         <img src="/Uploads/@TempData["ImagemPerfil"]" style="border-radius: 50%;" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip" /> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
-                        <span class="icon is-small">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color: white"></i>
-                        </span>
-                    </button>
-                </div>
-                <div class="dropdown-menu"  role="menu">
-                    <div class="dropdown-content">
-                        <div class="dropdown-item" onclick="javascript:PerfilColaborador()" id="PerfilNav" onmouseleave="$('#PerfilNav').removeClass('animated rubberBand')" onmouseover="$('#PerfilNav').addClass('animated rubberBand');">
-                            <p style="color:#20b2aa"><span class="icon is-small"><i class="fa fa-user"></i> </span>Editar Perfil</p>
-                        </div>
-                        <hr class="dropdown-divider">
-                       
-                        <div class="dropdown-item" onclick="javascript: LogOff();" id="Sair" onmouseleave="$('#Sair').removeClass('animated rubberBand')" onmouseover="$('#Sair').addClass('animated rubberBand');" >
-                            <p  style="color:#20b2aa" ><span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair</p>
-                        </div>
-                     
-                    </div>
+                    </a>
+                
+                <div class="navbar-dropdown is-boxed"  role="menu">
+                    
+                        <a class="navbar-item" style="color:#20b2aa" href="javascript:PerfilColaborador()">
+                          <span class="icon is-small"><i class="fa fa-user"></i> </span>Editar Perfil
+                        </a>
+                        <hr class="navbar-divider">
+                        <a style="color:#20b2aa" class="navbar-item" href="javascript: LogOff();" >
+                            <span class="icon is-small"><i class="fa fa-sign-out"></i> </span>Sair
+                        </a>
                 </div>
             </div>
 
-        </a>
+    
     </div>
     <span class="nav-toggle">
         <span></span>

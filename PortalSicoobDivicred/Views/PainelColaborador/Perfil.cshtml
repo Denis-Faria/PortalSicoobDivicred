@@ -9,6 +9,23 @@
 
 
 <script>
+    function BuscaCertificacao(Nome) {
+        $("#ConteudoCertificacao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Principal/BuscaCertificacao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdFuncao": Nome.value },
+                success: function(data) {
+                    $("#ConteudoCertificacao").append(data);
+                    $("#Certificacoes").removeAttr("hidden"); 
+
+                }
+            });
+    }
     function EscondeProfissional() {
         if ($("#DadosProfissionais").is(":visible")) {
             $("#DadosProfissionais").addClass("animated fadeOut");
@@ -201,23 +218,76 @@
                             </div>
                         </div>
                         <div class="control is-4">
+
                             <label class="label">Função</label>
-                            @Html.TextBoxFor(m => m.Funcao, null, new {@class = "input", placeholder = "Ex: Assistente ", id = "FuncaoFuncionario"})
-                            @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
+                            <div class="select">
+                                @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
+                                @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
+                                @if (Convert.ToInt32(TempData["Funcao"].ToString()) > 0)
+                                {
+                                    @Html.Label("")
+                                    <script>
+                                        function myFunction() {
+
+                                            var s = document.getElementById("Funcao");
+                                            for (i = 0; i < document.getElementById("Funcao").options.length; i++) {
+
+                                                if (s.options[i].value == @TempData["Funcao"].ToString()) {
+
+                                                    // Item is found. Set its property and exit
+
+                                                    s.options[i].selected = true;
+
+                                                    break;
+
+                                                }
+                                            }
+
+                                        }
+
+                                        myFunction();
+                                    </script>
+                                }
+                            </div>
                         </div>
+                          
                     </div>
-                    <div class="field">
-                        <blockquote>
-                            <p>
-                                <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
-                            </p>
-                            <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
-                            <br/>
-                            <b>Anuênio: R$@TempData["Anuenio"]</b>
-                            <br/>
-                            <b>Ticket: R$@TempData["Ticket"]</b>
-                            <br/>
+                    <div class="content">
+                        <blockquote id="Certificacoes">
+                            <b>Certificações Obrigatórias</b>
+                            <div id="ConteudoCertificacao">
+                                <ul>
+                                    @for (int i = 0; i <= Convert.ToInt32(@TempData["TotalCertificacoes"]); i++)
+                                    {
+
+
+                                        <li><p>@TempData["Certificacao" + i].ToString()</p></li> 
+   
+
+                                    }
+                                </ul>
+                            </div>
+                            <br />
+                            <label class="checkbox">
+                                <input type="checkbox" @TempData["ConfirmaCertificacao"] id="ConfirmaCertificacoes" name="ConfirmaCertificacoes">
+                                Possuo todas as certificações acima.
+                            </label>
                         </blockquote>
+                    
+                    <hr/>
+                        <div class="field">
+                            <blockquote>
+                                <p>
+                                    <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
+                                </p>
+                                <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
+                                <br/>
+                                <b>Anuênio: R$@TempData["Anuenio"]</b>
+                                <br/>
+                                <b>Ticket: R$@TempData["Ticket"]</b>
+                                <br/>
+                            </blockquote>
+                        </div>
                     </div>
                 </div>
                 <footer class="card-footer">

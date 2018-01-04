@@ -739,7 +739,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
             string Numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem)
+            string Viagem,string ConfirmacaoCertificacao)
         {
             string QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                                Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -753,7 +753,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                                "', quantidadefilho='" + QuatidadeFilhos + "',datanascimentofilho='" +
                                                DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
                                                "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
-                                               ComidaFavorita + "',viagem='" + Viagem + "', perfilcompleto='S' WHERE nome='" + Nome + "'";
+                                               ComidaFavorita + "',viagem='" + Viagem + "', perfilcompleto='S',confirmacaocertificacao='" + ConfirmacaoCertificacao+"' WHERE nome='" + Nome + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
         }
 

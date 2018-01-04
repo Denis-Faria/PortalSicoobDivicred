@@ -58,6 +58,17 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
                 DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
 
+                var Formacoes = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
+
+                TempData["TotalFormacao"] = Formacoes.Count;
+                for (int j = 0; j < Formacoes.Count; j++)
+                {
+                    TempData["IdFormacaoExtra" + j] = "Extra|" + Formacoes[j]["id"];
+                    TempData["FormacaoExtra" + j] =  Formacoes[j]["descricao"];
+
+                }
+
+
 
                 var CertificacoesFuncao = VerificaDados.RetornaCertificacaoFuncao(DadosTabelaFuncionario[0]["funcao"]);
                 var IdCertificacoes = CertificacoesFuncao[0]["idcertificacao"].Split(';');
@@ -163,7 +174,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult AtualizaDadosPessoais(Funcionario DadosFuncionario)
+        public ActionResult AtualizaDadosPessoais(Funcionario DadosFuncionario,FormCollection Formulario) 
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -181,6 +192,27 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     DescricaoSexo = DadosFuncionario.DescricaoSexo;
                 }
+
+               
+
+
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+
+                for (int i = 0; i < Formulario.Count; i++)
+                {
+                    if (Formulario.AllKeys[i].Contains("formacao"))
+                    {
+                        VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"]);
+                    }
+                    if (Formulario.AllKeys[i].Contains("Extra"))
+                    {
+                        var IdFormacao = Formulario.AllKeys[i].Split('|');
+                        VerificaDados.AtualizaFormacao(Formulario[i],IdFormacao[1] );
+                    }
+                }
+
+
+
                 VerificaDados.AtualizaDadosFuncionarioDadosPessoais(DadosFuncionario.NomeFuncionario,
                     DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                     DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,

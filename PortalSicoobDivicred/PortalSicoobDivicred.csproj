@@ -371,6 +371,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aplicacao\QuerryMysql.cs" />
+    <Compile Include="Aplicacao\QuerryMysqlCurriculo.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />

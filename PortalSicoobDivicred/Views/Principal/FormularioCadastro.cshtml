@@ -14,19 +14,35 @@
 
 
     <script>
-
+        var Forma = 0;
         $(document).ready(function () {
             $('#CpfFuncionario').mask('000.000.000-00');
             $('#DataNascimentoFuncionario').mask('00/00/0000');
             $('#PisFuncionario').mask('000.00000.00-0');
+           
         });
         function AdicionarFormacao() {
             var x = document.createElement("INPUT");
-            var y = document.createElement('br');
+            var div = document.createElement('div');
+            var div2 = document.createElement('div');
+            var label = document.createElement("label");
+
+            label.setAttribute("class","label");
+
+            label.innerHTML="Formação Acadêmica";
+
+            div.setAttribute("class", "field");
+            div2.setAttribute("class", "control");
+            
             x.setAttribute("type", "text");
+            x.setAttribute("id", "formacao " + Forma);
+            x.setAttribute("name", "formacao " + Forma);
             x.setAttribute("class", "input");
-            document.getElementById("NovaFormacao").appendChild(x);
-            document.getElementById("NovaFormacao").appendChild(y);
+            Forma = Forma + 1;
+            document.getElementById("NovaFormacao").appendChild(div);
+            div.appendChild(div2);
+            div2.appendChild(label);
+            div2.appendChild(x);
         }
         function BuscaCertificacao(Nome) {
             $("#Conteudo").empty();
@@ -246,15 +262,17 @@
                             @Html.TextBoxFor(m => m.FormacaoAcademica, null, new { @class = "input", placeholder = "Ex: Administração", id = "FormacaoFuncionario" })
                             @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new { style = "color:red" })
                         </div>
-                        
+
                     </div>
-                    <div id="NovaFormacao">
+                    
+                    <div id="NovaFormacao" class="column">
                         
+                       
                     </div>
-                    <br />
-                    <P class="control">
+                    <P class="control column">
                         <a class="tag is-primary is-rounded is-medium" href="javascript:AdicionarFormacao();void(0);">Adicionar outra formação</a>
                     </P>
+                   
                     <div class="field is-grouped column">
                         <div class="control is-2">
                             <label class="label">Usuário do Sistema</label>

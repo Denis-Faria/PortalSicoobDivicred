@@ -198,6 +198,12 @@ namespace PortalSicoobDivicred.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
+                    var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+
                     var DescricaoSexo = "";
                     var DataNascimentoFilho = "";
                     if (DadosFuncionario.DescricaoSexo==null)
@@ -225,6 +231,15 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         Confirma = "N";
                     }
+
+                    for (int i = 0; i < Formulario.Count; i++)
+                    {
+                        if (Formulario.AllKeys[i].Contains("formacao"))
+                        {
+                            VerificaDados.InserirFormacao(Formulario[i],DadosTabelaFuncionario[0]["id"].ToString());
+                        }
+                    }
+
                     VerificaDados.AtualizaDadosFuncionarioFormulario(DadosFuncionario.NomeFuncionario,
                         DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                         DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,

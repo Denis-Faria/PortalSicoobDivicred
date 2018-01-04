@@ -9,6 +9,30 @@
 
 
 <script>
+    var Forma = 0;
+    function AdicionarFormacao() {
+        var x = document.createElement("INPUT");
+        var div = document.createElement('div');
+        var div2 = document.createElement('div');
+        var label = document.createElement("label");
+
+        label.setAttribute("class","label");
+
+        label.innerHTML="Formação Acadêmica";
+
+        div.setAttribute("class", "field");
+        div2.setAttribute("class", "control");
+            
+        x.setAttribute("type", "text");
+        x.setAttribute("id", "formacao " + Forma);
+        x.setAttribute("name", "formacao " + Forma);
+        x.setAttribute("class", "input");
+        Forma = Forma + 1;
+        document.getElementById("NovaFormacao").appendChild(div);
+        div.appendChild(div2);
+        div2.appendChild(label);
+        div2.appendChild(x);
+    }
     function BuscaCertificacao(Nome) {
         $("#ConteudoCertificacao").empty();
         $.ajax(
@@ -779,10 +803,10 @@
             </div>
 
             <hr/>
-            <div class="field is-grouped column">
+            <div class="field column">
                 <div class="control is-2 ">
                     <label class="label">Formação</label>
-                    <div class="select">
+                    <div class="select is-fullwidth">
                         @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new {id = "Formacao"})
                         @if (Convert.ToInt32(TempData["IdFormacao"].ToString()) > 0)
                         {
@@ -813,21 +837,40 @@
                 </div>
 
             </div>
-            <div class="field is-grouped column">
-                <div class="control is-2">
+            <div class="field column">
+                <div class="control is-4">
                     <label class="label">Formação Acadêmica</label>
-                    @Html.TextBoxFor(m => m.FormacaoAcademica, null, new {@class = "input", placeholder = "Ex: Administração", id = "FormacaoFuncionario"})
+                    @Html.TextBoxFor(m => m.FormacaoAcademica, null, new {@class = "input is-fullwidth", placeholder = "Ex: Administração", id = "FormacaoFuncionario"})
                     @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new {style = "color:red"})
                 </div>
-                <div class="control is-2">
+            </div>
+                
+                @for (int i=0;i< Convert.ToInt32(@TempData["TotalFormacao"]);i++)
+                {
+                    <div class=" column">
+                        <div class="field">
+                            <div class="control">
+                                <label class="label">Formação Acadêmica</label>
+                                <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]"/>
+                            </div>
+                        </div>
+                    </div>
+                }
+            <div id="NovaFormacao" class="column">
+                        
+                       
+            </div>
+            <P class="control column">
+                <a class="tag is-primary is-rounded is-medium" href="javascript:AdicionarFormacao();void(0);">Adicionar outra formação</a>
+            </P>
 
+
+            <div class="field column">
+                <div class="control is-2">
                     <label class="label">Usuário do Sistema</label>
                     @Html.TextBoxFor(m => m.UsuarioSistema, null, new {@class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario"})
                     @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new {style = "color:red"})
                 </div>
-
-
-
             </div>
             <div class="field is-grouped column">
                 <div class="control is-5">

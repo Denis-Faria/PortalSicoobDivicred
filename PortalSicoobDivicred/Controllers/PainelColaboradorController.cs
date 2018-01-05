@@ -340,22 +340,23 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var CarregaDados = new QuerryMysql();
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
+
                 var QueryRh = new QuerryMysqlRh();
                 var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
                 TempData["Total"] = VagasInternas.Count;
 
-                for (int i = 0; i < VagasInternas.Count; i++)
+                for (int j = 0; j < VagasInternas.Count; j++)
 
                 {
-                    TempData["Titulo " + i] = VagasInternas[i]["titulo"];
-                    TempData["Descricao " + i] = VagasInternas[i]["descricao"];
-                    TempData["IdVaga " + i] = VagasInternas[i]["id"];
-                    if (VagasInternas[i]["encerrada"].Equals("N"))
-                        TempData["StatusVaga" + i] = "green";
+                    TempData["Titulo " + j] = VagasInternas[j]["titulo"];
+                    TempData["DescricaoVaga " + j] = VagasInternas[j]["descricao"];
+                    TempData["IdVaga " + j] = VagasInternas[j]["id"];
+                    if (VagasInternas[j]["encerrada"].Equals("N"))
+                        TempData["StatusVaga " + j] = "green";
                     else
-                        TempData["StatusVaga" + i] = "red";
+                        TempData["StatusVaga " + j] = "red";
 
                 }
                 for (var i = 0; i < DadosColaborador.Count; i++)
@@ -526,6 +527,56 @@ namespace PortalSicoobDivicred.Controllers
         {
             return PartialView("ModalVagaInterna");
         }
-        
+
+
+        public ActionResult AlterarVaga(string IdVaga)
+        {
+            var VerificaDados = new QuerryMysqlCurriculo();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var QueryRh = new QuerryMysqlRh();
+                var DadosVaga = QueryRh.RetornaVaga(IdVaga);
+                VagasInternas Vaga = new VagasInternas();
+                Vaga.Titulo = DadosVaga[0]["titulo"];
+                Vaga.Descricao = DadosVaga[0]["descricao"];
+                Vaga.Requisitos = DadosVaga[0]["requisito"];
+                @TempData["IdVaga"] = IdVaga;
+
+                if (DadosVaga[0]["encerrada"].Equals("N"))
+                {
+                    @TempData["Ativa"] = "checked";
+                    @TempData["Status"] = "Ativa";
+                }
+                else
+                {
+                    @TempData["Ativa"] = "";
+                    @TempData["Status"] = "Desativada";
+                }
+                return PartialView("ModalEditarVagaInterna", Vaga);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
+        [HttpPost]
+        public ActionResult AtualizarVaga(VagasInternas DadosVaga, FormCollection Formulario)
+        {
+            var VerificaDados = new QuerryMysqlCurriculo();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                if (ModelState.IsValid)
+                {
+                    var QueryRh = new QuerryMysqlRh();
+                  
+                    QueryRh.AtualizaVagaInterna(DadosVaga.Titulo,DadosVaga.Descricao,DadosVaga.Requisitos,Formulario["IdVaga"]);
+                    return RedirectToAction("Principal", "Principal",
+                    new { Acao = "ColaboradorRh", Mensagem = "Vaga alterada com sucesso!", Controlle = "PainelColaborador" });
+                }
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

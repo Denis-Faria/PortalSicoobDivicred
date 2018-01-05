@@ -497,6 +497,7 @@
     <Content Include="Views\Principal\CertificacaoFuncao.cshtml" />
     <Content Include="Views\PainelColaborador\ModalVagaInterna.cshtml" />
     <Content Include="Views\Principal\WidgetVagas.cshtml" />
+    <Content Include="Views\PainelColaborador\ModalEditarVagaInterna.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

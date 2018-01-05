@@ -49,6 +49,25 @@
                 }
             });
     }
+    function AlterarVaga(IdVaga) {
+        $("#VagaCompleta").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/PainelColaborador/AlterarVaga',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": IdVaga },
+                success: function (data) {
+                    $("#VagaCompleta").append(data);
+                    $('#ModalEditarVaga').removeClass();
+                    $('#ModalEditarVaga').addClass('modal is-active');
+
+                }
+            });
+
+    }
 
 
 </script>
@@ -249,39 +268,41 @@
                             <span class="name"> Adicionar Vagas Internas</span>
                         </button>
                     </p>
-                    <table class="table is-striped is-centered" style="text-align: center">
-                        <thead>
-                        <th>Titulo Vaga</th>
-                        <th>Descrição</th>
-                        <th>Status</th>
-                        </thead>
-                        <tbody>
-                            @for (var a = 0; a < Convert.ToInt32(@TempData["Total"].ToString()); a++)
-                            {
-                                <tr>
-                                    <td>
-                                        <a href="javascript:GerenciarVaga(@TempData["IdVaga" + a].ToString());void(0);">@TempData["Titulo" + a].ToString()</a> <strong></strong>
-                                    </td>
-                                    <td>@TempData["Descricao" + a].ToString()</td>
-                                    <td>
-                                        <span class="icon">
-                                            <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + a].ToString()"></i>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:AlterarVaga(@TempData["IdVaga" + a].ToString());void(0);" class="button is-primary">
-                                            <span class="icon is-small">
-                                                <i class="fa fa-pencil" aria-hidden="true"></i>
-                                            </span>
-                                            <span class="name">Editar Vaga</span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        <tbody>
-                    </table>
-
                 </div>
+                <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center">
+                    <thead>
+                    <th>Titulo Vaga</th>
+                    <th>Descrição</th>
+                    <th>Status</th>
+                    <th>Editar</th>
+                    </thead>
+                    <tbody>
+                        @for (var a = 0; a < Convert.ToInt32(TempData["Total"].ToString()); a++)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="javascript:GerenciarVaga(@TempData["IdVaga " + a].ToString());void(0);">@TempData["Titulo " + a].ToString()</a> <strong></strong>
+                                </td>
+                                <td>@TempData["DescricaoVaga " + a].ToString()</td>
+                                <td>
+                                    <span class="icon">
+                                        <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga " + a].ToString()"></i>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="javascript:AlterarVaga(@TempData["IdVaga " + a].ToString());void(0);" class="button is-primary">
+                                        <span class="icon is-small">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </span>
+                                        <span class="name">Editar Vaga</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    <tbody>
+                </table>
+
+
 
             </div>
         </div>
@@ -363,5 +384,40 @@ MODAL VAGA INTERNA
             </div>
         </div>
     </form>
+}
+@using (Html.BeginForm("AtualizarVaga", "PainelColaborador"))
+{
+    <div id="ModalEditarVaga" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Perfil</p>
+                <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div id="VagaCompleta">
+
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-floppy-o"></i>
+                        </span>
+                        <span>Salvar Vaga</span>
+                    </button>
+
+                    <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
+                </p>
+
+            </footer>
+
+
+        </div>
+    </div>
 }
 

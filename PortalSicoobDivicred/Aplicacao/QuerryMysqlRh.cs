@@ -30,6 +30,13 @@ namespace PortalSicoobDivicred.Aplicacao
             contexto.ExecutaComandoComRetorno(Querry);
         }
 
+        public void AtualizaVagaInterna(string Titulo, string Descricao, string Requisitos,string IdVaga)
+        {
+            var Query = "UPDATE vagasinternas SET titulo='" + Titulo + "', descricao='" + Descricao + "',requisito='" +
+                        Requisitos + "' WHERE id=" + IdVaga + "";
+            contexto.ExecutaComandoComRetorno(Query);
+        }
+
         public List<Dictionary<string, string>> RetornaVagaInterna()
         {
             var Querry = "SELECT * FROM vagasinternas WHERE encerrada='N'";
@@ -38,7 +45,13 @@ namespace PortalSicoobDivicred.Aplicacao
         }
         public List<Dictionary<string, string>> RetornaVagaInternaTotal()
         {
-            var Querry = "SELECT * FROM vagasinternas WHERE encerrada='N'";
+            var Querry = "SELECT * FROM vagasinternas";
+            var row = contexto.ExecutaComandoComRetorno(Querry);
+            return row;
+        }
+        public List<Dictionary<string, string>> RetornaVaga(string IdVaga)
+        {
+            var Querry = "SELECT * FROM vagasinternas WHERE id="+IdVaga+"";
             var row = contexto.ExecutaComandoComRetorno(Querry);
             return row;
         }

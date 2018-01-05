@@ -112,6 +112,8 @@ namespace PortalSicoobDivicred.Controllers
 
                 {
                     TempData["TituloVagaInterna " + i] = VagasInternas[i]["titulo"];
+                    TempData["Descricao " + i] = VagasInternas[i]["descricao"];
+                    TempData["Requisito " + i] = VagasInternas[i]["requisito"];
                     TempData["IdVaga " + i] = VagasInternas[i]["id"];
                 
 

@@ -53,24 +53,31 @@
                                     {
                                         if (@TempData["Interesse " + i].ToString().Equals("Ok"))
                                         {
+
                                             <p>
-                                                @TempData["TituloVagaInterna " + i] <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-check-circle"></i></span></a>
+                                                @TempData["TituloVagaInterna " + i] 
+                                                <a data-balloon="Descrição: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-info-circle"></i></span></a>
+                                                <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-check-circle"></i></span></a>
                                             </p>
 
                                         }
                                         else
                                         {
                                             <p>
-                                                @TempData["TituloVagaInterna " + i] <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
+                                                @TempData["TituloVagaInterna " + i]
+                                                <a data-balloon=" Descriçõa: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-info-circle"></i></span></a>
+                                                <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
                                             </p>
 
                                         }
                                     }
                                     catch
                                     {
-                                        <p>
-                                            @TempData["TituloVagaInterna " + i] <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
-                                        </p>
+                                            <p>
+                                                @TempData["TituloVagaInterna " + i]
+                                                <a data-balloon="Descrição: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon" ><i class="fa fa-lg fa-info-circle"></i></span></a>
+                                                <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
+                                            </p>
 
                                     }
                                 }

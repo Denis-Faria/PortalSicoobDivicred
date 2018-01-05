@@ -247,7 +247,7 @@
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
                                 @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
-                                @if (Convert.ToInt32(TempData["Funcao"].ToString()) > 0)
+                                @if (Convert.ToInt32(TempData["IdFuncao"].ToString()) > 0)
                                 {
                                     @Html.Label("")
                                     <script>
@@ -256,7 +256,7 @@
                                             var s = document.getElementById("Funcao");
                                             for (i = 0; i < document.getElementById("Funcao").options.length; i++) {
 
-                                                if (s.options[i].value == @TempData["Funcao"].ToString()) {
+                                                if (s.options[i].value == @TempData["IdFuncao"].ToString()) {
 
                                                     // Item is found. Set its property and exit
 

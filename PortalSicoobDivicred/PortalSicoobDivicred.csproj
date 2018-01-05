@@ -372,6 +372,7 @@
   <ItemGroup>
     <Compile Include="Aplicacao\QuerryMysql.cs" />
     <Compile Include="Aplicacao\QuerryMysqlCurriculo.cs" />
+    <Compile Include="Aplicacao\QuerryMysqlRh.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />
@@ -389,6 +390,7 @@
     <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
+    <Compile Include="Models\VagasInternas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositorios\Conexao.cs" />
   </ItemGroup>
@@ -493,6 +495,8 @@
     <Content Include="Views\PainelColaborador\ColaboradorRh.cshtml" />
     <Content Include="Views\PainelColaborador\ModalPerfil.cshtml" />
     <Content Include="Views\Principal\CertificacaoFuncao.cshtml" />
+    <Content Include="Views\PainelColaborador\ModalVagaInterna.cshtml" />
+    <Content Include="Views\Principal\WidgetVagas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

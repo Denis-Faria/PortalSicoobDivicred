@@ -184,6 +184,16 @@ namespace PortalSicoobDivicred.Aplicacao
             return rows;
         }
 
+        public List<Dictionary<string, string>> RetornaFuncaoFuncionario(string IdFuncao)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM funcoes WHERE id='" + IdFuncao+ "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows;
+        }
+
         public List<SelectListItem> RetornaEstadoCivil()
         {
             var EstadoCivil = new List<SelectListItem>();

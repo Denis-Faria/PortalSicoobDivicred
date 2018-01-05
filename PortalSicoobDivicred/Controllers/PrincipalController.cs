@@ -21,7 +21,7 @@ namespace PortalSicoobDivicred.Controllers
     public class PrincipalController : Controller
     {
         // GET: Principal
-        public ActionResult Principal(string Acao, string Mensagem,string Controlle)
+        public ActionResult Principal(string Acao, string Mensagem, string Controlle)
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -54,7 +54,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-               if (VerificaDados.PrimeiroLogin(Login))
+                if (VerificaDados.PrimeiroLogin(Login))
                 {
                     return RedirectToAction("FormularioCadastro", "Principal");
 
@@ -88,8 +88,8 @@ namespace PortalSicoobDivicred.Controllers
             }
 
             return RedirectToAction("Login", "Login");
-            }
-        
+        }
+
 
         public ActionResult Dashboard()
         {
@@ -97,6 +97,40 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+
+                var QueryRh = new QuerryMysqlRh();
+
+                var VagasInternas = QueryRh.RetornaVagaInterna();
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                TempData["TotalVagasInternas"] = VagasInternas.Count();
+                var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
+
+                for (int i = 0; i < VagasInternas.Count; i++)
+
+                {
+                    TempData["TituloVagaInterna " + i] = VagasInternas[i]["titulo"];
+                    TempData["IdVaga " + i] = VagasInternas[i]["id"];
+                
+
+                    for (int j = 0; j < Interesse.Count; j++)
+                    {
+                        if (Interesse[j]["idvaga"].Equals(VagasInternas[i]["id"]))
+                        {
+                            TempData["Interesse " + i] = "Ok";
+                        }
+                    }
+                }
+                TempData["TotalProcessos"] = Interesse.Count;
+                for (int j = 0; j < Interesse.Count; j++)
+                {
+                    TempData["Aprovado " + j] = Interesse[j]["aprovado"];
+                    TempData["TituloVagaInternaProcesso " + j] = Interesse[j]["titulo"];
+                }
+
+
                 return PartialView("Dashboard");
             }
             else
@@ -110,15 +144,16 @@ namespace PortalSicoobDivicred.Controllers
             string Celular = "(37) 99988-3728";
             var EnvioSms = new string[1];
             var certo = "55" + Celular.Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
-       EnvioSms[0] =certo.Replace(" ","");
-        
-        Configuration configuration = new Configuration("Divicred", "Euder17!");
-        SMSClient smsClient = new SMSClient(configuration);
-        SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Novas vagas cadastradas. ", EnvioSms);
-        SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+            EnvioSms[0] = certo.Replace(" ", "");
+
+            Configuration configuration = new Configuration("Divicred", "Euder17!");
+            SMSClient smsClient = new SMSClient(configuration);
+            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                "Portal Sicoob Divicred, Novas vagas cadastradas. ", EnvioSms);
+            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
-    }
+        }
 
         public ActionResult FormularioCadastro()
         {
@@ -130,14 +165,16 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
-                var DadosTabelaFuncionario =VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+                var DadosTabelaFuncionario =
+                    VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
 
                 Funcionario DadosFuncionario = new Funcionario();
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
                 DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
                 DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
                 DadosFuncionario.PisFuncionario = DadosTabelaFuncionario[0]["pis"];
-                DadosFuncionario.DataNascimentoFuncionario = Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
+                DadosFuncionario.DataNascimentoFuncionario =
+                    Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
                 DadosFuncionario.UsuarioSistema = DadosTabelaUsuario[0]["login"];
                 DadosFuncionario.Email = DadosTabelaFuncionario[0]["email"];
@@ -167,10 +204,10 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
 
-                TempData["Salario"]= DadosTabelaFuncionario[0]["salariobase"];
-                TempData["QuebraCaixa"]= DadosTabelaFuncionario[0]["quebradecaixa"];
-                TempData["Anuenio"]= DadosTabelaFuncionario[0]["anuenio"];
-                TempData["Ticket"]= DadosTabelaFuncionario[0]["ticket"];
+                TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
+                TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
+                TempData["Anuenio"] = DadosTabelaFuncionario[0]["anuenio"];
+                TempData["Ticket"] = DadosTabelaFuncionario[0]["ticket"];
 
                 if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
                 {
@@ -202,11 +239,12 @@ namespace PortalSicoobDivicred.Controllers
                     var Login = Criptografa.Descriptografar(Cookie.Value);
 
                     var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
-                    var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+                    var DadosTabelaFuncionario =
+                        VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
 
                     var DescricaoSexo = "";
                     var DataNascimentoFilho = "";
-                    if (DadosFuncionario.DescricaoSexo==null)
+                    if (DadosFuncionario.DescricaoSexo == null)
                     {
                         DescricaoSexo = "NÃO INFORMOU";
                     }
@@ -214,7 +252,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         DescricaoSexo = DadosFuncionario.DescricaoSexo;
                     }
-                    if (DadosFuncionario.DataNascimentoFilho==null)
+                    if (DadosFuncionario.DataNascimentoFilho == null)
                     {
                         DataNascimentoFilho = "NÂO TEM";
                     }
@@ -236,7 +274,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         if (Formulario.AllKeys[i].Contains("formacao"))
                         {
-                            VerificaDados.InserirFormacao(Formulario[i],DadosTabelaFuncionario[0]["id"].ToString());
+                            VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"].ToString());
                         }
                     }
 
@@ -244,12 +282,15 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                         DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,
                         DadosFuncionario.IdSexo.ToString(), DescricaoSexo, DadosFuncionario.IdEtnia.ToString(),
-                        DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(), DadosFuncionario.FormacaoAcademica,
+                        DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(),
+                        DadosFuncionario.FormacaoAcademica,
                         DadosFuncionario.UsuarioSistema, DadosFuncionario.Email, DadosFuncionario.PA,
                         DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
-                        DadosFuncionario.IdSetor.ToString(), DadosFuncionario.IdFuncao.ToString(), DadosFuncionario.QuatidadeFilho,
+                        DadosFuncionario.IdSetor.ToString(), DadosFuncionario.IdFuncao.ToString(),
+                        DadosFuncionario.QuatidadeFilho,
                         DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
-                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem,Confirma);
+                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem,
+                        Confirma);
                     return RedirectToAction("Principal", "Principal");
                 }
             }
@@ -266,7 +307,7 @@ namespace PortalSicoobDivicred.Controllers
                 var IdCertificacoes = CertificacoesFuncao[0]["idcertificacao"].Split(';');
 
                 TempData["TotalCertificacao"] = IdCertificacoes.Length;
-                
+
                 for (int j = 0; j < IdCertificacoes.Length; j++)
                 {
                     var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
@@ -278,8 +319,22 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
+        public ActionResult TenhoInteresse(string IdVaga)
+        {
+            var VerificaDados = new QuerryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
 
+                var QueryRh = new QuerryMysqlRh();
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
 
-
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                QueryRh.CadastraInteresse(IdVaga,DadosTabelaFuncionario[0]["id"]);
+                return RedirectToAction("Principal", "Principal");
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

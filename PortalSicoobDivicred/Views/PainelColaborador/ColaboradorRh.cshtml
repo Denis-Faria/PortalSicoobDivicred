@@ -2,7 +2,7 @@
 <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
 <link href="@Url.Content("~/Assets/css/over.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
-<br/> 
+<br />
 <nav class="level ">
     <p class="level-item has-text-centered">
         <img src="/Images/Colaborador.png" alt="" style="height: 30px;">
@@ -11,7 +11,9 @@
 <script>
     $(function () {
         $("#TabFuncionalidades").tabs();
+        $("#TabFuncionalidadesPerfil").tabs();
     });
+
     function VerPerfil(Login) {
         $("#PerfilCompleto").empty();
         $.ajax(
@@ -26,6 +28,24 @@
                     $("#PerfilCompleto").append(data);
                     $('#ModalPerfil').removeClass();
                     $('#ModalPerfil').addClass('modal is-active');
+                }
+            });
+
+    }
+
+    function CadastroVaga() {
+        $("#VagaInternaCompleta").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/Vaga',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#VagaInternaCompleta").append(data);
+                    $('#ModalVaga').removeClass();
+                    $('#ModalVaga').addClass('modal is-active');
                 }
             });
     }
@@ -78,129 +98,193 @@
             </li>
         </ul>
     </div>
+
     <div id="PerfilFuncionario">
-
-        <div class="field is-grouped is-desktop">
-            <p class="control">
-                <button class="button is-primary modal-button" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
-                    <span class="icon is-small">
-                        <i class="fa fa-suitcase" aria-hidden="true"></i>
-                    </span>
-                    <span class="name"> Adicionar Vagas Internas</span>
-                </button>
-            </p>
-
-
-        </div> @{
-                   var count = 0;
-                   var pagina = 1;
-                   var j = 0;
-               }
-        @if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) > 0)
-        {
-            if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) >= 20)
-            {
-                for (var g = 0; g < Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
+        <div id="TabFuncionalidadesPerfil">
+            <div class="tabs is-boxed is-centered">
+                <ul>
+                    <li id="AbaPerfil" class="is-active">
+                        <a href="#Funcionarios" onclick="javascript:$('#AbaVagasInternas').removeClass();$('#AbaPerfil').addClass('is-active');">
+                            <span class="icon is-small">
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            </span>
+                            <span>Funcionários</span>
+                        </a>
+                    </li>
+                    <li id="AbaVagasInternas">
+                        <a href="#TodasVagasInternas" onclick="javascript:$('#AbaPerfil').removeClass();$('#AbaVagasInternas').addClass('is-active');">
+                            <span class="icon is-small">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i>
+                            </span>
+                            <span>Vagas Internas</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="Funcionarios">
+                @{
+                    var count = 0;
+                    var pagina = 1;
+                    var j = 0;
+                }
+                @if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) > 0)
                 {
-
-                    <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="text-align: center;alignment: center">
-                        <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Setor</th>
-                            <th>P.A</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @for (j = j; j < Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
+                    if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) >= 20)
+                    {
+                        for (var g = 0; g < Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
                         {
-                            count++;
-                            <tr>
-                                <td>
-                                    <article class="media">
-                                        <div class="media-left grow pic">
-                                            <figure class="image is-32x32">
-                                                <img src="@TempData["Imagem" + j]" />
-                                            </figure>
-                                        </div>
-                                        <div class="media-content">
-                                            <div class="content">
-                                                <p>
-                                                    <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </td>
-                                <td class="is-centered">@TempData["Setor" + j].ToString()</td>
-                                <td>@TempData["PA" + j].ToString()</td>
-                            </tr>
-                            if (count == 20)
-                            {
-                                count = 0;
-                                pagina++;
-                                break;
-                            }
+
+                            <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="text-align: center;alignment: center">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Setor</th>
+                                        <th>P.A</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (j = j; j < Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>
+                                                <article class="media">
+                                                    <div class="media-left grow pic">
+                                                        <figure class="image is-32x32">
+                                                            <img src="@TempData["Imagem" + j]" />
+                                                        </figure>
+                                                    </div>
+                                                    <div class="media-content">
+                                                        <div class="content">
+                                                            <p>
+                                                                <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </td>
+                                            <td class="is-centered">@TempData["Setor" + j].ToString()</td>
+                                            <td>@TempData["PA" + j].ToString()</td>
+                                        </tr>
+                                        if (count == 20)
+                                        {
+                                            count = 0;
+                                            pagina++;
+                                            break;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
                         }
-                        </tbody>
-                    </table>
+                    }
+                    else
+                    {
+                        <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="text-align: center">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Setor</th>
+                                    <th>P.A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int k = 0; k < Convert.ToInt32(TempData["TotalColaborador"].ToString()); k++)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td>
+                                            <article class="media">
+                                                <div class="media-left grow pic">
+                                                    <figure class="image is-32x32">
+                                                        <img src="@TempData["Imagem" + k]" />
+                                                    </figure>
+                                                </div>
+                                                <div class="media-content">
+                                                    <div class="content">
+                                                        <p>
+                                                            <a href="javascript:VerPerfil('@TempData["Login" + k]');void(0);">@TempData["Nome" + k].ToString()</a> <strong></strong>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </td>
+                                        <td class="is-centered">@TempData["Setor" + k].ToString()</td>
+                                        <td>@TempData["PA" + k].ToString()</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+
+                        </table>
+
+                    }
+                    <nav class="pagination" role="navigation" aria-label="pagination">
+                        <ul class="pagination-list">
+                            @for (var i = 1; i <= Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; i++)
+                            {
+                                <li>
+                                    <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
 
                 }
-            }
-            else
-            {
-                <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="text-align: center">
-                    <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Setor</th>
-                        <th>P.A</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @for (int k = 0; k < Convert.ToInt32(TempData["TotalColaborador"].ToString()); k++)
-                    {
-                        count++;
-                        <tr>
-                            <td>
-                                <article class="media">
-                                    <div class="media-left grow pic">
-                                        <figure class="image is-32x32">
-                                            <img src="@TempData["Imagem" + k]" />
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p>
-                                                <a href="javascript:VerPerfil('@TempData["Login" + k]');void(0);">@TempData["Nome" + k].ToString()</a> <strong></strong>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </article>
-                            </td>
-                            <td class="is-centered">@TempData["Setor" + k].ToString()</td>
-                            <td>@TempData["PA" + k].ToString()</td>
-                        </tr>
+            </div>
 
-                    }
-                    </tbody>
+            <!--
+            ABA VAGAS
 
-                </table>
 
-            }
-            <nav class="pagination" role="navigation" aria-label="pagination">
-                <ul class="pagination-list">
-                    @for (var i = 1; i <= Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; i++)
-                    {
-                        <li>
-                            <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
 
-        }
+                -->
+            <div id="TodasVagasInternas">
+                <div class="field is-grouped is-desktop">
+                    <p class="control">
+                        <button class="button is-primary modal-button" onclick="javascript:CadastroVaga(); void (0);" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
+                            <span class="icon is-small">
+                                <i class="fa fa-suitcase" aria-hidden="true"></i>
+                            </span>
+                            <span class="name"> Adicionar Vagas Internas</span>
+                        </button>
+                    </p>
+                    <table class="table is-striped is-centered" style="text-align: center">
+                        <thead>
+                        <th>Titulo Vaga</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        </thead>
+                        <tbody>
+                            @for (var a = 0; a < Convert.ToInt32(@TempData["Total"].ToString()); a++)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="javascript:GerenciarVaga(@TempData["IdVaga" + a].ToString());void(0);">@TempData["Titulo" + a].ToString()</a> <strong></strong>
+                                    </td>
+                                    <td>@TempData["Descricao" + a].ToString()</td>
+                                    <td>
+                                        <span class="icon">
+                                            <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + a].ToString()"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="javascript:AlterarVaga(@TempData["IdVaga" + a].ToString());void(0);" class="button is-primary">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </span>
+                                            <span class="name">Editar Vaga</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        <tbody>
+                    </table>
 
+                </div>
+
+            </div>
+        </div>
     </div>
     <div id="BancodeHoras">
         <h1>Horas</h1>
@@ -214,7 +298,14 @@
     <div id="Indicadores">
         <h1>Indicadores</h1>
     </div>
+
 </div>
+<!--
+        MODAL PERFIL COLABORADOR
+-->
+
+
+
 <div id="ModalPerfil" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card is-narow" style="width: 800px;">
@@ -243,4 +334,34 @@
         </footer>
     </div>
 </div>
+
+<!--
+MODAL VAGA INTERNA
+-->
+
+
+
+@using (Html.BeginForm("CadastrarVaga", "PainelColaborador"))
+{
+    <form id="Teste" method="post">
+        <div id="ModalVaga" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Adicionar Vagas</p>
+                    <a href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div id="VagaInternaCompleta">
+
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" class="button is-success">Salvar Vaga</button>
+                    <a class="button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+    </form>
+}
 

@@ -99,13 +99,15 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
                 }
+                var FuncaoFuncionario = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
                 TempData["IdEstadoCivil"] = DadosTabelaFuncionario[0]["idestadocivil"];
                 TempData["IdSexo"] = DadosTabelaFuncionario[0]["sexo"];
                 TempData["IdEtnia"] = DadosTabelaFuncionario[0]["etnia"];
                 TempData["IdFormacao"] = DadosTabelaFuncionario[0]["idescolaridade"];
                 TempData["IdSetor"] = DadosTabelaFuncionario[0]["idsetor"];
                 TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
-                TempData["Funcao"] = DadosTabelaFuncionario[0]["funcao"];
+                TempData["Funcao"] = FuncaoFuncionario[0]["descricao"];
+                TempData["IdFuncao"] = DadosTabelaFuncionario[0]["funcao"];
                 TempData["DataAdmissao"] =
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
 
@@ -338,9 +340,24 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var CarregaDados = new QuerryMysql();
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
+                var QueryRh = new QuerryMysqlRh();
+                var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
+                TempData["Total"] = VagasInternas.Count;
 
+                for (int i = 0; i < VagasInternas.Count; i++)
+
+                {
+                    TempData["Titulo " + i] = VagasInternas[i]["titulo"];
+                    TempData["Descricao " + i] = VagasInternas[i]["descricao"];
+                    TempData["IdVaga " + i] = VagasInternas[i]["id"];
+                    if (VagasInternas[i]["encerrada"].Equals("N"))
+                        TempData["StatusVaga" + i] = "green";
+                    else
+                        TempData["StatusVaga" + i] = "red";
+
+                }
                 for (var i = 0; i < DadosColaborador.Count; i++)
                 {
 
@@ -360,6 +377,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     }
                 }
+                
 
                 return PartialView("ColaboradorRh");
             }
@@ -470,5 +488,44 @@ namespace PortalSicoobDivicred.Controllers
                     Controlle = "PainelColaborador"
                 });
         }
+
+        [HttpPost]
+        public ActionResult CadastrarVaga(VagasInternas DadosVaga)
+        {
+            var VerificaDados = new QuerryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                if (ModelState.IsValid)
+                {
+                    VerificaDados.CadastraVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao);
+
+                    return RedirectToAction("Principal", "Principal",
+                        new
+                        {
+                            Acao = "ColaboradorRh ",
+                            Mensagem = "Vaga interna criada com sucesso !",
+                            Controlle = "PainelColaborador"
+                        });
+                }
+                else
+                {
+                    return RedirectToAction("Principal", "Principal",
+                        new
+                        {
+                            Acao = "ColaboradorRh ",
+                            Mensagem = "Vaga interna não cadastrada !",
+                            Controlle = "PainelColaborador"
+                        });
+                }
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Vaga()
+        {
+            return PartialView("ModalVagaInterna");
+        }
+        
     }
 }

@@ -1,0 +1,21 @@
+﻿ <div class="card">
+    <header class="card-header">
+        <p class="card-header-title">
+            Vagas Internas
+        </p>
+        <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
+    <div class="card-content">
+        <ul>
+            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalVagasInternas"]); i++)
+            {
+                <li>@TempData["TituloVagaInterna"]<a href="#" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="TenhoInteresse" onmouseleave="$('#TenhoInteresse').removeClass('animated swing')" onmouseover="$('#TenhoInteresse').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a></li>
+                <hr/>
+            }
+        </ul>
+    </div>
+</div>

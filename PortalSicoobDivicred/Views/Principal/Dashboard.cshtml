@@ -1,31 +1,120 @@
-﻿<br/>
+﻿<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 
+
+<br />
+<script>
+    function EscondeVagas() {
+        if ($("#VagasInternas").is(":visible")) {
+            $("#VagasInternas").addClass("animated fadeOut");
+
+            $("#VagasInternas").hide();
+        } else {
+            $("#VagasInternas").removeClass("animated fadeOut");
+            $("#VagasInternas").addClass("animated fadeIn");
+            $("#VagasInternas").show();
+        }
+    }
+
+</script>
 <nav class="level ">
     <p class="level-item has-text-centered">
-        <a class="button is-outlined is-danger">
-            <span class="icon">
-                <i class="fa fa-history" aria-hidden="true"></i>
-            </span><span>Restaurar Dashboard</span>
-        </a>
+
     </p>
     <p class="level-item has-text-centered">
         <img src="/Images/Dash.png" alt="" style="height: 30px;">
     </p>
 
     <p class="level-item has-text-centered">
-        <a class="button is-outlined is-primary">
-            <span class="icon">
-                <i class="fa fa-wrench" aria-hidden="true"></i>
-            </span><span>Adcionar Widget</span>
-        </a>
+
     </p>
 </nav>
+<div class="columns">
+    <div class="column is-4">
+        <div class="content">
+            <div id="widget">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Vagas Internas
+                        </p>
+                        <a href="javascript:EscondeVagas();void(0);" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div id="VagasInternas">
+                        <div class="card-content">
+                            <p><strong>Vagas em Aberto</strong></p>
+                            <ul>
+                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalVagasInternas"]); i++)
+                                {
+                                    try
+                                    {
+                                        if (@TempData["Interesse " + i].ToString().Equals("Ok"))
+                                        {
+                                            <p>
+                                                @TempData["TituloVagaInterna " + i] <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-check-circle"></i></span></a>
+                                            </p>
 
-<div class="column is-4">
-    <div class="content">
-        <div id="cont_fd76a6afc1f1da9ccf8d400b93acfcf1"><script type="text/javascript" async src="https://www.tempo.com/wid_loader/fd76a6afc1f1da9ccf8d400b93acfcf1"></script></div>
-        
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                @TempData["TituloVagaInterna " + i] <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
+                                            </p>
+
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        <p>
+                                            @TempData["TituloVagaInterna " + i] <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
+                                        </p>
+
+                                    }
+                                }
+                            </ul>
+                            <footer class="card-footer">
+                                <p class="card-footer-item">
+                                    Resultado Processo Seletivo
+                                </p>
+                                <ul>
+                                    @for (int j = 0; j < Convert.ToInt32(@TempData["TotalProcessos"]); j++)
+                                    {
+
+                                        if (Convert.ToBoolean(@TempData["Aprovado " + j].ToString()))
+                                        {
+                                            <p>
+                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-smile-o"></i></span></a>
+                                            </p>
+                                            <hr/>
+                                        }
+                                        else
+                                        {
+                                            <p>
+                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-frown-o" style="color: darkred"></i></span></a>
+                                            </p>
+                                            <hr/>
+                                        }
+                                    }
+
+
+                                </ul>
+                            </footer>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div id="cont_fd76a6afc1f1da9ccf8d400b93acfcf1">
+                <script type="text/javascript" async src="https://www.tempo.com/wid_loader/fd76a6afc1f1da9ccf8d400b93acfcf1"></script>
+            </div>
+
+        </div>
     </div>
-   
-    
+
+
+
 </div>

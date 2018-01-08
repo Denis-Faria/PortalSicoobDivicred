@@ -66,5 +66,25 @@ namespace PortalSicoobDivicred.Aplicacao
             var Querry = "INSERT INTO processosseletivos (idvaga,idfuncionario) VALUES(" + IdVaga + "," +IdFuncionario+ ")";
             contexto.ExecutaComandoComRetorno(Querry);
         }
+
+        public List<Dictionary<string, string>> RecuperaFuncionariosVaga(string IdVaga)
+        {
+            var Query = "select a.id,b.id as idvaga, a.login, a.nome,a.foto,a.idpa, b.titulo,b.descricao,b.encerrada,d.descricao as setorfuncionario, c.aprovado from funcionarios a,vagasinternas b, processosseletivos c, setores d where a.idsetor=d.id AND a.id=c.idfuncionario and b.id=c.idvaga and c.idvaga=" +
+                        IdVaga + "";
+            var row = contexto.ExecutaComandoComRetorno(Query);
+            return row;
+        }
+
+        public void AtualizaStatus(string IdVaga, string IdFuncionario,bool Aprovado)
+        {
+            var Query = "UPDATE processosseletivos set aprovado=" + Aprovado + " WHERE idvaga=" + IdVaga +
+                        " AND idfuncionario=" + IdFuncionario + "";
+            contexto.ExecutaComandoComRetorno(Query);
+        }
+        public void EncerraVaga(string IdVaga)
+        {
+            var Query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + IdVaga + ";";
+            contexto.ExecutaComandoComRetorno(Query);
+        }
     }
 }

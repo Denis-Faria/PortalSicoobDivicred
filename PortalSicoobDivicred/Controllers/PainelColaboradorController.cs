@@ -578,5 +578,100 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult GerenciarVaga(string IdVaga)
+        {
+            var VerificaDados = new QuerryMysqlCurriculo();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var RecuperaDados = new QuerryMysqlRh();
+                var DadosCurriculos = RecuperaDados.RecuperaFuncionariosVaga(IdVaga);
+                TempData["TotalCurriculo"] = DadosCurriculos.Count;
+                TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + DadosCurriculos.Count;
+                TempData["TituloVaga"] = IdVaga + "-" + DadosCurriculos[0]["titulo"];
+                TempData["DescricaoVaga"] = DadosCurriculos[0]["descricao"];
+                TempData["IdVaga"] = IdVaga;
+
+                for (var i = 0; i < DadosCurriculos.Count; i++)
+                {
+                    TempData["IdFuncionario" + i] = "IdFuncionario | "+DadosCurriculos[i]["id"]; 
+                    TempData["Nome" + i] = DadosCurriculos[i]["nome"];
+                    TempData["Login" + i] = DadosCurriculos[i]["login"];
+                    TempData["Setor" + i] = DadosCurriculos[i]["setorfuncionario"];
+                    TempData["PA" + i] = DadosCurriculos[i]["idpa"];
+                    if (Convert.ToBoolean(DadosCurriculos[i]["aprovado"]))
+                    {
+                        TempData["Resultado" + i] = "checked";
+                    }
+                    else
+                    {
+                        TempData["Resultado" + i] = "";
+                    }
+
+                    if (DadosCurriculos[i]["foto"].Equals("0"))
+                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    else
+                        TempData["Imagem" + i] = "/Uploads/" +
+                                                 DadosCurriculos[i]["foto"] + "";
+                }
+                if (DadosCurriculos[0]["encerrada"].Equals("N"))
+                {
+                    TempData["Ativa"] = "";
+                    TempData["Dica"] = "Clique para encerrar esta vaga.";
+
+                }
+                else
+                {
+                    TempData["Ativa"] = "disabled";
+                    TempData["Dica"] = "Esta vaga já esta encerrada.";
+
+                }
+                return PartialView("GerenciarVaga");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+        }
+        [HttpPost]
+        public ActionResult EncerrarVaga(FormCollection Formulario)
+        {
+            var VerificaDados = new QuerryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                for (int i = 0; i < Formulario.Count; i++)
+                {
+                    if (Formulario.AllKeys[i].Contains("IdFuncionario"))
+                    {
+                        var IdFuncionario = Formulario.AllKeys[i].Split('|');
+                        var Aprovado=false;
+                        var teste = Formulario[i];
+                        if (Formulario[i].Equals("on"))
+                        {
+                            Aprovado = true;
+                        }
+                        else
+                        {
+                            Aprovado = false;
+                        }
+                        VerificaDados.AtualizaStatus(Formulario["vaga"],IdFuncionario[1],Aprovado);
+                    }
+                }
+                VerificaDados.EncerraVaga(Formulario["vaga"]);
+                return RedirectToAction("Principal", "Principal",
+                    new
+                    {
+                        Acao = "ColaboradorRh ",
+                        Mensagem = "Vaga interna encerrada com sucesso !",
+                        Controlle = "PainelColaborador"
+                    });
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
+        }
     }
 }

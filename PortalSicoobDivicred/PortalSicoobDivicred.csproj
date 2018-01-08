@@ -150,6 +150,8 @@
   <ItemGroup>
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\balloon.css" />
+    <Content Include="Assets\css\bulma-switch\bulma-switch.css" />
+    <Content Include="Assets\css\bulma-switch\bulma-switch.min.css" />
     <Content Include="Assets\css\Bulma\bulma\bulma.css">
       <DependentUpon>bulma.sass</DependentUpon>
     </Content>
@@ -254,6 +256,12 @@
     <Content Include="Assets\css\bulma-timeline\package.json" />
     <Content Include="Assets\css\bulma-timeline\README.md" />
     <Content Include="Assets\css\bulma-timeline\timeline.sass" />
+    <Content Include="Assets\css\bulma-switch\bower.json" />
+    <Content Include="Assets\css\bulma-switch\bulma-switch.sass" />
+    <Content Include="Assets\css\bulma-switch\LICENSE" />
+    <Content Include="Assets\css\bulma-switch\package.json" />
+    <Content Include="Assets\css\bulma-switch\README.md" />
+    <Content Include="Assets\css\bulma-switch\switch.sass" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -498,6 +506,7 @@
     <Content Include="Views\PainelColaborador\ModalVagaInterna.cshtml" />
     <Content Include="Views\Principal\WidgetVagas.cshtml" />
     <Content Include="Views\PainelColaborador\ModalEditarVagaInterna.cshtml" />
+    <Content Include="Views\PainelColaborador\GerenciarVaga.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

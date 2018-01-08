@@ -9,6 +9,28 @@
     </p>
 </nav>
 <script>
+    function GerenciarVaga(IdVaga) {
+        $("#Conteudo").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/PainelColaborador/GerenciarVaga',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": IdVaga },
+                success: function (data) {
+                    var tamanho = $(window).height();
+                    $("body").css('height', tamanho);
+                    $("#Conteudo").append(data);
+                    windowHeight = $(document).height();
+                    $('#CorpoPrincipal').css('height', windowHeight);
+                    $('#CorpoPrincipal').css('background', '#e6e6e6');
+
+                }
+            });
+
+    }
     $(function () {
         $("#TabFuncionalidades").tabs();
         $("#TabFuncionalidadesPerfil").tabs();

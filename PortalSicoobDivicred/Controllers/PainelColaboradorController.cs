@@ -558,8 +558,6 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-
-
         [HttpPost]
         public ActionResult AtualizarVaga(VagasInternas DadosVaga, FormCollection Formulario)
         {

@@ -260,7 +260,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
 
-                    Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                    Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                     string[] recipients = { TodosEmail };
                     var subject = "Novas Vagas";
                     var fromEmail = "correio@divicred.com.br";
@@ -672,7 +672,7 @@ namespace PortalSicoobDivicred.Controllers
                         SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", Curriculos["Alerta"], Certo.Replace(" ", ""));
                         SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
-                        Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                        Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                         string[] recipients = { EmailCelular[0]["email"] };
                         var subject = "Parabéns";
                         var fromEmail = "correio@divicred.com.br";
@@ -722,7 +722,7 @@ namespace PortalSicoobDivicred.Controllers
                 SMSRequest smsRequest2 = new SMSRequest("Portal Sicoob Divicred","Portal Sicoob Divicred. Infelizmente você não foi selecionado para proxima etapa do processo seletivo.", SmsNegado);
                 SendMessageResult requestId2 = smsClient2.SmsMessagingClient.SendSMS(smsRequest2);*/
 
-                Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                 string[] recipients2 = { Emails };
                 var subject2 = "Atualização de Status";
                 var fromEmail2 = "correio@divicred.com.br";
@@ -903,7 +903,7 @@ namespace PortalSicoobDivicred.Controllers
                             SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
-                            Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                            Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                             string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
                             var subject = "Parabéns";
                             var fromEmail = "correio@divicred.com.br";
@@ -937,7 +937,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
 
-                            Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                            Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                             string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
@@ -969,7 +969,7 @@ namespace PortalSicoobDivicred.Controllers
                             SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
-                            Api.ApiKey = "edff66b8-adb7-461e-9f3f-fd1649cedefa";
+                            Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
                             string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";

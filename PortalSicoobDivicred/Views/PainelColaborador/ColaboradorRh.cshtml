@@ -93,7 +93,12 @@
 
 
 </script>
-
+<style>
+    .table {
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 <div id="TabFuncionalidades">
     <div class="tabs is-boxed is-centered">
         <ul>
@@ -329,9 +334,74 @@
             </div>
         </div>
     </div>
-    <div id="BancodeHoras">
-        <h1>Horas</h1>
-    </div>
+<div id="BancodeHoras">
+    <p class="field">
+        <a class="button is-success">
+            <span class="icon is-small">
+                <i class="fa fa-bell"></i>
+            </span>
+            <span>Alertar sobre pendência</span>
+        </a>
+        <a class="button is-primary">
+            <span class="icon is-small">
+                <i class="fa  fa-history"></i>
+            </span>
+            <span>Histórico de pendências</span>
+        </a>
+    </p>
+    <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center">
+        <thead>
+        <th>Funcionário</th>
+        <th>Dia</th>
+        <th>Entrada</th>
+        <th>Saída Almoço</th>
+        <th>Volta Almoço</th>
+        <th>Saída</th>
+        <th>Justificativa</th>
+        <th>Validação Gestor</th>
+        <th>Confirmação</th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                Davi Campos
+            </td>
+            <td>
+                08/01/2017
+            </td>
+            <td>
+                --:--
+            </td>
+            <td>
+                11:30
+            </td>
+            <td>
+                12:30
+            </td>
+            <td>
+                17:30
+            </td>
+            <td class="is-center">
+                <span class="icon is-small">
+                    <i class="fa fa-check-circle-o" style="color: green" aria-hidden="true"></i>
+                </span>
+            </td>
+            <td>
+                <span class="icon is-small">
+                    <i class="fa fa-exclamation-circle" style="color: darkred" aria-hidden="true"></i>
+                </span>
+            </td>
+            <td>
+                <div class="field">
+                    <input type="checkbox" id="confirma" class="switch"/>
+                    <label for="confirma"></label>
+                </div>
+            </td>
+        </tr>
+
+        <tbody>
+    </table>
+</div>
     <div id="Ferias">
         <h1>Ferias</h1>
     </div>

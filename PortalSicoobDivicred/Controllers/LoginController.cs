@@ -39,6 +39,7 @@ namespace PortalSicoobDivicred.Controllers
                                    ModelState["Senha"].Errors[0].ErrorMessage;
             return View();
         }
+
         public ActionResult Logoff()
         {
             if (Request.Cookies["CookieFarm"] != null)

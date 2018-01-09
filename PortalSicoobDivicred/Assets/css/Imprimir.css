@@ -1,13 +1,11 @@
 ﻿@media print {
-    body * {
-        visibility: hidden;
-    }
-    #printable, #printable * {
-        visibility: visible;
-    }
+    body * { visibility: hidden; }
+
+    #printable, #printable * { visibility: visible; }
+
     #printable {
-        position: absolute;
         left: 0;
+        position: absolute;
         top: 0;
     }
 }

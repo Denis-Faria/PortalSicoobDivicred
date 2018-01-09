@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
@@ -18,10 +15,6 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-
-
-
-
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
@@ -29,12 +22,12 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
                 var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario(Login);
 
-                for (int i = 0; i < DocumentosUpados.Count; i++)
+                for (var i = 0; i < DocumentosUpados.Count; i++)
                 {
                     TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
                     TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
                 }
-                Funcionario DadosFuncionario = new Funcionario();
+                var DadosFuncionario = new Funcionario();
 
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
                 DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
@@ -61,13 +54,11 @@ namespace PortalSicoobDivicred.Controllers
                 var Formacoes = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
 
                 TempData["TotalFormacao"] = Formacoes.Count;
-                for (int j = 0; j < Formacoes.Count; j++)
+                for (var j = 0; j < Formacoes.Count; j++)
                 {
                     TempData["IdFormacaoExtra" + j] = "Extra|" + Formacoes[j]["id"];
-                    TempData["FormacaoExtra" + j] =  Formacoes[j]["descricao"];
-
+                    TempData["FormacaoExtra" + j] = Formacoes[j]["descricao"];
                 }
-
 
 
                 var CertificacoesFuncao = VerificaDados.RetornaCertificacaoFuncao(DadosTabelaFuncionario[0]["funcao"]);
@@ -75,30 +66,21 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["TotalCertificacao"] = IdCertificacoes.Length;
 
-                for (int j = 0; j < IdCertificacoes.Length; j++)
+                for (var j = 0; j < IdCertificacoes.Length; j++)
                 {
                     var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
-                    @TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                    TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
                 }
-
 
 
                 if (DadosTabelaFuncionario[0]["confirmacaocertificacao"].Equals("S"))
-                {
                     TempData["ConfirmaCertificacao"] = "Checked";
-                }
                 else
-                {
                     TempData["ConfirmaCertificacao"] = "";
-                }
                 if (DadosTabelaFuncionario[0]["foto"] == null)
-                {
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
-                }
                 else
-                {
                     TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
-                }
                 var FuncaoFuncionario = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
                 TempData["IdEstadoCivil"] = DadosTabelaFuncionario[0]["idestadocivil"];
                 TempData["IdSexo"] = DadosTabelaFuncionario[0]["sexo"];
@@ -143,8 +125,6 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-
-
                 return PartialView("Perfil", DadosFuncionario);
             }
             return RedirectToAction("Login", "Login");
@@ -170,13 +150,12 @@ namespace PortalSicoobDivicred.Controllers
                         Mensagem = "Dados Profissionais atualizados com sucesso !",
                         Controlle = "PainelColaborador"
                     });
-
             }
             return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
-        public ActionResult AtualizaDadosPessoais(Funcionario DadosFuncionario,FormCollection Formulario) 
+        public ActionResult AtualizaDadosPessoais(Funcionario DadosFuncionario, FormCollection Formulario)
         {
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -187,32 +166,23 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DescricaoSexo = "";
                 if (DadosFuncionario.DescricaoSexo == null)
-                {
                     DescricaoSexo = "NÃO INFORMOU";
-                }
                 else
-                {
                     DescricaoSexo = DadosFuncionario.DescricaoSexo;
-                }
-
-               
 
 
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
 
-                for (int i = 0; i < Formulario.Count; i++)
+                for (var i = 0; i < Formulario.Count; i++)
                 {
                     if (Formulario.AllKeys[i].Contains("formacao"))
-                    {
                         VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"]);
-                    }
                     if (Formulario.AllKeys[i].Contains("Extra"))
                     {
                         var IdFormacao = Formulario.AllKeys[i].Split('|');
-                        VerificaDados.AtualizaFormacao(Formulario[i],IdFormacao[1] );
+                        VerificaDados.AtualizaFormacao(Formulario[i], IdFormacao[1]);
                     }
                 }
-
 
 
                 VerificaDados.AtualizaDadosFuncionarioDadosPessoais(DadosFuncionario.NomeFuncionario,
@@ -246,12 +216,11 @@ namespace PortalSicoobDivicred.Controllers
                 var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
                 if (System.IO.File.Exists(Caminho))
                 {
-                    int counter = 1;
+                    var counter = 1;
                     var tempfileName = "";
                     while (System.IO.File.Exists(Caminho))
                     {
-
-                        tempfileName = counter.ToString() + NomeArquivo;
+                        tempfileName = counter + NomeArquivo;
                         Caminho = Path.Combine(Server.MapPath("~/Uploads/"), tempfileName);
                         counter++;
                     }
@@ -294,7 +263,6 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(cookie.Value);
                 InserirFoto.AtualizarArquivoPessoal(NomeArquivo, fileData, Login);
                 return Content("Imagem alterada com sucesso!");
-
             }
             return RedirectToAction("Login", "Login");
         }
@@ -310,13 +278,9 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 var DataNascimentoFilho = "";
                 if (DadosFuncionario.DataNascimentoFilho == null)
-                {
                     DataNascimentoFilho = "NÂO TEM";
-                }
                 else
-                {
                     DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
-                }
                 VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho,
                     DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
                     DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
@@ -347,7 +311,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalColaborador"] = DadosColaborador.Count;
                 TempData["Total"] = VagasInternas.Count;
 
-                for (int j = 0; j < VagasInternas.Count; j++)
+                for (var j = 0; j < VagasInternas.Count; j++)
 
                 {
                     TempData["Titulo " + j] = VagasInternas[j]["titulo"];
@@ -357,11 +321,9 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusVaga " + j] = "green";
                     else
                         TempData["StatusVaga " + j] = "red";
-
                 }
                 for (var i = 0; i < DadosColaborador.Count; i++)
                 {
-
                     TempData["Nome" + i] = DadosColaborador[i]["nome"];
                     TempData["Setor" + i] = DadosColaborador[i]["setor"];
                     TempData["PA" + i] = DadosColaborador[i]["idpa"];
@@ -378,14 +340,11 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     }
                 }
-                
+
 
                 return PartialView("ColaboradorRh");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult PerfilFuncionario(string Login)
@@ -394,16 +353,15 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
                 var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario(Login);
 
-                for (int i = 0; i < DocumentosUpados.Count; i++)
+                for (var i = 0; i < DocumentosUpados.Count; i++)
                 {
                     TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
                     TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
                 }
-                Funcionario DadosFuncionario = new Funcionario();
+                var DadosFuncionario = new Funcionario();
 
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
                 DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
@@ -428,13 +386,9 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
 
                 if (DadosTabelaFuncionario[0]["foto"] == null)
-                {
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
-                }
                 else
-                {
                     TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
-                }
                 TempData["IdEstadoCivil"] = DadosTabelaFuncionario[0]["idestadocivil"];
                 TempData["IdSexo"] = DadosTabelaFuncionario[0]["sexo"];
                 TempData["IdEtnia"] = DadosTabelaFuncionario[0]["etnia"];
@@ -475,7 +429,6 @@ namespace PortalSicoobDivicred.Controllers
                 return PartialView("ModalPerfil", DadosFuncionario);
             }
             return RedirectToAction("Login", "Login");
-
         }
 
 
@@ -496,7 +449,6 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QuerryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
-            {
                 if (ModelState.IsValid)
                 {
                     VerificaDados.CadastraVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao);
@@ -519,7 +471,6 @@ namespace PortalSicoobDivicred.Controllers
                             Controlle = "PainelColaborador"
                         });
                 }
-            }
             return RedirectToAction("Login", "Login");
         }
 
@@ -537,21 +488,21 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var QueryRh = new QuerryMysqlRh();
                 var DadosVaga = QueryRh.RetornaVaga(IdVaga);
-                VagasInternas Vaga = new VagasInternas();
+                var Vaga = new VagasInternas();
                 Vaga.Titulo = DadosVaga[0]["titulo"];
                 Vaga.Descricao = DadosVaga[0]["descricao"];
                 Vaga.Requisitos = DadosVaga[0]["requisito"];
-                @TempData["IdVaga"] = IdVaga;
+                TempData["IdVaga"] = IdVaga;
 
                 if (DadosVaga[0]["encerrada"].Equals("N"))
                 {
-                    @TempData["Ativa"] = "checked";
-                    @TempData["Status"] = "Ativa";
+                    TempData["Ativa"] = "checked";
+                    TempData["Status"] = "Ativa";
                 }
                 else
                 {
-                    @TempData["Ativa"] = "";
-                    @TempData["Status"] = "Desativada";
+                    TempData["Ativa"] = "";
+                    TempData["Status"] = "Desativada";
                 }
                 return PartialView("ModalEditarVagaInterna", Vaga);
             }
@@ -564,16 +515,20 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QuerryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
-            {
                 if (ModelState.IsValid)
                 {
                     var QueryRh = new QuerryMysqlRh();
-                  
-                    QueryRh.AtualizaVagaInterna(DadosVaga.Titulo,DadosVaga.Descricao,DadosVaga.Requisitos,Formulario["IdVaga"]);
+
+                    QueryRh.AtualizaVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
+                        Formulario["IdVaga"]);
                     return RedirectToAction("Principal", "Principal",
-                    new { Acao = "ColaboradorRh", Mensagem = "Vaga alterada com sucesso!", Controlle = "PainelColaborador" });
+                        new
+                        {
+                            Acao = "ColaboradorRh",
+                            Mensagem = "Vaga alterada com sucesso!",
+                            Controlle = "PainelColaborador"
+                        });
                 }
-            }
             return RedirectToAction("Login", "Login");
         }
 
@@ -593,19 +548,15 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var i = 0; i < DadosCurriculos.Count; i++)
                 {
-                    TempData["IdFuncionario" + i] = "IdFuncionario | "+DadosCurriculos[i]["id"]; 
+                    TempData["IdFuncionario" + i] = "IdFuncionario | " + DadosCurriculos[i]["id"];
                     TempData["Nome" + i] = DadosCurriculos[i]["nome"];
                     TempData["Login" + i] = DadosCurriculos[i]["login"];
                     TempData["Setor" + i] = DadosCurriculos[i]["setorfuncionario"];
                     TempData["PA" + i] = DadosCurriculos[i]["idpa"];
                     if (Convert.ToBoolean(DadosCurriculos[i]["aprovado"]))
-                    {
                         TempData["Resultado" + i] = "checked";
-                    }
                     else
-                    {
                         TempData["Resultado" + i] = "";
-                    }
 
                     if (DadosCurriculos[i]["foto"].Equals("0"))
                         TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
@@ -617,21 +568,17 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Ativa"] = "";
                     TempData["Dica"] = "Clique para encerrar esta vaga.";
-
                 }
                 else
                 {
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
-
                 }
                 return PartialView("GerenciarVaga");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public ActionResult EncerrarVaga(FormCollection Formulario)
         {
@@ -639,24 +586,18 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                for (int i = 0; i < Formulario.Count; i++)
-                {
+                for (var i = 0; i < Formulario.Count; i++)
                     if (Formulario.AllKeys[i].Contains("IdFuncionario"))
                     {
                         var IdFuncionario = Formulario.AllKeys[i].Split('|');
-                        var Aprovado=false;
+                        var Aprovado = false;
                         var teste = Formulario[i];
                         if (Formulario[i].Equals("on"))
-                        {
                             Aprovado = true;
-                        }
                         else
-                        {
                             Aprovado = false;
-                        }
-                        VerificaDados.AtualizaStatus(Formulario["vaga"],IdFuncionario[1],Aprovado);
+                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario[1], Aprovado);
                     }
-                }
                 VerificaDados.EncerraVaga(Formulario["vaga"]);
                 return RedirectToAction("Principal", "Principal",
                     new
@@ -666,10 +607,7 @@ namespace PortalSicoobDivicred.Controllers
                         Controlle = "PainelColaborador"
                     });
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿ <div class="card">
+﻿<div class="card">
     <header class="card-header">
         <p class="card-header-title">
             Vagas Internas
@@ -11,9 +11,15 @@
     </header>
     <div class="card-content">
         <ul>
-            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalVagasInternas"]); i++)
+            @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagasInternas"]); i++)
             {
-                <li>@TempData["TituloVagaInterna"]<a href="#" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="TenhoInteresse" onmouseleave="$('#TenhoInteresse').removeClass('animated swing')" onmouseover="$('#TenhoInteresse').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a></li>
+                <li>
+                    @TempData["TituloVagaInterna"]<a href="#" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
+                        <span class="icon" id="TenhoInteresse" onmouseleave="$('#TenhoInteresse').removeClass('animated swing')" onmouseover="$('#TenhoInteresse').addClass('animated swing');">
+                            <i class="fa fa-lg fa-thumbs-o-up"></i>
+                        </span>
+                    </a>
+                </li>
                 <hr/>
             }
         </ul>

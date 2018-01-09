@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PortalSicoobDivicred.Models
 {
@@ -16,6 +12,5 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor inserir os requisitos da vaga!")]
         public string Requisitos { get; set; }
-
     }
 }

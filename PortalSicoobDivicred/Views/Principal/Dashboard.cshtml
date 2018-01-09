@@ -1,7 +1,7 @@
-﻿<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+﻿<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 
 
-<br />
+<br/>
 <script>
     function EscondeVagas() {
         if ($("#VagasInternas").is(":visible")) {
@@ -45,40 +45,62 @@
                     </header>
                     <div id="VagasInternas">
                         <div class="card-content">
-                            <p><strong>Vagas em Aberto</strong></p>
+                            <p>
+                                <strong>Vagas em Aberto</strong>
+                            </p>
                             <ul>
-                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalVagasInternas"]); i++)
+                                @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagasInternas"]); i++)
                                 {
                                     try
                                     {
-                                        if (@TempData["Interesse " + i].ToString().Equals("Ok"))
+                                        if (TempData["Interesse " + i].ToString().Equals("Ok"))
                                         {
-
                                             <p>
-                                                @TempData["TituloVagaInterna " + i] 
-                                                <a data-balloon="Descrição: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-info-circle"></i></span></a>
-                                                <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-check-circle"></i></span></a>
+                                                @TempData["TituloVagaInterna " + i]
+                                                <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                                    <span class="icon">
+                                                        <i class="fa fa-lg fa-info-circle"></i>
+                                                    </span>
+                                                </a>
+                                                <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down">
+                                                    <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                        <i class="fa fa-lg fa-check-circle"></i>
+                                                    </span>
+                                                </a>
                                             </p>
-
                                         }
                                         else
                                         {
                                             <p>
                                                 @TempData["TituloVagaInterna " + i]
-                                                <a data-balloon=" Descriçõa: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-info-circle"></i></span></a>
-                                                <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
+                                                <a data-balloon=" Descriçõa: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                                    <span class="icon">
+                                                        <i class="fa fa-lg fa-info-circle"></i>
+                                                    </span>
+                                                </a>
+                                                <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
+                                                    <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                        <i class="fa fa-lg fa-thumbs-o-up"></i>
+                                                    </span>
+                                                </a>
                                             </p>
-
                                         }
                                     }
                                     catch
                                     {
-                                            <p>
-                                                @TempData["TituloVagaInterna " + i]
-                                                <a data-balloon="Descrição: @TempData["Descricao "+i] | Requisitos: @TempData["Requisito "+i]" data-balloon-length="medium" data-balloon-pos="down"><span class="icon" ><i class="fa fa-lg fa-info-circle"></i></span></a>
-                                                <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down"><span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');"><i class="fa fa-lg fa-thumbs-o-up"></i></span></a>
-                                            </p>
-
+                                        <p>
+                                            @TempData["TituloVagaInterna " + i]
+                                            <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                                <span class="icon">
+                                                    <i class="fa fa-lg fa-info-circle"></i>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
+                                                <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                    <i class="fa fa-lg fa-thumbs-o-up"></i>
+                                                </span>
+                                            </a>
+                                        </p>
                                     }
                                 }
                             </ul>
@@ -87,20 +109,27 @@
                                     Resultado Processo Seletivo
                                 </p>
                                 <ul>
-                                    @for (int j = 0; j < Convert.ToInt32(@TempData["TotalProcessos"]); j++)
+                                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalProcessos"]); j++)
                                     {
-
-                                        if (Convert.ToBoolean(@TempData["Aprovado " + j].ToString()))
+                                        if (Convert.ToBoolean(TempData["Aprovado " + j].ToString()))
                                         {
                                             <p>
-                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-smile-o"></i></span></a>
+                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down">
+                                                    <span class="icon">
+                                                        <i class="fa fa-lg fa-smile-o"></i>
+                                                    </span>
+                                                </a>
                                             </p>
                                             <hr/>
                                         }
                                         else
                                         {
                                             <p>
-                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down"><span class="icon"><i class="fa fa-lg fa-frown-o" style="color: darkred"></i></span></a>
+                                                @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down">
+                                                    <span class="icon">
+                                                        <i class="fa fa-lg fa-frown-o" style="color: darkred"></i>
+                                                    </span>
+                                                </a>
                                             </p>
                                             <hr/>
                                         }
@@ -114,14 +143,13 @@
                     </div>
                 </div>
             </div>
-            <br />
+            <br/>
             <div id="cont_fd76a6afc1f1da9ccf8d400b93acfcf1">
                 <script type="text/javascript" async src="https://www.tempo.com/wid_loader/fd76a6afc1f1da9ccf8d400b93acfcf1"></script>
             </div>
 
         </div>
     </div>
-
 
 
 </div>

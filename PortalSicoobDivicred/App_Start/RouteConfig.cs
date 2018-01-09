@@ -21,7 +21,7 @@ namespace PortalSicoobDivicred
             routes.MapRoute(
                 "PainelColaborador",
                 "{controller}/{action}/",
-                new { controller = "Principal", action = "Perfil", id = UrlParameter.Optional });
+                new {controller = "Principal", action = "Perfil", id = UrlParameter.Optional});
         }
     }
 }

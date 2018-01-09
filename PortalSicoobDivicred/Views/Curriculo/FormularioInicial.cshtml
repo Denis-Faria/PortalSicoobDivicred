@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -9,10 +8,10 @@
 <head>
     <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-    <link href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Assets/css/Imprimir.css")" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width" />
+    <link href="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/font-awesome.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/Imprimir.css")" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width"/>
 
     <title>Formulario Inicial</title>
 </head>
@@ -20,9 +19,9 @@
 
 <div>
     <br/>
-    <div  class="container">
+    <div class="container">
         <div class="box">
-            <article id="printable" class="media" >
+            <article id="printable" class="media">
                 <div class="media-left">
                     <figure class="image is-64x64">
                         <img src="@TempData["ImagemPerfil"]" alt="Image">
@@ -36,11 +35,16 @@
                         <br/>
                         <strong>@TempData["Nome"]</strong>
                         <br>
-                        <p> <strong>Local de moradia: </strong>@TempData["EnderecoCompleto"]</p>
-                        <p><strong>Idade: </strong>@TempData["Idade"]</p>
-                        <p><strong> Nível de escolaridade: </strong>@TempData["NivelFormacao"]</p>
-                        <p><strong>Naturalidade: </strong>@TempData["Naturalidade"]</p>
-                        <p><strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
+                        <p>
+                            <strong>Local de moradia: </strong>@TempData["EnderecoCompleto"]</p>
+                        <p>
+                            <strong>Idade: </strong>@TempData["Idade"]</p>
+                        <p>
+                            <strong> Nível de escolaridade: </strong>@TempData["NivelFormacao"]</p>
+                        <p>
+                            <strong>Naturalidade: </strong>@TempData["Naturalidade"]</p>
+                        <p>
+                            <strong>Estado Civil: </strong>@TempData["EstadoCivil"]</p>
 
 
                         <span class="tag is-primary">
@@ -52,7 +56,7 @@
                         <blockquote>@TempData["Questao2"]</blockquote>
                         <p>O que você espera do Sicoob Divicred?</p>
                         <blockquote>@TempData["Questao3"]</blockquote>
-                        <br  style="page-break-before:always"/>
+                        <br style="page-break-before: always"/>
                         <p> O que te deixa motivado em trabalhar em uma empresa?</p>
                         <blockquote>@TempData["Questao4"]</blockquote>
                         <p>Quais são as suas características mais marcantes na realização de trabalhos profissionais?</p>
@@ -67,7 +71,7 @@
                         <blockquote>@TempData["Questao9"]</blockquote>
                         <p> O que você menos gosta? Por que?</p>
                         <blockquote>@TempData["Questao10"]</blockquote>
-                        <br style="page-break-before:always" />
+                        <br style="page-break-before: always"/>
                         <p> Já participou de algum processo seletivo do Sicoob Divicred?</p>
                         <blockquote>@TempData["Questao11"]</blockquote>
                         <span class="tag is-primary">3. ENTREVISTA POR COMPETÊNCIAS</span>
@@ -102,16 +106,6 @@
             </article>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 
 
 </div>

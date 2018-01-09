@@ -95,25 +95,21 @@ namespace Port.Repositorios
             return linhas;
         }
 
-        public void ExecutaComandoArquivo(string comandoSQL,byte[] Imagem)
+        public void ExecutaComandoArquivo(string comandoSQL, byte[] Imagem)
         {
-
             if (string.IsNullOrEmpty(comandoSQL))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = new MySqlCommand(comandoSQL,conexao);
+                var cmdComando = new MySqlCommand(comandoSQL, conexao);
                 cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = Imagem;
                 cmdComando.ExecuteNonQuery();
-                
             }
             finally
             {
                 FecharConexao();
             }
-
-            
         }
 
         public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSQL)

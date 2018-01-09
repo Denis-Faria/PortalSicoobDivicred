@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PortalSicoobDivicred.Models
 {
     public class RecrutamentoSelecao
     {
-
         public string ClasseCargo { get; set; }
 
         public string NivelCargo { get; set; }
@@ -52,20 +47,12 @@ namespace PortalSicoobDivicred.Models
         public string PsicologicaNumeroPreSelecionado { get; set; }
 
 
-        public string NomeEntrevistador{ get; set; }
+        public string NomeEntrevistador { get; set; }
 
 
         public string EntrevistaNumero { get; set; }
 
-     
+
         public string EntrevistaNumeroPreSelecionado { get; set; }
-
-
-
-
-
-
-
-
     }
 }

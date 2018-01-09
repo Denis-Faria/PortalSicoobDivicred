@@ -18,6 +18,5 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor inserir os benefícios da vaga!")]
         public string Beneficio { get; set; }
-
     }
 }

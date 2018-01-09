@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
@@ -12,7 +9,7 @@ namespace PortalSicoobDivicred.Controllers
     {
         public ActionResult ParecerProcesso(string Cpf, string IdVaga)
         {
-            QuerryMysqlCurriculo RecuperaDados = new QuerryMysqlCurriculo();
+            var RecuperaDados = new QuerryMysqlCurriculo();
 
 
             var Formulario = RecuperaDados.RecuperaFormularioParecerProcesso(Cpf, IdVaga);
@@ -21,21 +18,20 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosPessoais = RecuperaDados.FormularioParecerProcessoDadosPessoais(Cpf, IdVaga);
                 var DadosProfissionais = RecuperaDados.FormularioParecerProcessoDadosProfissionais(Cpf);
 
-                var Resultado = new Models.ParecerProcesso();
+                var Resultado = new ParecerProcesso();
 
                 Resultado.Conclusao = Formulario[0]["conclusao"];
-                Resultado.DemandaParecer= Formulario[0]["demandaparecer"];
+                Resultado.DemandaParecer = Formulario[0]["demandaparecer"];
                 Resultado.MetodologiaProcesso = Formulario[0]["metodologiaprocesso"];
                 Resultado.PerfilTecnico = Formulario[0]["perfiltecnico"];
                 Resultado.Solicitante = Formulario[0]["solicitante"];
                 TempData["ValorTipo"] = Formulario[0]["tiporecrutamento"];
 
 
-
                 TempData["Cpf"] = Cpf;
                 TempData["IdVaga"] = IdVaga;
                 TempData["Atualiza"] = "Atualizar";
-                TempData["Remuneracao"]= DadosPessoais[0]["salario"];
+                TempData["Remuneracao"] = DadosPessoais[0]["salario"];
                 TempData["Vaga"] = DadosPessoais[0]["titulo"];
                 TempData["Nome"] = DadosPessoais[0]["nome"];
                 TempData["Nascimento"] = DadosPessoais[0]["nascimento"];
@@ -49,23 +45,15 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosEscolares = RecuperaDados.FormularioParecerProcessoDadosEscolares(Cpf);
                 TempData["TotalEscolares"] = DadosEscolares.Count;
-                for (int i = 0; i < DadosEscolares.Count; i++)
-                {
+                for (var i = 0; i < DadosEscolares.Count; i++)
                     TempData["DadosEscolares" + i] =
                         DadosEscolares[i]["nomecurso"] + " - Conclusão:  " + DadosEscolares[i]["anofim"];
 
-                }
-
 
                 TempData["TotalDadosProfissionais"] = DadosProfissionais.Count;
-                for (int j = 0; j < DadosProfissionais.Count; j++)
-                {
+                for (var j = 0; j < DadosProfissionais.Count; j++)
                     TempData["DadosProfissionais" + j] =
                         DadosProfissionais[j]["nomeempresa"] + " - " + DadosProfissionais[j]["nomecargo"];
-
-                }
-
-
 
 
                 return View(Resultado);
@@ -92,23 +80,15 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosEscolares = RecuperaDados.FormularioParecerProcessoDadosEscolares(Cpf);
                 TempData["TotalEscolares"] = DadosEscolares.Count;
-                for (int i = 0; i < DadosEscolares.Count; i++)
-                {
+                for (var i = 0; i < DadosEscolares.Count; i++)
                     TempData["DadosEscolares" + i] =
                         DadosEscolares[i]["nomecurso"] + " - Conclusão:  " + DadosEscolares[i]["anofim"];
 
-                }
-
 
                 TempData["TotalDadosProfissionais"] = DadosProfissionais.Count;
-                for (int j = 0; j < DadosProfissionais.Count; j++)
-                {
+                for (var j = 0; j < DadosProfissionais.Count; j++)
                     TempData["DadosProfissionais" + j] =
                         DadosProfissionais[j]["nomeempresa"] + " - " + DadosProfissionais[j]["nomecargo"];
-
-                }
-
-
 
 
                 return View();
@@ -121,9 +101,7 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QuerryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
-            {
                 if (ModelState.IsValid)
-                {
                     if (!Formulario["Atualiza"].Equals("Atualizar"))
                     {
                         VerificaDados.InserirFormularioParecerProcesso(DadosFormulario.Solicitante,
@@ -136,25 +114,23 @@ namespace PortalSicoobDivicred.Controllers
                     else
                     {
                         VerificaDados.AtualizarFormularioParecerProcesso(DadosFormulario.Solicitante,
-                                DadosFormulario.MetodologiaProcesso, DadosFormulario.DemandaParecer,
-                                Formulario["TipoRecrutamento"], DadosFormulario.PerfilTecnico,
-                                DadosFormulario.Conclusao, Formulario["Cpf"], Formulario["IdVaga"]);
-                            return RedirectToAction("ParecerProcesso",
-                                new {Cpf = Formulario["Cpf"], IdVaga = Formulario["IdVaga"]});
+                            DadosFormulario.MetodologiaProcesso, DadosFormulario.DemandaParecer,
+                            Formulario["TipoRecrutamento"], DadosFormulario.PerfilTecnico,
+                            DadosFormulario.Conclusao, Formulario["Cpf"], Formulario["IdVaga"]);
+                        return RedirectToAction("ParecerProcesso",
+                            new {Cpf = Formulario["Cpf"], IdVaga = Formulario["IdVaga"]});
                     }
-                }
-            }
             return RedirectToAction("Login", "Login");
         }
 
         public ActionResult RecrutamentoSelecao(string IdVaga)
         {
-            QuerryMysqlCurriculo Formulario = new QuerryMysqlCurriculo();
+            var Formulario = new QuerryMysqlCurriculo();
 
             var Logado = Formulario.UsuarioLogado();
             if (Logado)
             {
-               var Existe = Formulario.ExisteFormularioRecrutamentoSelecaoProcesso(IdVaga);
+                var Existe = Formulario.ExisteFormularioRecrutamentoSelecaoProcesso(IdVaga);
                 if (Existe[0]["count"].Equals(0))
                 {
                     var Dados = new RecrutamentoSelecao();
@@ -172,7 +148,7 @@ namespace PortalSicoobDivicred.Controllers
                     Dados.DinamicaNumeroPreSelecionado = FormularioCompleto[0]["dinamicaprenumero"];
                     Dados.ConhecimentoTeste = FormularioCompleto[0]["conhecimentoteste"];
                     Dados.ConhecimentoNumero = FormularioCompleto[0]["conhecimentonumero"];
-                    Dados.ConhecimentoNumeroPreSelecionado= FormularioCompleto[0]["conhecimentoprenumero"];
+                    Dados.ConhecimentoNumeroPreSelecionado = FormularioCompleto[0]["conhecimentoprenumero"];
                     Dados.PsicologicaTeste = FormularioCompleto[0]["psicologicoteste"];
                     Dados.PsicologicaNumero = FormularioCompleto[0]["psicologiconumero"];
                     Dados.PsicologicaNumeroPreSelecionado = FormularioCompleto[0]["psicologicoprenumero"];
@@ -182,10 +158,10 @@ namespace PortalSicoobDivicred.Controllers
                     Dados.Setor = FormularioCompleto[0]["setor"];
 
                     TempData["NomeEmpregado"] = FormularioCompleto[0]["nomeempregadosubstituido"];
-                    TempData["Dinamica"]= FormularioCompleto[0]["dinamicagrupo"];
-                    TempData["TipoSelecao"]= FormularioCompleto[0]["motivoselecao"];
+                    TempData["Dinamica"] = FormularioCompleto[0]["dinamicagrupo"];
+                    TempData["TipoSelecao"] = FormularioCompleto[0]["motivoselecao"];
                     TempData["FormaRecrutamento"] = FormularioCompleto[0]["formarecrutamento"];
-                    TempData["PrevisaoOrcamento"]= FormularioCompleto[0]["previsaoorcamento"];
+                    TempData["PrevisaoOrcamento"] = FormularioCompleto[0]["previsaoorcamento"];
 
                     TempData["IdVaga"] = IdVaga;
                     TempData["Vaga"] = DadosVaga[0]["titulo"];
@@ -213,14 +189,12 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormulario , FormCollection Formulario)
+        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormulario, FormCollection Formulario)
         {
             var VerificaDados = new QuerryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
-            {
                 if (ModelState.IsValid)
-                {
                     if (!Formulario["Atualiza"].Equals("Atualizar"))
                     {
                         VerificaDados.InserirFormularioRecrutamentoSelecao(Formulario["IdVaga"],
@@ -235,7 +209,7 @@ namespace PortalSicoobDivicred.Controllers
                             DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
                             DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
                         return RedirectToAction("RecrutamentoSelecao",
-                            new { IdVaga = Formulario["IdVaga"] });
+                            new {IdVaga = Formulario["IdVaga"]});
                     }
                     else
                     {
@@ -251,16 +225,9 @@ namespace PortalSicoobDivicred.Controllers
                             DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
                             DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
                         return RedirectToAction("RecrutamentoSelecao",
-                            new { IdVaga = Formulario["IdVaga"] });
+                            new {IdVaga = Formulario["IdVaga"]});
                     }
-                }
-            }
             return RedirectToAction("Login", "Login");
-
-
-            
         }
-
-
     }
 }

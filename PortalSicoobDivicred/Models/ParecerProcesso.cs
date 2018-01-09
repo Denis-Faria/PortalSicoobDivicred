@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PortalSicoobDivicred.Models
 {
@@ -13,18 +9,16 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor inserir a metodologia utilizada!")]
         public string MetodologiaProcesso { get; set; }
-        
+
         public string DemandaParecer { get; set; }
 
         [Required(ErrorMessage = "Favor inserir qual tipo de recrutamento foi utilizado!")]
-        public string TipoRecrutamento{ get; set; }
+        public string TipoRecrutamento { get; set; }
 
         [Required(ErrorMessage = "Favor inserir o perfil técnico ou psicológico!")]
         public string PerfilTecnico { get; set; }
 
         [Required(ErrorMessage = "Favor inserir a conclusao!")]
         public string Conclusao { get; set; }
-
-
     }
 }

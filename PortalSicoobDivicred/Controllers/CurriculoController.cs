@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using ElasticEmailClient;
 using OneApi.Client.Impl;
@@ -15,7 +14,6 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class CurriculoController : Controller
     {
-
         public ActionResult Curriculo(string Ordenacao)
         {
             var VerificaDados = new QuerryMysqlCurriculo();
@@ -80,10 +78,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("Curriculo");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult CurriculoArea(string Ordenacao, string Cidade, string Certificacao)
@@ -99,9 +94,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (Ordenacao.Length == 0)
                         DadosCurriculos = CarregaDados.RecuperaCurriculos();
                     else
-                    {
                         DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Ordenacao, Cidade, Certificacao);
-                    }
                 }
                 catch
                 {
@@ -146,10 +139,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("Curriculo");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
 
@@ -182,7 +172,6 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
                     TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
                     TempData["EncerraAtivo"] = "disabled";
-
                 }
 
 
@@ -203,7 +192,6 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Ativa"] = "";
                     TempData["Dica"] = "Clique para encerrar esta vaga.";
-
                 }
                 else
                 {
@@ -213,14 +201,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["EncerraAtivo"] = "";
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
-
                 }
                 return PartialView("GerenciarVaga");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
@@ -238,30 +222,30 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var Areas = "";
                     for (var i = 6; i < Vagas.Count; i++)
-                    {
                         Areas = Areas + Vagas[i] + ";";
-                    }
                     var TodosEmail = "";
 
-                    var EmailCelular = CadastrarVaga.CadastrarVaga(Vaga.Descricao, Areas, Vaga.Salario.Replace(",", "."),
+                    var EmailCelular = CadastrarVaga.CadastrarVaga(Vaga.Descricao, Areas,
+                        Vaga.Salario.Replace(",", "."),
                         Vaga.Requisitos,
                         Vaga.Titulo, Vaga.Beneficio);
                     var EnvioSms = new string[EmailCelular.Count];
-                    for (int j = 0; j < EmailCelular.Count; j++)
+                    for (var j = 0; j < EmailCelular.Count; j++)
                     {
                         TodosEmail = TodosEmail + ";" + EmailCelular[j]["email"];
-                        var Certo = "55" + EmailCelular[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                        var Certo = "55" + EmailCelular[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                        .Replace('-', ' ');
                         EnvioSms[j] = Certo.Replace(" ", "");
                     }
-                    Configuration configuration = new Configuration("Divicred", "Euder17!");
-                    SMSClient smsClient = new SMSClient(configuration);
-                    SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", EnvioSms);
-                    SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
-
+                    var configuration = new Configuration("Divicred", "Euder17!");
+                    var smsClient = new SMSClient(configuration);
+                    var smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                        "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", EnvioSms);
+                    var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
                     Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                    string[] recipients = { TodosEmail };
+                    string[] recipients = {TodosEmail};
                     var subject = "Novas Vagas";
                     var fromEmail = "correio@divicred.com.br";
                     var fromName = "Sicoob Divicred";
@@ -279,15 +263,12 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     TempData["Opcao"] = "Curriculo";
 
-                    return RedirectToAction("Principal","Principal",
-                        new { Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo" });
+                    return RedirectToAction("Principal", "Principal",
+                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo"});
                 }
-                return RedirectToAction("Principal","Principal", new { Acao = "Curriculo" });
+                return RedirectToAction("Principal", "Principal", new {Acao = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public async Task<ActionResult> PerfilCandidato(string cpf)
@@ -298,7 +279,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var VagasEspecificas = VerificaDados.RecuperaVagaEspecifica();
                 TempData["TotalVaga"] = VagasEspecificas.Count;
-                for (int f = 0; f < VagasEspecificas.Count; f++)
+                for (var f = 0; f < VagasEspecificas.Count; f++)
                 {
                     TempData["IdVaga" + f] = VagasEspecificas[f]["id"];
                     TempData["NomeVaga" + f] = VagasEspecificas[f]["descricao"];
@@ -325,7 +306,7 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["ExisteProcesso"] = true;
                     TempData["TotalProcessos"] = DadosProcessosSeletivos.Count;
-                    for (int i = 0; i < DadosProcessosSeletivos.Count; i++)
+                    for (var i = 0; i < DadosProcessosSeletivos.Count; i++)
                     {
                         TempData["NomeVaga" + i] = DadosProcessosSeletivos[i]["nomevaga"];
                         TempData["IdVaga" + i] = DadosProcessosSeletivos[i]["idvaga"];
@@ -376,7 +357,6 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Aprovado" + i] = "red";
                         }
                     }
-
                 }
                 else
                 {
@@ -384,14 +364,10 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
                 if (!DadosUsuarioBanco[0]["idarquivogoogle"].Equals("0"))
-                {
                     TempData["ImagemPerfil"] = "https://portalsicoobdivicred.com.br/Uploads/" +
                                                DadosUsuarioBanco[0]["idarquivogoogle"];
-                }
                 else
-                {
                     TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                }
                 var AreasInteresse = VerificaDados.RecuperaAreaInteresseUsuarios(DadosUsuarioBanco[0]["id"]);
 
                 DadosUsuario.NomeCompleto = DadosUsuarioBanco[0]["nome"];
@@ -492,10 +468,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("ModalPerfil", DadosUsuario);
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
@@ -557,11 +530,9 @@ namespace PortalSicoobDivicred.Controllers
                             CursoGraduacao +
                             "%' and idcandidato=a.id)>=1";
                 if (Profissional.Length > 0)
-                {
                     Query = Query +
                             " AND (SELECT count(id) FROM dadosprofissionais where atividadedesempenhada like'%" +
                             Profissional + "%' and idcandidato=a.id)>=1";
-                }
                 var DadosCurriculos = Filtrar.FiltroVaga(Query);
 
                 var DadosVagas = Filtrar.RecuperaVagasId(IdVaga[0]);
@@ -586,7 +557,6 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
                     TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
                     TempData["EncerraAtivo"] = "disabled";
-
                 }
 
 
@@ -607,7 +577,6 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Ativa"] = "";
                     TempData["Dica"] = "Clique para encerrar esta vaga.";
-
                 }
                 else
                 {
@@ -617,14 +586,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["EncerraAtivo"] = "disabled";
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
-
                 }
                 return PartialView("GerenciarVaga");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult EncerrarVaga(string IdVaga)
@@ -636,13 +601,10 @@ namespace PortalSicoobDivicred.Controllers
                 var RecuperaDados = new QuerryMysqlCurriculo();
                 var Vaga = IdVaga.Split('-');
                 RecuperaDados.EncerrarVaga(Vaga[0]);
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Vaga encerrada com sucesso !", Controlle = "Curriculo" });
+                return RedirectToAction("Principal", "Principal",
+                    new {Acao = "Curriculo", Mensagem = "Vaga encerrada com sucesso !", Controlle = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult AbrirProcesso(FormCollection Curriculos)
@@ -653,27 +615,24 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var IdVaga = Curriculos["vaga"];
                 var Vaga = IdVaga.Split(',');
-                QuerryMysqlCurriculo IniciarProcesso = new QuerryMysqlCurriculo();
-                for (int i = 0; i < Curriculos.Count; i++)
-                {
+                var IniciarProcesso = new QuerryMysqlCurriculo();
+                for (var i = 0; i < Curriculos.Count; i++)
                     if (!Curriculos.Keys[i].Contains("vaga") && !Curriculos.Keys[i].Equals("Alerta"))
                     {
-
-
                         IniciarProcesso.IniciarProcessoSeletivo(Curriculos.Keys[i], Vaga[0]);
                         var EmailCelular = IniciarProcesso.RecuperaEmail(Curriculos.Keys[i]);
                         var Certo = "";
                         if (EmailCelular[0]["telefoneprincipal"] != null)
-                        {
-                            Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
-                        }
-                        Configuration configuration = new Configuration("Divicred", "Euder17!");
-                        SMSClient smsClient = new SMSClient(configuration);
-                        SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", Curriculos["Alerta"], Certo.Replace(" ", ""));
-                        SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+                            Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                        .Replace('-', ' ');
+                        var configuration = new Configuration("Divicred", "Euder17!");
+                        var smsClient = new SMSClient(configuration);
+                        var smsRequest = new SMSRequest("Portal Sicoob Divicred", Curriculos["Alerta"],
+                            Certo.Replace(" ", ""));
+                        var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
                         Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                        string[] recipients = { EmailCelular[0]["email"] };
+                        string[] recipients = {EmailCelular[0]["email"]};
                         var subject = "Parabéns";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
@@ -692,29 +651,25 @@ namespace PortalSicoobDivicred.Controllers
                         }
                         IniciarProcesso.CadastrarAlertaEspecifico(Curriculos["Alerta"], EmailCelular[0]["id"]);
                     }
-                }
 
                 var DadosCurriculos = IniciarProcesso.RecuperaCurriculosHistorico(Vaga[0]);
                 var Emails = "";
                 var SmsNegado = new string[DadosCurriculos.Count];
                 var Count = 0;
-                for (int j = 0; j < DadosCurriculos.Count; j++)
-                {
+                for (var j = 0; j < DadosCurriculos.Count; j++)
                     if (!Curriculos.AllKeys.Contains(DadosCurriculos[j]["cpf"]))
                     {
                         Emails = Emails + ";" + DadosCurriculos[j]["email"];
                         var TelefoneCerto = "";
-                        if (DadosCurriculos[j]["telefoneprincipal"] != null || DadosCurriculos[j]["telefoneprincipal"].Length > 0)
+                        if (DadosCurriculos[j]["telefoneprincipal"] != null ||
+                            DadosCurriculos[j]["telefoneprincipal"].Length > 0)
                         {
-                            TelefoneCerto = "55" + DadosCurriculos[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            TelefoneCerto = "55" + DadosCurriculos[j]["telefoneprincipal"].Replace(')', ' ')
+                                                .Replace('(', ' ').Replace('-', ' ');
                             SmsNegado[Count] = TelefoneCerto.Replace(" ", "");
                             Count++;
                         }
-
-
                     }
-                }
-
 
 
                 /*Configuration configuration2 = new Configuration("Divicred", "Euder17!");
@@ -723,7 +678,7 @@ namespace PortalSicoobDivicred.Controllers
                 SendMessageResult requestId2 = smsClient2.SmsMessagingClient.SendSMS(smsRequest2);*/
 
                 Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                string[] recipients2 = { Emails };
+                string[] recipients2 = {Emails};
                 var subject2 = "Atualização de Status";
                 var fromEmail2 = "correio@divicred.com.br";
                 var fromName2 = "Sicoob Divicred";
@@ -742,13 +697,15 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Processo seletivo inciado com sucesso !", Controlle = "Curriculo" });
+                return RedirectToAction("Principal", "Principal",
+                    new
+                    {
+                        Acao = "Curriculo",
+                        Mensagem = "Processo seletivo inciado com sucesso !",
+                        Controlle = "Curriculo"
+                    });
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public async Task<ActionResult> PerfilCandidatoProcesso(string IdVaga)
@@ -762,10 +719,10 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["IdVaga"] = IdVaga;
                 TempData["TotalCurriculo"] = DadosProcesso.Count;
 
-                for (int i = 0; i < DadosProcesso.Count; i++)
+                for (var i = 0; i < DadosProcesso.Count; i++)
                 {
-
-                    if (DadosProcesso[i]["prova"] == null || Convert.ToDecimal(DadosProcesso[i]["prova"].Replace(',', '.')) < 60)
+                    if (DadosProcesso[i]["prova"] == null ||
+                        Convert.ToDecimal(DadosProcesso[i]["prova"].Replace(',', '.')) < 60)
                     {
                         TempData["ResultadoProva" + i] = DadosProcesso[i]["prova"];
                         TempData["EscondePsicologico" + i] = "hidden disabled";
@@ -784,7 +741,6 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ResultadoProva" + i] = DadosProcesso[i]["prova"];
                         TempData["ResultadoPsicologico" + i] = DadosProcesso[i]["psicologico"];
                         TempData["EscondePsicologico"] = "";
-
                     }
                     try
                     {
@@ -815,10 +771,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("PerfilProcesso");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult CadastrarAlerta(FormCollection Alerta)
@@ -832,13 +785,10 @@ namespace PortalSicoobDivicred.Controllers
                 CadastrarAlertas.CadastrarAlerta(Alerta["TextAlerta"]);
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Alerta cadastrado com sucesso !", Controlle = "Curriculo" });
+                return RedirectToAction("Principal", "Principal",
+                    new {Acao = "Curriculo", Mensagem = "Alerta cadastrado com sucesso !", Controlle = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult CadastrarMensagem(FormCollection Mensagem)
@@ -852,13 +802,10 @@ namespace PortalSicoobDivicred.Controllers
                 CadastrarMensagens.CadastrarMensagem(Mensagem["TextMensagem"]);
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Mensagem cadastrada com sucesso !", Controlle = "Curriculo" });
+                return RedirectToAction("Principal", "Principal",
+                    new {Acao = "Curriculo", Mensagem = "Mensagem cadastrada com sucesso !", Controlle = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
 
@@ -869,42 +816,35 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var Status = new QuerryMysqlCurriculo();
-                for (int i = 0; i < Resultado.Count; i++)
+                for (var i = 0; i < Resultado.Count; i++)
                 {
-
-                    var Cpf = Resultado.Keys[i].ToString().Split(' ');
+                    var Cpf = Resultado.Keys[i].Split(' ');
                     if (Cpf[0].Contains("Teorica"))
-                    {
-
                         Status.AtualizaProcessoSeletivoTeorico(Cpf[1], Resultado["Vaga"], Resultado[i]);
-
-                    }
                     if (Cpf[0].Contains("Gerencial"))
-                    {
                         Status.AtualizarProcessoSeletivoGerente(Cpf[1], Resultado["Vaga"], Resultado[i]);
-                    }
                     if (Cpf[0].Contains("Psicologico"))
-                    {
                         Status.AtualizaProcessoSeletivoPsicologico(Cpf[1], Resultado["Vaga"], Resultado[i]);
-                    }
                     if (Cpf[0].Contains("Status"))
                     {
-                        Status.AtualizarProcessoSeletivoStatus(Cpf[1], Resultado["Vaga"], Resultado[i], Resultado["Restricao" + i]);
+                        Status.AtualizarProcessoSeletivoStatus(Cpf[1], Resultado["Vaga"], Resultado[i],
+                            Resultado["Restricao" + i]);
                         if (Resultado[i].Equals("Aprovado"))
                         {
-
                             var EmailCelular = Status.RecuperaEmail(Cpf[1]);
                             var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                            .Replace('-', ' ');
                             EnvioSms[0] = certo.Replace(" ", "");
-                            Configuration configuration = new Configuration("Divicred", "Euder17!");
-                            SMSClient smsClient = new SMSClient(configuration);
-                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Parabén você foi aprovado para proxima etapa. ", EnvioSms);
-                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+                            var configuration = new Configuration("Divicred", "Euder17!");
+                            var smsClient = new SMSClient(configuration);
+                            var smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                                "Portal Sicoob Divicred, Parabén você foi aprovado para proxima etapa. ", EnvioSms);
+                            var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Parabéns";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -927,18 +867,20 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             var EmailCelular = Status.RecuperaEmail(Cpf[1]);
                             var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                            .Replace('-', ' ');
                             EnvioSms[0] = certo.Replace(" ", "");
 
-                            Configuration configuration = new Configuration("Divicred", "Euder17!");
-                            SMSClient smsClient = new SMSClient(configuration);
-                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.", EnvioSms);
-                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
-
+                            var configuration = new Configuration("Divicred", "Euder17!");
+                            var smsClient = new SMSClient(configuration);
+                            var smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                                "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.",
+                                EnvioSms);
+                            var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -960,17 +902,20 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             var EmailCelular = Status.RecuperaEmail(Cpf[1]);
                             var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
+                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                            .Replace('-', ' ');
                             EnvioSms[0] = certo.Replace(" ", "");
 
-                            Configuration configuration = new Configuration("Divicred", "Euder17!");
-                            SMSClient smsClient = new SMSClient(configuration);
-                            SMSRequest smsRequest = new SMSRequest("Portal Sicoob Divicred", "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.", EnvioSms);
-                            SendMessageResult requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+                            var configuration = new Configuration("Divicred", "Euder17!");
+                            var smsClient = new SMSClient(configuration);
+                            var smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                                "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.",
+                                EnvioSms);
+                            var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + "; rh@divicred.com.br" };
+                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -988,19 +933,19 @@ namespace PortalSicoobDivicred.Controllers
                             {
                             }
                             Status.CriaBalao(Cpf[1]);
-
                         }
                     }
-
                 }
 
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Processo seletivo encerrado com sucesso !", Controlle = "Curriculo" });
+                return RedirectToAction("Principal", "Principal",
+                    new
+                    {
+                        Acao = "Curriculo",
+                        Mensagem = "Processo seletivo encerrado com sucesso !",
+                        Controlle = "Curriculo"
+                    });
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult ResultadoProcesso(string IdVaga)
@@ -1014,12 +959,10 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["IdVaga"] = IdVaga;
                 TempData["TotalCurriculo"] = DadosProcesso.Count;
 
-                for (int i = 0; i < DadosProcesso.Count; i++)
+                for (var i = 0; i < DadosProcesso.Count; i++)
                 {
                     if (DadosProcesso[i]["aprovado"].Equals("Aprovado"))
-                    {
                         TempData["Aprovado" + i] = "is-selected";
-                    }
 
                     TempData["Cpf" + i] = DadosProcesso[i]["cpf"];
 
@@ -1029,10 +972,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("ResultadoProcesso");
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public async Task<ActionResult> FormularioInicial(string Cpf)
@@ -1041,19 +981,14 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-
                 var RecuperaDados = new QuerryMysqlCurriculo();
                 var DadosUsuario = RecuperaDados.RecuperaDadosCandidato(Cpf);
                 var DadosQuestionario = RecuperaDados.RecuperaQuestionario(DadosUsuario[0]["id"]);
                 if (!DadosUsuario[0]["idarquivogoogle"].Equals("0"))
-                {
                     TempData["ImagemPerfil"] = "https://portalsicoobdivicred.com.br/Uploads/" +
                                                DadosUsuario[0]["idarquivogoogle"];
-                }
                 else
-                {
                     TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                }
                 TempData["Nome"] = DadosUsuario[0]["nome"];
                 TempData["EnderecoCompleto"] = DadosUsuario[0]["endereco"] + ", n°" + DadosUsuario[0]["numero"] + ", " +
                                                DadosUsuario[0]["bairro"] + ", " + DadosUsuario[0]["cidade"] + "-" +
@@ -1092,18 +1027,9 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Questao21"] = DadosQuestionario[0]["questao21"];
 
 
-
-
-
-
-
-
                 return View();
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult ImprimirTodos(string IdVaga)
@@ -1117,20 +1043,15 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalCurriculos"] = DadosCurriculos.Count;
 
 
-
-                for (int l = 0; l < DadosCurriculos.Count; l++)
+                for (var l = 0; l < DadosCurriculos.Count; l++)
                 {
                     var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato(DadosCurriculos[l]["cpf"]);
                     DadosUsuario[l] = new Usuario();
                     if (!DadosUsuarioBanco[0]["idarquivogoogle"].Equals("0"))
-                    {
                         TempData["ImagemPerfil" + l] = "https://portalsicoobdivicred.com.br/Uploads/" +
                                                        DadosUsuarioBanco[0]["idarquivogoogle"];
-                    }
                     else
-                    {
                         TempData["ImagemPerfil" + l] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    }
                     var AreasInteresse = VerificaDados.RecuperaAreaInteresseUsuarios(DadosUsuarioBanco[0]["id"]);
 
                     DadosUsuario[l].NomeCompleto = DadosUsuarioBanco[0]["nome"];
@@ -1233,10 +1154,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 return View("ImprimirTodos", DadosUsuario);
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
 
@@ -1256,15 +1174,12 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Opcao"] = "Curriculo";
 
-                    return RedirectToAction("Principal","Principal",
-                        new { Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo" });
+                    return RedirectToAction("Principal", "Principal",
+                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo"});
                 }
-                return RedirectToAction("Curriculo", new { Acao = "Curriculo" });
+                return RedirectToAction("Curriculo", new {Acao = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult AtribuirVagaEspecifica(FormCollection Vaga)
@@ -1280,15 +1195,12 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!", Controlle = "Curriculo" });
-
+                return RedirectToAction("Principal", "Principal",
+                    new {Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!", Controlle = "Curriculo"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login");
-            }
+            return RedirectToAction("Login", "Login");
         }
+
         public ActionResult AlterarVaga(string IdVaga)
         {
             var VerificaDados = new QuerryMysqlCurriculo();
@@ -1296,23 +1208,23 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var DadosVaga = VerificaDados.RecuperaDadosVaga(IdVaga);
-                Vagas Vaga = new Vagas();
+                var Vaga = new Vagas();
                 Vaga.Titulo = DadosVaga[0]["titulo"];
                 Vaga.Descricao = DadosVaga[0]["descricao"];
                 Vaga.Beneficio = DadosVaga[0]["beneficio"];
                 Vaga.Salario = DadosVaga[0]["salario"];
                 Vaga.Requisitos = DadosVaga[0]["requisito"];
-                @TempData["IdVaga"] = IdVaga;
+                TempData["IdVaga"] = IdVaga;
 
                 if (DadosVaga[0]["ativa"].Equals("S"))
                 {
-                    @TempData["Ativa"] = "checked";
-                    @TempData["Status"] = "Ativa";
+                    TempData["Ativa"] = "checked";
+                    TempData["Status"] = "Ativa";
                 }
                 else
                 {
-                    @TempData["Ativa"] = "";
-                    @TempData["Status"] = "Desativada";
+                    TempData["Ativa"] = "";
+                    TempData["Status"] = "Desativada";
                 }
 
                 var Areas = DadosVaga[0]["areadeinteresse"].Split(';');
@@ -1381,6 +1293,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public ActionResult AtualizarVaga(Vagas DadosVaga, FormCollection Dados)
         {
@@ -1391,16 +1304,12 @@ namespace PortalSicoobDivicred.Controllers
                 var Ativa = "";
                 var Areas = "";
                 for (var i = 6; i < Dados.Count; i++)
-                {
                     Areas = Areas + Dados[i] + ";";
-                }
 
                 try
                 {
                     if (Dados["Ativa"].Equals("Ativa"))
-                    {
                         Ativa = "S";
-                    }
                 }
                 catch
                 {
@@ -1408,10 +1317,10 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-
-                VerificaDados.AtualizarVaga(Dados["IdVaga"], DadosVaga.Descricao, DadosVaga.Salario, DadosVaga.Requisitos, DadosVaga.Titulo, DadosVaga.Beneficio, Ativa, Areas);
-                return RedirectToAction("Principal","Principal",
-                    new { Acao = "Curriculo", Mensagem = "Vaga altrada com sucesso!", Controlle = "Curriculo" });
+                VerificaDados.AtualizarVaga(Dados["IdVaga"], DadosVaga.Descricao, DadosVaga.Salario,
+                    DadosVaga.Requisitos, DadosVaga.Titulo, DadosVaga.Beneficio, Ativa, Areas);
+                return RedirectToAction("Principal", "Principal",
+                    new {Acao = "Curriculo", Mensagem = "Vaga altrada com sucesso!", Controlle = "Curriculo"});
             }
             return RedirectToAction("Login", "Login");
         }

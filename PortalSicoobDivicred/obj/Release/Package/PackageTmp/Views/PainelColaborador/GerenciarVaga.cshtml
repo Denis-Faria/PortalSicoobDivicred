@@ -1,0 +1,161 @@
+﻿
+<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+
+<script>
+
+
+
+
+    function ColaboradorRh() {
+        $("#Conteudo").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                dataType: 'html',
+                url: '/PainelColaborador/ColaboradorRh',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    var tamanho = $(window).height();
+                    $("body").css('height', tamanho);
+                    $("#Conteudo").append(data);
+
+
+
+                }
+            });
+    }
+    function Dash() {
+        $("#Conteudo").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $.get('/Principal/Dashboard',
+                        function (data) {
+                            var tamanho = $(window).height();
+                            $("body").css('height', tamanho);
+                            $("#Conteudo").append(data);
+
+                        });
+                }
+            });
+
+    }
+
+    $(document).ready(function () {
+        window.history.pushState("state", "title", "/Principal/Principal");
+
+    });
+
+    $(function () {
+        $("#TabelaCurriculo").tablesorter();
+    });
+
+</script>
+
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="javascript:Dash();void(0);">
+                <span class="icon is-small">
+                    <i class="fa fa-home"></i>
+                </span><span>DashBoard</span>
+            </a>
+        </li>
+        <li>
+            <a href="javascript:ColaboradorRh();void(0);">
+                <span class="icon is-small">
+                    <i class="fa fa-user-plus"></i>
+                </span><span>Colaborador RH</span>
+            </a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page" style="color: #38d5c5;">
+                <span class="icon is-small" style="color: #38d5c5;">
+                    <i class="fa fa-suitcase" aria-hidden="true"></i>
+                </span><span>Vagas Internas - @TempData["TituloVaga"]</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div>
+
+    <span>
+        <h2 class="subtitle">@TempData["TituloVaga"]</h2>
+    </span>
+    <input id="TituloVaga" name="TituloVaga" value="@TempData["TituloVaga"]" hidden="true" />
+    <br />
+
+    @using (Html.BeginForm("EncerrarVaga", "PainelColaborador"))
+    {
+
+        <p class="field">
+            <button @TempData["Ativa"] type="submit" class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
+                <span class="icon is-small">
+                    <i class="fa fa-times fa-fw" aria-hidden="true"> </i>
+                </span> <span>Encerrar Vaga</span>
+            </button>
+        </p>
+        <hr />
+
+        <!--
+        Parte Inferior com tabela
+        -->
+        <span>
+            <h2 class="subtitle">@TempData["QuantidadeCurriculo"]</h2>
+        </span>
+        <br />
+        <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
+        <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+        <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+        <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-fullwidth is-fullheight" style="text-align: center">
+            <thead>
+            <th>Nome</th>
+            <th>Setor</th>
+            <th>PA</th>
+            <th>Aprovado</th>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
+                {
+                    <tr>
+
+                        <td>
+                            <article class="media">
+                                <div class="media-left grow pic">
+                                    <figure class="image is-32x32 is-square">
+                                        <img src="@TempData["Imagem" + i]" />
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            @TempData["Nome" + i].ToString()
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </td>
+                        <td>@TempData["Setor" + i].ToString()</td>
+                        <td>@TempData["PA" + i].ToString()</td>
+                        <td>
+                            <div class="field">
+                                <input  type="checkbox" name="@TempData["IdFuncionario" + i]" id="@TempData["IdFuncionario" + i]" class="switch" @TempData["Resultado" + i]/>
+                                <label for="@TempData["IdFuncionario" + i]"></label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            <tbody>
+        </table>
+    }
+</div>

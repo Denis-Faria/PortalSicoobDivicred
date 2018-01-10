@@ -358,43 +358,32 @@
         <th>Confirmação</th>
         </thead>
         <tbody>
-        <tr>
-            <td>
-                Davi Campos
-            </td>
-            <td>
-                08/01/2017
-            </td>
-            <td>
-                --:--
-            </td>
-            <td>
-                11:30
-            </td>
-            <td>
-                12:30
-            </td>
-            <td>
-                17:30
-            </td>
-            <td class="is-center">
-                <span class="icon is-small">
-                    <i class="fa fa-check-circle-o" style="color: green" aria-hidden="true"></i>
-                </span>
-            </td>
-            <td>
-                <span class="icon is-small">
-                    <i class="fa fa-exclamation-circle" style="color: darkred" aria-hidden="true"></i>
-                </span>
-            </td>
-            <td>
-                <div class="field">
-                    <input type="checkbox" id="confirma" class="switch"/>
-                    <label for="confirma"></label>
-                </div>
-            </td>
-        </tr>
+        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalPonto"]); i++)
+        {
+            <tr>
 
+                <td>
+                    @TempData["NomePonto" + i]
+                </td>
+                <td>
+                    @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @TempData["Hora1" + i]
+                </td>
+                <td>
+                    @TempData["Hora2" + i]
+                </td>
+                <td>
+                    @TempData["Hora3" + i]
+                </td>
+                <td>
+                    @TempData["Hora4" + i]
+                </td>
+
+
+            </tr>
+        }
         <tbody>
     </table>
 </div>

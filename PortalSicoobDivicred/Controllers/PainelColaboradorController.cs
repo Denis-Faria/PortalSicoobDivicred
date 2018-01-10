@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
@@ -303,6 +304,126 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var CarregaDados = new QuerryMysql();
+                var FirebirDados = new QueryFirebird();
+                var Ponto = FirebirDados.RetornaListaMArcacao();
+
+                var FuncionariosPonto = FirebirDados.RetornaListaFuncionario();
+
+                var TotalJustifica = 0;
+                for (int j = 0; j < FuncionariosPonto.Count; j++)
+                {
+                    
+                        if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
+                        {
+                            var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                            if (Falta.Count > 0)
+                            {
+
+                            }
+                            else
+                            {
+                                var Afastamento =
+                                    FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                                if (Afastamento.Count == 0)
+                                {
+                                    TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                    TempData["Hora1" + TotalJustifica] = "--:--";
+                                    TempData["Hora2" + TotalJustifica] = "--:--";
+                                    TempData["Hora3" + TotalJustifica] = "--:--";
+                                    TempData["Hora4" + TotalJustifica] = "--:--";
+                                    TotalJustifica++;
+                                }
+                            }
+                        }
+                    
+                }
+
+
+
+                for (int i = 0; i < Ponto.Count; i++)
+                {
+                    if (Ponto[i]["ID_CARGO"].Equals("2") || Ponto[i]["ID_CARGO"].Equals("58"))
+                    {
+                        TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                        var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
+                        if (Marcacao.Count > 2)
+                        {
+                            TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                            for (int k = 0; k < Marcacao.Count; k++)
+                            {
+                                if (k == 0)
+                                {
+                                    TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                                else if (k == 1)
+                                {
+                                    TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+
+                                }
+                                else if (k == 2)
+                                {
+                                    TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                                else
+                                {
+                                    TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                            }
+
+                            TotalJustifica++;
+                        }
+                        else
+                        {
+                            DateTime Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss", new DateTimeFormatInfo());
+                            DateTime Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss", new DateTimeFormatInfo());
+                            TimeSpan ts = Marcacao2.Subtract(Marcacao1);
+
+                            if (ts.Hours >= 6 && ts.Minutes > 0)
+                            {
+                                TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
+                                TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
+
+
+                                TotalJustifica++;
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (Ponto[i]["JUSTIFICA"].Equals("Justifica"))
+                        {
+                            TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                            var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
+                            for (int k = 0; k < Marcacao.Count; k++)
+                            {
+                                if (k == 0)
+                                {
+                                    TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                                else if (k == 1)
+                                {
+                                    TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+
+                                }
+                                else if (k == 2)
+                                {
+                                    TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                                else
+                                {
+                                    TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
+                                }
+                            }
+
+                            TotalJustifica++;
+                        }
+                    }
+
+                }
+                TempData["TotalPonto"] = TotalJustifica;
+
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
 
                 var QueryRh = new QuerryMysqlRh();

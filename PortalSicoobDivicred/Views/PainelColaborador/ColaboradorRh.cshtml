@@ -35,6 +35,7 @@
     $(function() {
         $("#TabFuncionalidades").tabs();
         $("#TabFuncionalidadesPerfil").tabs();
+        $("#TabHoras").tabs();
     });
 
     function VerPerfil(Login) {
@@ -181,7 +182,7 @@
                 {
                     for (var g = 0; g < Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
                     {
-                        <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; text-align: center;">
+                        <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; text-align: center;  box-shadow: 2px 2px 2px grey;">
                             <thead>
                             <tr>
                                 <th>Nome</th>
@@ -226,7 +227,7 @@
                 }
                 else
                 {
-                    <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="text-align: center">
+                    <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="text-align: center;box-shadow: 2px 2px 2px grey;">
                         <thead>
                         <tr>
                             <th>Nome</th>
@@ -293,7 +294,7 @@
                     </button>
                 </p>
             </div>
-            <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center">
+            <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center; box-shadow: 2px 2px 2px grey;">
                 <thead>
                 <th>Titulo Vaga</th>
                 <th>Descrição</th>
@@ -345,20 +346,46 @@
             <span>Histórico de pendências</span>
         </a>
     </p>
-    <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center">
-        <thead>
-        <th>Funcionário</th>
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Saída Almoço</th>
-        <th>Volta Almoço</th>
-        <th>Saída</th>
-        <th>Justificativa</th>
-        <th>Validação Gestor</th>
-        <th>Confirmação</th>
-        </thead>
-        <tbody>
-        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalPonto"]); i++)
+    <div id="TabHoras">
+        <div class="tabs is-boxed is-centered">
+            <ul>
+                <li id="AbaJustifica" class="is-active">
+                    <a href="#Justifica" onclick="javascript:$('#AbaSemJustificativa').removeClass();$('#AbaJustifica').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </span>
+                        <span>Pendências Justificativa</span>
+                    </a>
+                </li>
+                <li id="AbaSemJustificativa">
+                    <a href="#SemJustificativa" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaSemJustificativa').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        </span>
+                        <span>Sem Pendências</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="Justifica">
+            <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center; box-shadow: 2px 2px 2px grey;">
+                <thead>
+                <th>Funcionário</th>
+                <th>Dia</th>
+                <th>Entrada</th>
+                <th>Saída Almoço</th>
+                <th>Volta Almoço</th>
+                <th>Saída</th>
+                <th>Jornada</th>
+                <th>Crédito</th>
+                <th>Debito</th>
+                <th>Justificativa</th>
+                <th>Validação Gestor</th>
+                <th>Confirmação</th>
+               
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Convert.ToInt32(@TempData["TotalPonto"]); i++)
         {
             <tr>
 
@@ -380,22 +407,101 @@
                 <td>
                     @TempData["Hora4" + i]
                 </td>
-
+                <td>
+                    @TempData["Jornada" + i]
+                </td>
+                <td>
+                    @TempData["Credito" + i]
+                </td>
+                <td>
+                    @TempData["Debito" + i]
+                </td>
+                <td>
+                    
+                    <span class="icon is-small">
+                        <i class="fa fa-check-square-o" aria-hidden="true" style="color: green"></i>
+                    </span>
+                </td>
+                <td>
+                    <span class="icon is-small">
+                        <i class="fa fa-check-square-o" aria-hidden="true"  style="color: green"></i>
+                    </span>
+                </td>
+                <td>
+                    <div class="field">
+                        <input type="checkbox" id="teste" class="switch" />
+                        <label for="teste"></label>
+                    </div>
+                </td>
 
             </tr>
-        }
-        <tbody>
-    </table>
-</div>
-<div id="Ferias">
-    <h1>Ferias</h1>
-</div>
-<div id="Treinamento">
-    <h1>Treinamentos</h1>
-</div>
-<div id="Indicadores">
-    <h1>Indicadores</h1>
-</div>
+}
+                <tbody>
+            </table>
+        </div>
+        <div id="SemJustificativa">
+            <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center; box-shadow: 2px 2px 2px grey;">
+                <thead>
+                <th>Funcionário</th>
+                <th>Dia</th>
+                <th>Entrada</th>
+                <th>Saída Almoço</th>
+                <th>Volta Almoço</th>
+                <th>Saída</th>
+                <th>Jornada</th>
+                <th>Crédito</th>
+                <th>Debito</th>
+                <th>Apontar Pendência</th>
+                </thead>
+                <tbody>
+                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSemPendencia"]); i++)
+                {
+                    <tr>
+
+                        <td>
+                            @TempData["NomePontoCerto" + i]
+                        </td>
+                        <td>
+                            @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @TempData["HoraCerto1" + i]
+                        </td>
+                        <td>
+                            @TempData["HoraCerto2" + i]
+                        </td>
+                        <td>
+                            @TempData["HoraCerto3" + i]
+                        </td>
+                        <td>
+                            @TempData["HoraCerto4" + i]
+                        </td>
+                        <td>
+                            @TempData["JornadaCerto" + i]
+                        </td>
+                        <td>
+                            @TempData["CreditoCerto" + i]
+                        </td>
+                        <td>
+                            @TempData["DebitoCerto" + i]
+                        </td>
+
+                    </tr>
+                }
+                <tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    <div id="Ferias">
+        <h1>Ferias</h1>
+    </div>
+    <div id="Treinamento">
+        <h1>Treinamentos</h1>
+    </div>
+    <div id="Indicadores">
+        <h1>Indicadores</h1>
+    </div>
 
 </div>
 <!--

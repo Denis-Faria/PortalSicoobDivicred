@@ -310,32 +310,54 @@ namespace PortalSicoobDivicred.Controllers
                 var FuncionariosPonto = FirebirDados.RetornaListaFuncionario();
 
                 var TotalJustifica = 0;
+                var TotalSemPendencia = 0;
                 for (int j = 0; j < FuncionariosPonto.Count; j++)
                 {
-                    
-                        if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
+
+                    if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
+                    {
+                        var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                        if (Falta.Count > 0)
                         {
-                            var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
-                            if (Falta.Count > 0)
+                            if (Falta.Count == 4)
                             {
+                                TempData["NomePontoCerto" + TotalSemPendencia] = FuncionariosPonto[j]["NOME"];
+                                TempData["HoraCerto1" + TotalSemPendencia] = Falta[0]["HORA"];
+                                TempData["HoraCerto2" + TotalSemPendencia] = Falta[1]["HORA"];
+                                TempData["HoraCerto3" + TotalSemPendencia] = Falta[2]["HORA"];
+                                TempData["HoraCerto4" + TotalSemPendencia] = Falta[3]["HORA"];
+
+                                TotalSemPendencia++;
+                                DateTime Marcacao1 = DateTime.ParseExact(Falta[0]["HORA"], "HH:mm:ss",
+                                        new DateTimeFormatInfo());
+                                DateTime Marcacao2 = DateTime.ParseExact(Falta[1]["HORA"], "HH:mm:ss",
+                                    new DateTimeFormatInfo());
+                                DateTime Marcacao3 = DateTime.ParseExact(Falta[2]["HORA"], "HH:mm:ss",
+                                    new DateTimeFormatInfo());
+                                DateTime Marcacao4 = DateTime.ParseExact(Falta[3]["HORA"], "HH:mm:ss",
+                                    new DateTimeFormatInfo());
+                                TimeSpan Jornada = new TimeSpan(8,0,0);
+                              
+
 
                             }
-                            else
+                        }
+                        else
+                        {
+                            var Afastamento =
+                                FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                            if (Afastamento.Count == 0)
                             {
-                                var Afastamento =
-                                    FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
-                                if (Afastamento.Count == 0)
-                                {
-                                    TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                    TempData["Hora1" + TotalJustifica] = "--:--";
-                                    TempData["Hora2" + TotalJustifica] = "--:--";
-                                    TempData["Hora3" + TotalJustifica] = "--:--";
-                                    TempData["Hora4" + TotalJustifica] = "--:--";
-                                    TotalJustifica++;
-                                }
+                                TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                TempData["Hora1" + TotalJustifica] = "--:--";
+                                TempData["Hora2" + TotalJustifica] = "--:--";
+                                TempData["Hora3" + TotalJustifica] = "--:--";
+                                TempData["Hora4" + TotalJustifica] = "--:--";
+                                TotalJustifica++;
                             }
                         }
-                    
+                    }
+
                 }
 
 
@@ -374,21 +396,26 @@ namespace PortalSicoobDivicred.Controllers
                         }
                         else
                         {
-                            DateTime Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss", new DateTimeFormatInfo());
-                            DateTime Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss", new DateTimeFormatInfo());
-                            TimeSpan ts = Marcacao2.Subtract(Marcacao1);
-
-                            if (ts.Hours >= 6 && ts.Minutes > 0)
+                            if (Marcacao.Count == 2)
                             {
-                                TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                                TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
-                                TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
+                                DateTime Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                    new DateTimeFormatInfo());
+                                DateTime Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                    new DateTimeFormatInfo());
+                                TimeSpan ts = Marcacao2.Subtract(Marcacao1);
+
+                                if (ts.Hours >= 6 && ts.Minutes > 5)
+                                {
+                                    TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                    TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
+                                    TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
 
 
-                                TotalJustifica++;
+                                    TotalJustifica++;
+                                }
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -423,6 +450,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 }
                 TempData["TotalPonto"] = TotalJustifica;
+                TempData["TotalSemPendencia"] = TotalSemPendencia;
 
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
 

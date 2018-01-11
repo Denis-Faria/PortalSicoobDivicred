@@ -336,7 +336,7 @@
     {
         for (var g = 0; g < Convert.ToInt32(TempData["TotalCurriculo"].ToString()) / 20; g++)
         {
-            <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="lista-curriculo table is-striped is-centered is-desktop" style="text-align: center">
+            <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="lista-curriculo table is-striped is-centered is-desktop" style="text-align: center; box-shadow: 2px 2px 2px grey;">
                 <thead>
                 <th>Nome</th>
                 <th>Email</th>
@@ -397,7 +397,7 @@
     }
     else
     {
-        <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered" style="text-align: center">
+        <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered" style="text-align: center;box-shadow: 2px 2px 2px grey;">
             <thead>
             <th>Nome</th>
             <th>Email</th>
@@ -512,7 +512,7 @@
     </div>
 
 
-    <table class="lista-curriculo table is-striped is-centered" style="text-align: center">
+    <table class="lista-curriculo table is-striped is-centered" style="text-align: center;box-shadow: 2px 2px 2px grey;">
         <thead>
         <th>Titulo Vaga</th>
         <th>Descrição</th>

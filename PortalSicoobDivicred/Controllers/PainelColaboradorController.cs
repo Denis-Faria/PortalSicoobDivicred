@@ -89,7 +89,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["IdFormacao"] = DadosTabelaFuncionario[0]["idescolaridade"];
                 TempData["IdSetor"] = DadosTabelaFuncionario[0]["idsetor"];
                 TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
-                TempData["Funcao"] = FuncaoFuncionario[0]["descricao"];
+                TempData["Funcao"] = FuncaoFuncionario;
                 TempData["IdFuncao"] = DadosTabelaFuncionario[0]["funcao"];
                 TempData["DataAdmissao"] =
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
@@ -507,7 +507,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var i = 0; i < DocumentosUpados.Count; i++)
                 {
-                    TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
+                    TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-success";
                     TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
                 }
                 var DadosFuncionario = new Funcionario();
@@ -538,27 +538,25 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
                     TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
-                TempData["IdEstadoCivil"] = DadosTabelaFuncionario[0]["idestadocivil"];
-                TempData["IdSexo"] = DadosTabelaFuncionario[0]["sexo"];
-                TempData["IdEtnia"] = DadosTabelaFuncionario[0]["etnia"];
-                TempData["IdFormacao"] = DadosTabelaFuncionario[0]["idescolaridade"];
-                TempData["IdSetor"] = DadosTabelaFuncionario[0]["idsetor"];
-                TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
-                TempData["Funcao"] = DadosTabelaFuncionario[0]["funcao"];
+              
                 TempData["DataAdmissao"] =
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
 
-                var EstadoCivil = VerificaDados.RetornaEstadoCivil();
-                var Sexo = VerificaDados.RetornaSexo();
-                var Etnia = VerificaDados.RetornaEtnia();
-                var Formacao = VerificaDados.RetornaFormacao();
-                var Setor = VerificaDados.RetornaSetor();
+                TempData["Genero"] = VerificaDados.RetornaGeneroFuncionario(DadosTabelaFuncionario[0]["sexo"]);
+                TempData["Setor"]= VerificaDados.RetornaSetorFuncionario(DadosTabelaFuncionario[0]["idsetor"]);
+                TempData["Funcao"] = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
+                TempData["Educacional"] = VerificaDados.RetornaEscolaridadeFuncionario(DadosTabelaFuncionario[0]["idescolaridade"]);
+                TempData["EstadoCivil"] = VerificaDados.RetornaEstadoCivilFuncionario(DadosTabelaFuncionario[0]["idestadocivil"]);
+                TempData["Etinia"] = VerificaDados.RetornaEtiniaFuncionario(DadosTabelaFuncionario[0]["etnia"]);
 
-                DadosFuncionario.EstadoCivil = EstadoCivil;
-                DadosFuncionario.Sexo = Sexo;
-                DadosFuncionario.Etnia = Etnia;
-                DadosFuncionario.Formacao = Formacao;
-                DadosFuncionario.Setor = Setor;
+                TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
+
+                var formacao = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
+                TempData["TotalFormacao"] = formacao.Count;
+                for (int i = 0; i < formacao.Count; i++)
+                {
+                    TempData["Formacao " + i] = formacao[0]["descricao"];
+                }
 
                 TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
                 TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
@@ -579,18 +577,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
-
-
-        public ActionResult AtualizarDadosRh(string Login)
-        {
-            return RedirectToAction("Principal", "Principal",
-                new
-                {
-                    Acao = "ColaboradorRh ",
-                    Mensagem = "Formulário Pessoal atualizado com sucesso !",
-                    Controlle = "PainelColaborador"
-                });
-        }
+       
 
         [HttpPost]
         public ActionResult CadastrarVaga(VagasInternas DadosVaga)

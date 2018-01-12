@@ -178,16 +178,60 @@ namespace PortalSicoobDivicred.Aplicacao
             return rows;
         }
 
-        public List<Dictionary<string, string>> RetornaFuncaoFuncionario(string IdFuncao)
+        public string RetornaFuncaoFuncionario(string IdFuncao)
         {
             var QuerryRecuperaAreasInteresse =
                 "SELECT descricao FROM funcoes WHERE id='" + IdFuncao + "'";
             var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
 
 
-            return rows;
+            return rows[0]["descricao"];
         }
+        public string RetornaGeneroFuncionario(string IdGenero)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM tipossexos WHERE id='" + IdGenero + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
 
+
+            return rows[0]["descricao"];
+        }
+        public string RetornaSetorFuncionario(string IdSetor)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM setores WHERE id='" + IdSetor + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows[0]["descricao"];
+        }
+        public string RetornaEscolaridadeFuncionario(string IdEscolaridade)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM tiposformacoes WHERE id='" + IdEscolaridade + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows[0]["descricao"];
+        }
+        public string RetornaEstadoCivilFuncionario(string IdEstadoCivil)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM tiposestadoscivis WHERE id='" + IdEstadoCivil + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows[0]["descricao"];
+        }
+        public string RetornaEtiniaFuncionario(string Etinia)
+        {
+            var QuerryRecuperaAreasInteresse =
+                "SELECT descricao FROM tiposetnias WHERE id='" + Etinia + "'";
+            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+
+
+            return rows[0]["descricao"];
+        }
         public List<SelectListItem> RetornaEstadoCivil()
         {
             var EstadoCivil = new List<SelectListItem>();
@@ -289,7 +333,6 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return EstadoCivil;
         }
-
         public void AtualizaDadosFuncionarioFormulario(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,

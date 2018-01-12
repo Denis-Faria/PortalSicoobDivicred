@@ -193,7 +193,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(),
                     DadosFuncionario.FormacaoAcademica,
                     Login, DadosFuncionario.Email, DadosFuncionario.PA,
-                    DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade);
+                    DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,"S");
 
                 return RedirectToAction("Principal", "Principal",
                     new
@@ -693,10 +693,12 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + DadosCurriculos.Count;
                 TempData["TituloVaga"] = IdVaga + "-" + DadosCurriculos[0]["titulo"];
                 TempData["DescricaoVaga"] = DadosCurriculos[0]["descricao"];
+                TempData["ResultadoObservacao"] = DadosCurriculos[0]["observacao"];
                 TempData["IdVaga"] = IdVaga;
 
                 for (var i = 0; i < DadosCurriculos.Count; i++)
                 {
+                    TempData["Id " + i] = DadosCurriculos[i]["id"];
                     TempData["IdFuncionario" + i] = "IdFuncionario | " + DadosCurriculos[i]["id"];
                     TempData["Nome" + i] = DadosCurriculos[i]["nome"];
                     TempData["Login" + i] = DadosCurriculos[i]["login"];
@@ -745,7 +747,8 @@ namespace PortalSicoobDivicred.Controllers
                             Aprovado = true;
                         else
                             Aprovado = false;
-                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario[1], Aprovado);
+                        var Observacao = Formulario["observacao" + IdFuncionario[1]];
+                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario[1], Aprovado,Observacao.ToString());
                     }
                 VerificaDados.EncerraVaga(Formulario["vaga"]);
                 return RedirectToAction("Principal", "Principal",

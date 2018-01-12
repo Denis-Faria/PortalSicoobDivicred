@@ -295,7 +295,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
             string Numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem, string ConfirmacaoCertificacao)
+            string Viagem, string ConfirmacaoCertificacao,string ConfirmaDados)
         {
             var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -310,7 +310,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                             DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
                                             "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
                                             ComidaFavorita + "',viagem='" + Viagem +
-                                            "', perfilcompleto='S',confirmacaocertificacao='" +
+                                            "', perfilcompleto='S',confirmacaodado='"+ConfirmaDados+"',confirmacaocertificacao='" +
                                             ConfirmacaoCertificacao + "' WHERE nome='" + Nome + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
         }
@@ -318,7 +318,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
-            string Numero, string Bairro, string Cidade)
+            string Numero, string Bairro, string Cidade,string ConfirmaDados)
         {
             var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -328,7 +328,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                             Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
                                             UsuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
                                             Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
-                                            Cidade + "' WHERE login='" + UsuarioSistema + "'";
+                                            Cidade + "', confirmacaodado='"+ConfirmaDados+"' WHERE login='" + UsuarioSistema + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
         }
 

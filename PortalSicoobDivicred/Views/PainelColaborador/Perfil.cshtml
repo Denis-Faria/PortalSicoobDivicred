@@ -913,8 +913,13 @@
             @Html.ValidationMessageFor(m => m.Cidade, null, new {style = "color:red"})
         </div>
     </div>
-
+    <div class="control">
+        <label class="checkbox">
+            <input type="checkbox" id-="ConfirmacaoDados" checked name="ConfirmacaoDados"> Eu confirmo que todas as informações informadas acima são verdadeiras.
+        </label>
     </div>
+    </div>
+
     <footer class="card-footer">
         <a onclick="FormPessoal.submit();" class="card-footer-item">Salvar</a>
     </footer>

@@ -119,6 +119,7 @@
             <th>Setor</th>
             <th>PA</th>
             <th>Aprovado</th>
+            <th>Observação</th>
             </thead>
             <tbody>
             @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
@@ -129,7 +130,7 @@
                         <article class="media">
                             <div class="media-left grow pic">
                                 <figure class="image is-32x32 is-square">
-                                    <img src="@TempData["Imagem" + i]"/>
+                                    <img src="@TempData["Imagem" + i]" />
                                 </figure>
                             </div>
                             <div class="media-content">
@@ -145,8 +146,14 @@
                     <td>@TempData["PA" + i].ToString()</td>
                     <td>
                         <div class="field">
-                            <input type="checkbox" name="@TempData["IdFuncionario" + i]" id="@TempData["IdFuncionario" + i]" class="switch" @TempData["Resultado" + i]/>
+                            <input type="checkbox" name="@TempData["IdFuncionario" + i]" id="@TempData["IdFuncionario" + i]" class="switch" @TempData["Resultado" + i] />
                             <label for="@TempData["IdFuncionario" + i]"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="field">
+                            <input type="text" name="observacao @TempData["Id "+i]" id="observacao @TempData["Id "+i]" class="input" @TempData["ResultadoObservacao" + i] />
+                            <label for="observacao @TempData["Id "+i]"></label>
                         </div>
                     </td>
                 </tr>

@@ -196,6 +196,47 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QuerryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
+            {
+                try
+                {
+                    if (!Formulario["ConfirmacaoDados"].Equals("on"))
+                    {
+                        var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                        var Sexo = VerificaDados.RetornaSexo();
+                        var Etnia = VerificaDados.RetornaEtnia();
+                        var Formacao = VerificaDados.RetornaFormacao();
+                        var Setor = VerificaDados.RetornaSetor();
+                        var Funcao = VerificaDados.RetornaFuncao();
+
+                        DadosFuncionario.EstadoCivil = EstadoCivil;
+                        DadosFuncionario.Sexo = Sexo;
+                        DadosFuncionario.Etnia = Etnia;
+                        DadosFuncionario.Formacao = Formacao;
+                        DadosFuncionario.Setor = Setor;
+                        DadosFuncionario.Funcao = Funcao;
+                        ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
+                    }
+                    else
+                    {
+                    }
+                }
+                catch
+                {
+                    var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                    var Sexo = VerificaDados.RetornaSexo();
+                    var Etnia = VerificaDados.RetornaEtnia();
+                    var Formacao = VerificaDados.RetornaFormacao();
+                    var Setor = VerificaDados.RetornaSetor();
+                    var Funcao = VerificaDados.RetornaFuncao();
+
+                    DadosFuncionario.EstadoCivil = EstadoCivil;
+                    DadosFuncionario.Sexo = Sexo;
+                    DadosFuncionario.Etnia = Etnia;
+                    DadosFuncionario.Formacao = Formacao;
+                    DadosFuncionario.Setor = Setor;
+                    DadosFuncionario.Funcao = Funcao;
+                    ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
+                }
                 if (ModelState.IsValid)
                 {
                     var Cookie = Request.Cookies.Get("CookieFarm");
@@ -216,10 +257,18 @@ namespace PortalSicoobDivicred.Controllers
                     else
                         DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
                     var Confirma = "";
-                    if (Formulario["ConfirmacaoCertificacao"].Equals("on"))
-                        Confirma = "S";
-                    else
+
+                    try
+                    {
+                        if (Formulario["ConfirmacaoCertificacao"].Equals("on"))
+                            Confirma = "S";
+                        else
+                            Confirma = "N";
+                    }
+                    catch
+                    {
                         Confirma = "N";
+                    }
 
                     for (var i = 0; i < Formulario.Count; i++)
                         if (Formulario.AllKeys[i].Contains("formacao"))
@@ -232,14 +281,21 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(),
                         DadosFuncionario.FormacaoAcademica,
                         DadosFuncionario.UsuarioSistema, DadosFuncionario.Email, DadosFuncionario.PA,
-                        DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
+                        DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro,
+                        DadosFuncionario.Cidade,
                         DadosFuncionario.IdSetor.ToString(), DadosFuncionario.IdFuncao.ToString(),
                         DadosFuncionario.QuatidadeFilho,
                         DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
-                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem,
-                        Confirma);
+                        DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita,
+                        DadosFuncionario.Viagem,
+                        Confirma,"S");
                     return RedirectToAction("Principal", "Principal");
                 }
+                else
+                {
+                    return View(DadosFuncionario);
+                }
+            }
             return RedirectToAction("Login", "Login");
         }
 

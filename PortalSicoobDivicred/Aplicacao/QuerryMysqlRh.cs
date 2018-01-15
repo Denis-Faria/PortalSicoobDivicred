@@ -94,6 +94,8 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + IdVaga + ";";
             contexto.ExecutaComandoComRetorno(Query);
         }
+
+ 
        
     }
 }

@@ -393,7 +393,7 @@
                     @TempData["NomePonto" + i]
                 </td>
                 <td>
-                    @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy")
+                    @TempData["Dia"]
                 </td>
                 <td>
                     @TempData["Hora1" + i]
@@ -462,7 +462,7 @@
                             @TempData["NomePontoCerto" + i]
                         </td>
                         <td>
-                            @DateTime.Now.AddDays(-1).ToString("dd/MM/yyyy")
+                            @TempData["Dia"]
                         </td>
                         <td>
                             @TempData["HoraCerto1" + i]
@@ -523,18 +523,6 @@ MODAL PERFIL COLABORADOR
 
 
         </section>
-        <footer class="modal-card-foot">
-            <p class="field">
-                <button onclick="FormPessoal.submit();" type="submit" class="button is-success">
-                    <span class="icon">
-                        <i class="fa fa-floppy-o"></i>
-                    </span>
-                    <span>Salvar</span>
-                </button>
-
-                <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
-            </p>
-        </footer>
     </div>
 </div>
 

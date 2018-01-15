@@ -48,8 +48,17 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-               
-                var cmdComando = CriarComandoSQL("select b.NOME, iif(count(a.ID_MARCACAO)<4,'Justifica','Nao') as justifica, a.ID_FUNCIONARIO,b.ID_CARGO from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" + DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd")+ "' AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO group by b.NOME ,a.ID_FUNCIONARIO,b.ID_CARGO ;");
+                var DiaValidar= new DateTime();
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                }
+                else
+                {
+                    DiaValidar = DateTime.Now.AddDays(-1);
+                }
+
+                var cmdComando = CriarComandoSQL("select b.NOME, iif(count(a.ID_MARCACAO)<4,'Justifica','Nao') as justifica, a.ID_FUNCIONARIO,b.ID_CARGO from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" + DiaValidar.ToString("yyyy/MM/dd")+ "' AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO group by b.NOME ,a.ID_FUNCIONARIO,b.ID_CARGO ;");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -147,8 +156,19 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
+                var DiaValidar = new DateTime();
 
-                var cmdComando = CriarComandoSQL("select * from MARCACAO  WHERE DATA='" + DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO=" + IdFuncionario + " order by HORA asc;");
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                }
+                else
+                {
+                    DiaValidar = DateTime.Now.AddDays(-1);
+                }
+
+
+                var cmdComando = CriarComandoSQL("select * from MARCACAO  WHERE DATA='" +DiaValidar.ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO=" + IdFuncionario + " order by HORA asc;");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -180,8 +200,18 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
+                var DiaValidar = new DateTime();
 
-                var cmdComando = CriarComandoSQL("SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE '" + DateTime.Now.AddDays(-1).ToString("yyyy/MM/dd") + "' BETWEEN DATA_INICIO AND DATA_FIM AND ID_FUNCIONARIO=" + IdFuncionario + ";");
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                }
+                else
+                {
+                    DiaValidar = DateTime.Now.AddDays(-1);
+                }
+
+                var cmdComando = CriarComandoSQL("SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE '" +DiaValidar.ToString("yyyy/MM/dd") + "' BETWEEN DATA_INICIO AND DATA_FIM AND ID_FUNCIONARIO=" + IdFuncionario + ";");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {

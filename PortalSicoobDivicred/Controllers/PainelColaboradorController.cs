@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Web.Mvc;
+using FirebirdSql.Data.Client.Native.Handle;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -308,7 +310,17 @@ namespace PortalSicoobDivicred.Controllers
                 var Ponto = FirebirDados.RetornaListaMArcacao();
 
                 var FuncionariosPonto = FirebirDados.RetornaListaFuncionario();
+                var DiaValidar = new DateTime();
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                }
+                else
+                {
+                    DiaValidar = DateTime.Now.AddDays(-1);
+                }
 
+                TempData["Dia"] = DiaValidar.ToString("dd/MM/yyyy");
                 var TotalJustifica = 0;
                 var TotalSemPendencia = 0;
                 for (int j = 0; j < FuncionariosPonto.Count; j++)
@@ -503,15 +515,25 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario(Login);
+               
 
-                for (var i = 0; i < DocumentosUpados.Count; i++)
+                var DocumentosUpados = VerificaDados.RetornaDocumentosFuncionario(Login);
+
+                for (var i = 0; i < DocumentosUpados.Rows.Count; i++)
                 {
-                    TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-success";
-                    TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
-                }
-                var DadosFuncionario = new Funcionario();
+                    TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
+                    TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
 
+                    Byte[] bytes = (Byte[])DocumentosUpados.Rows[i]["arquivo"];
+                    String img64 = Convert.ToBase64String(bytes);
+                    String img64Url = string.Format("data:image/;base64,{0}", img64);
+                    TempData["Imagem"+ DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                }
+
+                var DadosFuncionario = new Funcionario();
+                
+
+               
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
                 DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
                 DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
@@ -533,7 +555,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
                 DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
-
+                
                 if (DadosTabelaFuncionario[0]["foto"] == null)
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                 else

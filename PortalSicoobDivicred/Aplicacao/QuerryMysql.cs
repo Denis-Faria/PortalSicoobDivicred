@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web;
 using System.Web.Mvc;
+using MySql.Data.MySqlClient;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
 
@@ -434,6 +436,12 @@ namespace PortalSicoobDivicred.Aplicacao
                 "SELECT nomearquivo, dataupload FROM documentospessoaisfuncionarios WHERE login='" + Login + "'";
             var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
             return row;
+        }
+        public DataTable RetornaDocumentosFuncionario(string Login)
+        {
+            var Dados =contexto.ComandoArquivo(Login);
+            return Dados;
+
         }
     }
 }

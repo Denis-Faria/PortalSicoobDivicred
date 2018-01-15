@@ -8,6 +8,13 @@
 
 
 <br />
+<script>
+    function teste(data) {
+        var imagem = data;
+     var newTab = window.open();
+     newTab.document.body.innerHTML = '<img src='+imagem+'>';
+    }
+</script>
 <div class="container is-fluid">
     <div class="columns">
         <div class="box column is-12">
@@ -129,31 +136,32 @@
                 <div id="ArquivoPessoal">
                     <div class="card-content">
                         <div class="tags">
-                            <span class="tag @TempData["StatusFoto"]"><a style="color:black">Foto 3/4</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCTPS"]"><a style="color:black">CTPS</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusPIS"]"><a style="color:black">PIS</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCPF"]"><a style="color:black">CPF</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusRG"]"><a style="color:black">RG</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusTitulo Eleitor"]"><a style="color:black">Título de Eleitor</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCartao SUS"]"><a style="color:black">Cartão do SUS</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCNH"]"><a style="color:black">Carteira de Motorista</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusComprovante Endereco"]"><a style="color:black">Comprovante de Endereço</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusTipo Sanguineo"]"><a style="color:black">Tipo Sanguíneo</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCertidao"]"><a style="color:black">Certidão Nascimento/Casamento</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusCertidao Filho"]"><a style="color:black">Certidão(Filhos)</a></span>
-                            <br />
-                            <span class="tag @TempData["StatusReservista"]"><a style="color:black">Certificado de Reservista</a></span>
+                            
+                            <span class="tag @TempData["StatusFoto"]"><a href="javascript: teste('@TempData["ImagemFoto"]'); void(0);" style="color: black">Foto 3/4</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCTPS"]"><a href="javascript: teste('@TempData["ImagemCTPS"]'); void(0);" style="color: black">CTPS</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusPIS"]"><a href="javascript: teste('@TempData["ImagemPIS"]'); void(0);" style="color: black">PIS</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCPF"]"><a href="javascript: teste('@TempData["ImagemCPF"]'); void(0);" style="color: black">CPF</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusRG"]"><a href="javascript: teste('@TempData["ImagemRG"]'); void(0);" style="color: black">RG</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusTitulo Eleitor"]"><a href="javascript: teste('@TempData["ImagemTitulo Eleitor"]'); void(0);" style="color: black">Título de Eleitor</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCartao SUS"]"><a href="javascript: teste('@TempData["ImagemCartao SUS"]'); void(0);" style="color: black">Cartão do SUS</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCNH"]"><a href="javascript: teste('@TempData["ImagemCNH"]'); void(0);" style="color: black">Carteira de Motorista</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusComprovante Endereco"]"><a href="javascript: teste('@TempData["ImagemComprovante Endereco"]'); void(0);" style="color: black">Comprovante de Endereço</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusTipo Sanguineo"]"><a href="javascript: teste('@TempData["ImagemTipo Sanguineo"]'); void(0);" style="color: black">Tipo Sanguíneo</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCertidao"]"><a href="javascript: teste('@TempData["ImagemCertidao"]'); void(0);" style="color: black">Certidão Nascimento/Casamento</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusCertidao Filho"]"><a href="javascript: teste('@TempData["ImagemCertidao Filho"]'); void(0);" style="color: black">Certidão(Filhos)</a></span>
+                            <br/>
+                            <span class="tag @TempData["StatusReservista"]"><a href="javascript: teste('@TempData["ImagemReservista"]'); void(0);" style="color: black">Certificado de Reservista</a></span>
                         </div>
                     </div>
                 </div>

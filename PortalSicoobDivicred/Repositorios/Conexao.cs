@@ -58,6 +58,17 @@ namespace Port.Repositorios
         }
 
 
+        public DataTable ComandoArquivo(string Login)
+        {
+            AbrirConexao();
+            MySqlCommand comando = new MySqlCommand("SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +Login + "'); ",conexao );
+            MySqlDataAdapter Dados = new MySqlDataAdapter(comando);
+            DataTable Tabela = new DataTable();
+            Dados.Fill(Tabela);
+            FecharConexao();
+            return Tabela;
+        }
+
         public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSQL)
         {
             List<Dictionary<string, string>> linhas = null;

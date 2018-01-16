@@ -399,6 +399,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Funcionario.cs" />
+    <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />

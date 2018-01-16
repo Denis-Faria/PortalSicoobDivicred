@@ -93,6 +93,35 @@
             });
 
     }
+    function ConfirmarPendencia() {
+
+          
+                var itemlist = [];
+                //get cell values, instead of the header text.
+        $("#Pendencias tr").each(function() {
+            var tdlist = $(this).find("td");
+            var Item = { Nome: $(tdlist[0]).html(), Dia: $(tdlist[1]).html(), Horario1: $(tdlist[2]).html(), Horario2: $(tdlist[3]).html(), Horario3: $(tdlist[4]).html(), Horario4: $(tdlist[5]).html() };
+            itemlist.push(Item);
+            alert(Item.Nome + " ," + Item.Dia + " ," + Item.Horario1 + " ," + Item.Horario2 + " ," + Item.Horario3 + " ," + Item.Horario4 + " ,");
+            
+        });
+
+                $.ajax({
+                    url: '@Url.Action("ConfirmarPendencia", "PainelColaborador")', //
+                    dataType: "json",
+                    data: JSON.stringify({ itemlist: itemlist }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        alert("success");
+                    },
+                    error: function (xhr) {
+                        alert("error");
+                    }
+                });
+            
+       
+    }
 
 
 </script>
@@ -331,8 +360,15 @@
         </div>
     </div>
 </div>
+
 <div id="BancodeHoras">
     <p class="field">
+        <a class="button is-success" href="javascript:ConfirmarPendencia();void(0);">
+            <span class="icon is-small">
+                <i class="fa  fa-check"></i>
+            </span>
+            <span>Confirmar Pendências</span>
+        </a>
         <a class="button is-success">
             <span class="icon is-small">
                 <i class="fa fa-bell"></i>
@@ -345,6 +381,7 @@
             </span>
             <span>Histórico de pendências</span>
         </a>
+
     </p>
     <div id="TabHoras">
         <div class="tabs is-boxed is-centered">
@@ -368,7 +405,7 @@
             </ul>
         </div>
         <div id="Justifica">
-            <table class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center; box-shadow: 2px 2px 2px grey;">
+            <table id="Pendencias" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="text-align: center; box-shadow: 2px 2px 2px grey;">
                 <thead>
                 <th>Funcionário</th>
                 <th>Dia</th>
@@ -411,7 +448,7 @@
                     @TempData["Jornada" + i]
                 </td>
                 <td>
-                    @TempData["Credito" + i]
+                    @TempData["HoraExtra" + i]
                 </td>
                 <td>
                     @TempData["Debito" + i]
@@ -480,7 +517,7 @@
                             @TempData["JornadaCerto" + i]
                         </td>
                         <td>
-                            @TempData["CreditoCerto" + i]
+                            @TempData["HoraExtraCerto"+i]
                         </td>
                         <td>
                             @TempData["DebitoCerto" + i]

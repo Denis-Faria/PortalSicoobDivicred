@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using Port.Repositorios;
 
@@ -94,8 +95,20 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + IdVaga + ";";
             contexto.ExecutaComandoComRetorno(Query);
         }
+        public string InserirHistoricoJustificativa(string IdFuncionario)
+        {
+            var Query = "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario) VALUES('N','N',"+IdFuncionario+")";
+           var IdHistorico = contexto.ExecutaComandoComRetornoId(Query);
+            return IdHistorico;
+        }
+        public void InserirHistoricoHorario(string IdHistorico, TimeSpan Horario, string IdFuncionario,string IdJustificativa, DateTime Data)
+        {
+            var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES("+IdHistorico+",'"+Horario+"',"+IdFuncionario+","+IdJustificativa+",'"+Data.Date.ToString("yyyy/MM/dd")+"')";
+            contexto.ExecutaComandoComRetorno(Query);
+            
+        }
 
- 
-       
+
+
     }
 }

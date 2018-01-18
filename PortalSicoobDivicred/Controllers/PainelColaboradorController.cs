@@ -306,6 +306,9 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var CarregaDados = new QuerryMysql();
+
+
+                //TRATAMENTO PONTO
                 var FirebirDados = new QueryFirebird();
                 var Ponto = FirebirDados.RetornaListaMArcacao();
 
@@ -323,128 +326,140 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Dia"] = DiaValidar.ToString("dd/MM/yyyy");
                 var TotalJustifica = 0;
                 var TotalSemPendencia = 0;
+
+                //TRATAMENTO FALTA FERIADO HORARIO DE ALMOÇO HORA EXTRA
                 for (int j = 0; j < FuncionariosPonto.Count; j++)
                 {
-
-                    if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
+                    var Feriado =FirebirDados.VerificaFeriado(FuncionariosPonto[0]["ID_FUNCIONARIO"]);
+                    if (Convert.ToInt32(Feriado[0]["TOTAL"]) == 0)
                     {
-                        if (Convert.ToDateTime(FuncionariosPonto[j]["DATA_ADMISSAO"]).Date > DiaValidar.Date)
+                        if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
                         {
-
-                        }
-                        else
-                        {
-
-                            var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
-                            if (Falta.Count > 0)
+                            if (Convert.ToDateTime(FuncionariosPonto[j]["DATA_ADMISSAO"]).Date > DiaValidar.Date)
                             {
-                                if (Falta.Count == 4)
+
+                            }
+                            else
+                            {
+
+                                var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                                if (Falta.Count > 0)
                                 {
-                                    DateTime Marcacao1 = DateTime.ParseExact(Falta[0]["HORA"], "HH:mm:ss",
-                                        new DateTimeFormatInfo());
-                                    DateTime Marcacao2 = DateTime.ParseExact(Falta[1]["HORA"], "HH:mm:ss",
-                                        new DateTimeFormatInfo());
-                                    DateTime Marcacao3 = DateTime.ParseExact(Falta[2]["HORA"], "HH:mm:ss",
-                                        new DateTimeFormatInfo());
-                                    DateTime Marcacao4 = DateTime.ParseExact(Falta[3]["HORA"], "HH:mm:ss",
-                                        new DateTimeFormatInfo());
-
-
-                                    TimeSpan ts = Marcacao3.Subtract(Marcacao2);
-
-                                   
-
-                                    TimeSpan JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(ts);
-                                    TimeSpan HoraExtra = new TimeSpan();
-
-                                    if (FuncionariosPonto[j]["ID_CARGO"].Equals("2") || FuncionariosPonto[j]["NOME"].Contains("IRANI"))
+                                    if (Falta.Count == 4)
                                     {
-                                        var Total = new TimeSpan(00,06,00,00);
-                                        HoraExtra = JornadaTrabalhada.Subtract(Total);
-                                    }
-                                    else if (FuncionariosPonto[j]["ID_CARGO"].Equals("58"))
-                                    {
-                                        var Total = new TimeSpan(00,04,00,00);
-                                        HoraExtra= JornadaTrabalhada.Subtract(Total);
-                                    }
-                                    else
-                                    {
-                                        var Total = new TimeSpan(00,08,00,00);
-                                        HoraExtra=JornadaTrabalhada.Subtract(Total);
-                                    }
+                                        DateTime Marcacao1 = DateTime.ParseExact(Falta[0]["HORA"], "HH:mm:ss",
+                                            new DateTimeFormatInfo());
+                                        DateTime Marcacao2 = DateTime.ParseExact(Falta[1]["HORA"], "HH:mm:ss",
+                                            new DateTimeFormatInfo());
+                                        DateTime Marcacao3 = DateTime.ParseExact(Falta[2]["HORA"], "HH:mm:ss",
+                                            new DateTimeFormatInfo());
+                                        DateTime Marcacao4 = DateTime.ParseExact(Falta[3]["HORA"], "HH:mm:ss",
+                                            new DateTimeFormatInfo());
 
 
-                                    if (HoraExtra.Hours > 2)
-                                    {
-                                        TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                        TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                        TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                        TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                        TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                        TempData["HoraExtra" + TotalJustifica] = HoraExtra;
-                                        TempData["Jornada" + TotalSemPendencia] = JornadaTrabalhada;
-
-                                        TotalJustifica++;
-                                    }
-                                    else if (ts.Hours >= 2 && ts.Minutes > 0)
-                                    {
-                                        TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                        TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                        TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                        TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                        TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                        TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
+                                        TimeSpan ts = Marcacao3.Subtract(Marcacao2);
 
 
-                                        TotalJustifica++;
-                                    }
-                                    else if (ts.Hours < 1)
-                                    {
-                                        TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                        TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                        TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                        TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                        TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                        TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
 
-                                        TotalJustifica++;
-                                    }
-                                    else
-                                    {
-                                        TempData["NomePontoCerto" + TotalSemPendencia] = FuncionariosPonto[j]["NOME"];
-                                        TempData["HoraCerto1" + TotalSemPendencia] = Falta[0]["HORA"];
-                                        TempData["HoraCerto2" + TotalSemPendencia] = Falta[1]["HORA"];
-                                        TempData["HoraCerto3" + TotalSemPendencia] = Falta[2]["HORA"];
-                                        TempData["HoraCerto4" + TotalSemPendencia] = Falta[3]["HORA"];
-                                        TempData["JornadaCerto" + TotalSemPendencia] = JornadaTrabalhada;
-                                        if (HoraExtra.Hours < 0 || HoraExtra.Minutes<0)
+                                        TimeSpan JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(ts);
+                                        TimeSpan HoraExtra = new TimeSpan();
+
+                                        if (FuncionariosPonto[j]["ID_CARGO"].Equals("2") ||
+                                            FuncionariosPonto[j]["NOME"].Contains("IRANI"))
                                         {
-                                            TempData["DebitoCerto" + TotalSemPendencia] = HoraExtra;
+                                            var Total = new TimeSpan(00, 06, 00, 00);
+                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                        }
+                                        else if (FuncionariosPonto[j]["ID_CARGO"].Equals("58"))
+                                        {
+                                            var Total = new TimeSpan(00, 04, 00, 00);
+                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
                                         }
                                         else
                                         {
-                                            TempData["HoraExtraCerto" + TotalSemPendencia] = HoraExtra;
+                                            var Total = new TimeSpan(00, 08, 00, 00);
+                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
                                         }
-                                        TotalSemPendencia++;
+
+
+                                        if (HoraExtra.Hours > 2)
+                                        {
+                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                            TempData["HoraExtra" + TotalJustifica] = HoraExtra;
+                                            TempData["Jornada" + TotalSemPendencia] = JornadaTrabalhada;
+
+                                            TotalJustifica++;
+                                        }
+                                        else if (ts.Hours >= 2 && ts.Minutes > 0)
+                                        {
+                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                            TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
+
+
+                                            TotalJustifica++;
+                                        }
+                                        else if (ts.Hours < 1)
+                                        {
+                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                            TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
+
+                                            TotalJustifica++;
+                                        }
+                                        else
+                                        {
+                                            TempData["IdPontoCerto" + TotalSemPendencia] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                            TempData["NomePontoCerto" + TotalSemPendencia] =
+                                                FuncionariosPonto[j]["NOME"];
+                                            TempData["HoraCerto1" + TotalSemPendencia] = Falta[0]["HORA"];
+                                            TempData["HoraCerto2" + TotalSemPendencia] = Falta[1]["HORA"];
+                                            TempData["HoraCerto3" + TotalSemPendencia] = Falta[2]["HORA"];
+                                            TempData["HoraCerto4" + TotalSemPendencia] = Falta[3]["HORA"];
+                                            TempData["JornadaCerto" + TotalSemPendencia] = JornadaTrabalhada;
+                                            if (HoraExtra.Hours < 0 || HoraExtra.Minutes < 0)
+                                            {
+                                                TempData["DebitoCerto" + TotalSemPendencia] = HoraExtra;
+                                            }
+                                            else
+                                            {
+                                                TempData["HoraExtraCerto" + TotalSemPendencia] = HoraExtra;
+                                            }
+                                            TotalSemPendencia++;
+                                        }
+
+
+
                                     }
-
-
-
                                 }
-                            }
 
-                            else
-                            {
-                                var Afastamento =
-                                    FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
-                                if (Afastamento.Count == 0)
+                                else
                                 {
-                                    TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                    TempData["Hora1" + TotalJustifica] = "--:--";
-                                    TempData["Hora2" + TotalJustifica] = "--:--";
-                                    TempData["Hora3" + TotalJustifica] = "--:--";
-                                    TempData["Hora4" + TotalJustifica] = "--:--";
-                                    TotalJustifica++;
+                                    var Afastamento =
+                                        FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
+                                    if (Afastamento.Count == 0)
+                                    {
+                                        TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                        TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
+                                        TempData["Hora1" + TotalJustifica] = "--:--";
+                                        TempData["Hora2" + TotalJustifica] = "--:--";
+                                        TempData["Hora3" + TotalJustifica] = "--:--";
+                                        TempData["Hora4" + TotalJustifica] = "--:--";
+                                        TotalJustifica++;
+                                    }
                                 }
                             }
                         }
@@ -453,15 +468,16 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-
+                // TRATAMENTO ESTAGIARIO E DONA IRANI
                 for (int i = 0; i < Ponto.Count; i++)
                 {
                     if (Ponto[i]["ID_CARGO"].Equals("2") || Ponto[i]["NOME"].Contains("IRANI"))
                     {
-                        TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                       
                         var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
                         if (Marcacao.Count > 2)
                         {
+                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
                             TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                             for (int k = 0; k < Marcacao.Count; k++)
                             {
@@ -498,6 +514,7 @@ namespace PortalSicoobDivicred.Controllers
 
                                 if (ts.Hours >= 6 && ts.Minutes > 5)
                                 {
+                                    TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
                                     TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                                     TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
                                     TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
@@ -509,12 +526,14 @@ namespace PortalSicoobDivicred.Controllers
                         }
 
                     }
+                    //MENOR APRENDIZ
                     else if (Ponto[i]["ID_CARGO"].Equals("58"))
                     {
                         TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                         var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
                         if (Marcacao.Count > 2)
                         {
+                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
                             TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                             for (int k = 0; k < Marcacao.Count; k++)
                             {
@@ -551,6 +570,7 @@ namespace PortalSicoobDivicred.Controllers
 
                                 if (ts.Hours >= 4 && ts.Minutes > 5)
                                 {
+                                    TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
                                     TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                                     TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
                                     TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
@@ -561,10 +581,12 @@ namespace PortalSicoobDivicred.Controllers
                             }
                         }
                     }
+                    // FALTA DE PONTO
                     else
                     {
                         if (Ponto[i]["JUSTIFICA"].Equals("Justifica"))
                         {
+                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
                             TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
                             var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
                             for (int k = 0; k < Marcacao.Count; k++)
@@ -595,15 +617,15 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 TempData["TotalPonto"] = TotalJustifica;
                 TempData["TotalSemPendencia"] = TotalSemPendencia;
-
+                // --- FINALIZA TRATAMENTO DE PONTO ----
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
-
+                
                 var QueryRh = new QuerryMysqlRh();
                 var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
                 TempData["Total"] = VagasInternas.Count;
-
+                
                 for (var j = 0; j < VagasInternas.Count; j++)
 
                 {
@@ -902,23 +924,61 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
-
-        public ActionResult ConfirmarPendencia(Item[] TabelaPendencias)
+        [HttpPost]
+        public JsonResult ConfirmarPendencia(Item[] TabelaPendencias)
         {
             var VerificaDados = new QuerryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                for (int i = 0; i < TabelaPendencias.Length; i++)
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+                    var RecuperaId = new QuerryMysql();
+                    var DadosFuncionario = RecuperaId.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
 
-                return RedirectToAction("Principal", "Principal",
-                    new
+                    var IdJustificativa =VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"]);
+                    if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
                     {
-                        Acao = "ColaboradorRh ",
-                        Mensagem = "Pendências lançadas com sucesso !",
-                        Controlle = "PainelColaborador"
-                    });
+
+                    }
+                    else
+                    {
+                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                            TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id,"0",Convert.ToDateTime(TabelaPendencias[i].Dia));
+                    }
+                    if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
+                    {
+
+                    }
+                    else
+                    {
+                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                            TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
+                    }
+                    if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
+                    {
+
+                    }
+                    else
+                    {
+                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                            TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
+                    }
+                    if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
+                    {
+
+                    }
+                    else
+                    {
+                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                            TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
+                    }
+                }
+                return Json("Ok");
             }
-            return RedirectToAction("Login", "Login");
+            return Json("Ok");
         }
     }
 }

@@ -238,6 +238,48 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+                var DiaValidar = new DateTime();
+
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                }
+                else
+                {
+                    DiaValidar = DateTime.Now.AddDays(-1);
+                }
+
+                var cmdComando = CriarComandoSQL("SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE 'DATA'='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND ID_CALENDARIO=(SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO="+IdFuncionario+")");
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
 
     }
 }

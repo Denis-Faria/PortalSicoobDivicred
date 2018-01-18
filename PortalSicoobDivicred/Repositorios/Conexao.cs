@@ -105,6 +105,27 @@ namespace Port.Repositorios
 
             return linhas;
         }
+        public string ExecutaComandoComRetornoId(string comandoSQL)
+        {
+            long Id;
+
+            if (string.IsNullOrEmpty(comandoSQL))
+                throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
+            try
+            {
+                AbrirConexao();
+                var cmdComando = CriarComando(comandoSQL);
+                cmdComando.ExecuteNonQuery();
+               Id = cmdComando.LastInsertedId;
+
+            }
+            finally
+            {
+                FecharConexao();
+            }
+
+            return Id.ToString();
+        }
 
         public void ExecutaComandoArquivo(string comandoSQL, byte[] Imagem)
         {

@@ -83,9 +83,10 @@ namespace PortalSicoobDivicred.Aplicacao
             return row;
         }
 
-        public void AtualizaStatus(string IdVaga, string IdFuncionario, bool Aprovado,string Observacao)
+        public void AtualizaStatus(string IdVaga, string IdFuncionario, bool Aprovado, string Observacao)
         {
-            var Query = "UPDATE processosseletivos set aprovado=" + Aprovado + ", observacao='"+Observacao+"' WHERE idvaga=" + IdVaga +
+            var Query = "UPDATE processosseletivos set aprovado=" + Aprovado + ", observacao='" + Observacao +
+                        "' WHERE idvaga=" + IdVaga +
                         " AND idfuncionario=" + IdFuncionario + "";
             contexto.ExecutaComandoComRetorno(Query);
         }
@@ -95,20 +96,53 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + IdVaga + ";";
             contexto.ExecutaComandoComRetorno(Query);
         }
+
         public string InserirHistoricoJustificativa(string IdFuncionario)
         {
-            var Query = "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario) VALUES('N','N',"+IdFuncionario+")";
-           var IdHistorico = contexto.ExecutaComandoComRetornoId(Query);
+            var Query =
+                "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario) VALUES('N','N'," +
+                IdFuncionario + ")";
+            var IdHistorico = contexto.ExecutaComandoComRetornoId(Query);
             return IdHistorico;
         }
-        public void InserirHistoricoHorario(string IdHistorico, TimeSpan Horario, string IdFuncionario,string IdJustificativa, DateTime Data)
+
+        public void InserirHistoricoHorario(string IdHistorico, TimeSpan Horario, string IdFuncionario,
+            string IdJustificativa, DateTime Data)
         {
-            var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES("+IdHistorico+",'"+Horario+"',"+IdFuncionario+","+IdJustificativa+",'"+Data.Date.ToString("yyyy/MM/dd")+"')";
+            var Query =
+                "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES(" +
+                IdHistorico + ",'" + Horario + "'," + IdFuncionario + "," + IdJustificativa + ",'" +
+                Data.Date.ToString("yyyy/MM/dd") + "')";
             contexto.ExecutaComandoComRetorno(Query);
-            
         }
 
+        public List<Dictionary<string, string>> RetornaIdPendenciasNaoJustificada(string IdFuncionario)
+        {
+            var Query = "select id,validacaogestor from historicosjustificativaspontos where idfuncionario=" +
+                        IdFuncionario + " and validacaorh='N';";
+            var DadosJustificativas = contexto.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
 
+        public List<Dictionary<string, string>> RetornaPendenciasNaoJustificada(string IdHistorico)
+        {
+            var Query =
+                "select idhistorico,horario,data,idjustificativafirebird from historicoshorariosponto  where idhistorico=" +
+                IdHistorico + ";";
+            var DadosJustificativas = contexto.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
 
+        public bool VerificaPendencia(string IdFuncionarioFireBird)
+        {
+            var Query =
+                "select count(a.id) from historicosjustificativaspontos a, historicoshorariosponto b where b.idhistorico=a.id and b.idfuncionariofirebird=" +
+                IdFuncionarioFireBird + " and a.validacaorh='N'";
+            var DadosJustificativas = contexto.ExecutaComandoComRetorno(Query);
+
+            if (DadosJustificativas.Count > 0)
+                return false;
+            return true;
+        }
     }
 }

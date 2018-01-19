@@ -189,7 +189,7 @@
 
 @using (Html.BeginForm("FormularioCadastro", "Principal"))
 {
-    @Html.ValidationSummary(true, "", new { style="color:red;" })
+    @Html.ValidationSummary(true, "", new {style = "color:red;"})
     <div class="content" id="Pessoais">
         <div class="field is-grouped">
             <p class="control column is-3">
@@ -226,8 +226,8 @@
             <div class="control is-2">
                 <label class="label">Género</label>
                 <div class="select">
-                    @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU GÉNERO", new { id = "Sexo" })
-                    @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
+                    @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU GÉNERO", new {id = "Sexo"})
+                    @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new {style = "color:red"})
                 </div>
             </div>
             <div class="control is-2">
@@ -238,15 +238,15 @@
             <div class="control ">
                 <label class="label">Etnia/Raça</label>
                 <div class="select">
-                    @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new { id = "Etnia" })
-                    @Html.ValidationMessageFor(m => m.IdEtnia, null, new { style = "color:red" })
+                    @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new {id = "Etnia"})
+                    @Html.ValidationMessageFor(m => m.IdEtnia, null, new {style = "color:red"})
                 </div>
             </div>
             <div class="control ">
                 <label class="label">Estado Civil</label>
                 <div class="select">
-                    @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new { id = "EstadoCivil" })
-                    @Html.ValidationMessageFor(m => m.IdEstadoCivil, null, new { style = "color:red" })
+                    @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new {id = "EstadoCivil"})
+                    @Html.ValidationMessageFor(m => m.IdEstadoCivil, null, new {style = "color:red"})
                 </div>
             </div>
 
@@ -372,37 +372,37 @@
         <div class="field">
             <div class="control">
                 <label class="label">Quantos Filhos você tem ?</label>
-                @Html.TextBoxFor(m => m.QuatidadeFilho, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.QuatidadeFilho, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new {style = "color:red"})
             </div>
             <div class="control">
                 <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
-                @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new {style = "color:red"})
             </div>
             <div class="control">
                 <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
-                @Html.TextBoxFor(m => m.ContatoEmergencia, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.ContatoEmergencia, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new {style = "color:red"})
             </div>
             <div class="control">
                 <label class="label">Quais são seus principais hobbies ?</label>
-                @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new {style = "color:red"})
             </div>
             <div class="control">
                 <label class="label">Qual sua comida favorita?</label>
-                @Html.TextBoxFor(m => m.ComidaFavorita, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.ComidaFavorita, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new {style = "color:red"})
             </div>
             <div class="control">
                 <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
-                @Html.TextBoxFor(m => m.Viagem, null, new { @class = "input" })
-                @Html.ValidationMessageFor(m => m.Viagem, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.Viagem, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.Viagem, null, new {style = "color:red"})
             </div>
-           
-            <br />
-            
+
+            <br/>
+
         </div>
     </div>
     <div class="control">

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Web;
 using System.Web.Mvc;
-using MySql.Data.MySqlClient;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
 
@@ -189,6 +188,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RetornaGeneroFuncionario(string IdGenero)
         {
             var QuerryRecuperaAreasInteresse =
@@ -198,6 +198,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RetornaSetorFuncionario(string IdSetor)
         {
             var QuerryRecuperaAreasInteresse =
@@ -207,6 +208,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RetornaEscolaridadeFuncionario(string IdEscolaridade)
         {
             var QuerryRecuperaAreasInteresse =
@@ -216,6 +218,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RetornaEstadoCivilFuncionario(string IdEstadoCivil)
         {
             var QuerryRecuperaAreasInteresse =
@@ -225,6 +228,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public string RetornaEtiniaFuncionario(string Etinia)
         {
             var QuerryRecuperaAreasInteresse =
@@ -234,6 +238,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return rows[0]["descricao"];
         }
+
         public List<SelectListItem> RetornaEstadoCivil()
         {
             var EstadoCivil = new List<SelectListItem>();
@@ -335,12 +340,13 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return EstadoCivil;
         }
+
         public void AtualizaDadosFuncionarioFormulario(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
             string Numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem, string ConfirmacaoCertificacao,string ConfirmaDados)
+            string Viagem, string ConfirmacaoCertificacao, string ConfirmaDados)
         {
             var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -355,7 +361,8 @@ namespace PortalSicoobDivicred.Aplicacao
                                             DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
                                             "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
                                             ComidaFavorita + "',viagem='" + Viagem +
-                                            "', perfilcompleto='S',confirmacaodado='"+ConfirmaDados+"',confirmacaocertificacao='" +
+                                            "', perfilcompleto='S',confirmacaodado='" + ConfirmaDados +
+                                            "',confirmacaocertificacao='" +
                                             ConfirmacaoCertificacao + "' WHERE nome='" + Nome + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
         }
@@ -363,7 +370,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
-            string Numero, string Bairro, string Cidade,string ConfirmaDados)
+            string Numero, string Bairro, string Cidade, string ConfirmaDados)
         {
             var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -373,7 +380,8 @@ namespace PortalSicoobDivicred.Aplicacao
                                             Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
                                             UsuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
                                             Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
-                                            Cidade + "', confirmacaodado='"+ConfirmaDados+"' WHERE login='" + UsuarioSistema + "'";
+                                            Cidade + "', confirmacaodado='" + ConfirmaDados + "' WHERE login='" +
+                                            UsuarioSistema + "'";
             contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
         }
 
@@ -437,11 +445,11 @@ namespace PortalSicoobDivicred.Aplicacao
             var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
             return row;
         }
+
         public DataTable RetornaDocumentosFuncionario(string Login)
         {
-            var Dados =contexto.ComandoArquivo(Login);
+            var Dados = contexto.ComandoArquivo(Login);
             return Dados;
-
         }
     }
 }

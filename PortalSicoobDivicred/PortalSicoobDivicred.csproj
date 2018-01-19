@@ -400,6 +400,7 @@
     </Compile>
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\JustificativaPonto.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />
@@ -511,9 +512,9 @@
     <Content Include="Views\PainelColaborador\ModalPerfil.cshtml" />
     <Content Include="Views\Principal\CertificacaoFuncao.cshtml" />
     <Content Include="Views\PainelColaborador\ModalVagaInterna.cshtml" />
-    <Content Include="Views\Principal\WidgetVagas.cshtml" />
     <Content Include="Views\PainelColaborador\ModalEditarVagaInterna.cshtml" />
     <Content Include="Views\PainelColaborador\GerenciarVaga.cshtml" />
+    <Content Include="Views\Principal\JustificativaPonto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

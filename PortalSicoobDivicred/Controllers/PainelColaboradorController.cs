@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Web.Mvc;
-using FirebirdSql.Data.Client.Native.Handle;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -195,7 +193,8 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(),
                     DadosFuncionario.FormacaoAcademica,
                     Login, DadosFuncionario.Email, DadosFuncionario.PA,
-                    DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade, "S");
+                    DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
+                    "S");
 
                 return RedirectToAction("Principal", "Principal",
                     new
@@ -301,7 +300,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ColaboradorRh()
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QuerryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -311,58 +310,49 @@ namespace PortalSicoobDivicred.Controllers
                 //TRATAMENTO PONTO
                 var FirebirDados = new QueryFirebird();
                 var Ponto = FirebirDados.RetornaListaMArcacao();
-
                 var FuncionariosPonto = FirebirDados.RetornaListaFuncionario();
                 var DiaValidar = new DateTime();
                 if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                {
                     DiaValidar = DateTime.Now.AddDays(-3);
-                }
                 else
-                {
                     DiaValidar = DateTime.Now.AddDays(-1);
-                }
-
                 TempData["Dia"] = DiaValidar.ToString("dd/MM/yyyy");
+
                 var TotalJustifica = 0;
                 var TotalSemPendencia = 0;
+                var TotalPendenciaRh = 0;
 
                 //TRATAMENTO FALTA FERIADO HORARIO DE ALMOÇO HORA EXTRA
-                for (int j = 0; j < FuncionariosPonto.Count; j++)
+                for (var j = 0; j < FuncionariosPonto.Count; j++)
                 {
-                    var Feriado =FirebirDados.VerificaFeriado(FuncionariosPonto[0]["ID_FUNCIONARIO"]);
+                    var Feriado = FirebirDados.VerificaFeriado(FuncionariosPonto[0]["ID_FUNCIONARIO"]);
                     if (Convert.ToInt32(Feriado[0]["TOTAL"]) == 0)
-                    {
                         if (FuncionariosPonto[j]["DATA_DEMISSAO"] == null)
-                        {
                             if (Convert.ToDateTime(FuncionariosPonto[j]["DATA_ADMISSAO"]).Date > DiaValidar.Date)
                             {
-
                             }
                             else
                             {
-
                                 var Falta = FirebirDados.VerificaFalta(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
                                 if (Falta.Count > 0)
                                 {
                                     if (Falta.Count == 4)
                                     {
-                                        DateTime Marcacao1 = DateTime.ParseExact(Falta[0]["HORA"], "HH:mm:ss",
+                                        var Marcacao1 = DateTime.ParseExact(Falta[0]["HORA"], "HH:mm:ss",
                                             new DateTimeFormatInfo());
-                                        DateTime Marcacao2 = DateTime.ParseExact(Falta[1]["HORA"], "HH:mm:ss",
+                                        var Marcacao2 = DateTime.ParseExact(Falta[1]["HORA"], "HH:mm:ss",
                                             new DateTimeFormatInfo());
-                                        DateTime Marcacao3 = DateTime.ParseExact(Falta[2]["HORA"], "HH:mm:ss",
+                                        var Marcacao3 = DateTime.ParseExact(Falta[2]["HORA"], "HH:mm:ss",
                                             new DateTimeFormatInfo());
-                                        DateTime Marcacao4 = DateTime.ParseExact(Falta[3]["HORA"], "HH:mm:ss",
+                                        var Marcacao4 = DateTime.ParseExact(Falta[3]["HORA"], "HH:mm:ss",
                                             new DateTimeFormatInfo());
 
 
-                                        TimeSpan ts = Marcacao3.Subtract(Marcacao2);
+                                        var ts = Marcacao3.Subtract(Marcacao2);
 
 
-
-                                        TimeSpan JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(ts);
-                                        TimeSpan HoraExtra = new TimeSpan();
+                                        var JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(ts);
+                                        var HoraExtra = new TimeSpan();
 
                                         if (FuncionariosPonto[j]["ID_CARGO"].Equals("2") ||
                                             FuncionariosPonto[j]["NOME"].Contains("IRANI"))
@@ -384,45 +374,322 @@ namespace PortalSicoobDivicred.Controllers
 
                                         if (HoraExtra.Hours > 2)
                                         {
-                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
-                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                            TempData["HoraExtra" + TotalJustifica] = HoraExtra;
-                                            TempData["Jornada" + TotalSemPendencia] = JornadaTrabalhada;
+                                            if (VerificaDados.VerificaPendencia(
+                                                FuncionariosPonto[j]["ID_FUNCIONARIO"]))
+                                            {
+                                                TempData["IdPonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                                TempData["NomePonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["NOME"];
+                                                TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                                TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                                TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                                TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                                TempData["HoraExtra" + TotalJustifica] = HoraExtra;
+                                                TempData["Jornada" + TotalSemPendencia] = JornadaTrabalhada;
 
-                                            TotalJustifica++;
+                                                TotalJustifica++;
+                                            }
+                                            else
+                                            {
+                                                var RecuperaId = new QuerryMysql();
+                                                try
+                                                {
+                                                    var DadosFuncionario =
+                                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
+                                                            FuncionariosPonto[j]["NOME"]);
+                                                    var DadosHistorico =
+                                                        VerificaDados.RetornaIdPendenciasNaoJustificada(
+                                                            DadosFuncionario[0]["id"]);
+                                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                                    {
+                                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                                            FuncionariosPonto[j]["NOME"];
+
+                                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                                            DadosHistorico[k]["id"];
+
+                                                        var Informacoes =
+                                                            VerificaDados.RetornaPendenciasNaoJustificada(
+                                                                DadosHistorico[k]["id"]);
+
+                                                        TempData["DiaPendencia" + TotalPendenciaRh] =
+                                                            Informacoes[0]["data"];
+
+
+                                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] =
+                                                                "red";
+                                                        if (Informacoes.Count == 1)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 2)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 3)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 4)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+
+                                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[3]["horario"];
+                                                        }
+                                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                                        TotalPendenciaRh++;
+                                                    }
+                                                }
+                                                catch
+                                                {
+                                                }
+                                            }
                                         }
                                         else if (ts.Hours >= 2 && ts.Minutes > 0)
                                         {
-                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
-                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                            TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
+                                            if (VerificaDados.VerificaPendencia(
+                                                FuncionariosPonto[j]["ID_FUNCIONARIO"]))
+                                            {
+                                                TempData["IdPonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                                TempData["NomePonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["NOME"];
+                                                TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                                TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                                TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                                TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                                TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
 
 
-                                            TotalJustifica++;
+                                                TotalJustifica++;
+                                            }
+                                            else
+                                            {
+                                                var RecuperaId = new QuerryMysql();
+                                                try
+                                                {
+                                                    var DadosFuncionario =
+                                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
+                                                            FuncionariosPonto[j]["NOME"]);
+                                                    var DadosHistorico =
+                                                        VerificaDados.RetornaIdPendenciasNaoJustificada(
+                                                            DadosFuncionario[0]["id"]);
+                                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                                    {
+                                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                                            FuncionariosPonto[j]["NOME"];
+
+                                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                                            DadosHistorico[k]["id"];
+
+                                                        var Informacoes =
+                                                            VerificaDados.RetornaPendenciasNaoJustificada(
+                                                                DadosHistorico[k]["id"]);
+
+                                                        TempData["DiaPendencia" + TotalPendenciaRh] =
+                                                            Informacoes[0]["data"];
+
+
+                                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] =
+                                                                "red";
+                                                        if (Informacoes.Count == 1)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 2)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 3)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 4)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+
+                                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[3]["horario"];
+                                                        }
+                                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                                        TotalPendenciaRh++;
+                                                    }
+                                                }
+                                                catch
+                                                {
+                                                }
+                                            }
                                         }
                                         else if (ts.Hours < 1)
                                         {
-                                            TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
-                                            TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
-                                            TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
-                                            TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
-                                            TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
-                                            TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
-                                            TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
+                                            if (VerificaDados.VerificaPendencia(
+                                                FuncionariosPonto[j]["ID_FUNCIONARIO"]))
+                                            {
+                                                TempData["IdPonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                                TempData["NomePonto" + TotalJustifica] =
+                                                    FuncionariosPonto[j]["NOME"];
+                                                TempData["Hora1" + TotalJustifica] = Falta[0]["HORA"];
+                                                TempData["Hora2" + TotalJustifica] = Falta[1]["HORA"];
+                                                TempData["Hora3" + TotalJustifica] = Falta[2]["HORA"];
+                                                TempData["Hora4" + TotalJustifica] = Falta[3]["HORA"];
+                                                TempData["Jornada" + TotalJustifica] = JornadaTrabalhada;
 
-                                            TotalJustifica++;
+                                                TotalJustifica++;
+                                            }
+                                            else
+                                            {
+                                                var RecuperaId = new QuerryMysql();
+                                                try
+                                                {
+                                                    var DadosFuncionario =
+                                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
+                                                            FuncionariosPonto[j]["NOME"]);
+                                                    var DadosHistorico =
+                                                        VerificaDados.RetornaIdPendenciasNaoJustificada(
+                                                            DadosFuncionario[0]["id"]);
+                                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                                    {
+                                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                                            FuncionariosPonto[j]["NOME"];
+
+                                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                                            DadosHistorico[k]["id"];
+
+                                                        var Informacoes =
+                                                            VerificaDados.RetornaPendenciasNaoJustificada(
+                                                                DadosHistorico[k]["id"]);
+
+                                                        TempData["DiaPendencia" + TotalPendenciaRh] =
+                                                            Informacoes[0]["data"];
+
+
+                                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] =
+                                                                "red";
+                                                        if (Informacoes.Count == 1)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 2)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 3)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+                                                        }
+                                                        else if (Informacoes.Count == 4)
+                                                        {
+                                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[0]["horario"];
+
+                                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[1]["horario"];
+
+                                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[2]["horario"];
+
+                                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                                Informacoes[3]["horario"];
+                                                        }
+                                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] =
+                                                                "green";
+                                                        else
+                                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                                        TotalPendenciaRh++;
+                                                    }
+                                                }
+                                                catch
+                                                {
+                                                }
+                                            }
                                         }
                                         else
                                         {
-                                            TempData["IdPontoCerto" + TotalSemPendencia] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                            TempData["IdPontoCerto" + TotalSemPendencia] =
+                                                FuncionariosPonto[j]["ID_FUNCIONARIO"];
                                             TempData["NomePontoCerto" + TotalSemPendencia] =
                                                 FuncionariosPonto[j]["NOME"];
                                             TempData["HoraCerto1" + TotalSemPendencia] = Falta[0]["HORA"];
@@ -431,18 +698,11 @@ namespace PortalSicoobDivicred.Controllers
                                             TempData["HoraCerto4" + TotalSemPendencia] = Falta[3]["HORA"];
                                             TempData["JornadaCerto" + TotalSemPendencia] = JornadaTrabalhada;
                                             if (HoraExtra.Hours < 0 || HoraExtra.Minutes < 0)
-                                            {
                                                 TempData["DebitoCerto" + TotalSemPendencia] = HoraExtra;
-                                            }
                                             else
-                                            {
                                                 TempData["HoraExtraCerto" + TotalSemPendencia] = HoraExtra;
-                                            }
                                             TotalSemPendencia++;
                                         }
-
-
-
                                     }
                                 }
 
@@ -452,7 +712,8 @@ namespace PortalSicoobDivicred.Controllers
                                         FirebirDados.VerificaAfastamento(FuncionariosPonto[j]["ID_FUNCIONARIO"]);
                                     if (Afastamento.Count == 0)
                                     {
-                                        TempData["IdPonto" + TotalJustifica] = FuncionariosPonto[j]["ID_FUNCIONARIO"];
+                                        TempData["IdPonto" + TotalJustifica] =
+                                            FuncionariosPonto[j]["ID_FUNCIONARIO"];
                                         TempData["NomePonto" + TotalJustifica] = FuncionariosPonto[j]["NOME"];
                                         TempData["Hora1" + TotalJustifica] = "--:--";
                                         TempData["Hora2" + TotalJustifica] = "--:--";
@@ -462,69 +723,216 @@ namespace PortalSicoobDivicred.Controllers
                                     }
                                 }
                             }
-                        }
-                    }
-
                 }
 
 
                 // TRATAMENTO ESTAGIARIO E DONA IRANI
-                for (int i = 0; i < Ponto.Count; i++)
-                {
+                for (var i = 0; i < Ponto.Count; i++)
                     if (Ponto[i]["ID_CARGO"].Equals("2") || Ponto[i]["NOME"].Contains("IRANI"))
                     {
-                       
                         var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
                         if (Marcacao.Count > 2)
                         {
-                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
-                            TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                            for (int k = 0; k < Marcacao.Count; k++)
+                            if (VerificaDados.VerificaPendencia(Ponto[i]["ID_FUNCIONARIO"]))
                             {
-                                if (k == 0)
-                                {
-                                    TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
-                                }
-                                else if (k == 1)
-                                {
-                                    TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
+                                TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                for (var k = 0; k < Marcacao.Count; k++)
+                                    if (k == 0)
+                                        TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 1)
+                                        TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 2)
+                                        TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else
+                                        TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
 
-                                }
-                                else if (k == 2)
+                                TotalJustifica++;
+                            }
+                            else
+                            {
+                                var RecuperaId = new QuerryMysql();
+                                try
                                 {
-                                    TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    var DadosFuncionario =
+                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(Ponto[i]["NOME"]);
+                                    var DadosHistorico =
+                                        VerificaDados.RetornaIdPendenciasNaoJustificada(DadosFuncionario[0]["id"]);
+
+                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                    {
+                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                            Ponto[i]["NOME"];
+
+                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                            DadosHistorico[k]["id"];
+
+                                        var Informacoes =
+                                            VerificaDados.RetornaPendenciasNaoJustificada(DadosHistorico[k]["id"]);
+
+                                        TempData["DiaPendencia" + TotalPendenciaRh] = Informacoes[0]["data"];
+
+
+                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] = "green";
+                                        else
+                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] = "red";
+                                        if (Informacoes.Count == 1)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 2)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 3)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 4)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+
+                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[3]["horario"];
+                                        }
+                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                        else
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "green";
+                                        TotalPendenciaRh++;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
                                 }
                             }
-
-                            TotalJustifica++;
                         }
                         else
                         {
                             if (Marcacao.Count == 2)
-                            {
-                                DateTime Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
-                                    new DateTimeFormatInfo());
-                                DateTime Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
-                                    new DateTimeFormatInfo());
-                                TimeSpan ts = Marcacao2.Subtract(Marcacao1);
-
-                                if (ts.Hours >= 6 && ts.Minutes > 5)
+                                if (VerificaDados.VerificaPendencia(Ponto[i]["ID_FUNCIONARIO"]))
                                 {
-                                    TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
-                                    TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                                    TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
-                                    TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
+                                    var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                        new DateTimeFormatInfo());
+                                    var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                        new DateTimeFormatInfo());
+                                    var ts = Marcacao2.Subtract(Marcacao1);
+
+                                    if (ts.Hours >= 6 && ts.Minutes > 5)
+                                    {
+                                        TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
+                                        TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                        TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
+                                        TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
 
 
-                                    TotalJustifica++;
+                                        TotalJustifica++;
+                                    }
                                 }
-                            }
-                        }
+                                else
+                                {
+                                    var RecuperaId = new QuerryMysql();
+                                    try
+                                    {
+                                        var DadosFuncionario =
+                                            RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(Ponto[i]["NOME"]);
+                                        var DadosHistorico =
+                                            VerificaDados.RetornaIdPendenciasNaoJustificada(DadosFuncionario[0]["id"]);
 
+                                        for (var k = 0; k < DadosHistorico.Count; k++)
+                                        {
+                                            TempData["NomePendencia" + TotalPendenciaRh] =
+                                                Ponto[i]["NOME"];
+
+                                            TempData["IdPendencia" + TotalPendenciaRh] =
+                                                DadosHistorico[k]["id"];
+
+                                            var Informacoes =
+                                                VerificaDados.RetornaPendenciasNaoJustificada(DadosHistorico[k]["id"]);
+
+                                            TempData["DiaPendencia" + TotalPendenciaRh] = Informacoes[0]["data"];
+
+
+                                            if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                                TempData["StatusJustificativaGestor" + TotalPendenciaRh] = "green";
+                                            else
+                                                TempData["StatusJustificativaGetor" + TotalPendenciaRh] = "red";
+                                            if (Informacoes.Count == 1)
+                                            {
+                                                TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[0]["horario"];
+                                            }
+                                            else if (Informacoes.Count == 2)
+                                            {
+                                                TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[0]["horario"];
+
+                                                TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[1]["horario"];
+                                            }
+                                            else if (Informacoes.Count == 3)
+                                            {
+                                                TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[0]["horario"];
+
+                                                TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[1]["horario"];
+
+                                                TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[2]["horario"];
+                                            }
+                                            else if (Informacoes.Count == 4)
+                                            {
+                                                TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[0]["horario"];
+
+                                                TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[1]["horario"];
+
+                                                TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[2]["horario"];
+
+                                                TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                    Informacoes[3]["horario"];
+                                            }
+                                            if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                                Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                                Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                                Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                                TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                            else
+                                                TempData["StatusJustificativa" + TotalPendenciaRh] = "green";
+                                            TotalPendenciaRh++;
+                                        }
+                                    }
+                                    catch
+                                    {
+                                    }
+                                }
+                        }
                     }
                     //MENOR APRENDIZ
                     else if (Ponto[i]["ID_CARGO"].Equals("58"))
@@ -533,51 +941,124 @@ namespace PortalSicoobDivicred.Controllers
                         var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
                         if (Marcacao.Count > 2)
                         {
-                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
-                            TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                            for (int k = 0; k < Marcacao.Count; k++)
+                            if (VerificaDados.VerificaPendencia(Ponto[i]["ID_FUNCIONARIO"]))
                             {
-                                if (k == 0)
-                                {
-                                    TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
-                                }
-                                else if (k == 1)
-                                {
-                                    TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
+                                TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                for (var k = 0; k < Marcacao.Count; k++)
+                                    if (k == 0)
+                                        TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 1)
+                                        TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 2)
+                                        TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else
+                                        TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
 
-                                }
-                                else if (k == 2)
+                                TotalJustifica++;
+                            }
+                            else
+                            {
+                                var RecuperaId = new QuerryMysql();
+                                try
                                 {
-                                    TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    var DadosFuncionario =
+                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(Ponto[i]["NOME"]);
+                                    var DadosHistorico =
+                                        VerificaDados.RetornaIdPendenciasNaoJustificada(DadosFuncionario[0]["id"]);
+
+                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                    {
+                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                            Ponto[i]["NOME"];
+
+                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                            DadosHistorico[k]["id"];
+
+                                        var Informacoes =
+                                            VerificaDados.RetornaPendenciasNaoJustificada(DadosHistorico[k]["id"]);
+
+                                        TempData["DiaPendencia" + TotalPendenciaRh] = Informacoes[0]["data"];
+
+
+                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] = "green";
+                                        else
+                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] = "red";
+                                        if (Informacoes.Count == 1)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 2)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 3)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 4)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+
+                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[3]["horario"];
+                                        }
+                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                        else
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "green";
+                                        TotalPendenciaRh++;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
                                 }
                             }
-
-                            TotalJustifica++;
                         }
                         else
                         {
                             if (Marcacao.Count == 2)
                             {
-                                DateTime Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
                                     new DateTimeFormatInfo());
-                                DateTime Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
                                     new DateTimeFormatInfo());
-                                TimeSpan ts = Marcacao2.Subtract(Marcacao1);
+                                var ts = Marcacao2.Subtract(Marcacao1);
 
                                 if (ts.Hours >= 4 && ts.Minutes > 5)
-                                {
-                                    TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
-                                    TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                                    TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
-                                    TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
+                                    if (VerificaDados.VerificaPendencia(Ponto[i]["ID_FUNCIONARIO"]))
+                                    {
+                                        TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
+                                        TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                        TempData["Hora1" + TotalJustifica] = Marcacao[0]["HORA"];
+                                        TempData["Hora2" + TotalJustifica] = Marcacao[1]["HORA"];
 
 
-                                    TotalJustifica++;
-                                }
+                                        TotalJustifica++;
+                                    }
                             }
                         }
                     }
@@ -585,47 +1066,116 @@ namespace PortalSicoobDivicred.Controllers
                     else
                     {
                         if (Ponto[i]["JUSTIFICA"].Equals("Justifica"))
-                        {
-                            TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
-                            TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
-                            var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
-                            for (int k = 0; k < Marcacao.Count; k++)
+                            if (VerificaDados.VerificaPendencia(Ponto[i]["ID_FUNCIONARIO"]))
                             {
-                                if (k == 0)
-                                {
-                                    TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
-                                }
-                                else if (k == 1)
-                                {
-                                    TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                TempData["IdPonto" + TotalJustifica] = Ponto[i]["ID_FUNCIONARIO"];
+                                TempData["NomePonto" + TotalJustifica] = Ponto[i]["NOME"];
+                                var Marcacao = FirebirDados.VerificaFalta(Ponto[i]["ID_FUNCIONARIO"]);
+                                for (var k = 0; k < Marcacao.Count; k++)
+                                    if (k == 0)
+                                        TempData["Hora1" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 1)
+                                        TempData["Hora2" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else if (k == 2)
+                                        TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    else
+                                        TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
 
-                                }
-                                else if (k == 2)
+                                TotalJustifica++;
+                            }
+                            else
+                            {
+                                var RecuperaId = new QuerryMysql();
+                                try
                                 {
-                                    TempData["Hora3" + TotalJustifica] = Marcacao[k]["HORA"];
+                                    var DadosFuncionario =
+                                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(Ponto[i]["NOME"]);
+                                    var DadosHistorico =
+                                        VerificaDados.RetornaIdPendenciasNaoJustificada(DadosFuncionario[0]["id"]);
+
+                                    for (var k = 0; k < DadosHistorico.Count; k++)
+                                    {
+                                        TempData["NomePendencia" + TotalPendenciaRh] =
+                                            Ponto[i]["NOME"];
+
+                                        TempData["IdPendencia" + TotalPendenciaRh] =
+                                            DadosHistorico[k]["id"];
+
+                                        var Informacoes =
+                                            VerificaDados.RetornaPendenciasNaoJustificada(DadosHistorico[k]["id"]);
+
+                                        TempData["DiaPendencia" + TotalPendenciaRh] = Informacoes[0]["data"];
+
+
+                                        if (DadosHistorico[k]["validacaogestor"].Equals('S'))
+                                            TempData["StatusJustificativaGestor" + TotalPendenciaRh] = "green";
+                                        else
+                                            TempData["StatusJustificativaGetor" + TotalPendenciaRh] = "red";
+                                        if (Informacoes.Count == 1)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 2)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 3)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+                                        }
+                                        else if (Informacoes.Count == 4)
+                                        {
+                                            TempData["Hora1Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[0]["horario"];
+
+                                            TempData["Hora2Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[1]["horario"];
+
+                                            TempData["Hora3Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[2]["horario"];
+
+                                            TempData["Hora4Pendencia" + TotalPendenciaRh] =
+                                                Informacoes[3]["horario"];
+                                        }
+                                        if (Informacoes[0]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[1]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[2]["idjustificativafirebird"].Equals("0") ||
+                                            Informacoes[3]["idjustificativafirebird"].Equals("0"))
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "red";
+                                        else
+                                            TempData["StatusJustificativa" + TotalPendenciaRh] = "green";
+                                        TotalPendenciaRh++;
+                                    }
                                 }
-                                else
+                                catch
                                 {
-                                    TempData["Hora4" + TotalJustifica] = Marcacao[k]["HORA"];
                                 }
                             }
-
-                            TotalJustifica++;
-                        }
                     }
-
-                }
                 TempData["TotalPonto"] = TotalJustifica;
                 TempData["TotalSemPendencia"] = TotalSemPendencia;
+                TempData["TotalSemConfirmar"] = TotalPendenciaRh;
                 // --- FINALIZA TRATAMENTO DE PONTO ----
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
-                
+
                 var QueryRh = new QuerryMysqlRh();
                 var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
                 TempData["Total"] = VagasInternas.Count;
-                
+
                 for (var j = 0; j < VagasInternas.Count; j++)
 
                 {
@@ -678,14 +1228,13 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
                     TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
 
-                    Byte[] bytes = (Byte[])DocumentosUpados.Rows[i]["arquivo"];
-                    String img64 = Convert.ToBase64String(bytes);
-                    String img64Url = string.Format("data:image/;base64,{0}", img64);
+                    var bytes = (byte[]) DocumentosUpados.Rows[i]["arquivo"];
+                    var img64 = Convert.ToBase64String(bytes);
+                    var img64Url = string.Format("data:image/;base64,{0}", img64);
                     TempData["Imagem" + DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
                 }
 
                 var DadosFuncionario = new Funcionario();
-
 
 
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
@@ -721,18 +1270,18 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Genero"] = VerificaDados.RetornaGeneroFuncionario(DadosTabelaFuncionario[0]["sexo"]);
                 TempData["Setor"] = VerificaDados.RetornaSetorFuncionario(DadosTabelaFuncionario[0]["idsetor"]);
                 TempData["Funcao"] = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
-                TempData["Educacional"] = VerificaDados.RetornaEscolaridadeFuncionario(DadosTabelaFuncionario[0]["idescolaridade"]);
-                TempData["EstadoCivil"] = VerificaDados.RetornaEstadoCivilFuncionario(DadosTabelaFuncionario[0]["idestadocivil"]);
+                TempData["Educacional"] =
+                    VerificaDados.RetornaEscolaridadeFuncionario(DadosTabelaFuncionario[0]["idescolaridade"]);
+                TempData["EstadoCivil"] =
+                    VerificaDados.RetornaEstadoCivilFuncionario(DadosTabelaFuncionario[0]["idestadocivil"]);
                 TempData["Etinia"] = VerificaDados.RetornaEtiniaFuncionario(DadosTabelaFuncionario[0]["etnia"]);
 
                 TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
 
                 var formacao = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
                 TempData["TotalFormacao"] = formacao.Count;
-                for (int i = 0; i < formacao.Count; i++)
-                {
+                for (var i = 0; i < formacao.Count; i++)
                     TempData["Formacao " + i] = formacao[0]["descricao"];
-                }
 
                 TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
                 TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
@@ -911,7 +1460,7 @@ namespace PortalSicoobDivicred.Controllers
                         else
                             Aprovado = false;
                         var Observacao = Formulario["observacao" + IdFuncionario[1]];
-                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario[1], Aprovado, Observacao.ToString());
+                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario[1], Aprovado, Observacao);
                     }
                 VerificaDados.EncerraVaga(Formulario["vaga"]);
                 return RedirectToAction("Principal", "Principal",
@@ -924,6 +1473,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public JsonResult ConfirmarPendencia(Item[] TabelaPendencias)
         {
@@ -931,49 +1481,53 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                for (int i = 0; i < TabelaPendencias.Length; i++)
+                for (var i = 0; i < TabelaPendencias.Length; i++)
                 {
-                    var Cookie = Request.Cookies.Get("CookieFarm");
-                    var Login = Criptografa.Descriptografar(Cookie.Value);
                     var RecuperaId = new QuerryMysql();
-                    var DadosFuncionario = RecuperaId.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-
-                    var IdJustificativa =VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"]);
-                    if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
+                    var DadosFuncionario =
+                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(TabelaPendencias[i].Nome);
+                    try
                     {
-
+                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"]);
+                        if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0",
+                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                        }
+                        if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0",
+                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                        }
+                        if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0",
+                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                        }
+                        if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0",
+                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                        }
                     }
-                    else
+                    catch
                     {
-                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                            TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id,"0",Convert.ToDateTime(TabelaPendencias[i].Dia));
-                    }
-                    if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
-                    {
-
-                    }
-                    else
-                    {
-                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                            TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
-                    }
-                    if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
-                    {
-
-                    }
-                    else
-                    {
-                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                            TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
-                    }
-                    if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
-                    {
-
-                    }
-                    else
-                    {
-                        VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                            TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0", Convert.ToDateTime(TabelaPendencias[i].Dia));
                     }
                 }
                 return Json("Ok");

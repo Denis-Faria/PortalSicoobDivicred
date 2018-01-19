@@ -61,9 +61,12 @@ namespace Port.Repositorios
         public DataTable ComandoArquivo(string Login)
         {
             AbrirConexao();
-            MySqlCommand comando = new MySqlCommand("SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +Login + "'); ",conexao );
-            MySqlDataAdapter Dados = new MySqlDataAdapter(comando);
-            DataTable Tabela = new DataTable();
+            var comando =
+                new MySqlCommand(
+                    "SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +
+                    Login + "'); ", conexao);
+            var Dados = new MySqlDataAdapter(comando);
+            var Tabela = new DataTable();
             Dados.Fill(Tabela);
             FecharConexao();
             return Tabela;
@@ -105,6 +108,7 @@ namespace Port.Repositorios
 
             return linhas;
         }
+
         public string ExecutaComandoComRetornoId(string comandoSQL)
         {
             long Id;
@@ -116,8 +120,7 @@ namespace Port.Repositorios
                 AbrirConexao();
                 var cmdComando = CriarComando(comandoSQL);
                 cmdComando.ExecuteNonQuery();
-               Id = cmdComando.LastInsertedId;
-
+                Id = cmdComando.LastInsertedId;
             }
             finally
             {

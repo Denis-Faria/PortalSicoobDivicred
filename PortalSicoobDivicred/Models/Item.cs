@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace PortalSicoobDivicred.Models
+﻿namespace PortalSicoobDivicred.Models
 {
     public class Item
     {
@@ -14,6 +9,5 @@ namespace PortalSicoobDivicred.Models
         public string Horario2 { get; set; }
         public string Horario3 { get; set; }
         public string Horario4 { get; set; }
-
     }
 }

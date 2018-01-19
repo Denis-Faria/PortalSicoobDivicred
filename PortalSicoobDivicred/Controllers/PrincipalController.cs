@@ -71,34 +71,41 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var QueryRh = new QuerryMysqlRh();
-
-                var VagasInternas = QueryRh.RetornaVagaInterna();
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                TempData["TotalVagasInternas"] = VagasInternas.Count();
-                var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
 
-                for (var i = 0; i < VagasInternas.Count; i++)
+
+                #region VagasInternas
 
                 {
-                    TempData["TituloVagaInterna " + i] = VagasInternas[i]["titulo"];
-                    TempData["Descricao " + i] = VagasInternas[i]["descricao"];
-                    TempData["Requisito " + i] = VagasInternas[i]["requisito"];
-                    TempData["IdVaga " + i] = VagasInternas[i]["id"];
+                    var VagasInternas = QueryRh.RetornaVagaInterna();
+
+                    TempData["TotalVagasInternas"] = VagasInternas.Count();
+                    var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
+                    for (var i = 0; i < VagasInternas.Count; i++)
+
+                    {
+                        TempData["TituloVagaInterna " + i] = VagasInternas[i]["titulo"];
+                        TempData["Descricao " + i] = VagasInternas[i]["descricao"];
+                        TempData["Requisito " + i] = VagasInternas[i]["requisito"];
+                        TempData["IdVaga " + i] = VagasInternas[i]["id"];
 
 
+                        for (var j = 0; j < Interesse.Count; j++)
+                            if (Interesse[j]["idvaga"].Equals(VagasInternas[i]["id"]))
+                                TempData["Interesse " + i] = "Ok";
+                    }
+                    TempData["TotalProcessos"] = Interesse.Count;
                     for (var j = 0; j < Interesse.Count; j++)
-                        if (Interesse[j]["idvaga"].Equals(VagasInternas[i]["id"]))
-                            TempData["Interesse " + i] = "Ok";
+                    {
+                        TempData["Aprovado " + j] = Interesse[j]["aprovado"];
+                        TempData["TituloVagaInternaProcesso " + j] = Interesse[j]["titulo"];
+                    }
                 }
-                TempData["TotalProcessos"] = Interesse.Count;
-                for (var j = 0; j < Interesse.Count; j++)
-                {
-                    TempData["Aprovado " + j] = Interesse[j]["aprovado"];
-                    TempData["TituloVagaInternaProcesso " + j] = Interesse[j]["titulo"];
-                }
+
+                #endregion
+
 
 
                 return PartialView("Dashboard");
@@ -216,9 +223,6 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Funcao = Funcao;
                         ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                     }
-                    else
-                    {
-                    }
                 }
                 catch
                 {
@@ -288,13 +292,10 @@ namespace PortalSicoobDivicred.Controllers
                         DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
                         DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita,
                         DadosFuncionario.Viagem,
-                        Confirma,"S");
+                        Confirma, "S");
                     return RedirectToAction("Principal", "Principal");
                 }
-                else
-                {
-                    return View(DadosFuncionario);
-                }
+                return View(DadosFuncionario);
             }
             return RedirectToAction("Login", "Login");
         }
@@ -320,7 +321,6 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-
         public ActionResult TenhoInteresse(string IdVaga)
         {
             var VerificaDados = new QuerryMysql();
@@ -336,6 +336,94 @@ namespace PortalSicoobDivicred.Controllers
                 return RedirectToAction("Principal", "Principal");
             }
             return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Justificativas()
+        {
+            var QueryRh = new QuerryMysqlRh();
+            var QueryFire = new QueryFirebird();
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+            var VerificaDados = new QuerryMysql();
+            var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+            var DadosPendencias = QueryRh.RetornaIdPendenciasNaoJustificada(DadosTabelaFuncionario[0]["id"]);
+            var JustificativasFirebird = QueryFire.RecuperaJustificativas();
+            var Justifica = new JustificativaPonto();
+
+            Justifica.Justificativa = JustificativasFirebird;
+
+            for (int i = 0; i < DadosPendencias.Count; i++)
+            {
+                var DadosHistorico = QueryRh.RetornaPendenciasNaoJustificada(DadosPendencias[0]["id"]);
+                TempData["NomePendencia" + i] = DadosTabelaFuncionario[0]["nome"];
+
+                TempData["IdPendencia" + i] = DadosPendencias[i]["id"];
+
+
+                TempData["DiaPendencia" + i] = DadosHistorico[0]["data"];
+
+                if (DadosHistorico.Count == 1)
+                {
+                    TempData["Hora1Pendencia" + i] = DadosHistorico[0]["horario"];
+                  
+                }
+                else if (DadosHistorico.Count == 2)
+                {
+                    TempData["Hora1Pendencia" + i] =
+                        DadosHistorico[0]["horario"];
+
+                    TempData["Hora2Pendencia" + i] =
+                        DadosHistorico[1]["horario"];
+                   
+                }
+                else if (DadosHistorico.Count == 3)
+                {
+                    TempData["Hora1Pendencia" + i] =
+                        DadosHistorico[0]["horario"];
+
+                    TempData["Hora2Pendencia" + i] =
+                        DadosHistorico[1]["horario"];
+
+                    TempData["Hora3Pendencia" + i] =
+                        DadosHistorico[2]["horario"];
+                   
+                }
+                else if (DadosHistorico.Count == 4)
+                {
+                   
+                    TempData["Hora1Pendencia" + i] =
+                        DadosHistorico[0]["horario"];
+
+                    TempData["Hora2Pendencia" + i] =
+                        DadosHistorico[1]["horario"];
+
+                    TempData["Hora3Pendencia" + i] =
+                        DadosHistorico[2]["horario"];
+
+                    TempData["Hora4Pendencia" + i] =
+                        DadosHistorico[3]["horario"];
+                }
+
+            }
+            TempData["TotalPonto"] = DadosPendencias.Count;
+
+
+
+            return PartialView("JustificativaPonto",Justifica);
+        }
+        [HttpPost]
+        public ActionResult Justificativas(JustificativaPonto Justificativa, FormCollection Formulario)
+        {
+            var VerificaDados = new QuerryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                //if(Justificativa.HoraJustificada)
+                return PartialView("Dashboard");
+            }
+            return RedirectToAction("Login", "Login");
+
         }
     }
 }

@@ -1,8 +1,13 @@
-﻿<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
+﻿<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 
 
 <br/>
 <script>
+    $(function() {
+        $("#TabBancoHoras").tabs();
+    });
+
     function EscondeVagas() {
         if ($("#VagasInternas").is(":visible")) {
             $("#VagasInternas").addClass("animated fadeOut");
@@ -28,9 +33,10 @@
 
     </p>
 </nav>
-<div class="columns">
-    <div class="column is-4">
-        <div class="content">
+<div class="content">
+    <div class="columns">
+        <div class="column is-4">
+
             <div id="widget">
                 <div class="card " style="box-shadow: 2px 2px 2px grey;">
                     <header class="card-header">
@@ -142,13 +148,76 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <br/>
-            <div id="cont_fd76a6afc1f1da9ccf8d400b93acfcf1">
-                <script type="text/javascript" async src="https://www.tempo.com/wid_loader/fd76a6afc1f1da9ccf8d400b93acfcf1"></script>
-            </div>
 
+            </div>
         </div>
+
+
+        <br/>
+        <div class="column is-9">
+            <div class="card" style="box-shadow: 2px 2px 2px grey;">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Banco de Horas
+                    </p>
+                    <a href="#" class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                            <i class="fa fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+                        <div id="TabBancoHoras">
+                            <div class="tabs is-centered">
+                                <ul>
+                                    <li id="AbaJustifica" class="is-active">
+                                        <a href="#Justificativa" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-indent"></i>
+                                            </span>
+                                            <span>Justificativas</span>
+                                        </a>
+                                    </li>
+                                    <li id="AbaJustificaSetor">
+                                        <a href="#JustificativaSetor" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-list"></i>
+                                            </span>
+                                            <span>Justificativas do meu setor</span>
+                                        </a>
+                                    </li>
+                                    <li id="AbaBancoHoraUsuario">
+                                        <a href="#BancoDeHora" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaBancoHoraUsuario').addClass('is-active');$('#AbaJustificaSetor').removeClass();">
+                                            <span class="icon is-small">
+                                                <i class="fa fa-clock-o"></i>
+                                            </span>
+                                            <span>Banco de Horas</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+                            </script>
+                            <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+                            <div id="Justificativa">
+                               @Html.Action("Justificativas","Principal")
+                            </div>
+                            <div id="JustificativaSetor">
+                                Setor
+                            </div>
+                            <div id="BancoDeHora">
+                                Banco
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                   
+                </footer>
+            </div>
+        </div>
+
     </div>
 
 

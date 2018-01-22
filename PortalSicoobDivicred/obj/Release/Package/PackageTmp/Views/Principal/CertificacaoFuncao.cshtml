@@ -1,0 +1,8 @@
+﻿<ul>
+    @for (var i = 0; i <= Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
+    {
+        <li>
+            <p>@TempData["Certificacao" + i].ToString()</p>
+        </li>
+    }
+</ul>

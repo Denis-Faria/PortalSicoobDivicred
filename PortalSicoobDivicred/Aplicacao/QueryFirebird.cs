@@ -281,9 +281,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
-        public List<SelectListItem> RecuperaJustificativas()
+        public List<Dictionary<string,string>> RecuperaJustificativas()
         {
-            var Justificativas = new List<SelectListItem>();
+            
             List<Dictionary<string, string>> linhas = null;
 
             var cmdComando = CriarComandoSQL("SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA");
@@ -311,14 +311,9 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 FecharConexao(con);
             }
-            foreach (var row in linhas)
-                Justificativas.Add(new SelectListItem
-                {
-                    Value = row["ID_JUSTIFICATIVA"],
-                    Text = row["DESCRICAO"]
-                });
+            
 
-            return Justificativas;
+            return linhas;
         }
     }
 }

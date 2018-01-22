@@ -1,0 +1,193 @@
+﻿<script>
+    function MudaCor(Valor, Numero) {
+        var dados = "Status " + Numero;
+        if (Valor == "Reprovado") {
+            document.getElementById(dados).style.color = "red";
+        }
+        if (Valor == "Aprovado") {
+            document.getElementById(dados).style.color = "green";
+        }
+        if (Valor == "Excedente") {
+            document.getElementById(dados).style.color = "blue";
+        }
+        if (Valor == "Ausente") {
+            document.getElementById(dados).style.color = "yellow";
+        }
+        if (Valor == "Restricao") {
+            document.getElementById(dados).style.color = "orange";
+        }
+    }
+
+</script>
+
+<p class="is-narrow">
+@using (Html.BeginForm("EncerraProcesso", "Curriculo", FormMethod.Post, new {id = "FormEncerraPRocesso"}))
+{
+    <div id="ModalEncerramento" class="modal is-narrow">
+        <div class="modal-background"></div>
+        <div class="modal-card is-narrow" style="width: 1800px">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Processo Seletivo</p>
+                <a href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body is-narrow">
+                <div id="ProcessoCompleto">
+
+                    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+                    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+                    <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]"/>
+                    <div class="field">
+                        <label class="label">Alerta:</label>
+                        <p class="control">
+                            <input class="input" id="Alerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="Alerta" type="text" placeholder="Ex: Novas vagas lançadas !!!" maxlength=160>
+                            <span class="field-validation-valid" data-valmsg-for="Alerta" data-valmsg-replace="true" style="color: red"></span>
+                        </p>
+                    </div>
+
+                    <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-narrow" style="text-align: center">
+                        <thead>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Cpf</th>
+                        <th class="is-narrow">Prova Escrita</th>
+                        <th class="is-narrow">Perfil Psicológico</th>
+                        <th class="is-narrow">Parecer Gerente</th>
+                        <th class="is-narrow">Status</th>
+                        <th class="is-narrow">Restrição</th>
+                        </thead>
+                        <tbody>
+                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
+                        {
+                            <tr>
+                                <td class="is-narrow">
+                                    <a href="javascript:VerPerfil('@TempData["Cpf" + i]');void(0);">@TempData["Nome" + i].ToString()</a> <strong></strong>
+                                </td>
+                                <td class="is-narrow">@TempData["Email" + i].ToString()</td>
+                                <td class="is-narrow">@TempData["Cpf" + i].ToString()</td>
+                                <td>
+                                    <div class="">
+                                        <p class="control has-icons-left has-icons-right">
+                                            <input id="Teorica @TempData["Cpf" + i]" name="Teorica @TempData["Cpf" + i] " class="input" value="@TempData["ResultadoProva" + i]" type="text">
+                                            <span class="icon is-small is-right">
+                                                <i class="fa fa-percent"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div @TempData["EscondePsicologico" + i] class="field is-narrow">
+                                        <p class="control has-icons-left">
+                                            <span class="select">
+                                                <select @TempData["EscondePsicologico" + i] id="Psicologico @TempData["Cpf" + i]" name="Psicologico @TempData["Cpf" + i]">
+                                                    <option>Aprovado</option>
+                                                    <option>Reprovado</option>
+                                                </select>
+                                            </span>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-id-badge"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    @Html.Label("")
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("Psicologico @TempData["Cpf" + i]").value =
+                                                "@TempData["ResultadoPsicologico" + i]";
+                                            MudaCor(document.getElementById("Status @TempData["Cpf" + i]"), @i);
+                                        });
+
+
+                                    </script>
+
+                                </td>
+                                <td>
+                                    <div @TempData["EscondeGerente"] class="field is-narrow">
+                                        <p class="control has-icons-left">
+                                            <span class="select">
+                                                <select @TempData["EscondeGerente" + i] id="Gerencial @TempData["Cpf" + i]" name="Gerencial @TempData["Cpf" + i]">
+                                                    <option>Aprovado</option>
+                                                    <option>Reprovado</option>
+                                                </select>
+                                            </span>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-black-tie" aria-hidden="true"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="field">
+                                        <p class="control has-icons-left">
+                                            <span class="select">
+                                                <select onchange="MudaCor(this.value, @i)" id="Status @TempData["Cpf" + i]" name="Status @TempData["Cpf" + i]" value="@TempData["Status" + i]">
+                                                    <option value="Aprovado" selected>Aprovado</option>
+                                                    <option value="Excedente">Excedente</option>
+                                                    <option value="Reprovado">Reprovado</option>
+                                                    <option value="Ausente">Ausente</option>
+                                                    <option value="Restricao">Restrição</option>
+                                                </select>
+                                            </span>
+                                            <span class="icon is-small is-left">
+                                                <i id='Status @i' class="fa fa-circle" style="color: green"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                    @Html.Label("")
+                                    <script>
+                                        $(document).ready(function() {
+                                            document.getElementById("Status @TempData["Cpf" + i]").value =
+                                                "@TempData["Status" + i]";
+                                            var dados = "Status " + @i;
+                                            if ("@TempData["Status" + i]" == "Reprovado") {
+                                                document.getElementById(dados).style.color = "red";
+                                            }
+                                            if ("@TempData["Status" + i]" == "Aprovado") {
+                                                document.getElementById(dados).style.color = "green";
+                                            }
+                                            if ("@TempData["Status" + i]" == "Excedente") {
+                                                document.getElementById(dados).style.color = "blue";
+                                            }
+                                            if ("@TempData["Status" + i]" == "Ausente") {
+                                                document.getElementById(dados).style.color = "yellow";
+                                            }
+                                            if ("@TempData["Status" + i]" == "Restricao") {
+                                                document.getElementById(dados).style.color = "orange";
+                                            }
+                                        });
+
+
+                                    </script>
+                                </td>
+                                <td>
+                                    <div class="">
+                                        <p class="control has-icons-left has-icons-right">
+                                            <input id="Restricao @i" name="Restricao @i" class="input" value="@TempData["Restricao" + i]" type="text">
+                                            <span class="icon is-small is-right">
+                                                <i class="fa fa-ban"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        <tbody>
+                    </table>
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-comments-o"></i>
+                        </span>
+                        <span>Atualizar Processo Seletivo</span>
+                    </button>
+
+                    <a class="button" href="javascript:$('#ModalEncerramento').removeClass();$('#ModalEncerramento').addClass('modal');void(0);">Cancelar</a>
+                </p>
+            </footer>
+        </div>
+
+    </div>
+}

@@ -1,0 +1,206 @@
+﻿@model PortalSicoobDivicred.Models.Funcionario
+
+
+<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
+
+
+<br/>
+<script>
+    function teste(data) {
+        var imagem = data;
+        var newTab = window.open();
+        newTab.document.body.innerHTML = '<img src=' + imagem + '>';
+    }
+</script>
+<div class="container is-fluid">
+    <div class="columns">
+        <div class="box column is-12">
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="@TempData["foto"]" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>@TempData["NomeFuncionario"]</strong>
+                            <br/>
+                            <strong>Função: </strong>@TempData["Funcao"]
+                            <br/>
+                            <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
+                            <br>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-12">
+
+            <p class="card-header-title">
+                Dados Profissionais
+            </p>
+            <div id="DadosProfissionais">
+                <div class="card-content is-centered">
+                    <label class="label">Setor: @TempData["Setor"] || Função: @TempData["Funcao"]</label>
+                    <div class="field">
+                        <blockquote>
+                            <p>
+                                <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
+                            </p>
+                            <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
+                            <br/>
+                            <b>Anuênio: R$@TempData["Anuenio"]</b>
+                            <br/>
+                            <b>Ticket: R$@TempData["Ticket"]</b>
+                            <br/>
+                        </blockquote>
+                    </div>
+                </div>
+
+            </div>
+            <hr/>
+            <p class="card-header-title">
+                Dados Pessoais
+            </p>
+            <div id="DadosPessoais">
+                <div class="card-content">
+
+                    <p>
+                        <label class="label">Nome: @Model.NomeFuncionario</label>
+                    </p>
+                    <p>
+                        <label class="label">Data Nascimento: @Model.DataNascimentoFuncionario || CPF: @Model.CpfFuncionario</label>
+                    </p>
+                    <p>
+                        <label class="label">RG: @Model.RgFuncionario || PIS: @Model.PisFuncionario</label>
+                    </p>
+                    <hr/>
+                    <label class="label">Género: @TempData["Genero"] || Descrição Género: @Model.DescricaoSexo</label>
+
+
+                    <label class="label">Etnia/Raça: @TempData["Etinia"]</label>
+
+
+                    <label class="label">Estado Civil: @TempData["EstadoCivil"]</label>
+
+
+                    <hr/>
+                    <label class="label">Formação: @TempData["Educacional"]</label>
+                    @for (var i = 0; i < Convert.ToInt32(TempData["TotalFormacao"]); i++)
+                    {
+                        <label class="label">Formação Acadêmica: @TempData["Formacao " + i]</label>
+                    }
+                    <label class="label">Usuário do Sistema: @Model.UsuarioSistema</label>
+                    <label class="label">E-mail: @Model.Email || PA: @Model.PA</label>
+
+                    <hr/>
+                    <label class="label">Rua: @Model.Rua N° @Model.Numero</label>
+                    <label class="label">Bairro: @Model.Bairro Cidade: @Model.Cidade</label>
+                </div>
+            </div>
+
+
+            <hr/>
+            <p class="card-header-title">
+                Formulário Pessoal
+            </p>
+
+            <div id="FormularioPessoal">
+                <div class="card-content">
+                    <label class="label">Quantos Filhos você tem ?</label>
+                    <p>- @Model.QuatidadeFilho</p>
+
+                    <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
+                    <p>- @Model.DataNascimentoFilho</p>
+
+                    <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
+                    <p>- @Model.ContatoEmergencia</p>
+
+                    <label class="label">Quais são seus principais hobbies ?</label>
+                    <p>- @Model.PrincipaisHobbies</p>
+
+                    <label class="label">Qual sua comida favorita?</label>
+                    <p>- @Model.ComidaFavorita</p>
+
+                    <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
+                    <p>- @Model.Viagem</p>
+
+                </div>
+                <hr/>
+                <p class="card-header-title">
+                    Arquivos Pessoais
+                </p>
+
+                <div id="ArquivoPessoal">
+                    <div class="card-content">
+                        <div class="tags">
+
+                            <span class="tag @TempData["StatusFoto"]">
+                                <a href="javascript: teste('@TempData["ImagemFoto"]'); void(0);" style="color: black">Foto 3/4</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCTPS"]">
+                                <a href="javascript: teste('@TempData["ImagemCTPS"]'); void(0);" style="color: black">CTPS</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusPIS"]">
+                                <a href="javascript: teste('@TempData["ImagemPIS"]'); void(0);" style="color: black">PIS</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCPF"]">
+                                <a href="javascript: teste('@TempData["ImagemCPF"]'); void(0);" style="color: black">CPF</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusRG"]">
+                                <a href="javascript: teste('@TempData["ImagemRG"]'); void(0);" style="color: black">RG</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusTitulo Eleitor"]">
+                                <a href="javascript: teste('@TempData["ImagemTitulo Eleitor"]'); void(0);" style="color: black">Título de Eleitor</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCartao SUS"]">
+                                <a href="javascript: teste('@TempData["ImagemCartao SUS"]'); void(0);" style="color: black">Cartão do SUS</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCNH"]">
+                                <a href="javascript: teste('@TempData["ImagemCNH"]'); void(0);" style="color: black">Carteira de Motorista</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusComprovante Endereco"]">
+                                <a href="javascript: teste('@TempData["ImagemComprovante Endereco"]'); void(0);" style="color: black">Comprovante de Endereço</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusTipo Sanguineo"]">
+                                <a href="javascript: teste('@TempData["ImagemTipo Sanguineo"]'); void(0);" style="color: black">Tipo Sanguíneo</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCertidao"]">
+                                <a href="javascript: teste('@TempData["ImagemCertidao"]'); void(0);" style="color: black">Certidão Nascimento/Casamento</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusCertidao Filho"]">
+                                <a href="javascript: teste('@TempData["ImagemCertidao Filho"]'); void(0);" style="color: black">Certidão(Filhos)</a>
+                            </span>
+                            <br/>
+                            <span class="tag @TempData["StatusReservista"]">
+                                <a href="javascript: teste('@TempData["ImagemReservista"]'); void(0);" style="color: black">Certificado de Reservista</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>

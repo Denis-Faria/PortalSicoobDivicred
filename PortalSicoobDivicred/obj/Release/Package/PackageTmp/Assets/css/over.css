@@ -1,0 +1,10 @@
+﻿.grow img {
+    -moz-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+ 
+    -o-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    height: 32px;
+    transition: all 1s ease;
+    width: 32px;
+}

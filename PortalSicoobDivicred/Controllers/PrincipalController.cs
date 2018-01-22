@@ -348,9 +348,15 @@ namespace PortalSicoobDivicred.Controllers
             var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
             var DadosPendencias = QueryRh.RetornaIdPendenciasNaoJustificada(DadosTabelaFuncionario[0]["id"]);
             var JustificativasFirebird = QueryFire.RecuperaJustificativas();
-            var Justifica = new JustificativaPonto();
+            
 
-            Justifica.Justificativa = JustificativasFirebird;
+            TempData["TotalJustificativas"] = JustificativasFirebird.Count;
+
+            for (int j = 0; j < JustificativasFirebird.Count; j++)
+            {
+                TempData["Justificativa" + j] = JustificativasFirebird[j]["DESCRICAO"];
+                TempData["IdJustificativa" + j]= JustificativasFirebird[j]["ID_JUSTIFICATIVA"];
+            }
 
             for (int i = 0; i < DadosPendencias.Count; i++)
             {
@@ -361,12 +367,19 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 TempData["DiaPendencia" + i] = DadosHistorico[0]["data"];
+                TempData["TotalHorarios" +i] = 4- DadosHistorico.Count ;
 
                 if (DadosHistorico.Count == 1)
                 {
                     TempData["Hora1Pendencia" + i] = DadosHistorico[0]["horario"];
-                  
+
+                    TempData["Hora2Pendencia" + i] = "|";
+
+                    TempData["Hora3Pendencia" + i] = "|";
+
+                    TempData["Hora4Pendencia" + i] = "|";
                 }
+                
                 else if (DadosHistorico.Count == 2)
                 {
                     TempData["Hora1Pendencia" + i] =
@@ -374,7 +387,11 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Hora2Pendencia" + i] =
                         DadosHistorico[1]["horario"];
-                   
+
+                    TempData["Hora3Pendencia" + i] ="|";
+
+                    TempData["Hora4Pendencia" + i] = "|";
+
                 }
                 else if (DadosHistorico.Count == 3)
                 {
@@ -386,7 +403,9 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Hora3Pendencia" + i] =
                         DadosHistorico[2]["horario"];
-                   
+
+                    TempData["Hora4Pendencia" + i] = "|";
+
                 }
                 else if (DadosHistorico.Count == 4)
                 {
@@ -409,17 +428,24 @@ namespace PortalSicoobDivicred.Controllers
 
 
 
-            return PartialView("JustificativaPonto",Justifica);
+            return PartialView("JustificativaPonto");
         }
         [HttpPost]
-        public ActionResult Justificativas(JustificativaPonto Justificativa, FormCollection Formulario)
+        public ActionResult Justificativas(FormCollection Formulario)
         {
             var VerificaDados = new QuerryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                for (int i = 0; i < Formulario.Count; i++)
+                {
+                    if (Formulario.AllKeys[i].Contains("Id "))
+                    {
+                      //var IdHistorico =  Formulario[i].Split("|");
 
-                //if(Justificativa.HoraJustificada)
+                    }
+                }
+                
                 return PartialView("Dashboard");
             }
             return RedirectToAction("Login", "Login");

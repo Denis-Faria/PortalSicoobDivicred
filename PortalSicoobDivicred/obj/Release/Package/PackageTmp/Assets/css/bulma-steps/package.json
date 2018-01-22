@@ -1,0 +1,93 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "bulma-steps",
+        "scope": null,
+        "escapedName": "bulma-steps",
+        "name": "bulma-steps",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\Davi\\OneDrive\\Projetos\\Solução_Portal\\PortalSicoobDivicred\\PortalSicoobDivicred"
+    ]
+  ],
+  "_from": "bulma-steps@latest",
+  "_id": "bulma-steps@0.0.2",
+  "_inCache": true,
+  "_location": "/bulma-steps",
+  "_nodeVersion": "6.9.2",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/bulma-steps-0.0.2.tgz_1505673333327_0.16277106781490147"
+  },
+  "_npmUser": {
+    "name": "wikiki",
+    "email": "wikiki@protonmail.com"
+  },
+  "_npmVersion": "3.10.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "bulma-steps",
+    "scope": null,
+    "escapedName": "bulma-steps",
+    "name": "bulma-steps",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/bulma-steps/-/bulma-steps-0.0.2.tgz",
+  "_shasum": "1dd7b0b0f06ae8b810d8171706ed9b0de452e005",
+  "_shrinkwrap": null,
+  "_spec": "bulma-steps",
+  "_where": "C:\\Users\\Davi\\OneDrive\\Projetos\\Solução_Portal\\PortalSicoobDivicred\\PortalSicoobDivicred",
+  "author": {
+    "name": "Wikiki",
+    "email": "wikiki@protonmail.com",
+    "url": "https://wikiki.github.io/bulma-extensions/overview"
+  },
+  "bugs": {
+    "url": "https://github.com/Wikiki/bulma-steps/issues"
+  },
+  "dependencies": {},
+  "description": "Display steps for a process (like sign-up, or order, form), in different colors, sizes, and states ",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "1dd7b0b0f06ae8b810d8171706ed9b0de452e005",
+    "tarball": "https://registry.npmjs.org/bulma-steps/-/bulma-steps-0.0.2.tgz"
+  },
+  "homepage": "https://github.com/Wikiki/bulma-steps#readme",
+  "keywords": [
+    "Bulma",
+    "bulma",
+    "bulma.io",
+    "extensions",
+    "steps",
+    "wizard"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "wikiki",
+      "email": "wikiki@protonmail.com"
+    }
+  ],
+  "name": "bulma-steps",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wikiki/bulma-steps.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.2"
+}

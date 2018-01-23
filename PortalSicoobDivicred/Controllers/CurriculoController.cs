@@ -16,11 +16,11 @@ namespace PortalSicoobDivicred.Controllers
     {
         public ActionResult Curriculo(string Ordenacao)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CarregaDados = new QuerryMysqlCurriculo();
+                var CarregaDados = new QueryMysqlCurriculo();
                 List<Dictionary<string, string>> DadosCurriculos = null;
                 try
                 {
@@ -83,11 +83,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult CurriculoArea(string Ordenacao, string Cidade, string Certificacao)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CarregaDados = new QuerryMysqlCurriculo();
+                var CarregaDados = new QueryMysqlCurriculo();
                 List<Dictionary<string, string>> DadosCurriculos = null;
                 try
                 {
@@ -145,11 +145,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult GerenciarVaga(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlCurriculo();
+                var RecuperaDados = new QueryMysqlCurriculo();
                 var DadosCurriculos = RecuperaDados.RecuperaCurriculosHistorico(IdVaga);
                 TempData["TotalCurriculo"] = DadosCurriculos.Count;
                 var DadosVagas = RecuperaDados.RecuperaVagasId(IdVaga);
@@ -210,11 +210,11 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult CadastrarVaga(Vagas Vaga, FormCollection Vagas)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CadastrarVaga = new QuerryMysqlCurriculo();
+                var CadastrarVaga = new QueryMysqlCurriculo();
 
                 if (Vagas.Count == 6)
                     ModelState.AddModelError("", "Favor selecionar uma área de interesse !");
@@ -273,7 +273,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public async Task<ActionResult> PerfilCandidato(string cpf)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -474,11 +474,11 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult FiltrarPerfilVaga(FormCollection Filtros)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var Filtrar = new QuerryMysqlCurriculo();
+                var Filtrar = new QueryMysqlCurriculo();
                 var Sexo = Filtros["FiltroSexo"];
                 var Cidade = Filtros["FiltroCidade"];
                 var Graduacao = Filtros["FiltroGraduacao"];
@@ -594,11 +594,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult EncerrarVaga(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlCurriculo();
+                var RecuperaDados = new QueryMysqlCurriculo();
                 var Vaga = IdVaga.Split('-');
                 RecuperaDados.EncerrarVaga(Vaga[0]);
                 return RedirectToAction("Principal", "Principal",
@@ -609,13 +609,13 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult AbrirProcesso(FormCollection Curriculos)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
                 var IdVaga = Curriculos["vaga"];
                 var Vaga = IdVaga.Split(',');
-                var IniciarProcesso = new QuerryMysqlCurriculo();
+                var IniciarProcesso = new QueryMysqlCurriculo();
                 for (var i = 0; i < Curriculos.Count; i++)
                     if (!Curriculos.Keys[i].Contains("vaga") && !Curriculos.Keys[i].Equals("Alerta"))
                     {
@@ -710,11 +710,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public async Task<ActionResult> PerfilCandidatoProcesso(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlCurriculo();
+                var RecuperaDados = new QueryMysqlCurriculo();
                 var DadosProcesso = RecuperaDados.RecuperaCurriculosProcesso(IdVaga);
                 TempData["IdVaga"] = IdVaga;
                 TempData["TotalCurriculo"] = DadosProcesso.Count;
@@ -776,11 +776,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult CadastrarAlerta(FormCollection Alerta)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CadastrarAlertas = new QuerryMysqlCurriculo();
+                var CadastrarAlertas = new QueryMysqlCurriculo();
 
                 CadastrarAlertas.CadastrarAlerta(Alerta["TextAlerta"]);
                 TempData["Opcao"] = "Curriculo";
@@ -793,11 +793,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult CadastrarMensagem(FormCollection Mensagem)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CadastrarMensagens = new QuerryMysqlCurriculo();
+                var CadastrarMensagens = new QueryMysqlCurriculo();
 
                 CadastrarMensagens.CadastrarMensagem(Mensagem["TextMensagem"]);
                 TempData["Opcao"] = "Curriculo";
@@ -811,11 +811,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult EncerraProcesso(FormCollection Resultado)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var Status = new QuerryMysqlCurriculo();
+                var Status = new QueryMysqlCurriculo();
                 for (var i = 0; i < Resultado.Count; i++)
                 {
                     var Cpf = Resultado.Keys[i].Split(' ');
@@ -950,11 +950,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ResultadoProcesso(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlCurriculo();
+                var RecuperaDados = new QueryMysqlCurriculo();
                 var DadosProcesso = RecuperaDados.RecuperaCurriculosProcesso(IdVaga);
                 TempData["IdVaga"] = IdVaga;
                 TempData["TotalCurriculo"] = DadosProcesso.Count;
@@ -977,11 +977,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public async Task<ActionResult> FormularioInicial(string Cpf)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlCurriculo();
+                var RecuperaDados = new QueryMysqlCurriculo();
                 var DadosUsuario = RecuperaDados.RecuperaDadosCandidato(Cpf);
                 var DadosQuestionario = RecuperaDados.RecuperaQuestionario(DadosUsuario[0]["id"]);
                 if (!DadosUsuario[0]["idarquivogoogle"].Equals("0"))
@@ -1034,7 +1034,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ImprimirTodos(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -1160,11 +1160,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult CadastrarVagaEspecifica(Vagas Vaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CadastrarVaga = new QuerryMysqlCurriculo();
+                var CadastrarVaga = new QueryMysqlCurriculo();
 
                 if (ModelState.IsValid)
                 {
@@ -1184,11 +1184,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult AtribuirVagaEspecifica(FormCollection Vaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CadastrarVaga = new QuerryMysqlCurriculo();
+                var CadastrarVaga = new QueryMysqlCurriculo();
 
 
                 CadastrarVaga.AtribuirVaga(Vaga["CpfAtribui"], Vaga["VagaEspecifica"]);
@@ -1203,7 +1203,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult AlterarVaga(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -1297,7 +1297,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizarVaga(Vagas DadosVaga, FormCollection Dados)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {

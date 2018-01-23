@@ -179,14 +179,7 @@
                                             <span>Justificativas</span>
                                         </a>
                                     </li>
-                                    <li id="AbaJustificaSetor">
-                                        <a href="#JustificativaSetor" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();">
-                                            <span class="icon is-small">
-                                                <i class="fa fa-list"></i>
-                                            </span>
-                                            <span>Justificativas do meu setor</span>
-                                        </a>
-                                    </li>
+                                    @TempData["PermissaoGestor"]
                                     <li id="AbaBancoHoraUsuario">
                                         <a href="#BancoDeHora" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaBancoHoraUsuario').addClass('is-active');$('#AbaJustificaSetor').removeClass();">
                                             <span class="icon is-small">
@@ -203,7 +196,7 @@
                             <div id="Justificativa">
                                @Html.Action("Justificativas","Principal")
                             </div>
-                            <div id="JustificativaSetor">
+                            <div id="JustificativaSetor"  @TempData["AreaGestor"]>
                                 Setor
                             </div>
                             <div id="BancoDeHora">

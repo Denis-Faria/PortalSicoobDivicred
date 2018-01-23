@@ -9,7 +9,7 @@ namespace PortalSicoobDivicred.Controllers
     {
         public ActionResult ParecerProcesso(string Cpf, string IdVaga)
         {
-            var RecuperaDados = new QuerryMysqlCurriculo();
+            var RecuperaDados = new QueryMysqlCurriculo();
 
 
             var Formulario = RecuperaDados.RecuperaFormularioParecerProcesso(Cpf, IdVaga);
@@ -98,7 +98,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult ParecerProcesso(ParecerProcesso DadosFormulario, FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
                 if (ModelState.IsValid)
@@ -125,7 +125,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult RecrutamentoSelecao(string IdVaga)
         {
-            var Formulario = new QuerryMysqlCurriculo();
+            var Formulario = new QueryMysqlCurriculo();
 
             var Logado = Formulario.UsuarioLogado();
             if (Logado)
@@ -191,7 +191,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormulario, FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
                 if (ModelState.IsValid)

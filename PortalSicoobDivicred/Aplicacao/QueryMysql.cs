@@ -8,28 +8,28 @@ using PortalSicoobDivicred.Models;
 
 namespace PortalSicoobDivicred.Aplicacao
 {
-    public class QuerryMysql
+    public class QueryMysql
     {
-        private readonly Conexao contexto;
+        private readonly Conexao ConexaoMysql;
 
 
-        public QuerryMysql()
+        public QueryMysql()
         {
-            contexto = new Conexao();
+            ConexaoMysql = new Conexao();
         }
 
         public bool ConfirmaLogin(string Usuario, string Senha)
         {
-            var QuerryConfirmaLogin = "SELECT login FROM usuarios WHERE login='" + Usuario + "' AND senha=MD5('" +
+            var QueryConfirmaLogin = "SELECT login FROM usuarios WHERE login='" + Usuario + "' AND senha=MD5('" +
                                       Senha +
                                       "')";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryConfirmaLogin);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryConfirmaLogin);
 
-            if (rows.Count == 0)
+            if (Dados.Count == 0)
                 return false;
             var CookieUsuario = new HttpCookie("CookieFarm");
-            CookieUsuario.Value = Criptografa.Criptografar(rows[0]["login"]);
+            CookieUsuario.Value = Criptografa.Criptografar(Dados[0]["login"]);
             CookieUsuario.Expires = DateTime.Now.AddHours(1);
             HttpContext.Current.Response.Cookies.Add(CookieUsuario);
             return true;
@@ -37,25 +37,25 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public bool PrimeiroLogin(string Usuario)
         {
-            var QuerryConfirmaLogin = "SELECT perfilcompleto FROM funcionarios WHERE login='" + Usuario + "';";
+            var Query = "SELECT perfilcompleto FROM funcionarios WHERE login='" + Usuario + "';";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryConfirmaLogin);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
-            if (rows[0]["perfilcompleto"].Equals("S"))
+            if (Dados[0]["perfilcompleto"].Equals("S"))
                 return false;
             return true;
         }
 
         public bool PermissaoCurriculos(string Usuario)
         {
-            var QuerryConfirmaLogin =
+            var Query =
                 "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
                 Usuario + "' and a.idaplicativo=9";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryConfirmaLogin);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             try
             {
-                if (rows[0]["valor"].Equals("S"))
+                if (Dados[0]["valor"].Equals("S"))
                     return true;
                 return false;
             }
@@ -67,24 +67,24 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RecuperaDocumentosFuncionario(string Login)
         {
-            var QuerrySelecionaCurriculo =
+            var Query =
                 "SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +
                 Login + "')";
-            var DadosCurriculos = contexto.ExecutaComandoComRetorno(QuerrySelecionaCurriculo);
+            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosCurriculos;
         }
 
         public void InserirFormacao(string Formacao, string IdFuncionario)
         {
-            var QuerryFormacao = "INSERT INTO formacoesfuncionarios (idfuncionario,descricao) VALUES('" +
+            var QueryFormacao = "INSERT INTO formacoesfuncionarios (idfuncionario,descricao) VALUES('" +
                                  IdFuncionario + "','" + Formacao + "')";
-            contexto.ExecutaComandoComRetorno(QuerryFormacao);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryFormacao);
         }
 
         public void AtualizaFormacao(string Formacao, string Id)
         {
-            var QuerryFormacao = "UPDATE formacoesfuncionarios  SET descricao='" + Formacao + "' WHERE id='" + Id + "'";
-            contexto.ExecutaComandoComRetorno(QuerryFormacao);
+            var QueryFormacao = "UPDATE formacoesfuncionarios  SET descricao='" + Formacao + "' WHERE id='" + Id + "'";
+            ConexaoMysql.ExecutaComandoComRetorno(QueryFormacao);
         }
 
         public bool UsuarioLogado()
@@ -97,156 +97,156 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RecuperaDadosUsuarios(string Login)
         {
-            var QuerryRecuperaUsuario =
+            var QueryRecuperaUsuario =
                 "SELECT * FROM funcionarios  WHERE login='" + Login + "'";
 
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaUsuario);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
 
 
-            return rows;
+            return Dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosFuncionarios()
+        public List<Dictionary<string, string>> RecuperaDadosFuncionariosSetor()
         {
-            var QuerryRecuperaUsuario =
+            var QueryRecuperaUsuario =
                 "SELECT a.*,b.descricao as setor  FROM funcionarios a, setores b where a.idsetor=b.id and a.ativo='S'";
 
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaUsuario);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaUsuario(string Usuario)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT * FROM usuarios WHERE login='" + Usuario + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionarios(string NomeFuncionario)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT * FROM funcionarios WHERE nome like'%" + NomeFuncionario + "%'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionariosPerfil(string UsuarioSistema)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT * FROM funcionarios WHERE login='" + UsuarioSistema + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RetornaCertificacao(string IdCertificao)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM certificacoesfuncionarios WHERE id='" + IdCertificao + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RetornaCertificacaoFuncao(string IdFuncao)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT idcertificacao FROM funcoes WHERE id='" + IdFuncao + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public List<Dictionary<string, string>> RetornaFormacaoFuncionario(string IdFuncionario)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT * FROM formacoesfuncionarios WHERE idfuncionario='" + IdFuncionario + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows;
+            return Dados;
         }
 
         public string RetornaFuncaoFuncionario(string IdFuncao)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM funcoes WHERE id='" + IdFuncao + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public string RetornaGeneroFuncionario(string IdGenero)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM tipossexos WHERE id='" + IdGenero + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public string RetornaSetorFuncionario(string IdSetor)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM setores WHERE id='" + IdSetor + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public string RetornaEscolaridadeFuncionario(string IdEscolaridade)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM tiposformacoes WHERE id='" + IdEscolaridade + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public string RetornaEstadoCivilFuncionario(string IdEstadoCivil)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM tiposestadoscivis WHERE id='" + IdEstadoCivil + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public string RetornaEtiniaFuncionario(string Etinia)
         {
-            var QuerryRecuperaAreasInteresse =
+            var Query =
                 "SELECT descricao FROM tiposetnias WHERE id='" + Etinia + "'";
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRecuperaAreasInteresse);
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
-            return rows[0]["descricao"];
+            return Dados[0]["descricao"];
         }
 
         public List<SelectListItem> RetornaEstadoCivil()
         {
             var EstadoCivil = new List<SelectListItem>();
 
-            const string QuerryRetornaEstadoCivil = "SELECT id,descricao FROM tiposestadoscivis";
+            const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM tiposestadoscivis";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaEstadoCivil);
-            foreach (var row in rows)
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEstadoCivil);
+            foreach (var row in Dados)
                 EstadoCivil.Add(new SelectListItem
                 {
                     Value = row["id"],
@@ -258,87 +258,87 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<SelectListItem> RetornaSexo()
         {
-            var EstadoCivil = new List<SelectListItem>();
+            var Sexo = new List<SelectListItem>();
 
-            const string QuerryRetornaSexo = "SELECT id,descricao FROM tipossexos";
+            const string QueryRetornaSexo = "SELECT id,descricao FROM tipossexos";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSexo);
-            foreach (var row in rows)
-                EstadoCivil.Add(new SelectListItem
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaSexo);
+            foreach (var row in Dados)
+                Sexo.Add(new SelectListItem
                 {
                     Value = row["id"],
                     Text = row["descricao"]
                 });
 
-            return EstadoCivil;
+            return Sexo;
         }
 
         public List<SelectListItem> RetornaEtnia()
         {
-            var EstadoCivil = new List<SelectListItem>();
+            var Etnia = new List<SelectListItem>();
 
-            const string QuerryRetornaEtnia = "SELECT id,descricao FROM tiposetnias";
+            const string QueryRetornaEtnia = "SELECT id,descricao FROM tiposetnias";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaEtnia);
-            foreach (var row in rows)
-                EstadoCivil.Add(new SelectListItem
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEtnia);
+            foreach (var row in Dados)
+                Etnia.Add(new SelectListItem
                 {
                     Value = row["id"],
                     Text = row["descricao"]
                 });
 
-            return EstadoCivil;
+            return Etnia;
         }
 
         public List<SelectListItem> RetornaFormacao()
         {
-            var EstadoCivil = new List<SelectListItem>();
+            var Formacao = new List<SelectListItem>();
 
-            const string QuerryRetornaFormacao = "SELECT id,descricao FROM tiposformacoes";
+            const string QueryRetornaFormacao = "SELECT id,descricao FROM tiposformacoes";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaFormacao);
-            foreach (var row in rows)
-                EstadoCivil.Add(new SelectListItem
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaFormacao);
+            foreach (var row in Dados)
+                Formacao.Add(new SelectListItem
                 {
                     Value = row["id"],
                     Text = row["descricao"]
                 });
 
-            return EstadoCivil;
+            return Formacao;
         }
 
         public List<SelectListItem> RetornaSetor()
         {
-            var EstadoCivil = new List<SelectListItem>();
+            var Setor = new List<SelectListItem>();
 
-            const string QuerryRetornaSetor = "SELECT id,descricao FROM setores";
+            const string QueryRetornaSetor = "SELECT id,descricao FROM setores";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSetor);
-            foreach (var row in rows)
-                EstadoCivil.Add(new SelectListItem
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaSetor);
+            foreach (var row in Dados)
+                Setor.Add(new SelectListItem
                 {
                     Value = row["id"],
                     Text = row["descricao"]
                 });
 
-            return EstadoCivil;
+            return Setor;
         }
 
         public List<SelectListItem> RetornaFuncao()
         {
-            var EstadoCivil = new List<SelectListItem>();
+            var Funcao = new List<SelectListItem>();
 
-            const string QuerryRetornaSetor = "SELECT id,descricao FROM funcoes";
+            const string Query = "SELECT id,descricao FROM funcoes";
 
-            var rows = contexto.ExecutaComandoComRetorno(QuerryRetornaSetor);
-            foreach (var row in rows)
-                EstadoCivil.Add(new SelectListItem
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            foreach (var row in Dados)
+                Funcao.Add(new SelectListItem
                 {
                     Value = row["id"],
                     Text = row["descricao"]
                 });
 
-            return EstadoCivil;
+            return Funcao;
         }
 
         public void AtualizaDadosFuncionarioFormulario(string Nome, string Cpf, string Rg, string Pis,
@@ -348,7 +348,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
             string Viagem, string ConfirmacaoCertificacao, string ConfirmaDados)
         {
-            var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
+            var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
                                             Convert.ToDateTime(DataNascimentoFuncionario).ToString("yyyy/MM/dd") +
                                             "', sexo=" + Sexo + ",descricaosexo='" + DescricaoSexo + "',etnia=" +
@@ -364,7 +364,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                             "', perfilcompleto='S',confirmacaodado='" + ConfirmaDados +
                                             "',confirmacaocertificacao='" +
                                             ConfirmacaoCertificacao + "' WHERE nome='" + Nome + "'";
-            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
         public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
@@ -372,7 +372,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
             string Numero, string Bairro, string Cidade, string ConfirmaDados)
         {
-            var QuerryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
+            var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                             Rg + "', pis='" + Pis + "',datanascimento='" +
                                             Convert.ToDateTime(DataNascimentoFuncionario).ToString("yyyy/MM/dd") +
                                             "', sexo=" + Sexo + ",descricaosexo='" + DescricaoSexo + "',etnia=" +
@@ -382,73 +382,73 @@ namespace PortalSicoobDivicred.Aplicacao
                                             Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
                                             Cidade + "', confirmacaodado='" + ConfirmaDados + "' WHERE login='" +
                                             UsuarioSistema + "'";
-            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
         public void AtualizaDadosFuncionarioProfissional(string Setor, string Funcao, string UsuarioSistema)
         {
-            var QuerryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +
+            var QueryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +
                                             "' WHERE login='" + UsuarioSistema + "'";
-            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
         public void AtualizaFoto(string Foto, string UsuarioSistema)
         {
-            var QuerryAtualizaFuncionario =
+            var QueryAtualizaFuncionario =
                 "UPDATE funcionarios SET foto='" + Foto + "' WHERE login='" + UsuarioSistema + "'";
-            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
         public void AtualizaDadosFuncionarioPerguntas(string UsuarioSistema, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
             string Viagem)
         {
-            var QuerryAtualizaFuncionario = "UPDATE funcionarios SET quantidadefilho='" + QuatidadeFilhos +
+            var QueryAtualizaFuncionario = "UPDATE funcionarios SET quantidadefilho='" + QuatidadeFilhos +
                                             "',datanascimentofilho='" +
                                             DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
                                             "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
                                             ComidaFavorita + "',viagem='" + Viagem +
                                             "', perfilcompleto='S' WHERE login='" + UsuarioSistema + "'";
-            contexto.ExecutaComandoComRetorno(QuerryAtualizaFuncionario);
+            ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
         public void AtualizarArquivoPessoal(string NomeArquivo, byte[] Foto, string Login)
         {
             var QueryIdFuncionario = "SELECT id FROM funcionarios WHERE login='" + Login + "'";
-            var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
+            var row = ConexaoMysql.ExecutaComandoComRetorno(QueryIdFuncionario);
 
             var QueryArquivoUsuario =
                 "SELECT count(id) as count FROM documentospessoaisfuncionarios WHERE idfuncionario='" + row[0]["id"] +
                 "' and nomearquivo='" + NomeArquivo + "'";
-            var row2 = contexto.ExecutaComandoComRetorno(QueryArquivoUsuario);
+            var row2 = ConexaoMysql.ExecutaComandoComRetorno(QueryArquivoUsuario);
 
             if (Convert.ToInt32(row2[0]["count"]) == 0)
             {
-                var QuerryAtualizaFuncionario =
+                var QueryAtualizaFuncionario =
                     "INSERT INTO documentospessoaisfuncionarios (idfuncionario,nomearquivo,arquivo,dataupload) VALUES(" +
                     row[0]["id"] + ",'" + NomeArquivo + "',@image ,NOW()) ";
-                contexto.ExecutaComandoArquivo(QuerryAtualizaFuncionario, Foto);
+                ConexaoMysql.ExecutaComandoArquivo(QueryAtualizaFuncionario, Foto);
             }
             else
             {
-                var QuerryAtualizaFuncionario =
+                var QueryAtualizaFuncionario =
                     "UPDATE documentospessoaisfuncionarios SET arquivo=@image and dataupload=NOW() WHERE idfuncionario=" +
                     row[0]["id"] + " AND nomearquivo='" + NomeArquivo + "'";
-                contexto.ExecutaComandoArquivo(QuerryAtualizaFuncionario, Foto);
+                ConexaoMysql.ExecutaComandoArquivo(QueryAtualizaFuncionario, Foto);
             }
         }
 
         public List<Dictionary<string, string>> RecuperaTodosArquivos(string Login)
         {
-            var QueryIdFuncionario =
+            var Query =
                 "SELECT nomearquivo, dataupload FROM documentospessoaisfuncionarios WHERE login='" + Login + "'";
-            var row = contexto.ExecutaComandoComRetorno(QueryIdFuncionario);
+            var row = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return row;
         }
 
         public DataTable RetornaDocumentosFuncionario(string Login)
         {
-            var Dados = contexto.ComandoArquivo(Login);
+            var Dados = ConexaoMysql.ComandoArquivo(Login);
             return Dados;
         }
     }

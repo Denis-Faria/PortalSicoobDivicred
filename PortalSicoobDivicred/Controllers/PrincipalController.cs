@@ -14,7 +14,7 @@ namespace PortalSicoobDivicred.Controllers
         // GET: Principal
         public ActionResult Principal(string Acao, string Mensagem, string Controlle)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             try
             {
@@ -51,6 +51,18 @@ namespace PortalSicoobDivicred.Controllers
                         " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
                 else
                     TempData["PermissaoCurriculo"] = "";
+                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "<li id='AbaJustificaSetor'>< a href = '#JustificativaSetor' onclick = 'javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();' >< span class='icon is-small'><i class='fa fa-list'></i></span><span>Justificativas do meu setor</span></a></li>";
+                    TempData["AreaGestor"] = "";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "";
+                    TempData["AreaGestor"] = "hidden";
+                }
+
+
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                 TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
                 if (DadosUsuarioBanco[0]["foto"] == null)
@@ -66,11 +78,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Dashboard()
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var QueryRh = new QuerryMysqlRh();
+                var QueryRh = new QueryMysqlRh();
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
@@ -129,7 +141,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult FormularioCadastro()
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -200,7 +212,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult FormularioCadastro(Funcionario DadosFuncionario, FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -302,7 +314,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult BuscaCertificacao(string IdFuncao)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -323,11 +335,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult TenhoInteresse(string IdVaga)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var QueryRh = new QuerryMysqlRh();
+                var QueryRh = new QueryMysqlRh();
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
@@ -340,11 +352,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Justificativas()
         {
-            var QueryRh = new QuerryMysqlRh();
+            var QueryRh = new QueryMysqlRh();
             var QueryFire = new QueryFirebird();
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
             var DadosPendencias = QueryRh.RetornaIdPendenciasNaoJustificada(DadosTabelaFuncionario[0]["id"]);
             var JustificativasFirebird = QueryFire.RecuperaJustificativas();
@@ -433,7 +445,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult Justificativas(FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysqlRh();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {

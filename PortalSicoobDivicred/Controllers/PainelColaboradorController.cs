@@ -12,7 +12,7 @@ namespace PortalSicoobDivicred.Controllers
         // GET: PainelColaborador
         public ActionResult Perfil()
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -134,7 +134,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizarDadosProfissionais(Funcionario DadosFuncionario)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -158,7 +158,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizaDadosPessoais(Funcionario DadosFuncionario, FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -209,7 +209,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Upload()
         {
-            var InserirFoto = new QuerryMysql();
+            var InserirFoto = new QueryMysql();
             var Logado = InserirFoto.UsuarioLogado();
             if (Logado)
             {
@@ -248,7 +248,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult UploadArquivo(string Nome)
         {
-            var InserirFoto = new QuerryMysql();
+            var InserirFoto = new QueryMysql();
             var Logado = InserirFoto.UsuarioLogado();
             if (Logado)
             {
@@ -272,7 +272,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizarFormularioPessoal(Funcionario DadosFuncionario)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -300,11 +300,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ColaboradorRh()
         {
-            var VerificaDados = new QuerryMysqlRh();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var CarregaDados = new QuerryMysql();
+                var CarregaDados = new QueryMysql();
 
 
                 //TRATAMENTO PONTO
@@ -392,7 +392,7 @@ namespace PortalSicoobDivicred.Controllers
                                             }
                                             else
                                             {
-                                                var RecuperaId = new QuerryMysql();
+                                                var RecuperaId = new QueryMysql();
                                                 try
                                                 {
                                                     var DadosFuncionario =
@@ -497,7 +497,7 @@ namespace PortalSicoobDivicred.Controllers
                                             }
                                             else
                                             {
-                                                var RecuperaId = new QuerryMysql();
+                                                var RecuperaId = new QueryMysql();
                                                 try
                                                 {
                                                     var DadosFuncionario =
@@ -601,7 +601,7 @@ namespace PortalSicoobDivicred.Controllers
                                             }
                                             else
                                             {
-                                                var RecuperaId = new QuerryMysql();
+                                                var RecuperaId = new QueryMysql();
                                                 try
                                                 {
                                                     var DadosFuncionario =
@@ -751,7 +751,7 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             else
                             {
-                                var RecuperaId = new QuerryMysql();
+                                var RecuperaId = new QueryMysql();
                                 try
                                 {
                                     var DadosFuncionario =
@@ -854,7 +854,7 @@ namespace PortalSicoobDivicred.Controllers
                                 }
                                 else
                                 {
-                                    var RecuperaId = new QuerryMysql();
+                                    var RecuperaId = new QueryMysql();
                                     try
                                     {
                                         var DadosFuncionario =
@@ -959,7 +959,7 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             else
                             {
-                                var RecuperaId = new QuerryMysql();
+                                var RecuperaId = new QueryMysql();
                                 try
                                 {
                                     var DadosFuncionario =
@@ -1085,7 +1085,7 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             else
                             {
-                                var RecuperaId = new QuerryMysql();
+                                var RecuperaId = new QueryMysql();
                                 try
                                 {
                                     var DadosFuncionario =
@@ -1168,9 +1168,9 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalSemPendencia"] = TotalSemPendencia;
                 TempData["TotalSemConfirmar"] = TotalPendenciaRh;
                 // --- FINALIZA TRATAMENTO DE PONTO ----
-                var DadosColaborador = CarregaDados.RecuperaDadosFuncionarios();
+                var DadosColaborador = CarregaDados.RecuperaDadosFuncionariosSetor();
 
-                var QueryRh = new QuerryMysqlRh();
+                var QueryRh = new QueryMysqlRh();
                 var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
@@ -1214,7 +1214,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult PerfilFuncionario(string Login)
         {
-            var VerificaDados = new QuerryMysql();
+            var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -1307,7 +1307,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult CadastrarVaga(VagasInternas DadosVaga)
         {
-            var VerificaDados = new QuerryMysqlRh();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
                 if (ModelState.IsValid)
@@ -1343,11 +1343,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult AlterarVaga(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var QueryRh = new QuerryMysqlRh();
+                var QueryRh = new QueryMysqlRh();
                 var DadosVaga = QueryRh.RetornaVaga(IdVaga);
                 var Vaga = new VagasInternas();
                 Vaga.Titulo = DadosVaga[0]["titulo"];
@@ -1373,12 +1373,12 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizarVaga(VagasInternas DadosVaga, FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
                 if (ModelState.IsValid)
                 {
-                    var QueryRh = new QuerryMysqlRh();
+                    var QueryRh = new QueryMysqlRh();
 
                     QueryRh.AtualizaVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
                         Formulario["IdVaga"]);
@@ -1395,11 +1395,11 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult GerenciarVaga(string IdVaga)
         {
-            var VerificaDados = new QuerryMysqlCurriculo();
+            var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var RecuperaDados = new QuerryMysqlRh();
+                var RecuperaDados = new QueryMysqlRh();
                 var DadosCurriculos = RecuperaDados.RecuperaFuncionariosVaga(IdVaga);
                 TempData["TotalCurriculo"] = DadosCurriculos.Count;
                 TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + DadosCurriculos.Count;
@@ -1445,7 +1445,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult EncerrarVaga(FormCollection Formulario)
         {
-            var VerificaDados = new QuerryMysqlRh();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -1477,13 +1477,13 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public JsonResult ConfirmarPendencia(Item[] TabelaPendencias)
         {
-            var VerificaDados = new QuerryMysqlRh();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
                 for (var i = 0; i < TabelaPendencias.Length; i++)
                 {
-                    var RecuperaId = new QuerryMysql();
+                    var RecuperaId = new QueryMysql();
                     var DadosFuncionario =
                         RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(TabelaPendencias[i].Nome);
                     try

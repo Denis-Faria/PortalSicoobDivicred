@@ -16,7 +16,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult Login(Login Dados)
         {
-            var Confere = new QuerryMysql();
+            var Confere = new QueryMysql();
 
             if (ModelState.IsValid)
             {

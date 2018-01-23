@@ -634,13 +634,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>01/22/2018 16:23:26</publishTime>
+      <publishTime>01/22/2018 16:53:49</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>01/22/2018 16:23:26</publishTime>
+      <publishTime>01/22/2018 16:53:49</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -979,7 +979,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>11/22/2017 14:56:05</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
-      <publishTime>01/22/2018 08:36:02</publishTime>
+      <publishTime>01/23/2018 16:08:33</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>01/19/2018 11:18:41</publishTime>
@@ -1018,7 +1018,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/22/2018 15:10:55</publishTime>
+      <publishTime>01/23/2018 14:59:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

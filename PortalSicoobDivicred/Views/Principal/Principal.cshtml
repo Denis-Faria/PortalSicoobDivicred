@@ -127,63 +127,12 @@
         }
 
         $(document).ready(function() {
-
             window.history.pushState("state", "title", "/Principal/Principal");
-            var windowHeight = $(document).height();
-            $('#Lateral').css('position', "absolute");
-            $('#CorpoPrincipal').css('height', windowHeight);
             $('#CorpoPrincipal').css('background', '#e6e6e6');
-            animating = true;
-            $('#Lateral').animate({
-                    left: -100,
-                    opacity: 0
-                },
-                500,
-                function() {
-                    animating = false;
-                });
+           
         });
 
-        var mouse_position;
-        var animating = false;
-
-        $(document).mousemove(function(e) {
-
-            if (animating) {
-                return;
-            }
-            mouse_position = e.clientX;
-            var windowHeight = document.height;
-            if (mouse_position <= 100) {
-
-                $('#Lateral').css('height', $(window).height);
-                $('#Lateral').css('position', "relative");
-
-                $('#CorpoPrincipal').css('background', '#e6e6e6');
-                animating = true;
-                $('#Lateral').animate({
-                        left: 0,
-                        opacity: 1
-                    },
-                    200,
-                    function() {
-                        animating = false;
-                    });
-            } else if (mouse_position > 100) {
-
-                $('#Lateral').css('position', "absolute");
-                $('#CorpoPrincipal').css('background', '#e6e6e6');
-                animating = true;
-                $('#Lateral').animate({
-                        left: -100,
-                        opacity: 0
-                    },
-                    500,
-                    function() {
-                        animating = false;
-                    });
-            }
-        });
+     
     </script>
 
 </head>
@@ -193,12 +142,15 @@
 
     body { background: #e6e6e6; }
 
-    #main { overflow: hidden; }
-
+    aside {
+        position: fixed;
+        top: 0px;
+        
+    }
 
 </style>
 <nav class="navbar is-transparent" style="background: rgb(42, 63, 84)">
-    <div class="nav-left">
+    <div class="navbar-end is-center">
         <a class="navbar-item">
             <img src="/Images/LogoBranca.png" alt="Divicred Logo">
         </a>
@@ -258,42 +210,42 @@
 </nav>
 <div id-="main">
     <div class="columns">
-        <aside id="Lateral" class=" column is-2 aside hero is-fullheight is-hidden-mobile " style="background: rgb(42, 63, 84)">
+        <aside id="Lateral" class="aside hero is-fullheight is-hidden-mobile " style="background: rgb(42, 63, 84); width: 3%" >
             <ul class="menu-list is-centered" style="padding: 10px; text-align: justify;">
                 <p class="item"></p>
-                <p class="menu-label" style="color: white">
-                    Geral
+                <p class="menu-label" style="color: white" id="Geral">
                 </p>
-                <a href="javascript:Dash()" class="item" style="color: #38d5c5;">
+                
+                    <span class="icon">
+                        
+                    </span>
+                
+                <a href="javascript:Dash()" class="item" style="color: #38d5c5;"  data-balloon="Dashboard" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fa fa-tachometer"></i>
-                    </span><span class="name"> Dashboard</span>
+                    </span>
                 </a>
-                <a href="#" class="item" style="color: #38d5c5;">
+                <a href="#" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fa fa-tasks" aria-hidden="true"></i>
-                    </span><span class="name"> WebDesk</span>
+                    </span>
                 </a>
-                <a href="#" class="item" style="color: #38d5c5;">
+                <a href="#" class="item" style="color: #38d5c5;" data-balloon="PGD" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fa fa-folder-o" aria-hidden="true"></i>
-                    </span><span class="name"> PGD</span>
+                    </span>
                 </a>
-                <a href="javascript:PerfilColaborador();void(0);" class="item" style="color: #38d5c5;">
+                <a href="javascript:PerfilColaborador();void(0);" class="item" style="color: #38d5c5;" data-balloon="Meu Perfil" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fa fa-user-circle-o"></i>
-                    </span><span class="name"> Perfil do Colaborador</span>
+                    </span>
                 </a>
-
-                <p class="menu-label" style="color: white">
-                    Específicos
-                </p>
                 @(new HtmlString(TempData["PermissaoCurriculo"].ToString()))
 
-                <a href="javascript:ColaboradorRh();void(0);" class="item" style="color: #38d5c5;">
+                <a href="javascript:ColaboradorRh();void(0);" class="item" style="color: #38d5c5;" data-balloon="Portal do Colaborador" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fa fa-user-plus"></i>
-                    </span><span class="name"> Portal do Colaborador</span>
+                    </span>
                 </a>
             </ul>
         </aside>

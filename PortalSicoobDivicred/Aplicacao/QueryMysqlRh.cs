@@ -127,7 +127,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaPendenciasNaoJustificada(string IdHistorico)
         {
             var Query =
-                "select idhistorico,horario,data,idjustificativafirebird from historicoshorariosponto  where idhistorico=" +
+                "select idhistorico,horario,data,idjustificativafirebird,idfuncionariofirebird from historicoshorariosponto  where idhistorico=" +
                 IdHistorico + ";";
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
@@ -143,6 +143,12 @@ namespace PortalSicoobDivicred.Aplicacao
             if (DadosJustificativas.Count > 0)
                 return false;
             return true;
+        }
+
+        public void InseriJustificativa(string IdHistorico,TimeSpan Horario,string Idfuncionariofirebird,string Idjustificativafirebird,DateTime Data)
+        {
+            var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES("+IdHistorico+",'"+Horario+"',"+Idfuncionariofirebird+", "+Idjustificativafirebird+", '"+Data.ToString("yyyy/MM/dd")+"')";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
                     TempData["PermissaoCurriculo"] =
-                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;'><span class='icon'><i class='fa fa-book'></i></span><span class='name'> Currículo</span></a>";
+                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
                 else
                     TempData["PermissaoCurriculo"] = "";
                 if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
@@ -374,11 +374,11 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var DadosHistorico = QueryRh.RetornaPendenciasNaoJustificada(DadosPendencias[0]["id"]);
                 TempData["NomePendencia" + i] = DadosTabelaFuncionario[0]["nome"];
-
+                TempData["IdFuncionario" + i] = DadosHistorico[0]["idfuncionariofirebird"];
                 TempData["IdPendencia" + i] = DadosPendencias[i]["id"];
 
 
-                TempData["DiaPendencia" + i] = DadosHistorico[0]["data"];
+                TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosHistorico[0]["data"]).ToString("dd/MM/yyyy");
                 TempData["TotalHorarios" +i] = 4- DadosHistorico.Count ;
 
                 if (DadosHistorico.Count == 1)
@@ -449,16 +449,37 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                var Keys = Formulario.AllKeys;
                 for (int i = 0; i < Formulario.Count; i++)
                 {
-                    if (Formulario.AllKeys[i].Contains("Id "))
+                    if (Formulario.AllKeys[i].Contains("Id"))
                     {
-                      //var IdHistorico =  Formulario[i].Split("|");
+                      var IdHistorico =  Formulario[i];
+
+                        if (Keys.Contains("Hora1  " + IdHistorico + " "))
+                        {
+                            VerificaDados.InseriJustificativa(IdHistorico,TimeSpan.Parse(Formulario["Hora1  " + IdHistorico + " "]),Formulario["Funcionario " + IdHistorico+""],Formulario["JustificativaFire " + IdHistorico+""],Convert.ToDateTime(Formulario["Data "+IdHistorico+""]));
+                        }
+                        if (Formulario.AllKeys.Contains("Hora2  " + IdHistorico + " "))
+                        {
+                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora2  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
+                        }
+                        if (Keys.Contains("Hora3  "+IdHistorico+" "))
+                        {
+                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora3  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
+                        }
+                        if (Formulario.AllKeys.Contains("Hora4  " + IdHistorico + " "))
+                        {
+                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora4  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
+                        }
+
 
                     }
+
                 }
-                
-                return PartialView("Dashboard");
+
+                return RedirectToAction("Principal", "Principal",
+                    new { Acao = "Dashboard", Mensagem = "Justificativa cadastrada com sucesso !", Controlle = "Principal" });
             }
             return RedirectToAction("Login", "Login");
 

@@ -9,8 +9,7 @@
     });
 
 </script>
-@using (Html.BeginForm("Justificativas", "Principal"))
-{
+
     <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
         <thead>
         <th>ID</th>
@@ -27,72 +26,78 @@
         <tbody>
             @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
             {
-                <tr>
-                    <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]</td>
-                    <td>
-                        @TempData["NomePendencia" + i]
-                    </td>
-                    <td>
-                        @TempData["DiaPendencia"]
-                    </td>
-                    <td>
-                        @TempData["Hora1Pendencia" + i]
-                    </td>
-                    <td>
-                        @if (@TempData["Hora2Pendencia" + i].Equals("|"))
-                        {
-                            <input class="input hora" id="Hora2 | @TempData["IdPendencia" + i]" name="Hora3  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
-                        }
-                        else
-                        {
-                            @TempData["Hora2Pendencia" + i]
-                        }
-                    </td>
-                    <td>
-                        @if (@TempData["Hora3Pendencia" + i].Equals("|"))
-                        {
-                            <input class="input hora" id="Hora3 | @TempData["IdPendencia" + i]" name="Hora3  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
-                        }
-                        else
-                        {
-                            @TempData["Hora3Pendencia" + i]
-                        }
-                    </td>
-                    <td>
-                        @if (@TempData["Hora4Pendencia" + i].Equals("|"))
-                        {
-                            <input class="input hora" id="Hora4 | @TempData["IdPendencia" + i]" name="Hora4  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
-                        }
-                        else
-                        {
-                            @TempData["Hora4Pendencia" + i]}
-                    </td>
+                using (Html.BeginForm("Justificativas", "Principal"))
+                 {
+                     <tr>
+                         <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true"/>@TempData["IdPendencia" + i]</td>
+                         <td>
+                             <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
+                         </td>
+                         <td>
+                             <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia"+i]" hidden="true" /> @TempData["DiaPendencia"+i]
+                         </td>
+                         <td>
+                             @TempData["Hora1Pendencia" + i]
+                         </td>
+                         <td>
+                             @if (@TempData["Hora2Pendencia" + i].Equals("|"))
+                             {
+                                 <input class="input hora" id="Hora2 | @TempData["IdPendencia" + i]" name="Hora2  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
+                             }
+                             else
+                             {
+                                 @TempData["Hora2Pendencia" + i]
+                             }
+                         </td>
+                         <td>
+                             @if (@TempData["Hora3Pendencia" + i].Equals("|"))
+                             {
+                                 <input class="input hora" id="Hora3 | @TempData["IdPendencia" + i]" name="Hora3  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
+                             }
+                             else
+                             {
+                                 @TempData["Hora3Pendencia" + i]
+                             }
+                         </td>
+                         <td>
+                             @if (@TempData["Hora4Pendencia" + i].Equals("|"))
+                             {
+                                 <input class="input hora" id="Hora4 | @TempData["IdPendencia" + i]" name="Hora4  @TempData["IdPendencia" + i] " value="00:00:00" type="text">
+                             }
+                             else
+                             {
+                                 @TempData["Hora4Pendencia" + i]
+                             }
+                         </td>
 
 
 
-                            <td>
-                                <div class="select">
-                                    <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia"+i]">
-                                        @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
-                                        {
-                                            <option value="@TempData["IdJustificativa"+j]">@TempData["Justificativa" + j]</option>
-                                        }
-                                    </select>
-                                </div>
-                            </td>
+                         <td>
+                             <div class="select">
+                                 <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">
+                                     @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
+                                     {
+                                         <option value="@TempData["IdJustificativa" + j]">@TempData["Justificativa" + j]</option>
+                                     }
+                                 </select>
+                             </div>
+                         </td>
+                         <td>
+                             <p class="field">
+                                 <button type="submit" class="button is-primary">
+                                     <span class="icon is-small">
+                                         <i class="fa fa-pencil"></i>
+                                     </span>
+                                     <span> Justificar</span>
+                                 </button>
+                             </p>
+                         </td>
 
-                </tr>
+                     </tr>
+                 }
             }
 
         </tbody>
     </table>
-    <p class="field">
-        <button type="submit" class="button is-primary">
-            <span class="icon is-small">
-                <i class="fa fa-pencil"></i>
-            </span>
-            <span> Justificar</span>
-        </button>
-    </p>
+    
 
-}

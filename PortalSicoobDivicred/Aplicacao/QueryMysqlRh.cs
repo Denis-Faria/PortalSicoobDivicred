@@ -124,11 +124,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return DadosJustificativas;
         }
 
+
         public List<Dictionary<string, string>> RetornaPendenciasNaoJustificada(string IdHistorico)
         {
             var Query =
                 "select idhistorico,horario,data,idjustificativafirebird,idfuncionariofirebird from historicoshorariosponto  where idhistorico=" +
-                IdHistorico + ";";
+                IdHistorico + " order by horario asc;";
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
         }
@@ -149,6 +150,19 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES("+IdHistorico+",'"+Horario+"',"+Idfuncionariofirebird+", "+Idjustificativafirebird+", '"+Data.ToString("yyyy/MM/dd")+"')";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
+        }
+
+        public List<Dictionary<string, string>> RetornaPendencias()
+        {
+            var Query = "select a.id,a.validacaogestor,b.nome from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N' AND a.idfuncionario=b.id;";
+            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
+        public List<Dictionary<string, string>> RetornaDadosPendencias(string IdHistorico)
+        {
+            var Query = "select * from historicoshorariosponto where idhistorico="+IdHistorico+";";
+            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
         }
     }
 }

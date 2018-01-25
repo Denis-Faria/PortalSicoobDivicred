@@ -43,47 +43,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return ComandoSQL;
         }
 
-        public List<Dictionary<string, string>> RetornaListaMArcacao()
-        {
-            List<Dictionary<string, string>> linhas = null;
-            try
-            {
-                var DiaValidar = new DateTime();
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
+      
 
-                var cmdComando = CriarComandoSQL(
-                    "select b.NOME, iif(count(a.ID_MARCACAO)<4,'Justifica','Nao') as justifica, a.ID_FUNCIONARIO,b.ID_CARGO from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" +
-                    DiaValidar.ToString("yyyy/MM/dd") +
-                    "' AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO group by b.NOME ,a.ID_FUNCIONARIO,b.ID_CARGO ;");
-
-                using (var reader = cmdComando.ExecuteReader())
-                {
-                    linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
-                    {
-                        var linha = new Dictionary<string, string>();
-
-                        for (var i = 0; i < reader.FieldCount; i++)
-                        {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
-                        }
-
-                        linhas.Add(linha);
-                    }
-                }
-            }
-            finally
-            {
-                FecharConexao(con);
-            }
-
-            return linhas;
-        }
+        #region Consultas Uteis
 
         public List<Dictionary<string, string>> RetornaListaFuncionario()
         {
@@ -120,97 +82,16 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string IdFuncionario)
         {
+            var DiaValidar = new DateTime();
+            if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                DiaValidar = DateTime.Now.AddDays(-3);
+            else
+                DiaValidar = DateTime.Now.AddDays(-1);
             List<Dictionary<string, string>> linhas = null;
             try
             {
                 var cmdComando = CriarComandoSQL("SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                                                 IdFuncionario + ";");
-
-                using (var reader = cmdComando.ExecuteReader())
-                {
-                    linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
-                    {
-                        var linha = new Dictionary<string, string>();
-
-                        for (var i = 0; i < reader.FieldCount; i++)
-                        {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
-                        }
-
-                        linhas.Add(linha);
-                    }
-                }
-            }
-            finally
-            {
-                FecharConexao(con);
-            }
-
-            return linhas;
-        }
-
-        public List<Dictionary<string, string>> VerificaFalta(string IdFuncionario)
-        {
-            List<Dictionary<string, string>> linhas = null;
-            try
-            {
-                var DiaValidar = new DateTime();
-
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
-
-
-                var cmdComando = CriarComandoSQL("select * from MARCACAO  WHERE DATA='" +
-                                                 DiaValidar.ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO=" +
-                                                 IdFuncionario + " order by HORA asc;");
-
-                using (var reader = cmdComando.ExecuteReader())
-                {
-                    linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
-                    {
-                        var linha = new Dictionary<string, string>();
-
-                        for (var i = 0; i < reader.FieldCount; i++)
-                        {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
-                        }
-
-                        linhas.Add(linha);
-                    }
-                }
-            }
-            finally
-            {
-                FecharConexao(con);
-            }
-
-            return linhas;
-        }
-
-        public List<Dictionary<string, string>> VerificaAfastamento(string IdFuncionario)
-        {
-            List<Dictionary<string, string>> linhas = null;
-            try
-            {
-                var DiaValidar = new DateTime();
-
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
-
-                var cmdComando = CriarComandoSQL("SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE '" +
-                                                 DiaValidar.ToString("yyyy/MM/dd") +
-                                                 "' BETWEEN DATA_INICIO AND DATA_FIM AND ID_FUNCIONARIO=" +
-                                                 IdFuncionario + ";");
+                                                 IdFuncionario + "  AND '" + DiaValidar.ToString("yyyy/MM/dd") + "' BETWEEN DATA_INICIO AND DATA_FIM ;");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -280,6 +161,96 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+
+        public List<Dictionary<string, string>> RetornaMarcacao(string IdFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+
+                var DiaValidar = new DateTime();
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                else
+                    DiaValidar = DateTime.Now.AddDays(-1);
+
+                var cmdComando = CriarComandoSQL(
+                    "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND a.ID_FUNCIONARIO="+IdFuncionario+" AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
+        #endregion
+
+
+        public List<Dictionary<string, string>> VerificaFalta(string IdFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+                var DiaValidar = new DateTime();
+
+                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                    DiaValidar = DateTime.Now.AddDays(-3);
+                else
+                    DiaValidar = DateTime.Now.AddDays(-1);
+
+
+                var cmdComando = CriarComandoSQL("select * from MARCACAO  WHERE DATA='" +
+                                                 DiaValidar.ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO=" +
+                                                 IdFuncionario + " order by HORA asc;");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
+
+  
 
         public List<Dictionary<string,string>> RecuperaJustificativas()
         {

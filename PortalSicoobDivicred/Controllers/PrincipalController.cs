@@ -372,7 +372,7 @@ namespace PortalSicoobDivicred.Controllers
 
             for (int i = 0; i < DadosPendencias.Count; i++)
             {
-                var DadosHistorico = QueryRh.RetornaPendenciasNaoJustificada(DadosPendencias[0]["id"]);
+                var DadosHistorico = QueryRh.RetornaPendenciasNaoJustificada(DadosPendencias[i]["id"]);
                 TempData["NomePendencia" + i] = DadosTabelaFuncionario[0]["nome"];
                 TempData["IdFuncionario" + i] = DadosHistorico[0]["idfuncionariofirebird"];
                 TempData["IdPendencia" + i] = DadosPendencias[i]["id"];
@@ -433,6 +433,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Hora4Pendencia" + i] =
                         DadosHistorico[3]["horario"];
+                    TempData["Esconde" + i] = "hidden";
                 }
 
             }

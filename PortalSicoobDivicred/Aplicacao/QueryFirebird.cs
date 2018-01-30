@@ -52,7 +52,7 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var cmdComando = CriarComandoSQL("SELECT * FROM FUNCIONARIO;");
+                var cmdComando = CriarComandoSQL("SELECT * FROM FUNCIONARIO WHERE DATA_DEMISSAO IS NULL;");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -134,7 +134,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 var cmdComando = CriarComandoSQL(
                     "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE 'DATA'='" +
                     DiaValidar.ToString("yyyy/MM/dd") +
-                    "' AND ID_CALENDARIO=(SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
+                    "' AND ID_CALENDARIO=(SELECT max(ID_CALENDARIO) FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
                     IdFuncionario + ")");
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -175,7 +175,7 @@ namespace PortalSicoobDivicred.Aplicacao
                     DiaValidar = DateTime.Now.AddDays(-1);
 
                 var cmdComando = CriarComandoSQL(
-                    "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND a.ID_FUNCIONARIO="+IdFuncionario+" AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO");
+                    "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND a.ID_FUNCIONARIO="+IdFuncionario+" AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -203,25 +203,14 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
-        #endregion
-
-
-        public List<Dictionary<string, string>> VerificaFalta(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaIdFuncionario(string NomeFuncionario)
         {
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var DiaValidar = new DateTime();
 
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
-
-
-                var cmdComando = CriarComandoSQL("select * from MARCACAO  WHERE DATA='" +
-                                                 DiaValidar.ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO=" +
-                                                 IdFuncionario + " order by HORA asc;");
+                var cmdComando = CriarComandoSQL(
+                    "SELECT   ID_FUNCIONARIO from FUNCIONARIO  WHERE NOME LIKE'%"+NomeFuncionario+"%'");
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -249,12 +238,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
-
-  
-
-        public List<Dictionary<string,string>> RecuperaJustificativas()
+        public List<Dictionary<string, string>> RecuperaJustificativas()
         {
-            
+
             List<Dictionary<string, string>> linhas = null;
 
             var cmdComando = CriarComandoSQL("SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA");
@@ -282,9 +268,52 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 FecharConexao(con);
             }
-            
+
 
             return linhas;
         }
+
+        public List<Dictionary<string, string>> RecuperaJustificativasFuncioanrio(string IdJustificativa)
+        {
+
+            List<Dictionary<string, string>> linhas = null;
+
+            var cmdComando = CriarComandoSQL("SELECT DESCRICAO FROM JUSTIFICATIVA WHERE  ID_JUSTIFICATIVA="+IdJustificativa+"");
+            try
+            {
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+
+            return linhas;
+        }
+
+
+        #endregion
+
+
+
+
+
     }
 }

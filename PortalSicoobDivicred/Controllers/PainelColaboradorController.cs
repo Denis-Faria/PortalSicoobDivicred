@@ -304,9 +304,6 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var CarregaDados = new QueryMysql();
-
-
-
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionariosSetor();
 
                 var QueryRh = new QueryMysqlRh();
@@ -314,6 +311,140 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["TotalColaborador"] = DadosColaborador.Count;
                 TempData["Total"] = VagasInternas.Count;
+
+                var Validacoes = new ValidacoesPonto();
+                var TabelasPonto = Validacoes.ValidarPonto();
+
+                #region Preenchimento Pendencias Ponto
+
+                TempData["TotalPonto"] = TabelasPonto[0].Count;
+                TempData["ExtraPendente1"] = "hidden";
+                TempData["ExtraPendente2"] = "hidden";
+                TempData["ExtraJustifica1"] = "hidden";
+                TempData["ExtraJustifica2"] = "hidden";
+                
+                for (int i = 0; i < TabelasPonto[0].Count; i++)
+                {
+                    TempData["TotalHorarioPonto"+i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+
+                    TempData["IdPonto" + i] = TabelasPonto[0][i]["IdFuncionario"];
+
+                    TempData["NomePonto" + i] = TabelasPonto[0][i]["NomeFuncionario"];
+
+                    TempData["Dia"] = Convert.ToDateTime(TabelasPonto[0][i]["DataPendencia"]).ToString("dd/MM/yyyy");
+                    TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+
+                    for (int j = 0; j < Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]); j++)
+                    {
+                        TempData["Hora" + j +i] = TabelasPonto[0][i]["Hora" + j];
+                    }
+                    if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0)
+                    {
+                        TempData["TotalHorarioPonto" + i] = 4;
+                    }
+                    if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 5)
+                    {
+                        TempData["ExtraPendente1"] = "";
+                    }
+                    else if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 6)
+                    {
+                        TempData["ExtraPendente1"] = "";
+                        TempData["ExtraPendente2"] = "";
+                    }
+
+
+                }
+
+                #endregion
+
+                #region Preenchimento Sem pendencia
+
+                TempData["TotalSemPendencia"] = TabelasPonto[1].Count;
+                for (int i = 0; i < TabelasPonto[1].Count; i++)
+                {
+                    TempData["IdPontoCerto" + i] = TabelasPonto[1][i]["IdFuncionario"];
+
+                    TempData["NomePontoCerto" + i] = TabelasPonto[1][i]["NomeFuncionario"];
+
+                    TempData["DiaCerto"+i] = Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
+
+                    TempData["HoraCerto0"+i] = TabelasPonto[1][i]["Hora0"];
+                    TempData["HoraCerto1"+i] = TabelasPonto[1][i]["Hora1"];
+                    TempData["HoraCerto2"+i] = TabelasPonto[1][i]["Hora2"];
+                    TempData["HoraCerto3"+i] = TabelasPonto[1][i]["Hora3"];
+
+                    TempData["JornadaCerto"+i]= TabelasPonto[1][i]["Jornada"];
+                    if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 && TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes<0)
+                    {
+                        TempData["DebitoCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
+                        TempData["HoraExtraCerto" + i] = "";
+                    }
+                    else
+                    {
+                        TempData["DebitoCerto" + i] = "";
+                        TempData["HoraExtraCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
+                    }
+
+
+                }
+
+                #endregion
+
+                #region Preenchimento pendencias MYSQL
+
+                TempData["TotalSemConfirmar"] = TabelasPonto[2].Count;
+                for (int i = 0; i < TabelasPonto[2].Count; i++)
+                {
+                    TempData["IdPendencia" + i] = TabelasPonto[2][i]["IdPendencia"];
+
+
+                    TempData["NomePendencia" + i] = TabelasPonto[2][i]["Nome"];
+
+
+                    TempData["DiaPendencia" + i] = Convert.ToDateTime(TabelasPonto[2][i]["Data"]).ToString("dd/MM/yyyy");
+
+                    TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]);
+                    
+                    for (int j = 0; j < Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]); j++)
+                    {
+                       
+                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[2][i]["Horario"+j];
+                    }
+                    if (4 - Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) > 0)
+                    {
+                        TempData["TotalHorarioPendencia" + i] = 4;
+                    }
+
+                    if (Convert.ToBoolean(TabelasPonto[2][i]["Justificado"]))
+                    {
+                        TempData["StatusJustificativa" + i] = "green";
+                        TempData["Justificativa" + i] = TabelasPonto[2][i]["Justificativa" + i];
+                        
+                    }
+                    else
+                    {
+                        TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
+                        TempData["StatusJustificativa" + i] = "red";
+                        
+                    }
+
+                    TempData["StatusJustificativaGetor" + i]= TabelasPonto[2][i]["ConfirmaGestor"];
+                    if (Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) == 5)
+                    {
+                        TempData["ExtraJustifica1"] = "";
+                    }
+                    else if (Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) == 6)
+                    {
+                        TempData["ExtraJustifica1"] = "";
+                        TempData["ExtraJustifica2"] = "";
+                    }
+                    
+
+                }
+
+                #endregion
+
+
 
                 for (var j = 0; j < VagasInternas.Count; j++)
 
@@ -326,6 +457,7 @@ namespace PortalSicoobDivicred.Controllers
                     else
                         TempData["StatusVaga " + j] = "red";
                 }
+
                 for (var i = 0; i < DadosColaborador.Count; i++)
                 {
                     TempData["Nome" + i] = DadosColaborador[i]["nome"];
@@ -367,7 +499,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
                     TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
 
-                    var bytes = (byte[]) DocumentosUpados.Rows[i]["arquivo"];
+                    var bytes = (byte[])DocumentosUpados.Rows[i]["arquivo"];
                     var img64 = Convert.ToBase64String(bytes);
                     var img64Url = string.Format("data:image/;base64,{0}", img64);
                     TempData["Imagem" + DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
@@ -624,18 +756,17 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var RecuperaId = new QueryMysql();
                     var DadosFuncionario =
-                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(TabelaPendencias[i].Nome);
+                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(TabelaPendencias[i].Nome.Replace("'",""));
                     try
                     {
-                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"]);
+                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"], Convert.ToDateTime(TabelaPendencias[i].Dia));
                         if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
                         {
                         }
                         else
                         {
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0",
-                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                                TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0");
                         }
                         if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
                         {
@@ -643,8 +774,7 @@ namespace PortalSicoobDivicred.Controllers
                         else
                         {
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0",
-                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                                TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0");
                         }
                         if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
                         {
@@ -652,8 +782,7 @@ namespace PortalSicoobDivicred.Controllers
                         else
                         {
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0",
-                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                                TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0");
                         }
                         if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
                         {
@@ -661,8 +790,23 @@ namespace PortalSicoobDivicred.Controllers
                         else
                         {
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0",
-                                Convert.ToDateTime(TabelaPendencias[i].Dia));
+                                TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0");
+                        }
+                        if (TabelaPendencias[i].Horario5.Length == 0 || TabelaPendencias[i].Horario5.Contains("--"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario5), TabelaPendencias[i].Id, "0");
+                        }
+                        if (TabelaPendencias[i].Horario6.Length == 0 || TabelaPendencias[i].Horario4.Contains("--") || TabelaPendencias[i].Horario6.Contains("<"))
+                        {
+                        }
+                        else
+                        {
+                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
+                                TimeSpan.Parse(TabelaPendencias[i].Horario6), TabelaPendencias[i].Id, "0");
                         }
                     }
                     catch
@@ -672,6 +816,11 @@ namespace PortalSicoobDivicred.Controllers
                 return Json("Ok");
             }
             return Json("Ok");
+        }
+
+        public ActionResult NegarJustificativa(object idhistorico)
+        {
+            throw new NotImplementedException();
         }
     }
 }

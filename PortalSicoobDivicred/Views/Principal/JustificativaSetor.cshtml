@@ -1,0 +1,91 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hora").mask('00:00');
+    });
+  
+</script>
+
+<table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
+    <thead>
+    <th>ID</th>
+    <th>Funcionário</th>
+    <th>Dia</th>
+    <th>Entrada</th>
+    <th>Saída Almoço</th>
+    <th>Volta Almoço</th>
+    <th>Saída</th>
+    <th @TempData["Extra1"]>Extra 1</th>
+    <th @TempData["Extra2"]>Extra 2</th>
+    <th>Jusificativa</th>
+    @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
+    {
+        using (Html.BeginForm("JustificativasGestor", "Principal"))
+        {
+            <tr>
+                <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]</td>
+                <td>
+                    <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
+                </td>
+                <td>
+                    <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia"+i]" hidden="true" /> @TempData["DiaPendencia" + i]
+                </td>
+                @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
+                {
+                    <td>
+                        @TempData["Hora" + k + "Pendencia" + i]
+                    </td>
+                }
+
+                @for (int k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
+                {
+
+                    <td>
+                    </td>
+                }
+                @if (@TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i])!=5)
+                {
+                    <td></td>
+                }
+                @if (@TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                {
+                    <td></td>
+                }
+                <td>
+                    <span class="icon is-small" data-balloon="@TempData["Justificativa"+i]" data-balloon-pos="up">
+                        <i class="fa fa-check-square-o" aria-hidden="true" style="color: @TempData["StatusJustificativa" + i]" ></i>
+                    </span>
+                </td>
+                <td @TempData["Esconde" + i]>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <button type="submit" class="button is-success">
+                                <span class="icon is-small">
+                                    <i class="fa fa-thumbs-o-up"></i>
+                                </span>
+                                <span> Confirmar Justificativa</span>
+                            </button>
+                        </p>
+                        <p class="control">
+                        <button type="button" class="button is-danger" onclick="location.href='@Url.Action("NegarJustificativa","Principal", new{IdHistorico=@TempData["IdPendencia"+i]})'">
+                            <span class="icon is-small">
+                                <i class="fa fa-thumbs-o-down"></i>
+                            </span>
+                            <span> Negar Justificativa</span>
+                        </button>
+                        </p>
+                    </div>
+                </td>
+
+            </tr>
+        }
+    }
+
+
+</table>
+
+

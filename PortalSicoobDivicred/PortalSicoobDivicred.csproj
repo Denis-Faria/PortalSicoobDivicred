@@ -223,6 +223,7 @@
     <Content Include="Assets\css\Bulma\_layouts\default.html" />
     <Content Include="Assets\css\bulma-steps\bulma-steps-example.png" />
     <Content Include="Assets\css\bulma-steps\steps.js" />
+    <Content Include="Images\Sem pendencias.png" />
     <Content Include="node_modules\install\docs\docco.css" />
     <Content Include="node_modules\install\docs\install.html" />
     <Content Include="node_modules\install\docs\public\stylesheets\normalize.css" />
@@ -464,6 +465,7 @@
     <Content Include="Views\PainelColaborador\ModalEditarVagaInterna.cshtml" />
     <Content Include="Views\PainelColaborador\GerenciarVaga.cshtml" />
     <Content Include="Views\Principal\JustificativaPonto.cshtml" />
+    <Content Include="Views\Principal\JustificativaSetor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

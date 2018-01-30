@@ -53,12 +53,12 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoCurriculo"] = "";
                 if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
                 {
-                    TempData["PermissaoGestor"] = "<li id='AbaJustificaSetor'>< a href = '#JustificativaSetor' onclick = 'javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();' >< span class='icon is-small'><i class='fa fa-list'></i></span><span>Justificativas do meu setor</span></a></li>";
+                    TempData["PermissaoGestor"] = "";
                     TempData["AreaGestor"] = "";
                 }
                 else
                 {
-                    TempData["PermissaoGestor"] = "";
+                    TempData["PermissaoGestor"] = "hidden";
                     TempData["AreaGestor"] = "hidden";
                 }
 
@@ -352,99 +352,225 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Justificativas()
         {
-            var QueryRh = new QueryMysqlRh();
+            var Validacoes = new ValidacoesPonto();
             var QueryFire = new QueryFirebird();
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
+
             var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-            var DadosPendencias = QueryRh.RetornaIdPendenciasNaoJustificada(DadosTabelaFuncionario[0]["id"]);
+            var DadosPendencias = Validacoes.RetornaPendenciasFuncionario(DadosTabelaFuncionario[0]["id"]);
+
+
             var JustificativasFirebird = QueryFire.RecuperaJustificativas();
-            
+
 
             TempData["TotalJustificativas"] = JustificativasFirebird.Count;
+            TempData["TotalPonto"] = DadosPendencias.Count;
 
             for (int j = 0; j < JustificativasFirebird.Count; j++)
             {
                 TempData["Justificativa" + j] = JustificativasFirebird[j]["DESCRICAO"];
-                TempData["IdJustificativa" + j]= JustificativasFirebird[j]["ID_JUSTIFICATIVA"];
+                TempData["IdJustificativa" + j] = JustificativasFirebird[j]["ID_JUSTIFICATIVA"];
             }
 
+
+            TempData["Extra1"] = "hidden";
+            TempData["Extra2"] = "hidden";
             for (int i = 0; i < DadosPendencias.Count; i++)
             {
-                var DadosHistorico = QueryRh.RetornaPendenciasNaoJustificada(DadosPendencias[i]["id"]);
-                TempData["NomePendencia" + i] = DadosTabelaFuncionario[0]["nome"];
-                TempData["IdFuncionario" + i] = DadosHistorico[0]["idfuncionariofirebird"];
-                TempData["IdPendencia" + i] = DadosPendencias[i]["id"];
-
-
-                TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosHistorico[0]["data"]).ToString("dd/MM/yyyy");
-                TempData["TotalHorarios" +i] = 4- DadosHistorico.Count ;
-
-                if (DadosHistorico.Count == 1)
+                if (!Convert.ToBoolean(DadosPendencias[i]["ConfirmaGestor"]))
                 {
-                    TempData["Hora1Pendencia" + i] = DadosHistorico[0]["horario"];
 
-                    TempData["Hora2Pendencia" + i] = "|";
+                    TempData["IdPendencia" + i] = DadosPendencias[i]["IdPendencia"];
+                    TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
+                    TempData["IdFuncionario" + i] = DadosPendencias[0]["IdFuncionarioFireBird"];
+                    TempData["TotalHorarioPendencia" + i] = DadosPendencias[i]["TotalHorario"];
 
-                    TempData["Hora3Pendencia" + i] = "|";
+                    if (4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) > 0)
+                    {
+                        TempData["TotalTextBox" + i] = 4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]);
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 5)
+                        {
+                            TempData["Extra1"] = "";
+                        }
+                        else if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 6)
+                        {
+                            TempData["Extra1"] = "";
+                            TempData["Extra2"] = "";
+                        }
+                        TempData["TotalTextBox" + i] = 0;
+                    }
 
-                    TempData["Hora4Pendencia" + i] = "|";
+                    for (int j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
+                    {
+
+                        TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
+
+
+                    }
+
+
+                    if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
+                    {
+                        TempData["Esconde" + i] = "hidden";
+                    }
+                    else
+                    {
+                        TempData["Esconde" + i] = "";
+                    }
                 }
-                
-                else if (DadosHistorico.Count == 2)
-                {
-                    TempData["Hora1Pendencia" + i] =
-                        DadosHistorico[0]["horario"];
-
-                    TempData["Hora2Pendencia" + i] =
-                        DadosHistorico[1]["horario"];
-
-                    TempData["Hora3Pendencia" + i] ="|";
-
-                    TempData["Hora4Pendencia" + i] = "|";
-
-                }
-                else if (DadosHistorico.Count == 3)
-                {
-                    TempData["Hora1Pendencia" + i] =
-                        DadosHistorico[0]["horario"];
-
-                    TempData["Hora2Pendencia" + i] =
-                        DadosHistorico[1]["horario"];
-
-                    TempData["Hora3Pendencia" + i] =
-                        DadosHistorico[2]["horario"];
-
-                    TempData["Hora4Pendencia" + i] = "|";
-
-                }
-                else if (DadosHistorico.Count == 4)
-                {
-                   
-                    TempData["Hora1Pendencia" + i] =
-                        DadosHistorico[0]["horario"];
-
-                    TempData["Hora2Pendencia" + i] =
-                        DadosHistorico[1]["horario"];
-
-                    TempData["Hora3Pendencia" + i] =
-                        DadosHistorico[2]["horario"];
-
-                    TempData["Hora4Pendencia" + i] =
-                        DadosHistorico[3]["horario"];
-                    TempData["Esconde" + i] = "hidden";
-                }
-
             }
-            TempData["TotalPonto"] = DadosPendencias.Count;
-
-
-
             return PartialView("JustificativaPonto");
         }
         [HttpPost]
-        public ActionResult Justificativas(FormCollection Formulario)
+        public ActionResult Justificativas(JustificativaPonto Justificativa,FormCollection Formulario)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+
+
+                var Keys = Formulario.AllKeys;
+                for (int i = 0; i < Formulario.Count; i++)
+                {
+                    if (Formulario.AllKeys[i].Contains("Id"))
+                    {
+                        var IdHistorico = Formulario[i];
+                        var TemHorario = true;
+                        
+                        
+                            if (Keys.Contains("Hora 0 " + IdHistorico))
+                            {
+                                VerificaDados.InseriJustificativa(IdHistorico,
+                                    TimeSpan.Parse(Formulario["Hora 0 " + IdHistorico]),
+                                    Formulario["Funcionario " + IdHistorico + ""],
+                                    Formulario["JustificativaFire " + IdHistorico + ""]);
+                                TemHorario = false;
+                            }
+                            if (Formulario.AllKeys.Contains("Hora 1 " + IdHistorico))
+                            {
+                                VerificaDados.InseriJustificativa(IdHistorico,
+                                    TimeSpan.Parse(Formulario["Hora 1 " + IdHistorico]),
+                                    Formulario["Funcionario " + IdHistorico + ""],
+                                    Formulario["JustificativaFire " + IdHistorico + ""]);
+                                TemHorario = false;
+                            }
+                            if (Keys.Contains("Hora 2 " + IdHistorico))
+                            {
+                                VerificaDados.InseriJustificativa(IdHistorico,
+                                    TimeSpan.Parse(Formulario["Hora 2 " + IdHistorico]),
+                                    Formulario["Funcionario " + IdHistorico + ""],
+                                    Formulario["JustificativaFire " + IdHistorico + ""]);
+                                TemHorario = false;
+                            }
+                            if (Formulario.AllKeys.Contains("Hora 3 " + IdHistorico))
+                            {
+                                VerificaDados.InseriJustificativa(IdHistorico,
+                                    TimeSpan.Parse(Formulario["Hora 3 " + IdHistorico]),
+                                    Formulario["Funcionario " + IdHistorico + ""],
+                                    Formulario["JustificativaFire " + IdHistorico + ""]);
+                                TemHorario = false;
+                            }
+                            if (TemHorario)
+                            {
+                                VerificaDados.AtualizaJustificativa(IdHistorico,
+                                    Formulario["JustificativaFire " + IdHistorico + ""]);
+                            }
+
+                        }
+                  
+
+                }
+                return RedirectToAction("Principal", "Principal",
+                    new
+                    {
+                        Acao = "Dashboard",
+                        Mensagem = "!",
+                        Controlle = "Principal"
+                    });
+
+            }
+            return RedirectToAction("Login", "Login");
+
+        }
+
+        public ActionResult JustificativasSetor()
+        {
+            var Validacoes = new ValidacoesPonto();
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+            var VerificaDados = new QueryMysql();
+
+            var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+            var DadosPendencias = Validacoes.RetornaPendenciasSetor(DadosTabelaFuncionario[0]["idsetor"]);
+
+            TempData["TotalPonto"] = DadosPendencias.Count;
+
+
+            TempData["Extra1"] = "hidden";
+            TempData["Extra2"] = "hidden";
+            for (int i = 0; i < DadosPendencias.Count; i++)
+            {
+                if (!Convert.ToBoolean(DadosPendencias[i]["ConfirmaGestor"]))
+                {
+
+                    TempData["IdPendencia" + i] = DadosPendencias[i]["IdPendencia"];
+                    TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
+                    TempData["IdFuncionario" + i] = DadosPendencias[0]["IdFuncionarioFireBird"];
+                    TempData["TotalHorarioPendencia" + i] = DadosPendencias[i]["TotalHorario"];
+
+                    if (4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) > 0)
+                    {
+                        TempData["TotalTextBox" + i] = 4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]);
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 5)
+                        {
+                            TempData["Extra1"] = "";
+                        }
+                        else if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 6)
+                        {
+                            TempData["Extra1"] = "";
+                            TempData["Extra2"] = "";
+                        }
+                        TempData["TotalTextBox" + i] = 0;
+                    }
+
+                    for (int j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
+                    {
+
+                        TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
+
+
+                    }
+                    if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
+                    {
+                        TempData["StatusJustificativa" + i] = "green";
+                        TempData["Justificativa" + i] = DadosPendencias[i]["Justificativa" + i];
+                        TempData["Esconde" + i] = "";
+                    }
+                    else
+                    {
+                        TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
+                        TempData["StatusJustificativa" + i] = "red";
+                        TempData["Esconde" + i] = "hidden";
+                    }
+                }
+            }
+            return PartialView("JustificativaSetor");
+        }
+
+        [HttpPost]
+        public ActionResult JustificativasGestor(FormCollection Formulario)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
@@ -455,35 +581,31 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     if (Formulario.AllKeys[i].Contains("Id"))
                     {
-                      var IdHistorico =  Formulario[i];
-
-                        if (Keys.Contains("Hora1  " + IdHistorico + " "))
-                        {
-                            VerificaDados.InseriJustificativa(IdHistorico,TimeSpan.Parse(Formulario["Hora1  " + IdHistorico + " "]),Formulario["Funcionario " + IdHistorico+""],Formulario["JustificativaFire " + IdHistorico+""],Convert.ToDateTime(Formulario["Data "+IdHistorico+""]));
-                        }
-                        if (Formulario.AllKeys.Contains("Hora2  " + IdHistorico + " "))
-                        {
-                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora2  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
-                        }
-                        if (Keys.Contains("Hora3  "+IdHistorico+" "))
-                        {
-                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora3  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
-                        }
-                        if (Formulario.AllKeys.Contains("Hora4  " + IdHistorico + " "))
-                        {
-                            VerificaDados.InseriJustificativa(IdHistorico, TimeSpan.Parse(Formulario["Hora4  " + IdHistorico + " "]), Formulario["Funcionario " + IdHistorico + ""], Formulario["JustificativaFire " + IdHistorico + ""], Convert.ToDateTime(Formulario["Data " + IdHistorico + ""]));
-                        }
-
+                        var IdHistorico = Formulario[i];
+                        VerificaDados.AtualizaJustificativaGestor(IdHistorico);
 
                     }
 
                 }
 
                 return RedirectToAction("Principal", "Principal",
-                    new { Acao = "Dashboard", Mensagem = "Justificativa cadastrada com sucesso !", Controlle = "Principal" });
+                    new { Acao = "Dashboard", Mensagem = "Justificativa confirmada com sucesso !", Controlle = "Principal" });
             }
             return RedirectToAction("Login", "Login");
 
+        }
+
+        public ActionResult NegarJustificativa(string IdHistorico)
+        {
+            var QueryRh = new QueryMysqlRh();
+            QueryRh.NegaJustificativa(IdHistorico);
+            return RedirectToAction("Principal", "Principal",
+                new
+                {
+                    Acao = "Dashboard",
+                    Mensagem = "Justificativa negada com sucesso!",
+                    Controlle = "Principal"
+                });
         }
     }
 }

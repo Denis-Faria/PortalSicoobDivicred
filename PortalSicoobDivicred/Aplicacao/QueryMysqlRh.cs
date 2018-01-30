@@ -97,22 +97,21 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComandoComRetorno(Query);
         }
 
-        public string InserirHistoricoJustificativa(string IdFuncionario)
+        public string InserirHistoricoJustificativa(string IdFuncionario,DateTime DataPendencia)
         {
             var Query =
-                "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario) VALUES('N','N'," +
-                IdFuncionario + ")";
+                "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario,data) VALUES('N','N'," +
+                IdFuncionario + ",'"+DataPendencia.ToString("yyyy/MM/dd")+"')";
             var IdHistorico = ConexaoMysql.ExecutaComandoComRetornoId(Query);
             return IdHistorico;
         }
 
         public void InserirHistoricoHorario(string IdHistorico, TimeSpan Horario, string IdFuncionario,
-            string IdJustificativa, DateTime Data)
+            string IdJustificativa)
         {
             var Query =
-                "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES(" +
-                IdHistorico + ",'" + Horario + "'," + IdFuncionario + "," + IdJustificativa + ",'" +
-                Data.Date.ToString("yyyy/MM/dd") + "')";
+                "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird) VALUES(" +
+                IdHistorico + ",'" + Horario + "'," + IdFuncionario + "," + IdJustificativa + ")";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
         }
 
@@ -146,23 +145,67 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public void InseriJustificativa(string IdHistorico,TimeSpan Horario,string Idfuncionariofirebird,string Idjustificativafirebird,DateTime Data)
+        public void InseriJustificativa(string IdHistorico,TimeSpan Horario,string Idfuncionariofirebird,string Idjustificativafirebird)
         {
-            var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird,data) VALUES("+IdHistorico+",'"+Horario+"',"+Idfuncionariofirebird+", "+Idjustificativafirebird+", '"+Data.ToString("yyyy/MM/dd")+"')";
+            var Query = "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird) VALUES("+IdHistorico+",'"+Horario+"',"+Idfuncionariofirebird+", "+Idjustificativafirebird+")";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
         }
 
         public List<Dictionary<string, string>> RetornaPendencias()
         {
-            var Query = "select a.id,a.validacaogestor,b.nome from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N' AND a.idfuncionario=b.id;";
+            var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N' AND a.idfuncionario=b.id;";
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
         }
         public List<Dictionary<string, string>> RetornaDadosPendencias(string IdHistorico)
         {
-            var Query = "select * from historicoshorariosponto where idhistorico="+IdHistorico+";";
+            var Query = "select * from historicoshorariosponto where idhistorico="+IdHistorico+" order by horario asc;";
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
+        }
+        public List<Dictionary<string, string>> RetornaPendenciasUsuario(string IdUsuario)
+        {
+            var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.id="+IdUsuario+";";
+            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
+        public void AtualizaJustificativa(string IdHistorico,string IdJustificativa )
+        {
+            var Query = "UPDATE historicoshorariosponto  SET idjustificativafirebird="+IdJustificativa+" WHERE idhistorico=" + IdHistorico + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            
+        }
+        public bool ValidaFirebirdMysql(string IdFuncionarioFirebird, DateTime DiaValidar)
+        {
+            var Query = "select count(a.id) as Total FROM historicoshorariosponto a, historicosjustificativaspontos b WHERE a.idhistorico=b.id AND b.data='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND a.idfuncionariofirebird="+IdFuncionarioFirebird+" and b.validacaorh='N';";
+           var Retorno= ConexaoMysql.ExecutaComandoComRetorno(Query);
+            if (Convert.ToInt32(Retorno[0]["Total"]) > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public List<Dictionary<string, string>> RetornaPendenciasSetor(string IdSetor)
+        {
+            var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.idsetor=" + IdSetor + ";";
+            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
+        public void AtualizaJustificativaGestor(string IdHistorico)
+        {
+            var Query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + IdHistorico + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+        }
+        public void NegaJustificativa(string IdHistorico)
+        {
+            var Query = "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" + IdHistorico + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
         }
     }
 }

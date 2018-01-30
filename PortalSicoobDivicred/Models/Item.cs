@@ -9,5 +9,7 @@
         public string Horario2 { get; set; }
         public string Horario3 { get; set; }
         public string Horario4 { get; set; }
+        public string Horario5 { get; set; }
+        public string Horario6 { get; set; }
     }
 }

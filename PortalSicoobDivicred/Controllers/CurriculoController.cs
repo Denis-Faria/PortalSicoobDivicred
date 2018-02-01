@@ -14,12 +14,14 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class CurriculoController : Controller
     {
-        public ActionResult Curriculo(string Ordenacao)
+        public ActionResult Curriculo(string Ordenacao,string Mensagem)
         {
             var VerificaDados = new QueryMysqlCurriculo();
+            var QueryFuncionario = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                TempData["Mensagem"] = Mensagem;
                 var CarregaDados = new QueryMysqlCurriculo();
                 List<Dictionary<string, string>> DadosCurriculos = null;
                 try
@@ -75,15 +77,47 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusVaga" + i] = "red";
                 }
 
+                var Cookie = Request.Cookies.Get("CookieFarm");
 
-                return PartialView("Curriculo");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+                if (QueryFuncionario.PrimeiroLogin(Login))
+                    return RedirectToAction("FormularioCadastro", "Principal");
+                var DadosUsuarioBanco = QueryFuncionario.RecuperaDadosUsuarios(Login);
+
+                if (QueryFuncionario.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoCurriculo"] =
+                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                else
+                    TempData["PermissaoCurriculo"] = "";
+                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "";
+                    TempData["AreaGestor"] = "";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "hidden";
+                    TempData["AreaGestor"] = "hidden";
+                }
+
+
+
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+                if (DadosUsuarioBanco[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+
+                return View("Curriculo");
             }
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult CurriculoArea(string Ordenacao, string Cidade, string Certificacao)
+        public ActionResult CurriculoArea(FormCollection Filtros)
         {
             var VerificaDados = new QueryMysqlCurriculo();
+            var QueryFuncionario = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -91,10 +125,10 @@ namespace PortalSicoobDivicred.Controllers
                 List<Dictionary<string, string>> DadosCurriculos = null;
                 try
                 {
-                    if (Ordenacao.Length == 0)
-                        DadosCurriculos = CarregaDados.RecuperaCurriculos();
+                    if (Filtros["FiltroArea"].Contains("Filtrar Área"))
+                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"], Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"]);
                     else
-                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Ordenacao, Cidade, Certificacao);
+                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Filtros["FiltroArea"], Filtros["FiltroCidade"], Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"]);
                 }
                 catch
                 {
@@ -136,19 +170,52 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusVaga" + i] = "red";
                 }
 
+                var Cookie = Request.Cookies.Get("CookieFarm");
 
-                return PartialView("Curriculo");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+                if (QueryFuncionario.PrimeiroLogin(Login))
+                    return RedirectToAction("FormularioCadastro", "Principal");
+                var DadosUsuarioBanco = QueryFuncionario.RecuperaDadosUsuarios(Login);
+
+                if (QueryFuncionario.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoCurriculo"] =
+                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                else
+                    TempData["PermissaoCurriculo"] = "";
+                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "";
+                    TempData["AreaGestor"] = "";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "hidden";
+                    TempData["AreaGestor"] = "hidden";
+                }
+
+
+
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+                if (DadosUsuarioBanco[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+
+                return View("Curriculo");
             }
             return RedirectToAction("Login", "Login");
         }
 
 
-        public ActionResult GerenciarVaga(string IdVaga)
+        public ActionResult GerenciarVaga(string IdVaga,string Mensagem)
         {
             var VerificaDados = new QueryMysqlCurriculo();
+            var QueryFuncionario = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                TempData["Mensagem"] = Mensagem;
                 var RecuperaDados = new QueryMysqlCurriculo();
                 var DadosCurriculos = RecuperaDados.RecuperaCurriculosHistorico(IdVaga);
                 TempData["TotalCurriculo"] = DadosCurriculos.Count;
@@ -202,7 +269,38 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
                 }
-                return PartialView("GerenciarVaga");
+                var Cookie = Request.Cookies.Get("CookieFarm");
+
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+                if (QueryFuncionario.PrimeiroLogin(Login))
+                    return RedirectToAction("FormularioCadastro", "Principal");
+                var DadosUsuarioBanco = QueryFuncionario.RecuperaDadosUsuarios(Login);
+
+                if (QueryFuncionario.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoCurriculo"] =
+                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                else
+                    TempData["PermissaoCurriculo"] = "";
+                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "";
+                    TempData["AreaGestor"] = "";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "hidden";
+                    TempData["AreaGestor"] = "hidden";
+                }
+
+
+
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+                if (DadosUsuarioBanco[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+                return View("GerenciarVaga");
             }
             return RedirectToAction("Login", "Login");
         }
@@ -216,7 +314,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var CadastrarVaga = new QueryMysqlCurriculo();
 
-                if (Vagas.Count == 6)
+                if (Vagas.Count == 5)
                     ModelState.AddModelError("", "Favor selecionar uma área de interesse !");
                 if (ModelState.IsValid)
                 {
@@ -261,12 +359,10 @@ namespace PortalSicoobDivicred.Controllers
                     catch
                     {
                     }
-                    TempData["Opcao"] = "Curriculo";
 
-                    return RedirectToAction("Principal", "Principal",
-                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo"});
+                    return RedirectToAction("Curriculo","Curriculo",new{Mensagem="Vaga cadastrada com sucesso !"});
                 }
-                return RedirectToAction("Principal", "Principal", new {Acao = "Curriculo"});
+                return View("Curriculo",Vaga);
             }
             return RedirectToAction("Login", "Login");
         }
@@ -587,7 +683,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
                 }
-                return PartialView("GerenciarVaga");
+                return View("GerenciarVaga");
             }
             return RedirectToAction("Login", "Login");
         }
@@ -601,8 +697,7 @@ namespace PortalSicoobDivicred.Controllers
                 var RecuperaDados = new QueryMysqlCurriculo();
                 var Vaga = IdVaga.Split('-');
                 RecuperaDados.EncerrarVaga(Vaga[0]);
-                return RedirectToAction("Principal", "Principal",
-                    new {Acao = "Curriculo", Mensagem = "Vaga encerrada com sucesso !", Controlle = "Curriculo"});
+                return RedirectToAction("GerenciarVaga","Curriculo",new{IdVaga=IdVaga,Mensagem="Vaga encerrada com sucesso !"});
             }
             return RedirectToAction("Login", "Login");
         }
@@ -697,13 +792,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-                return RedirectToAction("Principal", "Principal",
-                    new
-                    {
-                        Acao = "Curriculo",
-                        Mensagem = "Processo seletivo inciado com sucesso !",
-                        Controlle = "Curriculo"
-                    });
+                return RedirectToAction("GerenciarVaga", "Curriculo", new { IdVaga = Vaga[0], Mensagem = "Processo seletivo aberto sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }
@@ -785,8 +874,7 @@ namespace PortalSicoobDivicred.Controllers
                 CadastrarAlertas.CadastrarAlerta(Alerta["TextAlerta"]);
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal", "Principal",
-                    new {Acao = "Curriculo", Mensagem = "Alerta cadastrado com sucesso !", Controlle = "Curriculo"});
+                return RedirectToAction("Curriculo", "Curriculo", new { Mensagem = "Alerta cadastrado com sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }
@@ -802,8 +890,7 @@ namespace PortalSicoobDivicred.Controllers
                 CadastrarMensagens.CadastrarMensagem(Mensagem["TextMensagem"]);
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal", "Principal",
-                    new {Acao = "Curriculo", Mensagem = "Mensagem cadastrada com sucesso !", Controlle = "Curriculo"});
+                return RedirectToAction("Curriculo", "Curriculo", new { Mensagem = "Mensagem cadastrada com sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }
@@ -937,13 +1024,7 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-                return RedirectToAction("Principal", "Principal",
-                    new
-                    {
-                        Acao = "Curriculo",
-                        Mensagem = "Processo seletivo encerrado com sucesso !",
-                        Controlle = "Curriculo"
-                    });
+                return RedirectToAction("GerenciarVaga", "Curriculo", new { IdVaga = Resultado["Vaga"], Mensagem = "Processo seleivo encerrado com sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }
@@ -1174,10 +1255,9 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Opcao"] = "Curriculo";
 
-                    return RedirectToAction("Principal", "Principal",
-                        new {Acao = "Curriculo", Mensagem = "Vaga cadastrada com sucesso !", Controlle = "Curriculo"});
+                    return RedirectToAction("Curriculo", "Curriculo", new { Mensagem = "Vaga específica cadastrada com sucesso !" });
                 }
-                return RedirectToAction("Curriculo", new {Acao = "Curriculo"});
+                return RedirectToAction("Curriculo");
             }
             return RedirectToAction("Login", "Login");
         }
@@ -1195,8 +1275,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["Opcao"] = "Curriculo";
 
-                return RedirectToAction("Principal", "Principal",
-                    new {Acao = "Curriculo", Mensagem = "Atribuição feita com sucesso!", Controlle = "Curriculo"});
+                return RedirectToAction("Curriculo", "Curriculo", new { Mensagem = "Vaga atribuida com sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }
@@ -1319,8 +1398,8 @@ namespace PortalSicoobDivicred.Controllers
 
                 VerificaDados.AtualizarVaga(Dados["IdVaga"], DadosVaga.Descricao, DadosVaga.Salario,
                     DadosVaga.Requisitos, DadosVaga.Titulo, DadosVaga.Beneficio, Ativa, Areas);
-                return RedirectToAction("Principal", "Principal",
-                    new {Acao = "Curriculo", Mensagem = "Vaga altrada com sucesso!", Controlle = "Curriculo"});
+
+                return RedirectToAction("Curriculo", "Curriculo", new { Mensagem = "Vaga atualizada com sucesso !" });
             }
             return RedirectToAction("Login", "Login");
         }

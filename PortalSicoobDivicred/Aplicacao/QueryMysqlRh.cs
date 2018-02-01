@@ -207,5 +207,16 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComandoComRetorno(Query);
 
         }
+        public void NegaJustificativaGestor(string IdHistorico)
+        {
+            var Query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" + IdHistorico + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+        }
+
+        public void CadastraAlertaJustificativa()
+        {
+            
+        }
     }
 }

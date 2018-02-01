@@ -163,7 +163,6 @@
     <Content Include="Assets\css\Bulma\bulma\bulma.min.css">
       <DependentUpon>bulma.css</DependentUpon>
     </Content>
-    <Content Include="Assets\css\font-awesome.min.css" />
     <Content Include="Assets\css\Imprimir.css" />
     <Content Include="Assets\css\iziToast.css" />
     <Content Include="Assets\css\iziToast.min.css" />
@@ -466,6 +465,7 @@
     <Content Include="Views\PainelColaborador\GerenciarVaga.cshtml" />
     <Content Include="Views\Principal\JustificativaPonto.cshtml" />
     <Content Include="Views\Principal\JustificativaSetor.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

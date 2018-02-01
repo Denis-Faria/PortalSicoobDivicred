@@ -207,14 +207,35 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area, string Cidade, string Certificacao)
+        public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area, string Cidade, string Certificacao,string Ordenacao)
         {
-            var QuerySelecionaCurriculo =
-                "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
-                Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
-                Certificacao + "%'";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            if (Ordenacao.Equals("Alfabetico"))
+            {
+                var QuerySelecionaCurriculo =
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
+                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
+                    Certificacao + "%' ORDER BY nome ASC";
+                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                return DadosCurriculos;
+            }
+            else if (Ordenacao.Equals("Status"))
+            {
+                var QuerySelecionaCurriculo =
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
+                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
+                    Certificacao + "%' ORDER BY status asc ";
+                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                return DadosCurriculos;
+            }
+            else
+            {
+                var QuerySelecionaCurriculo =
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where b.descricao like'%" +
+                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
+                    Certificacao + "%'";
+                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                return DadosCurriculos;
+            }
         }
 
 

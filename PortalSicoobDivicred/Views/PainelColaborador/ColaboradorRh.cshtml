@@ -393,7 +393,7 @@ var j = 0;
                 </span>
                 <span>Confirmar Pendências</span>
             </a>
-            <a class="button is-success" id="AlertaPendencia" onmouseleave="$('#AlertaPendencia').removeClass('animated pulse')" onmouseover="$('#AlertaPendencia').addClass('animated pulse');">
+            <a class="button is-success" id="AlertaPendencia" onmouseleave="$('#AlertaPendencia').removeClass('animated pulse')" onmouseover="$('#AlertaPendencia').addClass('animated pulse');" onclick="javascript:$('#ModalCadastrarAlerta').removeClass();$('#ModalCadastrarAlerta').addClass('modal is-active');;void (0);" data-balloon="Clique para adcionar um alerta para pendencias." data-balloon-pos="down">
                 <span class="icon is-small">
                     <i class="fa fa-bell"></i>
                 </span>
@@ -542,10 +542,10 @@ var j = 0;
                                     <i class="fa fa-check-square-o" aria-hidden="true" style="color: @TempData["StatusJustificativaGetor" + i]"></i>
                                 </span>
                             </td>
-                            <td>
+                            <td @TempData["Esconde" + i]>
                                 <div class="field has-addons">
                                     <p class="control">
-                                        <a type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
+                                        <a class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
                                             <span class="icon is-small">
                                                 <i class="fa fa-thumbs-o-up"></i>
                                             </span>
@@ -553,7 +553,7 @@ var j = 0;
                                     </p>
                                     <p class="control"></p>
                                     <p class="control">
-                                        <a class="button is-white" href='@Url.Action("NegarJustificativa", "PainelColaborador", new {IdHistorico = @TempData["IdPendencia" + i]})' data-balloon="Negar Justificativa" data-balloon-pos="up" style="color: red">
+                                        <a class="button is-outlined" href='@Url.Action("NegarJustificativa", "PainelColaborador", new {IdHistorico = @TempData["IdPendencia" + i]})' data-balloon="Negar Justificativa" data-balloon-pos="up" style="color: red">
                                             <span class="icon is-small">
                                                 <i class="fa fa-thumbs-o-down"></i>
                                             </span>
@@ -685,6 +685,7 @@ MODAL VAGA INTERNA
     </div>
 </form>
 }
+
 @using (Html.BeginForm("AtualizarVaga", "PainelColaborador"))
 {
 <div id="ModalEditarVaga" class="modal">
@@ -719,4 +720,45 @@ MODAL VAGA INTERNA
 
     </div>
 </div>
+}
+
+@using (Html.BeginForm("CadastraAlerta", "PainelColaborador"))
+{
+    <div id="ModalCadastrarAlerta" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Perfil</p>
+                <a href="javascript:$('#ModalCadastrarAlerta').removeClass();$('#ModalCadastrarAlerta').addClass('modal');void(0);" class="delete"></a>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div id="Alerta">
+                    <div class="field">
+                        <label class="label">Alerta:</label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="Ex: Favor justificar..." required>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-floppy-o"></i>
+                        </span>
+                        <span>Cadastrar Alerta</span>
+                    </button>
+
+                    <a class="button" href="javascript:$('#ModalCadastrarAlerta').removeClass();$('#ModalCadastrarAlerta').addClass('modal');void(0);">Cancelar</a>
+                </p>
+
+            </footer>
+
+
+        </div>
+    </div>
 }

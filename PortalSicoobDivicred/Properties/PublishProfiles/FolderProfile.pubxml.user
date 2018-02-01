@@ -634,13 +634,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>01/22/2018 16:53:49</publishTime>
+      <publishTime>02/01/2018 14:44:44</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>01/22/2018 16:53:49</publishTime>
+      <publishTime>02/01/2018 14:44:44</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -786,6 +786,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Images/PortalLogin.png">
       <publishTime>12/15/2017 01:28:16</publishTime>
     </File>
+    <File Include="Images/Sem pendencias.png">
+      <publishTime>01/30/2018 17:43:52</publishTime>
+    </File>
     <File Include="Images/sucesso.png">
       <publishTime>12/15/2017 01:28:09</publishTime>
     </File>
@@ -922,13 +925,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>12/15/2017 01:27:54</publishTime>
     </File>
     <File Include="Views/Curriculo/Curriculo.cshtml">
-      <publishTime>01/19/2018 11:18:41</publishTime>
+      <publishTime>02/01/2018 14:41:38</publishTime>
     </File>
     <File Include="Views/Curriculo/FormularioInicial.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
     </File>
     <File Include="Views/Curriculo/GerenciarVaga.cshtml">
-      <publishTime>01/19/2018 11:12:02</publishTime>
+      <publishTime>02/01/2018 13:36:56</publishTime>
     </File>
     <File Include="Views/Curriculo/ImprimirTodos.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
@@ -940,7 +943,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Views/Curriculo/PerfilProcesso.cshtml">
-      <publishTime>01/09/2018 14:05:06</publishTime>
+      <publishTime>02/01/2018 14:35:11</publishTime>
     </File>
     <File Include="Views/Curriculo/ResultadoProcesso.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
@@ -955,7 +958,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/22/2018 09:00:39</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ColaboradorRh.cshtml">
-      <publishTime>01/19/2018 11:12:02</publishTime>
+      <publishTime>01/31/2018 15:58:21</publishTime>
     </File>
     <File Include="Views/PainelColaborador/GerenciarVaga.cshtml">
       <publishTime>01/19/2018 11:12:02</publishTime>
@@ -979,7 +982,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>11/22/2017 14:56:05</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
-      <publishTime>01/23/2018 16:08:33</publishTime>
+      <publishTime>01/31/2018 09:34:03</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>01/19/2018 11:18:41</publishTime>
@@ -994,7 +997,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/02/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaPonto.cshtml">
-      <publishTime>01/22/2018 09:45:30</publishTime>
+      <publishTime>01/30/2018 17:43:22</publishTime>
+    </File>
+    <File Include="Views/Principal/JustificativaSetor.cshtml">
+      <publishTime>01/31/2018 08:33:58</publishTime>
     </File>
     <File Include="Views/Principal/ModalEditarVaga.cshtml">
       <publishTime>11/22/2017 14:59:54</publishTime>
@@ -1006,13 +1012,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/25/2017 13:19:45</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
-      <publishTime>01/19/2018 16:04:43</publishTime>
+      <publishTime>02/01/2018 14:46:37</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
       <publishTime>09/22/2017 12:55:15</publishTime>
     </File>
     <File Include="Views/Principal/WidgetVagas.cshtml">
       <publishTime>01/09/2018 14:05:07</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>02/01/2018 11:29:56</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>01/19/2018 11:18:41</publishTime>

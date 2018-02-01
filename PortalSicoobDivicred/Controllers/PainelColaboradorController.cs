@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Security.Policy;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
@@ -322,10 +323,10 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["ExtraPendente2"] = "hidden";
                 TempData["ExtraJustifica1"] = "hidden";
                 TempData["ExtraJustifica2"] = "hidden";
-                
+
                 for (int i = 0; i < TabelasPonto[0].Count; i++)
                 {
-                    TempData["TotalHorarioPonto"+i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+                    TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
 
                     TempData["IdPonto" + i] = TabelasPonto[0][i]["IdFuncionario"];
 
@@ -336,7 +337,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     for (int j = 0; j < Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]); j++)
                     {
-                        TempData["Hora" + j +i] = TabelasPonto[0][i]["Hora" + j];
+                        TempData["Hora" + j + i] = TabelasPonto[0][i]["Hora" + j];
                     }
                     if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0)
                     {
@@ -366,15 +367,17 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["NomePontoCerto" + i] = TabelasPonto[1][i]["NomeFuncionario"];
 
-                    TempData["DiaCerto"+i] = Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
+                    TempData["DiaCerto" + i] =
+                        Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
 
-                    TempData["HoraCerto0"+i] = TabelasPonto[1][i]["Hora0"];
-                    TempData["HoraCerto1"+i] = TabelasPonto[1][i]["Hora1"];
-                    TempData["HoraCerto2"+i] = TabelasPonto[1][i]["Hora2"];
-                    TempData["HoraCerto3"+i] = TabelasPonto[1][i]["Hora3"];
+                    TempData["HoraCerto0" + i] = TabelasPonto[1][i]["Hora0"];
+                    TempData["HoraCerto1" + i] = TabelasPonto[1][i]["Hora1"];
+                    TempData["HoraCerto2" + i] = TabelasPonto[1][i]["Hora2"];
+                    TempData["HoraCerto3" + i] = TabelasPonto[1][i]["Hora3"];
 
-                    TempData["JornadaCerto"+i]= TabelasPonto[1][i]["Jornada"];
-                    if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 && TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes<0)
+                    TempData["JornadaCerto" + i] = TabelasPonto[1][i]["Jornada"];
+                    if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 &&
+                        TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes < 0)
                     {
                         TempData["DebitoCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
                         TempData["HoraExtraCerto" + i] = "";
@@ -401,14 +404,15 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["NomePendencia" + i] = TabelasPonto[2][i]["Nome"];
 
 
-                    TempData["DiaPendencia" + i] = Convert.ToDateTime(TabelasPonto[2][i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData["DiaPendencia" + i] =
+                        Convert.ToDateTime(TabelasPonto[2][i]["Data"]).ToString("dd/MM/yyyy");
 
                     TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]);
-                    
+
                     for (int j = 0; j < Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]); j++)
                     {
-                       
-                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[2][i]["Horario"+j];
+
+                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[2][i]["Horario" + j];
                     }
                     if (4 - Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) > 0)
                     {
@@ -419,16 +423,17 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         TempData["StatusJustificativa" + i] = "green";
                         TempData["Justificativa" + i] = TabelasPonto[2][i]["Justificativa" + i];
-                        
+                        TempData["Esconde" + i] = "";
                     }
                     else
                     {
                         TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
                         TempData["StatusJustificativa" + i] = "red";
-                        
+                        TempData["Esconde" + i] = "hidden";
+
                     }
 
-                    TempData["StatusJustificativaGetor" + i]= TabelasPonto[2][i]["ConfirmaGestor"];
+                    TempData["StatusJustificativaGetor" + i] = TabelasPonto[2][i]["ConfirmaGestor"];
                     if (Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) == 5)
                     {
                         TempData["ExtraJustifica1"] = "";
@@ -438,7 +443,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ExtraJustifica1"] = "";
                         TempData["ExtraJustifica2"] = "";
                     }
-                    
+
 
                 }
 
@@ -499,7 +504,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
                     TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
 
-                    var bytes = (byte[])DocumentosUpados.Rows[i]["arquivo"];
+                    var bytes = (byte[]) DocumentosUpados.Rows[i]["arquivo"];
                     var img64 = Convert.ToBase64String(bytes);
                     var img64Url = string.Format("data:image/;base64,{0}", img64);
                     TempData["Imagem" + DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
@@ -756,10 +761,12 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var RecuperaId = new QueryMysql();
                     var DadosFuncionario =
-                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(TabelaPendencias[i].Nome.Replace("'",""));
+                        RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
+                            TabelaPendencias[i].Nome.Replace("'", ""));
                     try
                     {
-                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"], Convert.ToDateTime(TabelaPendencias[i].Dia));
+                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"],
+                            Convert.ToDateTime(TabelaPendencias[i].Dia));
                         if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
                         {
                         }
@@ -800,7 +807,8 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario5), TabelaPendencias[i].Id, "0");
                         }
-                        if (TabelaPendencias[i].Horario6.Length == 0 || TabelaPendencias[i].Horario4.Contains("--") || TabelaPendencias[i].Horario6.Contains("<"))
+                        if (TabelaPendencias[i].Horario6.Length == 0 || TabelaPendencias[i].Horario4.Contains("--") ||
+                            TabelaPendencias[i].Horario6.Contains("<"))
                         {
                         }
                         else
@@ -818,9 +826,44 @@ namespace PortalSicoobDivicred.Controllers
             return Json("Ok");
         }
 
-        public ActionResult NegarJustificativa(object idhistorico)
+        public ActionResult NegarJustificativa(string IdHistorico)
         {
-            throw new NotImplementedException();
+            var QueryRh = new QueryMysqlRh();
+            QueryRh.NegaJustificativa(IdHistorico);
+            QueryRh.NegaJustificativaGestor(IdHistorico);
+            return RedirectToAction("Principal", "Principal",
+                new
+                {
+                    Acao = "ColaboradorRh ",
+                    Mensagem = "Pendencia negada com sucesso !",
+                    Controlle = "PainelColaborador"
+                });
+        }
+
+        [HttpPost]
+        public ActionResult CadastraAlerta(FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysql();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                 
+
+
+                return RedirectToAction("Principal", "Principal",
+                    new
+                    {
+                        Acao = "ColaboradorRh ",
+                        Mensagem = "Alerta cadastrado com sucesso!",
+                        Controlle = "PainelColaborador"
+                    });
+            }
+            return RedirectToAction("Login", "Login");
         }
     }
 }

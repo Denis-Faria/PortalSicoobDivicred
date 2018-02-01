@@ -451,5 +451,11 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ComandoArquivo(Login);
             return Dados;
         }
+
+        public void cadastrarAlert(string IdUsuario,string IdAplicativo, string Descricao)
+        {
+            var Query = "INSERT INTO alertas (idusuario,idaplicativo,descricao,data) VALUES("+IdUsuario+","+IdAplicativo+",'"+Descricao+"',NOW())";
+            ConexaoMysql.ExecutaComando(Query);
+        }
     }
 }

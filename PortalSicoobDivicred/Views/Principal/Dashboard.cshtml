@@ -59,7 +59,7 @@
                                     <li id="AbaJustifica" class="is-active">
                                         <a href="#Justificativa" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
                                             <span class="icon is-small">
-                                                <i class="fa fa-pencil"></i>
+                                                <i class="fas fa-pencil-alt"></i>
                                             </span>
                                             <span>Justificativas</span>
                                         </a>
@@ -75,7 +75,7 @@
                                     <li id="AbaBancoHoraUsuario">
                                         <a href="#BancoDeHora" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaBancoHoraUsuario').addClass('is-active');$('#AbaJustificaSetor').removeClass();$('#AbaVagasInternas').removeClass();">
                                             <span class="icon is-small">
-                                                <i class="fa fa-clock-o"></i>
+                                                <i class="far fa-clock"></i>
                                             </span>
                                             <span>Banco de Horas</span>
                                         </a>
@@ -114,12 +114,12 @@
                                                     @TempData["TituloVagaInterna " + i]
                                                     <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
                                                         <span class="icon">
-                                                            <i class="fa fa-lg fa-info-circle"></i>
+                                                            <i class="fas  fa-info-circle"></i>
                                                         </span>
                                                     </a>
                                                     <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down">
                                                         <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                            <i class="fa fa-lg fa-check-circle"></i>
+                                                            <i class="fas fa-check-square"></i>
                                                         </span>
                                                     </a>
                                                 </p>
@@ -135,7 +135,7 @@
                                                     </a>
                                                     <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
                                                         <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                            <i class="fa fa-lg fa-thumbs-o-up"></i>
+                                                            <i class="fa fa-thumbs-up"></i>
                                                         </span>
                                                     </a>
                                                 </p>
@@ -147,12 +147,12 @@
                                                 @TempData["TituloVagaInterna " + i]
                                                 <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
                                                     <span class="icon">
-                                                        <i class="fa fa-lg fa-info-circle"></i>
+                                                        <i class="fa  fa-info-circle"></i>
                                                     </span>
                                                 </a>
                                                 <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
                                                     <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                        <i class="fa fa-lg fa-thumbs-o-up"></i>
+                                                        <i class="fa fa-thumbs-up"></i>
                                                     </span>
                                                 </a>
                                             </p>
@@ -161,7 +161,7 @@
                                 </ul>
                                 <footer class="card-footer">
                                     <p class="card-footer-item">
-                                        Resultado Processo Seletivo
+                                        <strong>Resultado Processo Seletivo</strong> 
                                     </p>
                                     <ul>
                                         @for (var j = 0; j < Convert.ToInt32(TempData["TotalProcessos"]); j++)
@@ -171,7 +171,7 @@
                                                 <p>
                                                     @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down">
                                                         <span class="icon">
-                                                            <i class="fa fa-lg fa-smile-o"></i>
+                                                            <i class="far  fa-smile"></i>
                                                         </span>
                                                     </a>
                                                 </p>
@@ -182,7 +182,7 @@
                                                 <p>
                                                     @TempData["TituloVagaInternaProcesso " + j] <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down">
                                                         <span class="icon">
-                                                            <i class="fa fa-lg fa-frown-o" style="color: darkred"></i>
+                                                            <i class="far  fa-frown" style="color: darkred"></i>
                                                         </span>
                                                     </a>
                                                 </p>

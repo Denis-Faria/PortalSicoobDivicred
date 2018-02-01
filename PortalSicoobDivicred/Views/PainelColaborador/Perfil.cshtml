@@ -2,226 +2,244 @@
 
 
 <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
 
 
-<script>
-    var Forma = 0;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-    function AdicionarFormacao() {
-        var x = document.createElement("INPUT");
-        var div = document.createElement('div');
-        var div2 = document.createElement('div');
-        var label = document.createElement("label");
+    <script>
+        var Forma = 0;
 
-        label.setAttribute("class", "label");
+        function AdicionarFormacao() {
+            var x = document.createElement("INPUT");
+            var div = document.createElement('div');
+            var div2 = document.createElement('div');
+            var label = document.createElement("label");
 
-        label.innerHTML = "Formação Acadêmica";
+            label.setAttribute("class", "label");
 
-        div.setAttribute("class", "field");
-        div2.setAttribute("class", "control");
+            label.innerHTML = "Formação Acadêmica";
 
-        x.setAttribute("type", "text");
-        x.setAttribute("id", "formacao " + Forma);
-        x.setAttribute("name", "formacao " + Forma);
-        x.setAttribute("class", "input");
-        Forma = Forma + 1;
-        document.getElementById("NovaFormacao").appendChild(div);
-        div.appendChild(div2);
-        div2.appendChild(label);
-        div2.appendChild(x);
-    }
+            div.setAttribute("class", "field");
+            div2.setAttribute("class", "control");
 
-    function BuscaCertificacao(Nome) {
-        $("#ConteudoCertificacao").empty();
-        $.ajax(
-            {
-                type: 'POST',
-                url: '/Principal/BuscaCertificacao',
-                dataType: 'html',
-                cache: true,
-                async: true,
-                data: { "IdFuncao": Nome.value },
-                success: function(data) {
-                    $("#ConteudoCertificacao").append(data);
-                    $("#Certificacoes").removeAttr("hidden");
+            x.setAttribute("type", "text");
+            x.setAttribute("id", "formacao " + Forma);
+            x.setAttribute("name", "formacao " + Forma);
+            x.setAttribute("class", "input");
+            Forma = Forma + 1;
+            document.getElementById("NovaFormacao").appendChild(div);
+            div.appendChild(div2);
+            div2.appendChild(label);
+            div2.appendChild(x);
+        }
 
+        function BuscaCertificacao(Nome) {
+            $("#ConteudoCertificacao").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Principal/BuscaCertificacao',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdFuncao": Nome.value },
+                    success: function (data) {
+                        $("#ConteudoCertificacao").append(data);
+                        $("#Certificacoes").removeAttr("hidden");
+
+                    }
+                });
+        }
+
+        function EscondeProfissional() {
+            if ($("#DadosProfissionais").is(":visible")) {
+                $("#DadosProfissionais").addClass("animated fadeOut");
+
+                $("#DadosProfissionais").hide();
+            } else {
+                $("#DadosProfissionais").removeClass("animated fadeOut");
+                $("#DadosProfissionais").addClass("animated fadeIn");
+                $("#DadosProfissionais").show();
+            }
+        }
+
+        function EscondePessoal() {
+            if ($("#DadosPessoais").is(":visible")) {
+                $("#DadosPessoais").addClass("animated fadeOut");
+
+                $("#DadosPessoais").hide();
+            } else {
+                $("#DadosPessoais").removeClass("animated fadeOut");
+                $("#DadosPessoais").addClass("animated fadeIn");
+                $("#DadosPessoais").show();
+            }
+        }
+
+        function EscondeArquivoPessoal() {
+            if ($("#ArquivoPessoal").is(":visible")) {
+                $("#ArquivoPessoal").addClass("animated fadeOut");
+
+                $("#ArquivoPessoal").hide();
+            } else {
+                $("#ArquivoPessoal").removeClass("animated fadeOut");
+                $("#ArquivoPessoal").addClass("animated fadeIn");
+                $("#ArquivoPessoal").show();
+            }
+        }
+
+        function EscondeFormularioPessoal() {
+            if ($("#FormularioPessoal").is(":visible")) {
+                $("#FormularioPessoal").addClass("animated fadeOut");
+
+                $("#FormularioPessoal").hide();
+            } else {
+                $("#FormularioPessoal").removeClass("animated fadeOut");
+                $("#FormularioPessoal").addClass("animated fadeIn");
+                $("#FormularioPessoal").show();
+            }
+        }
+
+        $("#file-input").change(function () {
+            document.body.style.cursor = "wait";
+            var formData = new FormData();
+            var totalFiles = document.getElementById("file-input").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("file-input").files[i];
+
+                formData.append("file-input", file);
+            }
+            $.ajax({
+                type: "POST",
+                url: '/PainelColaborador/Upload',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("Imagem alterada com sucesso.");
+                    document.location.href = "/Principal/Principal";
                 }
             });
-    }
-
-    function EscondeProfissional() {
-        if ($("#DadosProfissionais").is(":visible")) {
-            $("#DadosProfissionais").addClass("animated fadeOut");
-
-            $("#DadosProfissionais").hide();
-        } else {
-            $("#DadosProfissionais").removeClass("animated fadeOut");
-            $("#DadosProfissionais").addClass("animated fadeIn");
-            $("#DadosProfissionais").show();
-        }
-    }
-
-    function EscondePessoal() {
-        if ($("#DadosPessoais").is(":visible")) {
-            $("#DadosPessoais").addClass("animated fadeOut");
-
-            $("#DadosPessoais").hide();
-        } else {
-            $("#DadosPessoais").removeClass("animated fadeOut");
-            $("#DadosPessoais").addClass("animated fadeIn");
-            $("#DadosPessoais").show();
-        }
-    }
-
-    function EscondeArquivoPessoal() {
-        if ($("#ArquivoPessoal").is(":visible")) {
-            $("#ArquivoPessoal").addClass("animated fadeOut");
-
-            $("#ArquivoPessoal").hide();
-        } else {
-            $("#ArquivoPessoal").removeClass("animated fadeOut");
-            $("#ArquivoPessoal").addClass("animated fadeIn");
-            $("#ArquivoPessoal").show();
-        }
-    }
-
-    function EscondeFormularioPessoal() {
-        if ($("#FormularioPessoal").is(":visible")) {
-            $("#FormularioPessoal").addClass("animated fadeOut");
-
-            $("#FormularioPessoal").hide();
-        } else {
-            $("#FormularioPessoal").removeClass("animated fadeOut");
-            $("#FormularioPessoal").addClass("animated fadeIn");
-            $("#FormularioPessoal").show();
-        }
-    }
-
-    $("#file-input").change(function() {
-        document.body.style.cursor = "wait";
-        var formData = new FormData();
-        var totalFiles = document.getElementById("file-input").files.length;
-        for (var i = 0; i < totalFiles; i++) {
-            var file = document.getElementById("file-input").files[i];
-
-            formData.append("file-input", file);
-        }
-        $.ajax({
-            type: "POST",
-            url: '/PainelColaborador/Upload',
-            data: formData,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                alert(data);
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                alert("Imagem alterada com sucesso.");
-                document.location.href = "/Principal/Principal";
-            }
         });
-    });
 
-    function UloadArquivoPessoal(NomeArquivo) {
-        document.body.style.cursor = "wait";
-        var formData = new FormData();
-        var totalFiles = document.getElementById(NomeArquivo).files.length;
-        for (var i = 0; i < totalFiles; i++) {
-            var file = document.getElementById(NomeArquivo).files[i];
+        function UloadArquivoPessoal(NomeArquivo) {
+            document.body.style.cursor = "wait";
+            var formData = new FormData();
+            var totalFiles = document.getElementById(NomeArquivo).files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById(NomeArquivo).files[i];
 
-            formData.append(NomeArquivo, file, NomeArquivo);
-        }
-        $.ajax({
-            type: "POST",
-            url: '/PainelColaborador/UploadArquivo',
-            data: formData,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                alert(data);
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                document.location.href =
-                    "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
+                formData.append(NomeArquivo, file, NomeArquivo);
             }
-        });
-    }
+            $.ajax({
+                type: "POST",
+                url: '/PainelColaborador/UploadArquivo',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    document.location.href =
+                        "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
+                }
+            });
+        }
 
 
-</script>
-
-
-<br/>
-<div class="container">
-<div class="box column is-12 is-narrow">
-    <article class="media">
-        <div class="media-left">
-            <figure class="image is-64x64">
-                <img src="@TempData["foto"]" alt="Image">
-            </figure>
-        </div>
-        <div class="media-content">
-            <div class="content">
-                <p>
-                    <strong>@TempData["NomeFuncionario"]</strong>
-                    <br/>
-                    <strong>Função: </strong>@TempData["Funcao"]
-                    <br/>
-                    <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
-                    <br>
-                </p>
-            </div>
-            <nav class="level is-mobile">
-                <div class="level-left">
-                    <div class="file is-small is-primary">
-                        <label class="file-label">
-                            <input class="file-input" id="file-input" type="file" name="resume">
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fa fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                    Alterar Foto Perfil
-                                </span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </article>
-</div>
-<div class="columns">
-<div class="column is-6">
-<div class="card ">
-    <header class="card-header">
-        <p class="card-header-title">
-            Dados Profissionais
-        </p>
-        <a href="javascript:EscondeProfissional();void(0);" class="card-header-icon" aria-label="more options">
-            <span class="icon">
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </span>
-        </a>
-    </header>
-    @using (Html.BeginForm("AtualizarDadosProfissionais", "PainelColaborador", FormMethod.Post, new {id = "FormProfissional"}))
+    </script>
+    <body>
+    @if (TempData["Mensagem"] != null)
     {
-        <div id="DadosProfissionais">
-            <div class="card-content">
-                <div class="field is-grouped column">
-                    <div class="control is-2 ">
-                        <label class="label">Setor</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new {id = "Setor"})
-                            @if (Convert.ToInt32(TempData["IdSetor"].ToString()) > 0)
-                            {
-                                @Html.Label("")
-                                <script>
+        @Html.Label("")
+
+
+        <script>
+
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]',
+            });
+
+        </script>
+    }
+        <br />
+        <div class="container">
+            <div class="box column is-12 is-narrow">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <img src="@TempData["foto"]" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>@TempData["NomeFuncionario"]</strong>
+                                <br />
+                                <strong>Função: </strong>@TempData["Funcao"]
+                                <br />
+                                <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
+                                <br>
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <div class="file is-small is-primary">
+                                    <label class="file-label">
+                                        <input class="file-input" id="file-input" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Alterar Foto Perfil
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="card ">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Dados Profissionais
+                            </p>
+                            <a href="javascript:EscondeProfissional();void(0);" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        @using (Html.BeginForm("AtualizarDadosProfissionais", "PainelColaborador", FormMethod.Post, new { id = "FormProfissional" }))
+                    {
+                        <div id="DadosProfissionais">
+                            <div class="card-content">
+                                <div class="field is-grouped column">
+                                    <div class="control is-2 ">
+                                        <label class="label">Setor</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
+                                            @if (Convert.ToInt32(TempData["IdSetor"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                                     function myFunction() {
 
                                         var s = document.getElementById("Setor");
@@ -241,20 +259,20 @@
                                     }
 
                                     myFunction();
-                                </script>
-                            }
-                        </div>
-                    </div>
-                    <div class="control is-4">
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
+                                    <div class="control is-4">
 
-                        <label class="label">Função</label>
-                        <div class="select">
-                            @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new {id = "Funcao", onchange = "BuscaCertificacao(this)"})
-                            @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
-                            @if (Convert.ToInt32(TempData["IdFuncao"].ToString()) > 0)
-                            {
-                                @Html.Label("")
-                                <script>
+                                        <label class="label">Função</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
+                                            @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
+                                            @if (Convert.ToInt32(TempData["IdFuncao"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                                     function myFunction() {
 
                                         var s = document.getElementById("Funcao");
@@ -274,438 +292,438 @@
                                     }
 
                                     myFunction();
-                                </script>
-                            }
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="content">
+                                    <blockquote id="Certificacoes">
+                                        <b>Certificações Obrigatórias</b>
+                                        <div id="ConteudoCertificacao">
+                                            <ul>
+                                                @for (var i = 0; i <= Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
+                                            {
+                                                <li>
+                                                    <p>@TempData["Certificacao" + i].ToString()</p>
+                                                </li>
+                                        }
+                                            </ul>
+                                        </div>
+                                        <br />
+                                        <label class="checkbox">
+                                            <input type="checkbox" @TempData["ConfirmaCertificacao"] id="ConfirmaCertificacoes" name="ConfirmaCertificacoes">
+                                            Possuo todas as certificações acima.
+                                        </label>
+                                    </blockquote>
+
+                                    <hr />
+                                    <div class="field">
+                                        <blockquote>
+                                            <p>
+                                                <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
+                                            </p>
+                                            <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
+                                            <br />
+                                            <b>Anuênio: R$@TempData["Anuenio"]</b>
+                                            <br />
+                                            <b>Ticket: R$@TempData["Ticket"]</b>
+                                            <br />
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a onclick="FormProfissional.submit();" class="card-footer-item">Salvar</a>
+                            </footer>
                         </div>
+                }
                     </div>
 
-                </div>
-                <div class="content">
-                    <blockquote id="Certificacoes">
-                        <b>Certificações Obrigatórias</b>
-                        <div id="ConteudoCertificacao">
-                            <ul>
-                                @for (var i = 0; i <= Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
-                                {
-                                    <li>
-                                        <p>@TempData["Certificacao" + i].ToString()</p>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                        <br/>
-                        <label class="checkbox">
-                            <input type="checkbox" @TempData["ConfirmaCertificacao"] id="ConfirmaCertificacoes" name="ConfirmaCertificacoes">
-                            Possuo todas as certificações acima.
-                        </label>
-                    </blockquote>
-
-                    <hr/>
-                    <div class="field">
-                        <blockquote>
-                            <p>
-                                <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
+                    <br />
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Formulário Pessoal
                             </p>
-                            <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
-                            <br/>
-                            <b>Anuênio: R$@TempData["Anuenio"]</b>
-                            <br/>
-                            <b>Ticket: R$@TempData["Ticket"]</b>
-                            <br/>
-                        </blockquote>
+                            <a href="javascript:EscondeFormularioPessoal();void(0);" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        @using (Html.BeginForm("AtualizarFormularioPessoal", "PainelColaborador", FormMethod.Post, new { id = "FormPerguntas" }))
+                    {
+                        <div id="FormularioPessoal">
+                            <div class="card-content">
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="label">Quantos Filhos você tem ?</label>
+                                        @Html.TextBoxFor(m => m.QuatidadeFilho, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control">
+                                        <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
+                                        @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control">
+                                        <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
+                                        @Html.TextBoxFor(m => m.ContatoEmergencia, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control">
+                                        <label class="label">Quais são seus principais hobbies ?</label>
+                                        @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control">
+                                        <label class="label">Qual sua comida favorita?</label>
+                                        @Html.TextBoxFor(m => m.ComidaFavorita, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control">
+                                        <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
+                                        @Html.TextBoxFor(m => m.Viagem, null, new { @class = "input" })
+                                        @Html.ValidationMessageFor(m => m.Viagem, null, new { style = "color:red" })
+                                    </div>
+                                    <br />
+
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a onclick="FormPerguntas.submit();" class="card-footer-item">Salvar</a>
+                            </footer>
+                        </div>
+                }
                     </div>
+
+
+                    <br />
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Arquivos Pessoais
+                            </p>
+                            <a href="javascript:EscondeArquivoPessoal();void(0);" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div id="ArquivoPessoal">
+                            <div class="card-content">
+                                <div class="file has-name is-fullwidth @TempData["StatusFoto"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Foto 3/4
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeFoto"]
+                                        </span>
+                                    </label>
+                                </div>
+                                <br />
+                                <div class="file has-name is-fullwidth @TempData["StatusCTPS"]">
+                                    <label class="file-label">
+                                        <input class="file-input" id="CTPS" onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                CTPS
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCTPS"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusPIS"]">
+                                    <label class="file-label">
+                                        <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                PIS
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomePIS"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusCPF"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                CPF
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCPF"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusRG"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                RG
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeRG"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusTitulo Eleitor"]">
+                                    <label class="file-label">
+                                        <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Título de Eleitor
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeTitulo Eleitor"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusCartao SUS"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Cartão SUS
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCartao SUS"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusCNH"] ">
+                                    <label class="file-label">
+                                        <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-check"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                CNH
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCNH"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusComprovante Endereco"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Comprovante de Endereço
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeComprovante Endereco"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusTipo Sanguineo"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="TipoRecrutamento Sanguineo" onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Tipo Sanguíneo
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeTipo Sanguineo"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusCertidao"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Certidão Nascimento/Casamento
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCertidao"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+                                <div class="file has-name is-fullwidth @TempData["StatusCertidao Filho"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Certidão(Filhos)
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeCertidao Filho"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <br />
+
+
+                                <div class="file has-name is-fullwidth @TempData["StatusReservista"]">
+                                    <label class="file-label">
+                                        <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fa fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Certificado de Reservista
+                                            </span>
+                                        </span>
+                                        <span class="file-name">
+                                            @TempData["NomeReservista"]
+                                        </span>
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
-            </div>
-            <footer class="card-footer">
-                <a onclick="FormProfissional.submit();" class="card-footer-item">Salvar</a>
-            </footer>
-        </div>
-    }
-</div>
-
-<br/>
-<div class="card">
-    <header class="card-header">
-        <p class="card-header-title">
-            Formulário Pessoal
-        </p>
-        <a href="javascript:EscondeFormularioPessoal();void(0);" class="card-header-icon" aria-label="more options">
-            <span class="icon">
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
-            </span>
-        </a>
-    </header>
-    @using (Html.BeginForm("AtualizarFormularioPessoal", "PainelColaborador", FormMethod.Post, new {id = "FormPerguntas"}))
-    {
-        <div id="FormularioPessoal">
-            <div class="card-content">
-                <div class="field">
-                    <div class="control">
-                        <label class="label">Quantos Filhos você tem ?</label>
-                        @Html.TextBoxFor(m => m.QuatidadeFilho, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.QuatidadeFilho, null, new {style = "color:red"})
-                    </div>
-                    <div class="control">
-                        <label class="label">Caso você tenha Filhos conte-nos quais as datas de nascimento deles ?</label>
-                        @Html.TextBoxFor(m => m.DataNascimentoFilho, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.DataNascimentoFilho, null, new {style = "color:red"})
-                    </div>
-                    <div class="control">
-                        <label class="label">Em caso de uma emergência devemos ligar para quem ?</label>
-                        @Html.TextBoxFor(m => m.ContatoEmergencia, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.ContatoEmergencia, null, new {style = "color:red"})
-                    </div>
-                    <div class="control">
-                        <label class="label">Quais são seus principais hobbies ?</label>
-                        @Html.TextBoxFor(m => m.PrincipaisHobbies, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.PrincipaisHobbies, null, new {style = "color:red"})
-                    </div>
-                    <div class="control">
-                        <label class="label">Qual sua comida favorita?</label>
-                        @Html.TextBoxFor(m => m.ComidaFavorita, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.ComidaFavorita, null, new {style = "color:red"})
-                    </div>
-                    <div class="control">
-                        <label class="label">Você gosta de viajar ? Se sim quais os principais destinos que você gostaria de ir.</label>
-                        @Html.TextBoxFor(m => m.Viagem, null, new {@class = "input"})
-                        @Html.ValidationMessageFor(m => m.Viagem, null, new {style = "color:red"})
-                    </div>
-                    <br/>
-
-                </div>
-            </div>
-            <footer class="card-footer">
-                <a onclick="FormPerguntas.submit();" class="card-footer-item">Salvar</a>
-            </footer>
-        </div>
-    }
-</div>
 
 
-<br/>
-<div class="card">
-<header class="card-header">
-    <p class="card-header-title">
-        Arquivos Pessoais
-    </p>
-    <a href="javascript:EscondeArquivoPessoal();void(0);" class="card-header-icon" aria-label="more options">
-        <span class="icon">
-            <i class="fa fa-angle-down" aria-hidden="true"></i>
-        </span>
-    </a>
-</header>
-<div id="ArquivoPessoal">
-<div class="card-content">
-<div class="file has-name is-fullwidth @TempData["StatusFoto"]">
-    <label class="file-label">
-        <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Foto 3/4
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeFoto"]
-        </span>
-    </label>
-</div>
-<br/>
-<div class="file has-name is-fullwidth @TempData["StatusCTPS"]">
-    <label class="file-label">
-        <input class="file-input" id="CTPS" onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                CTPS
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCTPS"]
-        </span>
-    </label>
-</div>
+                <div class="column is-6">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Dados Pessoais
+                            </p>
+                            <a href="javascript:EscondePessoal();void(0);" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        @using (Html.BeginForm("AtualizaDadosPessoais", "PainelColaborador", FormMethod.Post, new { id = "FormPessoal" }))
+                    {
+                        <div id="DadosPessoais">
+                            <div class="card-content">
+                                <div class="field is-grouped">
+                                    <p class="control column is-6">
+                                        <label class="label">Nome</label>
+                                        @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", placeholder = "Ex:José Da Silva" })
+                                        @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new { style = "color:red" })
+                                    </p>
+                                    <div class="control column is-4">
+                                        <label class="label">CPF</label>
+                                        @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+                                <div class="field is-grouped">
+                                    <div class="control column is-4">
+                                        <label class="label">RG</label>
+                                        @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control column is-4">
+                                        <label class="label">PIS</label>
+                                        @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control column is-4">
+                                        <label class="label">Data Nascimento</label>
+                                        @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
 
-<br/>
+                                    </div>
+                                </div>
 
-<div class="file has-name is-fullwidth @TempData["StatusPIS"]">
-    <label class="file-label">
-        <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                PIS
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomePIS"]
-        </span>
-    </label>
-</div>
+                                <hr />
 
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusCPF"]">
-    <label class="file-label">
-        <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                CPF
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCPF"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusRG"]">
-    <label class="file-label">
-        <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                RG
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeRG"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusTitulo Eleitor"]">
-    <label class="file-label">
-        <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor"type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Título de Eleitor
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeTitulo Eleitor"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusCartao SUS"]">
-    <label class="file-label">
-        <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Cartão SUS
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCartao SUS"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusCNH"] ">
-    <label class="file-label">
-        <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')"type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-check"></i>
-            </span>
-            <span class="file-label">
-                CNH
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCNH"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusComprovante Endereco"]">
-    <label class="file-label">
-        <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Comprovante de Endereço
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeComprovante Endereco"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusTipo Sanguineo"]">
-    <label class="file-label">
-        <input class="file-input " id="TipoRecrutamento Sanguineo" onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Tipo Sanguíneo
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeTipo Sanguineo"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusCertidao"]">
-    <label class="file-label">
-        <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Certidão Nascimento/Casamento
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCertidao"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-<div class="file has-name is-fullwidth @TempData["StatusCertidao Filho"]">
-    <label class="file-label">
-        <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Certidão(Filhos)
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeCertidao Filho"]
-        </span>
-    </label>
-</div>
-
-<br/>
-
-
-<div class="file has-name is-fullwidth @TempData["StatusReservista"]">
-    <label class="file-label">
-        <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
-        <span class="file-cta">
-            <span class="file-icon">
-                <i class="fa fa-upload"></i>
-            </span>
-            <span class="file-label">
-                Certificado de Reservista
-            </span>
-        </span>
-        <span class="file-name">
-            @TempData["NomeReservista"]
-        </span>
-    </label>
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>
-
-
-<div class="column is-6">
-<div class="card">
-<header class="card-header">
-    <p class="card-header-title">
-        Dados Pessoais
-    </p>
-    <a href="javascript:EscondePessoal();void(0);" class="card-header-icon" aria-label="more options">
-        <span class="icon">
-            <i class="fa fa-angle-down" aria-hidden="true"></i>
-        </span>
-    </a>
-</header>
-@using (Html.BeginForm("AtualizaDadosPessoais", "PainelColaborador", FormMethod.Post, new {id = "FormPessoal"}))
-{
-    <div id="DadosPessoais">
-    <div class="card-content">
-    <div class="field is-grouped">
-        <p class="control column is-6">
-            <label class="label">Nome</label>
-            @Html.TextBoxFor(m => m.NomeFuncionario, null, new {@class = "input", placeholder = "Ex:José Da Silva"})
-            @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new {style = "color:red"})
-        </p>
-        <div class="control column is-4">
-            <label class="label">CPF</label>
-            @Html.TextBoxFor(m => m.CpfFuncionario, null, new {@class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario"})
-            @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new {style = "color:red"})
-        </div>
-    </div>
-    <div class="field is-grouped">
-        <div class="control column is-4">
-            <label class="label">RG</label>
-            @Html.TextBoxFor(m => m.RgFuncionario, null, new {@class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario"})
-            @Html.ValidationMessageFor(m => m.RgFuncionario, null, new {style = "color:red"})
-        </div>
-        <div class="control column is-4">
-            <label class="label">PIS</label>
-            @Html.TextBoxFor(m => m.PisFuncionario, null, new {@class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario"})
-            @Html.ValidationMessageFor(m => m.PisFuncionario, null, new {style = "color:red"})
-        </div>
-        <div class="control column is-4">
-            <label class="label">Data Nascimento</label>
-            @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new {@class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario"})
-            @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new {style = "color:red"})
-
-        </div>
-    </div>
-
-    <hr/>
-
-    <div class="field is-grouped column">
-        <div class="control is-2">
-            <label class="label">Sexo</label>
-            <div class="select">
-                @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU SEXO", new {id = "Sexo"})
-                @if (Convert.ToInt32(TempData["IdSexo"].ToString()) > 0)
-                {
-                    @Html.Label("")
-                    <script>
+                                <div class="field is-grouped column">
+                                    <div class="control is-2">
+                                        <label class="label">Sexo</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU SEXO", new { id = "Sexo" })
+                                            @if (Convert.ToInt32(TempData["IdSexo"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                         function myFunction() {
 
                             var s = document.getElementById("Sexo");
@@ -725,25 +743,25 @@
                         }
 
                         myFunction();
-                    </script>
-                }
-            </div>
-        </div>
-        <div class="control is-4">
-            <label class="label">Descrição Sexo:</label>
-            @Html.TextBoxFor(m => m.DescricaoSexo, null, new {@class = "input", id = "DescricaosexoFuncionario"})
-            @Html.ValidationMessageFor(m => m.DescricaoSexo, null, new {style = "color:red"})
-        </div>
-    </div>
-    <div class="field is-grouped column">
-        <div class="control ">
-            <label class="label">Etnia/Raça</label>
-            <div class="select">
-                @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new {id = "Etnia"})
-                @if (Convert.ToInt32(TempData["IdEtnia"].ToString()) > 0)
-                {
-                    @Html.Label("")
-                    <script>
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
+                                    <div class="control is-4">
+                                        <label class="label">Descrição Sexo:</label>
+                                        @Html.TextBoxFor(m => m.DescricaoSexo, null, new { @class = "input", id = "DescricaosexoFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.DescricaoSexo, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+                                <div class="field is-grouped column">
+                                    <div class="control ">
+                                        <label class="label">Etnia/Raça</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new { id = "Etnia" })
+                                            @if (Convert.ToInt32(TempData["IdEtnia"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                         function myFunction() {
 
                             var s = document.getElementById("Etnia");
@@ -763,18 +781,18 @@
                         }
 
                         myFunction();
-                    </script>
-                }
-            </div>
-        </div>
-        <div class="control ">
-            <label class="label">Estado Civil</label>
-            <div class="select">
-                @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new {id = "EstadoCivil"})
-                @if (Convert.ToInt32(TempData["IdEstadoCivil"].ToString()) > 0)
-                {
-                    @Html.Label("")
-                    <script>
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
+                                    <div class="control ">
+                                        <label class="label">Estado Civil</label>
+                                        <div class="select">
+                                            @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new { id = "EstadoCivil" })
+                                            @if (Convert.ToInt32(TempData["IdEstadoCivil"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                         function myFunction() {
 
                             var s = document.getElementById("EstadoCivil");
@@ -794,23 +812,23 @@
                         }
 
                         myFunction();
-                    </script>
-                }
-            </div>
-        </div>
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
 
-    </div>
+                                </div>
 
-    <hr/>
-    <div class="field column">
-        <div class="control is-2 ">
-            <label class="label">Formação</label>
-            <div class="select is-fullwidth">
-                @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new {id = "Formacao"})
-                @if (Convert.ToInt32(TempData["IdFormacao"].ToString()) > 0)
-                {
-                    @Html.Label("")
-                    <script>
+                                <hr />
+                                <div class="field column">
+                                    <div class="control is-2 ">
+                                        <label class="label">Formação</label>
+                                        <div class="select is-fullwidth">
+                                            @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new { id = "Formacao" })
+                                            @if (Convert.ToInt32(TempData["IdFormacao"].ToString()) > 0)
+                                        {
+                                            @Html.Label("")
+                                            <script>
                         function myFunction() {
 
                             var s = document.getElementById("Formacao");
@@ -830,103 +848,104 @@
                         }
 
                         myFunction();
-                    </script>
+                                            </script>
+                                    }
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="field column">
+                                    <div class="control is-4">
+                                        <label class="label">Formação Acadêmica</label>
+                                        @Html.TextBoxFor(m => m.FormacaoAcademica, null, new { @class = "input is-fullwidth", placeholder = "Ex: Administração", id = "FormacaoFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+
+                                @for (var i = 0; i < Convert.ToInt32(TempData["TotalFormacao"]); i++)
+                            {
+                                <div class=" column">
+                                    <div class="field">
+                                        <div class="control">
+                                            <label class="label">Formação Acadêmica</label>
+                                            <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]" />
+                                        </div>
+                                    </div>
+                                </div>
+                        }
+                                <div id="NovaFormacao" class="column">
+
+
+                                </div>
+                                <P class="control column">
+                                    <a class="tag is-primary is-rounded is-medium" href="javascript:AdicionarFormacao();void(0);">Adicionar outra formação</a>
+                                </P>
+
+
+                                <div class="field column">
+                                    <div class="control is-2">
+                                        <label class="label">Usuário do Sistema</label>
+                                        @Html.TextBoxFor(m => m.UsuarioSistema, null, new { @class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+                                <div class="field is-grouped column">
+                                    <div class="control is-5">
+                                        <label class="label">E-mail</label>
+                                        @Html.TextBoxFor(m => m.Email, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="control is-1">
+                                        <label class="label">PA</label>
+                                        @Html.TextBoxFor(m => m.PA, null, new { @class = "input", placeholder = "Ex:99", id = "PaFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.PA, null, new { style = "color:red" })
+                                    </div>
+
+                                </div>
+                                <hr />
+                                <div class="field is-grouped column">
+
+                                    <div class="control is-2">
+                                        <label class="label">Rua</label>
+                                        @Html.TextBoxFor(m => m.Rua, null, new { @class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.Rua, null, new { style = "color:red" })
+                                    </div>
+
+                                    <div class="control is-2">
+                                        <label class="label">N°</label>
+                                        @Html.TextBoxFor(m => m.Numero, null, new { @class = "input", placeholder = "Ex: 210", id = "NumeroFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.Numero, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+                                <div class="field is-grouped column">
+
+                                    <div class="control is-2">
+                                        <label class="label">Bairro</label>
+                                        @Html.TextBoxFor(m => m.Bairro, null, new { @class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.Bairro, null, new { style = "color:red" })
+                                    </div>
+
+                                    <div class="control is-2">
+                                        <label class="label">Cidade</label>
+                                        @Html.TextBoxFor(m => m.Cidade, null, new { @class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario" })
+                                        @Html.ValidationMessageFor(m => m.Cidade, null, new { style = "color:red" })
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id-="ConfirmacaoDados" checked name="ConfirmacaoDados"> Eu confirmo que todas as informações informadas acima são verdadeiras.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <footer class="card-footer">
+                                <a onclick="FormPessoal.submit();" class="card-footer-item">Salvar</a>
+                            </footer>
+                        </div>
                 }
-            </div>
-        </div>
+                    </div>
 
-    </div>
-    <div class="field column">
-        <div class="control is-4">
-            <label class="label">Formação Acadêmica</label>
-            @Html.TextBoxFor(m => m.FormacaoAcademica, null, new {@class = "input is-fullwidth", placeholder = "Ex: Administração", id = "FormacaoFuncionario"})
-            @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new {style = "color:red"})
-        </div>
-    </div>
-
-    @for (var i = 0; i < Convert.ToInt32(TempData["TotalFormacao"]); i++)
-    {
-        <div class=" column">
-            <div class="field">
-                <div class="control">
-                    <label class="label">Formação Acadêmica</label>
-                    <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]"/>
                 </div>
             </div>
         </div>
-    }
-    <div id="NovaFormacao" class="column">
-
-
-    </div>
-    <P class="control column">
-        <a class="tag is-primary is-rounded is-medium" href="javascript:AdicionarFormacao();void(0);">Adicionar outra formação</a>
-    </P>
-
-
-    <div class="field column">
-        <div class="control is-2">
-            <label class="label">Usuário do Sistema</label>
-            @Html.TextBoxFor(m => m.UsuarioSistema, null, new {@class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario"})
-            @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new {style = "color:red"})
-        </div>
-    </div>
-    <div class="field is-grouped column">
-        <div class="control is-5">
-            <label class="label">E-mail</label>
-            @Html.TextBoxFor(m => m.Email, null, new {@class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario"})
-            @Html.ValidationMessageFor(m => m.Email, null, new {style = "color:red"})
-        </div>
-        <div class="control is-1">
-            <label class="label">PA</label>
-            @Html.TextBoxFor(m => m.PA, null, new {@class = "input", placeholder = "Ex:99", id = "PaFuncionario"})
-            @Html.ValidationMessageFor(m => m.PA, null, new {style = "color:red"})
-        </div>
-
-    </div>
-    <hr/>
-    <div class="field is-grouped column">
-
-        <div class="control is-2">
-            <label class="label">Rua</label>
-            @Html.TextBoxFor(m => m.Rua, null, new {@class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario"})
-            @Html.ValidationMessageFor(m => m.Rua, null, new {style = "color:red"})
-        </div>
-
-        <div class="control is-2">
-            <label class="label">N°</label>
-            @Html.TextBoxFor(m => m.Numero, null, new {@class = "input", placeholder = "Ex: 210", id = "NumeroFuncionario"})
-            @Html.ValidationMessageFor(m => m.Numero, null, new {style = "color:red"})
-        </div>
-    </div>
-    <div class="field is-grouped column">
-
-        <div class="control is-2">
-            <label class="label">Bairro</label>
-            @Html.TextBoxFor(m => m.Bairro, null, new {@class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario"})
-            @Html.ValidationMessageFor(m => m.Bairro, null, new {style = "color:red"})
-        </div>
-
-        <div class="control is-2">
-            <label class="label">Cidade</label>
-            @Html.TextBoxFor(m => m.Cidade, null, new {@class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario"})
-            @Html.ValidationMessageFor(m => m.Cidade, null, new {style = "color:red"})
-        </div>
-    </div>
-    <div class="control">
-        <label class="checkbox">
-            <input type="checkbox" id-="ConfirmacaoDados" checked name="ConfirmacaoDados"> Eu confirmo que todas as informações informadas acima são verdadeiras.
-        </label>
-    </div>
-    </div>
-
-    <footer class="card-footer">
-        <a onclick="FormPessoal.submit();" class="card-footer-item">Salvar</a>
-    </footer>
-    </div>
-}
-</div>
-
-</div>
-</div>
-</div>
+    </body>

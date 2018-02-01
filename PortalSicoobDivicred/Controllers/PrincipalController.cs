@@ -12,32 +12,11 @@ namespace PortalSicoobDivicred.Controllers
     public class PrincipalController : Controller
     {
         // GET: Principal
-        public ActionResult Principal(string Acao, string Mensagem, string Controlle)
+        public ActionResult Principal()
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            try
-            {
-                if (!Acao.Equals("Dashboard"))
-
-                {
-                    TempData["Opcao"] = Acao;
-                    TempData["Mensagem"] = Mensagem;
-                    TempData["Controlle"] = Controlle;
-                    ModelState.Clear();
-                }
-                else
-                {
-                    TempData["Opcao"] = "Dashboard";
-                    TempData["Controle"] = "Principal";
-                }
-            }
-            catch
-            {
-                TempData["Opcao"] = "Dashboard";
-                TempData["Controle"] = "Principal";
-            }
-            if (Logado)
+           if (Logado)
             {
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
@@ -124,21 +103,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
-
-        public void SMS()
-        {
-            var Celular = "(37) 99988-3728";
-            var EnvioSms = new string[1];
-            var certo = "55" + Celular.Replace(')', ' ').Replace('(', ' ').Replace('-', ' ');
-            EnvioSms[0] = certo.Replace(" ", "");
-
-            var configuration = new Configuration("Divicred", "Euder17!");
-            var smsClient = new SMSClient(configuration);
-            var smsRequest = new SMSRequest("Portal Sicoob Divicred",
-                "Portal Sicoob Divicred, Novas vagas cadastradas. ", EnvioSms);
-            var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
-        }
-
+        
         public ActionResult FormularioCadastro()
         {
             var VerificaDados = new QueryMysql();

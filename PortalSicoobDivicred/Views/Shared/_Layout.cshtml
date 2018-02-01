@@ -20,7 +20,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#CorpoPrincipal').css('background', '#e6e6e6');
+            document.body.style.backgroundColor = '#e6e6e6';
 
         });
 
@@ -145,7 +145,7 @@
             </aside>
             <div class="container">
                 <div class="column is-12" id="Conteudo" name="Conteudo">
-                    @RenderBody();
+                    @RenderBody()
                 </div>
             </div>
         </div>

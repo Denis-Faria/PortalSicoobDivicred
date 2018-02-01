@@ -2,36 +2,33 @@
 <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
 <link href="@Url.Content("~/Assets/css/over.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
-<br />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<body>
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
+
+
+    <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]',
+        });
+
+    </script>
+}
+<br/>
 <nav class="level ">
     <p class="level-item has-text-centered">
         <img src="/Images/Colaborador.png" alt="" style="height: 30px;">
     </p>
 </nav>
 <script>
-    function GerenciarVaga(IdVaga) {
-        $("#Conteudo").empty();
-        $.ajax(
-            {
-                type: 'POST',
-                url: '/PainelColaborador/GerenciarVaga',
-                dataType: 'html',
-                cache: true,
-                async: true,
-                data: { "IdVaga": IdVaga },
-                success: function(data) {
-                    var tamanho = $(window).height();
-                    $("body").css('height', tamanho);
-                    $("#Conteudo").append(data);
-                    windowHeight = $(document).height();
-                    $('#CorpoPrincipal').css('height', windowHeight);
-                    $('#CorpoPrincipal').css('background', '#e6e6e6');
-
-                }
-            });
-
-    }
-
     $(function() {
         $("#TabFuncionalidades").tabs();
         $("#TabFuncionalidadesPerfil").tabs();
@@ -103,20 +100,23 @@
 
         var itemlist = [];
         //get cell values, instead of the header text.
-        $("#Pendencias tr:not(:first)").each(function () {
-                        var tdlist = $(this).find("td");
-                        var Item = {
+        $("#Pendencias tr:not(:first)").each(function() {
+            var tdlist = $(this).find("td");
+            var Item = {
                 Id: $.trim($(tdlist[0]).html()),
                 Nome: $.trim($(tdlist[1]).html()),
                 Dia: $.trim($(tdlist[2]).html()),
                 Horario1: $.trim($(tdlist[3]).html()),
                 Horario2: $.trim($(tdlist[4]).html()),
                 Horario3: $.trim($(tdlist[5]).html()),
-                Horario4: $.trim($(tdlist[6]).html()), Horario5: $.trim($(tdlist[7]).html()), Horario6: $.trim($(tdlist[8]).html())};
-                
+                Horario4: $.trim($(tdlist[6]).html()),
+                Horario5: $.trim($(tdlist[7]).html()),
+                Horario6: $.trim($(tdlist[8]).html())
+            };
+
             itemlist.push(Item);
         });
-    
+
         $.ajax({
             url: '@Url.Action("ConfirmarPendencia", "PainelColaborador")', //
             dataType: "json",
@@ -156,483 +156,483 @@
     }
 </style>
 <div id="TabFuncionalidades">
-    <div class="tabs is-boxed is-centered">
-        <ul>
-            <li id="AbaPerfilFuncionario" class="is-active">
-                <a href="#PerfilFuncionario" onclick="javascript:$('#AbaBancoDeHoras').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaPerfilFuncionario').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-book" aria-hidden="true"></i>
-                    </span>
-                    <span>Funcionários</span>
-                </a>
-            </li>
-            <li id="AbaBancoDeHoras">
-                <a href="#BancodeHoras" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaBancoDeHoras').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-hourglass-half"></i>
-                    </span>
-                    <span>Banco de Horas</span>
-                </a>
-            </li>
-            <li id="AbaFerias">
-                <a href="#Ferias" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaFerias').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-plane"></i>
-                    </span>
-                    <span>Férias</span>
-                </a>
-            </li>
-            <li id="AbaTreinamento">
-                <a href="#Treinamento" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').removeClass();$('#AbaTreinamento').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-graduation-cap"></i>
-                    </span>
-                    <span>Treinamentos</span>
-                </a>
-            </li>
-            <li id="AbaIndicadores">
-                <a href="#Indicadores" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-bar-chart"></i>
-                    </span>
-                    <span>Indicadores</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+<div class="tabs is-boxed is-centered">
+    <ul>
+        <li id="AbaPerfilFuncionario" class="is-active">
+            <a href="#PerfilFuncionario" onclick="javascript:$('#AbaBancoDeHoras').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaPerfilFuncionario').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                </span>
+                <span>Funcionários</span>
+            </a>
+        </li>
+        <li id="AbaBancoDeHoras">
+            <a href="#BancodeHoras" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaBancoDeHoras').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fa fa-hourglass-half"></i>
+                </span>
+                <span>Banco de Horas</span>
+            </a>
+        </li>
+        <li id="AbaFerias">
+            <a href="#Ferias" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaFerias').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fa fa-plane"></i>
+                </span>
+                <span>Férias</span>
+            </a>
+        </li>
+        <li id="AbaTreinamento">
+            <a href="#Treinamento" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').removeClass();$('#AbaTreinamento').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fa fa-graduation-cap"></i>
+                </span>
+                <span>Treinamentos</span>
+            </a>
+        </li>
+        <li id="AbaIndicadores">
+            <a href="#Indicadores" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fa fa-bar-chart"></i>
+                </span>
+                <span>Indicadores</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
-    <div id="PerfilFuncionario">
-        <div id="TabFuncionalidadesPerfil">
-            <div class="tabs is-boxed is-centered">
-                <ul>
-                    <li id="AbaPerfil" class="is-active">
-                        <a href="#Funcionarios" onclick="javascript:$('#AbaVagasInternas').removeClass();$('#AbaPerfil').addClass('is-active');">
-                            <span class="icon is-small">
-                                <i class="fa fa-book" aria-hidden="true"></i>
-                            </span>
-                            <span>Funcionários</span>
-                        </a>
-                    </li>
-                    <li id="AbaVagasInternas">
-                        <a href="#TodasVagasInternas" onclick="javascript:$('#AbaPerfil').removeClass();$('#AbaVagasInternas').addClass('is-active');">
-                            <span class="icon is-small">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i>
-                            </span>
-                            <span>Vagas Internas</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="Funcionarios">
-                @{
-var count = 0;
-var pagina = 1;
-var j = 0;
-                }
-                @if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) > 0)
+<div id="PerfilFuncionario">
+    <div id="TabFuncionalidadesPerfil">
+        <div class="tabs is-boxed is-centered">
+            <ul>
+                <li id="AbaPerfil" class="is-active">
+                    <a href="#Funcionarios" onclick="javascript:$('#AbaVagasInternas').removeClass();$('#AbaPerfil').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                        </span>
+                        <span>Funcionários</span>
+                    </a>
+                </li>
+                <li id="AbaVagasInternas">
+                    <a href="#TodasVagasInternas" onclick="javascript:$('#AbaPerfil').removeClass();$('#AbaVagasInternas').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-suitcase" aria-hidden="true"></i>
+                        </span>
+                        <span>Vagas Internas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="Funcionarios">
+            @{
+                var count = 0;
+                var pagina = 1;
+                var j = 0;
+            }
+            @if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) > 0)
+            {
+                if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) >= 20)
+                {
+                    for (var g = 0; g < Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
+                    {
+                        <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; box-shadow: 2px 2px 2px grey; text-align: center;">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Setor</th>
+                                <th>P.A</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @for (j = j; j < Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
+                            {
+                                count++;
+                                <tr>
+                                    <td>
+                                        <article class="media">
+                                            <div class="media-left grow pic">
+                                                <figure class="image is-32x32">
+                                                    <img src="@TempData["Imagem" + j]"/>
+                                                </figure>
+                                            </div>
+                                            <div class="media-content">
+                                                <div class="content">
+                                                    <p>
+                                                        <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </td>
+                                    <td class="is-centered">@TempData["Setor" + j].ToString()</td>
+                                    <td>@TempData["PA" + j].ToString()</td>
+                                </tr>
+                                if (count == 20)
                                 {
-                                    if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) >= 20)
-                                    {
-                                        for (var g = 0; g<Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
-                                        {
-                <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
+                                    count = 0;
+                                    pagina++;
+                                    break;
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    }
+                }
+                else
+                {
+                    <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+                        <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Setor</th>
                             <th>P.A</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @for (j = j; j<Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
-                                                            {
-                                                                count++;
-                        <tr>
-                            <td>
-                                <article class="media">
-                                    <div class="media-left grow pic">
-                                        <figure class="image is-32x32">
-                                            <img src="@TempData["Imagem" + j]" />
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p>
-                                                <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
-                                            </p>
+                        </thead>
+                        <tbody>
+                        @for (var k = 0; k < Convert.ToInt32(TempData["TotalColaborador"].ToString()); k++)
+                        {
+                            count++;
+                            <tr>
+                                <td>
+                                    <article class="media">
+                                        <div class="media-left grow pic">
+                                            <figure class="image is-32x32">
+                                                <img src="@TempData["Imagem" + k]"/>
+                                            </figure>
                                         </div>
-                                    </div>
-                                </article>
-                            </td>
-                            <td class="is-centered">@TempData["Setor" + j].ToString()</td>
-                            <td>@TempData["PA" + j].ToString()</td>
-                        </tr>
-                                                                if (count == 20)
-                                                                {
-                                                                    count = 0;
-                                                                    pagina++;
-                                                                    break;
-                                                                }
-                                                            }
-                    </tbody>
-                </table>
-                                        }
-                                    }
-                                    else
-                                    {
-                <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Setor</th>
-                            <th>P.A</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (var k = 0; k<Convert.ToInt32(TempData["TotalColaborador"].ToString()); k++)
-                                                        {
-                                                            count++;
-                        <tr>
-                            <td>
-                                <article class="media">
-                                    <div class="media-left grow pic">
-                                        <figure class="image is-32x32">
-                                            <img src="@TempData["Imagem" + k]" />
-                                        </figure>
-                                    </div>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p>
-                                                <a href="javascript:VerPerfil('@TempData["Login" + k]');void(0);">@TempData["Nome" + k].ToString()</a> <strong></strong>
-                                            </p>
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <a href="javascript:VerPerfil('@TempData["Login" + k]');void(0);">@TempData["Nome" + k].ToString()</a> <strong></strong>
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </article>
-                            </td>
-                            <td class="is-centered">@TempData["Setor" + k].ToString()</td>
-                            <td>@TempData["PA" + k].ToString()</td>
-                        </tr>
-                                                        }
-                    </tbody>
+                                    </article>
+                                </td>
+                                <td class="is-centered">@TempData["Setor" + k].ToString()</td>
+                                <td>@TempData["PA" + k].ToString()</td>
+                            </tr>
+                        }
+                        </tbody>
 
-                </table>
-                                    }
+                    </table>
+                }
                 <nav class="pagination" role="navigation" aria-label="pagination">
                     <ul class="pagination-list">
                         @for (var i = 1; i <= Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; i++)
-                                                    {
-                        <li>
-                            <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>
-                        </li>
-                                                    }
+                        {
+                            <li>
+                                <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>
+                            </li>
+                        }
                     </ul>
                 </nav>
-                                }
-            </div>
-
-            <!--
-            ABA VAGAS
-
-
-
-            -->
-            <div id="TodasVagasInternas">
-                <div class="field is-grouped is-desktop">
-                    <p class="control">
-                        <button class="button is-primary modal-button" onclick="javascript:CadastroVaga();void (0);" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i>
-                            </span>
-                            <span class="name"> Adicionar Vagas Internas</span>
-                        </button>
-                    </p>
-                </div>
-                <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                    <th>Titulo Vaga</th>
-                    <th>Descrição</th>
-                    <th>Status</th>
-                    <th>Editar</th>
-                    </thead>
-                    <tbody>
-                        @for (var a = 0; a<Convert.ToInt32(TempData["Total"].ToString()); a++)
-                                                {
-                        <tr>
-                            <td>
-                                <a href="javascript:GerenciarVaga(@TempData["IdVaga " + a].ToString());void(0);">@TempData["Titulo " + a].ToString()</a> <strong></strong>
-                            </td>
-                            <td>@TempData["DescricaoVaga " + a].ToString()</td>
-                            <td>
-                                <span class="icon">
-                                    <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga " + a].ToString()"></i>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="javascript:AlterarVaga(@TempData["IdVaga " + a].ToString());void(0);" class="button is-primary">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    </span>
-                                    <span class="name">Editar Vaga</span>
-                                </a>
-                            </td>
-                        </tr>
-                                                }
-                    <tbody>
-                </table>
-
-
-            </div>
+            }
         </div>
-    </div>
 
-    <div id="BancodeHoras">
-        <p class="field">
-            <a class="button is-success" href="javascript:ConfirmarPendencia();void(0);" id="ConfirmaPendencia" onmouseleave="$('#ConfirmaPendencia').removeClass('animated pulse')" onmouseover="$('#ConfirmaPendencia').addClass('animated pulse');">
-                <span class="icon is-small">
-                    <i class="fa  fa-check"></i>
-                </span>
-                <span>Confirmar Pendências</span>
-            </a>
-            <a class="button is-success" id="AlertaPendencia" onmouseleave="$('#AlertaPendencia').removeClass('animated pulse')" onmouseover="$('#AlertaPendencia').addClass('animated pulse');" onclick="javascript:$('#ModalCadastrarAlerta').removeClass();$('#ModalCadastrarAlerta').addClass('modal is-active');;void (0);" data-balloon="Clique para adcionar um alerta para pendencias." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-bell"></i>
-                </span>
-                <span>Alertar sobre pendência</span>
-            </a>
-            <a class="button is-primary" id="HistoricoPendencia" onmouseleave="$('#HistoricoPendencia').removeClass('animated pulse')" onmouseover="$('#HistoricoPendencia').addClass('animated pulse');">
-                <span class="icon is-small">
-                    <i class="fa  fa-history"></i>
-                </span>
-                <span>Histórico de pendências</span>
-            </a>
+        <!--
+        ABA VAGAS
 
-        </p>
-        <div id="TabHoras">
-            <div class="tabs is-boxed is-centered">
-                <ul>
-                    <li id="AbaJustifica" class="is-active">
-                        <a href="#Justifica" onclick="javascript:$('#AbaSemJustificativa').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaNaoConfirmada').removeClass();">
-                            <span class="icon is-small">
-                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                            </span>
-                            <span>Pendências Justificativa</span>
-                        </a>
-                    </li>
-                    <li id="AbaNaoConfirmada">
-                        <a href="#NaoConfirmada" onclick="javascript: $('#AbaSemJustificativa').removeClass();$('#AbaNaoConfirmada').addClass('is-active');$('#AbaJustifica').removeClass();">
-                            <span class="icon is-small">
-                                <i class="fa fa-exclamation" aria-hidden="true"></i>
-                            </span>
-                            <span>Justificativas Não Confirmadas</span>
-                        </a>
-                    </li>
-                    <li id="AbaSemJustificativa">
-                        <a href="#SemJustificativa" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaSemJustificativa').addClass('is-active');$('#AbaNaoConfirmada').removeClass();">
-                            <span class="icon is-small">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>
-                            </span>
-                            <span>Sem Pendências</span>
-                        </a>
-                    </li>
-                </ul>
+
+
+        -->
+        <div id="TodasVagasInternas">
+            <div class="field is-grouped is-desktop">
+                <p class="control">
+                    <button class="button is-primary modal-button" onclick="javascript:CadastroVaga();void (0);" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
+                        <span class="icon is-small">
+                            <i class="fa fa-suitcase" aria-hidden="true"></i>
+                        </span>
+                        <span class="name"> Adicionar Vagas Internas</span>
+                    </button>
+                </p>
             </div>
-            <div id="Justifica">
-                <table id="Pendencias" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                    <th>ID</th>
-                    <th>Funcionário</th>
-                    <th>Dia</th>
-                    <th>Entrada</th>
-                    <th>Saída Almoço</th>
-                    <th>Volta Almoço</th>
-                    <th>Saída</th>
-                    <th @TempData["ExtraPendente1"]>Extra 1</th>
-                    <th @TempData["ExtraPendente2"]>Extra 2</th>
-                    <th>Ignorar Pendência</th>
-
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i<Convert.ToInt32(TempData["TotalPonto"]); i++)
-                                                {
-                        <tr>
-                            <td>@TempData["IdPonto" + i]</td>
-                            <td>
-                                @TempData["NomePonto" + i]
-                            </td>
-                            <td>
-                                @TempData["Dia"]
-                            </td>
-                            @for (int k = 0; k<Convert.ToInt32(TempData["TotalHorarioPonto" + i]); k++)
-                                                            {
-                            <td>
-                                @TempData["Hora" + k + i]
-                            </td>
-                                                            }
-                            @if (@TempData["ExtraPendente1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i])!=5)
-                                                            {
-                            <td></td>
-                                                            }
-                            @if (@TempData["ExtraPendente2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i])!=6)
-                                                            {
-                            <td></td>
-                                                            }
-                            <td class="is-centered">
-                                <div class="field">
-                                    <a class="button is-rounded is-danger excluir is-small" id="@i" data-balloon="Ignorar Pendência" data-balloon-pos="right" onmouseleave="$('#@i').removeClass('animated pulse')" onmouseover="$('#@i').addClass('animated pulse');">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </span>
-                                    </a>
-                                </div>
-                            </td>
-
-                        </tr>
-                                                }
-                    <tbody>
-                </table>
-            </div>
-            <div id="NaoConfirmada">
-                <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                    <th>ID</th>
-                    <th>Funcionário</th>
-                    <th>Dia</th>
-                    <th>Entrada</th>
-                    <th>Saída Almoço</th>
-                    <th>Volta Almoço</th>
-                    <th>Saída</th>
-                    <th @TempData["ExtraJustifica1"]>Extra 1</th>
-                    <th @TempData["ExtraJustifica2"]>Extra 2</th>
-                    <th>Justificativa</th>
-                    <th>Validação Gestor</th>
-                    <th>Confirmação</th>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i<Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
-                                                {
-                        <tr>
-                            <td>@TempData["IdPendencia" + i]</td>
-                            <td>
-                                @TempData["NomePendencia" + i]
-                            </td>
-                            <td>
-                                @TempData["DiaPendencia" + i]
-                            </td>
-                            @for (int k = 0; k<Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
-                                                            {
-                            <td>
-                                @TempData["Hora" + k + "Pendencia" + i]
-                            </td>
-                                                            }
-                            @if (@TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i])!=5)
-                                                            {
-                            <td></td>
-                                                            }
-                            @if (@TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
-                                                            {
-                            <td></td>
-                                                            }
-                            <td>
-                                <span class="icon is-small" data-balloon="@TempData["Justificativa"+i]" data-balloon-pos="up">
-                                    <i class="fa fa-check-square-o" aria-hidden="true" style="color: @TempData["StatusJustificativa" + i]"></i>
-                                </span>
-                            </td>
-                            <td>
+            <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+                <thead>
+                <th>Titulo Vaga</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Editar</th>
+                </thead>
+                <tbody>
+                @for (var a = 0; a < Convert.ToInt32(TempData["Total"].ToString()); a++)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("GerenciarVaga","PainelColaborador",new{IdVaga=@TempData["IdVaga " + a].ToString()})">@TempData["Titulo " + a].ToString()</a> <strong></strong>
+                        </td>
+                        <td>@TempData["DescricaoVaga " + a].ToString()</td>
+                        <td>
+                            <span class="icon">
+                                <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga " + a].ToString()"></i>
+                            </span>
+                        </td>
+                        <td>
+                            <a href="javascript:AlterarVaga(@TempData["IdVaga " + a].ToString());void(0);" class="button is-primary">
                                 <span class="icon is-small">
-                                    <i class="fa fa-check-square-o" aria-hidden="true" style="color: @TempData["StatusJustificativaGetor" + i]"></i>
+                                    <i class="fa fa-pencil-alt" aria-hidden="true"></i>
                                 </span>
-                            </td>
-                            <td @TempData["Esconde" + i]>
-                                <div class="field has-addons">
-                                    <p class="control">
-                                        <a class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
-                                            <span class="icon is-small">
-                                                <i class="fa fa-thumbs-o-up"></i>
-                                            </span>
-                                        </a>
-                                    </p>
-                                    <p class="control"></p>
-                                    <p class="control">
-                                        <a class="button is-outlined" href='@Url.Action("NegarJustificativa", "PainelColaborador", new {IdHistorico = @TempData["IdPendencia" + i]})' data-balloon="Negar Justificativa" data-balloon-pos="up" style="color: red">
-                                            <span class="icon is-small">
-                                                <i class="fa fa-thumbs-o-down"></i>
-                                            </span>
-                                        </a>
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                                                }
-                    <tbody>
-                </table>
-            </div>
-            <div id="SemJustificativa">
-                <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                    <th>ID</th>
-                    <th>Funcionário</th>
-                    <th>Dia</th>
-                    <th>Entrada</th>
-                    <th>Saída Almoço</th>
-                    <th>Volta Almoço</th>
-                    <th>Saída</th>
-                    <th>Jornada</th>
-                    <th>Crédito</th>
-                    <th>Debito</th>
-                    <th>Apontar Pendência</th>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i<Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
-                                                {
-                        <tr>
-                            <td>
-                                @TempData["IdPontoCerto" + i]
-                            </td>
+                                <span class="name">Editar Vaga</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tbody>
+            </table>
 
-                            <td>
-                                @TempData["NomePontoCerto" + i]
-                            </td>
-                            <td>
-                                @TempData["DiaCerto" + i]
-                            </td>
-                            <td>
-                                @TempData["HoraCerto0" + i]
-                            </td>
-                            <td>
-                                @TempData["HoraCerto1" + i]
-                            </td>
-                            <td>
-                                @TempData["HoraCerto2" + i]
-                            </td>
-                            <td>
-                                @TempData["HoraCerto3" + i]
-                            </td>
-                            <td>
-                                @TempData["JornadaCerto" + i]
-                            </td>
-                            <td style="color: green">
-                                @TempData["HoraExtraCerto" + i]
-                            </td>
-                            <td style="color: red">
-                                @TempData["DebitoCerto" + i]
-                            </td>
 
-                        </tr>
-                                                }
-                    <tbody>
-                </table>
-            </div>
         </div>
     </div>
-    <div id="Ferias">
-        <h1>Ferias</h1>
-    </div>
-    <div id="Treinamento">
-        <h1>Treinamentos</h1>
-    </div>
-    <div id="Indicadores">
-        <h1>Indicadores</h1>
-    </div>
+</div>
+
+<div id="BancodeHoras">
+<p class="field">
+    <a class="button is-success" href="javascript:ConfirmarPendencia();void(0);" id="ConfirmaPendencia" onmouseleave="$('#ConfirmaPendencia').removeClass('animated pulse')" onmouseover="$('#ConfirmaPendencia').addClass('animated pulse');">
+        <span class="icon is-small">
+            <i class="fa  fa-check"></i>
+        </span>
+        <span>Confirmar Pendências</span>
+    </a>
+    <a class="button is-success" id="AlertaPendencia" onmouseleave="$('#AlertaPendencia').removeClass('animated pulse')" onmouseover="$('#AlertaPendencia').addClass('animated pulse');" onclick="javascript:$('#ModalCadastrarAlerta').removeClass();$('#ModalCadastrarAlerta').addClass('modal is-active');;void (0);" data-balloon="Clique para adcionar um alerta para pendencias." data-balloon-pos="down">
+        <span class="icon is-small">
+            <i class="fa fa-bell"></i>
+        </span>
+        <span>Alertar sobre pendência</span>
+    </a>
+    <a class="button is-primary" id="HistoricoPendencia" onmouseleave="$('#HistoricoPendencia').removeClass('animated pulse')" onmouseover="$('#HistoricoPendencia').addClass('animated pulse');">
+        <span class="icon is-small">
+            <i class="fa  fa-history"></i>
+        </span>
+        <span>Histórico de pendências</span>
+    </a>
+
+</p>
+<div id="TabHoras">
+<div class="tabs is-boxed is-centered">
+    <ul>
+        <li id="AbaJustifica" class="is-active">
+            <a href="#Justifica" onclick="javascript:$('#AbaSemJustificativa').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaNaoConfirmada').removeClass();">
+                <span class="icon is-small">
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                </span>
+                <span>Pendências Justificativa</span>
+            </a>
+        </li>
+        <li id="AbaNaoConfirmada">
+            <a href="#NaoConfirmada" onclick="javascript: $('#AbaSemJustificativa').removeClass();$('#AbaNaoConfirmada').addClass('is-active');$('#AbaJustifica').removeClass();">
+                <span class="icon is-small">
+                    <i class="fa fa-exclamation" aria-hidden="true"></i>
+                </span>
+                <span>Justificativas Não Confirmadas</span>
+            </a>
+        </li>
+        <li id="AbaSemJustificativa">
+            <a href="#SemJustificativa" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaSemJustificativa').addClass('is-active');$('#AbaNaoConfirmada').removeClass();">
+                <span class="icon is-small">
+                    <i class="fa fa-clock" aria-hidden="true"></i>
+                </span>
+                <span>Sem Pendências</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="Justifica">
+    <table id="Pendencias" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th>ID</th>
+        <th>Funcionário</th>
+        <th>Dia</th>
+        <th>Entrada</th>
+        <th>Saída Almoço</th>
+        <th>Volta Almoço</th>
+        <th>Saída</th>
+        <th @TempData["ExtraPendente1"]>Extra 1</th>
+        <th @TempData["ExtraPendente2"]>Extra 2</th>
+        <th>Ignorar Pendência</th>
+
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
+        {
+            <tr>
+                <td>@TempData["IdPonto" + i]</td>
+                <td>
+                    @TempData["NomePonto" + i]
+                </td>
+                <td>
+                    @TempData["Dia"]
+                </td>
+                @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPonto" + i]); k++)
+                {
+                    <td>
+                        @TempData["Hora" + k + i]
+                    </td>
+                }
+                @if (@TempData["ExtraPendente1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 5)
+                {
+                    <td></td>
+                }
+                @if (@TempData["ExtraPendente2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 6)
+                {
+                    <td></td>
+                }
+                <td class="is-centered">
+                    <div class="field">
+                        <a class="button is-rounded is-danger excluir is-small" id="@i" data-balloon="Ignorar Pendência" data-balloon-pos="right" onmouseleave="$('#@i').removeClass('animated pulse')" onmouseover="$('#@i').addClass('animated pulse');">
+                            <span class="icon is-small">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+                </td>
+
+            </tr>
+        }
+        <tbody>
+    </table>
+</div>
+<div id="NaoConfirmada">
+    <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th>ID</th>
+        <th>Funcionário</th>
+        <th>Dia</th>
+        <th>Entrada</th>
+        <th>Saída Almoço</th>
+        <th>Volta Almoço</th>
+        <th>Saída</th>
+        <th @TempData["ExtraJustifica1"]>Extra 1</th>
+        <th @TempData["ExtraJustifica2"]>Extra 2</th>
+        <th>Justificativa</th>
+        <th>Validação Gestor</th>
+        <th>Confirmação</th>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
+        {
+            <tr>
+                <td>@TempData["IdPendencia" + i]</td>
+                <td>
+                    @TempData["NomePendencia" + i]
+                </td>
+                <td>
+                    @TempData["DiaPendencia" + i]
+                </td>
+                @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
+                {
+                    <td>
+                        @TempData["Hora" + k + "Pendencia" + i]
+                    </td>
+                }
+                @if (@TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                {
+                    <td></td>
+                }
+                @if (@TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                {
+                    <td></td>
+                }
+                <td>
+                    <span class="icon is-small" data-balloon="@TempData["Justificativa" + i]" data-balloon-pos="up">
+                        <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativa" + i]"></i>
+                    </span>
+                </td>
+                <td>
+                    <span class="icon is-small">
+                        <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativaGetor" + i]"></i>
+                    </span>
+                </td>
+                <td @TempData["Esconde" + i]>
+                    <div class="field has-addons">
+                        <p class="control">
+                            <a class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
+                                <span class="icon is-small">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </span>
+                            </a>
+                        </p>
+                        <p class="control"></p>
+                        <p class="control">
+                            <a class="button is-outlined" href='@Url.Action("NegarJustificativa", "PainelColaborador", new {IdHistorico = @TempData["IdPendencia" + i]})' data-balloon="Negar Justificativa" data-balloon-pos="up" style="color: red">
+                                <span class="icon is-small">
+                                    <i class="fas fa-thumbs-down"></i>
+                                </span>
+                            </a>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        }
+        <tbody>
+    </table>
+</div>
+<div id="SemJustificativa">
+    <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th>ID</th>
+        <th>Funcionário</th>
+        <th>Dia</th>
+        <th>Entrada</th>
+        <th>Saída Almoço</th>
+        <th>Volta Almoço</th>
+        <th>Saída</th>
+        <th>Jornada</th>
+        <th>Crédito</th>
+        <th>Debito</th>
+        <th>Apontar Pendência</th>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
+        {
+            <tr>
+                <td>
+                    @TempData["IdPontoCerto" + i]
+                </td>
+
+                <td>
+                    @TempData["NomePontoCerto" + i]
+                </td>
+                <td>
+                    @TempData["DiaCerto" + i]
+                </td>
+                <td>
+                    @TempData["HoraCerto0" + i]
+                </td>
+                <td>
+                    @TempData["HoraCerto1" + i]
+                </td>
+                <td>
+                    @TempData["HoraCerto2" + i]
+                </td>
+                <td>
+                    @TempData["HoraCerto3" + i]
+                </td>
+                <td>
+                    @TempData["JornadaCerto" + i]
+                </td>
+                <td style="color: green">
+                    @TempData["HoraExtraCerto" + i]
+                </td>
+                <td style="color: red">
+                    @TempData["DebitoCerto" + i]
+                </td>
+
+            </tr>
+        }
+        <tbody>
+    </table>
+</div>
+</div>
+</div>
+<div id="Ferias">
+    <h1>Ferias</h1>
+</div>
+<div id="Treinamento">
+    <h1>Treinamentos</h1>
+</div>
+<div id="Indicadores">
+    <h1>Indicadores</h1>
+</div>
 
 </div>
 <!--
@@ -664,62 +664,62 @@ MODAL VAGA INTERNA
 
 @using (Html.BeginForm("CadastrarVaga", "PainelColaborador"))
 {
-<form id="Teste" method="post">
-    <div id="ModalVaga" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Adicionar Vagas</p>
-                <a href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
-                <div id="VagaInternaCompleta">
+    <form id="Teste" method="post">
+        <div id="ModalVaga" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Adicionar Vagas</p>
+                    <a href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div id="VagaInternaCompleta">
 
-                </div>
-            </section>
-            <footer class="modal-card-foot">
-                <button type="submit" class="button is-success">Salvar Vaga</button>
-                <a class="button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);">Cancelar</a>
-            </footer>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" class="button is-success">Salvar Vaga</button>
+                    <a class="button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 }
 
 @using (Html.BeginForm("AtualizarVaga", "PainelColaborador"))
 {
-<div id="ModalEditarVaga" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title">Perfil</p>
-            <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
-        </header>
+    <div id="ModalEditarVaga" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Perfil</p>
+                <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
+            </header>
 
-        <section class="modal-card-body">
+            <section class="modal-card-body">
 
-            <div id="VagaCompleta">
+                <div id="VagaCompleta">
 
-            </div>
+                </div>
 
-        </section>
-        <footer class="modal-card-foot">
-            <p class="field">
-                <button type="submit" class="button is-success">
-                    <span class="icon">
-                        <i class="fa fa-floppy-o"></i>
-                    </span>
-                    <span>Salvar Vaga</span>
-                </button>
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-floppy-o"></i>
+                        </span>
+                        <span>Salvar Vaga</span>
+                    </button>
 
-                <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
-            </p>
+                    <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
+                </p>
 
-        </footer>
+            </footer>
 
 
+        </div>
     </div>
-</div>
 }
 
 @using (Html.BeginForm("CadastraAlerta", "PainelColaborador"))
@@ -762,3 +762,4 @@ MODAL VAGA INTERNA
         </div>
     </div>
 }
+</body>

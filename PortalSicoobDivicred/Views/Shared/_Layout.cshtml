@@ -18,17 +18,8 @@
 
     <title>Principal</title>
 
-    <script>
-        $(document).ready(function() {
-            document.body.style.backgroundColor = '#e6e6e6';
-
-        });
-
-
-    </script>
-
 </head>
-<body id="CorpoPrincipal">
+<body id="CorpoPrincipal" style="background-color:#e6e6e6">
     <style>
         html {
             height: 100vh;
@@ -41,6 +32,39 @@
         aside {
             position: fixed;
             top: 0px;
+        }
+
+        .fixed {
+            width: 50px;  
+            float: left;
+        }
+
+        .fixed + div {
+            margin-left: 50px;  
+            overflow: hidden;
+        }
+        html, body {
+            height: 100%;
+        }
+
+        .fill { 
+            min-height: 100%;
+            position: relative;
+        }
+
+        .filler:after{
+            background-color:inherit;
+            bottom: 0;
+            content: "";
+            height: auto;
+            min-height: 100%;
+            left: 0;
+            margin:inherit;
+            right: 0;
+            position: absolute;
+            top: 0;
+            width: inherit;
+            z-index: -1;  
         }
     </style>
     <nav class="navbar is-transparent" style="background: rgb(42, 63, 84)">
@@ -106,7 +130,7 @@
     <div id-="main">
         <div class="columns">
             <aside id="Lateral" class="aside hero is-fullheight
-               is-hidden-mobile " style="background: rgb(42, 63, 84); width: 3%">
+               is-hidden-mobile " style="background: rgb(42, 63, 84)">
                 <ul class="menu-list is-centered" style="padding: 10px; text-align: justify;">
                     <p class="item"></p>
                     <p class="menu-label" style="color: white" id="Geral">
@@ -115,7 +139,7 @@
 
                     </span>
                     <a href="@Url.Action("Principal","Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
-                        <span class="icon">
+                        <span class="icon is-flex">
                             <i class="fas fa-tachometer-alt"></i>
                         </span>
                     </a>

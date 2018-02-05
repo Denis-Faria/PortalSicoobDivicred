@@ -126,9 +126,27 @@ namespace PortalSicoobDivicred.Controllers
                 try
                 {
                     if (Filtros["FiltroArea"].Contains("Filtrar Área"))
-                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"], Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"]);
+                    {
+                        if (Filtros["FiltroFormacao"].Contains("Filtrar Formação"))
+                        {
+                            DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"],
+                                Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"], "");
+                        }
+                        else
+                        {
+                            DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"],
+                                Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"], Filtros["FiltroFormacao"]);
+                        }
+                    }
+                    if (Filtros["FiltroFormacao"].Contains("Filtrar Formação"))
+                    {
+                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"],
+                            Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"], "");
+                    }
                     else
-                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Filtros["FiltroArea"], Filtros["FiltroCidade"], Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"]);
+                        DadosCurriculos = CarregaDados.RecuperaCurriculosArea(Filtros["FiltroArea"],
+                            Filtros["FiltroCidade"], Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"],
+                            Filtros["FiltroFormacao"]);
                 }
                 catch
                 {

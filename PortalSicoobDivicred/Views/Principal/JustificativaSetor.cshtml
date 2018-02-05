@@ -72,20 +72,19 @@ else
                     <td @TempData["Esconde" + i]>
                         <div class="field has-addons">
                             <p class="control">
-                                <button type="submit" class="button is-success">
+                                <button  class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
                                     <span class="icon is-small">
-                                        <i class="fa fa-thumbs-o-up"></i>
+                                        <i class="fas fa-thumbs-up"></i>
                                     </span>
-                                    <span> Confirmar Justificativa</span>
                                 </button>
                             </p>
+                            <p class="control"></p>
                             <p class="control">
-                                <button type="button" class="button is-danger" onclick="location.href = '@Url.Action("NegarJustificativa", "Principal", new {IdHistorico = @TempData["IdPendencia" + i]})'">
+                                <a class="button is-outlined" href='@Url.Action("NegarJustificativa", "Principal", new {IdHistorico = @TempData["IdPendencia" + i]})' data-balloon="Negar Justificativa" data-balloon-pos="up" style="color: red">
                                     <span class="icon is-small">
-                                        <i class="fa fa-thumbs-o-down"></i>
+                                        <i class="fas fa-thumbs-down"></i>
                                     </span>
-                                    <span> Negar Justificativa</span>
-                                </button>
+                                </a>
                             </p>
                         </div>
                     </td>

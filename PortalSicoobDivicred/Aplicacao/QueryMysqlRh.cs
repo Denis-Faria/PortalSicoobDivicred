@@ -189,24 +189,28 @@ namespace PortalSicoobDivicred.Aplicacao
             }
 
         }
+
         public List<Dictionary<string, string>> RetornaPendenciasSetor(string IdSetor)
         {
             var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.idsetor=" + IdSetor + ";";
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
         }
+
         public void AtualizaJustificativaGestor(string IdHistorico)
         {
             var Query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + IdHistorico + ";";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
 
         }
+
         public void NegaJustificativa(string IdHistorico)
         {
             var Query = "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" + IdHistorico + ";";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
 
         }
+
         public void NegaJustificativaGestor(string IdHistorico)
         {
             var Query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" + IdHistorico + ";";
@@ -214,9 +218,18 @@ namespace PortalSicoobDivicred.Aplicacao
 
         }
 
-        public void CadastraAlertaJustificativa()
+        public List<Dictionary<string,string>> RetornaPendenciaAlerta()
         {
-            
+            var Query = "SELECT idfuncionario FROM historicosjustificativaspontos WHERE validacaogestor='N'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public void CadastraAlertaJustificativa(string IdFuncionario,string Descricao)
+        {
+            var Query = "INSERT INTO alertas(idusuario,idaplicativo,data,descricao) VALUES(" + IdFuncionario +
+                        ",9,NOW(),'" + Descricao + "')";
+            ConexaoMysql.ExecutaComando(Query);
         }
     }
 }

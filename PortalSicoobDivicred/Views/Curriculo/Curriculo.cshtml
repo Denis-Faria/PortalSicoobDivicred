@@ -155,114 +155,148 @@
     <div id="Curriculo">
     @using (Html.BeginForm("CurriculoArea", "Curriculo", FormMethod.Post, new {id = "FiltroPerfil"}))
     {
-        <div class="field is-grouped is-flex-desktop-only is-flex-mobile">
-
-            <div class="field has-addons control">
-                <p class="control">
-                    <input class="input is-primary input-search" alt="lista-curriculo" type="text" placeholder="Buscar um currículo">
-                </p>
+        <div class="columns  is-flex-mobile is-flex-tablet is-flex-desktop  is-flex-widescreen ">
+            <div class="field is-grouped">
+                <div class="column is-2">
+                    <div class="field has-addons control">
+                        <p class="control">
+                            <input class="input is-primary input-search " alt="lista-curriculo" type="text" placeholder="Buscar um currículo">
+                        </p>
+                    </div>
+                </div>
+                <div class="column is-2">
+                    <p class="control has-icons-left ">
+                        <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-university"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="column is-2">
+                    <p class="control has-icons-left">
+                        <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-certificate"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="column is-2">
+                    <p class="control has-icons-left">
+                        <span class="select">
+                            <select name="FiltroOrdenacao" id="FiltroOrdenacao">
+                                <option selected>Filtrar Currículos</option>
+                                <option value="Alfabetico">Ordem Alfabética</option>
+                                <option value="Status">Status</option>
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class="control has-icons-left">
+                        <span class="select">
+                            <select id="FiltroArea" name="FiltroArea">
+                                <option selected>Filtrar Área de Interesse</option>
+                                <option value="Administrativo">Administrativo</option>
+                                <option value="Gerencia">Gerência</option>
+                                <option value="Caixas">Caixas</option>
+                                <option value="Juridico">Jurídico</option>
+                                <option value="Cadastro">Cadastro</option>
+                                <option value="Tesouraria">Tesouraria</option>
+                                <option value="Contabilidade">Contabilidade</option>
+                                <option value="Atendimento">Atendimento</option>
+                                <option value="Retaguarda">Retaguarda</option>
+                                <option value="Credito">Crédito</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Recuperação de Credito">Recuperação de Crédito</option>
+                                <option value="Recursos Humanos">Recursos Humanos</option>
+                                <option value="Departamento Pessoal">Departamento Pessoal</option>
+                                <option value="Tecnologia da Informação">Tecnologia da Informação</option>
+                                <option value="Produtos e Serviços">Produtos e Serviços</option>
+                                <option value="Controle Interno">Controle Interno</option>
+                                <option value="Aprendiz">Menor Aprendiz/Estagiário</option>
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="column is-2">
+                    <p class="control has-icons-left">
+                        <span class="select">
+                            <select id="FiltroFormnacao" name="FiltroFormacao">
+                                <option selected>Filtrar Formação</option>
+                                <option value="1">SUPERIOR EM ANDAMENTO</option>
+                                <option value="2">SUPERIOR COMPLETO</option>
+                                <option value="3">PÓS-GRADUAÇÃO EM ANDAMENTO</option>
+                                <option value="4">PÓS-GRADUAÇÃO COMPLETA</option>
+                                <option value="5">MESTRADO/DOUTORADO EM ANDAMENTO</option>
+                                <option value="6">MESTRADO/DOUTORADO COMPLETO</option>
+                                <option value="7">ENSINO MÉDIO COMPLETO</option>
+                                <option value="8">ENSINO MÉDIO EM ANDAMENTO</option>
+                            </select>
+                        </span>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                        </span>
+                    </p>
+                </div>
             </div>
-            <p class="control has-icons-left">
-                <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-university"></i>
-                </span>
-            </p>
-            <p class="control has-icons-left">
-                <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
-                <span class="icon is-small is-left">
-                    <i class="fa fa-certificate"></i>
-                </span>
-            </p>
-            <p class="control has-icons-left">
-                <span class="select">
-                    <select name="FiltroOrdenacao" id="FiltroOrdenacao">
-                        <option selected>Filtrar Currículos</option>
-                        <option value="Alfabetico">Ordem Alfabética</option>
-                        <option value="Status">Status</option>
-                    </select>
-                </span>
-                <span class="icon is-small is-left">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                </span>
-            </p>
+        </div>
+        <div class="field is-grouped is-desktop">
 
-            <p class="control has-icons-left">
-                <span class="select">
-                    <select id="FiltroArea" name="FiltroArea">
-                        <option selected>Filtrar Área de Interesse</option>
-                        <option value="Administrativo">Administrativo</option>
-                        <option value="Gerencia">Gerência</option>
-                        <option value="Caixas">Caixas</option>
-                        <option value="Juridico">Jurídico</option>
-                        <option value="Cadastro">Cadastro</option>
-                        <option value="Tesouraria">Tesouraria</option>
-                        <option value="Contabilidade">Contabilidade</option>
-                        <option value="Atendimento">Atendimento</option>
-                        <option value="Retaguarda">Retaguarda</option>
-                        <option value="Credito">Crédito</option>
-                        <option value="Marketing">Marketing</option>
-                        <option value="Recuperação de Credito">Recuperação de Crédito</option>
-                        <option value="Recursos Humanos">Recursos Humanos</option>
-                        <option value="Departamento Pessoal">Departamento Pessoal</option>
-                        <option value="Tecnologia da Informação">Tecnologia da Informação</option>
-                        <option value="Produtos e Serviços">Produtos e Serviços</option>
-                        <option value="Controle Interno">Controle Interno</option>
-                        <option value="Estagiario">Menor Aprendiz/Estagiário</option>
-                    </select>
-                </span>
-                <span class="icon is-small is-left">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                </span>
-            </p>
             <p class="control">
                 <button type="submit" class="button is-success" id="AplicarFiltro" onmouseleave="$('#AplicarFiltro').removeClass('animated pulse')" onmouseover="$('#AplicarFiltro').addClass('animated pulse');" data-balloon="Clique para aplicar os filtros." data-balloon-pos="down">
                     <span class="icon is-small">
                         <i class="fas fa-filter" aria-hidden="true"></i>
                     </span>
-                    <span class="name">Filtrar Currículos</span>
+                    <span class="name">Aplicar Filtro Currículos</span>
                 </button>
             </p>
 
+
+
+
+
+            <p class="control">
+                <button class="button is-primary modal-button" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-suitcase" aria-hidden="true"></i>
+                    </span>
+                    <span class="name"> Adicionar Vagas</span>
+                </button>
+            </p>
+
+
+            <p class="control">
+                <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaCurriculo" onmouseleave="$('#AdcionarAlertaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </span>
+                    <span class="name">Adicionar Alertas</span>
+                </a>
+            </p>
+            <p class="control">
+                <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemCurriculo" onmouseleave="$('#AdcionarMensagemCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                    </span>
+                    <span class="name">Adicionar Mensagem</span>
+                </a>
+            </p>
+            <p class="control">
+                <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaCurriculo" onmouseleave="$('#AdcionarVagaEspecificaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </span>
+                    <span class="name">Criar Vaga Específica</span>
+                </a>
+            </p>
         </div>
-    }
-        <br/>
-    <div class="field is-grouped is-desktop">
-        <p class="control">
-            <button class="button is-primary modal-button" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-suitcase" aria-hidden="true"></i>
-                </span>
-                <span class="name"> Adicionar Vagas</span>
-            </button>
-        </p>
-
-
-        <p class="control">
-            <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaCurriculo" onmouseleave="$('#AdcionarAlertaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-bell" aria-hidden="true"></i>
-                </span>
-                <span class="name">Adicionar Alertas</span>
-            </a>
-        </p>
-        <p class="control">
-            <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemCurriculo" onmouseleave="$('#AdcionarMensagemCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-comments" aria-hidden="true"></i>
-                </span>
-                <span class="name">Adicionar Mensagem</span>
-            </a>
-        </p>
-        <p class="control">
-            <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaCurriculo" onmouseleave="$('#AdcionarVagaEspecificaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                </span>
-                <span class="name">Criar Vaga Específica</span>
-            </a>
-        </p>
-    </div> @{
+    } <br />@{
                var count = 0;
                var pagina = 1;
                var j = 0;

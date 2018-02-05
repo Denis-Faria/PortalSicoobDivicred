@@ -860,25 +860,17 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult CadastraAlerta(FormCollection Dados)
         {
-            var VerificaDados = new QueryMysql();
+            var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
-
-
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                 
-
-
-                return RedirectToAction("Principal", "Principal",
-                    new
-                    {
-                        Acao = "ColaboradorRh ",
-                        Mensagem = "Alerta cadastrado com sucesso!",
-                        Controlle = "PainelColaborador"
-                    });
+                var FuncionarioPendentes = VerificaDados.RetornaPendenciaAlerta();
+                for (int i = 0; i < FuncionarioPendentes.Count; i++)
+                {
+                    VerificaDados.CadastraAlertaJustificativa(FuncionarioPendentes[i]["idfuncionario"],Dados["TextAlerta"]);
+                }
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new {Mensagem = "Alerta cadastrado com sucesso !"});
             }
             return RedirectToAction("Login", "Login");
         }

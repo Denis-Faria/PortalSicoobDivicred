@@ -132,7 +132,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionarios(string NomeFuncionario)
         {
             var Query =
-                "SELECT * FROM funcionarios WHERE nome like'%" + NomeFuncionario + "%'";
+                "SELECT * FROM funcionarios where (soundex(nome)like concat('%',soundex('" + NomeFuncionario + "'),'%')) ";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 

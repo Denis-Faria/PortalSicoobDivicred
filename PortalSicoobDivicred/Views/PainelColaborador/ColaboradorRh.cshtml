@@ -127,6 +127,46 @@
                 iziToast.success({
                     title: 'Sucesso',
                     position: "center",
+                    message: 'Pendências Apontada com sucesso !'
+                });
+
+            },
+            error: function(xhr) {
+                iziToast.error({
+                    title: 'Erro',
+                    position: "center",
+                    message: 'Erro ao confirmar pendencias'
+                });
+
+            }
+        });
+            
+
+    }
+    function ApontarPendencia(NumeroLinha) {
+        var itemlist = [];
+        var tdlist = $("#SemPendencia").find("tbody tr").eq(NumeroLinha).find("td");
+        var Item = {
+            Id: $.trim($(tdlist[0]).html()),
+            Nome: $.trim($(tdlist[1]).html()),
+            Dia: $.trim($(tdlist[2]).html()),
+            Horario1: $.trim($(tdlist[3]).html()),
+            Horario2: $.trim($(tdlist[4]).html()),
+            Horario3: $.trim($(tdlist[5]).html()),
+            Horario4: $.trim($(tdlist[6]).html())
+            
+        };
+        itemlist.push(Item);
+        $.ajax({
+            url: '@Url.Action("ApontarPendencia", "PainelColaborador")', //
+            dataType: "json",
+            data: JSON.stringify({ TabelaPendencias: itemlist }),
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+                iziToast.success({
+                    title: 'Sucesso',
+                    position: "center",
                     message: 'Pendências confirmadas com sucesso !'
                 });
 
@@ -143,7 +183,6 @@
 
 
     }
-
     $(".excluir").click(function() {
         $(this).parents('tr').remove();
     });
@@ -200,7 +239,7 @@
         </li>
     </ul>
 </div>
-
+    <!-- PERFIL FUNCIONARIO-->
 <div id="PerfilFuncionario">
     <div id="TabFuncionalidadesPerfil">
         <div class="tabs is-boxed is-centered">
@@ -384,7 +423,7 @@
         </div>
     </div>
 </div>
-
+<!-- BANCO DE HORAS-->
 <div id="BancodeHoras">
 <p class="field">
     <a class="button is-success" href="javascript:ConfirmarPendencia();void(0);" id="ConfirmaPendencia" onmouseleave="$('#ConfirmaPendencia').removeClass('animated pulse')" onmouseover="$('#ConfirmaPendencia').addClass('animated pulse');">
@@ -399,7 +438,7 @@
         </span>
         <span>Alertar sobre pendência</span>
     </a>
-    <a class="button is-primary" id="HistoricoPendencia" onmouseleave="$('#HistoricoPendencia').removeClass('animated pulse')" onmouseover="$('#HistoricoPendencia').addClass('animated pulse');">
+    <a class="button is-primary" id="HistoricoPendencia" href="@Url.Action("HistoricoPendencia")" onmouseleave="$('#HistoricoPendencia').removeClass('animated pulse')" onmouseover="$('#HistoricoPendencia').addClass('animated pulse');" data-balloon="Clique para ver todas as pendências já registradas." data-balloon-pos="down">
         <span class="icon is-small">
             <i class="fa  fa-history"></i>
         </span>
@@ -567,7 +606,7 @@
     </table>
 </div>
 <div id="SemJustificativa">
-    <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+    <table id="SemPendencia" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
         <thead>
         <th>ID</th>
         <th>Funcionário</th>
@@ -584,6 +623,7 @@
         <tbody>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
         {
+
             <tr>
                 <td>
                     @TempData["IdPontoCerto" + i]
@@ -616,7 +656,16 @@
                 <td style="color: red">
                     @TempData["DebitoCerto" + i]
                 </td>
-
+                <td>
+                    <p class="control">
+                        <a class="button is-outlined is-success"   href="Javascript:ApontarPendencia('@i');void(0);" data-balloon="Apontar pendências" data-balloon-pos="up">
+                            <span class="icon is-small">
+                                <i class="fas fa-thumbtack"></i>
+                            </span>
+                            <span>Apontar pendências</span>
+                        </a>
+                    </p>
+                </td>
             </tr>
         }
         <tbody>

@@ -466,6 +466,7 @@
     <Content Include="Views\Principal\JustificativaPonto.cshtml" />
     <Content Include="Views\Principal\JustificativaSetor.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\PainelColaborador\HistoricoPendencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -634,13 +634,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>02/05/2018 14:06:15</publishTime>
+      <publishTime>02/05/2018 16:01:19</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>02/05/2018 14:06:15</publishTime>
+      <publishTime>02/05/2018 16:01:19</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>

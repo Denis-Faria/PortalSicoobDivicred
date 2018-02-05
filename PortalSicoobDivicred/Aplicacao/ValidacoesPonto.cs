@@ -463,5 +463,67 @@ namespace PortalSicoobDivicred
             return FaltaConfirmacao;
 
         }
+
+        public List<Dictionary<string, string>> RetornaHistoricoPendencias()
+        {
+            var FaltaConfirmacao = new List<Dictionary<string, string>>();
+
+            var DadosRh = new QueryMysqlRh();
+            var Firebird = new QueryFirebird();
+            var TodasPendencias = DadosRh.RetornaHistoricoPendencias();
+
+            for (int i = 0; i < TodasPendencias.Count; i++)
+            {
+                var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
+
+                var Confirmar = new Dictionary<string, string>();
+                if (TodasPendencias[i]["validacaogestor"].Equals("S"))
+                {
+                    Confirmar.Add("ConfirmaGestor", "green");
+                }
+                else
+                {
+                    Confirmar.Add("ConfirmaGestor", "red");
+                }
+                Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
+                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
+                Confirmar.Add("Data", TodasPendencias[i]["data"]);
+                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
+                var Validado = false;
+                for (int j = 0; j < DadosPendencia.Count; j++)
+                {
+                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0"))
+                    {
+                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                    }
+                    else
+                    {
+                        var Justificativa =
+                            Firebird.RecuperaJustificativasFuncioanrio(DadosPendencia[j]["idjustificativafirebird"]);
+                        try
+                        {
+                            Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                        }
+                        catch { }
+                        Validado = true;
+                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                    }
+                }
+                if (Validado)
+                {
+
+                    Confirmar.Add("Justificado", "true");
+                }
+                else
+                {
+                    Confirmar.Add("Justificado", "false");
+                }
+
+                FaltaConfirmacao.Add(Confirmar);
+
+            }
+            return FaltaConfirmacao;
+
+        }
     }
 }

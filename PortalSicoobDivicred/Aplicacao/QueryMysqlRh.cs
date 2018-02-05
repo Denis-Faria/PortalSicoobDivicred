@@ -163,6 +163,12 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosJustificativas;
         }
+        public List<Dictionary<string, string>> RetornaHistoricoPendencias()
+        {
+            var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.idfuncionario=b.id ;";
+            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosJustificativas;
+        }
         public List<Dictionary<string, string>> RetornaPendenciasUsuario(string IdUsuario)
         {
             var Query = "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.id="+IdUsuario+";";

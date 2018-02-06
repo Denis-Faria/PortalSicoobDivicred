@@ -138,7 +138,7 @@ namespace PortalSicoobDivicred.Controllers
                                 Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"], Filtros["FiltroFormacao"]);
                         }
                     }
-                    if (Filtros["FiltroFormacao"].Contains("Filtrar Formação"))
+                   else if (Filtros["FiltroFormacao"].Contains("Filtrar Formação"))
                     {
                         DadosCurriculos = CarregaDados.RecuperaCurriculosArea("", Filtros["FiltroCidade"],
                             Filtros["FiltroCertificacao"], Filtros["FiltroOrdenacao"], "");

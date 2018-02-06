@@ -309,11 +309,11 @@
             {
                 <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="lista-curriculo table is-striped is-centered is-desktop" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                     <thead>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Cidade</th>
-                    <th>Status</th>
-                    <th>Area de Interesse</th>
+                    <th class="has-text-centered">Nome</th>
+                    <th class="has-text-centered">Email</th>
+                    <th class="has-text-centered">Cidade</th>
+                    <th class="has-text-centered">Status</th>
+                    <th class="has-text-centered">Area de Interesse</th>
                     </thead>
 
 
@@ -326,7 +326,7 @@
                     {
                         count++;
                         <tr>
-                            <td>
+                            <td class="has-text-centered">
                                 <article class="media">
                                     <div class="media-left grow pic">
                                         <figure class="image is-32x32">
@@ -342,14 +342,14 @@
                                     </div>
                                 </article>
                             </td>
-                            <td class="is-centered">@TempData["Email" + j].ToString()</td>
-                            <td>@TempData["Cidade" + j].ToString()</td>
-                            <td>
+                            <td class="has-text-centered">@TempData["Email" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Cidade" + j].ToString()</td>
+                            <td class="has-text-centered">
                                 <span class="icon">
                                     <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["Status" + j].ToString()"></i>
                                 </span>
                             </td>
-                            <td>@TempData["Area" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Area" + j].ToString()</td>
                         </tr>
                         if (count == 20)
                         {
@@ -370,11 +370,11 @@
         {
             <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                 <thead>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Cidade</th>
-                <th>Status</th>
-                <th>Area de Interesse</th>
+                <th class="has-text-centered">Nome</th>
+                <th class="has-text-centered">Email</th>
+                <th class="has-text-centered">Cidade</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">Area de Interesse</th>
                 </thead>
 
 
@@ -387,7 +387,7 @@
                 {
                     count++;
                     <tr>
-                        <td>
+                        <td class="has-text-centered">
                             <article class="media">
                                 <div class="media-left grow pic">
                                     <figure class="image is-32x32">
@@ -403,14 +403,14 @@
                                 </div>
                             </article>
                         </td>
-                        <td class="is-centered">@TempData["Email" + k].ToString()</td>
-                        <td>@TempData["Cidade" + k].ToString()</td>
-                        <td>
+                        <td class="has-text-centered">@TempData["Email" + k].ToString()</td>
+                        <td class="has-text-centered">@TempData["Cidade" + k].ToString()</td>
+                        <td class="has-text-centered">
                             <span class="icon">
                                 <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["Status" + k].ToString()"></i>
                             </span>
                         </td>
-                        <td>@TempData["Area" + k].ToString()</td>
+                        <td class="has-text-centered">@TempData["Area" + k].ToString()</td>
                     </tr>
                 }
 
@@ -485,11 +485,11 @@
 
             <table class="lista-curriculo table is-striped is-centered" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                 <thead>
-                <th>Titulo Vaga</th>
-                <th>Descrição</th>
-                <th>Status</th>
-                <th>Area de Interesse</th>
-                <th>Alterar Vaga</th>
+                <th class="has-text-centered">Titulo Vaga</th>
+                <th class="has-text-centered">Descrição</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">Area de Interesse</th>
+                <th class="has-text-centered">Alterar Vaga</th>
                 </thead>
                 <tbody>
                     @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)

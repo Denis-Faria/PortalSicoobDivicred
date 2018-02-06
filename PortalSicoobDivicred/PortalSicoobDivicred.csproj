@@ -194,6 +194,7 @@
     <Content Include="bin\PortalSicoobDivicred.dll" />
     <Content Include="bin\PortalSicoobDivicred.pdb" />
     <Content Include="Global.asax" />
+    <Content Include="Images\CIM.png" />
     <Content Include="Images\Curriculo.png" />
     <Content Include="Images\Dash.png" />
     <Content Include="Images\FundoUser.png" />
@@ -223,6 +224,7 @@
     <Content Include="Assets\css\bulma-steps\bulma-steps-example.png" />
     <Content Include="Assets\css\bulma-steps\steps.js" />
     <Content Include="Images\Sem pendencias.png" />
+    <Content Include="Images\Webdesk.png" />
     <Content Include="node_modules\install\docs\docco.css" />
     <Content Include="node_modules\install\docs\install.html" />
     <Content Include="node_modules\install\docs\public\stylesheets\normalize.css" />
@@ -335,17 +337,20 @@
     <Compile Include="Aplicacao\QueryMysqlCurriculo.cs" />
     <Compile Include="Aplicacao\QueryMysqlRh.cs" />
     <Compile Include="Aplicacao\QueryFirebird.cs" />
+    <Compile Include="Aplicacao\QueryMysqlWebdesk.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
+    <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="ElasticEmailClient.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Funcao.cs" />
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\JustificativaPonto.cs" />
@@ -467,6 +472,10 @@
     <Content Include="Views\Principal\JustificativaSetor.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\PainelColaborador\HistoricoPendencia.cshtml" />
+    <Content Include="Views\PainelColaborador\ReincidentePendencia.cshtml" />
+    <Content Include="Views\WebDesk\Chamados.cshtml" />
+    <Content Include="Views\PainelColaborador\Parametros.cshtml" />
+    <Content Include="Views\PainelColaborador\Funcao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

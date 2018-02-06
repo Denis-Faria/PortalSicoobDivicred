@@ -237,5 +237,23 @@ namespace PortalSicoobDivicred.Aplicacao
                         ",9,NOW(),'" + Descricao + "')";
             ConexaoMysql.ExecutaComando(Query);
         }
+
+        public List<Dictionary<string, string>> RetornaReincidentes(string DataInicial,string DataFinal)
+        {
+            var Query = "select a.id, a.nome,if(count(b.idfuncionario)>=3,'S','N') as confirma from funcionarios a, historicosjustificativaspontos b where a.id=b.idfuncionario and b.data between '"+DataInicial+"' and '"+DataFinal+"' group by b.idfuncionario; ";
+           var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+        public string RetornaDataReincidentes(string IdFuncionario, string DataInicial, string DataFinal)
+        {
+            var Query = "select data from  historicosjustificativaspontos  where data between '" + DataInicial + "' and '" + DataFinal + "' and idfuncionario="+IdFuncionario+"; ";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var Dias = "";
+            for (int i = 0; i < Dados.Count; i++)
+            {
+                Dias = Dias + Convert.ToDateTime(Dados[i]["data"]).Date.ToString("dd/MM/yyyy") + " || ";
+            }
+            return Dias;
+        }
     }
 }

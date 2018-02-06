@@ -1,0 +1,53 @@
+﻿<div>
+    <div class="field is-grouped is-desktop">
+
+        <p class="control">
+            <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </span>
+                <span class="name">Editar Função</span>
+            </button>
+        </p>
+    </div>
+    @using (Html.BeginForm("Funcao", "PainelColaborador"))
+    {
+        <div class="field">
+            <label class="label">Nome Função</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="Assistente ...">
+            </div>
+        </div>
+      
+        <br/>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Certificações
+                </p>
+               
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <div class="field">
+                        <div class="control has-icons-left ">
+                            <input class="input is-fullwidth" type="text" placeholder="Busque uma certificação">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <p class="control">
+            <button type="submit" class="button is-success " id="CadastroFuncao" onmouseleave="$('#CadastroFuncao').removeClass('animated pulse')" onmouseover="$('#CadastroFuncao').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                </span>
+                <span class="name">Cadastrar Função</span>
+            </button>
+        </p>
+    }
+</div>

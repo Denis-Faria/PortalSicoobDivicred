@@ -198,7 +198,7 @@
 <div class="tabs is-boxed is-centered">
     <ul>
         <li id="AbaPerfilFuncionario" class="is-active">
-            <a href="#PerfilFuncionario" onclick="javascript:$('#AbaBancoDeHoras').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaPerfilFuncionario').addClass('is-active');">
+            <a href="#PerfilFuncionario" onclick="javascript:$('#AbaBancoDeHoras').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaPerfilFuncionario').addClass('is-active');$('#AbaParametros').removeClass();">
                 <span class="icon is-small">
                     <i class="fa fa-book" aria-hidden="true"></i>
                 </span>
@@ -206,7 +206,7 @@
             </a>
         </li>
         <li id="AbaBancoDeHoras">
-            <a href="#BancodeHoras" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaBancoDeHoras').addClass('is-active');">
+            <a href="#BancodeHoras" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaBancoDeHoras').addClass('is-active');$('#AbaParametros').removeClass();">
                 <span class="icon is-small">
                     <i class="fa fa-hourglass-half"></i>
                 </span>
@@ -214,7 +214,7 @@
             </a>
         </li>
         <li id="AbaFerias">
-            <a href="#Ferias" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaFerias').addClass('is-active');">
+            <a href="#Ferias" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaTreinamento').removeClass();$('#AbaIndicadores').removeClass();$('#AbaFerias').addClass('is-active');$('#AbaParametros').removeClass();">
                 <span class="icon is-small">
                     <i class="fa fa-plane"></i>
                 </span>
@@ -222,7 +222,7 @@
             </a>
         </li>
         <li id="AbaTreinamento">
-            <a href="#Treinamento" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').removeClass();$('#AbaTreinamento').addClass('is-active');">
+            <a href="#Treinamento" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').removeClass();$('#AbaTreinamento').addClass('is-active');$('#AbaParametros').removeClass();">
                 <span class="icon is-small">
                     <i class="fa fa-graduation-cap"></i>
                 </span>
@@ -230,11 +230,19 @@
             </a>
         </li>
         <li id="AbaIndicadores">
-            <a href="#Indicadores" onclick="javascript:$('#AbaPerfilFuncionario').removeClass();$('#AbaFerias').removeClass();$('#AbaTreinamento').removeClass();$('#AbaBancoDeHoras').removeClass();$('#AbaIndicadores').addClass('is-active');">
+            <a href="#Indicadores" onclick="javascript: $('#AbaPerfilFuncionario').removeClass(); $('#AbaFerias').removeClass(); $('#AbaTreinamento').removeClass(); $('#AbaBancoDeHoras').removeClass(); $('#AbaIndicadores').addClass('is-active'); $('#AbaParametros').removeClass();">
                 <span class="icon is-small">
-                    <i class="fa fa-bar-chart"></i>
+                    <i class="fas fa-chart-line"></i>
                 </span>
                 <span>Indicadores</span>
+            </a>
+        </li>
+        <li id="AbaParametros">
+            <a href="#Parametros" onclick="javascript: $('#AbaPerfilFuncionario').removeClass(); $('#AbaFerias').removeClass(); $('#AbaTreinamento').removeClass(); $('#AbaBancoDeHoras').removeClass(); $('#AbaIndicadores').removeClass(); $('#AbaParametros').addClass('is-active');">
+                <span class="icon is-small">
+                    <i class="fas fa-cog"></i>
+                </span>
+                <span>Parâmetros do sistema</span>
             </a>
         </li>
     </ul>
@@ -277,9 +285,9 @@
                         <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; box-shadow: 2px 2px 2px grey; text-align: center;">
                             <thead>
                             <tr>
-                                <th>Nome</th>
-                                <th>Setor</th>
-                                <th>P.A</th>
+                                <th class="has-text-centered">Nome</th>
+                                <th class="has-text-centered">Setor</th>
+                                <th class="has-text-centered">P.A</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -287,7 +295,7 @@
                             {
                                 count++;
                                 <tr>
-                                    <td>
+                                    <td class="has-text-centered">
                                         <article class="media">
                                             <div class="media-left grow pic">
                                                 <figure class="image is-32x32">
@@ -303,8 +311,8 @@
                                             </div>
                                         </article>
                                     </td>
-                                    <td class="is-centered">@TempData["Setor" + j].ToString()</td>
-                                    <td>@TempData["PA" + j].ToString()</td>
+                                    <td class="has-text-centered">@TempData["Setor" + j].ToString()</td>
+                                    <td class="has-text-centered">@TempData["PA" + j].ToString()</td>
                                 </tr>
                                 if (count == 20)
                                 {
@@ -322,9 +330,9 @@
                     <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                         <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Setor</th>
-                            <th>P.A</th>
+                            <th class="has-text-centered">Nome</th>
+                            <th class="has-text-centered">Setor</th>
+                            <th class="has-text-centered">P.A</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -332,7 +340,7 @@
                         {
                             count++;
                             <tr>
-                                <td>
+                                <td class="has-text-centered">
                                     <article class="media">
                                         <div class="media-left grow pic">
                                             <figure class="image is-32x32">
@@ -348,8 +356,8 @@
                                         </div>
                                     </article>
                                 </td>
-                                <td class="is-centered">@TempData["Setor" + k].ToString()</td>
-                                <td>@TempData["PA" + k].ToString()</td>
+                                <td class="has-text-centered">@TempData["Setor" + k].ToString()</td>
+                                <td class="has-text-centered">@TempData["PA" + k].ToString()</td>
                             </tr>
                         }
                         </tbody>
@@ -388,25 +396,25 @@
             </div>
             <table class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                 <thead>
-                <th>Titulo Vaga</th>
-                <th>Descrição</th>
-                <th>Status</th>
-                <th>Editar</th>
+                <th class="has-text-centered">Titulo Vaga</th>
+                <th class="has-text-centered">Descrição</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">Editar</th>
                 </thead>
                 <tbody>
                 @for (var a = 0; a < Convert.ToInt32(TempData["Total"].ToString()); a++)
                 {
                     <tr>
-                        <td>
+                        <td class="has-text-centered">
                             <a href="@Url.Action("GerenciarVaga","PainelColaborador",new{IdVaga=@TempData["IdVaga " + a].ToString()})">@TempData["Titulo " + a].ToString()</a> <strong></strong>
                         </td>
-                        <td>@TempData["DescricaoVaga " + a].ToString()</td>
-                        <td>
+                        <td class="has-text-centered">@TempData["DescricaoVaga " + a].ToString()</td>
+                        <td class="has-text-centered">
                             <span class="icon">
                                 <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga " + a].ToString()"></i>
                             </span>
                         </td>
-                        <td>
+                        <td class="has-text-centered">
                             <a href="javascript:AlterarVaga(@TempData["IdVaga " + a].ToString());void(0);" class="button is-primary">
                                 <span class="icon is-small">
                                     <i class="fa fa-pencil-alt" aria-hidden="true"></i>
@@ -444,6 +452,12 @@
         </span>
         <span>Histórico de pendências</span>
     </a>
+    <a class="button is-primary" id="Reincidentes" href="@Url.Action("ReincidentePendencia")" onmouseleave="$('#Reincidentes').removeClass('animated pulse')" onmouseover="$('#Reincidentes').addClass('animated pulse');" data-balloon="Clique para ver todos os funcionários reincidentes." data-balloon-pos="down">
+        <span class="icon is-small">
+            <i class="far fa-calendar-times"></i>
+        </span>
+        <span>Reincidentes do mês</span>
+    </a>
 
 </p>
 <div id="TabHoras">
@@ -476,46 +490,46 @@
     </ul>
 </div>
 <div id="Justifica">
-    <table id="Pendencias" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+    <table id="Pendencias" style="text-align:center;" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
         <thead>
-        <th>ID</th>
-        <th>Funcionário</th>
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Saída Almoço</th>
-        <th>Volta Almoço</th>
-        <th>Saída</th>
-        <th @TempData["ExtraPendente1"]>Extra 1</th>
-        <th @TempData["ExtraPendente2"]>Extra 2</th>
-        <th>Ignorar Pendência</th>
+        <th class="has-text-centered">ID</th>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Dia</th>
+        <th class="has-text-centered">Entrada</th>
+        <th class="has-text-centered">Saída Almoço</th>
+        <th class="has-text-centered">Volta Almoço</th>
+        <th class="has-text-centered">Saída</th>
+        <th class="has-text-centered" @TempData["ExtraPendente1"]>Extra 1</th>
+        <th class="has-text-centered" @TempData["ExtraPendente2"]>Extra 2</thclass="has-text-centered">
+        <th class="has-text-centered">Ignorar Pendência</th>
 
         </thead>
         <tbody>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
         {
-            <tr>
-                <td>@TempData["IdPonto" + i]</td>
-                <td>
+            <tr >
+                <td class="has-text-centered">@TempData["IdPonto" + i]</td>
+                <td class="has-text-centered">
                     @TempData["NomePonto" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["Dia"]
                 </td>
                 @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPonto" + i]); k++)
                 {
-                    <td>
+                    <td class="has-text-centered">
                         @TempData["Hora" + k + i]
                     </td>
                 }
                 @if (@TempData["ExtraPendente1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 5)
                 {
-                    <td></td>
+                    <td class="has-text-centered"></td>
                 }
                 @if (@TempData["ExtraPendente2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 6)
                 {
-                    <td></td>
+                    <td class="has-text-centered"></td>
                 }
-                <td class="is-centered">
+                <td class="has-text-centered">
                     <div class="field">
                         <a class="button is-rounded is-danger excluir is-small" id="@i" data-balloon="Ignorar Pendência" data-balloon-pos="right" onmouseleave="$('#@i').removeClass('animated pulse')" onmouseover="$('#@i').addClass('animated pulse');">
                             <span class="icon is-small">
@@ -533,55 +547,55 @@
 <div id="NaoConfirmada">
     <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
         <thead>
-        <th>ID</th>
-        <th>Funcionário</th>
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Saída Almoço</th>
-        <th>Volta Almoço</th>
-        <th>Saída</th>
-        <th @TempData["ExtraJustifica1"]>Extra 1</th>
-        <th @TempData["ExtraJustifica2"]>Extra 2</th>
-        <th>Justificativa</th>
-        <th>Validação Gestor</th>
-        <th>Confirmação</th>
+        <th class="has-text-centered">ID</th>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Dia</th>
+        <th class="has-text-centered">Entrada</th>
+        <th class="has-text-centered">Saída Almoço</th>
+        <th class="has-text-centered">Volta Almoço</th>
+        <th class="has-text-centered">Saída</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica1"]>Extra 1</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica2"]>Extra 2</th>
+        <th class="has-text-centered">Justificativa</th>
+        <th class="has-text-centered">Validação Gestor</th>
+        <th class="has-text-centered">Confirmação</th>
         </thead>
         <tbody>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
         {
             <tr>
-                <td>@TempData["IdPendencia" + i]</td>
-                <td>
+                <td class="has-text-centered">@TempData["IdPendencia" + i]</td>
+                <td class="has-text-centered">
                     @TempData["NomePendencia" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["DiaPendencia" + i]
                 </td>
                 @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
                 {
-                    <td>
+                    <td class="has-text-centered">
                         @TempData["Hora" + k + "Pendencia" + i]
                     </td>
                 }
                 @if (@TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
                 {
-                    <td></td>
+                    <td class="has-text-centered"></td>
                 }
                 @if (@TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
                 {
-                    <td></td>
+                    <td class="has-text-centered"></td>
                 }
-                <td>
+                <td class="has-text-centered">
                     <span class="icon is-small" data-balloon="@TempData["Justificativa" + i]" data-balloon-pos="up">
                         <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativa" + i]"></i>
                     </span>
                 </td>
-                <td>
+                <td class="has-text-centered">
                     <span class="icon is-small">
                         <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativaGetor" + i]"></i>
                     </span>
                 </td>
-                <td @TempData["Esconde" + i]>
+                <td class="has-text-centered" @TempData["Esconde" + i]>
                     <div class="field has-addons">
                         <p class="control">
                             <a class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
@@ -608,55 +622,55 @@
 <div id="SemJustificativa">
     <table id="SemPendencia" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
         <thead>
-        <th>ID</th>
-        <th>Funcionário</th>
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Saída Almoço</th>
-        <th>Volta Almoço</th>
-        <th>Saída</th>
-        <th>Jornada</th>
-        <th>Crédito</th>
-        <th>Debito</th>
-        <th>Apontar Pendência</th>
+        <th class="has-text-centered">ID</th>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Dia</th>
+        <th class="has-text-centered">Entrada</th>
+        <th class="has-text-centered">Saída Almoço</th>
+        <th class="has-text-centered">Volta Almoço</th>
+        <th class="has-text-centered">Saída</th>
+        <th class="has-text-centered">Jornada</th>
+        <th class="has-text-centered">Crédito</th>
+        <th class="has-text-centered">Debito</th>
+        <th class="has-text-centered">Apontar Pendência</th>
         </thead>
         <tbody>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
         {
 
             <tr>
-                <td>
+                <td class="has-text-centered">
                     @TempData["IdPontoCerto" + i]
                 </td>
 
-                <td>
+                <td class="has-text-centered">
                     @TempData["NomePontoCerto" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["DiaCerto" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["HoraCerto0" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["HoraCerto1" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["HoraCerto2" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["HoraCerto3" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["JornadaCerto" + i]
                 </td>
-                <td style="color: green">
+                <td class="has-text-centered" style="color: green">
                     @TempData["HoraExtraCerto" + i]
                 </td>
-                <td style="color: red">
+                <td class="has-text-centered" style="color: red">
                     @TempData["DebitoCerto" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     <p class="control">
                         <a class="button is-outlined is-success"   href="Javascript:ApontarPendencia('@i');void(0);" data-balloon="Apontar pendências" data-balloon-pos="up">
                             <span class="icon is-small">
@@ -681,6 +695,9 @@
 </div>
 <div id="Indicadores">
     <h1>Indicadores</h1>
+</div>
+<div id="Parametros">
+    @Html.Action("Paremetros")
 </div>
 
 </div>

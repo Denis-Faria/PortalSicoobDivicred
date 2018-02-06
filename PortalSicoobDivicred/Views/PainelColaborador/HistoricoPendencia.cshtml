@@ -17,7 +17,7 @@
 
         </script>
     }
-<nav class="breadcrumb" aria-label="breadcrumbs">
+<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
     <ul>
         <li>
             <a href="@Url.Action("Principal","Principal")">
@@ -34,8 +34,8 @@
             </a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page" style="color: #38d5c5;">
-                <span class="icon is-small" style="color: #38d5c5;">
+            <a href="#" aria-current="page" >
+                <span class="icon is-small">
                     <i class="fa fa-history" aria-hidden="true"></i>
                 </span><span>Histórico de Pendências</span>
             </a>
@@ -45,49 +45,49 @@
 <div>
     <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
         <thead>
-        <th>ID</th>
-        <th>Funcionário</th>
-        <th>Dia</th>
-        <th>Entrada</th>
-        <th>Saída Almoço</th>
-        <th>Volta Almoço</th>
-        <th>Saída</th>
-        <th @TempData["ExtraJustifica1"]>Extra 1</th>
-        <th @TempData["ExtraJustifica2"]>Extra 2</th>
-        <th>Justificativa</th>
-        <th>Validação Gestor</th>
+        <th class="has-text-centered">ID</th>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Dia</th>
+        <th class="has-text-centered">Entrada</th>
+        <th class="has-text-centered">Saída Almoço</th>
+        <th class="has-text-centered">Volta Almoço</th>
+        <th class="has-text-centered">Saída</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica1"]>Extra 1</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica2"]>Extra 2</th>
+        <th class="has-text-centered">Justificativa</th>
+        <th class="has-text-centered">Validação Gestor</th>
         </thead>
         <tbody>
             @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
         {
             <tr>
-                <td>@TempData["IdPendencia" + i]</td>
+                <td class="has-text-centered">@TempData["IdPendencia" + i]</td>
                 <td>
                     @TempData["NomePendencia" + i]
                 </td>
-                <td>
+                <td class="has-text-centered">
                     @TempData["DiaPendencia" + i]
                 </td>
                 @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
             {
-                <td>
+                <td class="has-text-centered">
                     @TempData["Hora" + k + "Pendencia" + i]
                 </td>
         }
                 @if (@TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
             {
-                <td></td>
+                <td class="has-text-centered"></td>
         }
                 @if (@TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
             {
-                <td></td>
+                <td class="has-text-centered"></td>
         }
-                <td>
+                <td class="has-text-centered">
                     <span class="icon is-small" data-balloon="@TempData["Justificativa" + i]" data-balloon-pos="up">
                         <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativa" + i]"></i>
                     </span>
                 </td>
-                <td>
+                <td class="has-text-centered">
                     <span class="icon is-small">
                         <i class="fa fa-check-square" aria-hidden="true" style="color: @TempData["StatusJustificativaGetor" + i]"></i>
                     </span>

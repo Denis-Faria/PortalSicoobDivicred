@@ -185,7 +185,7 @@
 
     </script>
 }
-    <nav class="breadcrumb" aria-label="breadcrumbs">
+    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
         <ul>
             <li>
                 <a href="@Url.Action("Principal","Principal")">
@@ -202,8 +202,8 @@
                 </a>
             </li>
             <li class="is-active">
-                <a href="#" aria-current="page" style="color: #38d5c5;">
-                    <span class="icon is-small" style="color: #38d5c5;">
+                <a href="#" aria-current="page" >
+                    <span class="icon is-small" >
                         <i class="fa fa-suitcase" aria-hidden="true"></i>
                     </span><span>Vagas - @TempData["TituloVaga"]</span>
                 </a>
@@ -374,27 +374,27 @@
                 </div>
                 <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-fullwidth is-fullheight" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                     <thead>
-                    <th>
+                    <th class="has-text-centered">
                         <label class="checkbox">
                             <input type="checkbox" onclick="SelecionaTodas()">
                             Selecionar Todos
                         </label>
                     </th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Cidade</th>
-                    <th>Certificação</th>
+                    <th class="has-text-centered">Nome</th>
+                    <th class="has-text-centered">Email</th>
+                    <th class="has-text-centered">Cidade</th>
+                    <th class="has-text-centered">Certificação</th>
                     </thead>
                     <tbody>
                         @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
                         {
                             <tr>
-                                <td>
+                                <td class="has-text-centered">
                                     <label class="checkbox">
                                         <input id="@TempData["Cpf" + i]" name="@TempData["Cpf" + i]" type="checkbox" onchange="LinhaSeleciona()">
                                     </label>
                                 </td>
-                                <td>
+                                <td class="has-text-centered">
                                     <article class="media">
                                         <div class="media-left grow pic">
                                             <figure class="image is-32x32 is-square">
@@ -410,9 +410,9 @@
                                         </div>
                                     </article>
                                 </td>
-                                <td>@TempData["Email" + i].ToString()</td>
-                                <td>@TempData["Cidade" + i].ToString()</td>
-                                <td>@TempData["Certificacao" + i].ToString()</td>
+                                <td class="has-text-centered">@TempData["Email" + i].ToString()</td>
+                                <td class="has-text-centered">@TempData["Cidade" + i].ToString()</td>
+                                <td class="has-text-centered">@TempData["Certificacao" + i].ToString()</td>
                             </tr>
                         }
                     <tbody>

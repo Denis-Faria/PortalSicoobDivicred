@@ -997,5 +997,53 @@ namespace PortalSicoobDivicred.Controllers
             }
             return View();
         }
+
+        public ActionResult ReincidentePendencia()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ReincidentePendencia(FormCollection Datas)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Reincidentes = VerificaDados.RetornaReincidentes(Datas["DataInicial"], Datas["DataFinal"]);
+                var TotalReincidente = 0;
+                for (int i = 0; i < Reincidentes.Count; i++)
+                {
+                    if (Reincidentes[i]["confirma"].Equals("S"))
+                    {
+                       var Dias = VerificaDados.RetornaDataReincidentes(Reincidentes[i]["id"], Datas["DataInicial"],
+                            Datas["DataFinal"]);
+                        TempData["Nome" + TotalReincidente] = Reincidentes[i]["nome"];
+                        TempData["IdFuncionario" + TotalReincidente] = Reincidentes[i]["id"];
+                        TempData["Dia" + TotalReincidente] = Dias;
+                        TotalReincidente++;
+                    }
+                   
+                }
+               TempData["TotalReincidente"]= TotalReincidente;
+               return View();
+            }
+            return RedirectToAction("Login","Login");
+        }
+
+        public ActionResult Paremetros()
+        {
+            return PartialView("Parametros");
+        }
+
+        public ActionResult Funcao()
+        {
+            return PartialView("Funcao");
+        }
+        [HttpPost]
+        public ActionResult Funcao(Funcao DadosCadastro, FormCollection Dados)
+        {
+            return PartialView("Funcao");
+        }
     }
 }

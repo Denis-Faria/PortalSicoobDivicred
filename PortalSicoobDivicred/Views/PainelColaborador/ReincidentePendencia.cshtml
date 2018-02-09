@@ -9,14 +9,24 @@
 
         <script>
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["Mensagem"]',
-        });
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]',
+            });
 
         </script>
     }
+    <script>
+        function Imprimir() {
+
+            var conteudo = document.getElementById('ReincidentesCompleto').innerHTML,
+                tela_impressao = window.open('about:blank');
+            tela_impressao.document.write(conteudo);
+            tela_impressao.window.print();
+            tela_impressao.window.close();
+        }
+    </script>
     <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
         <ul>
             <li>
@@ -73,11 +83,23 @@
                             </button>
                         </p>
                     </div>
+                    <div class="column is-3">
+                        <p class="control">
+                            <button onclick="Imprimir()" type="submit" class="button is-success">
+                                <span class="icon">
+                                    <i class="fa fa-print"></i>
+                                </span>
+                                <span>Imprimir Reincidentes</span>
+                            </button>
+                        </p>
+                    </div>
                 </div>
+
             </div>
         }
+
         <br />
-        <div>
+        <div id="ReincidentesCompleto">
             <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
                 <thead>
                 <th>ID</th>

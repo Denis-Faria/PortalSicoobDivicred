@@ -1,0 +1,62 @@
+﻿<script>
+    $(".excluir").click(function() {
+        $(this).parents('tr').remove();
+    });
+</script>
+
+        <table id="Pendencias" style="text-align:center;" name="Pendencias" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+            <thead>
+            <th class="has-text-centered">ID</th>
+            <th class="has-text-centered">Funcionário</th>
+            <th class="has-text-centered">Dia</th>
+            <th class="has-text-centered">Entrada</th>
+            <th class="has-text-centered">Saída Almoço</th>
+            <th class="has-text-centered">Volta Almoço</th>
+            <th class="has-text-centered">Saída</th>
+            <th class="has-text-centered" @TempData["ExtraPendente1"]>Extra 1</th>
+            <th class="has-text-centered" @TempData["ExtraPendente2"]>Extra 2</thclass="has-text-centered">
+            <th class="has-text-centered">Ignorar Pendência</th>
+
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
+                {
+                    <tr>
+                        <td class="has-text-centered">@TempData["IdPonto" + i]</td>
+                        <td class="has-text-centered">
+                            @TempData["NomePonto" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["Dia"]
+                        </td>
+                        @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPonto" + i]); k++)
+                        {
+                            <td class="has-text-centered">
+                                @TempData["Hora" + k + i]
+                            </td>
+                        }
+                        @if (@TempData["ExtraPendente1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 5)
+                        {
+                            <td class="has-text-centered"></td>
+                        }
+                        @if (@TempData["ExtraPendente2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPonto" + i]) != 6)
+                        {
+                            <td class="has-text-centered"></td>
+                        }
+                        <td class="has-text-centered">
+                            <div class="field">
+                                <a class="button is-rounded is-danger excluir is-small" id="@i" data-balloon="Ignorar Pendência" data-balloon-pos="right" onmouseleave="$('#@i').removeClass('animated pulse')" onmouseover="$('#@i').addClass('animated pulse');">
+                                    <span class="icon is-small">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            <tbody>
+        </table>
+
+    
+

@@ -16,7 +16,7 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-           if (Logado)
+            if (Logado)
             {
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
@@ -103,7 +103,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
-        
+
         public ActionResult FormularioCadastro()
         {
             var VerificaDados = new QueryMysql();
@@ -393,7 +393,7 @@ namespace PortalSicoobDivicred.Controllers
             return PartialView("JustificativaPonto");
         }
         [HttpPost]
-        public ActionResult Justificativas(JustificativaPonto Justificativa,FormCollection Formulario)
+        public ActionResult Justificativas(JustificativaPonto Justificativa, FormCollection Formulario)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
@@ -403,14 +403,22 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 var Keys = Formulario.AllKeys;
+
                 for (int i = 0; i < Formulario.Count; i++)
                 {
                     if (Formulario.AllKeys[i].Contains("Id"))
                     {
                         var IdHistorico = Formulario[i];
                         var TemHorario = true;
-                        
-                        
+                        if (Formulario.AllKeys.Contains("Observacao"))
+                        {
+                            VerificaDados.AtualizaJustificativaSemFireBird(IdHistorico,
+                                Formulario["Observacao"]);
+
+                        }
+                        else
+                        {
+
                             if (Keys.Contains("Hora 0 " + IdHistorico))
                             {
                                 VerificaDados.InseriJustificativa(IdHistorico,
@@ -419,6 +427,7 @@ namespace PortalSicoobDivicred.Controllers
                                     Formulario["JustificativaFire " + IdHistorico + ""]);
                                 TemHorario = false;
                             }
+
                             if (Formulario.AllKeys.Contains("Hora 1 " + IdHistorico))
                             {
                                 VerificaDados.InseriJustificativa(IdHistorico,
@@ -427,6 +436,7 @@ namespace PortalSicoobDivicred.Controllers
                                     Formulario["JustificativaFire " + IdHistorico + ""]);
                                 TemHorario = false;
                             }
+
                             if (Keys.Contains("Hora 2 " + IdHistorico))
                             {
                                 VerificaDados.InseriJustificativa(IdHistorico,
@@ -435,6 +445,7 @@ namespace PortalSicoobDivicred.Controllers
                                     Formulario["JustificativaFire " + IdHistorico + ""]);
                                 TemHorario = false;
                             }
+
                             if (Formulario.AllKeys.Contains("Hora 3 " + IdHistorico))
                             {
                                 VerificaDados.InseriJustificativa(IdHistorico,
@@ -443,6 +454,7 @@ namespace PortalSicoobDivicred.Controllers
                                     Formulario["JustificativaFire " + IdHistorico + ""]);
                                 TemHorario = false;
                             }
+
                             if (TemHorario)
                             {
                                 VerificaDados.AtualizaJustificativa(IdHistorico,
@@ -450,9 +462,11 @@ namespace PortalSicoobDivicred.Controllers
                             }
 
                         }
-                  
 
+
+                    }
                 }
+
                 return RedirectToAction("Principal", "Principal",
                     new
                     {

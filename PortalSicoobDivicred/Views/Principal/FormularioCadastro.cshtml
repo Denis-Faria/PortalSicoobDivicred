@@ -38,6 +38,7 @@
             x.setAttribute("id", "formacao " + Forma);
             x.setAttribute("name", "formacao " + Forma);
             x.setAttribute("class", "input");
+            x.setAttribute("required", "");
             Forma = Forma + 1;
             document.getElementById("NovaFormacao").appendChild(div);
             div.appendChild(div2);
@@ -227,7 +228,7 @@
                 <label class="label">Género</label>
                 <div class="select">
                     @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU GÉNERO", new {id = "Sexo"})
-                    @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new {style = "color:red"})
+                    @Html.ValidationMessageFor(m => m.IdSexo, null, new {style = "color:red"})
                 </div>
             </div>
             <div class="control is-2">
@@ -258,6 +259,7 @@
                 <label class="label">Formação</label>
                 <div class="select">
                     @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new {id = "Formacao"})
+                    @Html.ValidationMessageFor(m => m.IdFormacao, null, new {style = "color:red"})
                 </div>
             </div>
             <div class="control is-4 is-expanded">
@@ -298,8 +300,11 @@
 
         </div>
         <hr/>
-        <div class="field is-grouped column">
+        <div class="title is-4 is-vertical is-parent">
+            <h2 class="title is-4">Endereço Pessoal</h2>
+        </div>
 
+        <div class="field is-grouped column">
             <div class="control is-2">
                 <label class="label">Rua</label>
                 @Html.TextBoxFor(m => m.Rua, null, new {@class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario"})
@@ -332,14 +337,15 @@
             <div class="control is-2 ">
                 <label class="label">Setor</label>
                 <div class="select">
-                    @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new {id = "Setor"})
+                    @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
+                    @Html.ValidationMessageFor(m => m.IdSetor, null, new { style = "color:red" })
                 </div>
             </div>
             <div class="control is-4">
                 <label class="label">Função</label>
                 <div class="select">
                     @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new {id = "Funcao", onchange = "BuscaCertificacao(this)"})
-                    @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
+                    @Html.ValidationMessageFor(m => m.IdFuncao, null, new {style = "color:red"})
                 </div>
             </div>
         </div>

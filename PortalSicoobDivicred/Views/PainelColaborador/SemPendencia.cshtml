@@ -1,0 +1,64 @@
+﻿<table id="SemPendencia" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+    <thead>
+    <th class="has-text-centered">ID</th>
+    <th class="has-text-centered">Funcionário</th>
+    <th class="has-text-centered">Dia</th>
+    <th class="has-text-centered">Entrada</th>
+    <th class="has-text-centered">Saída Almoço</th>
+    <th class="has-text-centered">Volta Almoço</th>
+    <th class="has-text-centered">Saída</th>
+    <th class="has-text-centered">Jornada</th>
+    <th class="has-text-centered">Crédito</th>
+    <th class="has-text-centered">Debito</th>
+    <th class="has-text-centered">Apontar Pendência</th>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
+        {
+
+            <tr>
+                <td class="has-text-centered">
+                    @TempData["IdPontoCerto" + i]
+                </td>
+
+                <td class="has-text-centered">
+                    @TempData["NomePontoCerto" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["DiaCerto" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["HoraCerto0" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["HoraCerto1" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["HoraCerto2" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["HoraCerto3" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["JornadaCerto" + i]
+                </td>
+                <td class="has-text-centered" style="color: green">
+                    @TempData["HoraExtraCerto" + i]
+                </td>
+                <td class="has-text-centered" style="color: red">
+                    @TempData["DebitoCerto" + i]
+                </td>
+                <td class="has-text-centered">
+                    <p class="control">
+                        <a class="button is-outlined is-success" href="Javascript:ApontarPendencia('@i');void(0);" data-balloon="Apontar pendências" data-balloon-pos="up">
+                            <span class="icon is-small">
+                                <i class="fas fa-thumbtack"></i>
+                            </span>
+                            <span>Apontar pendências</span>
+                        </a>
+                    </p>
+                </td>
+            </tr>
+        }
+    <tbody>
+</table>

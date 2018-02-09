@@ -7,13 +7,13 @@
     $(document).ready(function () {
         $(".hora").mask('00:00');
     });
-  
+
 </script>
 @if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
 {
 
 
-    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png"/>
+    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png" />
 
 
 }
@@ -36,12 +36,12 @@ else
             using (Html.BeginForm("JustificativasGestor", "Principal"))
             {
                 <tr>
-                    <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true"/>@TempData["IdPendencia" + i]</td>
+                    <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]</td>
                     <td>
-                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true"/>@TempData["NomePendencia" + i]
+                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
                     </td>
                     <td>
-                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true"/> @TempData["DiaPendencia" + i]
+                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true" /> @TempData["DiaPendencia" + i]
                     </td>
                     @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
                     {
@@ -49,20 +49,24 @@ else
                             @TempData["Hora" + k + "Pendencia" + i]
                         </td>
                     }
-
-                    @for (int k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
+                    @if (Convert.ToInt32(TempData["TotalTextBox" + i]) == 0)
                     {
 
-                        <td>
-                        </td>
                     }
-                    @if (@TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                    else
                     {
-                        <td></td>
-                    }
-                    @if (@TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
-                    {
-                        <td></td>
+                        for (int k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
+                        {
+                            <td></td>
+                        }
+                        if (@TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                        {
+                            <td></td>
+                        }
+                        if (@TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                        {
+                            <td></td>
+                        }
                     }
                     <td>
                         <span class="icon is-small" data-balloon="@TempData["Justificativa" + i]" data-balloon-pos="up">
@@ -72,7 +76,7 @@ else
                     <td @TempData["Esconde" + i]>
                         <div class="field has-addons">
                             <p class="control">
-                                <button  class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
+                                <button class="button is-outlined" type="submit" href="#" data-balloon="Confirmar Justificativa" data-balloon-pos="up" style="color: green">
                                     <span class="icon is-small">
                                         <i class="fas fa-thumbs-up"></i>
                                     </span>

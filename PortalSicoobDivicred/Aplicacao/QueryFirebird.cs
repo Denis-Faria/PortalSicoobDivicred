@@ -162,18 +162,11 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaMarcacao(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaMarcacao(string IdFuncionario,DateTime DiaValidar)
         {
             List<Dictionary<string, string>> linhas = null;
             try
             {
-
-                var DiaValidar = new DateTime();
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
-
                 var cmdComando = CriarComandoSQL(
                     "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='"+DiaValidar.ToString("yyyy/MM/dd")+"' AND a.ID_FUNCIONARIO="+IdFuncionario+" AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC");
 
@@ -238,6 +231,129 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
+        public List<Dictionary<string, string>> RetornaDadosMarcacao(string DataMarcacao,string IdFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+
+                var cmdComando = CriarComandoSQL(
+                    "SELECT * from MARCACAO  WHERE DATA='" + Convert.ToDateTime(DataMarcacao).ToString("yyyy/MM/dd") + "' AND ID_FUNCIONARIO="+IdFuncionario+"");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
+        public void InserirMarcacao(string IdFuncionarioFireBird,string IdJustificativaFireBird, string DataPendencia, string HoraPendencia)
+        {
+            var UltimosDados = RetornaUltimaId();
+            var PisFuncionario = RetornaPis(IdFuncionarioFireBird);
+
+            try
+            {
+
+                var cmdComando = CriarComandoSQL("INSERT INTO MARCACAO(ID_FUNCIONARIO, ID_JUSTIFICATIVA, NUMERO_REP, PIS, SEQUENCIAL, DATA, HORA, TIPO_REGISTRO, TIPO_MARCACAO, IDENTIFICACAO) VALUES("+(Convert.ToInt32(UltimosDados[0]["ID_MARCACAO"])+1)+", "+IdFuncionarioFireBird+", "+IdJustificativaFireBird+ ",0,'"+PisFuncionario[0]["PIS"]+"',"+ (Convert.ToInt32(UltimosDados[0]["SEQUENCIAL"])+1)+", '"+Convert.ToDateTime(DataPendencia).ToString("yyyy/MM/dd")+"','"+HoraPendencia+ "', 'I','', '" + PisFuncionario[0]["PIS"] + "'); ");
+                cmdComando.ExecuteReader();
+
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+   
+        }
+
+        public List<Dictionary<string, string>> RetornaUltimaId()
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+
+                var cmdComando = CriarComandoSQL(
+                    "SELECT FIRST 1 ID_MARCACAO,SEQUENCIAL FROM MARCACAO ORDER BY SEQUENCIAL DESC;");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+        public List<Dictionary<string, string>> RetornaPis(string IdFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+
+                var cmdComando = CriarComandoSQL(
+                    "SELECT PIS FROM FUNCIONARIO WHERE ID_FUNCIONARIO="+IdFuncionario+";");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
         public List<Dictionary<string, string>> RecuperaJustificativas()
         {
 

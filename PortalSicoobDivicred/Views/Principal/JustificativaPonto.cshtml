@@ -35,11 +35,11 @@
 
 @if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
 {
-    
 
-        <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png" />
-   
-    
+
+    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png" />
+
+
 }
 else
 {
@@ -61,16 +61,16 @@ else
         {
 
 
-            using (Html.BeginForm("Justificativas", "Principal", FormMethod.Post, new {name = "Formulario"}))
+            using (Html.BeginForm("Justificativas", "Principal", FormMethod.Post, new { name = "Formulario" }))
             {
 
                 <tr>
-                    <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true"/>@TempData["IdPendencia" + i]</td>
+                    <td><input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]</td>
                     <td>
-                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true"/>@TempData["NomePendencia" + i]
+                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
                     </td>
                     <td>
-                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true"/> @TempData["DiaPendencia" + i]
+                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true" /> @TempData["DiaPendencia" + i]
                     </td>
 
                     @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
@@ -79,24 +79,33 @@ else
                             @TempData["Hora" + k + "Pendencia" + i]
                         </td>
                     }
-
-                    @for (int k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
+                    @if (Convert.ToInt32(TempData["TotalTextBox" + i]) == 0)
                     {
 
-                        <td>
-                            <input type="time" class="input" id="Hora @k @TempData["IdPendencia" + i]" name="Hora @k @TempData["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required/>
-                            <span class="field-validation-valid" data-valmsg-for="Hora @k @TempData["IdPendencia" + i]" data-valmsg-replace="true" style="color: red"></span>
-                        </td>
                     }
-                    @if (@TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                    else
                     {
-                        <td></td>
-                    }
-                    @if (@TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
-                    {
-                        <td></td>
+                        for (int k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
+                        {
+
+                            <td>
+                                <input type="time" class="input" id="Hora @k @TempData["IdPendencia" + i]" name="Hora @k @TempData["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required/>
+                                <span class="field-validation-valid" data-valmsg-for="Hora @k @TempData["IdPendencia" + i]" data-valmsg-replace="true" style="color: red"></span>
+                            </td>
+                        }
+
+                        if (@TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                         {
+                             <td></td>
+                         }
+                        if (@TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                         {
+                             <td></td>
+                         }
                     }
                     <td @TempData["Esconde" + i]>
+                    @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) <= 4)
+                    {
                         <div class="select">
                             <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">
                                 @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
@@ -104,7 +113,18 @@ else
                                     <option value="@TempData["IdJustificativa" + j]">@TempData["Justificativa" + j]</option>
                                 }
                             </select>
+
                         </div>
+
+                    }
+                    else
+                    {
+                        <div>
+
+                            <input type="Text" class="input is-4" name="Observacao" required/>
+
+                        </div>
+                    }
                     </td>
                     <td @TempData["Esconde" + i]>
                         <p class="field">

@@ -1,8 +1,52 @@
-﻿<div>
+﻿@model PortalSicoobDivicred.Models.Funcao
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+<script>
+    function BuscaCertificacoes() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('BuscaCertificacao');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ListaCertificacoes");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("label")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+    function Buscar() {
+        $("#ListaFuncoes").empty();
+       $.ajax(
+            {
+                type: 'Post',
+                url: '/PainelColaborador/BuscarFuncao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoFuncao": $("#BuscaFuncao").val() },
+                success: function (data) {
+                    $("#ListaFuncoes").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div>
+
     <div class="field is-grouped is-desktop">
 
         <p class="control">
-            <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
+            <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalFuncao').removeClass();$('#ModalFuncao').addClass('modal is-active');void(0);">
                 <span class="icon is-small">
                     <i class="fas fa-edit" aria-hidden="true"></i>
                 </span>
@@ -15,32 +59,45 @@
         <div class="field">
             <label class="label">Nome Função</label>
             <div class="control">
-                <input class="input" type="text" placeholder="Assistente ...">
+                @Html.TextBoxFor(m => m.NomeFuncao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
+                @Html.ValidationMessageFor(m => m.NomeFuncao, null, new { style = "color:red" })
             </div>
         </div>
-      
-        <br/>
+
+        <br />
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
                     Certificações
                 </p>
-               
+
             </header>
             <div class="card-content">
                 <div class="content">
                     <div class="field">
                         <div class="control has-icons-left ">
-                            <input class="input is-fullwidth" type="text" placeholder="Busque uma certificação">
+                            <input id="BuscaCertificacao" class="input is-fullwidth" onkeyup="BuscaCertificacoes()" type="text" placeholder="Busque uma certificação">
                             <span class="icon is-small is-left">
                                 <i class="fas fa-search"></i>
                             </span>
                         </div>
                     </div>
+                    <ul id="ListaCertificacoes">
+                        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalCertificacao"]); i++)
+                        {
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="Certificacao @i" value="@TempData["IdCertificacao" + i]">
+                                    @TempData["DescricaoCertificacao" + i]
+                                </label>
+                            </li>
+
+                        }
+                    </ul>
                 </div>
             </div>
         </div>
-        <br/>
+        <br />
         <p class="control">
             <button type="submit" class="button is-success " id="CadastroFuncao" onmouseleave="$('#CadastroFuncao').removeClass('animated pulse')" onmouseover="$('#CadastroFuncao').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
                 <span class="icon is-small">
@@ -50,4 +107,62 @@
             </button>
         </p>
     }
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+    @using (Html.BeginForm("EditarFuncao", "PainelColaborador"))
+    {
+        <div id="ModalFuncao" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Editar Função</p>
+                    <a href="javascript:$('#ModalFuncao').removeClass();$('#ModalFuncao').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Funções
+                            </p>
+
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                               
+                                    <div class="field has-addons">
+                                        <div class="control has-icons-left is-expanded">
+                                            <input id="BuscaFuncao" class="input is-fullwidth" type="text" placeholder="Busque uma função.">
+                                            <span class="icon is-small is-left">
+                                                <i class="fas fa-search"></i>
+                                            </span>
+                                        </div>
+                                        <div class="control">
+                                            <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                                Procurar
+                                            </a>
+                                        </div>
+                                    </div>
+                                <ul id="ListaFuncoes">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    
+                    <div id="EdicaoFuncao" hidden>
+
+                    <br/>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="SalvaFuncao" disabled class="button is-success">Salvar Função</button>
+                    <button type="button"  id="ExcluirFuncao" disabled  class="button is-danger">Excluir Função</button>
+                    <a class="button" href="javascript:$('#ModalFuncao').removeClass();$('#ModalFuncao').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+    }
+
 </div>

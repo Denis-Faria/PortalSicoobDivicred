@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Policy;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
@@ -10,7 +11,7 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class PainelColaboradorController : Controller
     {
-        // GET: PainelColaborador
+
         public ActionResult Perfil(string Mensagem)
         {
             var VerificaDados = new QueryMysql();
@@ -352,115 +353,40 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Total"] = VagasInternas.Count;
 
                 var Validacoes = new ValidacoesPonto();
-                var TabelasPonto = Validacoes.ValidarPonto();
-
-                #region Preenchimento Pendencias Ponto
-
-                TempData["TotalPonto"] = TabelasPonto[0].Count;
-                TempData["ExtraPendente1"] = "hidden";
-                TempData["ExtraPendente2"] = "hidden";
+                var TabelasPonto = Validacoes.RetornaPendenciasMysql();
                 TempData["ExtraJustifica1"] = "hidden";
                 TempData["ExtraJustifica2"] = "hidden";
 
-                for (int i = 0; i < TabelasPonto[0].Count; i++)
-                {
-                    TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
-
-                    TempData["IdPonto" + i] = TabelasPonto[0][i]["IdFuncionario"];
-
-                    TempData["NomePonto" + i] = TabelasPonto[0][i]["NomeFuncionario"];
-
-                    TempData["Dia"] = Convert.ToDateTime(TabelasPonto[0][i]["DataPendencia"]).ToString("dd/MM/yyyy");
-                    TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
-
-                    for (int j = 0; j < Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]); j++)
-                    {
-                        TempData["Hora" + j + i] = TabelasPonto[0][i]["Hora" + j];
-                    }
-                    if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0)
-                    {
-                        TempData["TotalHorarioPonto" + i] = 4;
-                    }
-                    if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 5)
-                    {
-                        TempData["ExtraPendente1"] = "";
-                    }
-                    else if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 6)
-                    {
-                        TempData["ExtraPendente1"] = "";
-                        TempData["ExtraPendente2"] = "";
-                    }
-
-
-                }
-
-                #endregion
-
-                #region Preenchimento Sem pendencia
-
-                TempData["TotalSemPendencia"] = TabelasPonto[1].Count;
-                for (int i = 0; i < TabelasPonto[1].Count; i++)
-                {
-                    TempData["IdPontoCerto" + i] = TabelasPonto[1][i]["IdFuncionario"];
-
-                    TempData["NomePontoCerto" + i] = TabelasPonto[1][i]["NomeFuncionario"];
-
-                    TempData["DiaCerto" + i] =
-                        Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
-
-                    TempData["HoraCerto0" + i] = TabelasPonto[1][i]["Hora0"];
-                    TempData["HoraCerto1" + i] = TabelasPonto[1][i]["Hora1"];
-                    TempData["HoraCerto2" + i] = TabelasPonto[1][i]["Hora2"];
-                    TempData["HoraCerto3" + i] = TabelasPonto[1][i]["Hora3"];
-
-                    TempData["JornadaCerto" + i] = TabelasPonto[1][i]["Jornada"];
-                    if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 &&
-                        TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes < 0)
-                    {
-                        TempData["DebitoCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
-                        TempData["HoraExtraCerto" + i] = "";
-                    }
-                    else
-                    {
-                        TempData["DebitoCerto" + i] = "";
-                        TempData["HoraExtraCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
-                    }
-
-
-                }
-
-                #endregion
-
                 #region Preenchimento pendencias MYSQL
 
-                TempData["TotalSemConfirmar"] = TabelasPonto[2].Count;
-                for (int i = 0; i < TabelasPonto[2].Count; i++)
+                TempData["TotalSemConfirmar"] = TabelasPonto.Count;
+                for (int i = 0; i < TabelasPonto.Count; i++)
                 {
-                    TempData["IdPendencia" + i] = TabelasPonto[2][i]["IdPendencia"];
+                    TempData["IdPendencia" + i] = TabelasPonto[i]["IdPendencia"];
 
 
-                    TempData["NomePendencia" + i] = TabelasPonto[2][i]["Nome"];
+                    TempData["NomePendencia" + i] = TabelasPonto[i]["Nome"];
 
 
                     TempData["DiaPendencia" + i] =
-                        Convert.ToDateTime(TabelasPonto[2][i]["Data"]).ToString("dd/MM/yyyy");
+                        Convert.ToDateTime(TabelasPonto[i]["Data"]).ToString("dd/MM/yyyy");
 
-                    TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]);
+                    TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(TabelasPonto[i]["TotalHorario"]);
 
-                    for (int j = 0; j < Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]); j++)
+                    for (int j = 0; j < Convert.ToInt32(TabelasPonto[i]["TotalHorario"]); j++)
                     {
 
-                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[2][i]["Horario" + j];
+                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[i]["Horario" + j];
                     }
-                    if (4 - Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) > 0)
+                    if (4 - Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) > 0)
                     {
                         TempData["TotalHorarioPendencia" + i] = 4;
                     }
 
-                    if (Convert.ToBoolean(TabelasPonto[2][i]["Justificado"]))
+                    if (Convert.ToBoolean(TabelasPonto[i]["Justificado"]))
                     {
                         TempData["StatusJustificativa" + i] = "green";
-                        TempData["Justificativa" + i] = TabelasPonto[2][i]["Justificativa" + i];
+                        TempData["Justificativa" + i] = TabelasPonto[i]["Justificativa" + i];
                         TempData["Esconde" + i] = "";
                     }
                     else
@@ -471,12 +397,12 @@ namespace PortalSicoobDivicred.Controllers
 
                     }
 
-                    TempData["StatusJustificativaGetor" + i] = TabelasPonto[2][i]["ConfirmaGestor"];
-                    if (Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) == 5)
+                    TempData["StatusJustificativaGetor" + i] = TabelasPonto[i]["ConfirmaGestor"];
+                    if (Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) == 5)
                     {
                         TempData["ExtraJustifica1"] = "";
                     }
-                    else if (Convert.ToInt32(TabelasPonto[2][i]["TotalHorario"]) == 6)
+                    else if (Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) == 6)
                     {
                         TempData["ExtraJustifica1"] = "";
                         TempData["ExtraJustifica2"] = "";
@@ -486,6 +412,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
                 #endregion
+
 
 
 
@@ -923,7 +850,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0");
                         }
-                        
+
                     }
                     catch
                     {
@@ -936,14 +863,19 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult HistoricoPendencia()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult HistoricoPendencia(FormCollection Datas)
+        {
             var Validacoes = new ValidacoesPonto();
-            var QueryFire = new QueryFirebird();
-            var Cookie = Request.Cookies.Get("CookieFarm");
-            var Login = Criptografa.Descriptografar(Cookie.Value);
-            var VerificaDados = new QueryMysql();
+            
 
-            var DadosPendencias = Validacoes.RetornaHistoricoPendencias();
+            var DadosPendencias = Validacoes.RetornaHistoricoPendencias(Datas["DataInicial"],Datas["DataFinal"]);
 
+            TempData["ExtraJustifica1"] = "hidden";
+            TempData["ExtraJustifica2"] = "hidden";
             TempData["TotalSemConfirmar"] = DadosPendencias.Count;
             for (int i = 0; i < DadosPendencias.Count; i++)
             {
@@ -970,19 +902,13 @@ namespace PortalSicoobDivicred.Controllers
 
                 if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
                 {
-                    TempData["StatusJustificativa" + i] = "green";
                     TempData["Justificativa" + i] = DadosPendencias[i]["Justificativa" + i];
-                    TempData["Esconde" + i] = "";
-                }
+                    }
                 else
                 {
                     TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
-                    TempData["StatusJustificativa" + i] = "red";
-                    TempData["Esconde" + i] = "hidden";
 
                 }
-
-                TempData["StatusJustificativaGetor" + i] = DadosPendencias[i]["ConfirmaGestor"];
                 if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 5)
                 {
                     TempData["ExtraJustifica1"] = "";
@@ -1016,34 +942,321 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     if (Reincidentes[i]["confirma"].Equals("S"))
                     {
-                       var Dias = VerificaDados.RetornaDataReincidentes(Reincidentes[i]["id"], Datas["DataInicial"],
-                            Datas["DataFinal"]);
+                        var Dias = VerificaDados.RetornaDataReincidentes(Reincidentes[i]["id"], Datas["DataInicial"],
+                             Datas["DataFinal"]);
                         TempData["Nome" + TotalReincidente] = Reincidentes[i]["nome"];
                         TempData["IdFuncionario" + TotalReincidente] = Reincidentes[i]["id"];
                         TempData["Dia" + TotalReincidente] = Dias;
                         TotalReincidente++;
                     }
-                   
+
                 }
-               TempData["TotalReincidente"]= TotalReincidente;
-               return View();
+                TempData["TotalReincidente"] = TotalReincidente;
+                return View();
             }
-            return RedirectToAction("Login","Login");
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult Paremetros()
         {
-            return PartialView("Parametros");
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                return PartialView("Parametros");
+            }
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult Funcao()
         {
-            return PartialView("Funcao");
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = VerificaDados.RetornaCertificacoes();
+                TempData["TotalCertificacao"] = Certificacoes.Count;
+                for (int i = 0; i < Certificacoes.Count; i++)
+                {
+                    TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
+                    TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
+                }
+                return PartialView("Funcao");
+            }
+            return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public ActionResult Funcao(Funcao DadosCadastro, FormCollection Dados)
         {
-            return PartialView("Funcao");
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = "";
+                for (int i = 0; i < Dados.Count; i++)
+                {
+                    if (Dados.AllKeys[i].Contains("Certificacao"))
+                    {
+                        Certificacoes = Certificacoes + Dados[i] + ";";
+                    }
+                }
+                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao,Certificacoes);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função cadastrada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult EditarFuncao(Funcao DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = "";
+                for (int i = 0; i < Dados.Count; i++)
+                {
+                    if (Dados.AllKeys[i].Contains("Certificacao"))
+                    {
+                        Certificacoes = Certificacoes + Dados[i] + ";";
+                    }
+                }
+                VerificaDados.EditarFuncao(Dados["IdFuncao"],DadosCadastro.NomeFuncao, Certificacoes);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função alterada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult BuscarFuncao(string DescricaoFuncao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Funcoes = VerificaDados.BuscaFuncao(DescricaoFuncao);
+                for (int i = 0; i < Funcoes.Count; i++)
+                {
+                    TempData["Id" + i] = Funcoes[i]["id"];
+                    TempData["Descricao" + i] = Funcoes[i]["descricao"];
+                }
+                TempData["TotalResultado"] = Funcoes.Count;
+                TempData["Editar"] = "EditarFuncao";
+                return PartialView("ResultadoPesquisa");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult RecuperaFuncao(string IdFuncao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = VerificaDados.RetornaCertificacoes();
+                var DadosFuncao = VerificaDados.RecuperaDadosFuncao(IdFuncao);
+                var FuncaoRecupera = new Funcao();
+
+
+                var CertificacoesFuncao = DadosFuncao[0]["idcertificacao"].Split(';');
+                TempData["TotalCertificacaoEditar"] = Certificacoes.Count;
+                var Existe = false;
+                for (int i = 0; i < Certificacoes.Count; i++)
+                {
+                    for (int j = 0; j < CertificacoesFuncao.Length; j++)
+                    {
+                        if (Certificacoes[i]["id"].Equals(CertificacoesFuncao[j]))
+                        {
+                            Existe = true;
+                        }
+                    }
+                    if (Existe)
+                    {
+                        TempData["DescricaoCertificacaoEditar" + i] = Certificacoes[i]["descricao"];
+                        TempData["IdCertificacaoEditar" + i] = Certificacoes[i]["id"];
+                        TempData["CertificaFuncao" + i] = "checked";
+                    }
+                    else
+                    {
+                        TempData["DescricaoCertificacaoEditar" + i] = Certificacoes[i]["descricao"];
+                        TempData["IdCertificacaoEditar" + i] = Certificacoes[i]["id"];
+                        TempData["CertificaFuncao" + i] = "";
+                    }
+                    Existe = false;
+                }
+
+                FuncaoRecupera.NomeFuncao = DadosFuncao[0]["descricao"];
+                TempData["IdFuncao"] = DadosFuncao[0]["id"];
+                return PartialView("EditarFuncao",FuncaoRecupera);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult BuscaPendencia(string DataConsulta )
+        {
+            var Validacoes = new ValidacoesPonto();
+            var TabelasPonto = Validacoes.ValidarPonto(Convert.ToDateTime(DataConsulta));
+
+            #region Preenchimento Pendencias Ponto
+
+            TempData["TotalPonto"] = TabelasPonto[0].Count;
+            TempData["ExtraPendente1"] = "hidden";
+            TempData["ExtraPendente2"] = "hidden";
+
+
+            for (int i = 0; i < TabelasPonto[0].Count; i++)
+            {
+                TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+
+                TempData["IdPonto" + i] = TabelasPonto[0][i]["IdFuncionario"];
+
+                TempData["NomePonto" + i] = TabelasPonto[0][i]["NomeFuncionario"];
+
+                TempData["Dia"] = Convert.ToDateTime(TabelasPonto[0][i]["DataPendencia"]).ToString("dd/MM/yyyy");
+                TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+
+                for (int j = 0; j < Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]); j++)
+                {
+                    TempData["Hora" + j + i] = TabelasPonto[0][i]["Hora" + j];
+                }
+                if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0)
+                {
+                    TempData["TotalHorarioPonto" + i] = 4;
+                }
+                if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 5)
+                {
+                    TempData["ExtraPendente1"] = "";
+                }
+                else if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 6)
+                {
+                    TempData["ExtraPendente1"] = "";
+                    TempData["ExtraPendente2"] = "";
+                }
+
+
+            }
+
+            #endregion
+         
+
+            return PartialView("ValidacaoPonto");
+        }
+
+        public ActionResult BuscaSemPendencia(string DataConsulta)
+        {
+            var Validacoes = new ValidacoesPonto();
+            var TabelasPonto = Validacoes.ValidarPonto(Convert.ToDateTime(DataConsulta));
+
+
+
+            #region Preenchimento Sem pendencia
+
+            TempData["TotalSemPendencia"] = TabelasPonto[1].Count;
+            for (int i = 0; i < TabelasPonto[1].Count; i++)
+            {
+                TempData["IdPontoCerto" + i] = TabelasPonto[1][i]["IdFuncionario"];
+
+                TempData["NomePontoCerto" + i] = TabelasPonto[1][i]["NomeFuncionario"];
+
+                TempData["DiaCerto" + i] =
+                    Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
+
+                TempData["HoraCerto0" + i] = TabelasPonto[1][i]["Hora0"];
+                TempData["HoraCerto1" + i] = TabelasPonto[1][i]["Hora1"];
+                TempData["HoraCerto2" + i] = TabelasPonto[1][i]["Hora2"];
+                TempData["HoraCerto3" + i] = TabelasPonto[1][i]["Hora3"];
+
+                TempData["JornadaCerto" + i] = TabelasPonto[1][i]["Jornada"];
+                if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 &&
+                    TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes < 0)
+                {
+                    TempData["DebitoCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
+                    TempData["HoraExtraCerto" + i] = "";
+                }
+                else
+                {
+                    TempData["DebitoCerto" + i] = "";
+                    TempData["HoraExtraCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
+                }
+
+
+            }
+
+            #endregion
+
+
+            return PartialView("SemPendencia");
+        }
+
+        public ActionResult ConfirmarJustificativa(string IdPendencia)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Firebird = new QueryFirebird();
+
+                var DadosPendencia = VerificaDados.RecuperaDadosPendenciaConfirmacao(IdPendencia);
+                var DadosPendenciaFire = Firebird.RetornaDadosMarcacao(DadosPendencia[0]["data"],DadosPendencia[0]["idfuncionariofirebird"]);
+
+                var Existe = false;
+                var NegaFireBird = false;
+                for (int i=0;i<DadosPendencia.Count;i++)
+                {
+                    Existe = false;
+                    if (DadosPendencia[i]["observacao"]==null)
+                    {
+                        if (DadosPendencia[i]["horario"].Equals("00:00:00"))
+                        {
+                            NegaFireBird = true;
+                        }
+                        else
+                        {
+                            for (int j = 0; j < DadosPendenciaFire.Count; j++)
+                            {
+                                if (DadosPendenciaFire[j]["HORA"].Equals(DadosPendencia[i]["horario"]))
+                                {
+                                    Existe = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    Existe = false;
+
+                                }
+                            }
+
+                            if (!Existe)
+                            {
+                                Firebird.InserirMarcacao(DadosPendencia[i]["idfuncionariofirebird"],
+                                    DadosPendencia[i]["idjustificativafirebird"], DadosPendencia[i]["data"],
+                                    DadosPendencia[i]["horario"]);
+                                VerificaDados.AtualizaJustificativaRh(DadosPendencia[i]["idhistorico"]);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        NegaFireBird = true;
+                    }
+                    
+                }
+                if (NegaFireBird)
+                {
+                    VerificaDados.AtualizaJustificativaRh(DadosPendencia[0]["idhistorico"]);
+                }
+
+
+
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Justificativa confirmada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
         }
     }
 }

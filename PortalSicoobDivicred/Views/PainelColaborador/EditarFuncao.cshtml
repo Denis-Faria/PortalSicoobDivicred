@@ -1,0 +1,44 @@
+﻿@model PortalSicoobDivicred.Models.Funcao
+
+<input name="IdFuncao" value="@TempData["IdFuncao"]" hidden/>
+<div class="field">
+    <label class="label">Nome Função</label>
+    <div class="control">
+        @Html.TextBoxFor(m => m.NomeFuncao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
+        @Html.ValidationMessageFor(m => m.NomeFuncao, null, new { style = "color:red" })
+    </div>
+</div>
+
+<br />
+<div class="card">
+    <header class="card-header">
+        <p class="card-header-title">
+            Certificações
+        </p>
+
+    </header>
+    <div class="card-content">
+        <div class="content">
+            <div class="field">
+                <div class="control has-icons-left ">
+                    <input id="BuscaCertificacao" class="input is-fullwidth" onkeyup="BuscaCertificacoes()" type="text" placeholder="Busque uma certificação">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+            </div>
+            <ul id="ListaCertificacoes">
+                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalCertificacaoEditar"]); i++)
+                {
+                    <li>
+                        <label class="checkbox">
+                            <input type="checkbox" name="Certificacao @i"  @TempData["CertificaFuncao" + i] value="@TempData["IdCertificacaoEditar" + i]">
+                            @TempData["DescricaoCertificacaoEditar" + i]
+                        </label>
+                    </li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</div>

@@ -195,11 +195,13 @@
     <Content Include="bin\PortalSicoobDivicred.pdb" />
     <Content Include="Global.asax" />
     <Content Include="Images\CIM.png" />
+    <Content Include="Images\Colaborador.png" />
     <Content Include="Images\Curriculo.png" />
     <Content Include="Images\Dash.png" />
     <Content Include="Images\FundoUser.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\LogoBranca.png" />
+    <Content Include="Images\path14-2-7.png" />
     <Content Include="Images\PortalLogin.png" />
     <Content Include="Assets\css\StyleSheet1.scss" />
     <Content Include="Assets\css\bulma-timeline\.travis\sass-compile-tester.sh" />
@@ -345,7 +347,7 @@
     <Compile Include="Controllers\PainelColaboradorController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\WebdeskController.cs" />
-    <Compile Include="ElasticEmailClient.cs" />
+    <Compile Include="Aplicacao\ElasticEmailClient.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -476,6 +478,10 @@
     <Content Include="Views\WebDesk\Chamados.cshtml" />
     <Content Include="Views\PainelColaborador\Parametros.cshtml" />
     <Content Include="Views\PainelColaborador\Funcao.cshtml" />
+    <Content Include="Views\PainelColaborador\ResultadoPesquisa.cshtml" />
+    <Content Include="Views\PainelColaborador\EditarFuncao.cshtml" />
+    <Content Include="Views\PainelColaborador\ValidacaoPonto.cshtml" />
+    <Content Include="Views\PainelColaborador\SemPendencia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

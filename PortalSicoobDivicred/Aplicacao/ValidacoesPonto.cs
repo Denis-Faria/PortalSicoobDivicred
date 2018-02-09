@@ -10,7 +10,7 @@ namespace PortalSicoobDivicred
 {
     public class ValidacoesPonto
     {
-        public List<List<Dictionary<string, string>>> ValidarPonto()
+        public List<List<Dictionary<string, string>>> ValidarPonto(DateTime DataConsulta)
         {
             var Firebird = new QueryFirebird();
             var Funcionarios = Firebird.RetornaListaFuncionario();
@@ -18,22 +18,17 @@ namespace PortalSicoobDivicred
 
             var Pendentes = new List<Dictionary<string, string>>();
             var SemPendencias = new List<Dictionary<string, string>>();
-            var FaltaConfirmacao = new List<Dictionary<string, string>>();
             var DadosRh = new QueryMysqlRh();
 
-            var DiaValidar = new DateTime();
-            if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                DiaValidar = DateTime.Now.AddDays(-3);
-            else
-                DiaValidar = DateTime.Now.AddDays(-1);
+          
 
             #region Tratamento Ponto Firebird
             for (int i = 0; i < Funcionarios.Count; i++)
             {
                 var Afastamentos = Firebird.RetornaListaAfastamentoFuncionario(Funcionarios[i]["ID_FUNCIONARIO"]);
                 var Feriados = Firebird.VerificaFeriado(Funcionarios[i]["ID_FUNCIONARIO"]);
-                var Marcacao = Firebird.RetornaMarcacao(Funcionarios[i]["ID_FUNCIONARIO"]);
-                var ConfirmaMysql = DadosRh.ValidaFirebirdMysql(Funcionarios[i]["ID_FUNCIONARIO"], DiaValidar);
+                var Marcacao = Firebird.RetornaMarcacao(Funcionarios[i]["ID_FUNCIONARIO"],DataConsulta);
+                var ConfirmaMysql = DadosRh.ValidaFirebirdMysql(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
                 if (!ConfirmaMysql)
                 {
                     if (Afastamentos.Count == 0)
@@ -47,7 +42,7 @@ namespace PortalSicoobDivicred
                                 var FuncionarioPendente = new Dictionary<string, string>();
                                 FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
                                 FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                FuncionarioPendente.Add("DataPendencia", DiaValidar.ToString("dd/MM/yyyy"));
+                                FuncionarioPendente.Add("DataPendencia", DataConsulta.ToString("dd/MM/yyyy"));
                                 FuncionarioPendente.Add("Hora0", "--:--");
                                 FuncionarioPendente.Add("Hora1", "--:--");
                                 FuncionarioPendente.Add("Hora2", "--:--");
@@ -277,16 +272,27 @@ namespace PortalSicoobDivicred
                 }
             }
             #endregion
+            var ListaFinal = new List<List<Dictionary<string,string>>>();
+            ListaFinal.Add(Pendentes);
+            ListaFinal.Add(SemPendencias);
 
-            #region Tratamento Pendencias MYSQL
-          
+            return ListaFinal;
+
+        }
+
+        public List<Dictionary<string, string>> RetornaPendenciasMysql()
+        {
+            var FaltaConfirmacao = new List<Dictionary<string, string>>();
+            var DadosRh = new QueryMysqlRh();
+            var Firebird = new QueryFirebird();
+
             var TodasPendencias = DadosRh.RetornaPendencias();
 
             for (int i = 0; i < TodasPendencias.Count; i++)
             {
                 var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
 
-                var Confirmar = new Dictionary<string,string>();
+                var Confirmar = new Dictionary<string, string>();
                 if (TodasPendencias[i]["validacaogestor"].Equals("S"))
                 {
                     Confirmar.Add("ConfirmaGestor", "green");
@@ -296,25 +302,59 @@ namespace PortalSicoobDivicred
                     Confirmar.Add("ConfirmaGestor", "red");
                 }
                 Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
-                Confirmar.Add("Nome",TodasPendencias[i]["nome"]);
-                Confirmar.Add("Data",TodasPendencias[i]["data"]);
-                Confirmar.Add("TotalHorario",DadosPendencia.Count.ToString());
+                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
+                Confirmar.Add("Data", TodasPendencias[i]["data"]);
+                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
                 var Validado = false;
                 for (int j = 0; j < DadosPendencia.Count; j++)
                 {
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0"))
+                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") && DadosPendencia[j]["observacao"] == null)
                     {
                         Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
                     }
                     else
                     {
-                        var Justificativa =
-                            Firebird.RecuperaJustificativasFuncioanrio(DadosPendencia[j]["idjustificativafirebird"]);
                         try
                         {
-                            Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                            if (DadosPendencia[j]["observacao"].Length > 0)
+                            {
+                                var Justificativa = DadosPendencia[j]["observacao"];
+                                try
+                                {
+                                    Confirmar.Add("Justificativa" + i, Justificativa);
+                                }
+                                catch
+                                {
+                                }
+                            }
+                            else
+                            {
+                                var Justificativa =
+                                    Firebird.RecuperaJustificativasFuncioanrio(
+                                        DadosPendencia[j]["idjustificativafirebird"]);
+                                try
+                                {
+                                    Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                }
+                                catch
+                                {
+                                }
+                            }
                         }
-                        catch { }
+                        catch
+                        {
+                            var Justificativa =
+                                Firebird.RecuperaJustificativasFuncioanrio(
+                                    DadosPendencia[j]["idjustificativafirebird"]);
+                            try
+                            {
+                                Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                            }
+                            catch
+                            {
+                            }
+                        }
+
                         Validado = true;
                         Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
                     }
@@ -333,15 +373,7 @@ namespace PortalSicoobDivicred
 
             }
 
-            #endregion
-
-            var ListaFinal = new List<List<Dictionary<string,string>>>();
-            ListaFinal.Add(Pendentes);
-            ListaFinal.Add(SemPendencias);
-            ListaFinal.Add(FaltaConfirmacao);
-
-            return ListaFinal;
-
+            return FaltaConfirmacao;
         }
 
         public List<Dictionary<string, string>> RetornaPendenciasFuncionario(string IdFuncionario)
@@ -374,7 +406,7 @@ namespace PortalSicoobDivicred
                 var Validado = false;
                 for (int j = 0; j < DadosPendencia.Count; j++)
                 {
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0"))
+                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") && DadosPendencia[j]["observacao"]==null)
                     {
                         Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
                     }
@@ -431,20 +463,36 @@ namespace PortalSicoobDivicred
 
                 for (int j = 0; j < DadosPendencia.Count; j++)
                 {
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0"))
+                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") && DadosPendencia[j]["observacao"]==null)
                     {
                         Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
                     }
                     else
                     {
                         Validado = true;
-                        var Justificativa =
-                            QueryFire.RecuperaJustificativasFuncioanrio(DadosPendencia[j]["idjustificativafirebird"]);
-                        try
+                        if (DadosPendencia[j]["observacao"].Length > 0)
                         {
-                            Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                            var Justificativa = DadosPendencia[j]["observacao"];
+                            try
+                            {
+                                Confirmar.Add("Justificativa" + i, Justificativa);
+                            }
+                            catch { }
                         }
-                        catch { }
+                        else
+                        {
+                            var Justificativa =
+                                QueryFire.RecuperaJustificativasFuncioanrio(
+                                    DadosPendencia[j]["idjustificativafirebird"]);
+                            try
+                            {
+                                Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                            }
+                            catch
+                            {
+                            }
+                        }
+
                         Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
                     }
                 }
@@ -464,27 +512,20 @@ namespace PortalSicoobDivicred
 
         }
 
-        public List<Dictionary<string, string>> RetornaHistoricoPendencias()
+        public List<Dictionary<string, string>> RetornaHistoricoPendencias(string DataInicial,string DataFinal)
         {
             var FaltaConfirmacao = new List<Dictionary<string, string>>();
 
             var DadosRh = new QueryMysqlRh();
             var Firebird = new QueryFirebird();
-            var TodasPendencias = DadosRh.RetornaHistoricoPendencias();
+            var TodasPendencias = DadosRh.RetornaHistoricoPendencias(DataInicial,DataFinal);
 
             for (int i = 0; i < TodasPendencias.Count; i++)
             {
                 var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
 
                 var Confirmar = new Dictionary<string, string>();
-                if (TodasPendencias[i]["validacaogestor"].Equals("S"))
-                {
-                    Confirmar.Add("ConfirmaGestor", "green");
-                }
-                else
-                {
-                    Confirmar.Add("ConfirmaGestor", "red");
-                }
+              
                 Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
                 Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
                 Confirmar.Add("Data", TodasPendencias[i]["data"]);

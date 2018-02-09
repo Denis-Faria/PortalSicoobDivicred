@@ -634,13 +634,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>02/06/2018 09:31:03</publishTime>
+      <publishTime>02/08/2018 10:11:22</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>02/06/2018 09:31:03</publishTime>
+      <publishTime>02/08/2018 10:11:22</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -768,6 +768,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Global.asax">
       <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
+    <File Include="Images/CIM.png">
+      <publishTime>02/06/2018 10:18:07</publishTime>
+    </File>
     <File Include="Images/Curriculo.png">
       <publishTime>12/15/2017 01:28:11</publishTime>
     </File>
@@ -794,6 +797,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Images/user.png">
       <publishTime>12/15/2017 01:27:59</publishTime>
+    </File>
+    <File Include="Images/Webdesk.png">
+      <publishTime>02/06/2018 15:40:40</publishTime>
     </File>
     <File Include="node_modules/bulma-timeline/.travis.yml">
       <publishTime>10/24/2017 16:56:34</publishTime>
@@ -925,13 +931,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>12/15/2017 01:27:54</publishTime>
     </File>
     <File Include="Views/Curriculo/Curriculo.cshtml">
-      <publishTime>02/05/2018 14:05:46</publishTime>
+      <publishTime>02/06/2018 15:22:33</publishTime>
     </File>
     <File Include="Views/Curriculo/FormularioInicial.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
     </File>
     <File Include="Views/Curriculo/GerenciarVaga.cshtml">
-      <publishTime>02/01/2018 13:36:56</publishTime>
+      <publishTime>02/06/2018 15:23:59</publishTime>
     </File>
     <File Include="Views/Curriculo/ImprimirTodos.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
@@ -940,7 +946,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Views/Curriculo/ModalPerfil.cshtml">
-      <publishTime>01/19/2018 11:18:41</publishTime>
+      <publishTime>02/08/2018 11:07:52</publishTime>
     </File>
     <File Include="Views/Curriculo/PerfilProcesso.cshtml">
       <publishTime>02/01/2018 14:35:11</publishTime>
@@ -958,13 +964,19 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/22/2018 09:00:39</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ColaboradorRh.cshtml">
-      <publishTime>02/05/2018 17:47:36</publishTime>
+      <publishTime>02/06/2018 17:15:50</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/EditarFuncao.cshtml">
+      <publishTime>02/08/2018 10:09:34</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Funcao.cshtml">
+      <publishTime>02/08/2018 10:55:32</publishTime>
     </File>
     <File Include="Views/PainelColaborador/GerenciarVaga.cshtml">
-      <publishTime>02/01/2018 17:06:28</publishTime>
+      <publishTime>02/06/2018 09:48:36</publishTime>
     </File>
     <File Include="Views/PainelColaborador/HistoricoPendencia.cshtml">
-      <publishTime>02/05/2018 17:54:51</publishTime>
+      <publishTime>02/06/2018 15:25:47</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalEditarVagaInterna.cshtml">
       <publishTime>01/19/2018 11:18:41</publishTime>
@@ -975,8 +987,17 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Views/PainelColaborador/ModalVagaInterna.cshtml">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
+    <File Include="Views/PainelColaborador/Parametros.cshtml">
+      <publishTime>02/07/2018 11:26:37</publishTime>
+    </File>
     <File Include="Views/PainelColaborador/Perfil.cshtml">
       <publishTime>02/01/2018 16:17:57</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ReincidentePendencia.cshtml">
+      <publishTime>02/06/2018 13:35:18</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ResultadoPesquisa.cshtml">
+      <publishTime>02/08/2018 11:01:14</publishTime>
     </File>
     <File Include="Views/Principal/CertificacaoFuncao.cshtml">
       <publishTime>01/09/2018 14:05:07</publishTime>
@@ -1003,7 +1024,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/02/2018 10:39:58</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaSetor.cshtml">
-      <publishTime>02/02/2018 10:38:48</publishTime>
+      <publishTime>02/06/2018 15:32:58</publishTime>
     </File>
     <File Include="Views/Principal/ModalEditarVaga.cshtml">
       <publishTime>11/22/2017 14:59:54</publishTime>
@@ -1024,10 +1045,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/09/2018 14:05:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/05/2018 14:18:50</publishTime>
+      <publishTime>02/08/2018 11:53:18</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
+    </File>
+    <File Include="Views/WebDesk/Chamados.cshtml">
+      <publishTime>02/06/2018 16:51:13</publishTime>
     </File>
     <File Include="Web.config">
       <publishTime>01/23/2018 14:59:33</publishTime>

@@ -7,44 +7,45 @@ namespace PortalSicoobDivicred.Models
 {
     public class Funcionario
     {
+        [Required(ErrorMessage = "Favor informar o seu nome!")]
         public string NomeFuncionario { get; set; }
-
+        [Required(ErrorMessage = "Favor informar o seu CPF!")]
         public string CpfFuncionario { get; set; }
-
+        [Required(ErrorMessage = "Favor informar a sua identidade!")]
         public string RgFuncionario { get; set; }
-
+        [Required(ErrorMessage = "Favor informar o seu PIS!")]
         public string PisFuncionario { get; set; }
-
+        [Required(ErrorMessage = "Favor informar a sua data de nascimento!")]
         public string DataNascimentoFuncionario { get; set; }
 
         public string DescricaoSexo { get; set; }
-
+        [Required(ErrorMessage = "Favor informar sua formacao acadêmica!")]
         public string FormacaoAcademica { get; set; }
-
+        [Required(ErrorMessage = "Favor informar o seu usuário!")]
         public string UsuarioSistema { get; set; }
-
+        [Required(ErrorMessage = "Favor informar o seu e-mail!")]
         public string Email { get; set; }
-
+        [Required(ErrorMessage = "Favor informar o seu PA!")]
         public string PA { get; set; }
-
+        [Required(ErrorMessage = "Informe a sua rua!")]
         public string Rua { get; set; }
-
+        [Required(ErrorMessage = "Informe o numero da sua casa!")]
         public string Numero { get; set; }
-
+        [Required(ErrorMessage = "Informe o seu bairro!")]
         public string Bairro { get; set; }
-
+        [Required(ErrorMessage = "Informe a sua cidade!")]
         public string Cidade { get; set; }
-
+        [Required(ErrorMessage = "Favor informar se você possui filhos!")]
         public string QuatidadeFilho { get; set; }
 
         public string DataNascimentoFilho { get; set; }
-
+        [Required(ErrorMessage = "Favor informar ao menos um contato de emergência!")]
         public string ContatoEmergencia { get; set; }
-
+        [Required(ErrorMessage = "Favor informar seus hobbies!")]
         public string PrincipaisHobbies { get; set; }
-
+        [Required(ErrorMessage = "Favor informar sua comida favorita!")]
         public string ComidaFavorita { get; set; }
-
+        [Required(ErrorMessage = "Favor informar se você gosta de viajar!")]
         public string Viagem { get; set; }
 
         [DisplayName("Estado Civil")]

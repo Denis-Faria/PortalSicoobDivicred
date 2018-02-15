@@ -1258,5 +1258,207 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult ExcluirFuncao(string IdFuncao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                VerificaDados.ExcluirFuncao(IdFuncao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função excluida com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Certificacao()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                
+                return PartialView("Certificacao");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult Certificacao(Certificacao DadosCadastro)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                
+                VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação cadastrada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult EditarCertificacao(Certificacao DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.EditarCertificacao(Dados["IdCertificacao"],DadosCadastro.NomeCertificacao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação atualizada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ExcluirCertificacao(string IdFuncao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.ExcluirCertificacao(IdFuncao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação excluida com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        [HttpPost]
+        public ActionResult BuscarCertificacao(string DescricaoCertificacao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacao = VerificaDados.BuscaCertificacao(DescricaoCertificacao);
+                for (int i = 0; i < Certificacao.Count; i++)
+                {
+                    TempData["Id" + i] = Certificacao[i]["id"];
+                    TempData["Descricao" + i] = Certificacao[i]["descricao"];
+                }
+                TempData["TotalResultado"] = Certificacao.Count;
+                TempData["Editar"] = "EditarCertificacao";
+                return PartialView("ResultadoPesquisaCertificacao");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        [HttpPost]
+        public ActionResult RecuperaCertificacao(string IdCertificacao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                
+                var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao(IdCertificacao);
+                var CertificacaoRecupera = new Certificacao();
+
+                CertificacaoRecupera.NomeCertificacao = DadosCertificacao[0]["descricao"];
+                TempData["IdCertificacao"] = DadosCertificacao[0]["id"];
+                return PartialView("EditarCertificacao", CertificacaoRecupera);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Gestor()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Setores = VerificaDados.RetornaSetores();
+                TempData["TotalSetores"] = Setores.Count;
+                for (int i = 0; i < Setores.Count; i++)
+                {
+                    TempData["DescricaoSetor" + i] = Setores[i]["descricao"];
+                    TempData["IdSetor" + i] = Setores[i]["id"];
+                }
+                return PartialView("Gestor");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult Gestor(Certificacao DadosCadastro)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação cadastrada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult EditarGestor(Certificacao DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.EditarCertificacao(Dados["IdCertificacao"], DadosCadastro.NomeCertificacao);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação atualizada com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        /*
+public ActionResult ExcluirCertificacao(string IdFuncao)
+{
+    var VerificaDados = new QueryMysqlRh();
+    var Logado = VerificaDados.UsuarioLogado();
+    if (Logado)
+    {
+
+        VerificaDados.ExcluirCertificacao(IdFuncao);
+        return RedirectToAction("ColaboradorRh", "PainelColaborador",
+            new { Mensagem = "Certificação excluida com sucesso !" });
+    }
+    return RedirectToAction("Login", "Login");
+}
+[HttpPost]
+public ActionResult BuscarCertificacao(string DescricaoCertificacao)
+{
+    var VerificaDados = new QueryMysqlRh();
+    var Logado = VerificaDados.UsuarioLogado();
+    if (Logado)
+    {
+        var Certificacao = VerificaDados.BuscaCertificacao(DescricaoCertificacao);
+        for (int i = 0; i < Certificacao.Count; i++)
+        {
+            TempData["Id" + i] = Certificacao[i]["id"];
+            TempData["Descricao" + i] = Certificacao[i]["descricao"];
+        }
+        TempData["TotalResultado"] = Certificacao.Count;
+        TempData["Editar"] = "EditarCertificacao";
+        return PartialView("ResultadoPesquisaCertificacao");
+    }
+    return RedirectToAction("Login", "Login");
+}
+[HttpPost]
+public ActionResult RecuperaCertificacao(string IdCertificacao)
+{
+    var VerificaDados = new QueryMysqlRh();
+    var Logado = VerificaDados.UsuarioLogado();
+    if (Logado)
+    {
+
+        var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao(IdCertificacao);
+        var CertificacaoRecupera = new Certificacao();
+
+        CertificacaoRecupera.NomeCertificacao = DadosCertificacao[0]["descricao"];
+        TempData["IdCertificacao"] = DadosCertificacao[0]["id"];
+        return PartialView("EditarCertificacao", CertificacaoRecupera);
+    }
+    return RedirectToAction("Login", "Login");
+}*/
+
     }
 }

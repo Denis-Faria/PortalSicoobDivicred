@@ -348,6 +348,7 @@
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="Aplicacao\ElasticEmailClient.cs" />
+    <Compile Include="Models\Certificacao.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -482,6 +483,10 @@
     <Content Include="Views\PainelColaborador\EditarFuncao.cshtml" />
     <Content Include="Views\PainelColaborador\ValidacaoPonto.cshtml" />
     <Content Include="Views\PainelColaborador\SemPendencia.cshtml" />
+    <Content Include="Views\PainelColaborador\Certificacao.cshtml" />
+    <Content Include="Views\PainelColaborador\EditarCertificacao.cshtml" />
+    <Content Include="Views\PainelColaborador\ResultadoPesquisaCertificacao.cshtml" />
+    <Content Include="Views\PainelColaborador\Gestor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

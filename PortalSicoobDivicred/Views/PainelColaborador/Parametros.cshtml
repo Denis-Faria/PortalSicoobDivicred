@@ -23,6 +23,52 @@
             });
 
     }
+    function Certificacao() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelCertificacao").addClass("is-active");
+
+        $("#PanelFuncao").removeClass();
+        $("#PanelGestor").removeClass();
+        $("#PanelFuncao").addClass("panel-block");
+        $("#PanelGestor").addClass("panel-block");
+        
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/Certificacao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
+    function Gestor() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelGestor").addClass("is-active");
+
+        $("#PanelFuncao").removeClass();
+        $("#PanelCertificacao").removeClass();
+        $("#PanelFuncao").addClass("panel-block");
+        $("#PanelCertificacao").addClass("panel-block");
+        
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/Gestor',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
 </script>
 
 
@@ -38,13 +84,13 @@
                 </span>
                 Funções
             </a>
-            <a id="PanelCertificacao" style="background-color: white" class="panel-block">
+            <a id="PanelCertificacao" style="background-color: white" class="panel-block"  href="Javascript:Certificacao();void(0);">
                 <span class="panel-icon">
                     <i class="fas fa-certificate"></i>
                 </span>
                 Certificações
             </a>
-            <a id="PanelGestor" style="background-color: white" class="panel-block">
+            <a id="PanelGestor" style="background-color: white" class="panel-block" href="Javascript:Gestor();void(0);">
                 <span class="panel-icon">
                     <i class="fab fa-black-tie"></i>
                 </span>

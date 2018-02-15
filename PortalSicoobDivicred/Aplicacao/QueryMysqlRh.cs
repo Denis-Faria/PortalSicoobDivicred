@@ -320,12 +320,23 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+        public void ExcluirFuncao(string IdFuncao)
+        {
+            var Query = "UPDATE funcoes SET excluido='S' where id=" + IdFuncao + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var Query2 ="UPDATE funcionarios SET funcao=1 WHERE funcao="+IdFuncao+"";
+            ConexaoMysql.ExecutaComando(Query2);
+
+
+        }
+
         public List<Dictionary<string, string>> RecuperaDadosPendenciaConfirmacao(string IdPendencia)
         {
             var Query = "Select a.*,b.data from historicoshorariosponto a, historicosjustificativaspontos b where b.id=a.idhistorico and a.idhistorico=" + IdPendencia + " ORDER BY a.horario DESC;";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+
         public void AtualizaJustificativaRh(string IdHistorico)
         {
             var Query = "UPDATE historicosjustificativaspontos  SET validacaorh='S' WHERE id=" + IdHistorico + ";";
@@ -333,5 +344,45 @@ namespace PortalSicoobDivicred.Aplicacao
 
         }
 
+        public void CadastrarCertificacao(string NomeCertificacao)
+        {
+            var Query = "INSERT INTO certificacoesfuncionarios (descricao) VALUES('"+NomeCertificacao+"');";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+        }
+
+        public List<Dictionary<string, string>> BuscaCertificacao(string DescricaoCertificacao)
+        {
+            var Query = "Select id,descricao from certificacoesfuncionarios where descricao like'%" + DescricaoCertificacao + "%';";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+       public List<Dictionary<string, string>> RecuperaDadosCertificacao(string IdCertificacao)
+        {
+            var Query = "Select id,descricao from certificacoesfuncionarios where id=" + IdCertificacao + ";";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public void ExcluirCertificacao(string IdCertificacao)
+        {
+            var Query = "UPDATE certificacoesfuncionarios SET excluido='S' where id=" + IdCertificacao + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+        }
+
+        public void EditarCertificacao(string IdCertificacao, string Nome)
+        {
+            var Query = "UPDATE certificacoesfuncionarios SET descricao='" + Nome + "' WHERE id=" + IdCertificacao + ";";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+
+        public List<Dictionary<string, string>> RetornaSetores()
+        {
+            var Query = "select id,descricao from setores WHERE excluido='N';";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
     }
 }

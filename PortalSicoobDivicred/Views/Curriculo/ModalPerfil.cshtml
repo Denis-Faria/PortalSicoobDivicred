@@ -151,7 +151,7 @@
     @if (Convert.ToBoolean(TempData["ExisteFormulario"]))
     {
         <div class="content">
-            <blockquote>Clique <a target="_blank" href="@Url.Action("FormularioInicial", "Principal", new {Model.Cpf})">aqui</a> e veja as resposta para o questionário inicial.</blockquote>
+            <blockquote>Clique <a target="_blank" href="@Url.Action("FormularioInicial", "Curriculo", new {Model.Cpf})">aqui</a> e veja as resposta para o questionário inicial.</blockquote>
         </div>
     }
     @if (Convert.ToBoolean(TempData["ExisteProcesso"]))

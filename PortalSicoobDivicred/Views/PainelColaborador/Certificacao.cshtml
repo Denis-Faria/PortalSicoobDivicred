@@ -1,0 +1,112 @@
+﻿
+@model PortalSicoobDivicred.Models.Certificacao
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+<script>
+    function Buscar() {
+        $("#ListaFuncoes").empty();
+       $.ajax(
+            {
+                type: 'Post',
+                url: '/PainelColaborador/BuscarCertificacao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoCertificacao": $("#BuscaCertificacao").val() },
+                success: function (data) {
+                    $("#ListaCertificacao").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div>
+
+    <div class="field is-grouped is-desktop">
+
+        <p class="control">
+            <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalCertificacao').removeClass();$('#ModalCertificacao').addClass('modal is-active');void(0);">
+                <span class="icon is-small">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                </span>
+                <span class="name">Editar Certificação</span>
+            </button>
+        </p>
+    </div>
+    @using (Html.BeginForm("Certificacao", "PainelColaborador"))
+    {
+        <div class="field">
+            <label class="label">Nome Função</label>
+            <div class="control">
+                @Html.TextBoxFor(m => m.NomeCertificacao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
+                @Html.ValidationMessageFor(m => m.NomeCertificacao, null, new { style = "color:red" })
+            </div>
+        </div>
+        <p class="control">
+            <button type="submit" class="button is-success " id="CadastroFuncao" onmouseleave="$('#CadastroFuncao').removeClass('animated pulse')" onmouseover="$('#CadastroFuncao').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                </span>
+                <span class="name">Cadastrar Certificação</span>
+            </button>
+        </p>
+    }
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+    @using (Html.BeginForm("EditarCertificacao", "PainelColaborador"))
+    {
+        <div id="ModalCertificacao" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Editar Certificacao</p>
+                    <a href="javascript:$('#ModalCertificacao').removeClass();$('#ModalCertificacao').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                               Certificações
+                            </p>
+
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="BuscaCertificacao" class="input is-fullwidth" type="text" placeholder="Busque uma certificação.">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control">
+                                        <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                            Procurar
+                                        </a>
+                                    </div>
+                                </div>
+                                <ul id="ListaCertificacao"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div id="EdicaoCertificacao" hidden>
+
+                        <br />
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="SalvaCertificacao" disabled class="button is-success">Salvar Certificação</button>
+                    <a class="button" href="javascript:$('#ModalCertificacao').removeClass();$('#ModalCertificacao').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+    }
+
+</div>

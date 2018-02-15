@@ -7,6 +7,8 @@
         @Html.TextBoxFor(m => m.NomeFuncao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
         @Html.ValidationMessageFor(m => m.NomeFuncao, null, new { style = "color:red" })
     </div>
+    <br/>
+    <button type="button" onclick="location.href='@Url.Action("ExcluirFuncao","PainelColaborador",new{IdFuncao=@TempData["IdFuncao"]})'" id="ExcluirFuncao"   class="button is-danger">Excluir Função</button>
 </div>
 
 <br />

@@ -1,0 +1,76 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hora").mask('00:00');
+    });
+
+</script>
+@if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
+{
+
+
+    <img id="Imagem" class="image is-centered" style="alignment: center" height="30%" src="/Images/extrato.png" />
+
+
+}
+else
+{
+    <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
+        <thead>
+        <th>CPF Cliente</th>
+        <th>Produto</th>
+        <th>Observação</th>
+        <th>Data Contratação</th>
+        
+       
+        
+        
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
+        {
+            using (Html.BeginForm("Extrato", "Pgd"))
+            {
+                <tr>
+                    
+                    <td>
+                        <input name="Funcionario @TempData["cpf" + i]" id="Funcionario @TempData["cpf" + i]" value="@TempData["cpf" + i]" hidden="true" />@TempData["cpf" + i]
+                    </td>
+                    <td>
+                        <input name="Data @TempData["Produtos" + i]" id="Data @TempData["Produtos" + i]" value="@TempData["Produtos" + i]" hidden="true" /> @TempData["Produtos" + i]
+                    </td>
+                    <td>
+                        <input name="Data @TempData["Observacao" + i]" id="Data @TempData["Observacao" + i]" value="@TempData["Observacao" + i]" hidden="true" /> @TempData["Observacao" + i]
+                    </td>
+                    <td>
+                        <input name="Data @TempData["DataContratacao" + i]" id="Data @TempData["DataContratacao" + i]" value="@TempData["DataContratacao" + i]" hidden="true" /> @TempData["DataContratacao" + i]
+                    </td>
+
+                  
+                   
+                   
+                    <td @TempData["Esconde" + i]>
+                        <div class="field has-addons">
+                        
+                            <p class="control">
+                                <button type="button" class="button is-danger" onclick="location.href = '@Url.Action("ExcluirRegistro", "Pgd",new { id=@TempData["id"+i]})'">
+                                    <span class="icon is-small">
+                                        <i class="fa fa-thumbs-o-down"></i>
+                                    </span>
+                                    <span> Excluir Registro</span>
+                                </button>
+                            </p>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        }
+
+
+    </table>
+
+}
+

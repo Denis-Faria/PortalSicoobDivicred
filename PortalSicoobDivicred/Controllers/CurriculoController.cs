@@ -78,8 +78,8 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
                 var Cookie = Request.Cookies.Get("CookieFarm");
-
                 var Login = Criptografa.Descriptografar(Cookie.Value);
+
                 if (QueryFuncionario.PrimeiroLogin(Login))
                     return RedirectToAction("FormularioCadastro", "Principal");
                 var DadosUsuarioBanco = QueryFuncionario.RecuperaDadosUsuarios(Login);

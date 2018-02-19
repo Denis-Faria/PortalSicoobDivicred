@@ -340,6 +340,7 @@
     <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
+    <Compile Include="Controllers\PgdController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\TesourariaController.cs" />
     <Compile Include="ElasticEmailClient.cs" />
@@ -352,6 +353,7 @@
     <Compile Include="Models\JustificativaPonto.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
+    <Compile Include="Models\Pgd.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
@@ -468,6 +470,9 @@
     <Content Include="Views\Principal\JustificativaSetor.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Tesouraria\Tesouraria.cshtml" />
+    <Content Include="Views\Pgd\Pgd.cshtml" />
+    <Content Include="Views\Pgd\ViewCadastro.cshtml" />
+    <Content Include="Views\Pgd\ViewExtrato.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

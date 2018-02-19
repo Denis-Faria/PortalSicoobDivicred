@@ -154,9 +154,9 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosFuncionario = new Funcionario();
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
-                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
-                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
-                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario[0]["pis"];
+                DadosFuncionario.CpfFuncionario  = DadosTabelaFuncionario[0]["cpf"];
+                DadosFuncionario.RgFuncionario   = DadosTabelaFuncionario[0]["rg"];
+                DadosFuncionario.PisFuncionario  = DadosTabelaFuncionario[0]["pis"];
                 DadosFuncionario.DataNascimentoFuncionario =
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
@@ -323,7 +323,8 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["TotalCertificacao"] = IdCertificacoes.Length;
 
-                for (var j = 0; j < IdCertificacoes.Length; j++)
+                for (var j =
+                    0; j < IdCertificacoes.Length; j++)
                 {
                     var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
                     TempData["Certificacao" + j] = Certificacoes[0]["descricao"];

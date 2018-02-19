@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
@@ -272,6 +273,141 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return Sexo;
         }
+
+
+        public List<SelectListItem> RetornaProdutos()
+        {
+            var Produtos = new List<SelectListItem>();
+
+            const string QueryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaProdutos);
+            foreach (var row in Dados)
+                Produtos.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return Produtos;
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosProducao(string UsuarioSistema)
+        {
+            var Query =
+                "SELECT * FROM cimproducao WHERE usuario='" + UsuarioSistema + "' and excluido='N'" ;
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados;
+        }
+
+        public string ExisteRegistro(int usuario)
+        {
+            string QueryExiste = "SELECT count(*) from cimpontuacao where usuario=" + usuario;
+
+            var id = ConexaoMysql.ExecutaComandoComRetorno(QueryExiste);
+
+            return id[0]["count(*)"];
+        }
+
+        
+
+        public void ExcluirRegistro(int id)
+        {
+            var QueryExcluiProducao = "UPDATE cimproducao SET excluido='S' where id='"+id.ToString()+"'";
+            ConexaoMysql.ExecutaComandoComRetorno(QueryExcluiProducao);
+        }
+
+
+        
+
+        public string RecuperaProduto(int idProduto)
+        {
+            var Query =
+                "select descricao from pgdprodutos where id='" + idProduto + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados[0]["descricao"];
+        }
+
+        public string RecuperaDadosPontos(int idProduto)
+        {
+            var Query =
+                "select valorminimo,peso from pgdprodutos where id='" + idProduto + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados[0]["descricao"];
+        }
+
+
+        public List<Dictionary<string, string>> retornaDadosProdutos(int id)
+        {
+            
+            string QueryRetornaDadosProdutos = "SELECT peso,valorminimo from pgdprodutos where id='" + id + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaDadosProdutos);
+            return Dados;
+        }
+
+        public List<SelectListItem> RetornaFuncionario()
+        {
+            var Funcionario = new List<SelectListItem>();
+
+            const string QueryRetornaFuncionario = "SELECT id,nome FROM funcionarios";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaFuncionario);
+            foreach (var row in Dados)
+                Funcionario.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["nome"]
+                });
+
+            return Funcionario;
+        }
+
+        public void InsereProducao(string cpf, int produtos, string observacao, DateTime data,string Login,double valor,double valorponto)
+        {
+
+
+            string QueryInsereProducao = "INSERT INTO cimproducao (cpf,produto,observacao,datacontratacao,excluido,usuario,valor,valorponto) values ('"+cpf+"','"+produtos+ "','"+observacao+ "','"+Convert.ToDateTime(data).ToString("yyyy-MM-dd")+ "','N','"+Login+"','"+valor.ToString().Replace(",", ".") + "','"+valorponto.ToString().Replace(",", ".") + "') ";
+            ConexaoMysql.ExecutaComando(QueryInsereProducao);
+
+        }
+
+       
+
+        public void IncluirPontucao(int usuario,double ponto)
+        {
+            string existe=ExisteRegistro(usuario);
+            if (existe == "0")
+            {
+                var QueryIncluiPontuacao = "INSERT INTO cimpontuacao (usuario,pontuacaoatual) values ('"+usuario+"','" + ponto + "')";
+                ConexaoMysql.ExecutaComando(QueryIncluiPontuacao);
+            }
+            else
+            {
+                string QueryConsultaValorAtual =
+                    "select pontuacaoatual from cimpontuacao where usuario='" + usuario + "'";
+                double valor = Convert.ToDouble(ConexaoMysql.ExecutaComando(QueryConsultaValorAtual));
+                double valorAtual = valor + ponto;
+                var QueryAtualizaPontuacao = "update cimpontuacao set pontuacaoatual =" + valorAtual + "";
+                ConexaoMysql.ExecutaComando(QueryAtualizaPontuacao);
+            }
+         }
+
+        public string RecuperaUsuario(string login)
+        {
+            string QueryRecuperaUsuario = "SELECT id from usuarios where login='"+login+"'";
+
+            var id =  ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
+
+            return id[0]["id"];
+        }
+        
+
 
         public List<SelectListItem> RetornaEtnia()
         {

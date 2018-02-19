@@ -223,13 +223,7 @@
         <hr/>
 
         <div class="field is-grouped column">
-            <div class="control is-2">
-                <label class="label">Género</label>
-                <div class="select">
-                    @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU GÉNERO", new {id = "Sexo"})
-                    @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new {style = "color:red"})
-                </div>
-            </div>
+            
             <div class="control is-2">
                 <label class="label">Descrição de Género:</label>
                 @Html.TextBoxFor(m => m.DescricaoSexo, null, new {@class = "input", id = "DescricaosexoFuncionario"})

@@ -109,6 +109,8 @@ namespace Port.Repositorios
             return linhas;
         }
 
+
+
         public string ExecutaComandoComRetornoId(string comandoSQL)
         {
             long Id;

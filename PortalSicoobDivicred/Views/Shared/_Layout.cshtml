@@ -141,6 +141,12 @@
                         </span>
                     </a>
 
+                    <a href="@Url.Action("Pgd","Pgd")" class="item" style="color: #38d5c5;" data-balloon="PGD" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="far fa-user-circle"></i>
+                        </span>
+                    </a>
+
                     <a href='@Url.Action("Curriculo","Curriculo")' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fas fa-book'></i></span><span class='name'></span></a>
 
                     <a href="@Url.Action("ColaboradorRh","PainelColaborador")" class="item" style="color: #38d5c5;" data-balloon="Portal do Colaborador" data-balloon-pos="right">
@@ -152,7 +158,7 @@
             </aside>
             <div class="container">
                 <div class="column is-12" id="Conteudo" name="Conteudo">
-                    @RenderBody();
+                    @RenderBody()
                 </div>
             </div>
         </div>

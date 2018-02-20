@@ -320,6 +320,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+
         public void ExcluirFuncao(string IdFuncao)
         {
             var Query = "UPDATE funcoes SET excluido='S' where id=" + IdFuncao + ";";
@@ -384,5 +385,6 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+      
     }
 }

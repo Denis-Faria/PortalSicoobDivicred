@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Port.Repositorios;
@@ -456,6 +458,32 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var Query = "INSERT INTO alertas (idusuario,idaplicativo,descricao,data) VALUES("+IdUsuario+","+IdAplicativo+",'"+Descricao+"',NOW())";
             ConexaoMysql.ExecutaComando(Query);
+        }
+        public List<Dictionary<string, string>> RetornaHoras(string Cracha)
+        {
+            var Query = "select hora from horasextrasfuncionarios WHERE crachafirebird=" + Cracha + ";";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+        public string RemoveAccents(string text)
+        {
+            StringBuilder sbReturn = new StringBuilder();
+            var arrayText = text.Normalize(NormalizationForm.FormD).ToCharArray();
+            foreach (char letter in arrayText)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
+                    sbReturn.Append(letter);
+            }
+            return sbReturn.ToString();
+        }
+        public List<Dictionary<string,string>> RetornaFuncionariosSetor(string IdSetor)
+        {
+            var Query =
+                "SELECT nome FROM funcionarios WHERE idsetor='" + IdSetor + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados;
         }
     }
 }

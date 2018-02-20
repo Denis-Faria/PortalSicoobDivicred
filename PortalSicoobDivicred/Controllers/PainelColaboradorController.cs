@@ -71,8 +71,11 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var j = 0; j < IdCertificacoes.Length; j++)
                 {
-                    var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
-                    TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                    if (IdCertificacoes[j].Length > 0)
+                    {
+                        var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
+                        TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                    }
                 }
 
 

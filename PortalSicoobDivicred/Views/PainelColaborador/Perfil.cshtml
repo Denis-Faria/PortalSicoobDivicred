@@ -10,155 +10,155 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    var Forma = 0;
 
-    <script>
-        var Forma = 0;
+    function AdicionarFormacao() {
+        var x = document.createElement("INPUT");
+        var div = document.createElement('div');
+        var div2 = document.createElement('div');
+        var label = document.createElement("label");
 
-        function AdicionarFormacao() {
-            var x = document.createElement("INPUT");
-            var div = document.createElement('div');
-            var div2 = document.createElement('div');
-            var label = document.createElement("label");
+        label.setAttribute("class", "label");
 
-            label.setAttribute("class", "label");
+        label.innerHTML = "Formação Acadêmica";
 
-            label.innerHTML = "Formação Acadêmica";
+        div.setAttribute("class", "field");
+        div2.setAttribute("class", "control");
 
-            div.setAttribute("class", "field");
-            div2.setAttribute("class", "control");
+        x.setAttribute("type", "text");
+        x.setAttribute("id", "formacao " + Forma);
+        x.setAttribute("name", "formacao " + Forma);
+        x.setAttribute("class", "input");
+        Forma = Forma + 1;
+        document.getElementById("NovaFormacao").appendChild(div);
+        div.appendChild(div2);
+        div2.appendChild(label);
+        div2.appendChild(x);
+    }
 
-            x.setAttribute("type", "text");
-            x.setAttribute("id", "formacao " + Forma);
-            x.setAttribute("name", "formacao " + Forma);
-            x.setAttribute("class", "input");
-            Forma = Forma + 1;
-            document.getElementById("NovaFormacao").appendChild(div);
-            div.appendChild(div2);
-            div2.appendChild(label);
-            div2.appendChild(x);
-        }
-
-        function BuscaCertificacao(Nome) {
-            $("#ConteudoCertificacao").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Principal/BuscaCertificacao',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdFuncao": Nome.value },
-                    success: function (data) {
-                        $("#ConteudoCertificacao").append(data);
-                        $("#Certificacoes").removeAttr("hidden");
-
-                    }
-                });
-        }
-
-        function EscondeProfissional() {
-            if ($("#DadosProfissionais").is(":visible")) {
-                $("#DadosProfissionais").addClass("animated fadeOut");
-
-                $("#DadosProfissionais").hide();
-            } else {
-                $("#DadosProfissionais").removeClass("animated fadeOut");
-                $("#DadosProfissionais").addClass("animated fadeIn");
-                $("#DadosProfissionais").show();
-            }
-        }
-
-        function EscondePessoal() {
-            if ($("#DadosPessoais").is(":visible")) {
-                $("#DadosPessoais").addClass("animated fadeOut");
-
-                $("#DadosPessoais").hide();
-            } else {
-                $("#DadosPessoais").removeClass("animated fadeOut");
-                $("#DadosPessoais").addClass("animated fadeIn");
-                $("#DadosPessoais").show();
-            }
-        }
-
-        function EscondeArquivoPessoal() {
-            if ($("#ArquivoPessoal").is(":visible")) {
-                $("#ArquivoPessoal").addClass("animated fadeOut");
-
-                $("#ArquivoPessoal").hide();
-            } else {
-                $("#ArquivoPessoal").removeClass("animated fadeOut");
-                $("#ArquivoPessoal").addClass("animated fadeIn");
-                $("#ArquivoPessoal").show();
-            }
-        }
-
-        function EscondeFormularioPessoal() {
-            if ($("#FormularioPessoal").is(":visible")) {
-                $("#FormularioPessoal").addClass("animated fadeOut");
-
-                $("#FormularioPessoal").hide();
-            } else {
-                $("#FormularioPessoal").removeClass("animated fadeOut");
-                $("#FormularioPessoal").addClass("animated fadeIn");
-                $("#FormularioPessoal").show();
-            }
-        }
-
-        $("#file-input").change(function () {
-            document.body.style.cursor = "wait";
-            var formData = new FormData();
-            var totalFiles = document.getElementById("file-input").files.length;
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("file-input").files[i];
-
-                formData.append("file-input", file);
-            }
-            $.ajax({
-                type: "POST",
-                url: '/PainelColaborador/Upload',
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
+    function BuscaCertificacao(Nome) {
+        $("#ConteudoCertificacao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Principal/BuscaCertificacao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdFuncao": Nome.value },
                 success: function (data) {
-                    alert(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert("Imagem alterada com sucesso.");
-                    document.location.href = "/Principal/Principal";
+                    $("#ConteudoCertificacao").append(data);
+                    $("#Certificacoes").removeAttr("hidden");
+
                 }
             });
+    }
+
+    function EscondeProfissional() {
+        if ($("#DadosProfissionais").is(":visible")) {
+            $("#DadosProfissionais").addClass("animated fadeOut");
+
+            $("#DadosProfissionais").hide();
+        } else {
+            $("#DadosProfissionais").removeClass("animated fadeOut");
+            $("#DadosProfissionais").addClass("animated fadeIn");
+            $("#DadosProfissionais").show();
+        }
+    }
+
+    function EscondePessoal() {
+        if ($("#DadosPessoais").is(":visible")) {
+            $("#DadosPessoais").addClass("animated fadeOut");
+
+            $("#DadosPessoais").hide();
+        } else {
+            $("#DadosPessoais").removeClass("animated fadeOut");
+            $("#DadosPessoais").addClass("animated fadeIn");
+            $("#DadosPessoais").show();
+        }
+    }
+
+    function EscondeArquivoPessoal() {
+        if ($("#ArquivoPessoal").is(":visible")) {
+            $("#ArquivoPessoal").addClass("animated fadeOut");
+
+            $("#ArquivoPessoal").hide();
+        } else {
+            $("#ArquivoPessoal").removeClass("animated fadeOut");
+            $("#ArquivoPessoal").addClass("animated fadeIn");
+            $("#ArquivoPessoal").show();
+        }
+    }
+
+    function EscondeFormularioPessoal() {
+        if ($("#FormularioPessoal").is(":visible")) {
+            $("#FormularioPessoal").addClass("animated fadeOut");
+
+            $("#FormularioPessoal").hide();
+        } else {
+            $("#FormularioPessoal").removeClass("animated fadeOut");
+            $("#FormularioPessoal").addClass("animated fadeIn");
+            $("#FormularioPessoal").show();
+        }
+    }
+
+    $("#file-input").change(function () {
+        document.body.style.cursor = "wait";
+        var formData = new FormData();
+        var totalFiles = document.getElementById("file-input").files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById("file-input").files[i];
+
+            formData.append("file-input", file);
+        }
+        $.ajax({
+            type: "POST",
+            url: '/PainelColaborador/Upload',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("Imagem alterada com sucesso.");
+                document.location.href = "/Principal/Principal";
+            }
         });
+    });
 
-        function UloadArquivoPessoal(NomeArquivo) {
-            document.body.style.cursor = "wait";
-            var formData = new FormData();
-            var totalFiles = document.getElementById(NomeArquivo).files.length;
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById(NomeArquivo).files[i];
+    function UloadArquivoPessoal(NomeArquivo) {
+        document.body.style.cursor = "wait";
+        var formData = new FormData();
+        var totalFiles = document.getElementById(NomeArquivo).files.length;
+        for (var i = 0; i < totalFiles; i++) {
+            var file = document.getElementById(NomeArquivo).files[i];
 
-                formData.append(NomeArquivo, file, NomeArquivo);
-            }
-            $.ajax({
-                type: "POST",
-                url: '/PainelColaborador/UploadArquivo',
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    alert(data);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    document.location.href =
-                        "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
-                }
-            });
+            formData.append(NomeArquivo, file, NomeArquivo);
         }
+        $.ajax({
+            type: "POST",
+            url: '/PainelColaborador/UploadArquivo',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                document.location.href =
+                    "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
+            }
+        });
+    }
 
 
-    </script>
-    <body>
+
+</script>
+<body>
     @if (TempData["Mensagem"] != null)
     {
         @Html.Label("")
@@ -174,105 +174,107 @@
 
         </script>
     }
-        <br />
-        <div class="container">
-            <div class="box column is-12 is-narrow">
-                <article class="media">
-                    <div class="media-left">
-                        <figure class="image is-64x64">
-                            <img src="@TempData["foto"]" alt="Image">
-                        </figure>
+    <br />
+    <div class="container">
+        <div class="box column is-12 is-narrow">
+            <article class="media">
+                <div class="media-left">
+                    <figure class="image is-64x64">
+                        <img src="@TempData["foto"]" alt="Image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>@TempData["NomeFuncionario"]</strong>
+                            <br />
+                            <strong>Função: </strong>@TempData["Funcao"]
+                            <br />
+                            <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
+                            <br>
+                        </p>
                     </div>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong>@TempData["NomeFuncionario"]</strong>
-                                <br />
-                                <strong>Função: </strong>@TempData["Funcao"]
-                                <br />
-                                <strong>Data Admissão: </strong>@TempData["DataAdmissao"]
-                                <br>
-                            </p>
-                        </div>
-                        <nav class="level is-mobile">
-                            <div class="level-left">
-                                <div class="file is-small is-primary">
-                                    <label class="file-label">
-                                        <input class="file-input" id="file-input" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Alterar Foto Perfil
-                                            </span>
+                    <nav class="level is-mobile">
+                        <div class="level-left">
+                            <div class="file is-small is-primary">
+                                <label class="file-label">
+                                    <input class="file-input" id="file-input" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
                                         </span>
-                                    </label>
-                                </div>
+                                        <span class="file-label">
+                                            Alterar Foto Perfil
+                                        </span>
+                                    </span>
+                                </label>
                             </div>
-                        </nav>
-                    </div>
-                </article>
-            </div>
-            <div class="columns">
-                <div class="column is-6">
-                    <div class="card ">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Dados Profissionais
-                            </p>
-                            <a href="javascript:EscondeProfissional();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        @using (Html.BeginForm("AtualizarDadosProfissionais", "PainelColaborador", FormMethod.Post, new { id = "FormProfissional" }))
+                        </div>
+                    </nav>
+                </div>
+            </article>
+        </div>
+        <div class="columns">
+            <div class="column is-6">
+                <div class="card ">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Dados Profissionais
+                        </p>
+                        <a href="javascript:EscondeProfissional();void(0);" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    @using (Html.BeginForm("AtualizarDadosProfissionais", "PainelColaborador", FormMethod.Post, new { id = "FormProfissional" }))
                     {
                         <div id="DadosProfissionais">
                             <div class="card-content">
-                                <div class="field is-grouped column">
+                                <div class="field">
                                     <div class="control is-2 ">
                                         <label class="label">Setor</label>
-                                        <div class="select">
+                                        <div class="select  is-fullwidth">
                                             @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
                                             @if (Convert.ToInt32(TempData["IdSetor"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
-                                    function myFunction() {
+                                            {
+                                                @Html.Label("")
+                                                <script>
+                                                    function myFunction() {
 
-                                        var s = document.getElementById("Setor");
-                                        for (i = 0; i < document.getElementById("Setor").options.length; i++) {
+                                                        var s = document.getElementById("Setor");
+                                                        for (i = 0; i < document.getElementById("Setor").options.length; i++) {
 
-                                            if (s.options[i].value == @TempData["IdSetor"].ToString()) {
+                                                            if (s.options[i].value == @TempData["IdSetor"].ToString()) {
 
-                                                // Item is found. Set its property and exit
+                                                                // Item is found. Set its property and exit
 
-                                                s.options[i].selected = true;
+                                                                s.options[i].selected = true;
 
-                                                break;
+                                                                break;
 
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                    myFunction();
+                                                </script>
                                             }
-                                        }
-
-                                    }
-
-                                    myFunction();
-                                            </script>
-                                    }
                                         </div>
                                     </div>
-                                    <div class="control is-4">
+                                </div>
+                                <div class="field ">
+                                    <div class="control">
 
                                         <label class="label">Função</label>
-                                        <div class="select">
+                                        <div class="select  is-fullwidth">
                                             @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
                                             @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
                                             @if (Convert.ToInt32(TempData["IdFuncao"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
+                                            {
+                                                @Html.Label("")
+                                                <script>
                                     function myFunction() {
 
                                         var s = document.getElementById("Funcao");
@@ -292,8 +294,8 @@
                                     }
 
                                     myFunction();
-                                            </script>
-                                    }
+                                                </script>
+                                            }
                                         </div>
                                     </div>
 
@@ -303,12 +305,13 @@
                                         <b>Certificações Obrigatórias</b>
                                         <div id="ConteudoCertificacao">
                                             <ul>
-                                                @for (var i = 0; i <= Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
-                                            {
-                                                <li>
-                                                    <p>@TempData["Certificacao" + i].ToString()</p>
-                                                </li>
-                                        }
+                                   
+                                                @for (var i = 0; i < Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
+                                                {
+                                                    <li>
+                                                        <p>@TempData["Certificacao" + i].ToString()</p>
+                                                    </li>
+                                                }
                                             </ul>
                                         </div>
                                         <br />
@@ -338,22 +341,22 @@
                                 <a onclick="FormProfissional.submit();" class="card-footer-item">Salvar</a>
                             </footer>
                         </div>
-                }
-                    </div>
+                    }
+                </div>
 
-                    <br />
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Formulário Pessoal
-                            </p>
-                            <a href="javascript:EscondeFormularioPessoal();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        @using (Html.BeginForm("AtualizarFormularioPessoal", "PainelColaborador", FormMethod.Post, new { id = "FormPerguntas" }))
+                <br />
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Formulário Pessoal
+                        </p>
+                        <a href="javascript:EscondeFormularioPessoal();void(0);" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    @using (Html.BeginForm("AtualizarFormularioPessoal", "PainelColaborador", FormMethod.Post, new { id = "FormPerguntas" }))
                     {
                         <div id="FormularioPessoal">
                             <div class="card-content">
@@ -396,289 +399,289 @@
                                 <a onclick="FormPerguntas.submit();" class="card-footer-item">Salvar</a>
                             </footer>
                         </div>
-                }
-                    </div>
-
-
-                    <br />
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Arquivos Pessoais
-                            </p>
-                            <a href="javascript:EscondeArquivoPessoal();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        <div id="ArquivoPessoal">
-                            <div class="card-content">
-                                <div class="file has-name is-fullwidth @TempData["StatusFoto"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Foto 3/4
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeFoto"]
-                                        </span>
-                                    </label>
-                                </div>
-                                <br />
-                                <div class="file has-name is-fullwidth @TempData["StatusCTPS"]">
-                                    <label class="file-label">
-                                        <input class="file-input" id="CTPS" onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                CTPS
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCTPS"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusPIS"]">
-                                    <label class="file-label">
-                                        <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                PIS
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomePIS"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusCPF"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                CPF
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCPF"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusRG"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                RG
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeRG"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusTitulo Eleitor"]">
-                                    <label class="file-label">
-                                        <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Título de Eleitor
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeTitulo Eleitor"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusCartao SUS"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Cartão SUS
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCartao SUS"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusCNH"] ">
-                                    <label class="file-label">
-                                        <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-check"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                CNH
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCNH"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusComprovante Endereco"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Comprovante de Endereço
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeComprovante Endereco"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusTipo Sanguineo"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="TipoRecrutamento Sanguineo" onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Tipo Sanguíneo
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeTipo Sanguineo"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusCertidao"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Certidão Nascimento/Casamento
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCertidao"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-                                <div class="file has-name is-fullwidth @TempData["StatusCertidao Filho"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Certidão(Filhos)
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeCertidao Filho"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <br />
-
-
-                                <div class="file has-name is-fullwidth @TempData["StatusReservista"]">
-                                    <label class="file-label">
-                                        <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
-                                        <span class="file-cta">
-                                            <span class="file-icon">
-                                                <i class="fa fa-upload"></i>
-                                            </span>
-                                            <span class="file-label">
-                                                Certificado de Reservista
-                                            </span>
-                                        </span>
-                                        <span class="file-name">
-                                            @TempData["NomeReservista"]
-                                        </span>
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
+                    }
                 </div>
 
 
-                <div class="column is-6">
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Dados Pessoais
-                            </p>
-                            <a href="javascript:EscondePessoal();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        @using (Html.BeginForm("AtualizaDadosPessoais", "PainelColaborador", FormMethod.Post, new { id = "FormPessoal" }))
+                <br />
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Arquivos Pessoais
+                        </p>
+                        <a href="javascript:EscondeArquivoPessoal();void(0);" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div id="ArquivoPessoal">
+                        <div class="card-content">
+                            <div class="file has-name is-fullwidth @TempData["StatusFoto"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Foto" onchange="UloadArquivoPessoal('Foto')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Foto 3/4
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeFoto"]
+                                    </span>
+                                </label>
+                            </div>
+                            <br />
+                            <div class="file has-name is-fullwidth @TempData["StatusCTPS"]">
+                                <label class="file-label">
+                                    <input class="file-input" id="CTPS" onchange="UloadArquivoPessoal('CTPS')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            CTPS
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCTPS"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusPIS"]">
+                                <label class="file-label">
+                                    <input class="file-input" id="PIS" onchange="UloadArquivoPessoal('PIS')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            PIS
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomePIS"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusCPF"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="CPF" onchange="UloadArquivoPessoal('CPF')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            CPF
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCPF"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusRG"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="RG" onchange="UloadArquivoPessoal('RG')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            RG
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeRG"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusTitulo Eleitor"]">
+                                <label class="file-label">
+                                    <input class="file-input " onchange="UloadArquivoPessoal('Titulo Eleitor')" id="Titulo Eleitor" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Título de Eleitor
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeTitulo Eleitor"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusCartao SUS"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Cartao SUS" onchange="UloadArquivoPessoal('Cartao SUS')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Cartão SUS
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCartao SUS"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusCNH"] ">
+                                <label class="file-label">
+                                    <input class="file-input " id="CNH" onchange="UloadArquivoPessoal('CNH')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            CNH
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCNH"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusComprovante Endereco"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Comprovante Endereco" onchange="UloadArquivoPessoal('Comprovante Endereco')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Comprovante de Endereço
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeComprovante Endereco"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusTipo Sanguineo"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="TipoRecrutamento Sanguineo" onchange="UloadArquivoPessoal('Tipo Sanguineo')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Tipo Sanguíneo
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeTipo Sanguineo"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusCertidao"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Certidao" onchange="UloadArquivoPessoal('Certidao')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Certidão Nascimento/Casamento
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCertidao"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+                            <div class="file has-name is-fullwidth @TempData["StatusCertidao Filho"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Certidao Filho" onchange="UloadArquivoPessoal('Certidao Filho')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Certidão(Filhos)
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeCertidao Filho"]
+                                    </span>
+                                </label>
+                            </div>
+
+                            <br />
+
+
+                            <div class="file has-name is-fullwidth @TempData["StatusReservista"]">
+                                <label class="file-label">
+                                    <input class="file-input " id="Reservista" onchange="UloadArquivoPessoal('Reservista')" type="file" name="resume">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Certificado de Reservista
+                                        </span>
+                                    </span>
+                                    <span class="file-name">
+                                        @TempData["NomeReservista"]
+                                    </span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="column is-6">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Dados Pessoais
+                        </p>
+                        <a href="javascript:EscondePessoal();void(0);" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    @using (Html.BeginForm("AtualizaDadosPessoais", "PainelColaborador", FormMethod.Post, new { id = "FormPessoal" }))
                     {
                         <div id="DadosPessoais">
                             <div class="card-content">
@@ -721,9 +724,9 @@
                                         <div class="select">
                                             @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU SEXO", new { id = "Sexo" })
                                             @if (Convert.ToInt32(TempData["IdSexo"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
+                                            {
+                                                @Html.Label("")
+                                                <script>
                         function myFunction() {
 
                             var s = document.getElementById("Sexo");
@@ -743,8 +746,8 @@
                         }
 
                         myFunction();
-                                            </script>
-                                    }
+                                                </script>
+                                            }
                                         </div>
                                     </div>
                                     <div class="control is-4">
@@ -759,9 +762,9 @@
                                         <div class="select">
                                             @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new { id = "Etnia" })
                                             @if (Convert.ToInt32(TempData["IdEtnia"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
+                                            {
+                                                @Html.Label("")
+                                                <script>
                         function myFunction() {
 
                             var s = document.getElementById("Etnia");
@@ -781,8 +784,8 @@
                         }
 
                         myFunction();
-                                            </script>
-                                    }
+                                                </script>
+                                            }
                                         </div>
                                     </div>
                                     <div class="control ">
@@ -790,9 +793,9 @@
                                         <div class="select">
                                             @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new { id = "EstadoCivil" })
                                             @if (Convert.ToInt32(TempData["IdEstadoCivil"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
+                                            {
+                                                @Html.Label("")
+                                                <script>
                         function myFunction() {
 
                             var s = document.getElementById("EstadoCivil");
@@ -812,8 +815,8 @@
                         }
 
                         myFunction();
-                                            </script>
-                                    }
+                                                </script>
+                                            }
                                         </div>
                                     </div>
 
@@ -826,9 +829,9 @@
                                         <div class="select is-fullwidth">
                                             @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new { id = "Formacao" })
                                             @if (Convert.ToInt32(TempData["IdFormacao"].ToString()) > 0)
-                                        {
-                                            @Html.Label("")
-                                            <script>
+                                            {
+                                                @Html.Label("")
+                                                <script>
                         function myFunction() {
 
                             var s = document.getElementById("Formacao");
@@ -848,8 +851,8 @@
                         }
 
                         myFunction();
-                                            </script>
-                                    }
+                                                </script>
+                                            }
                                         </div>
                                     </div>
 
@@ -863,16 +866,16 @@
                                 </div>
 
                                 @for (var i = 0; i < Convert.ToInt32(TempData["TotalFormacao"]); i++)
-                            {
-                                <div class=" column">
-                                    <div class="field">
-                                        <div class="control">
-                                            <label class="label">Formação Acadêmica</label>
-                                            <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]" />
+                                {
+                                    <div class=" column">
+                                        <div class="field">
+                                            <div class="control">
+                                                <label class="label">Formação Acadêmica</label>
+                                                <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                        }
+                                }
                                 <div id="NovaFormacao" class="column">
 
 
@@ -942,10 +945,10 @@
                                 <a onclick="FormPessoal.submit();" class="card-footer-item">Salvar</a>
                             </footer>
                         </div>
-                }
-                    </div>
-
+                    }
                 </div>
+
             </div>
         </div>
-    </body>
+    </div>
+</body>

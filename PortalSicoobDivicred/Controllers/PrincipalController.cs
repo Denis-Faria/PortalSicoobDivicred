@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using OneApi.Client.Impl;
 using OneApi.Config;
@@ -21,6 +22,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
+
                 if (VerificaDados.PrimeiroLogin(Login))
                     return RedirectToAction("FormularioCadastro", "Principal");
                 var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
@@ -585,6 +587,68 @@ namespace PortalSicoobDivicred.Controllers
                     Mensagem = "Justificativa negada com sucesso!",
                     Controlle = "Principal"
                 });
+        }
+
+        public ActionResult BancoHora()
+        {
+            var VerificaDados = new QueryMysql();
+            var VerificaDadosFire = new QueryFirebird();
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+
+            var DadosFuncionario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+            if (DadosFuncionario[0]["gestor"].Equals("N"))
+            {
+                TempData["Gestor"] = "N";
+                string result = VerificaDados.RemoveAccents(DadosFuncionario[0]["nome"]);
+                var Cracha = VerificaDadosFire.RetornaCrachaFuncionario(result);
+                var Horas = VerificaDados.RetornaHoras(Cracha[0]["MATRICULA"]);
+                TimeSpan HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
+                if (HoraTotal.Hours < 0)
+                {
+                    TempData["NomeFuncionario"] = DadosFuncionario[0]["nome"];
+                    TempData["SaldoHoras"] = Horas[0]["hora"];
+                    TempData["cor"] = "red";
+                }
+                else
+                {
+                    TempData["NomeFuncionario"] = DadosFuncionario[0]["nome"];
+                    TempData["SaldoHoras"] = Horas[0]["hora"];
+                    TempData["cor"] = "black";
+                }
+            }
+            else
+            {
+                TempData["Gestor"] = "S";
+                var TodosFuncionariosSetor = VerificaDados.RetornaFuncionariosSetor(DadosFuncionario[0]["idsetor"]);
+                TempData["TotalEquipe"] = TodosFuncionariosSetor.Count;
+                for (int i = 0; i < TodosFuncionariosSetor.Count; i++)
+                {
+                    string result = VerificaDados.RemoveAccents(TodosFuncionariosSetor[i]["nome"]);
+                    var Cracha = VerificaDadosFire.RetornaCrachaFuncionario(result);
+                    var Horas = VerificaDados.RetornaHoras(Cracha[0]["MATRICULA"]);
+                    TimeSpan HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
+                    if (HoraTotal.Hours < 0 || HoraTotal.Minutes<0)
+                    {
+                        TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
+                        TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
+                        TempData["CorEquipe" + i] = "red";
+                    }
+                    else
+                    {
+
+
+                        TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
+                        TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
+                        TempData["CorEquipe" + i] = "black";
+                    }
+
+                }
+            }
+
+            return PartialView("BancoHoras");
+
         }
     }
 }

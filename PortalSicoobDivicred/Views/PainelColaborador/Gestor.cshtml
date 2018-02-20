@@ -21,7 +21,7 @@
             });
 
     }
-    function BuscaSetor() {
+    function BuscaSetores() {
         // Declare variables
         var input, filter, ul, li, a, i;
         input = document.getElementById('BuscaSetor');
@@ -99,27 +99,29 @@
                 <section class="modal-card-body">
 
                 <div class="card-content">
-                    <div class="content">
+                    <div class="content" >
                         <div class="field">
                             <div class="control has-icons-left ">
-                                <input id="BuscaSetor" class="input is-fullwidth" onkeyup="BuscaSetor()" type="text" placeholder="Busque um setor">
+                                <input id="BuscaSetor" class="input is-fullwidth" onkeyup="BuscaSetores()" type="text" placeholder="Busque um setor">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-search"></i>
                                 </span>
                             </div>
                         </div>
-                        <ul id="ListaSetores">
-                            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetores"]); i++)
-                            {
-                                <li>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="Setor @i" value="@TempData["IdSetor" + i]">
-                                        @TempData["DescricaoSetor" + i]
-                                    </label>
-                                </li>
+                        <div style="height: 100px; overflow-y: scroll;">
+                            <ul id="ListaSetores">
+                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetores"]); i++)
+                                {
+                                    <li>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="Setor @i" value="@TempData["IdSetor" + i]">
+                                            @TempData["DescricaoSetor" + i]
+                                        </label>
+                                    </li>
 
-                            }
-                        </ul>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 </section>

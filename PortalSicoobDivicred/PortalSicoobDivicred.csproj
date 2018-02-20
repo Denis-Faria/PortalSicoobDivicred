@@ -487,6 +487,7 @@
     <Content Include="Views\PainelColaborador\EditarCertificacao.cshtml" />
     <Content Include="Views\PainelColaborador\ResultadoPesquisaCertificacao.cshtml" />
     <Content Include="Views\PainelColaborador\Gestor.cshtml" />
+    <Content Include="Views\Principal\BancoHoras.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,18 @@
+﻿<article class="message is-primary">
+    <div class="message-header">
+        <p>Saldo de Horas</p>
+    </div>
+    <div class="message-body">
+        @if (TempData["Gestor"].Equals("N"))
+        {
+            <p style="color: @TempData["cor"]"> <strong>@TempData["NomeFuncionario"]</strong> || @TempData["SaldoHoras"]</p>
+        }
+        else
+        {
+            for (int i = 0; i < Convert.ToInt32(TempData["TotalEquipe"]); i++)
+             {
+                 <p style="color: @TempData["CorEquipe" + i]"> <strong>@TempData["NomeFuncionarioEquipe" + i]</strong> || @TempData["SaldoHorasEquipe" + i]</p>
+             }
+        }
+    </div>
+</article>

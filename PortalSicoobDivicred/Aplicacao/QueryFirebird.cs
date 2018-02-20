@@ -80,13 +80,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string IdFuncionario,DateTime DiaValidar)
         {
-            var DiaValidar = new DateTime();
-            if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                DiaValidar = DateTime.Now.AddDays(-3);
-            else
-                DiaValidar = DateTime.Now.AddDays(-1);
+           
             List<Dictionary<string, string>> linhas = null;
             try
             {
@@ -231,6 +227,41 @@ namespace PortalSicoobDivicred.Aplicacao
             return linhas;
         }
 
+        public List<Dictionary<string, string>> RetornaCrachaFuncionario(string NomeFuncionario)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+
+                var cmdComando = CriarComandoSQL(
+                    "SELECT   MATRICULA from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'");
+
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
         public List<Dictionary<string, string>> RetornaDadosMarcacao(string DataMarcacao,string IdFuncionario)
         {
             List<Dictionary<string, string>> linhas = null;
@@ -320,6 +351,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+
         public List<Dictionary<string, string>> RetornaPis(string IdFuncionario)
         {
             List<Dictionary<string, string>> linhas = null;
@@ -354,12 +386,13 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+
         public List<Dictionary<string, string>> RecuperaJustificativas()
         {
 
             List<Dictionary<string, string>> linhas = null;
 
-            var cmdComando = CriarComandoSQL("SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA");
+            var cmdComando = CriarComandoSQL("SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA ORDER BY DESCRICAO ASC");
             try
             {
                 using (var reader = cmdComando.ExecuteReader())

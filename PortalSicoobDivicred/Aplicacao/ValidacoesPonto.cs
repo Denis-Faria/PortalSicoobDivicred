@@ -25,7 +25,7 @@ namespace PortalSicoobDivicred
             #region Tratamento Ponto Firebird
             for (int i = 0; i < Funcionarios.Count; i++)
             {
-                var Afastamentos = Firebird.RetornaListaAfastamentoFuncionario(Funcionarios[i]["ID_FUNCIONARIO"]);
+                var Afastamentos = Firebird.RetornaListaAfastamentoFuncionario(Funcionarios[i]["ID_FUNCIONARIO"],DataConsulta);
                 var Feriados = Firebird.VerificaFeriado(Funcionarios[i]["ID_FUNCIONARIO"]);
                 var Marcacao = Firebird.RetornaMarcacao(Funcionarios[i]["ID_FUNCIONARIO"],DataConsulta);
                 var ConfirmaMysql = DadosRh.ValidaFirebirdMysql(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
@@ -73,7 +73,8 @@ namespace PortalSicoobDivicred
 
                                         var Total = new TimeSpan(00, 06, 00, 00);
                                         HoraExtra = JornadaTrabalhada.Subtract(Total);
-                                        if (HoraExtra.Hours > 6 && HoraExtra.Minutes > 10)
+
+                                        if (HoraExtra.Hours >= 6 && HoraExtra.Minutes >= 10)
                                         {
                                             var FuncionarioPendente = new Dictionary<string, string>();
                                             FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
@@ -120,7 +121,7 @@ namespace PortalSicoobDivicred
                                         var Total = new TimeSpan(00, 04, 00, 00);
                                         HoraExtra = JornadaTrabalhada.Subtract(Total);
 
-                                        if (HoraExtra.Hours > 4 && HoraExtra.Minutes > 10)
+                                        if (HoraExtra.Hours >= 4 && HoraExtra.Minutes >= 10)
                                         {
                                             var FuncionarioPendente = new Dictionary<string, string>();
                                             FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);

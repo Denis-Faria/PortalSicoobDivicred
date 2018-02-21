@@ -166,8 +166,12 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Area" + i] = DadosCurriculos[i]["descricao"].Replace(";", " ");
                     if (DadosCurriculos[i]["status"].Equals("S"))
                         TempData["Status" + i] = "green";
-                    else
+                    if (DadosCurriculos[i]["status"].Equals("N"))
                         TempData["Status" + i] = "red";
+                    if (DadosCurriculos[i]["status"].Equals("E"))
+                        TempData["Status" + i] = "blue";
+                    if (DadosCurriculos[i]["status"].Equals("A"))
+                        TempData["Status" + i] = "yellow";
 
                     if (DadosCurriculos[i]["idarquivogoogle"].Equals("0"))
                         TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
@@ -949,7 +953,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + ";"};
                             var subject = "Parabéns";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -985,7 +989,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + ";"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
@@ -1020,7 +1024,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = {EmailCelular[0]["email"] + "; rh@divicred.com.br"};
+                            string[] recipients = {EmailCelular[0]["email"] + ";"};
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";

@@ -131,11 +131,12 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-                if (VerificaDados.PermissaoCurriculos(DadosTabelaFuncionario[0]["login"]))
+
+                if (VerificaDados.PermissaoCurriculos(Login))
                     TempData["PermissaoCurriculo"] =
-                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                        " ";
                 else
-                    TempData["PermissaoCurriculo"] = "";
+                    TempData["PermissaoCurriculo"] = "display: none";
                 if (DadosTabelaFuncionario[0]["gestor"].Equals("S"))
                 {
                     TempData["PermissaoGestor"] = "";

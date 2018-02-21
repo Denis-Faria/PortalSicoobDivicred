@@ -118,7 +118,7 @@
                             <i class="fas fa-tachometer-alt"></i>
                         </span>
                     </a>
-                    <a href="@Url.Action("Chamados","Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
+                    <a href="@Url.Action("Chamados","Webdesk")" class="item" style="color: #38d5c5;display:none" data-balloon="WebDesk" data-balloon-pos="right">
                         <span class="icon">
                             <i class="fas fa-tasks" aria-hidden="true"></i>
                         </span>
@@ -133,9 +133,9 @@
                             <i class="fas fa-user-circle"></i>
                         </span>
                     </a>
-                    <a href='@Url.Action("Curriculo","Curriculo")' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fas fa-book'></i></span><span class='name'></span></a>
+                    <a href='@Url.Action("Curriculo","Curriculo")' class='item' style='color: #38d5c5;  @TempData["PermissaoCurriculo"]' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'  ><i class='fas fa-book'></i></span><span class='name'></span></a>
 
-                    <a href="@Url.Action("ColaboradorRh","PainelColaborador")" class="item" style="color: #38d5c5;" data-balloon="Portal do Colaborador" data-balloon-pos="right">
+                    <a  href="@Url.Action("ColaboradorRh","PainelColaborador")" class="item" style="color: #38d5c5;@TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
                         <span class="icon">
                             <i class="fas fa-user-plus"></i>
                         </span>

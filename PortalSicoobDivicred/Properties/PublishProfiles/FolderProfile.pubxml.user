@@ -628,19 +628,19 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/17/2016 17:28:04</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>06/18/2017 13:57:10</publishTime>
+      <publishTime>02/18/2018 09:44:54</publishTime>
     </File>
     <File Include="bin/OneApi.dll">
       <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>02/20/2018 17:18:04</publishTime>
+      <publishTime>02/21/2018 17:19:54</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>02/20/2018 17:18:04</publishTime>
+      <publishTime>02/21/2018 17:19:54</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -895,7 +895,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/09/2018 14:05:06</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>01/19/2018 11:12:02</publishTime>
+      <publishTime>02/21/2018 15:37:43</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.js">
       <publishTime>06/07/2017 09:18:51</publishTime>
@@ -955,7 +955,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/15/2018 08:05:39</publishTime>
     </File>
     <File Include="Views/Curriculo/PerfilProcesso.cshtml">
-      <publishTime>02/01/2018 14:35:11</publishTime>
+      <publishTime>02/21/2018 16:30:41</publishTime>
     </File>
     <File Include="Views/Curriculo/ResultadoProcesso.cshtml">
       <publishTime>01/09/2018 14:05:06</publishTime>
@@ -1072,7 +1072,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/09/2018 14:05:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>02/20/2018 13:22:25</publishTime>
+      <publishTime>02/21/2018 17:21:03</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
@@ -1081,7 +1081,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/06/2018 16:51:13</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/23/2018 14:59:33</publishTime>
+      <publishTime>02/21/2018 15:44:06</publishTime>
     </File>
   </ItemGroup>
 </Project>

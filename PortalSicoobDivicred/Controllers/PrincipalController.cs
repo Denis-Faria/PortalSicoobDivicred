@@ -31,7 +31,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoCurriculo"] =
                         " ";
                 else
-                    TempData["PermissaoCurriculo"] = "";
+                    TempData["PermissaoCurriculo"] = "display: none";
                 if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
                 {
                     TempData["PermissaoGestor"] = "hidden";

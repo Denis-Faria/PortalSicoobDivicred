@@ -385,6 +385,13 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
-      
+
+        public List<Dictionary<string, string>> RetornaFuncionarios()
+        {
+            var Query = "select id,nome from funcionarios WHERE ativo='S';";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
     }
 }

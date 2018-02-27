@@ -39,6 +39,24 @@
             }
         }
     }
+    function BuscarFuncionario() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('BuscaGestor');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ListaGestores");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("label")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
 </script>
 <div>
 
@@ -59,7 +77,7 @@
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
-                        Certificações
+                       Funcionários
                     </p>
 
                 </header>
@@ -67,24 +85,26 @@
                     <div class="content">
                         <div class="field">
                             <div class="control has-icons-left ">
-                                <input id="BuscaCertificacao" class="input is-fullwidth" onkeyup="BuscaCertificacoes()" type="text" placeholder="Busque uma certificação">
+                                <input id="BuscaGestor" class="input is-fullwidth" onkeyup="BuscarFuncionario()" type="text" placeholder="Busque uma certificação">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-search"></i>
                                 </span>
                             </div>
                         </div>
-                        <ul id="ListaGestores">
-                            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetor"]); i++)
-                            {
-                                <li>
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="Certificacao @i" value="@TempData["IdCertificacao" + i]">
-                                        @TempData["DescricaoCertificacao" + i]
-                                    </label>
-                                </li>
+                        <div style="height: 100px; overflow-y: scroll;">
+                            <ul id="ListaGestores">
+                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalFuncionarios"]); i++)
+                                {
+                                    <li>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="Funcionario @i" value="@TempData["IdFuncionario" + i]">
+                                            @TempData["Nome" + i]
+                                        </label>
+                                    </li>
 
-                            }
-                        </ul>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

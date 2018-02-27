@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
+
 namespace PortalSicoobDivicred.Controllers
 {
     public class PainelColaboradorController : Controller
@@ -14,6 +15,9 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Perfil(string Mensagem)
         {
+      
+           
+
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
@@ -1380,20 +1384,29 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["DescricaoSetor" + i] = Setores[i]["descricao"];
                     TempData["IdSetor" + i] = Setores[i]["id"];
                 }
+
+                var Funcionarios = VerificaDados.RetornaFuncionarios();
+                TempData["TotalFuncionarios"] = Setores.Count;
+                for (int i = 0; i < Funcionarios.Count; i++)
+                {
+                    TempData["Nome" + i] = Funcionarios[i]["nome"];
+                    TempData["IdFuncionario" + i] = Funcionarios[i]["id"];
+                }
+
                 return PartialView("Gestor");
             }
             return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
-        public ActionResult Gestor(Certificacao DadosCadastro)
+        public ActionResult Gestor(FormCollection DadosCadastro)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-
-                VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
+                if()
+                VerificaDados.CadastrarGestor(DadosCadastro.I);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Certificação cadastrada com sucesso !" });
             }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using log4net.Appender;
 using PortalSicoobDivicred.Aplicacao;
 
 namespace PortalSicoobDivicred
@@ -471,14 +472,32 @@ namespace PortalSicoobDivicred
                     else
                     {
                         Validado = true;
-                        if (DadosPendencia[j]["observacao"].Length > 0)
+                        if (DadosPendencia[j]["observacao"] != null)
                         {
-                            var Justificativa = DadosPendencia[j]["observacao"];
-                            try
+                            if (DadosPendencia[j]["observacao"].Length > 0)
                             {
-                                Confirmar.Add("Justificativa" + i, Justificativa);
+                                var Justificativa = DadosPendencia[j]["observacao"];
+                                try
+                                {
+                                    Confirmar.Add("Justificativa" + i, Justificativa);
+                                }
+                                catch
+                                {
+                                }
                             }
-                            catch { }
+                            else
+                            {
+                                var Justificativa =
+                                    QueryFire.RecuperaJustificativasFuncioanrio(
+                                        DadosPendencia[j]["idjustificativafirebird"]);
+                                try
+                                {
+                                    Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                }
+                                catch
+                                {
+                                }
+                            }
                         }
                         else
                         {

@@ -15,8 +15,8 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Perfil(string Mensagem)
         {
-      
-           
+
+
 
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -35,6 +35,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
                     TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
                 }
+
                 var DadosFuncionario = new Funcionario();
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
                 DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
@@ -151,6 +152,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoGestor"] = "hidden";
                     TempData["AreaGestor"] = "hidden";
                 }
+
                 TempData["NomeLateral"] = DadosTabelaFuncionario[0]["login"];
                 TempData["EmailLateral"] = DadosTabelaFuncionario[0]["email"];
                 if (DadosTabelaFuncionario[0]["foto"] == null)
@@ -159,6 +161,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["ImagemPerfil"] = DadosTabelaFuncionario[0]["foto"];
                 return View("Perfil", DadosFuncionario);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -175,8 +178,10 @@ namespace PortalSicoobDivicred.Controllers
                 VerificaDados.AtualizaDadosFuncionarioProfissional(DadosFuncionario.IdSetor.ToString(),
                     DadosFuncionario.IdFuncao.ToString(), Login);
 
-                return RedirectToAction("Perfil", "PainelColaborador", new { Mensagem = "Dados Profissionais atualizados com sucesso !" });
+                return RedirectToAction("Perfil", "PainelColaborador",
+                    new { Mensagem = "Dados Profissionais atualizados com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -221,8 +226,10 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
                     "S");
 
-                return RedirectToAction("Perfil", "PainelColaborador", new { Mensagem = "Dados Pessoais atualizados com sucesso !" });
+                return RedirectToAction("Perfil", "PainelColaborador",
+                    new { Mensagem = "Dados Pessoais atualizados com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -245,6 +252,7 @@ namespace PortalSicoobDivicred.Controllers
                         Caminho = Path.Combine(Server.MapPath("~/Uploads/"), tempfileName);
                         counter++;
                     }
+
                     Caminho = Path.Combine(Server.MapPath("~/Uploads/"), tempfileName);
                     Arquivo.SaveAs(Caminho);
 
@@ -262,6 +270,7 @@ namespace PortalSicoobDivicred.Controllers
                     return Content("Imagem alterada com sucesso!");
                 }
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -285,6 +294,7 @@ namespace PortalSicoobDivicred.Controllers
                 InserirFoto.AtualizarArquivoPessoal(NomeArquivo, fileData, Login);
                 return Content("Imagem alterada com sucesso!");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -306,8 +316,10 @@ namespace PortalSicoobDivicred.Controllers
                     DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
                     DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem);
 
-                return RedirectToAction("Perfil", "PainelColaborador", new { Mensagem = "Formulário Pessoal atualizado com sucesso !" });
+                return RedirectToAction("Perfil", "PainelColaborador",
+                    new { Mensagem = "Formulário Pessoal atualizado com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -343,6 +355,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoGestor"] = "hidden";
                     TempData["AreaGestor"] = "hidden";
                 }
+
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                 TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
                 if (DadosUsuarioBanco[0]["foto"] == null)
@@ -386,6 +399,7 @@ namespace PortalSicoobDivicred.Controllers
 
                         TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[i]["Horario" + j];
                     }
+
                     if (4 - Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) > 0)
                     {
                         TempData["TotalHorarioPendencia" + i] = 4;
@@ -458,6 +472,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return View("ColaboradorRh");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -547,8 +562,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Estagiario"] = "NÃO";
                     TempData["DataEstagio"] = "-";
                 }
+
                 return PartialView("ModalPerfil", DadosFuncionario);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -563,12 +580,15 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     VerificaDados.CadastraVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao);
 
-                    return RedirectToAction("ColaboradorRH", "PainelColaborador", new { Mensagem = "Vaga interna criada com sucesso !" });
+                    return RedirectToAction("ColaboradorRH", "PainelColaborador",
+                        new { Mensagem = "Vaga interna criada com sucesso !" });
                 }
                 else
                 {
-                    return RedirectToAction("ColaboradorRh", "PainelColaborador", new { Mensagem = "Vaga interna não cadastrada !" });
+                    return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                        new { Mensagem = "Vaga interna não cadastrada !" });
                 }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -602,8 +622,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Ativa"] = "";
                     TempData["Status"] = "Desativada";
                 }
+
                 return PartialView("ModalEditarVagaInterna", Vaga);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -619,8 +641,10 @@ namespace PortalSicoobDivicred.Controllers
 
                     QueryRh.AtualizaVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
                         Formulario["IdVaga"]);
-                    return RedirectToAction("ColaboradorRh", "PainelColaborador", new { Mensagem = "Vaga alterada com sucesso!" });
+                    return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                        new { Mensagem = "Vaga alterada com sucesso!" });
                 }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -661,6 +685,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Imagem" + i] = "/Uploads/" +
                                                  DadosCurriculos[i]["foto"] + "";
                 }
+
                 if (DadosVaga[0]["encerrada"].Equals("N"))
                 {
                     TempData["Ativa"] = "";
@@ -671,8 +696,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Ativa"] = "disabled";
                     TempData["Dica"] = "Esta vaga já esta encerrada.";
                 }
+
                 return View("GerenciarVaga");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -699,12 +726,16 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             Aprovado = false;
                         }
+
                         var Observacao = Formulario["observacao " + IdFuncionario];
                         VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario, Aprovado, Observacao);
                     }
+
                 VerificaDados.EncerraVaga(Formulario["vaga"]);
-                return RedirectToAction("GerenciarVaga", "PainelColaborador", new { IdVaga = Formulario["vaga"], Mensagem = "Vaga interna encerrada com sucesso !" });
+                return RedirectToAction("GerenciarVaga", "PainelColaborador",
+                    new { IdVaga = Formulario["vaga"], Mensagem = "Vaga interna encerrada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -733,6 +764,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
                         {
                         }
@@ -741,6 +773,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
                         {
                         }
@@ -749,6 +782,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
                         {
                         }
@@ -757,6 +791,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario5.Length == 0 || TabelaPendencias[i].Horario5.Contains("--"))
                         {
                         }
@@ -765,6 +800,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario5), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario6.Length == 0 || TabelaPendencias[i].Horario4.Contains("--") ||
                             TabelaPendencias[i].Horario6.Contains("<"))
                         {
@@ -779,8 +815,10 @@ namespace PortalSicoobDivicred.Controllers
                     {
                     }
                 }
+
                 return Json("Ok");
             }
+
             return Json("Ok");
         }
 
@@ -789,7 +827,8 @@ namespace PortalSicoobDivicred.Controllers
             var QueryRh = new QueryMysqlRh();
             QueryRh.NegaJustificativa(IdHistorico);
             QueryRh.NegaJustificativaGestor(IdHistorico);
-            return RedirectToAction("ColaboradorRh", "PainelColaborador", new { Mensagem = "Pendencia negada com sucesso !" });
+            return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                new { Mensagem = "Pendencia negada com sucesso !" });
         }
 
         [HttpPost]
@@ -802,11 +841,14 @@ namespace PortalSicoobDivicred.Controllers
                 var FuncionarioPendentes = VerificaDados.RetornaPendenciaAlerta();
                 for (int i = 0; i < FuncionarioPendentes.Count; i++)
                 {
-                    VerificaDados.CadastraAlertaJustificativa(FuncionarioPendentes[i]["idfuncionario"], Dados["TextAlerta"]);
+                    VerificaDados.CadastraAlertaJustificativa(FuncionarioPendentes[i]["idfuncionario"],
+                        Dados["TextAlerta"]);
                 }
+
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Alerta cadastrado com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -834,6 +876,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
                         {
                         }
@@ -842,6 +885,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
                         {
                         }
@@ -850,6 +894,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirHistoricoHorario(IdJustificativa,
                                 TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0");
                         }
+
                         if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
                         {
                         }
@@ -864,8 +909,10 @@ namespace PortalSicoobDivicred.Controllers
                     {
                     }
                 }
+
                 return Json("Ok");
             }
+
             return Json("Ok");
         }
 
@@ -878,9 +925,9 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult HistoricoPendencia(FormCollection Datas)
         {
             var Validacoes = new ValidacoesPonto();
-            
 
-            var DadosPendencias = Validacoes.RetornaHistoricoPendencias(Datas["DataInicial"],Datas["DataFinal"]);
+
+            var DadosPendencias = Validacoes.RetornaHistoricoPendencias(Datas["DataInicial"], Datas["DataFinal"]);
 
             TempData["ExtraJustifica1"] = "hidden";
             TempData["ExtraJustifica2"] = "hidden";
@@ -903,6 +950,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
                 }
+
                 if (4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) > 0)
                 {
                     TempData["TotalHorarioPendencia" + i] = 4;
@@ -911,12 +959,13 @@ namespace PortalSicoobDivicred.Controllers
                 if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
                 {
                     TempData["Justificativa" + i] = DadosPendencias[i]["Justificativa" + i];
-                    }
+                }
                 else
                 {
                     TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
 
                 }
+
                 if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 5)
                 {
                     TempData["ExtraJustifica1"] = "";
@@ -929,6 +978,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
             }
+
             return View();
         }
 
@@ -951,7 +1001,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (Reincidentes[i]["confirma"].Equals("S"))
                     {
                         var Dias = VerificaDados.RetornaDataReincidentes(Reincidentes[i]["id"], Datas["DataInicial"],
-                             Datas["DataFinal"]);
+                            Datas["DataFinal"]);
                         TempData["Nome" + TotalReincidente] = Reincidentes[i]["nome"];
                         TempData["IdFuncionario" + TotalReincidente] = Reincidentes[i]["id"];
                         TempData["Dia" + TotalReincidente] = Dias;
@@ -959,9 +1009,11 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                 }
+
                 TempData["TotalReincidente"] = TotalReincidente;
                 return View();
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -974,6 +1026,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("Parametros");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -990,8 +1043,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
                     TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
                 }
+
                 return PartialView("Funcao");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1010,10 +1065,12 @@ namespace PortalSicoobDivicred.Controllers
                         Certificacoes = Certificacoes + Dados[i] + ";";
                     }
                 }
-                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao,Certificacoes);
+
+                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Função cadastrada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1032,10 +1089,12 @@ namespace PortalSicoobDivicred.Controllers
                         Certificacoes = Certificacoes + Dados[i] + ";";
                     }
                 }
-                VerificaDados.EditarFuncao(Dados["IdFuncao"],DadosCadastro.NomeFuncao, Certificacoes);
+
+                VerificaDados.EditarFuncao(Dados["IdFuncao"], DadosCadastro.NomeFuncao, Certificacoes);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Função alterada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1052,10 +1111,12 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Id" + i] = Funcoes[i]["id"];
                     TempData["Descricao" + i] = Funcoes[i]["descricao"];
                 }
+
                 TempData["TotalResultado"] = Funcoes.Count;
                 TempData["Editar"] = "EditarFuncao";
                 return PartialView("ResultadoPesquisa");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1083,6 +1144,7 @@ namespace PortalSicoobDivicred.Controllers
                             Existe = true;
                         }
                     }
+
                     if (Existe)
                     {
                         TempData["DescricaoCertificacaoEditar" + i] = Certificacoes[i]["descricao"];
@@ -1095,17 +1157,19 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["IdCertificacaoEditar" + i] = Certificacoes[i]["id"];
                         TempData["CertificaFuncao" + i] = "";
                     }
+
                     Existe = false;
                 }
 
                 FuncaoRecupera.NomeFuncao = DadosFuncao[0]["descricao"];
                 TempData["IdFuncao"] = DadosFuncao[0]["id"];
-                return PartialView("EditarFuncao",FuncaoRecupera);
+                return PartialView("EditarFuncao", FuncaoRecupera);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult BuscaPendencia(string DataConsulta )
+        public ActionResult BuscaPendencia(string DataConsulta)
         {
             var Validacoes = new ValidacoesPonto();
             var TabelasPonto = Validacoes.ValidarPonto(Convert.ToDateTime(DataConsulta));
@@ -1132,10 +1196,12 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["Hora" + j + i] = TabelasPonto[0][i]["Hora" + j];
                 }
+
                 if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0)
                 {
                     TempData["TotalHorarioPonto" + i] = 4;
                 }
+
                 if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 5)
                 {
                     TempData["ExtraPendente1"] = "";
@@ -1150,7 +1216,7 @@ namespace PortalSicoobDivicred.Controllers
             }
 
             #endregion
-         
+
 
             return PartialView("ValidacaoPonto");
         }
@@ -1210,14 +1276,15 @@ namespace PortalSicoobDivicred.Controllers
                 var Firebird = new QueryFirebird();
 
                 var DadosPendencia = VerificaDados.RecuperaDadosPendenciaConfirmacao(IdPendencia);
-                var DadosPendenciaFire = Firebird.RetornaDadosMarcacao(DadosPendencia[0]["data"],DadosPendencia[0]["idfuncionariofirebird"]);
+                var DadosPendenciaFire = Firebird.RetornaDadosMarcacao(DadosPendencia[0]["data"],
+                    DadosPendencia[0]["idfuncionariofirebird"]);
 
                 var Existe = false;
                 var NegaFireBird = false;
-                for (int i=0;i<DadosPendencia.Count;i++)
+                for (int i = 0; i < DadosPendencia.Count; i++)
                 {
                     Existe = false;
-                    if (DadosPendencia[i]["observacao"]==null)
+                    if (DadosPendencia[i]["observacao"] == null)
                     {
                         if (DadosPendencia[i]["horario"].Equals("00:00:00"))
                         {
@@ -1252,8 +1319,9 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         NegaFireBird = true;
                     }
-                    
+
                 }
+
                 if (NegaFireBird)
                 {
                     VerificaDados.AtualizaJustificativaRh(DadosPendencia[0]["idhistorico"]);
@@ -1264,6 +1332,7 @@ namespace PortalSicoobDivicred.Controllers
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Justificativa confirmada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1277,6 +1346,7 @@ namespace PortalSicoobDivicred.Controllers
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Função excluida com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1286,9 +1356,10 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                
+
                 return PartialView("Certificacao");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1299,11 +1370,12 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                
+
                 VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Certificação cadastrada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1314,10 +1386,11 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
 
-                VerificaDados.EditarCertificacao(Dados["IdCertificacao"],DadosCadastro.NomeCertificacao);
+                VerificaDados.EditarCertificacao(Dados["IdCertificacao"], DadosCadastro.NomeCertificacao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Certificação atualizada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1332,8 +1405,10 @@ namespace PortalSicoobDivicred.Controllers
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Certificação excluida com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public ActionResult BuscarCertificacao(string DescricaoCertificacao)
         {
@@ -1347,12 +1422,15 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Id" + i] = Certificacao[i]["id"];
                     TempData["Descricao" + i] = Certificacao[i]["descricao"];
                 }
+
                 TempData["TotalResultado"] = Certificacao.Count;
                 TempData["Editar"] = "EditarCertificacao";
                 return PartialView("ResultadoPesquisaCertificacao");
             }
+
             return RedirectToAction("Login", "Login");
         }
+
         [HttpPost]
         public ActionResult RecuperaCertificacao(string IdCertificacao)
         {
@@ -1360,7 +1438,7 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                
+
                 var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao(IdCertificacao);
                 var CertificacaoRecupera = new Certificacao();
 
@@ -1368,6 +1446,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["IdCertificacao"] = DadosCertificacao[0]["id"];
                 return PartialView("EditarCertificacao", CertificacaoRecupera);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1395,6 +1474,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return PartialView("Gestor");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -1405,77 +1485,228 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                if()
-                VerificaDados.CadastrarGestor(DadosCadastro.I);
+
+                VerificaDados.CadastrarGestor(DadosCadastro["Funcionario"], DadosCadastro["Setor"]);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Certificação cadastrada com sucesso !" });
+                    new { Mensagem = "Gestor cadastrado com sucesso !" });
+
             }
+
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult EditarGestor(Certificacao DadosCadastro, FormCollection Dados)
+        public ActionResult EditarGestor(FormCollection Dados)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
 
-                VerificaDados.EditarCertificacao(Dados["IdCertificacao"], DadosCadastro.NomeCertificacao);
+                VerificaDados.EditarGestor(Dados["FuncionarioEdicao"], Dados["SetorEdicao"]);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Certificação atualizada com sucesso !" });
             }
+
             return RedirectToAction("Login", "Login");
         }
-        /*
-public ActionResult ExcluirCertificacao(string IdFuncao)
-{
-    var VerificaDados = new QueryMysqlRh();
-    var Logado = VerificaDados.UsuarioLogado();
-    if (Logado)
-    {
 
-        VerificaDados.ExcluirCertificacao(IdFuncao);
-        return RedirectToAction("ColaboradorRh", "PainelColaborador",
-            new { Mensagem = "Certificação excluida com sucesso !" });
-    }
-    return RedirectToAction("Login", "Login");
-}
-[HttpPost]
-public ActionResult BuscarCertificacao(string DescricaoCertificacao)
-{
-    var VerificaDados = new QueryMysqlRh();
-    var Logado = VerificaDados.UsuarioLogado();
-    if (Logado)
-    {
-        var Certificacao = VerificaDados.BuscaCertificacao(DescricaoCertificacao);
-        for (int i = 0; i < Certificacao.Count; i++)
+        public ActionResult ExcluirGestor(string IdGestor)
         {
-            TempData["Id" + i] = Certificacao[i]["id"];
-            TempData["Descricao" + i] = Certificacao[i]["descricao"];
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.ExcluirGestor(IdGestor);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Gestor removido com sucesso !" });
+            }
+            return RedirectToAction("Login", "Login");
         }
-        TempData["TotalResultado"] = Certificacao.Count;
-        TempData["Editar"] = "EditarCertificacao";
-        return PartialView("ResultadoPesquisaCertificacao");
-    }
-    return RedirectToAction("Login", "Login");
-}
-[HttpPost]
-public ActionResult RecuperaCertificacao(string IdCertificacao)
-{
-    var VerificaDados = new QueryMysqlRh();
-    var Logado = VerificaDados.UsuarioLogado();
-    if (Logado)
-    {
 
-        var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao(IdCertificacao);
-        var CertificacaoRecupera = new Certificacao();
+        [HttpPost]
+        public ActionResult BuscarGestor(string DescricaoGestor)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Gestor = VerificaDados.BuscaGestor(DescricaoGestor);
+                for (int i = 0; i < Gestor.Count; i++)
+                {
+                    TempData["Id" + i] = Gestor[i]["id"];
+                    TempData["Descricao" + i] = Gestor[i]["nome"];
+                }
 
-        CertificacaoRecupera.NomeCertificacao = DadosCertificacao[0]["descricao"];
-        TempData["IdCertificacao"] = DadosCertificacao[0]["id"];
-        return PartialView("EditarCertificacao", CertificacaoRecupera);
-    }
-    return RedirectToAction("Login", "Login");
-}*/
+                TempData["TotalResultado"] = Gestor.Count;
+                TempData["Editar"] = "EditarGestor";
+
+                return PartialView("ResultadoPesquisaGestor");
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult RecuperaGestor(string IdGestor)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                var DadosGestor = VerificaDados.RecuperaDadosGestor(IdGestor);
+
+                var Setores = VerificaDados.RetornaSetores();
+                TempData["TotalSetores"] = Setores.Count;
+                for (int i = 0; i < Setores.Count; i++)
+                {
+                    TempData["DescricaoSetor" + i] = Setores[i]["descricao"];
+                    TempData["IdSetor" + i] = Setores[i]["id"];
+                    if (Setores[i]["id"].Equals(DadosGestor[0]["idsetor"]))
+                    {
+                        TempData["ValorSetor" + i] = "checked";
+                    }
+                    else
+                    {
+                        TempData["ValorSetor" + i] = "";
+                    }
+                }
+
+                var Funcionarios = VerificaDados.RetornaFuncionarios();
+                TempData["TotalFuncionarios"] = Setores.Count;
+                for (int i = 0; i < Funcionarios.Count; i++)
+                {
+                    TempData["Nome" + i] = Funcionarios[i]["nome"];
+                    TempData["IdFuncionario" + i] = Funcionarios[i]["id"];
+                    if (Funcionarios[i]["id"].Equals(DadosGestor[0]["id"]))
+                    {
+                        TempData["ValorGestor" + i] = "checked";
+                    }
+                    else
+                    {
+                        TempData["ValorGestor" + i] = "";
+                    }
+                }
+                TempData["ExcluirIdGestor"] = DadosGestor[0]["id"];
+                TempData["ExcluirIdSetor"] = DadosGestor[0]["idsetor"];
+                
+                return PartialView("EditarGestor");
+
+            }
+            return RedirectToAction("Login", "Login");
+
+
+        }
+
+
+
+        public ActionResult Setor()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                return PartialView("Setor");
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult Setor(Setor DadosCadastro)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.CadastrarSetor(DadosCadastro.NomeSetor);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor cadastrado com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult EditarSetor(Setor DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.EditarSetor(Dados["IdSetor"], DadosCadastro.NomeSetor);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor atualizada com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ExcluirSetor(string IdSetor)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                VerificaDados.ExcluirSetor(IdSetor);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor excluido com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+        
+        [HttpPost]
+        public ActionResult BuscarSetor(string DescricaoSetor)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Setor = VerificaDados.BuscaSetor(DescricaoSetor);
+
+                for (int i = 0; i < Setor.Count; i++)
+                {
+                    TempData["Id" + i] = Setor[i]["id"];
+                    TempData["Descricao" + i] = Setor[i]["descricao"];
+                }
+
+                TempData["TotalResultado"] = Setor.Count;
+                TempData["Editar"] = "EditarSetor";
+
+                return PartialView("ResultadoPesquisaSetor");
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult RecuperaSetor(string IdSetor)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                var DadosCertificacao = VerificaDados.RecuperaDadosSetor(IdSetor);
+                var SetorRecupera = new Setor();
+
+                SetorRecupera.NomeSetor = DadosCertificacao[0]["descricao"];
+                TempData["IdSetor"] = DadosCertificacao[0]["id"];
+                return PartialView("EditarSetor", SetorRecupera);
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
+
+
 
     }
 }

@@ -309,7 +309,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> BuscaFuncao(string Nome)
         {
-            var Query = "Select id,descricao from funcoes where descricao like'%" + Nome + "%';";
+            var Query = "Select id,descricao from funcoes where descricao like'%" + Nome + "%' AND excluido='N';";
            var Dados= ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -353,7 +353,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> BuscaCertificacao(string DescricaoCertificacao)
         {
-            var Query = "Select id,descricao from certificacoesfuncionarios where descricao like'%" + DescricaoCertificacao + "%';";
+            var Query = "Select id,descricao from certificacoesfuncionarios where descricao like'%" + DescricaoCertificacao + "%' AND excluido='N';";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -393,5 +393,67 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+        public void CadastrarGestor(string Funcionario, string Setor)
+        {
+            var Query = "UPDATE funcionarios SET gestor='S' , idsetor="+Setor+" WHERE id="+Funcionario+";";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+
+        public List<Dictionary<string,string>> BuscaGestor(string DescricaoGestor)
+        {
+             var Query = "Select id,nome from funcionarios where nome like'%" + DescricaoGestor + "%' AND gestor='S' AND ativo='S';";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+        public List<Dictionary<string, string>> RecuperaDadosGestor(string IdGestor)
+        {
+            var Query = "Select id,nome,idsetor from funcionarios where id=" + IdGestor + ";";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public void ExcluirGestor(string IdGestor)
+        {
+            var Query = "UPDATE funcionarios SET gestor='N' WHERE id=" + IdGestor + ";";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+
+        public void EditarGestor(string Funcionario, string Setor)
+        {
+            var Query = "UPDATE funcionarios SET gestor='S' , idsetor=" + Setor + " WHERE id=" + Funcionario + ";";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+
+        public void CadastrarSetor(string NomeSetor)
+        {
+            var Query = "INSERT INTO setores (descricao) VALUES('" + NomeSetor + "');";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+        }
+        public void EditarSetor(string IdSetor, string Nome)
+        {
+            var Query = "UPDATE setores SET descricao='" + Nome + "' WHERE id=" + IdSetor + ";";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+        public List<Dictionary<string, string>> BuscaSetor(string DescricaoSetor)
+        {
+            var Query = "Select id,descricao from setores where descricao like'%" + DescricaoSetor + "%' AND excluido='N';";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+        public List<Dictionary<string, string>> RecuperaDadosSetor(string IdSetor)
+        {
+            var Query = "Select id,descricao from setores where id=" + IdSetor + ";";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+        public void ExcluirSetor(string IdSetor)
+        {
+            var Query = "UPDATE setores SET excluido='S' where id=" + IdSetor + ";";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var Query2 = "UPDATE funcionarios SET IDSETOR=0 WHERE idsetor=" + IdSetor + "";
+            ConexaoMysql.ExecutaComando(Query2);
+
+
+        }
     }
 }

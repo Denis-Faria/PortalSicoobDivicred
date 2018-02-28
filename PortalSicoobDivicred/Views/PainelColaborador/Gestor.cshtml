@@ -13,7 +13,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "DescricaoCertificacao": $("#BuscaGestor").val() },
+                data: { "DescricaoGestor": $("#DescricaoGestor").val() },
                 success: function (data) {
                     $("#ListaGestor").append(data);
 
@@ -57,6 +57,37 @@
             }
         }
     }
+    $('#CadastroGestor').validate({
+       
+        rules: {
+            'Funcionario': {
+                required: true,
+                maxlength: 1
+            },
+            'Setor': {
+                required: true,
+                maxlength: 1
+            },
+        },
+        messages: { 
+            
+            "Funcionario": {
+                required: "Selecione ao menos 1 funcionário",
+                maxlength:"Selecione apenas 1 funcioário."
+
+            },
+                "Setor": {
+                    required: "Selecione ao menos 1 setor",
+                    maxlength:"Selecione apenas 1 setor."
+                }
+            
+        },
+        errorContainer: $('#Erros'),
+        errorLabelContainer: $('#Erros ul'),
+        wrapper: 'li'
+       
+    });
+   
 </script>
 <div>
 
@@ -71,8 +102,13 @@
             </button>
         </p>
     </div>
-    @using (Html.BeginForm("Gestor", "PainelColaborador"))
+    @using (Html.BeginForm("Gestor", "PainelColaborador",FormMethod.Post,new{name="CadastroGestor", id="CadastroGestor"}))
     {
+        <div name="Erros" id="Erros" hidden="" class="content notification is-danger">
+        <p>Favor corrija os seguintes erros:</p>
+            <ul></ul>
+        
+        </div>
         <div class="field">
             <div class="card">
                 <header class="card-header">
@@ -97,7 +133,7 @@
                                 {
                                     <li>
                                         <label class="checkbox">
-                                            <input type="checkbox" name="Funcionario @i" value="@TempData["IdFuncionario" + i]">
+                                            <input type="checkbox" name="Funcionario" value="@TempData["IdFuncionario" + i]">
                                             @TempData["Nome" + i]
                                         </label>
                                     </li>
@@ -134,7 +170,7 @@
                                 {
                                     <li>
                                         <label class="checkbox">
-                                            <input type="checkbox" name="Setor @i" value="@TempData["IdSetor" + i]">
+                                            <input type="checkbox" name="Setor" value="@TempData["IdSetor" + i]">
                                             @TempData["DescricaoSetor" + i]
                                         </label>
                                     </li>
@@ -159,55 +195,55 @@
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
-    @using (Html.BeginForm("EditarGestor", "PainelColaborador"))
-    {
-        <div id="ModalGestor" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Editar Gestor</p>
-                    <a href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);" class="delete"></a>
-                </header>
-                <section class="modal-card-body">
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Gestores
-                            </p>
+@using (Html.BeginForm("EditarGestor", "PainelColaborador",FormMethod.Post,new{name="EditarGestor",id="EditarGestor"}))
+{
+    <div id="ModalGestor" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Editar Gestor</p>
+                <a href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Gestores
+                        </p>
 
-                        </header>
-                        <div class="card-content">
-                            <div class="content">
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
 
-                                <div class="field has-addons">
-                                    <div class="control has-icons-left is-expanded">
-                                        <input id="BuscaCertificacao" class="input is-fullwidth" type="text" placeholder="Busque um gestor.">
-                                        <span class="icon is-small is-left">
-                                            <i class="fas fa-search"></i>
-                                        </span>
-                                    </div>
-                                    <div class="control">
-                                        <a href="Javascript:Buscar();void(0);" class="button is-success">
-                                            Procurar
-                                        </a>
-                                    </div>
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="DescricaoGestor" class="input is-fullwidth" type="text" placeholder="Busque um gestor.">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
                                 </div>
-                                <ul id="ListaGestor"></ul>
+                                <div class="control">
+                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                        Procurar
+                                    </a>
+                                </div>
                             </div>
+                            <ul id="ListaGestor"></ul>
                         </div>
                     </div>
-                    <br />
-                    <div id="EdicaoGestor" hidden>
+                </div>
+                <br/>
+                <div id="EdicaoGestor" hidden>
 
-                        <br />
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button type="submit" id="SalvaGestor" disabled class="button is-success">Salvar Gestor</button>
-                    <a class="button" href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);">Cancelar</a>
-                </footer>
-            </div>
+                    <br/>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" id="SalvaGestor" disabled class="button is-success">Salvar Gestor</button>
+                <a class="button" href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);">Cancelar</a>
+            </footer>
         </div>
-    }
+    </div>
+}
 
 </div>

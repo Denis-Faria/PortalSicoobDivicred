@@ -1,0 +1,207 @@
+﻿<script>
+    function Buscar() {
+        $("#ListaGestor").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/PainelColaborador/BuscarGestor',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoGestor": $("#DescricaoGestor").val() },
+                success: function (data) {
+                    $("#ListaGestor").append(data);
+
+                }
+            });
+
+    }
+    function BuscaSetoresEdicao() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('BuscaSetorEdicao');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ListaSetoresEdicao");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("label")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+    function BuscarFuncionarioEdicao() {
+        // Declare variables
+        var input, filter, ul, li, a, i;
+        input = document.getElementById('BuscaGestorEdicao');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("ListaGestoresEdicao");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("label")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+    $('#EditarGestor').validate({
+
+        rules: {
+            'FuncionarioEdicao': {
+                required: true,
+                maxlength: 1
+            },
+            'SetorEdicao': {
+                required: true,
+                maxlength: 1
+            },
+        },
+        messages: {
+
+            "FuncionarioEdicao": {
+                required: "Selecione ao menos 1 funcionário",
+                maxlength: "Selecione apenas 1 funcioário."
+
+            },
+            "SetorEdicao": {
+                required: "Selecione ao menos 1 setor",
+                maxlength: "Selecione apenas 1 setor."
+            }
+
+        },
+        errorContainer: $('#ErrosEdicao'),
+        errorLabelContainer: $('#ErrosEdicao ul'),
+        wrapper: 'li'
+
+    });
+
+    function Validar() {
+        alert("OLA");
+        $('#EditarGestor').validate({
+
+            rules: {
+                'FuncionarioEdicao': {
+                    required: true,
+                    maxlength: 1
+                },
+                'SetorEdicao': {
+                    required: true,
+                    maxlength: 1
+                },
+            },
+            messages: {
+
+                "FuncionarioEdicao": {
+                    required: "Selecione ao menos 1 funcionário",
+                    maxlength: "Selecione apenas 1 funcioário."
+
+                },
+                "SetorEdicao": {
+                    required: "Selecione ao menos 1 setor",
+                    maxlength: "Selecione apenas 1 setor."
+                }
+
+            },
+            errorContainer: $('#ErrosEdicao'),
+            errorLabelContainer: $('#ErrosEdicao ul'),
+            wrapper: 'li'
+
+        });
+      
+            return false;
+    }
+</script>
+
+
+
+
+<div name="ErrosEdicao" id="ErrosEdicao" hidden="" class="content notification is-danger">
+    <p>Favor corrija os seguintes erros:</p>
+    <ul></ul>
+
+</div>
+<div class="field">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Funcionários
+            </p>
+
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <div class="field">
+                    <div class="control has-icons-left ">
+                        <input id="BuscaGestorEdicao" class="input is-fullwidth" onkeyup="BuscarFuncionarioEdicao()" type="text" placeholder="Busque uma certificação">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+                <div style="height: 100px; overflow-y: scroll;">
+                    <ul id="ListaGestoresEdicao">
+                        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalFuncionarios"]); i++)
+                        {
+                            <li>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="FuncionarioEdicao" @TempData["ValorGestor" + i] value="@TempData["IdFuncionario" + i]">
+                                    @TempData["Nome" + i]
+                                </label>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                Setores
+            </p>
+
+        </header>
+        <section class="modal-card-body">
+
+            <div class="card-content">
+                <div class="content">
+                    <div class="field">
+                        <div class="control has-icons-left ">
+                            <input id="BuscaSetorEdicao" class="input is-fullwidth" onkeyup="BuscaSetoresEdicao()" type="text" placeholder="Busque um setor">
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div style="height: 100px; overflow-y: scroll;">
+                        <ul id="ListaSetoresEdicao">
+                            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetores"]); i++)
+                            {
+                                <li>
+                                    <label class="checkbox">
+                                        <input type="checkbox" name="SetorEdicao" @TempData["ValorSetor" + i] value="@TempData["IdSetor" + i]">
+                                        @TempData["DescricaoSetor" + i]
+                                    </label>
+                                </li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <br/>
+    <button type="button" onclick="javascript:if($('#EditarGestor').valid()){location.href='@Url.Action("ExcluirGestor","PainelColaborador",new{IdGestor=@TempData["ExcluirIdGestor"]})'};" id="ExcluirCertificacao" class="button is-danger">Remover Gestor</button>
+    <br/>
+    </div>

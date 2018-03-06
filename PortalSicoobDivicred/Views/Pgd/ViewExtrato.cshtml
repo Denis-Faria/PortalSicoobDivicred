@@ -1,0 +1,152 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hora").mask('00:00');
+    });
+
+</script>
+
+<script>
+
+    function confirmExclusao() {
+        if (confirm("Tem certeza que deseja excluir essa categoria?")) {
+            var id = document.getElementById('categoria').value;
+            if (id != '') {
+                location.href = "deletar_categoria.jsp?acao=deletar&id=" + id;
+            } else { alert('Selecione uma categoria!!!'); }
+        }
+    }
+</script>
+<script>
+    function AbrirProcesso(id) {
+
+
+
+
+        iziToast.show({
+
+            message: 'Confirma a exclusão do Registro ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function (instance, toast) {
+
+                        $("#PerfilCompleto").empty();
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/Pgd/ExcluirRegistro',
+                                cache: true,
+                                async: true,
+                                data: { "id": id },
+                                success: function (data) {
+                                    instance.hide({
+                                        transitionOut: 'fadeOutUp',
+                                        onClosing: function (instance, toast, closedBy) {
+                                            console.info('closedBy: ' + closedBy); //btn2
+
+                                        }
+                                    },
+                                        toast,
+                                        'close',
+                                        'btn1');
+
+                                    location.href = "/Pgd/Pgd?Mensagem=Pontuação excluída com sucesso";
+
+                                }
+                            });
+
+                    }
+                ],
+                [
+                    '<button>Não</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function (instance, toast, closedBy) {
+                                console.info('closedBy: ' + closedBy); //btn2
+                            }
+                        },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ]
+
+        });
+    }
+
+</script>
+@if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
+{
+
+
+    <img id="Imagem" class="image is-centered" style="alignment: center" height="30%" src="/Images/extrato.png" />
+
+
+}
+else
+{
+    <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
+        <thead>
+        <th class="has-text-centered">CPF Cliente</th>
+        <th class="has-text-centered">Produto</th>
+        <th class="has-text-centered">Observação</th>
+        <th class="has-text-centered">Data Contratação</th>
+        <th class="has-text-centered">Pontos</th>
+        <th class="has-text-centered">Ação</th>
+
+
+
+
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
+        {
+            using (Html.BeginForm("Extrato", "Pgd"))
+            {
+                <tr>
+
+                    <td class="has-text-centered">
+                        <input name="Funcionario @TempData["cpf" + i]" id="Funcionario @TempData["cpf" + i]" value="@TempData["cpf" + i]" hidden="true" />@TempData["cpf" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <input name="Data @TempData["Produtos" + i]" id="Data @TempData["Produtos" + i]" value="@TempData["Produtos" + i]" hidden="true" /> @TempData["Produtos" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <input name="Data @TempData["Observacao" + i]" id="Data @TempData["Observacao" + i]" value="@TempData["Observacao" + i]" hidden="true" /> @TempData["Observacao" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <input name="Data @TempData["DataContratacao" + i]" id="Data @TempData["DataContratacao" + i]" value="@TempData["DataContratacao" + i]" hidden="true" /> @TempData["DataContratacao" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <input name="Data @TempData["valorponto" + i]" id="Data @TempData["valorponto" + i]" value="@TempData["valorponto" + i]" hidden="true" /> @TempData["valorponto" + i]
+                    </td>
+
+                    <td @TempData["Esconde" + i]>
+                        <div class="field has-addons">
+
+                            <p class="control">
+                                <button type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["id"+i]);void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success">
+                                    
+                                    <i class="far fa-trash-alt">
+                                        <span> &nbsp Excluir Registro</span>
+                                    </i>
+                                </button>
+                            </p>
+                        </div>
+                    </td>
+
+                </tr>
+            }
+        }
+
+
+    </table>
+
+}
+

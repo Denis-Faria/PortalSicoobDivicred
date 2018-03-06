@@ -1,0 +1,109 @@
+﻿
+<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
+
+
+    <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]'
+        });
+
+    </script>
+}
+
+<br />
+<script>
+    $(function () {
+        $("#TabBancoHoras").tabs();
+    });
+</script>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Pgd</title>
+</head>
+
+<nav class="level ">
+    <p class="level-item has-text-centered">
+        <img src="/Images/CIM.png" alt="" style="height: 30px;">
+    </p>
+</nav>
+
+
+<div class="notification is-primary" align="center" style="font-size: 170% ">
+    Pontuação atual: @TempData["saldo"]</strong></div>
+
+<body>
+    <div id="TabBancoHoras">
+        <div class="tabs is-centered is-boxed">
+            <ul>
+                <li id="AbaCadastro" class="is-active">
+                    <a href="#Cadastro" onclick="javascript:$('#AbaExtrato').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaCadastro').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-pencil"></i>
+                        </span>
+                        <span>Cadastro</span>
+                    </a>
+                </li>
+                <li id='AbaExtrato'>
+                    <a href='#Extrato' onclick="javascript: $('#AbaCadastro').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaExtrato').addClass('is-active');">
+                        <span class='icon is-small'>
+                            <i class='fa fa-list'></i>
+                        </span>
+                        <span>Extrato</span>
+                    </a>
+                </li>
+                
+            @if (TempData["Gestor"].ToString().Equals("S"))
+            {
+                <li id='AbaExtratoGestor'>
+                    <a href='#ExtratoGestor' onclick="javascript: $('#AbaCadastro').removeClass();$('#AbaExtrato').removeClass();$('#AbaExtratoGestor').addClass('is-active');">
+                        <span class='icon is-small'>
+                            <i class="fas fa-users"></i>
+                        </span>
+                        <span>Área Gestor</span>
+                    </a>
+                </li>
+
+            }
+            </ul>
+        </div>
+        <div id="Cadastro">
+            @Html.Action("Cadastro","Pgd")
+        </div>
+        <div id="Extrato">
+            @Html.Action("Extrato", "Pgd")
+        </div>
+        @if (TempData["Gestor"].ToString().Equals("S")) { 
+        <div id="ExtratoGestor">
+            @Html.Action("ExtratoGestor", "Pgd")
+        </div>
+        }
+
+    </div>
+
+</body>
+</html>

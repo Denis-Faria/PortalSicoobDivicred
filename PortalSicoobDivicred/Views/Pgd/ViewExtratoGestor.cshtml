@@ -1,0 +1,37 @@
+﻿<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+
+    <table id="Funcionario" name="Funcionario" class="table  is-centered is-narrow is-fullwidth ">
+        <thead>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Pontuação</th>
+
+
+
+        
+            @for (var i = 0; i < Convert.ToInt32(TempData["TotalFuncionarios"]); i++)
+             {
+                 using (Html.BeginForm("ExtratoGestor", "Pgd"))
+                 {
+                     <tr>
+                         <td class="has-text-centered">
+                             <input name="Funcionario @TempData["nome" + i]" id="Funcionario @TempData["nome" + i]" value="@TempData["nome" + i]" hidden="true"/>@TempData["nome" + i]
+                         </td>
+                         <td class="has-text-centered">
+                             <input name="Data @TempData["pontuacaoatual" + i]" id="Data @TempData["pontuacaoatual" + i]" value="@TempData["pontuacaoatual" + i]" hidden="true"/> @TempData["pontuacaoatual" + i]
+                         </td>
+                     </tr>
+                 }
+             }
+        
+
+
+    </table>
+
+
+
+

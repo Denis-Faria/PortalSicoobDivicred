@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<nav class="level ">
+    <p class="level-item has-text-centered">
+        <img src="/Images/Curriculo.png" alt="" style="height: 30px;">
+    </p>
+</nav>
+
+<script>
+    function alteracor() {
+        alert("Alerta")
+
+        $("#cor").removeClass();
+        $("#cor").addClass("file is-primary");
+    }
+</script>
+<body>
+
+    @using (Html.BeginForm("ProcessaArquivos", "Tesouraria", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+    {
+        <div class="content" style="align-content:center">
+            <div class="columns" >
+                <div class="card" >
+                    <div class="column is-4">
+                        <p class="card-header-title">
+                            Importação dos Relatórios
+                        </p>
+
+                        <div class="field">
+                            <div class="file" id="cor">
+                                <label class="file-label">
+                                    <input class="file-input" type="file" onchange="Javascript:alteracor()" name="file" id="file">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Primary file…
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <footer class="card-footer">
+                            <input type="submit" class="card-footer-item" value="qualquer" />
+                        </footer>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>

@@ -1,0 +1,70 @@
+﻿<script src='@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js")' type="text/javascript"></script>
+
+
+<script>
+    function Relatorio8Horas() {
+        $("#IndicadorSelecionado").empty();
+        $("#8Horas").addClass("is-active");
+
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/OitoHoras',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#IndicadorSelecionado").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div class="columns">
+    <div class="column is-3">
+        <nav class="menu">
+            <p class="panel-heading">
+                Indicadores
+            </p>
+            <ul style="background-color: white" class="panel-block">
+                <ul class="menu-list">
+                    <li>
+                        <a class="is-active">
+                            <span class="icon is-small">
+                                <i class="fas fa-book"></i>
+                            </span> Currículos
+                        </a>
+                        <ul>
+                            <li>
+                                <a>
+                                    Indicadores Padrões
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+            <ul style="background-color: white" class="panel-block">
+                <ul class="menu-list">
+                    <li>
+                        <a class="is-active">
+                            <span class="icon is-small">
+                                <i class="fas fa-clock"></i>
+                            </span> Banco de Horas
+                        </a>
+                        <ul>
+                            <li><a id="8Horas" href="Javascript:Relatorio8Horas();void(0);">Banco de horas acime de 8 horas</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+        </nav>
+    </div>
+    <div id="IndicadorSelecionado" class="column is-9">
+
+    </div>
+</div>

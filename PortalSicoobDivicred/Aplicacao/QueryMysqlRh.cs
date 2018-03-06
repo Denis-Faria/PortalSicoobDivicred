@@ -452,8 +452,13 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComandoComRetorno(Query);
             var Query2 = "UPDATE funcionarios SET IDSETOR=0 WHERE idsetor=" + IdSetor + "";
             ConexaoMysql.ExecutaComando(Query2);
+        }
 
-
+        public List<Dictionary<string, string>> RetornaBancoHoras()
+        {
+            var Query = "Select * from horasextrasfuncionarios;";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
         }
     }
 }

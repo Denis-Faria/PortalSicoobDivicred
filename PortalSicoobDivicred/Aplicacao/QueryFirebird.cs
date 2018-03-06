@@ -79,7 +79,38 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+        public List<Dictionary<string, string>> RetornaFuncionarioMatricula(string Matricula)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+                var cmdComando = CriarComandoSQL("SELECT * FROM FUNCIONARIO WHERE MATRICULA="+Matricula+" AND DATA_DEMISSAO IS NULL;");
 
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
         public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string IdFuncionario,DateTime DiaValidar)
         {
            

@@ -1,0 +1,178 @@
+﻿
+       <div class="field is-grouped ">
+
+
+               <p class="control">
+                   <button onclick="Imprimir()" type="submit" class="button is-success">
+                       <span class="icon">
+                           <i class="fa fa-print"></i>
+                       </span>
+                       <span>Imprimir Analítico</span>
+                   </button>
+               </p>
+
+               <p class="control">
+                   <button onclick="ImprimirCanvas()" type="submit" class="button is-success">
+                       <span class="icon">
+                           <i class="fa fa-print"></i>
+                       </span>
+                       <span>Imprimir Gráficos</span>
+                   </button>
+               </p>
+
+       </div>
+
+<div id="TabOpcoes">
+    <div class="tabs is-centered">
+        <ul>
+            <li class="is-active" id="AbaGrafico">
+                <a href="#Grafico" onclick="javascript: $('#AbaAnalitico').removeClass(); $('#AbaGrafico').addClass('is-active');">
+                    <span class="icon is-small "><i class="fas fa-chart-line"></i></span>
+                    Gráfico
+                </a>
+            </li>
+            <li id="AbaAnalitico">
+                <a href="#Analitico" onclick="javascript: $('#AbaGrafico').removeClass(); $('#AbaAnalitico').addClass('is-active');">
+                    <span class="icon is-small"><i class="fas fa-columns"></i></span>
+                    Analítico
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="Grafico">
+        <canvas id="OitoHoras"></canvas>
+        <br />
+        <canvas id="MediaHoras"></canvas>
+    </div>
+    <div id="Analitico">
+        <table id="TabelaHoras" name="TabelaHoras" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+            <thead>
+            <th class="has-text-centered">Funcionário</th>
+            <th class="has-text-centered">Dia RefeRência Banco de Horas</th>
+            <th class="has-text-centered">Total de Horas</th>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Convert.ToInt32(TempData["Total"]); i++)
+                {
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["Nome" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["Data" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["TotalHoras" + i]
+                        </td>
+                    </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function Imprimir() {
+
+        var conteudo = document.getElementById('Analitico').innerHTML,
+            tela_impressao = window.open('about:blank');
+        tela_impressao.document.write(conteudo);
+        tela_impressao.window.print();
+        tela_impressao.window.close();
+    }
+    function ImprimirCanvas() {
+        var canvas=document.getElementById("OitoHoras");
+        var canvas2 = document.getElementById("MediaHoras");
+        var win=window.open();
+        win.document.write("<br><img src='" + canvas.toDataURL() + "'/><br><img src='" + canvas2.toDataURL() +"'/>");
+        win.print();
+        win.location.reload();
+    }
+    $(function() {
+
+        $("#TabOpcoes").tabs();
+    });
+
+    var ctx = document.getElementById("OitoHoras").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Até 8 horas", "de 8 horas até 11","Acima de 12 horas"],
+            datasets: [{
+                data: [@TempData["Valor1"],@TempData["Valor2"],@TempData["Valor3"]],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    var ctx2 = document.getElementById("MediaHoras").getContext('2d');
+    var myChart2 = new Chart(ctx2,{
+        type: 'pie',
+        data: {
+            labels: ["UAD","Matriz", "Paraná","Cajuru","St. Clara","BH","Betim","Contagem","Goiás","Barreiro"],
+            datasets: [{
+                data: [@TempData["ValorUAD"],@TempData["ValorMatriz"],@TempData["ValorParana"],@TempData["ValorCajuru"],@TempData["ValorClara"],@TempData["ValorBh"],@TempData["ValorBetim"],@TempData["ValorContagem"],@TempData["ValorGoias"]@TempData["ValorBarreiro"]],
+                backgroundColor: [
+                    'rgba(0, 155, 22, 0.2)',
+                    'rgba(100, 166, 200, 0.2)',
+                    'rgba(166, 6, 200, 0.2)',
+                    'rgba(200, 200, 66, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(25, 100, 10, 0.2)',
+                    'rgba(55, 90, 130, 0.2)',
+                    'rgba(5, 160, 255, 0.2)',
+                    'rgba(200, 0, 66, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(0, 155, 22, 1)',
+                    'rgba(100, 166, 200, 1)',
+                    'rgba(166, 6, 200, 1)',
+                    'rgba(200, 200, 66, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(25, 100, 10, 1)',
+                    'rgba(55, 90, 130, 1)',
+                    'rgba(5, 160, 255, 1)',
+                    'rgba(200, 0, 66, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+
+        options: {
+            startAngle: -0.5 * Math.PI,
+            animation: {
+                animateRotate:true
+
+            }
+        }
+
+    });
+
+</script>

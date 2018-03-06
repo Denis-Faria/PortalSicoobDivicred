@@ -49,22 +49,22 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/bulma-switch.min.css">
-      <publishTime>05/12/2017 04:06:45</publishTime>
+      <publishTime>12/05/2017 04:06:45</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/bulma-switch.sass">
-      <publishTime>05/12/2017 04:06:45</publishTime>
+      <publishTime>12/05/2017 04:06:45</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/LICENSE">
-      <publishTime>05/12/2017 04:06:45</publishTime>
+      <publishTime>12/05/2017 04:06:45</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/package.json">
       <publishTime>01/09/2018 14:05:06</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/README.md">
-      <publishTime>05/12/2017 04:06:45</publishTime>
+      <publishTime>12/05/2017 04:06:45</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/switch.sass">
-      <publishTime>05/12/2017 04:06:45</publishTime>
+      <publishTime>12/05/2017 04:06:45</publishTime>
     </File>
     <File Include="Assets/css/bulma-timeline/.travis.yml">
       <publishTime>10/24/2017 17:09:56</publishTime>
@@ -94,16 +94,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/03/2018 16:39:31</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/bulma.sass">
-      <publishTime>10/01/2018 17:44:08</publishTime>
+      <publishTime>01/10/2018 17:44:08</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/CHANGELOG.md">
-      <publishTime>10/01/2018 17:43:48</publishTime>
+      <publishTime>01/10/2018 17:43:48</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/css/bulma.css">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/css/bulma.css.map">
-      <publishTime>10/01/2018 17:44:36</publishTime>
+      <publishTime>01/10/2018 17:44:36</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/LICENSE">
       <publishTime>01/15/2017 21:46:50</publishTime>
@@ -112,13 +112,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:12:01</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/README.md">
-      <publishTime>10/01/2018 10:18:12</publishTime>
+      <publishTime>01/10/2018 10:18:12</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/base/generic.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/base/helpers.sass">
-      <publishTime>04/12/2017 12:40:34</publishTime>
+      <publishTime>12/04/2017 12:40:34</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/base/minireset.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -136,10 +136,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/level.sass">
-      <publishTime>09/12/2017 15:22:16</publishTime>
+      <publishTime>12/09/2017 15:22:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/media.sass">
-      <publishTime>07/11/2017 14:04:30</publishTime>
+      <publishTime>11/07/2017 14:04:30</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/menu.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -148,13 +148,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/modal.sass">
-      <publishTime>09/12/2017 15:22:16</publishTime>
+      <publishTime>12/09/2017 15:22:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/nav.sass">
       <publishTime>10/23/2017 10:59:34</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/navbar.sass">
-      <publishTime>06/01/2018 22:36:16</publishTime>
+      <publishTime>01/06/2018 22:36:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/pagination.sass">
       <publishTime>12/28/2017 15:10:14</publishTime>
@@ -163,7 +163,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/tabs.sass">
-      <publishTime>04/12/2017 13:42:54</publishTime>
+      <publishTime>12/04/2017 13:42:54</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/components/_all.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -172,7 +172,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/button.sass">
-      <publishTime>04/12/2017 13:21:38</publishTime>
+      <publishTime>12/04/2017 13:21:38</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/container.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -181,37 +181,37 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/form.sass">
-      <publishTime>09/12/2017 15:22:16</publishTime>
+      <publishTime>12/09/2017 15:22:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/icon.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/image.sass">
-      <publishTime>04/12/2017 13:22:10</publishTime>
+      <publishTime>12/04/2017 13:22:10</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/notification.sass">
       <publishTime>12/28/2017 15:08:22</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/other.sass">
-      <publishTime>04/12/2017 13:21:38</publishTime>
+      <publishTime>12/04/2017 13:21:38</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/progress.sass">
-      <publishTime>04/12/2017 13:21:38</publishTime>
+      <publishTime>12/04/2017 13:21:38</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/table.sass">
-      <publishTime>06/11/2017 12:47:16</publishTime>
+      <publishTime>11/06/2017 12:47:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/tag.sass">
-      <publishTime>04/12/2017 13:21:38</publishTime>
+      <publishTime>12/04/2017 13:21:38</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/title.sass">
-      <publishTime>07/11/2017 15:54:10</publishTime>
+      <publishTime>11/07/2017 15:54:10</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/elements/_all.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/grid/columns.sass">
-      <publishTime>04/12/2017 20:55:28</publishTime>
+      <publishTime>12/04/2017 20:55:28</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/grid/tiles.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -223,7 +223,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/layout/hero.sass">
-      <publishTime>08/11/2017 10:34:42</publishTime>
+      <publishTime>11/08/2017 10:34:42</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/layout/section.sass">
       <publishTime>10/24/2017 09:53:14</publishTime>
@@ -244,10 +244,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/24/2017 09:53:14</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/utilities/initial-variables.sass">
-      <publishTime>04/12/2017 21:06:16</publishTime>
+      <publishTime>12/04/2017 21:06:16</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/utilities/mixins.sass">
-      <publishTime>04/12/2017 13:21:38</publishTime>
+      <publishTime>12/04/2017 13:21:38</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/utilities/variables.sass">
       <publishTime>10/23/2017 10:59:34</publishTime>
@@ -271,7 +271,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="Assets/css/iziToast.min.css">
-      <publishTime>04/05/2017 11:54:22</publishTime>
+      <publishTime>05/04/2017 11:54:22</publishTime>
     </File>
     <File Include="Assets/css/Login.css">
       <publishTime>01/09/2018 14:05:06</publishTime>
@@ -295,13 +295,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/16/2017 12:33:16</publishTime>
     </File>
     <File Include="Assets/fonts/dropify.svg">
-      <publishTime>08/06/2016 14:21:00</publishTime>
+      <publishTime>06/08/2016 14:21:00</publishTime>
     </File>
     <File Include="Assets/fonts/dropify.ttf">
-      <publishTime>08/06/2016 14:21:00</publishTime>
+      <publishTime>06/08/2016 14:21:00</publishTime>
     </File>
     <File Include="Assets/fonts/dropify.woff">
-      <publishTime>08/06/2016 14:21:00</publishTime>
+      <publishTime>06/08/2016 14:21:00</publishTime>
     </File>
     <File Include="Assets/fonts/Flat-it License.txt">
       <publishTime>02/16/2017 12:27:18</publishTime>
@@ -319,28 +319,28 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>12/22/2016 15:50:34</publishTime>
     </File>
     <File Include="Assets/fonts/fontawesome-webfont.woff2">
-      <publishTime>04/10/2017 11:15:52</publishTime>
+      <publishTime>10/04/2017 11:15:52</publishTime>
     </File>
     <File Include="Assets/fonts/FontAwesome.otf">
       <publishTime>12/22/2016 15:50:34</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-Bold.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-ExtraLight.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-Light.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-Medium.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-Regular.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Oswald-SemiBold.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>02/29/2012 00:00:00</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Black.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
@@ -349,16 +349,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Bold.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Bold.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Bold.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Bold.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-BoldItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
@@ -367,58 +367,58 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Light.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Light.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Light.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Light.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-LightItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Medium.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Medium.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Medium.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Medium.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-MediumItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Regular.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Regular.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Regular.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Regular.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Thin.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Thin.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Thin.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-Thin.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/Roboto-ThinItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
@@ -433,16 +433,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Bold.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Bold.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Bold.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Bold.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-BoldItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
@@ -451,58 +451,58 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Light.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Light.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Light.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Light.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-LightItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Medium.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Medium.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Medium.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Medium.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-MediumItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Regular.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Regular.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Regular.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Regular.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Thin.eot">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Thin.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Thin.woff">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-Thin.woff2">
-      <publishTime>02/04/2016 05:02:22</publishTime>
+      <publishTime>04/02/2016 05:02:22</publishTime>
     </File>
     <File Include="Assets/fonts/roboto/Roboto-ThinItalic.ttf">
       <publishTime>02/16/2017 12:31:04</publishTime>
@@ -547,7 +547,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/13/2017 14:26:02</publishTime>
     </File>
     <File Include="Assets/js/iziToast.min.js">
-      <publishTime>04/05/2017 11:54:22</publishTime>
+      <publishTime>05/04/2017 11:54:22</publishTime>
     </File>
     <File Include="Assets/js/jquery-ui.min.js">
       <publishTime>09/14/2016 17:34:06</publishTime>
@@ -562,10 +562,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>10/15/2010 11:55:44</publishTime>
     </File>
     <File Include="Assets/js/jquery.validate.min.js">
-      <publishTime>02/12/2016 10:50:38</publishTime>
+      <publishTime>12/02/2016 10:50:38</publishTime>
     </File>
     <File Include="Assets/js/Login.js">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Assets/js/split_text_to_size.js">
       <publishTime>09/13/2017 14:26:02</publishTime>
@@ -622,7 +622,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/27/2017 18:53:26</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
-      <publishTime>05/01/2012 12:08:46</publishTime>
+      <publishTime>01/05/2012 12:08:46</publishTime>
     </File>
     <File Include="bin/MySql.Data.dll">
       <publishTime>06/17/2016 17:28:04</publishTime>
@@ -631,16 +631,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/18/2018 09:44:54</publishTime>
     </File>
     <File Include="bin/OneApi.dll">
-      <publishTime>10/03/2015 15:48:02</publishTime>
+      <publishTime>03/10/2015 15:48:02</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
-      <publishTime>02/28/2018 16:55:41</publishTime>
+      <publishTime>03/01/2018 13:50:46</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/19/2018 11:18:41</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>02/28/2018 16:55:41</publishTime>
+      <publishTime>03/01/2018 13:50:46</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -742,10 +742,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/27/2016 14:50:24</publishTime>
     </File>
     <File Include="bin/System.Runtime.CompilerServices.Unsafe.dll">
-      <publishTime>05/11/2016 04:56:46</publishTime>
+      <publishTime>11/05/2016 04:56:46</publishTime>
     </File>
     <File Include="bin/System.Runtime.InteropServices.RuntimeInformation.dll">
-      <publishTime>05/11/2016 04:57:00</publishTime>
+      <publishTime>11/05/2016 04:57:00</publishTime>
     </File>
     <File Include="bin/System.Web.Helpers.dll">
       <publishTime>01/28/2015 05:04:30</publishTime>
@@ -766,7 +766,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/28/2015 05:04:30</publishTime>
     </File>
     <File Include="Global.asax">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Images/CIM.png">
       <publishTime>02/06/2018 10:18:07</publishTime>
@@ -898,7 +898,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/21/2018 15:37:43</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.js">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.min.js">
       <publishTime>04/17/2017 10:44:20</publishTime>
@@ -907,7 +907,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/17/2017 10:44:20</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.slim.js">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Scripts/jquery-3.1.1.slim.min.js">
       <publishTime>04/17/2017 10:44:20</publishTime>
@@ -916,13 +916,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>04/17/2017 10:44:20</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.js">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.min.js">
       <publishTime>04/04/2017 16:35:04</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.js">
-      <publishTime>07/06/2017 09:18:51</publishTime>
+      <publishTime>06/07/2017 09:18:51</publishTime>
     </File>
     <File Include="Scripts/jquery.validate.unobtrusive.min.js">
       <publishTime>04/04/2017 16:34:27</publishTime>
@@ -973,7 +973,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/28/2018 16:13:04</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ColaboradorRh.cshtml">
-      <publishTime>02/09/2018 16:48:08</publishTime>
+      <publishTime>03/01/2018 09:56:37</publishTime>
     </File>
     <File Include="Views/PainelColaborador/EditarCertificacao.cshtml">
       <publishTime>02/15/2018 13:27:31</publishTime>
@@ -998,6 +998,12 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/PainelColaborador/HistoricoPendencia.cshtml">
       <publishTime>02/09/2018 10:12:42</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Indicadores.cshtml">
+      <publishTime>03/01/2018 13:21:52</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/IndicadorOitoHoras.cshtml">
+      <publishTime>03/01/2018 13:49:42</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalEditarVagaInterna.cshtml">
       <publishTime>01/19/2018 11:18:41</publishTime>

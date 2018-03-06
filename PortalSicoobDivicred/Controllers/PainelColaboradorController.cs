@@ -1704,9 +1704,82 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
+        public ActionResult Indicadores()
+        {
+            return View("Indicadores");
+        }
 
+        public ActionResult OitoHoras()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Fire = new QueryFirebird();
+                var Acima = 0;
+                var Abaixo = 0;
+                var Acima12 = 0;
+                var count = 0;
 
+                var BancoDeHoras = VerificaDados.RetornaBancoHoras();
+                
+                for (int i = 0; i < BancoDeHoras.Count; i++)
+                {
+                    try
+                    {
+                        if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 8 && Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) <= 11)
+                        {
+                            var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                            if (Nome.Count > 0)
+                            {
+                                TempData["Nome" + count] = Nome[0]["NOME"];
+                                TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"]).ToString("dd/MM/yyyy");
+                                TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                                Acima++;
+                                count++;
+                            }
 
+                        }
+                        else if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 12)
+                        {
+                            
+                            var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                            if (Nome.Count > 0)
+                            {
+                                TempData["Nome" + count] = Nome[0]["NOME"];
+                                TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"]).ToString("dd/MM/yyyy");
+                                TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                                Acima12++;
+                                count++;
+                            }
+
+                        }
+                        else
+                        {
+                            Abaixo++;
+                        }
+                    }
+                    catch
+                    {
+                        var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                        if (Nome.Count > 0)
+                        {
+                            TempData["Nome" + count] = Nome[0]["NOME"];
+                            TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"]).ToString("dd/MM/yyyy");
+                            TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                            Acima++;
+                        }
+                    }
+                }
+                TempData["Total"] = count;
+                TempData["Valor1"] = Abaixo;
+                TempData["Valor2"] = Acima;
+                TempData["Valor3"] = Acima12;
+
+                return PartialView("IndicadorOitoHoras");
+            }
+            return RedirectToAction("Login", "Login");
+        }
 
     }
 }

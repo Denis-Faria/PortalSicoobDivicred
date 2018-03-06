@@ -10,10 +10,7 @@
     @if (TempData["Mensagem"] != null)
     {
         @Html.Label("")
-
-
         <script>
-
             iziToast.success({
                 title: 'Sucesso',
                 position: "center",
@@ -647,7 +644,7 @@
             <h1>Treinamentos</h1>
         </div>
         <div id="Indicadores">
-            <h1>Indicadores</h1>
+            @Html.Action("Indicadores")
         </div>
         <div id="Parametros">
             @Html.Action("Paremetros")

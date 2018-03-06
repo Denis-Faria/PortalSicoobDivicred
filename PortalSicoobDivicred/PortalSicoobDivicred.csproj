@@ -494,6 +494,8 @@
     <Content Include="Views\PainelColaborador\Setor.cshtml" />
     <Content Include="Views\PainelColaborador\ResultadoPesquisaSetor.cshtml" />
     <Content Include="Views\PainelColaborador\EditarSetor.cshtml" />
+    <Content Include="Views\PainelColaborador\Indicadores.cshtml" />
+    <Content Include="Views\PainelColaborador\IndicadorOitoHoras.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

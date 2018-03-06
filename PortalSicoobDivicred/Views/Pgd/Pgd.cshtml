@@ -6,7 +6,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
+
+    <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]'
+        });
+
+    </script>
+}
 
 <br />
 <script>
@@ -14,6 +28,11 @@
         $("#TabBancoHoras").tabs();
     });
 </script>
+
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -33,18 +52,16 @@
     </p>
 </nav>
 
-<nav class="level ">
-    <p class="level-item has-text-centered">
-        Pontuação:@TempData["teste"]
-    </p>
-</nav>
+
+<div class="notification is-primary" align="center" style="font-size: 170% ">
+    Pontuação atual: @TempData["saldo"]</strong></div>
 
 <body>
     <div id="TabBancoHoras">
         <div class="tabs is-centered is-boxed">
             <ul>
                 <li id="AbaCadastro" class="is-active">
-                    <a href="#Justificativa" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaCadastro').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
+                    <a href="#Cadastro" onclick="javascript:$('#AbaExtrato').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaCadastro').addClass('is-active');">
                         <span class="icon is-small">
                             <i class="fa fa-pencil"></i>
                         </span>
@@ -52,24 +69,39 @@
                     </a>
                 </li>
                 <li id='AbaExtrato'>
-                    <a href='#JustificativaSetor' onclick="javascript:$('#AbaCadastro').removeClass();$('#AbaExtrato').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
+                    <a href='#Extrato' onclick="javascript: $('#AbaCadastro').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaExtrato').addClass('is-active');">
                         <span class='icon is-small'>
                             <i class='fa fa-list'></i>
                         </span>
                         <span>Extrato</span>
                     </a>
                 </li>
+                
+            @if (TempData["Gestor"].ToString().Equals("S"))
+            {
+                <li id='AbaExtratoGestor'>
+                    <a href='#ExtratoGestor' onclick="javascript: $('#AbaCadastro').removeClass();$('#AbaExtrato').removeClass();$('#AbaExtratoGestor').addClass('is-active');">
+                        <span class='icon is-small'>
+                            <i class="fas fa-users"></i>
+                        </span>
+                        <span>Área Gestor</span>
+                    </a>
+                </li>
 
-
+            }
             </ul>
         </div>
-        <div id="Justificativa">
+        <div id="Cadastro">
             @Html.Action("Cadastro","Pgd")
         </div>
-        <div id="JustificativaSetor">
+        <div id="Extrato">
             @Html.Action("Extrato", "Pgd")
         </div>
-
+        @if (TempData["Gestor"].ToString().Equals("S")) { 
+        <div id="ExtratoGestor">
+            @Html.Action("ExtratoGestor", "Pgd")
+        </div>
+        }
 
     </div>
 

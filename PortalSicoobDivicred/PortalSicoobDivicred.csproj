@@ -473,6 +473,7 @@
     <Content Include="Views\Pgd\Pgd.cshtml" />
     <Content Include="Views\Pgd\ViewCadastro.cshtml" />
     <Content Include="Views\Pgd\ViewExtrato.cshtml" />
+    <Content Include="Views\Pgd\ViewExtratoGestor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

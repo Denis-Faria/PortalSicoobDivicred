@@ -14,19 +14,28 @@ namespace PortalSicoobDivicred.Controllers
         // GET: Pgd
         public ActionResult Pgd(string Mensagem)
         {
-            var Cookie = Request.Cookies.Get("CookieFarm");
-            var Login = Criptografa.Descriptografar(Cookie.Value);
             var insereDados = new QueryMysql();
-            string idUsuario = insereDados.RecuperaUsuario(Login);
-            var saldoAtual = insereDados.BuscaSaldoAtual(Convert.ToInt32(idUsuario));
+            var Logado = insereDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                string idUsuario = insereDados.RecuperaUsuario(Login);
+                var saldoAtual = insereDados.BuscaSaldoAtual(Convert.ToInt32(idUsuario));
 
 
-            @TempData["saldo"] = saldoAtual;
+                @TempData["saldo"] = saldoAtual;
 
-            var gestor = insereDados.Gestor(Login);
-            TempData["Gestor"] = gestor.ToString();
-            TempData["Mensagem"] = Mensagem;
-            return View("Pgd");
+                var gestor = insereDados.Gestor(Login);
+                TempData["Gestor"] = gestor.ToString();
+                TempData["Mensagem"] = Mensagem;
+                return View("Pgd");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
 
         public ActionResult Cadastro()
@@ -84,8 +93,9 @@ namespace PortalSicoobDivicred.Controllers
             var saldoAtual = insereDados.BuscaSaldoAtual(Convert.ToInt32(idUsu));
 
             @TempData["saldo"] = saldoAtual;
+          
 
-            return View("Pgd");
+            return RedirectToAction("Pgd", "Pgd", new { Mensagem = "Produção cadastrada com sucesso !" });
         }
 
         public ActionResult ExcluirRegistro(int id)

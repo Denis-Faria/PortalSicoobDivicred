@@ -127,18 +127,17 @@ else
                         <input name="Data @TempData["valorponto" + i]" id="Data @TempData["valorponto" + i]" value="@TempData["valorponto" + i]" hidden="true" /> @TempData["valorponto" + i]
                     </td>
 
-                    <td @TempData["Esconde" + i]>
-                        <div class="field has-addons">
-
+                    <td  class="has-text-centered">
                             <p class="control">
                                 <button type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["id"+i]);void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success">
-                                    
+                                    <span class="icon is-small">
                                     <i class="far fa-trash-alt">
-                                        <span> &nbsp Excluir Registro</span>
+
                                     </i>
+                                    </span>
+                                    <span> Excluir Registro</span>
                                 </button>
                             </p>
-                        </div>
                     </td>
 
                 </tr>

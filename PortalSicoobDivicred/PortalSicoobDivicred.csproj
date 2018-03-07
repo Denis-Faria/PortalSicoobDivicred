@@ -198,6 +198,8 @@
     <Content Include="Images\Colaborador.png" />
     <Content Include="Images\Curriculo.png" />
     <Content Include="Images\Dash.png" />
+    <Content Include="Images\extrato - Copia.png" />
+    <Content Include="Images\extrato.png" />
     <Content Include="Images\FundoUser.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\LogoBranca.png" />
@@ -226,6 +228,7 @@
     <Content Include="Assets\css\bulma-steps\bulma-steps-example.png" />
     <Content Include="Assets\css\bulma-steps\steps.js" />
     <Content Include="Images\Sem pendencias.png" />
+    <Content Include="Images\Sem pontuacao.png" />
     <Content Include="Images\Webdesk.png" />
     <Content Include="node_modules\install\docs\docco.css" />
     <Content Include="node_modules\install\docs\install.html" />
@@ -345,7 +348,9 @@
     <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
+    <Compile Include="Controllers\PgdController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
+    <Compile Include="Controllers\TesourariaController.cs" />
     <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="Aplicacao\ElasticEmailClient.cs" />
     <Compile Include="Models\Certificacao.cs" />
@@ -359,6 +364,7 @@
     <Compile Include="Models\JustificativaPonto.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
+    <Compile Include="Models\Pgd.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -496,6 +502,11 @@
     <Content Include="Views\PainelColaborador\EditarSetor.cshtml" />
     <Content Include="Views\PainelColaborador\Indicadores.cshtml" />
     <Content Include="Views\PainelColaborador\IndicadorOitoHoras.cshtml" />
+    <Content Include="Views\Pgd\Pgd.cshtml" />
+    <Content Include="Views\Pgd\ViewCadastro.cshtml" />
+    <Content Include="Views\Pgd\ViewExtrato.cshtml" />
+    <Content Include="Views\Pgd\ViewExtratoGestor.cshtml" />
+    <Content Include="Views\Tesouraria\Tesouraria.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,7 +1,7 @@
 ﻿@model PortalSicoobDivicred.Models.Pgd
 <html>
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"/>
+
 <script>
     $(document).ready(function() {
         $('#CpfFuncionario').mask('000.000.000-00');
@@ -10,8 +10,6 @@
 
     });
 
-</script>
-<script>
     function AbrirProcesso(id) {
         
         iziToast.show({
@@ -123,17 +121,19 @@
             <label class="label">Observação</label>
             
             @Html.TextAreaFor(m => m.observacao, new { @class = "textarea", type = "string", maxlength="200",placeholder="Max 200 caracteres" })
-
+            <br/>
+            <br/>
             <p class="control">
-                <br/>
-                <br/>
-
                 <button type="submit" class="button is-success" id="SalvarProdução" data-balloon="Clique para salvar Produção" data-balloon-pos="down">
-                    <i class="fas fa-save">
-                        <span class="name"> &nbsp Salvar Produção</span>
-                    </i>
+                    <span class="icon is-small">
+                        <i class="fas fa-save">
+                        </i>
+                    </span>
+                    <span class="name">Salvar Produção</span>
                 </button>
             </p>
+            
+            
             
 
         </div>

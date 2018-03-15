@@ -23,7 +23,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public bool ConfirmaLogin(string Usuario, string Senha)
         {
-            var QueryConfirmaLogin = "SELECT login FROM usuarios WHERE login='" + Usuario + "' AND senha=MD5('" +
+            var QueryConfirmaLogin = "SELECT login FROM funcionarios WHERE login='" + Usuario + "' AND senha=MD5('" +
                                       Senha +
                                       "')";
 
@@ -35,6 +35,18 @@ namespace PortalSicoobDivicred.Aplicacao
             CookieUsuario.Value = Criptografa.Criptografar(Dados[0]["login"]);
             CookieUsuario.Expires = DateTime.Now.AddHours(1);
             HttpContext.Current.Response.Cookies.Add(CookieUsuario);
+            return true;
+        }
+
+        internal bool TrocaSenha(string Usuario)
+        {
+            var QueryConfirmaLogin = "SELECT trocasenha FROM funcionarios WHERE login='" + Usuario + "' ;";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryConfirmaLogin);
+
+            if (Dados[0]["trocasenha"].Equals("S"))
+                return false;
+           else
             return true;
         }
 
@@ -715,6 +727,27 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var Query =
                 "SELECT nome FROM funcionarios WHERE idsetor='" + IdSetor + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados;
+        }
+        public void  AtualizaEmailSenha(string IdUsuario)
+        {
+            var Query ="UPDATE funcionarios SET emailtrocasenha='S' WHERE id='" +IdUsuario + "'";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+        }
+        public void AtualizaSenha(string Usuario,string Senha)
+        {
+            var Query = "UPDATE funcionarios SET senha='"+Senha+"', emailtrocasenha='N' WHERE login='" + Usuario + "'";
+            ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+        }
+        public List<Dictionary<string, string>> RetornaEmailSenha(string Usuario)
+        {
+            var Query =
+                "SELECT emailtrocasenha FROM funcionarios WHERE login='" + Usuario + "'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 

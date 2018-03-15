@@ -1,0 +1,108 @@
+﻿@model PortalSicoobDivicred.Models.Login
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portal Sicoob Divicred</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" id="bulma" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.3.2/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="/Assets/css/Login.css">
+</head>
+<body>
+    @using (Html.BeginForm("EsqueciMinhaSenha", "Login"))
+    {
+        <div class="login-wrapper columns">
+            <div class="column is-8 is-hidden-mobile hero-banner">
+                <section class="hero is-fullheight is-dark">
+                    <div class="hero-body">
+                        <div class="container section">
+                            <div class="has-text-right">
+                                <h1 class="title is-1">Portal</h1> <br>
+                                <p class="title is-3">Sicoob Divicred</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-footer">
+                        <p class="has-text-centered">Image © Glenn Carstens-Peters via unsplash</p>
+                    </div>
+                </section>
+            </div>
+            <div class="column is-4">
+                <section class="hero is-fullheight">
+                    <div class="hero-heading">
+                        <div class="section has-text-centered">
+                            <img src="/Images/logo.png" alt="Bulma logo" width="150px">
+                        </div>
+                    </div>
+                    <div class="hero-body">
+                        <div class="container">
+                            <div class="columns">
+                                <div class="column is-8 is-offset-2">
+                                    <div class="login-form">
+                                        <p class="control has-icon has-icon-right">
+                                            @Html.TextBoxFor(m => m.Usuario, null, new { id = "Usuario", @class = "input email-input", placeholder = "Usuário" })
+                                            <span class="icon user">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                        </p>
+                                        <p class="control has-icon has-icon-right">
+                                            @Html.Password("Senha", null, new { @class = "input password-input", placeholder = "Nova Senha" })
+                                            <span class="icon user">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </p>
+                                        <p class="control has-icon has-icon-right">
+                                            @Html.Password("ConfirmarSenha", null, new { @class = "input password-input", placeholder = "Confirmar Senha" })
+                                            <span class="icon user">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </p>
+                                        <p class="control login">
+                                            <button class="button is-success is-outlined is-large is-fullwidth">Trocar Senha</button>
+                                        </p>
+                                    </div>
+                                    @if (TempData["Erro"] != null)
+                                    {
+                                        @Html.Label("")
+                                        ;
+
+                                        <script>
+
+                                        iziToast.error({
+                                            title: 'Erro',
+                                            position: "center",
+                                            message: '@TempData["Erro"]',
+                                        });
+
+                                        </script>
+                                    }
+                                    <div class="section forgot-password">
+                                        <p class="has-text-centered">
+                                            <a href="@Url.Action("Login")">Lembrou sua senha ?</a>
+                                            <a href="#">Precisa de ajuda ?</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    }
+</body>
+</html>

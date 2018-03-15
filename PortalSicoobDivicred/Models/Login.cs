@@ -9,5 +9,7 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor inserir uma senha!")]
         public string Senha { get; set; }
+        
+        public string ConfirmarSenha { get; set; }
     }
 }

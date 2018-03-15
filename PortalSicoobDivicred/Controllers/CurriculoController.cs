@@ -1425,5 +1425,31 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        [HttpPost]
+        public ActionResult CriarUsuario(FormCollection DadosUsuario)
+        {
+
+
+            var VerificaDados = new QueryMysqlCurriculo();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato(DadosUsuario["Cpf"]);
+
+                var InserirUsuario = new QueryMysqlRh();
+
+                InserirUsuario.CadastrarUsuarioPortal(DadosUsuarioBanco[0]["nome"], DadosUsuarioBanco[0]["cpf"],
+                    DadosUsuarioBanco[0]["identidade"],
+                    Convert.ToDateTime(DadosUsuarioBanco[0]["datanascimento"]).ToString("yyyy/MM/dd"),
+                    DadosUsuarioBanco[0]["endereco"], DadosUsuarioBanco[0]["numero"], DadosUsuarioBanco[0]["bairro"],
+                    DadosUsuarioBanco[0]["cidade"], DadosUsuario["LoginUsuario"], DadosUsuario["IdPa"],
+                    Convert.ToDateTime(DadosUsuario["DataAdmissao"]).ToString("yyyy/MM/dd"), DadosUsuario["VencimentoPeriodico"], DadosUsuario["Pis"],
+                    DadosUsuario["SalarioUsuario"].Replace(',','.'),DadosUsuario["QuebradeCaixaUsuario"].Replace(',','.'));
+
+                return RedirectToAction("Curriculo", "Curriculo", new {Mensagem = "Usuário cadastrado com sucesso !"});
+            }
+            return RedirectToAction("Login", "Login");
+        }
     }
 }

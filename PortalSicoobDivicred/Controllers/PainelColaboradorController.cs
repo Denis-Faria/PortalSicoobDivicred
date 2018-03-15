@@ -1722,14 +1722,77 @@ namespace PortalSicoobDivicred.Controllers
                 var count = 0;
 
                 var BancoDeHoras = VerificaDados.RetornaBancoHoras();
-                
+                TempData["ValorUAD"] = 0;
+                TempData["ValorMatriz"] = 0;
+                TempData["ValorParana"] = 0;
+                TempData["ValorCajuru"] = 0;
+                TempData["ValorClara"] = 0;
+                TempData["ValorBh"] = 0;
+                TempData["ValorBetim"] = 0;
+                TempData["ValorContagem"] = 0;
+                TempData["ValorGoias"] = 0;
+                TempData["ValorBarreiro"] = 0;
+                var TotalMatriz = new TimeSpan();
+                var TotalFuncionariosMatriz = 0;
+
                 for (int i = 0; i < BancoDeHoras.Count; i++)
                 {
+                    var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+
+                   
                     try
                     {
+                        if (Nome[0]["ID_CENTRO_CUSTO"].Equals("1"))
+                        {
+                            TotalMatriz = TotalMatriz.Add(TimeSpan.Parse(BancoDeHoras[i]["hora"]));
+                            TotalFuncionariosMatriz++;
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("2"))
+                        {
+                            
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("3"))
+                        {
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("4"))
+                        {
+                            
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("5"))
+                        {
+                            
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("6"))
+                        {
+
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("7"))
+                        {
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("8"))
+                        {
+                            
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("10"))
+                        {
+                            
+                        }
+                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("11"))
+                        {
+                            
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                    try
+                    {
+                       
                         if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 8 && Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) <= 11)
                         {
-                            var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                            
                             if (Nome.Count > 0)
                             {
                                 TempData["Nome" + count] = Nome[0]["NOME"];
@@ -1743,7 +1806,7 @@ namespace PortalSicoobDivicred.Controllers
                         else if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 12)
                         {
                             
-                            var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                            
                             if (Nome.Count > 0)
                             {
                                 TempData["Nome" + count] = Nome[0]["NOME"];
@@ -1761,7 +1824,6 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     catch
                     {
-                        var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
                         if (Nome.Count > 0)
                         {
                             TempData["Nome" + count] = Nome[0]["NOME"];
@@ -1775,6 +1837,8 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Valor1"] = Abaixo;
                 TempData["Valor2"] = Acima;
                 TempData["Valor3"] = Acima12;
+                TempData["ValorMatriz"] = TotalMatriz.Hours / TotalFuncionariosMatriz;
+
 
                 return PartialView("IndicadorOitoHoras");
             }

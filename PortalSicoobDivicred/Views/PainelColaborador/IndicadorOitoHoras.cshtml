@@ -75,7 +75,7 @@
     function Imprimir() {
 
         var conteudo = document.getElementById('Analitico').innerHTML,
-            tela_impressao = window.open('about:blank');
+        tela_impressao = window.open('about:blank');
         tela_impressao.document.write(conteudo);
         tela_impressao.window.print();
         tela_impressao.window.close();
@@ -132,7 +132,7 @@
 
     var ctx2 = document.getElementById("MediaHoras").getContext('2d');
     var myChart2 = new Chart(ctx2,{
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: ["UAD","Matriz", "Paraná","Cajuru","St. Clara","BH","Betim","Contagem","Goiás","Barreiro"],
             datasets: [{
@@ -166,10 +166,12 @@
         },
 
         options: {
-            startAngle: -0.5 * Math.PI,
-            animation: {
-                animateRotate:true
-
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
             }
         }
 

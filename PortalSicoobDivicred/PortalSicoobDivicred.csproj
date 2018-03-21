@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <Use64BitIISExpress />
+    <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -158,6 +159,7 @@
   <ItemGroup>
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\balloon.css" />
+    <Content Include="Assets\css\basic.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.min.css" />
     <Content Include="Assets\css\Bulma\bulma\bulma.css">
@@ -166,6 +168,7 @@
     <Content Include="Assets\css\Bulma\bulma\bulma.min.css">
       <DependentUpon>bulma.css</DependentUpon>
     </Content>
+    <Content Include="Assets\css\dropzone.css" />
     <Content Include="Assets\css\Imprimir.css" />
     <Content Include="Assets\css\iziToast.css" />
     <Content Include="Assets\css\iziToast.min.css" />
@@ -182,6 +185,7 @@
     <Content Include="Assets\fonts\dropify.svg" />
     <Content Include="Assets\fonts\Flat-it License.txt" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Assets\js\dropzone.js" />
     <Content Include="Assets\js\iziToast.js" />
     <Content Include="Assets\js\iziToast.min.js" />
     <Content Include="Assets\js\jquery-ui.min.js" />

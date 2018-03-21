@@ -872,7 +872,16 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["EscondePsicologico" + i] = "hidden disabled";
                         TempData["EscondeGerente" + i] = "hidden disabled";
                     }
-                    TempData["Status" + i] = DadosProcesso[i]["aprovado"];
+
+                    if (DadosProcesso[i]["aprovado"] == null)
+                    {
+                        TempData["Status" + i] = "";
+                    }
+                    else
+                    {
+                        TempData["Status" + i] = DadosProcesso[i]["aprovado"];
+                    }
+
                     TempData["Restricao" + i] = DadosProcesso[i]["restricao"];
                     TempData["Cpf" + i] = DadosProcesso[i]["cpf"];
 

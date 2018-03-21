@@ -609,12 +609,14 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["NomeFuncionario"] = DadosFuncionario[0]["nome"];
                     TempData["SaldoHoras"] = Horas[0]["hora"];
+                    TempData["DataReferencia"] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                     TempData["cor"] = "red";
                 }
                 else
                 {
                     TempData["NomeFuncionario"] = DadosFuncionario[0]["nome"];
                     TempData["SaldoHoras"] = Horas[0]["hora"];
+                    TempData["DataReferencia"] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                     TempData["cor"] = "black";
                 }
             }
@@ -633,6 +635,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
                         TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
+                        TempData["DataReferencia"+i] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                         TempData["CorEquipe" + i] = "red";
                     }
                     else
@@ -641,6 +644,7 @@ namespace PortalSicoobDivicred.Controllers
 
                         TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
                         TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
+                        TempData["DataReferencia"+i] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                         TempData["CorEquipe" + i] = "black";
                     }
 

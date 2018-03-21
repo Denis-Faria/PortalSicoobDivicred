@@ -248,7 +248,6 @@ C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debu
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.xml
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CoreCompileInputs.cache

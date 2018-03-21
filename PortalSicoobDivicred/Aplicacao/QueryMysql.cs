@@ -708,7 +708,7 @@ namespace PortalSicoobDivicred.Aplicacao
         }
         public List<Dictionary<string, string>> RetornaHoras(string Cracha)
         {
-            var Query = "select hora from horasextrasfuncionarios WHERE crachafirebird=" + Cracha + ";";
+            var Query = "select hora,datareferencia from horasextrasfuncionarios WHERE crachafirebird=" + Cracha + ";";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }

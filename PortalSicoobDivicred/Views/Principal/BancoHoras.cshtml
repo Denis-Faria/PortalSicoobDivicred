@@ -5,13 +5,13 @@
     <div class="message-body">
         @if (TempData["Gestor"].Equals("N"))
         {
-            <p style="color: @TempData["cor"]"> <strong>@TempData["NomeFuncionario"]</strong> || @TempData["SaldoHoras"]</p>
+            <p style="color: @TempData["cor"]"> <strong>@TempData["NomeFuncionario"]</strong> || @TempData["SaldoHoras"] - <strong>Data de referência: @TempData["DataReferencia"]</strong></p>
         }
         else
         {
             for (int i = 0; i < Convert.ToInt32(TempData["TotalEquipe"]); i++)
              {
-                 <p style="color: @TempData["CorEquipe" + i]"> <strong>@TempData["NomeFuncionarioEquipe" + i]</strong> || @TempData["SaldoHorasEquipe" + i]</p>
+            <p style="color: @TempData["CorEquipe" + i]"> <strong>@TempData["NomeFuncionarioEquipe" + i]</strong> || @TempData["SaldoHorasEquipe" + i] - <strong>Data de referência: @TempData["DataReferencia"+i]</strong></p>
              }
         }
     </div>

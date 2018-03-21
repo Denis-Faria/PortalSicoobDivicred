@@ -1,7 +1,11 @@
-﻿@{
+﻿@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <body>
+
     @if (TempData["Mensagem"] != null)
     {
         @Html.Label("")
@@ -9,46 +13,92 @@
 
         <script>
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["Mensagem"]',
-        });
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]',
+            });
 
         </script>
     }
+
+
+
     <br />
     <nav class="level ">
         <p class="level-item has-text-centered">
             <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
         </p>
     </nav>
+    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
+    <link href="/node_modules/fine-uploader/fine-uploader/fine-uploader-new.css" rel="stylesheet">
+    <script src="/node_modules/fine-uploader/fine-uploader/fine-uploader.js"></script>
+    <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
 
-<div class="field is-grouped is-desktop">
+    <script type="text/javascript">
 
-<p class="control">
-    <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para criar um novo chamado." data-balloon-pos="down">
-        <span class="icon is-small">
-            <i class="fas fa-plus-square" aria-hidden="true"></i>
-        </span>
-        <span class="name">Novo Chamado</span>
-    </button>
-</p>
+        $(document).ready(function () {
+            $("#TabWebdesk").tabs();
 
-
+            CKEDITOR.replace('Descricao');
 
 
 
-<p class="control">
-    <button class="button is-primary" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para visualizar seus chamados encerrados." data-balloon-pos="down">
-        <span class="icon is-small">
-            <i class="fa fa-archive" aria-hidden="true"></i>
-        </span>
-        <span class="name">Chamados Encerrado</span>
-    </button>
-</p>
-</div>
-    <div id="TabFuncionalidades">
+
+        });
+
+        function SetorSelecionado(IdSetor) {
+            $("#CategoriaFuncionario").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaCategoriaFuncionario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdSetor": IdSetor.value },
+                    success: function (data) {
+                        $("#CategoriaFuncionario").append(data);
+                        $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+
+                    }
+                });
+        }
+
+
+    </script>
+    <div class="field is-grouped is-desktop">
+
+        <p class="control">
+            <button class="button is-primary modal-button" id="NovoChamado" onclick="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal is-active');void(0);" data-target="#ModalSolicitacao" data-vivaldi-spatnav-clickable="1" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para criar um novo chamado." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-plus-square" aria-hidden="true"></i>
+                </span>
+                <span class="name">Criar Solicitação</span>
+            </button>
+        </p>
+
+        <p class="control">
+            <button class="button is-primary" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para visualizar seus chamados encerrados." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-archive" aria-hidden="true"></i>
+                </span>
+                <span class="name">Minhas Solicitações Encerradas</span>
+            </button>
+        </p>
+
+        <div class="field has-addons">
+            <div class="control">
+                <input class="input" id="BuscaChamado" type="text" placeholder="Ache uma solicitação...">
+            </div>
+            <div class="control">
+                <button onclick="location.href = '@Url.Action("BuscaChamados")?Busca=' + document.getElementById('BuscaChamado').value;" class="button is-primary">
+                    Pesquisar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="TabWebdesk">
         <div class="tabs is-boxed is-centered">
             <ul>
                 <li id="AbaMeusChamados" class="is-active">
@@ -56,7 +106,7 @@
                         <span class="icon is-small">
                             <i class="fas fa-sticky-note" aria-hidden="true"></i>
                         </span>
-                        <span>Meus Chamados</span>
+                        <span>Solicitações Aguardando Meu Atendimento</span>
                     </a>
                 </li>
                 <li id="AbaChamadosdoMeuSetor">
@@ -64,7 +114,7 @@
                         <span class="icon is-small">
                             <i class="fa fa-tag"></i>
                         </span>
-                        <span>Chamados do Meu Setor</span>
+                        <span>Solicitações do Meu Setor</span>
                     </a>
                 </li>
                 <li id="AbaMeusChamadosAbertos">
@@ -72,21 +122,153 @@
                         <span class="icon is-small">
                             <i class="fa fa-inbox"></i>
                         </span>
-                        <span>Meus Chamados em Aberto</span>
+                        <span>Minhas solicitações em Atendimento</span>
                     </a>
                 </li>
-           
+
             </ul>
         </div>
         <div id="MeusChamados">
-            
+            <p>teste</p>
         </div>
         <div id="ChamadosSetor">
-            
+            <p>teste</p>
         </div>
         <div id="MeusChamadosAberto">
-            
+            <p>teste</p>
         </div>
     </div>
 
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk"))
+    {
+        <div id="ModalSolicitacao" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Cadastrar Solicitação</p>
+                    <a href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+
+                    <div class="field">
+                        <label class="label">Setor Responsável:</label>
+                        <p class="select is-fullwidth">
+                            @Html.DropDownListFor(m => m.IdSetorResponsavel, new SelectList(Model.SetorResponsavel, "Value", "Text"), "SELECIONE O SETOR RESPONSAVEL", new { id = "SetorResponsavel", onchange = "SetorSelecionado(this)" })
+                            @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new { style = "color:red" })
+                        </p>
+                    </div>
+                    <div id="CategoriaFuncionario">
+
+                    </div>
+                    <div id="anexos">
+                        <script type="text/template" id="qq-template-manual-trigger">
+                            <div class="qq-uploader-selector qq-uploader" qq-drop-area-text="Drop files here">
+                                <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
+                                    <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
+                                </div>
+                                <div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
+                                    <span class="qq-upload-drop-area-text-selector"></span>
+                                </div>
+                                <div class="buttons">
+                                    <div class="qq-upload-button-selector button is-primary">
+                                        <div>Selecionar Arquivos</div>
+                                    </div>
+                                </div>
+                                <span class="qq-drop-processing-selector qq-drop-processing">
+                                    <span>Processing dropped files...</span>
+                                    <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+                                </span>
+                                <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
+                                    <li>
+                                        <div class="qq-progress-bar-container-selector">
+                                            <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
+                                        </div>
+                                        <span class="qq-upload-spinner-selector qq-upload-spinner"></span>
+                                        <img class="qq-thumbnail-selector" qq-max-size="100" qq-server-scale>
+                                        <span class="qq-upload-file-selector qq-upload-file"></span>
+                                        <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
+                                        <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
+                                        <span class="qq-upload-size-selector qq-upload-size"></span>
+                                        <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancelar</button>
+                                        <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Tentar Novamente</button>
+                                        <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Deletar</button>
+                                        <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
+                                    </li>
+                                </ul>
+
+                                <dialog class="qq-alert-dialog-selector">
+                                    <div class="qq-dialog-message-selector"></div>
+                                    <div class="qq-dialog-buttons">
+                                        <button type="button" class="qq-cancel-button-selector">Close</button>
+                                    </div>
+                                </dialog>
+
+                                <dialog class="qq-confirm-dialog-selector">
+                                    <div class="qq-dialog-message-selector"></div>
+                                    <div class="qq-dialog-buttons">
+                                        <button type="button" class="qq-cancel-button-selector">No</button>
+                                        <button type="button" class="qq-ok-button-selector">Yes</button>
+                                    </div>
+                                </dialog>
+
+                                <dialog class="qq-prompt-dialog-selector">
+                                    <div class="qq-dialog-message-selector"></div>
+                                    <input type="text">
+                                    <div class="qq-dialog-buttons">
+                                        <button type="button" class="qq-cancel-button-selector">Cancelar</button>
+                                        <button type="button" class="qq-ok-button-selector">Ok</button>
+                                    </div>
+                                </dialog>
+                            </div>
+                        </script>
+                       
+                        <body>
+                            <!-- Fine Uploader DOM Element
+        ====================================================================== -->
+                            <div id="fine-uploader-manual-trigger"></div>
+
+                            <!-- Your code to create an instance of Fine Uploader and bind to the DOM/template
+        ====================================================================== -->
+                            <script>
+                                var manualUploader = new qq.FineUploader({
+                                    element: document.getElementById('fine-uploader-manual-trigger'),
+                                    template: 'qq-template-manual-trigger',
+                                    request: {
+                                        endpoint: '/server/uploads'
+                                    },
+                                    thumbnails: {
+                                        placeholders: {
+                                            waitingPath: '/source/placeholders/waiting-generic.png',
+                                            notAvailablePath: '/source/placeholders/not_available-generic.png'
+                                        }
+                                    },
+                                    autoUpload: false,
+                                    debug: true
+                                });
+
+                                qq(document.getElementById("trigger-upload")).attach("click", function () {
+                                    manualUploader.uploadStoredFiles();
+                                });
+                            </script>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="field control">
+                            <label class="label">Descrição da sua solicitação:</label>
+                            <p class="control is-fullwidth">
+                                @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", id = "Descricao" })
+                                @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
+                            </p>
+
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" class="button is-success">Cadastrar Solicitação</button>
+                    <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+    }
 </body>

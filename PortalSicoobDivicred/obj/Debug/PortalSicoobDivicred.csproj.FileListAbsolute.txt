@@ -284,7 +284,6 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.pdb
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\FirebirdSql.Data.FirebirdClient.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Extensions.Configuration.dll
@@ -337,3 +336,5 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Webpages.Razor.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Mvc.resources.dll
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll

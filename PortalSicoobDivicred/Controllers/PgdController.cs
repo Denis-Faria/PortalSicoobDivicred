@@ -18,15 +18,20 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = insereDados.UsuarioLogado();
             if (Logado)
             {
+
+
+
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
+            
+                var funcao = insereDados.RecuperaFuncao(Login);
+                @TempData["meta"]= insereDados.RecuperaMetaCim(funcao);
+                
                 string idUsuario = insereDados.RecuperaUsuario(Login);
-                var saldoAtual = insereDados.BuscaSaldoAtual(Convert.ToInt32(idUsuario));
-
-
+                var saldoAtual = insereDados.BuscaSaldoAtual(Login);
+                
                 @TempData["saldo"] = saldoAtual;
-
                 var gestor = insereDados.Gestor(Login);
                 TempData["Gestor"] = gestor.ToString();
                 TempData["Mensagem"] = Mensagem;
@@ -37,6 +42,7 @@ namespace PortalSicoobDivicred.Controllers
                 return RedirectToAction("Login", "Login");
             }
         }
+
 
         public ActionResult Cadastro()
         {
@@ -82,15 +88,16 @@ namespace PortalSicoobDivicred.Controllers
                 valorponto = Convert.ToDouble(peso);
             }
 
-            string idUsuario = insereDados.RecuperaUsuario(Login);
-            insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, idUsuario,
+            //string idUsuario = insereDados.RecuperaUsuario(Login);
+            //  insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, idUsuario,
+            insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, Login,
                 valor.ToString(), 
                 valorponto.ToString("N2"));
 
-            insereDados.IncluirPontucao(Convert.ToInt32(idUsuario), valorponto);
+            insereDados.IncluirPontucao(Login, valorponto);
 
             string idUsu = insereDados.RecuperaUsuario(Login);
-            var saldoAtual = insereDados.BuscaSaldoAtual(Convert.ToInt32(idUsu));
+            var saldoAtual = insereDados.BuscaSaldoAtual(Login);
 
             @TempData["saldo"] = saldoAtual;
           
@@ -104,9 +111,9 @@ namespace PortalSicoobDivicred.Controllers
             var ExcluiRegistro = new QueryMysql();
             var usuario = ExcluiRegistro.BuscaDadosProducao(id);
             ExcluiRegistro.ExcluirRegistro(id);
-            ExcluiRegistro.AtualizarRegistroExclusao(Convert.ToInt32(usuario[0]["usuario"]), Convert.ToDouble(usuario[0]["valorponto"]));
+            ExcluiRegistro.AtualizarRegistroExclusao(usuario[0]["Login"], Convert.ToDouble(usuario[0]["valorponto"]));
 
-            var saldoAtual = ExcluiRegistro.BuscaSaldoAtual(Convert.ToInt32(usuario[0]["usuario"]));
+            var saldoAtual = ExcluiRegistro.BuscaSaldoAtual(usuario[0]["Login"]);
 
 
 
@@ -122,8 +129,8 @@ namespace PortalSicoobDivicred.Controllers
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
-            string loginUsuario = VerificaDados.RecuperaUsuario(Login);
-            var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(loginUsuario);
+            //string loginUsuario = VerificaDados.RecuperaUsuario(Login);
+            var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(Login);
 
             TempData["TotalPonto"] = DadosTabelaFuncionario.Count;
             for (int i = 0; i < DadosTabelaFuncionario.Count; i++)
@@ -147,17 +154,25 @@ namespace PortalSicoobDivicred.Controllers
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
             var dadosSubordinados = VerificaDados.RecuperaSubordinadosGestor(Login);
+            
 
             TempData["TotalFuncionarios"] = dadosSubordinados.Count;
-
+            double pontuacaoTotal = 0;
+            int metatotal = 0;
+            int metaindIvidual = 0;
             for (int i = 0; i < dadosSubordinados.Count; i++)
             {
+                TempData["meta" +i] = VerificaDados.RecuperaMetaCim(dadosSubordinados[i]["funcao"]);
                 TempData["nome" + i] = dadosSubordinados[i]["nome"];
                 TempData["pontuacaoatual" + i] = dadosSubordinados[i]["pontuacaoatual"];
+                pontuacaoTotal = pontuacaoTotal +Convert.ToDouble(dadosSubordinados[i]["pontuacaoatual"]);
+                metaindIvidual = Convert.ToInt32(TempData["meta" + i]);
+                metatotal = metatotal + metaindIvidual;
 
             }
+            TempData["pontuacaototal"] = pontuacaoTotal.ToString();
+            TempData["metatotal"] = metatotal.ToString();
 
-            
             //var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(loginUsuario);
             /*            var pontuacaoFuncionarios = VerificaDados.
 
@@ -172,7 +187,7 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Produtos" + i] = (VerificaDados.RecuperaProduto(Convert.ToInt32(DadosTabelaFuncionario[i]["produto"]))).ToString();
                             TempData["valorponto" + i] = DadosTabelaFuncionario[i]["valorponto"].ToString();
                         }
-                        */
+          */
             return PartialView("ViewExtratoGestor");
         }
     }

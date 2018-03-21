@@ -5,32 +5,50 @@
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
 
-    <table id="Funcionario" name="Funcionario" class="table  is-centered is-narrow is-fullwidth ">
-        <thead>
-        <th class="has-text-centered">Funcionário</th>
-        <th class="has-text-centered">Pontuação</th>
+<table id="Funcionario" name="Funcionario" class="table  is-centered is-narrow is-fullwidth ">
+    <thead>
+    <th class="has-text-centered">Funcionário</th>
+    <th class="has-text-centered">Pontuação</th>
+    <th class="has-text-centered">Meta</th>
 
 
 
-        
-            @for (var i = 0; i < Convert.ToInt32(TempData["TotalFuncionarios"]); i++)
-             {
-                 using (Html.BeginForm("ExtratoGestor", "Pgd"))
-                 {
-                     <tr>
-                         <td class="has-text-centered">
-                             <input name="Funcionario @TempData["nome" + i]" id="Funcionario @TempData["nome" + i]" value="@TempData["nome" + i]" hidden="true"/>@TempData["nome" + i]
-                         </td>
-                         <td class="has-text-centered">
-                             <input name="Data @TempData["pontuacaoatual" + i]" id="Data @TempData["pontuacaoatual" + i]" value="@TempData["pontuacaoatual" + i]" hidden="true"/> @TempData["pontuacaoatual" + i]
-                         </td>
-                     </tr>
-                 }
-             }
-        
+
+    @for (var i = 0; i < Convert.ToInt32(TempData["TotalFuncionarios"]); i++)
+    {
+        using (Html.BeginForm("ExtratoGestor", "Pgd"))
+        {
+    <tr>
+        <td class="has-text-centered">
+            <input name="Funcionario @TempData["nome" + i]" id="Funcionario @TempData["nome" + i]" value="@TempData["nome" + i]" hidden="true" />@TempData["nome" + i]
+        </td>
+        <td class="has-text-centered">
+            <input name="Data @TempData["pontuacaoatual" + i]" id="Data @TempData["pontuacaoatual" + i]" value="@TempData["pontuacaoatual" + i]" hidden="true" /> @TempData["pontuacaoatual" + i]
+        </td>
+        <td class="has-text-centered">
+            <input name="Data @TempData["meta" + i]" id="Data @TempData["meta" + i]" value="@TempData["meta" + i]" hidden="true" /> @TempData["meta" + i]
+        </td>
+
+    </tr>
+        }
+    }
+    <tr>
+        <td class="has-text-centered">
+            <b> TOTAL </b>
+        </td>
+        <td class="has-text-centered">
+            <b><input name="Data @TempData["pontuacaototal"]" id="Data  @TempData["pontuacaototal"]" value=" @TempData["pontuacaototal"]" hidden="true" />  @TempData["pontuacaototal"]</b>
+        </td>
+
+        <td class="has-text-centered">
+            <b><input name="Data @TempData["metatotal"]" id="Data  @TempData["metatotal"]" value=" @TempData["metacaototal"]" hidden="true" />  @TempData["metatotal"]</b>
+        </td>
+
+    </tr>
 
 
-    </table>
+
+</table>
 
 
 

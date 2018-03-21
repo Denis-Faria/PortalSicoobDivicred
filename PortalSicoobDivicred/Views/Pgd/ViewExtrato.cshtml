@@ -85,9 +85,9 @@
 </script>
 @if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
 {
-
-
-    <img id="Imagem" class="image is-centered" style="alignment: center" height="30%" src="/Images/extrato.png" />
+<div >
+    <img id="Imagem11" style="display:block;height:100px;margin-left:auto; margin-right:auto" src="/Images/extrato.png" />
+</div>
 
 
 }
@@ -101,9 +101,6 @@ else
         <th class="has-text-centered">Data Contratação</th>
         <th class="has-text-centered">Pontos</th>
         <th class="has-text-centered">Ação</th>
-
-
-
 
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
         {
@@ -129,7 +126,7 @@ else
 
                     <td  class="has-text-centered">
                             <p class="control">
-                                <button type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["id"+i]);void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success">
+                                <button style="display:block;margin-left:auto;margin-right:auto" type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["id"+i]);void(0);'" name="AbrirProcesso" id="@i" onmouseleave="$('#'+ @i).removeClass('animated pulse')" onmouseover="$('#'+ @i).addClass('animated pulse');" >
                                     <span class="icon is-small">
                                     <i class="far fa-trash-alt">
 

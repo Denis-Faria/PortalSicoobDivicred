@@ -101,7 +101,7 @@
             
             
            
-            <label class="label">CPF do cliente</label>
+            <label class="label">CPF do Cliente</label>
             
             @Html.TextBoxFor(m=>m.cpf,null,new {@class= "input input-search", type="text", onfocusout = "javascript:ValidaMascara(this.value)",onfocus="RemoveMascara()", placeholder = "Ex: 999.999.999 - 99" })
             @Html.ValidationMessageFor(m => m.cpf, null, new { style = "color:red" })
@@ -131,7 +131,7 @@
         <div class="column is-12">
             <label class="label">Observação</label>
             
-            @Html.TextAreaFor(m => m.observacao, new { @class = "textarea", type = "string", maxlength="200",placeholder="Max 200 caracteres" })
+            @Html.TextAreaFor(m => m.observacao, new { @class = "textarea", type = "string", maxlength="200",placeholder="Max 200 caracteres. Ex: Número C/C; Nome do cliente" })
             <br/>
             <br/>
             <p class="control">

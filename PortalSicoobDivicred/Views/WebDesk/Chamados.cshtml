@@ -35,49 +35,58 @@
 
     <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $(document).ready(function () {
-        $("#TabWebdesk").tabs();
+        $(document).ready(function () {
+            $("#TabWebdesk").tabs();
 
-        CKEDITOR.replace('Descricao');
-
-       
-
-    });
-    $('#AenxosArquivo').change(function() {
-        var arq = this.files[0];
-        var label = document.createElement("label");
-
-        label.setAttribute("class", "label");
-
-        label.innerHTML = arq.name;
-
-        $("#ArquivosSelecioando").append(label);
-        
- 
-    });
-    function SetorSelecionado(IdSetor) {
-        $("#CategoriaFuncionario").empty();
-        $.ajax(
-            {
-                type: 'POST',
-                url: '/Webdesk/RetornaCategoriaFuncionario',
-                dataType: 'html',
-                cache: true,
-                async: true,
-                data: { "IdSetor": IdSetor.value },
-                success: function (data) {
-                    $("#CategoriaFuncionario").append(data);
-                    $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-
-                }
-            });
-    }
+            CKEDITOR.replace('Descricao');
 
 
-</script>
 
+        });
+
+
+        function SetorSelecionado(IdSetor) {
+            $("#CategoriaFuncionario").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaCategoriaFuncionario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdSetor": IdSetor.value },
+                    success: function (data) {
+                        $("#CategoriaFuncionario").append(data);
+                        $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+
+                    }
+                });
+        }
+
+
+    </script>
+    <style>
+        #add {
+            font-size: 2em;
+            cursor: pointer;
+        }
+
+        #fileHolder {
+            color: rgba(0,0,0,.7);
+            max-width: 80%;
+            font-size: 70%;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .deleteBtn {
+            cursor: pointer;
+            color: #000;
+        }
+    </style>
     <div class="field is-grouped is-desktop">
 
         <p class="control">
@@ -152,7 +161,7 @@
 
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk",FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data" ,id="Cadastro"}))
     {
         <div id="ModalSolicitacao" class="modal">
             <div class="modal-background"></div>
@@ -173,28 +182,127 @@
                     <div id="CategoriaFuncionario">
 
                     </div>
+                    <br />
                     <div id="anexos" class="AreaAnexo">
-                        <div class="field">
+
+                        <div class="field is-fullwidth">
                             <div class="file is-primary">
                                 <label class="file-label">
-                                    <input class="file-input" type="file" multiple name="AenxosArquivo" onchange="ArquivoSelecionado(event)">
+                                    <input class="file-input" multiple type="file" onchange="multiUp(this)" name="postedFiles">
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fas fa-upload"></i>
                                         </span>
                                         <span class="file-label">
-                                            Selecione os arquivos para anexar
+                                            Anexar Arquivos
                                         </span>
                                     </span>
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <blockquote >
-                        <div id="ArquivosSelecioando" name="ArquivosSelecioando">
+                    <br />
+                    <p>Arquivos </p>
+                    <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
 
-                        </div>
-                    </blockquote>
+                        Nenhum anexo selecionado.
+                    </div>
+                    <script>
+                         var multiFiles = [];
+
+                        function multiUp(e) {
+
+                            
+                             this.__fileHolder = document.querySelector("#ArquivosSelecionados");
+                            
+                            // each time : empty the fileHolder span
+                            this.__fileHolder.innerHTML = '';
+                            var i;
+                            // add the new files to our array
+                            for (i = 0; i < e.files.length; i++) {
+                                this.multiFiles.push(e.files[i]);
+                                
+                            }
+                            for (i = 0; i < this.multiFiles.length; i++) {
+                                alert(multiFiles[i]);
+                                // add a button to remove the file from the list
+                                addDeleteBtn(i, this, this.multiFiles[i].name);
+                            }
+                            
+                        }
+
+                        function addDeleteBtn(f, input, NomeArquivo) {
+
+                            var Div2 = document.createElement('div');
+                            Div2.className = 'control';
+
+                            var Div3 = document.createElement('div');
+                            Div3.className = 'tags has-addons';
+
+
+                            var Nome = document.createElement('span');
+                            Nome.className = 'tag is-dark ';
+                            Nome.innerHTML = NomeArquivo;
+
+                            Div2.append(Div3);
+
+                            Div3.append(Nome);
+
+                            var del = document.createElement('a');
+                            del.className = 'tag is-delete is-primary';
+                            del.title = 'remove this file';
+
+                            del.addEventListener('click', function () {
+                                // update the array
+                                input.multiFiles.splice(f, 1);
+                                // update the fileHodler
+                                input.__fileHolder.innerHTML = "";;
+
+                                var fileLength = input.multiFiles.length;
+                                if (fileLength > 0) {
+                                    for (var i = 0; i < fileLength; i++) {
+
+
+                                        var Div2 = document.createElement('div');
+                                        Div2.className = 'control';
+
+                                        var Div3 = document.createElement('div');
+                                        Div3.className = 'tags has-addons';
+
+                                        var Nome = document.createElement('span');
+                                        Nome.className = 'tag is-dark';
+                                        Nome.innerHTML = input.multiFiles[i].name;
+
+                                        var del = document.createElement('a');
+                                        del.className = 'tag is-delete is-primary';
+                                        del.title = 'remove this file';
+
+                                        input.__fileHolder.appendChild(Div3);
+                                        addDeleteBtn(i, input, input.multiFiles[i].name);
+                                    }
+                                }
+                                else input.__fileHolder.innerHTML = 'Selecione um arquivo';
+                            }, false);
+                            Div3.append(del);
+                            input.__fileHolder.appendChild(Div2);
+                        }
+
+                         $("#Cadastro").submit(function(event) {
+                             alert(multiFiles);
+                             $.ajax({
+                                 type: "POST",
+                                 url: "Webdesk/Anexos",
+                                 data: JSON.stringify({ 'Documentos': multiFiles }),
+                                 contentType: "application/json; charset=utf-8",
+                                 dataType: "json",
+                                 success: function(data) {
+
+                                 }
+                             });
+                         });
+
+                    </script>
+                    <br />
                     <div class="field is-grouped">
                         <div class="field control">
                             <label class="label">Descrição da sua solicitação:</label>

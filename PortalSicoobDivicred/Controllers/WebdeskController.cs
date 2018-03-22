@@ -69,7 +69,7 @@ namespace PortalSicoobDivicred.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CadastrarSolicitacao(SolicitacaoWebDesk DadosSolicitacao)
+        public ActionResult CadastrarSolicitacao(SolicitacaoWebDesk DadosSolicitacao,FormCollection Dados, List<HttpPostedFileBase> postedFiles)
         {
             return View("Chamados");
         }
@@ -85,6 +85,12 @@ namespace PortalSicoobDivicred.Controllers
             Solicitacao.FuncionarioResponsavel = Funcionario;
 
             return View("CategoriaSetorSolicitacao",Solicitacao);
+        }
+
+        public ActionResult Documentos(string IdSetor)
+        {
+
+            return View("Chamados");
         }
     }
 }

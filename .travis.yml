@@ -1,6 +1,5 @@
-{
-  "language": "csharp",
-  "solution": "PortalSicoobDivicred.sln",
-  script: 
-  - xbuild /p:Configuration=Release {"PortalSicoobDivicred.sln"}
-
+language: csharp
+solution: solution-name.sln
+script:    # the following commands are just examples, use whatever your build process requires
+   - xbuild /p:Configuration=Release {"PortalSicoobDivicred.sln"}
+  

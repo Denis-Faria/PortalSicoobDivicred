@@ -336,4 +336,3 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Mvc.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll

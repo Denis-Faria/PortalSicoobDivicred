@@ -81,8 +81,8 @@
             <div class="control">
                 <label class="label">Produto</label>
 
-                <div class="select is-1">
-                    @Html.DropDownListFor(m => m.idProduto, new SelectList(Model.descricaoProduto, "Value", "Text"), "SELECIONE O PRODUTO", new {id = "descricaoProduto"})
+                <div class="select is-1 is-fullwidth">
+                    @Html.DropDownListFor(m => m.idProduto, new SelectList(Model.descricaoProduto, "Value", "Text"), "SELECIONE O PRODUTO", new {id = "descricaoProduto"  })
                     @Html.ValidationMessageFor(m => m.descricaoProduto, null, new {style = "color:red"})
                 </div>
             </div>

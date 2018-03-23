@@ -103,14 +103,14 @@
         }
     }
 
-    $("#file-input").change(function () {
+    function AlteraPerfil() {
         document.body.style.cursor = "wait";
         var formData = new FormData();
-        var totalFiles = document.getElementById("file-input").files.length;
+        var totalFiles = document.getElementById("FotoPerfil").files.length;
         for (var i = 0; i < totalFiles; i++) {
-            var file = document.getElementById("file-input").files[i];
+            var file = document.getElementById("FotoPerfil").files[i];
 
-            formData.append("file-input", file);
+            formData.append("FotoPerfil", file);
         }
         $.ajax({
             type: "POST",
@@ -127,7 +127,7 @@
                 document.location.href = "/Principal/Principal";
             }
         });
-    });
+    }
 
     function UloadArquivoPessoal(NomeArquivo) {
         document.body.style.cursor = "wait";
@@ -150,7 +150,7 @@
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 document.location.href =
-                    "/Principal/Principal?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
+                    "/PainelColaborador/Perfil?Acao=Perfil&Mensagem=Imagem enviada com sucesso !&Controlle=PainelColaborador";
             }
         });
     }
@@ -198,7 +198,7 @@
                         <div class="level-left">
                             <div class="file is-small is-primary">
                                 <label class="file-label">
-                                    <input class="file-input" id="file-input" type="file" name="resume">
+                                    <input class="file-input" onchange="AlteraPerfil()" id="FotoPerfil" type="file" name="FotoPerfil">
                                     <span class="file-cta">
                                         <span class="file-icon">
                                             <i class="fa fa-upload"></i>

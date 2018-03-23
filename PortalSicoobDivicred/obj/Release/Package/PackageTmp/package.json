@@ -6,6 +6,7 @@
     "bulma-steps": "0.0.2",
     "bulma-steps-component": "^0.5.3",
     "bulma-timeline": "0.0.4",
+    "fine-uploader": "^5.16.0",
     "install": "^0.10.1"
   }
 }

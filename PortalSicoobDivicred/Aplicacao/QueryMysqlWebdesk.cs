@@ -71,6 +71,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return EstadoCivil;
         }
+
         public List<SelectListItem> RetornaFuncionario(string IdSetor)
         {
             var EstadoCivil = new List<SelectListItem>();
@@ -88,6 +89,46 @@ namespace PortalSicoobDivicred.Aplicacao
             return EstadoCivil;
         }
 
+        public string CadastraSolicitacao(string IdSetor,string IdCategoria,string IdOperador,string Descricao,string IdUsuario)
+        {
+            var Query = "INSERT INTO webdesksolicitacoes (idfuncionariocadastro,idfuncionarioresponsavel,idcategoria,idsetor,idsituacao,datahoracadastro) VALUES("+IdUsuario+","+IdOperador+","+IdCategoria+","+IdSetor+",1,NOW())";
+            var IdChamado = ConexaoMysql.ExecutaComandoComRetornoId(Query);
+            var QueryInteracao =
+                "INSERT INTO webdeskinteracoessolicitacoes(idsolicitacao,textointeracao,idfuncionariointeracao,datahorainteracao) VALUES(" +
+                IdChamado + ",'" + Descricao + "'," + IdUsuario + ",NOW())";
+            var IdInteracao = ConexaoMysql.ExecutaComandoComRetornoId(QueryInteracao);
+            return IdInteracao;
 
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosUsuarios(string Login)
+        {
+            var QueryRecuperaUsuario =
+                "SELECT * FROM funcionarios  WHERE login='" + Login + "'";
+
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
+
+
+            return Dados;
+        }
+
+        public void InserirAnexo(string IdInteracao, byte[] Foto)
+        {
+
+            
+                var QueryAtualizaFuncionario =
+                    "INSERT INTO webdeskanexos (idinteracao,arquivo) VALUES(" +IdInteracao + ",@image) ";
+                ConexaoMysql.ExecutaComandoArquivo(QueryAtualizaFuncionario, Foto);
+           
+        }
+
+        public List<Dictionary<string, string>> RetornaChamadosAbertos(string IdUsuario)
+        {
+            var Query =
+                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
     }
 }

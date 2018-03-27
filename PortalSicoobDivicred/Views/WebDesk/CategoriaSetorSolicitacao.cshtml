@@ -1,20 +1,18 @@
 ﻿@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
 
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
-<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
 <div class="field">
     <label class="label">Categoria Solicitação:</label>
     <p class="select is-fullwidth">
-        @Html.DropDownListFor(m => m.IdCategoria, new SelectList(Model.Categoria, "Value", "Text"), "SELECIONE A CATEGORIA PARA SUA SOLICITAÇÃO", new { @class = "white-text", id = "Categoria" })
+        @Html.DropDownListFor(m => m.IdCategoria, new SelectList(Model.Categoria, "Value", "Text"), "SELECIONE A CATEGORIA PARA SUA SOLICITAÇÃO", new { @class = "white-text", id = "Categoria", @required = true })
         @Html.ValidationMessageFor(m => m.IdCategoria, null, new { style = "color:red" })
     </p>
 </div>
-
+<br/>
 <div class="field">
     <label class="label">Funcionário Responsável pelo atendimento:</label>
     <p class="select is-fullwidth">
-        @Html.DropDownListFor(m => m.IdFuncionarioResponsavel, new SelectList(Model.FuncionarioResponsavel, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSAVEL", new { @class = "white-text", id = "FuncionarioResponsavel" })
+        @Html.DropDownListFor(m => m.IdFuncionarioResponsavel, new SelectList(Model.FuncionarioResponsavel, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSAVEL", new { @class = "white-text", id = "FuncionarioResponsavel",@required=true })
         @Html.ValidationMessageFor(m => m.IdFuncionarioResponsavel, null, new { style = "color:red" })
     </p>
 </div>

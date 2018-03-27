@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,13 +12,38 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class WebdeskController : Controller
     {
-        public ActionResult Chamados()
+        public ActionResult Chamados(string Mensagem)
         {
             var VerificaDados = new QueryMysqlWebdesk();
-
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                TempData["Mensagem"] = Mensagem;
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+                var ChamadosEmAberto = VerificaDados.RetornaChamadosAbertos(DadosUsuario[0]["id"]);
+                TempData["TotalChamados"] = ChamadosEmAberto.Count;
+                for (int i = 0; i < ChamadosEmAberto.Count; i++)
+                {
+
+                    TempData["Titulo" + i] = ChamadosEmAberto[i]["titulo"];
+                    TempData["Numero" + i] = ChamadosEmAberto[i]["id"];
+                    TempData["Operador" + i] = ChamadosEmAberto[i]["operador"];
+                    TempData["Situacao" + i] = ChamadosEmAberto[i]["situacao"];
+
+                    var Sla = DateTime.Now.TimeOfDay.Subtract(Convert.ToDateTime(ChamadosEmAberto[i]["datahoracadastro"]).TimeOfDay);
+
+
+                    var Horas = Sla.TotalMinutes*100/TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+
+                    TempData["InformacaoSLA" + i] ="TEMPO DECORRIDO: " +Sla.ToString("g") + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
+                    TempData["Sla" + i] = Convert.ToInt32(Horas);
+
+                }
+
                 var Solicitacao = new SolicitacaoWebDesk(); 
                 var Setores = VerificaDados.RetornaSetor();
                 Solicitacao.SetorResponsavel = Setores;
@@ -69,9 +96,40 @@ namespace PortalSicoobDivicred.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CadastrarSolicitacao(SolicitacaoWebDesk DadosSolicitacao,FormCollection Dados, List<HttpPostedFileBase> postedFiles)
+        public ActionResult CadastrarSolicitacao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
         {
-            return View("Chamados");
+            var VerificaDados = new QueryMysqlWebdesk();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                var IdInteracao =VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
+                    Dados["Descricao"], DadosUsuario[0]["id"]);
+
+                var lista = postedFiles.ToList();
+
+                for (int i = 0;i< lista.Count; i++)
+                {
+                    if (lista[i] != null)
+                    {
+                        var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                        byte[] fileData = null;
+                        using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                        {
+                            fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                        }
+                        VerificaDados.InserirAnexo(IdInteracao, fileData);
+                    }
+                }
+                return RedirectToAction("Chamados","Webdesk",new{Mensagem="Solicitação cadastrada com sucesso!"});
+            }
+            else
+            {
+                return RedirectToAction("Login", "Login");
+            }
         }
 
         public ActionResult RetornaCategoriaFuncionario(string IdSetor)
@@ -87,7 +145,7 @@ namespace PortalSicoobDivicred.Controllers
             return View("CategoriaSetorSolicitacao",Solicitacao);
         }
 
-        public ActionResult Documentos(string IdSetor)
+        public ActionResult Documentos(string Anexos)
         {
 
             return View("Chamados");

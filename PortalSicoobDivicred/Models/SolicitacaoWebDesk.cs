@@ -27,7 +27,7 @@ namespace PortalSicoobDivicred.Models
         [DisplayName("Categoria Solicitação")]
         public List<SelectListItem> Categoria { get; set; }
 
-        [Required(ErrorMessage = "Favor informar a categoria destá solicitação!")]
+        [Required(ErrorMessage = "Favor informar a categoria desta solicitação!")]
         [DisplayName("IdSetor")]
         public int IdCategoria { get; set;}
 

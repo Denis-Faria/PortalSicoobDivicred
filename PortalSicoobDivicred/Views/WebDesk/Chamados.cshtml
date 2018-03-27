@@ -37,14 +37,104 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#TabWebdesk").tabs();
+        var multiFiles = [];
 
+        function multiUp(e) {
+            $(e).removeClass("file-input");
+            $(e).hide();
+            $("#formesconde").hide();
+            $("#" + multiFiles.length).hide();
+            this.__fileHolder = document.querySelector("#ArquivosSelecionados");
+
+            this.__fileHolder.innerHTML = '';
+            var i;
+
+            for (i = 0; i < e.files.length; i++) {
+                this.multiFiles.push(e.files[i]);
+
+            }
+            $("#Upload-form").append(
+                " <div id=" + multiFiles.length + " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+            for (i = 0; i < this.multiFiles.length; i++) {
+                addDeleteBtn(i, this, this.multiFiles[i].name);
+            }
+
+        }
+
+        function addDeleteBtn(f, input, NomeArquivo) {
+
+            var Div2 = document.createElement('div');
+            Div2.className = 'control';
+
+            var Div3 = document.createElement('div');
+            Div3.className = 'tags has-addons';
+
+
+            var Nome = document.createElement('span');
+            Nome.className = 'tag is-dark ';
+            Nome.innerHTML = NomeArquivo;
+
+            Div2.append(Div3);
+
+            Div3.append(Nome);
+
+            var del = document.createElement('a');
+            del.className = 'tag is-delete is-primary';
+            del.title = 'remove this file';
+
+            del.addEventListener('click', function () {
+
+
+                $("#" + input.multiFiles.length).remove();
+
+                input.multiFiles.splice(f, 1);
+
+                $("#" + input.multiFiles.length).show();
+
+
+                input.__fileHolder.innerHTML = "";;
+
+                var fileLength = input.multiFiles.length;
+
+                if (fileLength > 0) {
+                    for (var i = 0; i < fileLength; i++) {
+
+
+                        var Div2 = document.createElement('div');
+                        Div2.className = 'control';
+
+                        var Div3 = document.createElement('div');
+                        Div3.className = 'tags has-addons';
+
+                        var Nome = document.createElement('span');
+                        Nome.className = 'tag is-dark';
+                        Nome.innerHTML = input.multiFiles[i].name;
+
+                        var del = document.createElement('a');
+                        del.className = 'tag is-delete is-primary';
+                        del.title = 'remove this file';
+
+                        input.__fileHolder.appendChild(Div3);
+                        addDeleteBtn(i, input, input.multiFiles[i].name);
+                    }
+                }
+                else { $("#formesconde").show(); input.__fileHolder.innerHTML = 'Selecione um arquivo'; }
+            }, false);
+            Div3.append(del);
+            input.__fileHolder.appendChild(Div2);
+        }
+
+        $(document).ready(function () {
+
+            $("#TabWebdesk").tabs();
             CKEDITOR.replace('Descricao');
 
-
+            $("#container").progressbar({
+                value: 37
+            });
 
         });
+
 
 
         function SetorSelecionado(IdSetor) {
@@ -60,7 +150,9 @@
                     success: function (data) {
                         $("#CategoriaFuncionario").append(data);
                         $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
                     }
                 });
         }
@@ -85,6 +177,13 @@
         .deleteBtn {
             cursor: pointer;
             color: #000;
+        }
+
+        #container {
+            margin: 20px;
+            width: 400px;
+            height: 8px;
+            position: relative;
         }
     </style>
     <div class="field is-grouped is-desktop">
@@ -154,14 +253,35 @@
         <div id="ChamadosSetor">
             <p>teste</p>
         </div>
-        <div id="MeusChamadosAberto">
-            <p>teste</p>
+    <div id="MeusChamadosAberto">
+        <table id="TabelaChamados" class="lista-curriculo table is-striped is-centered is-desktop" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th class="has-text-centered">N° Chamado</th>
+        <th class="has-text-centered">Titulo</th>
+        <th class="has-text-centered">Funcionário Responsavel</th>
+        <th class="has-text-centered">Status</th>
+        <th class="has-text-centered">SLA</th>
+        </thead>
+        <tbody>
+                    
+        @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
+        {
+            <tr>
+        <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
+        <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
+        <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
+        <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
+        <td class="has-text-centered"><div data-balloon="@TempData["InformacaoSLA"+j]" data-balloon-pos="rigth"><progress class="progress is-primary" value="@TempData["Sla"+j]" max="100" >15%</progress></div></td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
         </div>
     </div>
 
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data" ,id="Cadastro"}))
+    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
     {
         <div id="ModalSolicitacao" class="modal">
             <div class="modal-background"></div>
@@ -179,27 +299,37 @@
                             @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new { style = "color:red" })
                         </p>
                     </div>
+                    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+                    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
                     <div id="CategoriaFuncionario">
 
                     </div>
                     <br />
                     <div id="anexos" class="AreaAnexo">
+                        <div id="formesconde">
+                            <div div="Primeiro" class="field is-fullwidth">
+                                <div class="file is-primary">
+                                    <label class="file-label">
 
-                        <div class="field is-fullwidth">
-                            <div class="file is-primary">
-                                <label class="file-label">
-                                    <input class="file-input" multiple type="file" onchange="multiUp(this)" name="postedFiles">
-                                    <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
+                                        <input class="file-input" multiple type="file" onchange="multiUp(this)" name="postedFiles">
+
+
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Anexar Arquivos
+                                            </span>
                                         </span>
-                                        <span class="file-label">
-                                            Anexar Arquivos
-                                        </span>
-                                    </span>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                        <div id="Upload-form">
+
+                        </div>
+
                     </div>
                     <br />
                     <p>Arquivos </p>
@@ -207,107 +337,12 @@
 
                         Nenhum anexo selecionado.
                     </div>
-                    <script>
-                         var multiFiles = [];
-
-                        function multiUp(e) {
-
-                            
-                             this.__fileHolder = document.querySelector("#ArquivosSelecionados");
-                            
-                            // each time : empty the fileHolder span
-                            this.__fileHolder.innerHTML = '';
-                            var i;
-                            // add the new files to our array
-                            for (i = 0; i < e.files.length; i++) {
-                                this.multiFiles.push(e.files[i]);
-                                
-                            }
-                            for (i = 0; i < this.multiFiles.length; i++) {
-                                alert(multiFiles[i]);
-                                // add a button to remove the file from the list
-                                addDeleteBtn(i, this, this.multiFiles[i].name);
-                            }
-                            
-                        }
-
-                        function addDeleteBtn(f, input, NomeArquivo) {
-
-                            var Div2 = document.createElement('div');
-                            Div2.className = 'control';
-
-                            var Div3 = document.createElement('div');
-                            Div3.className = 'tags has-addons';
-
-
-                            var Nome = document.createElement('span');
-                            Nome.className = 'tag is-dark ';
-                            Nome.innerHTML = NomeArquivo;
-
-                            Div2.append(Div3);
-
-                            Div3.append(Nome);
-
-                            var del = document.createElement('a');
-                            del.className = 'tag is-delete is-primary';
-                            del.title = 'remove this file';
-
-                            del.addEventListener('click', function () {
-                                // update the array
-                                input.multiFiles.splice(f, 1);
-                                // update the fileHodler
-                                input.__fileHolder.innerHTML = "";;
-
-                                var fileLength = input.multiFiles.length;
-                                if (fileLength > 0) {
-                                    for (var i = 0; i < fileLength; i++) {
-
-
-                                        var Div2 = document.createElement('div');
-                                        Div2.className = 'control';
-
-                                        var Div3 = document.createElement('div');
-                                        Div3.className = 'tags has-addons';
-
-                                        var Nome = document.createElement('span');
-                                        Nome.className = 'tag is-dark';
-                                        Nome.innerHTML = input.multiFiles[i].name;
-
-                                        var del = document.createElement('a');
-                                        del.className = 'tag is-delete is-primary';
-                                        del.title = 'remove this file';
-
-                                        input.__fileHolder.appendChild(Div3);
-                                        addDeleteBtn(i, input, input.multiFiles[i].name);
-                                    }
-                                }
-                                else input.__fileHolder.innerHTML = 'Selecione um arquivo';
-                            }, false);
-                            Div3.append(del);
-                            input.__fileHolder.appendChild(Div2);
-                        }
-
-                         $("#Cadastro").submit(function(event) {
-                             alert(multiFiles);
-                             $.ajax({
-                                 type: "POST",
-                                 url: "Webdesk/Anexos",
-                                 data: JSON.stringify({ 'Documentos': multiFiles }),
-                                 contentType: "application/json; charset=utf-8",
-                                 dataType: "json",
-                                 success: function(data) {
-
-                                 }
-                             });
-                         });
-
-                    </script>
                     <br />
                     <div class="field is-grouped">
                         <div class="field control">
                             <label class="label">Descrição da sua solicitação:</label>
                             <p class="control is-fullwidth">
-                                @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", id = "Descricao" })
+                                @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", id = "Descricao", @required = true })
                                 @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
                             </p>
 

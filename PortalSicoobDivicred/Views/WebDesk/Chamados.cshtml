@@ -127,10 +127,13 @@
         $(document).ready(function () {
 
             $("#TabWebdesk").tabs();
-            CKEDITOR.replace('Descricao');
+            var editor =CKEDITOR.replace('Descricao');
+            
 
-            $("#container").progressbar({
-                value: 37
+            jQuery(document).ready(function($) {
+                $(".clickable-row").click(function() {
+                    window.location = $(this).data("href");
+                });
             });
 
         });
@@ -177,13 +180,6 @@
         .deleteBtn {
             cursor: pointer;
             color: #000;
-        }
-
-        #container {
-            margin: 20px;
-            width: 400px;
-            height: 8px;
-            position: relative;
         }
     </style>
     <div class="field is-grouped is-desktop">
@@ -248,34 +244,80 @@
             </ul>
         </div>
         <div id="MeusChamados">
-            <p>teste</p>
-        </div>
-        <div id="ChamadosSetor">
-            <p>teste</p>
-        </div>
-    <div id="MeusChamadosAberto">
-        <table id="TabelaChamados" class="lista-curriculo table is-striped is-centered is-desktop" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-        <thead>
-        <th class="has-text-centered">N° Chamado</th>
-        <th class="has-text-centered">Titulo</th>
-        <th class="has-text-centered">Funcionário Responsavel</th>
-        <th class="has-text-centered">Status</th>
-        <th class="has-text-centered">SLA</th>
-        </thead>
-        <tbody>
-                    
-        @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
-        {
-            <tr>
-        <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
-        <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
-        <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
-        <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
-        <td class="has-text-centered"><div data-balloon="@TempData["InformacaoSLA"+j]" data-balloon-pos="rigth"><progress class="progress is-primary" value="@TempData["Sla"+j]" max="100" >15%</progress></div></td>
+            <table id="TabelaChamadosOperador" class="table is-hoverable is-centered is-fullwidth" style=" text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Solicitante</th>
+                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamadosOperador"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado","Webdesk",new{IdChamado= @TempData["NumeroSetor" + j].ToString()})">
+                            <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["OperadorOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["SituacaoOperador" + j].ToString()</td>
+                            <td class="has-text-centered"><div data-balloon="@TempData["InformacaoSLAOperador"+j]" data-balloon-pos="down"><progress class="progress @TempData["StatusCorOperador" + j]" value="@TempData["SlaOperador"+j]" max="100">15%</progress></div></td>
                         </tr>
                     }
                 </tbody>
-                </table>
+            </table>
+        </div>
+        <div id="ChamadosSetor">
+            <table id="TabelaChamadosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Solicitante</th>
+                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamadosSetor"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado","Webdesk",new{IdChamado= @TempData["NumeroSetor" + j].ToString()})">
+                            <td class="has-text-centered">@TempData["NumeroSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["TituloSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["CadastroSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["OperadorSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["SituacaoSetor" + j].ToString()</td>
+                            <td class="has-text-centered"><div data-balloon="@TempData["InformacaoSLASetor"+j]" data-balloon-pos="down"><progress class="progress @TempData["StatusCorSetor" + j]" value="@TempData["SlaSetor"+j]" max="100">15%</progress></div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="MeusChamadosAberto">
+            <table id="TabelaChamados" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado","Webdesk",new{IdChamado= @TempData["NumeroSetor" + j].ToString()})">
+                            <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
+                            <td class="has-text-centered"><div data-balloon="@TempData["InformacaoSLA"+j]" data-balloon-pos="down"><progress class="progress @TempData["StatusCor" + j]" value="@TempData["Sla"+j]" max="100">15%</progress></div></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -311,7 +353,7 @@
                                 <div class="file is-primary">
                                     <label class="file-label">
 
-                                        <input class="file-input" multiple type="file" onchange="multiUp(this)" name="postedFiles">
+                                        <input class="file-input"  type="file" onchange="multiUp(this)" name="postedFiles">
 
 
                                         <span class="file-cta">

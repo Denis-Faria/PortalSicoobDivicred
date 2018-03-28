@@ -1,0 +1,356 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<body>
+
+    @if (TempData["Mensagem"] != null)
+    {
+        @Html.Label("")
+
+
+        <script>
+
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]',
+            });
+
+        </script>
+    }
+    <br />
+
+    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
+
+
+    <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+    <script>
+        $(document).ready(function () {
+
+            var editor = CKEDITOR.replace('Descricao');
+            editor.config.width = '100%';
+        });
+        function teste(data) {
+            var imagem = data;
+            var newTab = window.open();
+            newTab.document.body.innerHTML = '<img src=' + imagem + '>';
+        }
+        function Acao(acao) {
+            if (acao.value === "Repassar") {
+
+                $("#SetorFuncionario").empty();
+                $("#Funcionario").empty();
+
+                var Cadastro = $("#IdFuncionarioCadastro").val();
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaSetor',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdCadastro": Cadastro },
+                        success: function (data) {
+                            $("#SetorFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#SetorFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+
+
+            } if (acao.value === "Categoria") {
+
+                $("#SetorFuncionario").empty();
+                $("#Funcionario").empty();
+                var Cadastro = $("#IdFuncionarioCadastro").val();
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaCategoria',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdCadastro": Cadastro },
+                        success: function (data) {
+                            $("#SetorFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#SetorFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+
+
+            } else {
+                $("#SetorFuncionario").empty();
+                $("#Funcionario").empty();
+            }
+        }
+        function SetorSelecionado(IdSetor) {
+            $("#Funcionario").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaFuncionario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdSetor": IdSetor.value },
+                    success: function (data) {
+                        $("#Funcionario").append(data);
+                        $.validator.unobtrusive.parse($("#Funcionario"));
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                });
+        }
+
+
+        var multiFiles = [];
+
+
+        function multiUp(e) {
+            $(e).removeClass("file-input");
+            $(e).hide();
+            $("#formesconde").hide();
+            $("#" + multiFiles.length).hide();
+            this.__fileHolder = document.querySelector("#ArquivosSelecionados");
+
+            this.__fileHolder.innerHTML = '';
+            var i;
+
+            for (i = 0; i < e.files.length; i++) {
+                this.multiFiles.push(e.files[i]);
+
+            }
+            $("#Upload-form").append(
+                " <div id=" + multiFiles.length + " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+            for (i = 0; i < this.multiFiles.length; i++) {
+                addDeleteBtn(i, this, this.multiFiles[i].name);
+            }
+
+        }
+
+        function addDeleteBtn(f, input, NomeArquivo) {
+
+            var Div2 = document.createElement('div');
+            Div2.className = 'control';
+
+            var Div3 = document.createElement('div');
+            Div3.className = 'tags has-addons';
+
+
+            var Nome = document.createElement('span');
+            Nome.className = 'tag is-dark ';
+            Nome.innerHTML = NomeArquivo;
+
+            Div2.append(Div3);
+
+            Div3.append(Nome);
+
+            var del = document.createElement('a');
+            del.className = 'tag is-delete is-primary';
+            del.title = 'remove this file';
+
+            del.addEventListener('click', function () {
+
+
+                $("#" + input.multiFiles.length).remove();
+
+                input.multiFiles.splice(f, 1);
+
+                $("#" + input.multiFiles.length).show();
+
+
+                input.__fileHolder.innerHTML = "";;
+
+                var fileLength = input.multiFiles.length;
+
+                if (fileLength > 0) {
+                    for (var i = 0; i < fileLength; i++) {
+
+
+                        var Div2 = document.createElement('div');
+                        Div2.className = 'control';
+
+                        var Div3 = document.createElement('div');
+                        Div3.className = 'tags has-addons';
+
+                        var Nome = document.createElement('span');
+                        Nome.className = 'tag is-dark';
+                        Nome.innerHTML = input.multiFiles[i].name;
+
+                        var del = document.createElement('a');
+                        del.className = 'tag is-delete is-primary';
+                        del.title = 'remove this file';
+
+                        input.__fileHolder.appendChild(Div3);
+                        addDeleteBtn(i, input, input.multiFiles[i].name);
+                    }
+                }
+                else { $("#formesconde").show(); input.__fileHolder.innerHTML = 'Selecione um arquivo'; }
+            }, false);
+            Div3.append(del);
+            input.__fileHolder.appendChild(Div2);
+        }
+    </script>
+    <input value="@TempData["IdFuncionarioCadastro"]" id="IdFuncionarioCadastro" hidden="" />
+    <nav class="level ">
+        <p class="level-item has-text-centered">
+            <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
+        </p>
+    </nav>
+    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+        <ul>
+            <li>
+                <a href="@Url.Action("Principal","Principal")">
+                    <span class="icon is-small">
+                        <i class="fa fa-home"></i>
+                    </span><span>DashBoard</span>
+                </a>
+            </li>
+            <li>
+                <a href="@Url.Action("Chamados")">
+                    <span class="icon is-small">
+                        <i class="fas fa-tasks"></i>
+                    </span><span>WebDesk</span>
+                </a>
+            </li>
+            <li class="is-active">
+                <a href="#" aria-current="page">
+                    <span class="icon is-small">
+                        <i class="fa fa-suitcase" aria-hidden="true"></i>
+                    </span><span>Chamnado - n° @TempData["IdSolicitacao"]</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <article class="message is-link">
+        <div class="message-body">
+            <p><strong>Setor Responsável: </strong>@TempData["Setor"]    <strong>Categoria: </strong>@TempData["Categoria"]</p>
+            <p> <strong>Funcionário Solicitante: </strong>@TempData["FuncionarioSolicitante"]</p>
+            <p> <strong>Funcionário Responsável: </strong>@TempData["FuncionarioResponsavel"]</p>
+            <p><strong>Data Abertura: </strong> @TempData["DataAbertura"]</p>
+        </div>
+    </article>
+    <table id="TabelaInteracoes" class="table is-hoverable is-centered is-fullwidth" style=" text-align: center;">
+        <thead>
+        <th class="has-text-centered">Usuário</th>
+        <th class="has-text-centered">Interação</th>
+        <th class="has-text-centered">Anexos</th>
+        </thead>
+        <tbody>
+
+            @for (int j = 0; j < Convert.ToInt32(TempData["TotalInteracao"].ToString()); j++)
+            {
+                <tr>
+                    <td class="has-text-centered">@TempData["Usuario" + j].ToString()</td>
+                    <td class="has-text-centered">
+                        <span>
+                            @(new HtmlString(@TempData["Interacao" + j].ToString()))
+                        </span>
+                    </td>
+                    <td class="has-text-centered">
+                        @for (int i = 0; i < Convert.ToInt32(TempData["TotalAnexos" + TempData["IdInteracao" + j]].ToString()); i++)
+                        {
+
+                            <span class="tag is-primary">
+                                <a href="javascript: teste('@TempData["ImagemAnexo"+@TempData["IdInteracao"+j]]'); void(0);" style="color: black">Anexo @i</a>
+
+                            </span>
+
+                            <br />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+    @using (Html.BeginForm("CadastrarInteracao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
+    {
+        <p class="control has-icons-left">
+            <span class="select">
+                <select id="AcaoInteracao" name="AcaoInteracao" required onchange="javascript: Acao(this);">
+                    <option selected>Realizar Ação</option>
+                    <option value="Encerrar">Encerrar Solicitação</option>
+                    <option value="Repassar">Repassar Solicitação</option>
+                    <option value="Categoria">Alterar Categoria da Solicitação</option>
+                </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-bolt" aria-hidden="true"></i>
+            </span>
+        </p>
+
+        <br />
+        <div id="SetorFuncionario">
+
+        </div>
+        <div id="Funcionario">
+
+        </div>
+        <br />
+
+        <div id="anexos" class="AreaAnexo">
+            <div id="formesconde">
+                <div div="Primeiro" class="field is-fullwidth">
+                    <div class="file is-primary">
+                        <label class="file-label">
+
+                            <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
+
+
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Anexar Arquivos
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div id="Upload-form">
+
+            </div>
+
+        </div>
+
+        <p>Arquivos </p>
+        <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
+
+            Nenhum anexo selecionado.
+        </div>
+        <br />
+        <div class="field">
+            <div class="field control">
+                <label class="label">Descrição da sua interação:</label>
+                <p class="control is-fullwidth">
+                    <textarea id="Descricao" class="textarea" name="Descricao"></textarea>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="field is-grouped is-grouped-right">
+            <p class="control">
+
+                <button type="submit" class="button is-primary">
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-save"></i>
+                    </span>
+                    <span>Salvar e Realizar Ação</span>
+                </button>
+            </p>
+
+        </div>
+    }
+</body>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -35,7 +36,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> BuscaInteracaoChamados(string IdChamado)
         {
             var Query =
-                "SELECT b.nome,a.textointeracao, a.datahorainteracao as data FROM webdeskinteracoes a, usuarios b WHERE a.idusuariointeracao=b.id AND idchamado="+IdChamado+" ";
+                "SELECT b.nome,a.textointeracao, a.datahorainteracao as data FROM webdeskinteracoessolicitacoes a, usuarios b WHERE a.idfuncionariointeracao=b.id AND idchamado="+IdChamado+" ";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -129,6 +130,41 @@ namespace PortalSicoobDivicred.Aplicacao
                 "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
+        }
+
+        public List<Dictionary<string, string>> RetornaChamadosResponsavel(string IdUsuario)
+        {
+            var Query =
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id="+IdUsuario+") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1)  ORDER BY a.id";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public List<Dictionary<string, string>> RetornaChamadosSetor(string IdSetor)
+        {
+            var Query =
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1) and a.idsetor="+IdSetor+"  ORDER BY a.id";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public List<Dictionary<string, string>> RetornaDadosChamado(string IdSolicitacao)
+        {
+
+            var Query = "SELECT a.id,b.descricao as titulo,u1.id as idcadastro,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,e.descricao as setor FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id INNER JOIN setores e on a.idsetor=e.id and a.id=" + IdSolicitacao + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+
+        public List<Dictionary<string, string>> RetornaInteracoesChamado(string IdSolicitacao)
+        {
+            var Query = "select b.id,a.nome as nome, b.textointeracao,b.datahorainteracao from funcionarios a, webdeskinteracoessolicitacoes b where a.id=b.idfuncionariointeracao and b.idsolicitacao=" + IdSolicitacao + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public DataTable RetornaAnexoInteracao(string IdInteracao)
+        {
+            var Dados = ConexaoMysql.ComandoArquivoWebDesk(IdInteracao);
+            return Dados;
+
         }
     }
 }

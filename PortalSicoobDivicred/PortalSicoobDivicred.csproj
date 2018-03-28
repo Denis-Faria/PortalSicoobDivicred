@@ -688,6 +688,11 @@
     <Content Include="Views\WebDesk\Setor.cshtml" />
     <Content Include="Views\WebDesk\ResultadoPesquisa.cshtml" />
     <Content Include="Views\WebDesk\CategoriaSetorSolicitacao.cshtml" />
+    <Content Include="Views\WebDesk\InteracaoChamado.cshtml" />
+    <Content Include="Views\WebDesk\CategoriaInteracao.cshtml" />
+    <Content Include="Views\WebDesk\SetorInteracao.cshtml" />
+    <Content Include="Views\WebDesk\FuncionarioInteracao.cshtml" />
+    <Content Include="Views\WebDesk\faltapermissao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

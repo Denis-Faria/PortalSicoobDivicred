@@ -981,7 +981,7 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             Status.CadastrarAlertaEspecifico(Resultado["Alerta"], EmailCelular[0]["id"]);
                         }
-                        if (Resultado[i].Equals("Reprovado"))
+                        else if (Resultado[i].Equals("Reprovado"))
                         {
                             var EmailCelular = Status.RecuperaEmail(Cpf[1]);
                             var EnvioSms = new string[1];

@@ -352,8 +352,8 @@ namespace PortalSicoobDivicred.Aplicacao
                 Beneficio + "',now())";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
             var QuerySelecionaEmailVagas =
-                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND MATCH(b.descricao) AGAINST('" +
-                AreaInteresse + "')";
+                "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND a.balao='N' AND MATCH(b.descricao) AGAINST('" +
+                AreaInteresse + "' )";
             var Email = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaEmailVagas);
             return Email;
         }

@@ -114,12 +114,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
-        public void InserirAnexo(string IdInteracao, byte[] Foto)
+        public void InserirAnexo(string IdInteracao, byte[] Foto,string TipoArquivo)
         {
 
             
                 var QueryAtualizaFuncionario =
-                    "INSERT INTO webdeskanexos (idinteracao,arquivo) VALUES(" +IdInteracao + ",@image) ";
+                    "INSERT INTO webdeskanexos (idinteracao,arquivo,tipoarquivo) VALUES(" +IdInteracao + ",@image,'"+TipoArquivo+"') ";
                 ConexaoMysql.ExecutaComandoArquivo(QueryAtualizaFuncionario, Foto);
            
         }
@@ -127,7 +127,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosAbertos(string IdUsuario)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
+                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.fimatendimento from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
@@ -135,36 +135,92 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosResponsavel(string IdUsuario)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id="+IdUsuario+") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1)  ORDER BY a.id";
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro ,TIMEDIFF(Now() ,a.datahoracadastro) as sla FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id=" + IdUsuario+") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1)  ORDER BY a.id";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
         public List<Dictionary<string, string>> RetornaChamadosSetor(string IdSetor)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1) and a.idsetor="+IdSetor+"  ORDER BY a.id";
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1) and a.idsetor=" + IdSetor+"  ORDER BY a.id";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
         public List<Dictionary<string, string>> RetornaDadosChamado(string IdSolicitacao)
         {
 
-            var Query = "SELECT a.id,b.descricao as titulo,u1.id as idcadastro,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,e.descricao as setor FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id INNER JOIN setores e on a.idsetor=e.id and a.id=" + IdSolicitacao + " ";
+            var Query = "SELECT a.id,b.descricao as titulo,u1.id as idcadastro,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,e.descricao as setor,a.inicioatendimento,a.fimatendimento FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id INNER JOIN setores e on a.idsetor=e.id and a.id=" + IdSolicitacao + " ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
 
         public List<Dictionary<string, string>> RetornaInteracoesChamado(string IdSolicitacao)
         {
-            var Query = "select b.id,a.nome as nome, b.textointeracao,b.datahorainteracao from funcionarios a, webdeskinteracoessolicitacoes b where a.id=b.idfuncionariointeracao and b.idsolicitacao=" + IdSolicitacao + " ";
+            var Query = "select b.id,a.nome as nome, b.textointeracao,b.datahorainteracao,b.acao from funcionarios a, webdeskinteracoessolicitacoes b where a.id=b.idfuncionariointeracao and b.idsolicitacao=" + IdSolicitacao + " ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
+
         public DataTable RetornaAnexoInteracao(string IdInteracao)
         {
             var Dados = ConexaoMysql.ComandoArquivoWebDesk(IdInteracao);
             return Dados;
 
         }
+
+        public string CadastrarInteracao(string IdChamado,string Descricao,string IdUsuario,string Acao)
+        {
+            var QueryInteracao =
+                "INSERT INTO webdeskinteracoessolicitacoes(idsolicitacao,textointeracao,idfuncionariointeracao,datahorainteracao,acao) VALUES(" +
+                IdChamado + ",'" + Descricao + "'," + IdUsuario + ",NOW(),'"+Acao+"')";
+            var IdInteracao = ConexaoMysql.ExecutaComandoComRetornoId(QueryInteracao);
+            return IdInteracao;
+        }
+
+        public void EncerrarSolicitacao(string IdChamado)
+        {
+            var QueryInteracao =
+                "UPDATE webdesksolicitacoes SET idsituacao=3, fimatendimento=NOW() WHERE  id="+IdChamado+";";
+             ConexaoMysql.ExecutaComando(QueryInteracao);
+
+        }
+
+        public void AlterarCategoriaSolicitacao(string IdChamado,string IdCategoria)
+        {
+            var QueryInteracao =
+                "UPDATE webdesksolicitacoes SET idcategoria="+IdCategoria+" WHERE id=" + IdChamado + ";";
+            ConexaoMysql.ExecutaComando(QueryInteracao);
+
+        }
+
+        public void AlterarResponsavelSolicitacao(string IdChamado, string IdSetor,string IdFuncionario)
+        {
+            var QueryInteracao =
+                "UPDATE webdesksolicitacoes SET idsetor=" + IdSetor + ", idfuncionarioresponsavel="+IdFuncionario+" WHERE id=" + IdChamado + ";";
+            ConexaoMysql.ExecutaComando(QueryInteracao);
+
+        }
+
+        public void ReabrirSolicitacao(string IdChamado)
+        {
+            var QueryInteracao =
+                "UPDATE webdesksolicitacoes SET idsituacao=2 WHERE id=" + IdChamado + ";";
+            ConexaoMysql.ExecutaComando(QueryInteracao);
+
+        }
+
+        public List<Dictionary<string, string>> RetornaRepasseFuncionarioChamado(string IdFuncionario)
+        {
+            var Query = "select nome from funcionarios where id=" + IdFuncionario + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public List<Dictionary<string, string>> RetornaRepasseCategoriaChamado(string IdFuncionario)
+        {
+            var Query = "select descricao from webdeskcategorias where id=" + IdFuncionario + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+
     }
 }

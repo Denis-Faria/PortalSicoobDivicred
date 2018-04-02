@@ -249,7 +249,7 @@
                 <th class="has-text-centered">N° Chamado</th>
                 <th class="has-text-centered">Categoria</th>
                 <th class="has-text-centered">Funcionário Solicitante</th>
-                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -275,7 +275,7 @@
                 <th class="has-text-centered">N° Chamado</th>
                 <th class="has-text-centered">Categoria</th>
                 <th class="has-text-centered">Funcionário Solicitante</th>
-                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -300,7 +300,7 @@
                 <thead>
                 <th class="has-text-centered">N° Chamado</th>
                 <th class="has-text-centered">Categoria</th>
-                <th class="has-text-centered">Funcionário Responsavel</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -308,7 +308,7 @@
 
                     @for (int j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
                     {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado","Webdesk",new{IdChamado= @TempData["NumeroSetor" + j].ToString()})">
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado","Webdesk",new{IdChamado= @TempData["Numero" + j].ToString()})">
                             <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>

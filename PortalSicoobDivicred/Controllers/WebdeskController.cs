@@ -33,20 +33,30 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Operador" + i] = ChamadosEmAberto[i]["operador"];
                     TempData["Situacao" + i] = ChamadosEmAberto[i]["situacao"];
 
-                    var Sla = DateTime.Now.Subtract(Convert.ToDateTime(ChamadosEmAberto[i]["datahoracadastro"]).TimeOfDay);
-                    
-                    var Horas = Sla.TimeOfDay.TotalMinutes*100/TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
-                    if (Horas > 100)
+                    if (ChamadosEmAberto[i]["fimatendimento"]==null)
                     {
-                        TempData["StatusCor" + i] = "is-danger";
+                        var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
+
+                        var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+                        if (Horas > 100)
+                        {
+                            TempData["StatusCor" + i] = "is-danger";
+                        }
+                        else
+                        {
+                            TempData["StatusCor" + i] = "is-primary";
+                        }
+
+                        TempData["InformacaoSLA" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" +
+                                                        Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
+                                                        ChamadosEmAberto[i]["tempo"];
+                        TempData["Sla" + i] = Convert.ToInt32(Horas);
                     }
                     else
                     {
-                        TempData["StatusCor" + i] = "is-primary";
+                        TempData["InformacaoSLA" + i] = "SOLICITAÇÃO ENCERRADA";
+                        TempData["Sla" + i] =100;
                     }
-
-                    TempData["InformacaoSLA" + i] ="TEMPO DECORRIDO: " +Sla.Hour+":"+Sla.Minute+":00" + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
-                    TempData["Sla" + i] = Convert.ToInt32(Horas);
                 }
 
                 var ChamadosOperador = VerificaDados.RetornaChamadosResponsavel(DadosUsuario[0]["id"]);
@@ -60,9 +70,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SituacaoOperador" + i] = ChamadosOperador[i]["situacao"];
                     TempData["CadastroOperador" + i] = ChamadosOperador[i]["cadastro"];
 
-                    var Sla = DateTime.Now.Subtract(Convert.ToDateTime(ChamadosOperador[i]["datahoracadastro"]).TimeOfDay);
+                    var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
 
-                    var Horas = Sla.TimeOfDay.TotalMinutes * 100 / TimeSpan.Parse(ChamadosOperador[i]["tempo"]).TotalMinutes;
+                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
                     if (Horas > 100)
                     {
                         TempData["StatusCorOperador" + i] = "is-danger";
@@ -72,7 +82,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusCorOperador" + i] = "is-primary";
                     }
 
-                    TempData["InformacaoSLAOperador" + i] = "TEMPO DECORRIDO: " + Sla.Hour + ":" + Sla.Minute + ":00" + " || TEMPO ESTIMADO: " + ChamadosOperador[i]["tempo"];
+                    TempData["InformacaoSLAOperador" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
                     TempData["SlaOperador" + i] = Convert.ToInt32(Horas);
 
                 }
@@ -89,9 +99,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SituacaoSetor" + i] = ChamadosSetor[i]["situacao"];
                     TempData["CadastroSetor" + i] = ChamadosSetor[i]["cadastro"];
 
-                    var Sla = DateTime.Now.Subtract(Convert.ToDateTime(ChamadosSetor[i]["datahoracadastro"]).TimeOfDay);
+                    var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
 
-                    var Horas = Sla.TimeOfDay.TotalMinutes * 100 / TimeSpan.Parse(ChamadosSetor[i]["tempo"]).TotalMinutes;
+                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
                     if (Horas > 100)
                     {
                         TempData["StatusCorSetor" + i] = "is-danger";
@@ -101,7 +111,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusCorSetor" + i] = "is-primary";
                     }
 
-                    TempData["InformacaoSLASetor" + i] = "TEMPO DECORRIDO: " + Sla.Hour + ":" + Sla.Minute + ":00" + " || TEMPO ESTIMADO: " + ChamadosSetor[i]["tempo"];
+                    TempData["InformacaoSLASetor" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
                     TempData["SlaSetor" + i] = Convert.ToInt32(Horas);
 
                 }
@@ -183,7 +193,7 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                         }
-                        VerificaDados.InserirAnexo(IdInteracao, fileData);
+                        VerificaDados.InserirAnexo(IdInteracao, fileData,lista[i].ContentType);
                     }
                 }
                 return RedirectToAction("Chamados","Webdesk",new{Mensagem="Solicitação cadastrada com sucesso!"});
@@ -250,6 +260,7 @@ namespace PortalSicoobDivicred.Controllers
                 return View("SetorInteracao", Solicitacao);
             }
         }
+
         public ActionResult RetornaFuncionario(string IdSetor)
         {
             var Solicitacao = new SolicitacaoWebDesk();
@@ -260,13 +271,6 @@ namespace PortalSicoobDivicred.Controllers
 
             return View("FuncionarioInteracao", Solicitacao);
         }
-
-
-
-
-
-
-
 
         public ActionResult Documentos(string Anexos)
         {
@@ -280,30 +284,76 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
                 TempData["IdSolicitacao"] = IdChamado;
                 var DadosChamado =VerificaDados.RetornaDadosChamado(IdChamado);
                 TempData["Setor"] = DadosChamado[0]["setor"];
+                TempData["Situacao"] = DadosChamado[0]["situacao"];
                 TempData["Categoria"] = DadosChamado[0]["titulo"];
                 TempData["FuncionarioSolicitante"] = DadosChamado[0]["cadastro"];
                 TempData["FuncionarioResponsavel"]= DadosChamado[0]["operador"];
                 TempData["DataAbertura"]= DadosChamado[0]["datahoracadastro"];
                 TempData["IdFuncionarioCadastro"] = DadosChamado[0]["idcadastro"];
+
+                if (DadosChamado[0]["inicioatendimento"] == null && !(DadosChamado[0]["cadastro"].Equals(DadosUsuario[0]["id"])))
+                {
+                    TempData["IniciarAtendimento"] = "true";
+                    TempData["InicioAtendimento"] = "NÃO INICIADO";
+                }
+                else
+                {
+                    TempData["IniciarAtendimento"] = "false";
+                    TempData["InicioAtendimento"] = DadosChamado[0]["inicioatendimento"];
+                }
+
+                if (DadosChamado[0]["fimatendimento"] == null)
+                {
+                    TempData["FimATendimento"] = "NÃO FINALIZADO";
+                }
+                else
+                {
+                    TempData["FimATendimento"] = DadosChamado[0]["fimatendimento"];
+                }
+                if (DadosChamado[0]["situacao"].Equals("CONCLUÍDO"))
+                {
+                    TempData["Status"] = "is-link";
+                }
+                else if(DadosChamado[0]["situacao"].Equals("EM ATENDIMENTO"))
+                {
+                    TempData["Status"] = "is-info";
+                }
+                else
+                {
+                    TempData["Status"] = "is-warning";
+                }
                 var Interacoes = VerificaDados.RetornaInteracoesChamado(IdChamado);
 
                 TempData["TotalInteracao"] = Interacoes.Count ;
                 for (int i = 0; i < Interacoes.Count; i++)
                 {
-                    TempData["Usuario" + i] = Interacoes[i]["nome"] +" " + Interacoes[i]["datahorainteracao"]; 
+                    TempData["Usuario" + i] = Interacoes[i]["nome"] +" " +Convert.ToDateTime(Interacoes[i]["datahorainteracao"]).ToString("dd/MM/yyyy"); 
                     TempData["Interacao"+i]= Interacoes[i]["textointeracao"];
                     var AnexoInteracao = VerificaDados.RetornaAnexoInteracao(Interacoes[i]["id"]);
                     TempData["IdInteracao"+i] = Interacoes[i]["id"];
+                    if (Interacoes[i]["acao"].Equals("S"))
+                    {
+                        TempData["Acao" + i] = "is-selected";
+                    }
+                    else
+                    {
+                        TempData["Acao" + i] ="" ;
+                    }
 
                     TempData["TotalAnexos"+ Interacoes[i]["id"]] = AnexoInteracao.Rows.Count;
                     for (int j = 0; j < AnexoInteracao.Rows.Count; j++)
                     {
-                        var bytes = (byte[])AnexoInteracao.Rows[i]["arquivo"];
+                        var bytes = (byte[])AnexoInteracao.Rows[j]["arquivo"];
                         var img64 = Convert.ToBase64String(bytes);
-                        var img64Url = string.Format("data:image/;base64,{0}", img64);
+                        var img64Url = string.Format("data:"+AnexoInteracao.Rows[j]["tipoarquivo"]+";base64,{0}", img64);
                         TempData["ImagemAnexo"+ Interacoes[i]["id"]] = img64Url;
                     }
                 }
@@ -314,9 +364,188 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult CadastrarInteracao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
         {
-            return RedirectToAction("InteracaoChamado", "Webdesk", new {IdChamado = Dados["IdChamado"], Mensagem = "Interação cadastrada com sucesso !" });
+            var VerificaDados = new QueryMysqlWebdesk();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                if (Dados["AcaoInteracao"].Equals("Encerrar"))
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
+                        DadosUsuario[0]["id"],"N");
+
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"]," Solicitação encerrada por "+ DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"],"S");
+
+                    var lista = postedFiles.ToList();
+
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        if (lista[i] != null)
+                        {
+                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                            }
+
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        }
+                    }
+
+                    VerificaDados.EncerrarSolicitacao(Dados["IdSolicitacao"]);
+
+
+                    return RedirectToAction("InteracaoChamado", "Webdesk",
+                        new {IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !"});
+                }
+                else if (Dados["AcaoInteracao"].Equals("Repassar"))
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
+                        DadosUsuario[0]["id"],"N");
+
+                    var lista = postedFiles.ToList();
+
+                    var NomeFuncionarioNovo =
+                        VerificaDados.RetornaRepasseFuncionarioChamado(Dados["IdFuncionarioResponsavel"]);
+
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação encaminhada para "+NomeFuncionarioNovo[0]["nome"]+" por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"],"S");
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        if (lista[i] != null)
+                        {
+                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                            }
+
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        }
+                    }
+                    VerificaDados.AlterarResponsavelSolicitacao(Dados["IdSolicitacao"], Dados["IdSetorResponsavel"],Dados["IdFuncionarioResponsavel"]);
+
+
+                    return RedirectToAction("InteracaoChamado", "Webdesk",
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação repassada com sucesso !" });
+                }
+
+                else if (Dados["AcaoInteracao"].Equals("Categoria"))
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
+                        DadosUsuario[0]["id"],"N");
+
+                    var DadosChamado = VerificaDados.RetornaDadosChamado(Dados["IdSolicitacao"]);
+                    var NomeCategoriaNovo =
+                        VerificaDados.RetornaRepasseCategoriaChamado(Dados["IdCategoria"]);
+
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], "Categoria da solicitação alterada de "+DadosChamado[0]["titulo"]+" para " + NomeCategoriaNovo[0]["descricao"] + " por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"],"S");
+
+                    var lista = postedFiles.ToList();
+
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        if (lista[i] != null)
+                        {
+                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                            }
+
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        }
+                    }
+                    VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"],Dados["IdCategoria"]);
+                    return RedirectToAction("InteracaoChamado", "Webdesk",
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Categoria da solicitação alterada com sucesso !" });
+                }
+                else if (Dados["AcaoInteracao"].Equals("Reabrir"))
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
+                        DadosUsuario[0]["id"],"N");
+
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação reaberta por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"],"S");
+                    var lista = postedFiles.ToList();
+
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        if (lista[i] != null)
+                        {
+                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                            }
+
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        }
+                    }
+
+                    VerificaDados.ReabrirSolicitacao(Dados["IdSolicitacao"]);
+
+
+                    return RedirectToAction("InteracaoChamado", "Webdesk",
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !" });
+                }
+                else
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
+                        DadosUsuario[0]["id"],"N");
+
+                    var lista = postedFiles.ToList();
+
+                    for (int i = 0; i < lista.Count; i++)
+                    {
+                        if (lista[i] != null)
+                        {
+                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData = null;
+                            using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                            {
+                                fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                            }
+
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        }
+                    }
+
+
+                    return RedirectToAction("InteracaoChamado", "Webdesk",
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Interação adicionada com sucesso !" });
+                }
+            }
+        
+        return RedirectToAction("Login", "Login");
         }
     }
 }

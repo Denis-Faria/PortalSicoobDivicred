@@ -136,6 +136,30 @@
                 });
             });
 
+            if (!$('#Cadastro').validate({
+                ignore: "input:hidden:not(input:hidden.required)",
+                rules: {
+
+                    Descricao: {
+                        required: true,
+                        minlength: 20
+                    }
+                },
+                messages: {
+                    Descricao: {
+                        required: "Adicione uma descrição",
+                        minlength: "Digite ao menos 20 caracteres"
+                    }
+                },
+                errorElement: "span",
+                errorPlacement: function (error) {
+                    error.appendTo($("#Erro"));
+                }
+            }).form()) {
+                console.log('Form errors');
+                return false;
+            }
+
         });
 
 
@@ -386,6 +410,7 @@
                             <p class="control is-fullwidth">
                                 @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", id = "Descricao", @required = true })
                                 @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
+                                <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
                             </p>
 
                         </div>

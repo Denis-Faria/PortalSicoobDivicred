@@ -32,6 +32,7 @@ namespace PortalSicoobDivicred.Models
         public int IdCategoria { get; set;}
 
         [Required(ErrorMessage = "Favor informar o conteúdo desta solicitação !")]
+        [MinLength(10,ErrorMessage = "Informe uma descrição para sua solicitação!")]
         public string Descricao { get; set; }
 
 

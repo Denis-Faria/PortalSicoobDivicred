@@ -33,13 +33,36 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
-        public List<Dictionary<string, string>> BuscaInteracaoChamados(string IdChamado)
+
+
+        public List<Dictionary<string, string>> BuscaChamadosMeuSetorNovo(string Pesquisa, string IdUsuario)
         {
             var Query =
-                "SELECT b.nome,a.textointeracao, a.datahorainteracao as data FROM webdeskinteracoessolicitacoes a, usuarios b WHERE a.idfuncionariointeracao=b.id AND idchamado="+IdChamado+" ";
+                "SELECT distinct a.id,c.descricao as titulo,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id LEFT JOIN funcionarios u2 on a.idfuncionarioresponsavel=u2.id, webdeskinteracoessolicitacoes b,webdeskcategorias c where  b.idsolicitacao=a.id and(MATCH (b.textointeracao) AGAINST ('"+Pesquisa+"')) and b.idfuncionariointeracao="+IdUsuario+" AND a.idcategoria=c.id";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+
+
+        public List<Dictionary<string, string>> BuscaInteracaoChamados(string IdChamado)
+        {
+            var Query =
+                "SELECT b.nome,a.textointeracao, a.datahorainteracao as data FROM webdeskinteracoes a, usuarios b WHERE a.idusuariointeracao=b.id AND idchamado="+IdChamado+" ";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+
+
+        public List<Dictionary<string, string>> BuscaInteracaoChamadosNovo(string IdChamado)
+        {
+            var Query =
+                "SELECT b.nome,a.textointeracao, a.datahorainteracao as data FROM webdeskinteracoessolicitacoes a, funcionarios b WHERE a.idfuncionariointeracao=b.id AND idsolicitacao=" + IdChamado + " ";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+
         public List<SelectListItem> RetornaSetor()
         {
             var EstadoCivil = new List<SelectListItem>();
@@ -220,6 +243,13 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "select descricao from webdeskcategorias where id=" + IdFuncionario + " ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
+        }
+        public void IniciarAtendimentoSolicitacao(string IdChamado)
+        {
+            var QueryInteracao =
+                "UPDATE webdesksolicitacoes SET inicioatendimento=NOW(), idsituacao=2 WHERE id=" + IdChamado + ";";
+            ConexaoMysql.ExecutaComando(QueryInteracao);
+
         }
 
     }

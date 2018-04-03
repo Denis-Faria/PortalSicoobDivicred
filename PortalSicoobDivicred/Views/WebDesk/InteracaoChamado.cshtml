@@ -35,7 +35,19 @@
                     buttons: [
                         [
                             '<button>Sim</button>', function (instance, toast) {
+                                $.ajax(
+                                    {
+                                        type: 'POST',
+                                        url: '/Webdesk/IniciarAtendimento',
+                                        dataType: 'html',
+                                        cache: true,
+                                        async: true,
+                                        data: { "IdSolicitacao": @TempData["IdSolicitacao"] },
+                                        success: function (data) {
+                                            location.reload();
 
+                                        }
+                                    });
                             }
                         ],
                         [
@@ -63,20 +75,52 @@
         </script>
     }
     <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
-
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
     <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
     <script>
         $(document).ready(function () {
 
-            var editor = CKEDITOR.replace('Descricao');
-            editor.config.width = '100%';
+            // var editor = CKEDITOR.replace('Descricao');
+            //editor.config.width = '100%';
+
+            if ( ! $('#Cadastro').validate({
+                ignore: "input:hidden:not(input:hidden.required)",
+                rules: {
+                    
+                    Descricao: {
+                        required: true,
+                        minlength: 20
+                    }
+                },
+                messages: {
+                    Descricao: {
+                        required: "Adicione uma descrição",
+                        minlength:"Digite ao menos 20 caracteres"
+                    }
+                },
+                errorElement: "span",
+                errorPlacement: function (error) {
+                    error.appendTo($("#Erro"));
+                }
+            }).form()) {
+                console.log('Form errors');
+                return false;
+            }
+
         });
+
+
+
+
+
         function teste(data) {
             var imagem = data;
             var newTab = window.open();
             newTab.document.body.innerHTML = '<a href=' + imagem + '>Anexo</a>';
         }
+
         function Acao(acao) {
             if (acao.value === "Repassar") {
 
@@ -238,6 +282,7 @@
             Div3.append(del);
             input.__fileHolder.appendChild(Div2);
         }
+
     </script>
 
     <nav class="level ">
@@ -276,7 +321,7 @@
             <p><strong>Setor Responsável: </strong>@TempData["Setor"] <strong>Categoria: </strong>@TempData["Categoria"]</p>
             <p> <strong>Funcionário Solicitante: </strong>@TempData["FuncionarioSolicitante"]</p>
             <p> <strong>Funcionário Responsável: </strong>@TempData["FuncionarioResponsavel"]</p>
-            <p><strong>Data Abertura: </strong> @TempData["DataAbertura"] || <strong>Iniciado atendimento em:</strong>@TempData["InicioAtendimento"] || <strong>Finalizado atendimento em:</strong>@TempData["FimAtendimento"]</p>
+            <p><strong>Data Abertura: </strong> @TempData["DataAbertura"] || <strong>Iniciado atendimento em: </strong>@TempData["InicioAtendimento"] || <strong>Finalizado atendimento em: </strong>@TempData["FimAtendimento"]</p>
         </div>
     </article>
     <table id="TabelaInteracoes" class="table is-hoverable is-centered is-fullwidth" style=" text-align: center;">
@@ -312,8 +357,7 @@
             }
         </tbody>
     </table>
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
     @using (Html.BeginForm("CadastrarInteracao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
     {
         <input value="@TempData["IdFuncionarioCadastro"]" name="IdFuncionarioCadastro" id="IdFuncionarioCadastro" hidden="" />
@@ -378,11 +422,13 @@
             Nenhum anexo selecionado.
         </div>
         <br />
+
         <div class="field">
             <div class="field control">
                 <label class="label">Descrição da sua interação:</label>
                 <p class="control is-fullwidth">
-                    <textarea id="Descricao" class="textarea" name="Descricao"></textarea>
+                    <textarea id="Descricao" class="textarea ckeditor" name="Descricao" id="Descricao"></textarea>
+                    <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
                 </p>
 
             </div>

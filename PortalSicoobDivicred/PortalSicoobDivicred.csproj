@@ -188,6 +188,7 @@
     <Content Include="Assets\js\dropzone.js" />
     <Content Include="Assets\js\iziToast.js" />
     <Content Include="Assets\js\iziToast.min.js" />
+    <Content Include="Assets\js\jPages.min.js" />
     <Content Include="Assets\js\jquery-ui.min.js" />
     <Content Include="Assets\js\jquery.mask.js" />
     <Content Include="Assets\js\jquery.mask.min.js" />

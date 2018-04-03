@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
@@ -70,9 +71,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SituacaoOperador" + i] = ChamadosOperador[i]["situacao"];
                     TempData["CadastroOperador" + i] = ChamadosOperador[i]["cadastro"];
 
-                    var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
+                    var Sla = TimeSpan.Parse(ChamadosOperador[i]["sla"]);
 
-                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosOperador[i]["tempo"]).TotalMinutes;
                     if (Horas > 100)
                     {
                         TempData["StatusCorOperador" + i] = "is-danger";
@@ -82,7 +83,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusCorOperador" + i] = "is-primary";
                     }
 
-                    TempData["InformacaoSLAOperador" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
+                    TempData["InformacaoSLAOperador" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosOperador[i]["tempo"];
                     TempData["SlaOperador" + i] = Convert.ToInt32(Horas);
 
                 }
@@ -99,9 +100,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SituacaoSetor" + i] = ChamadosSetor[i]["situacao"];
                     TempData["CadastroSetor" + i] = ChamadosSetor[i]["cadastro"];
 
-                    var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
+                    var Sla = TimeSpan.Parse(ChamadosSetor[i]["sla"]);
 
-                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosSetor[i]["tempo"]).TotalMinutes;
                     if (Horas > 100)
                     {
                         TempData["StatusCorSetor" + i] = "is-danger";
@@ -111,7 +112,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["StatusCorSetor" + i] = "is-primary";
                     }
 
-                    TempData["InformacaoSLASetor" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosEmAberto[i]["tempo"];
+                    TempData["InformacaoSLASetor" + i] = "TEMPO DECORRIDO:" + Sla.Days + " DIAS, " + Sla.Hours + ":" + Sla.Minutes + ":00" + " || TEMPO ESTIMADO: " + ChamadosSetor[i]["tempo"];
                     TempData["SlaSetor" + i] = Convert.ToInt32(Horas);
 
                 }
@@ -138,8 +139,14 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosUsuarios = VerificaDadosUsuario.RecuperaDadosFuncionariosTabelaUsuario(Login);
 
+                var DadosFuncionarios = VerificaDadosUsuario.RecuperaDadosUsuarios(Login);
+
                 var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"]);
+
+                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"]);
+
                 TempData["TotalResultado"] = ResultadoPEsquisa.Count;
+                TempData["TotalResultadoNovo"] = ResultadoPesquisaNova.Count;
 
                 for (int i = 0; i < ResultadoPEsquisa.Count; i++)
                 {
@@ -158,6 +165,30 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["DataInteracao" + ResultadoPEsquisa[i]["id"] + j] = Interacoes[j]["data"];
                     }
                 }
+
+                for (int i = 0; i < ResultadoPesquisaNova.Count; i++)
+                {
+                    TempData["NumeroChamadoNovo" + i] = ResultadoPesquisaNova[i]["id"];
+                    TempData["TituloChamadoNovo" + i] = ResultadoPesquisaNova[i]["titulo"];
+                    TempData["UsuarioCadastroNovo" + i] = ResultadoPesquisaNova[i]["CADASTRO"];
+                    TempData["OperadorNovo" + i] = ResultadoPesquisaNova[i]["OPERADOR"];
+                    var Interacoes = VerificaDados.BuscaInteracaoChamadosNovo(ResultadoPesquisaNova[i]["id"]);
+
+                    TempData["TotalInteracaoNovo" + ResultadoPesquisaNova[i]["id"]] = Interacoes.Count;
+
+                    for (int j = 0; j < Interacoes.Count; j++)
+                    {
+                        TempData["UsuarioInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] = Interacoes[j]["nome"];
+                        TempData["TextoInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] = Interacoes[j]["textointeracao"];
+                        TempData["DataInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] = Interacoes[j]["data"];
+                    }
+                }
+
+
+
+
+
+
 
                 return View("ResultadoPesquisa");
             }
@@ -546,6 +577,24 @@ namespace PortalSicoobDivicred.Controllers
             }
         
         return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult IniciarAtendimento(string IdSolicitacao)
+        {
+
+            var VerificaDados = new QueryMysqlWebdesk();
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+            var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+            VerificaDados.CadastrarInteracao(IdSolicitacao, " Atendimento iniciado por " + DadosUsuario[0]["nome"],DadosUsuario[0]["id"], "S");
+            VerificaDados.IniciarAtendimentoSolicitacao(IdSolicitacao);
+
+
+
+            return RedirectToAction("InteracaoChamado", "Webdesk",
+                new { IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !" });
         }
     }
 }

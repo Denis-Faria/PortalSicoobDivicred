@@ -114,7 +114,7 @@ namespace Port.Repositorios
                 }
             }
             finally
-            {
+                                                             {
                 FecharConexao();
             }
 

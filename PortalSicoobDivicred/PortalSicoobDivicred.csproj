@@ -193,6 +193,7 @@
     <Content Include="Assets\js\jquery.mask.js" />
     <Content Include="Assets\js\jquery.mask.min.js" />
     <Content Include="Assets\js\jquery.tablesorter.min.js" />
+    <Content Include="Assets\js\jquery.tablesorter.pager.js" />
     <Content Include="Assets\js\jquery.validate.min.js" />
     <Content Include="Assets\js\Login.js" />
     <Content Include="Assets\js\split_text_to_size.js" />

@@ -27,50 +27,50 @@
 
         <script>
 
-         iziToast.show({
-                    title: 'WebDesk.',
-                    message: 'Esta solicitação ainda não está sendo atendida, deseja iniciar atendimento ?',
-                    position: 'center',
-                    progressBarColor: 'rgb(0, 255, 184)',
-                    buttons: [
-                        [
-                            '<button>Sim</button>', function (instance, toast) {
-                                $.ajax(
-                                    {
-                                        type: 'POST',
-                                        url: '/Webdesk/IniciarAtendimento',
-                                        dataType: 'html',
-                                        cache: true,
-                                        async: true,
-                                        data: { "IdSolicitacao": @TempData["IdSolicitacao"] },
-                                        success: function (data) {
-                                            location.reload();
+            iziToast.show({
+                title: 'WebDesk.',
+                message: 'Esta solicitação ainda não está sendo atendida, deseja iniciar atendimento ?',
+                position: 'center',
+                progressBarColor: 'rgb(0, 255, 184)',
+                buttons: [
+                    [
+                        '<button>Sim</button>', function (instance, toast) {
+                            $.ajax(
+                                {
+                                    type: 'POST',
+                                    url: '/Webdesk/IniciarAtendimento',
+                                    dataType: 'html',
+                                    cache: true,
+                                    async: true,
+                                    data: { "IdSolicitacao": @TempData["IdSolicitacao"] },
+                                    success: function (data) {
+                                        location.reload();
 
-                                        }
-                                    });
-                            }
-                        ],
-                        [
-                            '<button>Não</button>', function (instance, toast) {
-                                instance.hide({
+                                    }
+                                });
+                        }
+                    ],
+                    [
+                        '<button>Não</button>', function (instance, toast) {
+                            instance.hide({
                                     transitionOut: 'fadeOutUp',
                                     onClosing: function (instance, toast, closedBy) {
                                         console.info('closedBy: ' + closedBy); //btn2
                                     }
                                 },
-                                    toast,
-                                    'close',
-                                    'btn2');
-                            }
-                        ]
-                    ],
-                    onOpening: function (instance, toast) {
-                        console.info('callback abriu!');
-                    },
-                    onClosing: function (instance, toast, closedBy) {
-                        console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-                    }
-                });
+                                toast,
+                                'close',
+                                'btn2');
+                        }
+                    ]
+                ],
+                onOpening: function (instance, toast) {
+                    console.info('callback abriu!');
+                },
+                onClosing: function (instance, toast, closedBy) {
+                    console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+                }
+            });
 
         </script>
     }
@@ -80,15 +80,30 @@
 
     <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
     <script>
+
+        function Imprimir() {
+
+            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+                var conteudo = document.getElementById('Interacoes').innerHTML,
+                    tela_impressao = window.open('about:blank');
+                tela_impressao.document.write(conteudo);
+                tela_impressao.window.print();
+                tela_impressao.window.close();
+            } else {
+                window.print();
+            }
+
+        }
+
         $(document).ready(function () {
 
             // var editor = CKEDITOR.replace('Descricao');
             //editor.config.width = '100%';
 
-            if ( ! $('#Cadastro').validate({
+            if (!$('#Cadastro').validate({
                 ignore: "input:hidden:not(input:hidden.required)",
                 rules: {
-                    
+
                     Descricao: {
                         required: true,
                         minlength: 20
@@ -97,7 +112,7 @@
                 messages: {
                     Descricao: {
                         required: "Adicione uma descrição",
-                        minlength:"Digite ao menos 20 caracteres"
+                        minlength: "Digite ao menos 20 caracteres"
                     }
                 },
                 errorElement: "span",
@@ -284,167 +299,196 @@
         }
 
     </script>
+    <style>
+        body {
+            display: block;
+        }
 
-    <nav class="level ">
-        <p class="level-item has-text-centered">
-            <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
-        </p>
-    </nav>
-    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-        <ul>
-            <li>
-                <a href="@Url.Action("Principal","Principal")">
-                    <span class="icon is-small">
-                        <i class="fa fa-home"></i>
-                    </span><span>DashBoard</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Chamados")">
-                    <span class="icon is-small">
-                        <i class="fas fa-tasks"></i>
-                    </span><span>WebDesk</span>
-                </a>
-            </li>
-            <li class="is-active">
-                <a href="#" aria-current="page">
-                    <span class="icon is-small">
-                        <i class="fa fa-suitcase" aria-hidden="true"></i>
-                    </span><span>Chamnado - n° @TempData["IdSolicitacao"]</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <article class="message  @TempData["Status"]">
-        <div class="message-body">
-            <p><strong>Situação desta Solicitação: @TempData["Situacao"]</strong></p>
-            <p><strong>Setor Responsável: </strong>@TempData["Setor"] <strong>Categoria: </strong>@TempData["Categoria"]</p>
-            <p> <strong>Funcionário Solicitante: </strong>@TempData["FuncionarioSolicitante"]</p>
-            <p> <strong>Funcionário Responsável: </strong>@TempData["FuncionarioResponsavel"]</p>
-            <p><strong>Data Abertura: </strong> @TempData["DataAbertura"] || <strong>Iniciado atendimento em: </strong>@TempData["InicioAtendimento"] || <strong>Finalizado atendimento em: </strong>@TempData["FimAtendimento"]</p>
-        </div>
-    </article>
-    <table id="TabelaInteracoes" class="table is-hoverable is-centered is-fullwidth" style=" text-align: center;">
-        <thead>
-        <th class="has-text-centered">Usuário</th>
-        <th class="has-text-centered">Interação</th>
-        <th class="has-text-centered">Anexos</th>
-        </thead>
-        <tbody>
+        @@media print {
 
-            @for (int j = 0; j < Convert.ToInt32(TempData["TotalInteracao"].ToString()); j++)
-            {
-                <tr class=" @TempData["Acao" + j]">
-                    <td class="has-text-centered">@TempData["Usuario" + j].ToString()</td>
-                    <td class="has-text-centered">
-                        <span>
-                            @(new HtmlString(@TempData["Interacao" + j].ToString()))
-                        </span>
-                    </td>
-                    <td class="has-text-centered">
-                        @for (int i = 0; i < Convert.ToInt32(TempData["TotalAnexos" + TempData["IdInteracao" + j]].ToString()); i++)
-                        {
 
-                            <span class="tag is-primary">
-                                <a href="@TempData["ImagemAnexo"+@TempData["IdInteracao"+j]]" target="_blank" style="color: black">Anexo @i</a>
 
-                            </span>
 
-                            <br />
-                        }
-                    </td>
-                </tr>
+            #Bread, #FormularioInteracao, #main, #navprin, #Lateral {
+                display: none;
             }
-        </tbody>
-    </table>
-
-    @using (Html.BeginForm("CadastrarInteracao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
-    {
-        <input value="@TempData["IdFuncionarioCadastro"]" name="IdFuncionarioCadastro" id="IdFuncionarioCadastro" hidden="" />
-        <input value="@TempData["IdSolicitacao"]" name="IdSolicitacao" id="IdSolicitacao" hidden="" />
-        <div class="field">
-            <label class="label">Ações Disponíveis:</label>
-            <div class="control has-icons-left">
-                <span class="select is-primary is-fullwidth">
-                    <select id="AcaoInteracao" name="AcaoInteracao" class="is-focused" required onchange="javascript: Acao(this);">
-                        <option selected>Realizar Ação</option>
-                        <option value="Encerrar">Encerrar Solicitação</option>
-                        <option value="Repassar">Encaminhar Solicitação</option>
-                        <option value="Categoria">Alterar Categoria da Solicitação</option>
-                        <option value="Reabrir">Reabrir Solicitação</option>
-                    </select>
-                </span>
-                <span class="icon is-small is-left">
-                    <i class="fa fa-bolt" aria-hidden="true"></i>
-                </span>
+        }
+    </style>
+    <div id="Bread">
+        <nav class="level ">
+            <p class="level-item has-text-centered">
+                <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
+            </p>
+        </nav>
+        <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+            <ul>
+                <li>
+                    <a href="@Url.Action("Principal","Principal")">
+                        <span class="icon is-small">
+                            <i class="fa fa-home"></i>
+                        </span><span>DashBoard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Chamados")">
+                        <span class="icon is-small">
+                            <i class="fas fa-tasks"></i>
+                        </span><span>WebDesk</span>
+                    </a>
+                </li>
+                <li class="is-active">
+                    <a href="#" aria-current="page">
+                        <span class="icon is-small">
+                            <i class="fa fa-suitcase" aria-hidden="true"></i>
+                        </span><span>Chamnado - n° @TempData["IdSolicitacao"]</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div id="Interacoes" style="display: block;">
+        <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
+        <article class="message  @TempData["Status"]">
+            <div class="message-body">
+                <p><strong>Situação desta Solicitação: @TempData["Situacao"]</strong></p>
+                <p><strong>Setor Responsável: </strong>@TempData["Setor"] <strong>Categoria: </strong>@TempData["Categoria"]</p>
+                <p> <strong>Funcionário Solicitante: </strong>@TempData["FuncionarioSolicitante"]</p>
+                <p> <strong>Funcionário Responsável: </strong>@TempData["FuncionarioResponsavel"]</p>
+                <p><strong>Data Abertura: </strong> @TempData["DataAbertura"] || <strong>Iniciado atendimento em: </strong>@TempData["InicioAtendimento"] || <strong>Finalizado atendimento em: </strong>@TempData["FimAtendimento"]</p>
             </div>
-        </div>
+        </article>
+        <table id="TabelaInteracoes" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+            <thead>
+            <th class="has-text-centered">Usuário</th>
+            <th class="has-text-centered">Interação</th>
+            <th class="has-text-centered">Anexos</th>
+            </thead>
+            <tbody>
 
-        <br />
-        <div id="SetorFuncionario">
-
-        </div>
-        <div id="Funcionario">
-
-        </div>
-        <br />
-
-        <div id="anexos" class="AreaAnexo">
-            <div id="formesconde">
-                <div div="Primeiro" class="field is-fullwidth">
-                    <div class="file is-primary">
-                        <label class="file-label">
-
-                            <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
-
-
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                    Anexar Arquivos
-                                </span>
+                @for (int j = 0; j < Convert.ToInt32(TempData["TotalInteracao"].ToString()); j++)
+                {
+                    <tr class=" @TempData["Acao" + j]">
+                        <td class="has-text-centered">@TempData["Usuario" + j].ToString()</td>
+                        <td class="has-text-centered">
+                            <span>
+                                @(new HtmlString(@TempData["Interacao" + j].ToString()))
                             </span>
-                        </label>
-                    </div>
+                        </td>
+                        <td class="has-text-centered">
+                            @for (int i = 0; i < Convert.ToInt32(TempData["TotalAnexos" + TempData["IdInteracao" + j]].ToString()); i++)
+                            {
+
+                                <span class="tag is-primary">
+                                    <a href="@TempData["ImagemAnexo" + @TempData["IdInteracao" + j]]" target="_blank" style="color: black">Anexo @i</a>
+
+                                </span>
+
+                                <br />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="FormularioInteracao">
+        @using (Html.BeginForm("CadastrarInteracao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
+        {
+            <input value="@TempData["IdFuncionarioCadastro"]" name="IdFuncionarioCadastro" id="IdFuncionarioCadastro" hidden="" />
+            <input value="@TempData["IdSolicitacao"]" name="IdSolicitacao" id="IdSolicitacao" hidden="" />
+            <div class="field">
+                <label class="label">Ações Disponíveis:</label>
+                <div class="control has-icons-left">
+                    <span class="select is-primary is-fullwidth">
+                        <select id="AcaoInteracao" name="AcaoInteracao" class="is-focused" required onchange="javascript: Acao(this);">
+                            <option selected>Realizar Ação</option>
+                            <option value="Encerrar">Encerrar Solicitação</option>
+                            <option value="Repassar">Encaminhar Solicitação</option>
+                            <option value="Categoria">Alterar Categoria da Solicitação</option>
+                            <option value="Reabrir">Reabrir Solicitação</option>
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-bolt" aria-hidden="true"></i>
+                    </span>
                 </div>
             </div>
-            <div id="Upload-form">
+
+            <br />
+            <div id="SetorFuncionario">
+
+            </div>
+            <div id="Funcionario">
+
+            </div>
+            <br />
+
+            <div id="anexos" class="AreaAnexo">
+                <div id="formesconde">
+                    <div div="Primeiro" class="field is-fullwidth">
+                        <div class="file is-primary">
+                            <label class="file-label">
+
+                                <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
+
+
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Anexar Arquivos
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="Upload-form">
+
+                </div>
 
             </div>
 
-        </div>
+            <p>Arquivos </p>
+            <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
 
-        <p>Arquivos </p>
-        <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
+                Nenhum anexo selecionado.
+            </div>
+            <br />
 
-            Nenhum anexo selecionado.
-        </div>
-        <br />
+            <div class="field">
+                <div class="field control">
+                    <label class="label">Descrição da sua interação:</label>
+                    <p class="control is-fullwidth">
+                        <textarea id="Descricao" class="textarea ckeditor" name="Descricao" id="Descricao"></textarea>
+                        <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
+                    </p>
 
-        <div class="field">
-            <div class="field control">
-                <label class="label">Descrição da sua interação:</label>
-                <p class="control is-fullwidth">
-                    <textarea id="Descricao" class="textarea ckeditor" name="Descricao" id="Descricao"></textarea>
-                    <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
+                </div>
+            </div>
+
+            <div class="field is-grouped is-grouped-right">
+                <p class="control">
+                    <button onclick="Imprimir()" type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-print"></i>
+                        </span>
+                        <span>Imprimir Solicitação</span>
+                    </button>
+                </p>
+                <p class="control">
+
+                    <button type="submit" class="button is-success">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-save"></i>
+                        </span>
+                        <span>Salvar e Realizar Ação</span>
+                    </button>
                 </p>
 
+
             </div>
-        </div>
-
-        <div class="field is-grouped is-grouped-right">
-            <p class="control">
-
-                <button type="submit" class="button is-primary">
-                    <span class="icon is-small is-left">
-                        <i class="fa fa-save"></i>
-                    </span>
-                    <span>Salvar e Realizar Ação</span>
-                </button>
-            </p>
-
-        </div>
-    }
+        }
+    </div>
 </body>

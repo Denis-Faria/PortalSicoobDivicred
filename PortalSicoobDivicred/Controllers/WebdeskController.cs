@@ -34,7 +34,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Operador" + i] = ChamadosEmAberto[i]["operador"];
                     TempData["Situacao" + i] = ChamadosEmAberto[i]["situacao"];
 
-                    if (ChamadosEmAberto[i]["fimatendimento"]==null)
+                    if (ChamadosEmAberto[i]["fimatendimento"] == null)
                     {
                         var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
 
@@ -56,7 +56,7 @@ namespace PortalSicoobDivicred.Controllers
                     else
                     {
                         TempData["InformacaoSLA" + i] = "SOLICITAÇÃO ENCERRADA";
-                        TempData["Sla" + i] =100;
+                        TempData["Sla" + i] = 100;
                     }
                 }
 
@@ -116,7 +116,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SlaSetor" + i] = Convert.ToInt32(Horas);
 
                 }
-                var Solicitacao = new SolicitacaoWebDesk(); 
+                var Solicitacao = new SolicitacaoWebDesk();
                 var Setores = VerificaDados.RetornaSetor();
                 Solicitacao.SetorResponsavel = Setores;
 
@@ -160,7 +160,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     for (int j = 0; j < Interacoes.Count; j++)
                     {
-                        TempData["UsuarioInteracao" + ResultadoPEsquisa[i]["id"] +j] = Interacoes[j]["nome"];
+                        TempData["UsuarioInteracao" + ResultadoPEsquisa[i]["id"] + j] = Interacoes[j]["nome"];
                         TempData["TextoInteracao" + ResultadoPEsquisa[i]["id"] + j] = Interacoes[j]["textointeracao"];
                         TempData["DataInteracao" + ResultadoPEsquisa[i]["id"] + j] = Interacoes[j]["data"];
                     }
@@ -209,12 +209,12 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
-                var IdInteracao =VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
+                var IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
                     Dados["Descricao"], DadosUsuario[0]["id"]);
 
                 var lista = postedFiles.ToList();
 
-                for (int i = 0;i< lista.Count; i++)
+                for (int i = 0; i < lista.Count; i++)
                 {
                     if (lista[i] != null)
                     {
@@ -224,10 +224,10 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                         }
-                        VerificaDados.InserirAnexo(IdInteracao, fileData,lista[i].ContentType);
+                        VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
                     }
                 }
-                return RedirectToAction("Chamados","Webdesk",new{Mensagem="Solicitação cadastrada com sucesso!"});
+                return RedirectToAction("Chamados", "Webdesk", new { Mensagem = "Solicitação cadastrada com sucesso!" });
             }
             else
             {
@@ -237,15 +237,15 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult RetornaCategoriaFuncionario(string IdSetor)
         {
-            var Solicitacao =new SolicitacaoWebDesk();
+            var Solicitacao = new SolicitacaoWebDesk();
             var VerificaDados = new QueryMysqlWebdesk();
-            var Categoria =VerificaDados.RetornaCategoria(IdSetor);
-            var Funcionario =VerificaDados.RetornaFuncionario(IdSetor);
+            var Categoria = VerificaDados.RetornaCategoria(IdSetor);
+            var Funcionario = VerificaDados.RetornaFuncionario(IdSetor);
 
             Solicitacao.Categoria = Categoria;
             Solicitacao.FuncionarioResponsavel = Funcionario;
 
-            return View("CategoriaSetorSolicitacao",Solicitacao);
+            return View("CategoriaSetorSolicitacao", Solicitacao);
         }
 
         [HttpPost]
@@ -309,89 +309,171 @@ namespace PortalSicoobDivicred.Controllers
             return View("Chamados");
         }
 
-        public ActionResult InteracaoChamado(string IdChamado,string Mensagem)
+        public ActionResult InteracaoChamado(string IdChamado, string Mensagem, string TipoChamado)
         {
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if (TipoChamado.Equals("Novo"))
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
+                var VerificaDados = new QueryMysqlWebdesk();
+                var Logado = VerificaDados.UsuarioLogado();
+                if (Logado)
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
 
-                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
 
-                TempData["IdSolicitacao"] = IdChamado;
-                var DadosChamado =VerificaDados.RetornaDadosChamado(IdChamado);
-                TempData["Setor"] = DadosChamado[0]["setor"];
-                TempData["Situacao"] = DadosChamado[0]["situacao"];
-                TempData["Categoria"] = DadosChamado[0]["titulo"];
-                TempData["FuncionarioSolicitante"] = DadosChamado[0]["cadastro"];
-                TempData["FuncionarioResponsavel"]= DadosChamado[0]["operador"];
-                TempData["DataAbertura"]= DadosChamado[0]["datahoracadastro"];
-                TempData["IdFuncionarioCadastro"] = DadosChamado[0]["idcadastro"];
+                    TempData["IdSolicitacao"] = IdChamado;
+                    var DadosChamado = VerificaDados.RetornaDadosChamado(IdChamado);
+                    TempData["Setor"] = DadosChamado[0]["setor"];
+                    TempData["Situacao"] = DadosChamado[0]["situacao"];
+                    TempData["Categoria"] = DadosChamado[0]["titulo"];
+                    TempData["FuncionarioSolicitante"] = DadosChamado[0]["cadastro"];
+                    TempData["FuncionarioResponsavel"] = DadosChamado[0]["operador"];
+                    TempData["DataAbertura"] = DadosChamado[0]["datahoracadastro"];
+                    TempData["IdFuncionarioCadastro"] = DadosChamado[0]["idcadastro"];
 
-                if (DadosChamado[0]["inicioatendimento"] == null && !(DadosChamado[0]["cadastro"].Equals(DadosUsuario[0]["id"])))
-                {
-                    TempData["IniciarAtendimento"] = "true";
-                    TempData["InicioAtendimento"] = "NÃO INICIADO";
-                }
-                else
-                {
-                    TempData["IniciarAtendimento"] = "false";
-                    TempData["InicioAtendimento"] = DadosChamado[0]["inicioatendimento"];
-                }
-
-                if (DadosChamado[0]["fimatendimento"] == null)
-                {
-                    TempData["FimATendimento"] = "NÃO FINALIZADO";
-                }
-                else
-                {
-                    TempData["FimATendimento"] = DadosChamado[0]["fimatendimento"];
-                }
-                if (DadosChamado[0]["situacao"].Equals("CONCLUÍDO"))
-                {
-                    TempData["Status"] = "is-link";
-                }
-                else if(DadosChamado[0]["situacao"].Equals("EM ATENDIMENTO"))
-                {
-                    TempData["Status"] = "is-info";
-                }
-                else
-                {
-                    TempData["Status"] = "is-warning";
-                }
-                var Interacoes = VerificaDados.RetornaInteracoesChamado(IdChamado);
-
-                TempData["TotalInteracao"] = Interacoes.Count ;
-                for (int i = 0; i < Interacoes.Count; i++)
-                {
-                    TempData["Usuario" + i] = Interacoes[i]["nome"] +" " +Convert.ToDateTime(Interacoes[i]["datahorainteracao"]).ToString("dd/MM/yyyy"); 
-                    TempData["Interacao"+i]= Interacoes[i]["textointeracao"];
-                    var AnexoInteracao = VerificaDados.RetornaAnexoInteracao(Interacoes[i]["id"]);
-                    TempData["IdInteracao"+i] = Interacoes[i]["id"];
-                    if (Interacoes[i]["acao"].Equals("S"))
+                    if (DadosChamado[0]["inicioatendimento"] == null &&
+                        !(DadosChamado[0]["cadastro"].Equals(DadosUsuario[0]["id"])))
                     {
-                        TempData["Acao" + i] = "is-selected";
+                        TempData["IniciarAtendimento"] = "true";
+                        TempData["InicioAtendimento"] = "NÃO INICIADO";
                     }
                     else
                     {
-                        TempData["Acao" + i] ="" ;
+                        TempData["IniciarAtendimento"] = "false";
+                        TempData["InicioAtendimento"] = DadosChamado[0]["inicioatendimento"];
                     }
 
-                    TempData["TotalAnexos"+ Interacoes[i]["id"]] = AnexoInteracao.Rows.Count;
-                    for (int j = 0; j < AnexoInteracao.Rows.Count; j++)
+                    if (DadosChamado[0]["fimatendimento"] == null)
                     {
-                        var bytes = (byte[])AnexoInteracao.Rows[j]["arquivo"];
-                        var img64 = Convert.ToBase64String(bytes);
-                        var img64Url = string.Format("data:"+AnexoInteracao.Rows[j]["tipoarquivo"]+";base64,{0}", img64);
-                        TempData["ImagemAnexo"+ Interacoes[i]["id"]] = img64Url;
+                        TempData["FimATendimento"] = "NÃO FINALIZADO";
                     }
+                    else
+                    {
+                        TempData["FimATendimento"] = DadosChamado[0]["fimatendimento"];
+                    }
+
+                    if (DadosChamado[0]["situacao"].Equals("CONCLUÍDO"))
+                    {
+                        TempData["Status"] = "is-link";
+                    }
+                    else if (DadosChamado[0]["situacao"].Equals("EM ATENDIMENTO"))
+                    {
+                        TempData["Status"] = "is-info";
+                    }
+                    else
+                    {
+                        TempData["Status"] = "is-warning";
+                    }
+
+                    var Interacoes = VerificaDados.RetornaInteracoesChamado(IdChamado);
+
+                    TempData["TotalInteracao"] = Interacoes.Count;
+                    for (int i = 0; i < Interacoes.Count; i++)
+                    {
+                        TempData["Usuario" + i] = Interacoes[i]["nome"] + " " +
+                                                  Convert.ToDateTime(Interacoes[i]["datahorainteracao"])
+                                                      .ToString("dd/MM/yyyy");
+                        TempData["Interacao" + i] = Interacoes[i]["textointeracao"];
+                        var AnexoInteracao = VerificaDados.RetornaAnexoInteracao(Interacoes[i]["id"]);
+                        TempData["IdInteracao" + i] = Interacoes[i]["id"];
+                        if (Interacoes[i]["acao"].Equals("S"))
+                        {
+                            TempData["Acao" + i] = "is-selected";
+                        }
+                        else
+                        {
+                            TempData["Acao" + i] = "";
+                        }
+
+                        TempData["TotalAnexos" + Interacoes[i]["id"]] = AnexoInteracao.Rows.Count;
+                        for (int j = 0; j < AnexoInteracao.Rows.Count; j++)
+                        {
+                            var bytes = (byte[])AnexoInteracao.Rows[j]["arquivo"];
+                            var img64 = Convert.ToBase64String(bytes);
+                            var img64Url =
+                                string.Format("data:" + AnexoInteracao.Rows[j]["tipoarquivo"] + ";base64,{0}", img64);
+                            TempData["ImagemAnexo" + Interacoes[i]["id"]] = img64Url;
+                        }
+                    }
+
+                    TempData["Mensagem"] = Mensagem;
+                    return View();
                 }
-                TempData["Mensagem"] = Mensagem;
-                return View();
+
+                return RedirectToAction("Login", "Login");
             }
-            return RedirectToAction("Login", "Login");
+            else
+            {
+                var VerificaDados = new QueryMysqlWebdesk();
+                var Logado = VerificaDados.UsuarioLogado();
+                if (Logado)
+                {
+                    var Cookie = Request.Cookies.Get("CookieFarm");
+                    var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                    var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+                    TempData["IdSolicitacao"] = IdChamado;
+                    var DadosChamado = VerificaDados.RetornaDadosChamadoAntigo(IdChamado);
+                    TempData["Setor"] = DadosChamado[0]["setor"];
+                    TempData["Situacao"] = DadosChamado[0]["situacao"];
+                    TempData["Categoria"] = DadosChamado[0]["titulo"];
+                    TempData["FuncionarioSolicitante"] = DadosChamado[0]["cadastro"];
+                    TempData["FuncionarioResponsavel"] = DadosChamado[0]["operador"];
+                    TempData["DataAbertura"] = DadosChamado[0]["datahoracadastro"];
+                    TempData["IdFuncionarioCadastro"] = DadosChamado[0]["idcadastro"];
+
+                    TempData["IniciarAtendimento"] = "false";
+                    TempData["InicioAtendimento"] = DadosChamado[0]["confirmacaoleitura"];
+                    TempData["FimATendimento"] = DadosChamado[0]["dataconclusaochamado"];
+
+
+                    if (DadosChamado[0]["situacao"].Equals("CONCLUÍDO"))
+                    {
+                        TempData["Status"] = "is-link";
+                    }
+                    else if (DadosChamado[0]["situacao"].Equals("EM ATENDIMENTO"))
+                    {
+                        TempData["Status"] = "is-info";
+                    }
+                    else
+                    {
+                        TempData["Status"] = "is-warning";
+                    }
+
+                    var Interacoes = VerificaDados.RetornaInteracoesChamadoAntigo(IdChamado);
+
+                    TempData["TotalInteracao"] = Interacoes.Count;
+                    for (int i = 0; i < Interacoes.Count; i++)
+                    {
+                        TempData["Usuario" + i] = Interacoes[i]["nome"] + " " +
+                                                  Convert.ToDateTime(Interacoes[i]["datahorainteracao"])
+                                                      .ToString("dd/MM/yyyy");
+                        TempData["Interacao" + i] = Interacoes[i]["textointeracao"];
+                        TempData["IdInteracao" + i] = Interacoes[i]["id"];
+                        if (Interacoes[i]["idarquivogoogle"] != null)
+                        {
+                            TempData["TotalAnexos" + Interacoes[i]["id"]] = 1;
+                            for (int j = 0; j < 1; j++)
+                            {
+
+                                TempData["ImagemAnexo" + Interacoes[i]["id"]] =
+                                    "https://drive.google.com/file/d/" + Interacoes[i]["idarquivogoogle"] + "/edit";
+                            }
+                        }
+                        else
+                        {
+                            TempData["TotalAnexos" + Interacoes[i]["id"]] = 0;
+                        }
+                    }
+
+                    TempData["Mensagem"] = Mensagem;
+                    return View();
+                }
+
+                return RedirectToAction("Login", "Login");
+            }
         }
 
         [HttpPost]
@@ -409,10 +491,10 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                     var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
-                        DadosUsuario[0]["id"],"N");
+                        DadosUsuario[0]["id"], "N");
 
-                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"]," Solicitação encerrada por "+ DadosUsuario[0]["nome"],
-                        DadosUsuario[0]["id"],"S");
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação encerrada por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"], "S");
 
                     var lista = postedFiles.ToList();
 
@@ -435,7 +517,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new {IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !"});
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !" });
                 }
                 else if (Dados["AcaoInteracao"].Equals("Repassar"))
                 {
@@ -444,15 +526,15 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                     var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
-                        DadosUsuario[0]["id"],"N");
+                        DadosUsuario[0]["id"], "N");
 
                     var lista = postedFiles.ToList();
 
                     var NomeFuncionarioNovo =
                         VerificaDados.RetornaRepasseFuncionarioChamado(Dados["IdFuncionarioResponsavel"]);
 
-                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação encaminhada para "+NomeFuncionarioNovo[0]["nome"]+" por " + DadosUsuario[0]["nome"],
-                        DadosUsuario[0]["id"],"S");
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"], "S");
                     for (int i = 0; i < lista.Count; i++)
                     {
                         if (lista[i] != null)
@@ -467,7 +549,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
                         }
                     }
-                    VerificaDados.AlterarResponsavelSolicitacao(Dados["IdSolicitacao"], Dados["IdSetorResponsavel"],Dados["IdFuncionarioResponsavel"]);
+                    VerificaDados.AlterarResponsavelSolicitacao(Dados["IdSolicitacao"], Dados["IdSetorResponsavel"], Dados["IdFuncionarioResponsavel"]);
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
@@ -481,14 +563,14 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                     var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
-                        DadosUsuario[0]["id"],"N");
+                        DadosUsuario[0]["id"], "N");
 
                     var DadosChamado = VerificaDados.RetornaDadosChamado(Dados["IdSolicitacao"]);
                     var NomeCategoriaNovo =
                         VerificaDados.RetornaRepasseCategoriaChamado(Dados["IdCategoria"]);
 
-                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], "Categoria da solicitação alterada de "+DadosChamado[0]["titulo"]+" para " + NomeCategoriaNovo[0]["descricao"] + " por " + DadosUsuario[0]["nome"],
-                        DadosUsuario[0]["id"],"S");
+                    VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], "Categoria da solicitação alterada de " + DadosChamado[0]["titulo"] + " para " + NomeCategoriaNovo[0]["descricao"] + " por " + DadosUsuario[0]["nome"],
+                        DadosUsuario[0]["id"], "S");
 
                     var lista = postedFiles.ToList();
 
@@ -506,7 +588,7 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
                         }
                     }
-                    VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"],Dados["IdCategoria"]);
+                    VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"], Dados["IdCategoria"]);
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Categoria da solicitação alterada com sucesso !" });
                 }
@@ -517,10 +599,10 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                     var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
-                        DadosUsuario[0]["id"],"N");
+                        DadosUsuario[0]["id"], "N");
 
                     VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], " Solicitação reaberta por " + DadosUsuario[0]["nome"],
-                        DadosUsuario[0]["id"],"S");
+                        DadosUsuario[0]["id"], "S");
                     var lista = postedFiles.ToList();
 
                     for (int i = 0; i < lista.Count; i++)
@@ -551,7 +633,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                     var IdInteracao = VerificaDados.CadastrarInteracao(Dados["IdSolicitacao"], Dados["Descricao"],
-                        DadosUsuario[0]["id"],"N");
+                        DadosUsuario[0]["id"], "N");
 
                     var lista = postedFiles.ToList();
 
@@ -575,8 +657,8 @@ namespace PortalSicoobDivicred.Controllers
                         new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Interação adicionada com sucesso !" });
                 }
             }
-        
-        return RedirectToAction("Login", "Login");
+
+            return RedirectToAction("Login", "Login");
         }
 
         [HttpPost]
@@ -588,7 +670,7 @@ namespace PortalSicoobDivicred.Controllers
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
 
-            VerificaDados.CadastrarInteracao(IdSolicitacao, " Atendimento iniciado por " + DadosUsuario[0]["nome"],DadosUsuario[0]["id"], "S");
+            VerificaDados.CadastrarInteracao(IdSolicitacao, " Atendimento iniciado por " + DadosUsuario[0]["nome"], DadosUsuario[0]["id"], "S");
             VerificaDados.IniciarAtendimentoSolicitacao(IdSolicitacao);
 
 

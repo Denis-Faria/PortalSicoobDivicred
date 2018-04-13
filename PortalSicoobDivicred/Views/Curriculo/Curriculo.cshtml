@@ -77,10 +77,16 @@
 
         $(function () {
             $("#Tab").tabs();
+
             $("#TabelaCurriculo")
                 .tablesorter({ widthFixed: true, widgets: ['zebra'] })
                 .tablesorterPager({ container: $("#pager") });
-            $("#pager").removeAttrs("style");
+
+
+            $("#TabelaVagas")
+                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+                .tablesorterPager({ container: $("#pager2") });
+
 
         });
 
@@ -432,41 +438,93 @@
                 </p>
             </div>
 
-
-            <table class="lista-curriculo table is-striped is-centered" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                <thead>
-                <th class="has-text-centered">Titulo Vaga</th>
-                <th class="has-text-centered">Descrição</th>
-                <th class="has-text-centered">Status</th>
-                <th class="has-text-centered">Area de Interesse</th>
-                <th class="has-text-centered">Alterar Vaga</th>
-                </thead>
-                <tbody>
-                    @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)
-                    {
-                        <tr>
-                            <td>
-                                <a href="@Url.Action("GerenciarVaga", "Curriculo", new {IdVaga = @TempData["IdVaga" + i].ToString()})">@TempData["Titulo" + i].ToString()</a> <strong></strong>
-                            </td>
-                            <td>@TempData["Descricao" + i].ToString()</td>
-                            <td>
-                                <span class="icon">
-                                    <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + i].ToString()"></i>
-                                </span>
-                            </td>
-                            <td>@TempData["AreaVaga" + i].ToString()</td>
-                            <td>
-                                <a href="javascript:AlterarVaga(@TempData["IdVaga" + i].ToString());void(0);" class="button is-primary">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+            <div>
+                <div>
+                    <table id="TabelaVagas" class="lista-curriculo table is-striped is-centered is-fullwidth">
+                        <thead>
+                        <th class="has-text-centered">Titulo Vaga</th>
+                        <th class="has-text-centered">Descrição</th>
+                        <th class="has-text-centered">Status</th>
+                        <th class="has-text-centered">Area de Interesse</th>
+                        <th class="has-text-centered">Alterar Vaga</th>
+                        </thead>
+                        <tbody>
+                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("GerenciarVaga", "Curriculo", new {IdVaga = @TempData["IdVaga" + i].ToString()})">@TempData["Titulo" + i].ToString()</a> <strong></strong>
+                                </td>
+                                <td>@TempData["Descricao" + i].ToString()</td>
+                                <td>
+                                    <span class="icon">
+                                        <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + i].ToString()"></i>
                                     </span>
-                                    <span class="name">Editar Vaga</span>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                <tbody>
-            </table>
+                                </td>
+                                <td>@TempData["AreaVaga" + i].ToString()</td>
+                                <td>
+                                    <a href="javascript:AlterarVaga(@TempData["IdVaga" + i].ToString());void(0);" class="button is-primary">
+                                        <span class="icon is-small">
+                                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                                        </span>
+                                        <span class="name">Editar Vaga</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        <tbody>
+                    </table>
+                </div>
+                <div id="pager2" class="tablewrapper pager" style="position: relative">
+                    <form>
+                        <div class="field is-grouped">
+                            <p class="control">
+                                <button class="first button is-primary is-small">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-fast-backward"></i>
+                                    </span>
+                                </button>
+                            </p>
+                            <p class="control">
+                                <button class="prev button  is-primary is-small">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-step-backward"></i>
+                                    </span>
+                                </button>
+                            </p>
+                            <p class="control">
+                                <input class="pagedisplay input is-small" type="text">
+                            </p>
+                            <p class="control">
+                                <button class="next button  is-primary is-small">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-step-forward"></i>
+                                    </span>
+                                </button>
+                            </p>
+                            <p class="control">
+                                <button class="last button is-primary is-small">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-fast-forward"></i>
+                                    </span>
+                                </button>
+                            </p>
+                            <p class="control">
+                                <span class="select is-small">
+                                    <select class="pagesize">
+                                        <option selected="selected" value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                    </select>
+                                </span>
+                            </p>
+                        </div>
+                    </form>
+                    <br />
+                    <br />
+                </div>
+            </div>
         </div>
     </div>
     <!--

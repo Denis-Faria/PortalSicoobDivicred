@@ -16,6 +16,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Chamados(string Mensagem)
         {
             var VerificaDados = new QueryMysqlWebdesk();
+            var permissao = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -24,6 +25,19 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+                if (permissao.PermissaoCurriculos(Login))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
+                if (DadosUsuario[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
+
+                TempData["NomeLateral"] = DadosUsuario[0]["login"];
 
                 var ChamadosEmAberto = VerificaDados.RetornaChamadosAbertos(DadosUsuario[0]["id"]);
                 TempData["TotalChamados"] = ChamadosEmAberto.Count;
@@ -138,6 +152,12 @@ namespace PortalSicoobDivicred.Controllers
                 var VerificaDadosUsuario = new QueryMysql();
 
                 var DadosUsuarios = VerificaDadosUsuario.RecuperaDadosFuncionariosTabelaUsuario(Login);
+                if (DadosUsuarios[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuarios[0]["foto"];
+
+                TempData["NomeLateral"] = DadosUsuarios[0]["login"];
 
                 var DadosFuncionarios = VerificaDadosUsuario.RecuperaDadosUsuarios(Login);
 
@@ -322,6 +342,12 @@ namespace PortalSicoobDivicred.Controllers
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
 
+                    if (DadosUsuario[0]["foto"] == null)
+                        TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                    else
+                        TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
+
+                    TempData["NomeLateral"] = DadosUsuario[0]["login"];
                     TempData["IdSolicitacao"] = IdChamado;
                     var DadosChamado = VerificaDados.RetornaDadosChamado(IdChamado);
                     TempData["Setor"] = DadosChamado[0]["setor"];
@@ -517,7 +543,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !" });
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !",TipoChamado = "Novo" });
                 }
                 else if (Dados["AcaoInteracao"].Equals("Repassar"))
                 {
@@ -553,7 +579,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação repassada com sucesso !" });
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação repassada com sucesso !",TipoChamado="Novo" });
                 }
 
                 else if (Dados["AcaoInteracao"].Equals("Categoria"))
@@ -590,7 +616,7 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"], Dados["IdCategoria"]);
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Categoria da solicitação alterada com sucesso !" });
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Categoria da solicitação alterada com sucesso !", TipoChamado = "Novo" });
                 }
                 else if (Dados["AcaoInteracao"].Equals("Reabrir"))
                 {
@@ -624,7 +650,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !" });
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Solicitação encerrada com sucesso !", TipoChamado = "Novo" });
                 }
                 else
                 {
@@ -654,7 +680,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
-                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Interação adicionada com sucesso !" });
+                        new { IdChamado = Dados["IdSolicitacao"], Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" });
                 }
             }
 
@@ -676,7 +702,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
             return RedirectToAction("InteracaoChamado", "Webdesk",
-                new { IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !" });
+                new { IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" });
         }
     }
 }

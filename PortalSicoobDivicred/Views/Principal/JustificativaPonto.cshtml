@@ -104,27 +104,27 @@ else
                          }
                     }
                     <td @TempData["Esconde" + i]>
-                    @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) <= 4)
-                    {
-                        <div class="select">
-                            <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">
-                                @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
-                                {
-                                    <option value="@TempData["IdJustificativa" + j]">@TempData["Justificativa" + j]</option>
-                                }
-                            </select>
+                        @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) < 4)
+                        {
+                            <div class="select">
+                                <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">
+                                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
+                                    {
+                                        <option value="@TempData["IdJustificativa" + j]">@TempData["Justificativa" + j]</option>
+                                    }
+                                </select>
 
-                        </div>
+                            </div>
 
-                    }
-                    else
-                    {
-                        <div>
+                        }
+                        else
+                        {
+                            <div>
 
-                            <input type="Text" class="input is-4" name="Observacao" required/>
+                                <input type="Text" class="input is-4" name="Observacao" required placeholder="Justificativa"/>
 
-                        </div>
-                    }
+                            </div>
+                        }
                     </td>
                     <td @TempData["Esconde" + i]>
                         <p class="field">

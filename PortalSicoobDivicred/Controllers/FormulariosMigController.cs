@@ -131,7 +131,7 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var Existe = Formulario.ExisteFormularioRecrutamentoSelecaoProcesso(IdVaga);
-                if (Existe[0]["count"].Equals(0))
+                if (Existe[0]["count"].Equals("1"))
                 {
                     var Dados = new RecrutamentoSelecao();
                     var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);

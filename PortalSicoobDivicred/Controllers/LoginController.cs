@@ -105,7 +105,7 @@ namespace PortalSicoobDivicred.Controllers
                 builder.From.Add(new MailBox("correio@divicred.com.br", "Portal Sicoob Divicred - Troca de Senha"));
                 builder.To.Add(new MailBox(DadosUsuario[0]["email"]));
                 builder.Subject = "Troca de senha";
-                builder.Html = "<b>Você solicitou uma troca de sneha para confirmar esta alteração clique no link abaixo.</b> <br/>  http://localhost:56657/Login/AlterarSenha?Senha="+ sBuilder.ToString() + "&Usuario="+DadosLogin["Usuario"]+"";
+                builder.Html = "<b>Você solicitou uma troca de sneha para confirmar esta alteração clique no link abaixo.</b> <br/>  http://10.11.17.30:9090/Login/AlterarSenha?Senha="+ sBuilder.ToString() + "&Usuario="+DadosLogin["Usuario"]+"";
 
                 IMail email = builder.Create();
 

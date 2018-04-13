@@ -19,12 +19,16 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
 
-
-
+               
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
-            
+                if (insereDados.PermissaoCurriculos(Login))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
                 var funcao = insereDados.RecuperaFuncao(Login);
                 @TempData["meta"]= insereDados.RecuperaMetaCim(funcao);
                 

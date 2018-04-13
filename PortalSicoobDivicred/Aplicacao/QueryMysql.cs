@@ -43,11 +43,17 @@ namespace PortalSicoobDivicred.Aplicacao
             var QueryConfirmaLogin = "SELECT trocasenha FROM funcionarios WHERE login='" + Usuario + "' ;";
 
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryConfirmaLogin);
-
-            if (Dados[0]["trocasenha"].Equals("S"))
-                return false;
-           else
-            return true;
+            try
+            {
+                if (Dados[0]["trocasenha"].Equals("S"))
+                    return false;
+                else
+                    return true;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         public bool PrimeiroLogin(string Usuario)

@@ -32,7 +32,9 @@
     </nav>
     <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 
-
+<script src='@Url.Content("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
 
     <script type="text/javascript">
@@ -126,12 +128,18 @@
 
         $(document).ready(function () {
 
-            $("#TabWebdesk").tabs();
-            var editor =CKEDITOR.replace('Descricao');
-            
+            $("#TabelaChamados")
+                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+                .tablesorterPager({ container: $("#pager") });
 
-            jQuery(document).ready(function($) {
-                $(".clickable-row").click(function() {
+
+
+            $("#TabWebdesk").tabs();
+            var editor = CKEDITOR.replace('Descricao');
+
+
+            jQuery(document).ready(function ($) {
+                $(".clickable-row").click(function () {
                     window.location = $(this).data("href");
                 });
             });
@@ -216,19 +224,9 @@
                 <span class="name">Criar Solicitação</span>
             </button>
         </p>
-
-        <p class="control">
-            <button class="button is-primary" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para visualizar seus chamados encerrados." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fa fa-archive" aria-hidden="true"></i>
-                </span>
-                <span class="name">Minhas Solicitações Encerradas</span>
-            </button>
-        </p>
-
         <div class="field has-addons">
             <div class="control">
-                <input class="input" id="BuscaChamado" type="text" placeholder="Ache uma solicitação...">
+                <input class="input" id="BuscaChamado" type="text" placeholder="Encontre uma solicitação...">
             </div>
             <div class="control">
                 <button onclick="location.href = '@Url.Action("BuscaChamados")?Busca=' + document.getElementById('BuscaChamado').value;" class="button is-primary">
@@ -342,6 +340,55 @@
                     }
                 </tbody>
             </table>
+            <div id="pager" class="tablewrapper pager" style="position: relative">
+                <form>
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <button class="first button is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-fast-backward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="prev button  is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-step-backward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <input class="pagedisplay input is-small" type="text">
+                        </p>
+                        <p class="control">
+                            <button class="next button  is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-step-forward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="last button is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-fast-forward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <span class="select is-small">
+                                <select class="pagesize">
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                            </span>
+                        </p>
+                    </div>
+                </form>
+                <br />
+                <br />
+            </div>
         </div>
     </div>
 
@@ -377,7 +424,7 @@
                                 <div class="file is-primary">
                                     <label class="file-label">
 
-                                        <input class="file-input"  type="file" onchange="multiUp(this)" name="postedFiles">
+                                        <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
 
 
                                         <span class="file-cta">

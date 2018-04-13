@@ -336,7 +336,12 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
 
-                var cmdComando = CriarComandoSQL("INSERT INTO MARCACAO(ID_FUNCIONARIO, ID_JUSTIFICATIVA, NUMERO_REP, PIS, SEQUENCIAL, DATA, HORA, TIPO_REGISTRO, TIPO_MARCACAO, IDENTIFICACAO) VALUES("+(Convert.ToInt32(UltimosDados[0]["ID_MARCACAO"])+1)+", "+IdFuncionarioFireBird+", "+IdJustificativaFireBird+ ",0,'"+PisFuncionario[0]["PIS"]+"',"+ (Convert.ToInt32(UltimosDados[0]["SEQUENCIAL"])+1)+", '"+Convert.ToDateTime(DataPendencia).ToString("yyyy/MM/dd")+"','"+HoraPendencia+ "', 'I','', '" + PisFuncionario[0]["PIS"] + "'); ");
+                var cmdComando = CriarComandoSQL(
+                    "INSERT INTO MARCACAO(ID_FUNCIONARIO, ID_JUSTIFICATIVA, NUMERO_REP, PIS, SEQUENCIAL, DATA, HORA, TIPO_REGISTRO, TIPO_MARCACAO, IDENTIFICACAO) VALUES("+ IdFuncionarioFireBird + ", " +
+                    IdJustificativaFireBird + ",0,'" + PisFuncionario[0]["PIS"] + "'," +
+                    (Convert.ToInt32(UltimosDados[0]["SEQUENCIAL"]) + 1) + ", '" +
+                    Convert.ToDateTime(DataPendencia).ToString("yyyy/MM/dd") + "','" + HoraPendencia + "', 'I','', '" +
+                    PisFuncionario[0]["PIS"] + "'); ");
                 cmdComando.ExecuteReader();
 
             }

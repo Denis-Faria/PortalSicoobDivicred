@@ -1,5 +1,7 @@
-﻿<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+﻿    <script src='@Url.Content("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
 <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
 <link href="@Url.Content("~/Assets/css/over.css")" rel="stylesheet" />
 <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 
@@ -31,6 +33,9 @@
         $("#TabFuncionalidades").tabs();
         $("#TabFuncionalidadesPerfil").tabs();
         $("#TabHoras").tabs();
+        $("#TabelaColaborador")
+            .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+            .tablesorterPager({ container: $("#pager") });
     });
 
     function VerPerfil(Login) {
@@ -304,110 +309,93 @@
                     </ul>
                 </div>
                 <div id="Funcionarios">
-                    @{
-                        var count = 0;
-                        var pagina = 1;
-                        var j = 0;
-                    }
-                    @if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) > 0)
-                    {
-                        if (Convert.ToInt32(TempData["TotalColaborador"].ToString()) >= 20)
-                        {
-                            for (var g = 0; g < Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; g++)
-                            {
-                                <table id="TabelaCurriculo @pagina.ToString()" hidden="true" class="table is-striped is-centered is-desktop is-fullwidth" style="alignment: center; box-shadow: 2px 2px 2px grey; text-align: center;">
-                                    <thead>
-                                        <tr>
-                                            <th class="has-text-centered">Nome</th>
-                                            <th class="has-text-centered">Setor</th>
-                                            <th class="has-text-centered">P.A</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for (j = j; j < Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
-                                        {
-                                            count++;
-                                            <tr>
-                                                <td class="has-text-centered">
-                                                    <article class="media">
-                                                        <div class="media-left grow pic">
-                                                            <figure class="image is-32x32">
-                                                                <img src="@TempData["Imagem" + j]" />
-                                                            </figure>
-                                                        </div>
-                                                        <div class="media-content">
-                                                            <div class="content">
-                                                                <p>
-                                                                    <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                </td>
-                                                <td class="has-text-centered">@TempData["Setor" + j].ToString()</td>
-                                                <td class="has-text-centered">@TempData["PA" + j].ToString()</td>
-                                            </tr>
-                                            if (count == 20)
-                                            {
-                                                count = 0;
-                                                pagina++;
-                                                break;
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                        }
-                        else
-                        {
-                            <table id="TabelaCurriculo @pagina.ToString()" class="lista-curriculo table is-striped is-centered is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                                <thead>
-                                    <tr>
-                                        <th class="has-text-centered">Nome</th>
-                                        <th class="has-text-centered">Setor</th>
-                                        <th class="has-text-centered">P.A</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for (var k = 0; k < Convert.ToInt32(TempData["TotalColaborador"].ToString()); k++)
-                                    {
-                                        count++;
-                                        <tr>
-                                            <td class="has-text-centered">
-                                                <article class="media">
-                                                    <div class="media-left grow pic">
-                                                        <figure class="image is-32x32">
-                                                            <img src="@TempData["Imagem" + k]" />
-                                                        </figure>
-                                                    </div>
-                                                    <div class="media-content">
-                                                        <div class="content">
-                                                            <p>
-                                                                <a href="javascript:VerPerfil('@TempData["Login" + k]');void(0);">@TempData["Nome" + k].ToString()</a> <strong></strong>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </article>
-                                            </td>
-                                            <td class="has-text-centered">@TempData["Setor" + k].ToString()</td>
-                                            <td class="has-text-centered">@TempData["PA" + k].ToString()</td>
-                                        </tr>
-                                    }
-                                </tbody>
+                    <div>
+                        <table id="TabelaColaborador" class="table is-striped is-centered is-desktop is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th class="has-text-centered">Nome</th>
+                                    <th class="has-text-centered">Setor</th>
+                                    <th class="has-text-centered">P.A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int j = 0; j < Convert.ToInt32(TempData["TotalColaborador"].ToString()); j++)
+                {
 
-                            </table>
-                        }
-                        <nav class="pagination" role="navigation" aria-label="pagination">
-                            <ul class="pagination-list">
-                                @for (var i = 1; i <= Convert.ToInt32(TempData["TotalColaborador"].ToString()) / 20; i++)
-                                {
-                                    <li>
-                                        <a class="pagination-link" href="javascript:MudaPagina('@i.ToString()');void(0);" id="Pagina @i.ToString()">@i.ToString()</a>
-                                    </li>
-                                }
-                            </ul>
-                        </nav>
-                    }
+                    <tr>
+                        <td class="has-text-centered">
+                            <article class="media">
+                                <div class="media-left grow pic">
+                                    <figure class="image is-32x32">
+                                        <img src="@TempData["Imagem" + j]" />
+                                    </figure>
+                                </div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <a href="javascript:VerPerfil('@TempData["Login" + j]');void(0);">@TempData["Nome" + j].ToString()</a> <strong></strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </article>
+                        </td>
+                        <td class="has-text-centered">@TempData["Setor" + j].ToString()</td>
+                        <td class="has-text-centered">@TempData["PA" + j].ToString()</td>
+                    </tr>
+}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="pager" class="tablewrapper pager" style="position: relative">
+                        <form>
+                            <div class="field is-grouped">
+                                <p class="control">
+                                    <button class="first button is-primary is-small">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-fast-backward"></i>
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="prev button  is-primary is-small">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-step-backward"></i>
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <input class="pagedisplay input is-small" type="text">
+                                </p>
+                                <p class="control">
+                                    <button class="next button  is-primary is-small">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-step-forward"></i>
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="last button is-primary is-small">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-fast-forward"></i>
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <span class="select is-small">
+                                        <select class="pagesize">
+                                            <option selected="selected" value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                        </select>
+                                    </span>
+                                </p>
+                            </div>
+                        </form>
+                        <br />
+                        <br />
+                    </div>
+
                 </div>
 
                 <!--

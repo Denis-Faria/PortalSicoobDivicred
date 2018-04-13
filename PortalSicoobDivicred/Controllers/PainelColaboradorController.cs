@@ -242,6 +242,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Arquivo = Request.Files[0];
                 var NomeArquivo = Path.GetFileName(Arquivo.FileName);
                 var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
+
                 if (System.IO.File.Exists(Caminho))
                 {
                     var counter = 1;
@@ -1321,7 +1322,6 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                 }
-
                 if (NegaFireBird)
                 {
                     VerificaDados.AtualizaJustificativaRh(DadosPendencia[0]["idhistorico"]);

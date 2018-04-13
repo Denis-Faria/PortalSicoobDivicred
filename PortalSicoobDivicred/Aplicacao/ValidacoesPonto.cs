@@ -75,7 +75,7 @@ namespace PortalSicoobDivicred
                                         var Total = new TimeSpan(00, 06, 00, 00);
                                         HoraExtra = JornadaTrabalhada.Subtract(Total);
 
-                                        if (HoraExtra.Hours >= 6 && HoraExtra.Minutes >= 10)
+                                        if (HoraExtra.Hours >= 0 && HoraExtra.Minutes > 5)
                                         {
                                             var FuncionarioPendente = new Dictionary<string, string>();
                                             FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
@@ -107,7 +107,7 @@ namespace PortalSicoobDivicred
                                         Pendentes.Add(FuncionarioPendente);
                                     }
                                 }
-                                if (Marcacao[0]["ID_CARGO"].Equals("58"))
+                                else if (Marcacao[0]["ID_CARGO"].Equals("58"))
                                 {
                                     if (Marcacao.Count == 2)
                                     {
@@ -122,7 +122,7 @@ namespace PortalSicoobDivicred
                                         var Total = new TimeSpan(00, 04, 00, 00);
                                         HoraExtra = JornadaTrabalhada.Subtract(Total);
 
-                                        if (HoraExtra.Hours >= 4 && HoraExtra.Minutes >= 10)
+                                        if (HoraExtra.Hours >= 4 && HoraExtra.Minutes >= 5)
                                         {
                                             var FuncionarioPendente = new Dictionary<string, string>();
                                             FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
@@ -228,7 +228,7 @@ namespace PortalSicoobDivicred
 
                                         Pendentes.Add(FuncionarioPendente);
                                     }
-                                    else if (Almoco.Hours < 1 && Almoco.Minutes < 55)
+                                    else if (Almoco.Hours < 1 && Almoco.Minutes <= 59)
                                     {
                                         var FuncionarioPendente = new Dictionary<string, string>();
                                         FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
@@ -403,7 +403,7 @@ namespace PortalSicoobDivicred
                 Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
                 Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
                 Confirmar.Add("IdFuncionarioFireBird",IdFuncionarioFirebird[0]["ID_FUNCIONARIO"].ToString());
-                Confirmar.Add("Data", TodasPendencias[0]["data"]);
+                Confirmar.Add("Data", TodasPendencias[i]["data"]);
                 Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
                 var Validado = false;
                 for (int j = 0; j < DadosPendencia.Count; j++)

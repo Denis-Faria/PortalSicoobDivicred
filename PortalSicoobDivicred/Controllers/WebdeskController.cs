@@ -43,7 +43,17 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamados"] = ChamadosEmAberto.Count;
                 for (int i = 0; i < ChamadosEmAberto.Count; i++)
                 {
-                    TempData["Titulo" + i] = ChamadosEmAberto[i]["titulo"];
+                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
+                    }
+                    else
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"];
+                    }
+
                     TempData["Numero" + i] = ChamadosEmAberto[i]["id"];
                     TempData["Operador" + i] = ChamadosEmAberto[i]["operador"];
                     TempData["Situacao" + i] = ChamadosEmAberto[i]["situacao"];
@@ -79,7 +89,16 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosOperador"] = ChamadosOperador.Count;
                 for (int i = 0; i < ChamadosOperador.Count; i++)
                 {
-                    TempData["TituloOperador" + i] = ChamadosOperador[i]["titulo"];
+                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
+                    }
+                    else
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"];
+                    }
                     TempData["NumeroOperador" + i] = ChamadosOperador[i]["id"];
                     TempData["OperadorOperador" + i] = ChamadosOperador[i]["operador"];
                     TempData["SituacaoOperador" + i] = ChamadosOperador[i]["situacao"];
@@ -108,7 +127,16 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosSetor"] = ChamadosSetor.Count;
                 for (int i = 0; i < ChamadosSetor.Count; i++)
                 {
-                    TempData["TituloSetor" + i] = ChamadosSetor[i]["titulo"];
+                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
+                    }
+                    else
+                    {
+                        TempData["Titulo" + i] =
+                            ChamadosEmAberto[i]["titulo"];
+                    }
                     TempData["NumeroSetor" + i] = ChamadosSetor[i]["id"];
                     TempData["OperadorSetor" + i] = ChamadosSetor[i]["operador"];
                     TempData["SituacaoSetor" + i] = ChamadosSetor[i]["situacao"];
@@ -229,8 +257,18 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
-                var IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
-                    Dados["Descricao"], DadosUsuario[0]["id"]);
+                var IdInteracao = "";
+                if (Dados.AllKeys.Contains("CpfAbertura"))
+                {
+                    IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"],Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
+                        Dados["Descricao"], DadosUsuario[0]["id"], Dados["CpfAbertura"]);
+                }
+                else
+                {
+                    IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"], Dados["IdFuncionarioResponsavel"],
+                        Dados["Descricao"], DadosUsuario[0]["id"],"");
+                }
+               
 
                 var lista = postedFiles.ToList();
 
@@ -244,7 +282,7 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                         }
-                        VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                        VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                     }
                 }
                 return RedirectToAction("Chamados", "Webdesk", new { Mensagem = "Solicitação cadastrada com sucesso!" });
@@ -414,12 +452,13 @@ namespace PortalSicoobDivicred.Controllers
 
                         TempData["TotalAnexos" + Interacoes[i]["id"]] = AnexoInteracao.Rows.Count;
                         for (int j = 0; j < AnexoInteracao.Rows.Count; j++)
-                        {
+                        { 
                             var bytes = (byte[])AnexoInteracao.Rows[j]["arquivo"];
                             var img64 = Convert.ToBase64String(bytes);
                             var img64Url =
                                 string.Format("data:" + AnexoInteracao.Rows[j]["tipoarquivo"] + ";base64,{0}", img64);
-                            TempData["ImagemAnexo" + Interacoes[i]["id"]] = img64Url;
+                            TempData["NomeAnexo" + Interacoes[i]["id"] + j] = AnexoInteracao.Rows[j]["nomearquivo"];
+                            TempData["ImagemAnexo" + Interacoes[i]["id"] + j] = img64Url;
                         }
                     }
 
@@ -535,7 +574,7 @@ namespace PortalSicoobDivicred.Controllers
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                         }
                     }
 
@@ -572,7 +611,7 @@ namespace PortalSicoobDivicred.Controllers
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                         }
                     }
                     VerificaDados.AlterarResponsavelSolicitacao(Dados["IdSolicitacao"], Dados["IdSetorResponsavel"], Dados["IdFuncionarioResponsavel"]);
@@ -611,7 +650,7 @@ namespace PortalSicoobDivicred.Controllers
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                         }
                     }
                     VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"], Dados["IdCategoria"]);
@@ -642,7 +681,7 @@ namespace PortalSicoobDivicred.Controllers
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                         }
                     }
 
@@ -674,7 +713,7 @@ namespace PortalSicoobDivicred.Controllers
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType);
+                            VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType,NomeArquivo);
                         }
                     }
 

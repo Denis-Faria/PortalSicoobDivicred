@@ -67,7 +67,7 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var EstadoCivil = new List<SelectListItem>();
 
-            const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM setores WHERE excluido='N'";
+            const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM setores WHERE excluido='N' ORDER BY descricao  ASC";
 
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEstadoCivil);
             foreach (var row in Dados)
@@ -113,9 +113,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return EstadoCivil;
         }
 
-        public string CadastraSolicitacao(string IdSetor,string IdCategoria,string IdOperador,string Descricao,string IdUsuario)
+        public string CadastraSolicitacao(string IdSetor,string IdCategoria,string IdOperador,string Descricao,string IdUsuario,string cpf)
         {
-            var Query = "INSERT INTO webdesksolicitacoes (idfuncionariocadastro,idfuncionarioresponsavel,idcategoria,idsetor,idsituacao,datahoracadastro) VALUES("+IdUsuario+","+IdOperador+","+IdCategoria+","+IdSetor+",1,NOW())";
+            var Query = "INSERT INTO webdesksolicitacoes (idfuncionariocadastro,idfuncionarioresponsavel,idcategoria,idsetor,idsituacao,datahoracadastro,cpf) VALUES("+IdUsuario+","+IdOperador+","+IdCategoria+","+IdSetor+",1,NOW(),'"+cpf+"')";
             var IdChamado = ConexaoMysql.ExecutaComandoComRetornoId(Query);
             var QueryInteracao =
                 "INSERT INTO webdeskinteracoessolicitacoes(idsolicitacao,textointeracao,idfuncionariointeracao,datahorainteracao) VALUES(" +
@@ -137,12 +137,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
-        public void InserirAnexo(string IdInteracao, byte[] Foto,string TipoArquivo)
+        public void InserirAnexo(string IdInteracao, byte[] Foto,string TipoArquivo,string NomeArquivo)
         {
 
             
                 var QueryAtualizaFuncionario =
-                    "INSERT INTO webdeskanexos (idinteracao,arquivo,tipoarquivo) VALUES(" +IdInteracao + ",@image,'"+TipoArquivo+"') ";
+                    "INSERT INTO webdeskanexos (idinteracao,arquivo,tipoarquivo,nomearquivo) VALUES(" +IdInteracao + ",@image,'"+TipoArquivo+"','"+NomeArquivo+"') ";
                 ConexaoMysql.ExecutaComandoArquivo(QueryAtualizaFuncionario, Foto);
            
         }
@@ -150,7 +150,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosAbertos(string IdUsuario)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.fimatendimento from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
+                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.fimatendimento,a.cpf from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" + IdUsuario+" ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
@@ -158,14 +158,14 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosResponsavel(string IdUsuario)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro ,TIMEDIFF(Now() ,a.datahoracadastro) as sla FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id=" + IdUsuario+") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1)  ORDER BY a.id";
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro ,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id=" + IdUsuario+") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1)  ORDER BY a.id";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
         public List<Dictionary<string, string>> RetornaChamadosSetor(string IdSetor)
         {
             var Query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1) and a.idsetor=" + IdSetor+"  ORDER BY a.id";
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1) and a.idsetor=" + IdSetor+"  ORDER BY a.id";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }

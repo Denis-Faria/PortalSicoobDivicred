@@ -30,12 +30,13 @@
             <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
         </p>
     </nav>
-    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 
-<script src='@Url.Content("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")' type="text/javascript"></script>
-<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
-<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+
+
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Assets/js/jquery.mask.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
+    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 
     <script type="text/javascript">
 
@@ -126,17 +127,34 @@
             input.__fileHolder.appendChild(Div2);
         }
 
+
+        function ValidaMascara(valor) {
+
+            if (valor.replace(/\D/g, '').length === 11) {
+                $('#CpfAbertura').mask('000.000.000-00');
+            }
+            else {
+                $('#CpfAbertura').mask('00.000.000/0000-00');
+            }
+
+        };
+        function RemoveMascara() {
+            $("#CpfAbertura").unmask();
+
+        }
+
         $(document).ready(function () {
 
-            $("#TabelaChamados")
-                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
-                .tablesorterPager({ container: $("#pager") });
-
-
-
+            $("#CpfCadastro").hide();
             $("#TabWebdesk").tabs();
             var editor = CKEDITOR.replace('Descricao');
+            try {
+                $("#TabelaChamados")
+                    .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+                    .tablesorterPager({ container: $("#pager") });
+            } catch (e) {
 
+            }
 
             jQuery(document).ready(function ($) {
                 $(".clickable-row").click(function () {
@@ -188,6 +206,11 @@
                         $("form").removeData("validator");
                         $("form").removeData("unobtrusiveValidation");
                         $.validator.unobtrusive.parse("form");
+                        if (IdSetor.value == 42) {
+                            $("#CpfCadastro").show();
+                        } else {
+                            $("#CpfCadastro").hide();
+                        }
                     }
                 });
         }
@@ -451,6 +474,12 @@
                         Nenhum anexo selecionado.
                     </div>
                     <br />
+                    <div class="field is-grouped" id="CpfCadastro" hidden>
+                        <div class="field control is-fullwidth">
+                            <label class="label">CPF do associado:</label>
+                            <input class="input  is-fullwidth" name="CpfAbertura" id="CpfAbertura" onfocusout="javascript:ValidaMascara(this.value)" ,onfocus="RemoveMascara()" required />
+                        </div>
+                    </div>
                     <div class="field is-grouped">
                         <div class="field control">
                             <label class="label">Descrição da sua solicitação:</label>

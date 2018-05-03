@@ -531,6 +531,7 @@
     <Compile Include="Controllers\TesourariaController.cs" />
     <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="Aplicacao\ElasticEmailClient.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Certificacao.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">
@@ -695,6 +696,7 @@
     <Content Include="Views\WebDesk\SetorInteracao.cshtml" />
     <Content Include="Views\WebDesk\FuncionarioInteracao.cshtml" />
     <Content Include="Views\WebDesk\faltapermissao.cshtml" />
+    <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

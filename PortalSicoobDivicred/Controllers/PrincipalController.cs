@@ -654,5 +654,34 @@ namespace PortalSicoobDivicred.Controllers
             return PartialView("BancoHoras");
 
         }
+
+        public ActionResult ShowdePremios(string Cpf)
+        {
+            var CpfLimpo = Cpf;
+            CpfLimpo = CpfLimpo.Replace(".", "").Replace("-", "").Replace("/", "");
+            var RecuperaDados = new QueryMysql();
+
+            var NumeroDaSorte = RecuperaDados.BuscaNumerodaSorte();
+            if (NumeroDaSorte.Count > 0)
+            {
+                TempData["NumeroDaSorte"] = "O último número da sorte foi: " + NumeroDaSorte[0]["numerodasorte"] + " na data: " + NumeroDaSorte[0]["data"];
+            }
+            else
+            {
+                TempData["NumeroDaSorte"] = "Nenhum sorteio foi realizado até o momento.";
+            }
+
+           
+            var Extrato = RecuperaDados.RetornaExtrato(CpfLimpo);
+            TempData["TotalCupons"] = Extrato.Count;
+            for (int i = 0; i < Extrato.Count; i++)
+            {
+                TempData["Numero" + i] = Extrato[i]["id"];
+                TempData["Motivo" + i] = Extrato[i]["motivo"];
+                TempData["Data"+i] = Extrato[i]["data"];
+            }
+
+            return PartialView("ShowdePremios");
+        }
     }
 }

@@ -773,5 +773,18 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return Dados;
         }
+        public List<Dictionary<string, string>> BuscaNumerodaSorte()
+        {
+            var Query = "SELECT * FROM showdepremiosnumerosorte order by data LIMIT 1;";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public List<Dictionary<string, string>> RetornaExtrato(string Cpf)
+        {
+            var Query = "SELECT* FROM showdepremioscupons WHERE  numdoccliente = '" + Cpf + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
     }
 }

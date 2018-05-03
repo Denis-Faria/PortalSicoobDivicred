@@ -89,15 +89,15 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosOperador"] = ChamadosOperador.Count;
                 for (int i = 0; i < ChamadosOperador.Count; i++)
                 {
-                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    if (ChamadosOperador[i]["cpf"] != null)
                     {
-                        TempData["Titulo" + i] =
-                            ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
+                        TempData["TituloOperador" + i] =
+                            ChamadosOperador[i]["titulo"] + " CPF/CNPJ: " + ChamadosOperador[i]["cpf"];
                     }
                     else
                     {
-                        TempData["Titulo" + i] =
-                            ChamadosEmAberto[i]["titulo"];
+                        TempData["TituloOperador" + i] =
+                            ChamadosOperador[i]["titulo"];
                     }
                     TempData["NumeroOperador" + i] = ChamadosOperador[i]["id"];
                     TempData["OperadorOperador" + i] = ChamadosOperador[i]["operador"];
@@ -127,15 +127,15 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosSetor"] = ChamadosSetor.Count;
                 for (int i = 0; i < ChamadosSetor.Count; i++)
                 {
-                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    if (ChamadosSetor[i]["cpf"] != null)
                     {
-                        TempData["Titulo" + i] =
-                            ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
+                        TempData["TituloSetor" + i] =
+                            ChamadosSetor[i]["titulo"] + " CPF/CNPJ: " + ChamadosSetor[i]["cpf"];
                     }
                     else
                     {
-                        TempData["Titulo" + i] =
-                            ChamadosEmAberto[i]["titulo"];
+                        TempData["TituloSetor" + i] =
+                            ChamadosSetor[i]["titulo"];
                     }
                     TempData["NumeroSetor" + i] = ChamadosSetor[i]["id"];
                     TempData["OperadorSetor" + i] = ChamadosSetor[i]["operador"];

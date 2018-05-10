@@ -159,7 +159,6 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Webpages.Razor.resources.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Mvc.resources.dll
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe.config
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.rsp
@@ -338,3 +337,4 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.xml
+C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojAssemblyReference.cache

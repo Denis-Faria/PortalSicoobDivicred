@@ -56,7 +56,39 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        public ActionResult VagasInternas(string Participa)
+        {
+            var VerificaDados = new QueryMysql();
+            var QueryRh = new QueryMysqlRh();
 
+            #region VagasInternas
+
+            {
+                var VagasInternas = QueryRh.RetornaVagaInterna();
+
+                TempData["TotalVagasInternas"] = VagasInternas.Count();
+
+                for (var i = 0; i < VagasInternas.Count; i++)
+
+                {
+                    TempData["TituloVagaInterna " + i] = VagasInternas[i]["titulo"];
+                    TempData["Descricao " + i] = VagasInternas[i]["descricao"];
+                    TempData["Requisito " + i] = VagasInternas[i]["requisito"];
+                    TempData["IdVaga " + i] = VagasInternas[i]["id"];
+                }
+
+                if (Participa != null)
+                {
+                    if (Participa.Equals("SIM"))
+                    {
+                        TempData["Interesse " + 0] = "OK";
+                    }
+                }
+            }
+
+            #endregion
+            return View();
+        }
         public ActionResult Dashboard()
         {
             var VerificaDados = new QueryMysql();
@@ -300,21 +332,31 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult TenhoInteresse(string IdVaga)
+        [HttpPost]
+        public ActionResult TenhoInteresse(FormCollection Dados)
         {
             var VerificaDados = new QueryMysql();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-            {
+           
                 var QueryRh = new QueryMysqlRh();
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
 
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                QueryRh.CadastraInteresse(IdVaga, DadosTabelaFuncionario[0]["id"]);
-                return RedirectToAction("Principal", "Principal");
-            }
-            return RedirectToAction("Login", "Login");
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(Dados["nome"]);
+                var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
+                var valor = true;
+                for (var j = 0; j < Interesse.Count; j++)
+                {
+                    if (Interesse[j]["idvaga"].Equals(Dados["idvaga"]))
+                        valor = false;
+                }
+                if (valor)
+                {
+                    QueryRh.CadastraInteresse(Dados["idvaga"], DadosTabelaFuncionario[0]["id"]);
+                    return RedirectToAction("VagasInternas", "Principal",new{Participa="SIM"});
+                }
+                else
+                {
+                    return RedirectToAction("VagasInternas", "Principal", new { Participa = "SIM" });
+                }
+           
         }
 
         public ActionResult Justificativas()

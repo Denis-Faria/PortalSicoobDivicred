@@ -16,7 +16,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Chamados(string Mensagem)
         {
             var VerificaDados = new QueryMysqlWebdesk();
-            var permissao = new QueryMysql();
+
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
@@ -26,6 +26,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
 
+                var permissao = new QueryMysql();
                 if (permissao.PermissaoCurriculos(Login))
                     TempData["PermissaoCurriculo"] =
                         " ";
@@ -179,13 +180,23 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 var VerificaDadosUsuario = new QueryMysql();
 
-                var DadosUsuarios = VerificaDadosUsuario.RecuperaDadosFuncionariosTabelaUsuario(Login);
+                var DadosUsuarios = VerificaDadosUsuario.RecuperaDadosUsuarios(Login);
+
                 if (DadosUsuarios[0]["foto"] == null)
                     TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
                     TempData["ImagemPerfil"] = DadosUsuarios[0]["foto"];
 
                 TempData["NomeLateral"] = DadosUsuarios[0]["login"];
+
+                var permissao = new QueryMysql();
+                if (permissao.PermissaoCurriculos(Login))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
+
 
                 var DadosFuncionarios = VerificaDadosUsuario.RecuperaDadosUsuarios(Login);
 
@@ -384,6 +395,13 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
                     else
                         TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
+
+                    var permissao = new QueryMysql();
+                    if (permissao.PermissaoCurriculos(Login))
+                        TempData["PermissaoCurriculo"] =
+                            " ";
+                    else
+                        TempData["PermissaoCurriculo"] = "display: none";
 
                     TempData["NomeLateral"] = DadosUsuario[0]["login"];
                     TempData["IdSolicitacao"] = IdChamado;

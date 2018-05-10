@@ -697,6 +697,7 @@
     <Content Include="Views\WebDesk\FuncionarioInteracao.cshtml" />
     <Content Include="Views\WebDesk\faltapermissao.cshtml" />
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
+    <Content Include="Views\Principal\VagasInternas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

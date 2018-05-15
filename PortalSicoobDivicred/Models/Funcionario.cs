@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -35,6 +36,60 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
         public string PA { get; set; }
+
+        [Required(ErrorMessage = "Favor informar sua Nacionalidade!")]
+        public string Nacionalidade { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o nome da mãe!")]
+        public string NomeMae { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o nome do pai")]
+        public string NomePai { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o local de nascimento")]
+        public string LocalNascimento { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o estado de nascimento")]
+        [MaxLength(2,ErrorMessage = "Coloque a abreviação de seu estado")]
+        public string UfNascimento { get; set; }
+       
+        public string Complemento { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o CEP")]
+        public string Cep { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o nome do país")]
+        public string Pais { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se sua residência é própria")]
+        public string ResidenciaPropria { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se sua residência foi adquirida com recursos de FGTS")]
+        public string RecursoFgts { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
+        public string NumeroCTPS{ get; set; }
+
+        [Required(ErrorMessage = "Favor informar a serie da sua CTPS")]
+        public string SerieCTPS { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o estado em que sua CTPS foi emitida")]
+        public string UfCTPS { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de expedição do seu documento")]
+        public DateTime DataExpedicaoDocumento { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o orgão emissor do seu documento")]
+        public string OrgaoEmissor { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de validade do seu documento")]
+        public DateTime DataValidadeDocumento { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o número de telefone fixo")]
+        public string TelefoneFixo { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o número de telefone movel")]
+        public string TelefoneCelular { get; set; }
 
         [Required(ErrorMessage = "Informe a sua rua!")]
         public string Rua { get; set; }

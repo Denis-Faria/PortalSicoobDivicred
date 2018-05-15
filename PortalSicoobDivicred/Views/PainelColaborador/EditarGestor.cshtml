@@ -9,13 +9,14 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoGestor": $("#DescricaoGestor").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaGestor").append(data);
 
                 }
             });
 
     }
+
     function BuscaSetoresEdicao() {
         // Declare variables
         var input, filter, ul, li, a, i;
@@ -34,6 +35,7 @@
             }
         }
     }
+
     function BuscarFuncionarioEdicao() {
         // Declare variables
         var input, filter, ul, li, a, i;
@@ -52,8 +54,8 @@
             }
         }
     }
-    $('#EditarGestor').validate({
 
+    $('#EditarGestor').validate({
         rules: {
             'FuncionarioEdicao': {
                 required: true,
@@ -65,7 +67,6 @@
             },
         },
         messages: {
-
             "FuncionarioEdicao": {
                 required: "Selecione ao menos 1 funcionário",
                 maxlength: "Selecione apenas 1 funcioário."
@@ -86,7 +87,6 @@
     function Validar() {
         alert("OLA");
         $('#EditarGestor').validate({
-
             rules: {
                 'FuncionarioEdicao': {
                     required: true,
@@ -98,7 +98,6 @@
                 },
             },
             messages: {
-
                 "FuncionarioEdicao": {
                     required: "Selecione ao menos 1 funcionário",
                     maxlength: "Selecione apenas 1 funcioário."
@@ -115,12 +114,10 @@
             wrapper: 'li'
 
         });
-      
-            return false;
+
+        return false;
     }
 </script>
-
-
 
 
 <div name="ErrosEdicao" id="ErrosEdicao" hidden="" class="content notification is-danger">
@@ -148,7 +145,7 @@
                 </div>
                 <div style="height: 100px; overflow-y: scroll;">
                     <ul id="ListaGestoresEdicao">
-                        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalFuncionarios"]); i++)
+                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalFuncionarios"]); i++)
                         {
                             <li>
                                 <label class="checkbox">
@@ -156,7 +153,6 @@
                                     @TempData["Nome" + i]
                                 </label>
                             </li>
-
                         }
                     </ul>
                 </div>
@@ -185,7 +181,7 @@
                     </div>
                     <div style="height: 100px; overflow-y: scroll;">
                         <ul id="ListaSetoresEdicao">
-                            @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetores"]); i++)
+                            @for (var i = 0; i < Convert.ToInt32(TempData["TotalSetores"]); i++)
                             {
                                 <li>
                                     <label class="checkbox">
@@ -193,7 +189,6 @@
                                         @TempData["DescricaoSetor" + i]
                                     </label>
                                 </li>
-
                             }
                         </ul>
                     </div>
@@ -202,6 +197,6 @@
         </section>
     </div>
     <br/>
-    <button type="button" onclick="javascript:if($('#EditarGestor').valid()){location.href='@Url.Action("ExcluirGestor","PainelColaborador",new{IdGestor=@TempData["ExcluirIdGestor"]})'};" id="ExcluirCertificacao" class="button is-danger">Remover Gestor</button>
+    <button type="button" onclick="javascript:if ($('#EditarGestor').valid()) { location.href = '@Url.Action("ExcluirGestor", "PainelColaborador", new {IdGestor = TempData["ExcluirIdGestor"]})' };" id="ExcluirCertificacao" class="button is-danger">Remover Gestor</button>
     <br/>
-    </div>
+</div>

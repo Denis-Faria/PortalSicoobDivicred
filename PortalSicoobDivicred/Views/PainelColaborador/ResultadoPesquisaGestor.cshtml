@@ -1,5 +1,4 @@
-﻿
-<script>
+﻿<script>
     function Seleciona(Id) {
         $("#EdicaoGestor").removeAttr("hidden");
         $("#SalvaGestor").removeAttr("disabled ");
@@ -13,7 +12,7 @@
                 cache: true,
                 async: true,
                 data: { "IdGestor": Id },
-                success: function (data) {
+                success: function(data) {
 
                     $("#EdicaoGestor").append(data);
 
@@ -24,10 +23,10 @@
 </script>
 <div>
     <ul>
-        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalResultado"]); i++)
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
         {
             <li>
-                <a href="Javascript:Seleciona('@TempData["Id"+i]')">
+                <a href="Javascript:Seleciona('@TempData["Id" + i]')">
                     @TempData["Descricao" + i]
                 </a>
             </li>

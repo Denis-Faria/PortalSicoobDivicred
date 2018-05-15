@@ -98,20 +98,20 @@ namespace PortalSicoobDivicred.Aplicacao
             string PsicologaPreNumero, string Setor)
         {
             var QuerySelecionaCurriculo = "UPDATE recrutamentoselecao set classecargo='" + ClasseCargo +
-                                           "',nivelcargo='" + NivelCargo + "',numerovaga=" + NumeroVaga +
-                                           ",chefiaimediata='" + ChefiaImediata + "',mesadmissao='" + MesAdmissao +
-                                           "',motivoselecao='" + MotivoSelecao + "',nomeempregadosubstituido='" +
-                                           EmpregadoSubstituido + "',previsaoorcamento='" + PrevisaoOrcamento +
-                                           "',formarecrutamento='" + FormaRecrutamento + "',dinamicagrupo='" +
-                                           DinamicaGrupo + "',dinamicanumero=" + DinamicaNumero +
-                                           ",dinamicaprenumero=" + DinamicaPreNumero + ",conhecimentoteste='" +
-                                           ConhecimentoTeste + "',conhecimentonumero=" + ConhecimentoNumero +
-                                           ",conhecimentoprenumero=" + ConhecimentoPreNumero + ",psicologicoteste='" +
-                                           PsicologicoTeste + "',psicologiconumero=" + PsicologicoNumero +
-                                           ",psicologicoprenumero=" + PsicologicoPreNumero +
-                                           ",psicologaentrevistador='" + Psicologaentrevistador + "',psicologanumero=" +
-                                           PsicologaNumero + ",psicologaprenumero=" + PsicologaPreNumero + ",setor='" +
-                                           Setor + "' WHERE idvaga=" + IdVaga + ";";
+                                          "',nivelcargo='" + NivelCargo + "',numerovaga=" + NumeroVaga +
+                                          ",chefiaimediata='" + ChefiaImediata + "',mesadmissao='" + MesAdmissao +
+                                          "',motivoselecao='" + MotivoSelecao + "',nomeempregadosubstituido='" +
+                                          EmpregadoSubstituido + "',previsaoorcamento='" + PrevisaoOrcamento +
+                                          "',formarecrutamento='" + FormaRecrutamento + "',dinamicagrupo='" +
+                                          DinamicaGrupo + "',dinamicanumero=" + DinamicaNumero +
+                                          ",dinamicaprenumero=" + DinamicaPreNumero + ",conhecimentoteste='" +
+                                          ConhecimentoTeste + "',conhecimentonumero=" + ConhecimentoNumero +
+                                          ",conhecimentoprenumero=" + ConhecimentoPreNumero + ",psicologicoteste='" +
+                                          PsicologicoTeste + "',psicologiconumero=" + PsicologicoNumero +
+                                          ",psicologicoprenumero=" + PsicologicoPreNumero +
+                                          ",psicologaentrevistador='" + Psicologaentrevistador + "',psicologanumero=" +
+                                          PsicologaNumero + ",psicologaprenumero=" + PsicologaPreNumero + ",setor='" +
+                                          Setor + "' WHERE idvaga=" + IdVaga + ";";
             var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
         }
 
@@ -167,11 +167,11 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
 
             var QuerySelecionaCurriculo = "UPDATE parecerprocessoseletivo SET solicitante='" + Solicitante +
-                                           "',metodologiaprocesso='" + metodologiaprocesso + "',demandaparecer='" +
-                                           demandaparecer + "',tiporecrutamento='" + TipoRecrutamento +
-                                           "',perfiltecnico='" + PerfilTecnico + "',conclusao='" + Conclusao +
-                                           "' WHERE idcandidato=" + DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga +
-                                           ";";
+                                          "',metodologiaprocesso='" + metodologiaprocesso + "',demandaparecer='" +
+                                          demandaparecer + "',tiporecrutamento='" + TipoRecrutamento +
+                                          "',perfiltecnico='" + PerfilTecnico + "',conclusao='" + Conclusao +
+                                          "' WHERE idcandidato=" + DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga +
+                                          ";";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
         }
 
@@ -182,7 +182,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
 
             var QuerySelecionaCurriculo = "select * from  parecerprocessoseletivo WHERE idcandidato=" +
-                                           DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga + ";";
+                                          DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga + ";";
             var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
             return Dados;
         }
@@ -207,21 +207,25 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area, string Cidade, string Certificacao,string Ordenacao,string Formacao)
+        public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area, string Cidade, string Certificacao,
+            string Ordenacao, string Formacao)
         {
             if (Ordenacao.Equals("Alfabetico"))
             {
                 var QuerySelecionaCurriculo =
-                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade="+Formacao+" AND b.descricao like'%" +
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
+                    Formacao + " AND b.descricao like'%" +
                     Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
                     Certificacao + "%' ORDER BY nome ASC";
                 var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
                 return DadosCurriculos;
             }
-            else if (Ordenacao.Equals("Status"))
+
+            if (Ordenacao.Equals("Status"))
             {
                 var QuerySelecionaCurriculo =
-                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" + Formacao + " and b.descricao like'%" +
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
+                    Formacao + " and b.descricao like'%" +
                     Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
                     Certificacao + "%' ORDER BY status asc ";
                 var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
@@ -230,7 +234,8 @@ namespace PortalSicoobDivicred.Aplicacao
             else
             {
                 var QuerySelecionaCurriculo =
-                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" + Formacao + " and b.descricao like'%" +
+                    "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
+                    Formacao + " and b.descricao like'%" +
                     Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
                     Certificacao + "%'";
                 var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
@@ -262,9 +267,9 @@ namespace PortalSicoobDivicred.Aplicacao
             string Beneficio, string Ativa, string Areas)
         {
             var QuerySelecionaCurriculo = "UPDATE vagas SET descricao='" + Descricao + "',salario='" +
-                                           Salario.Replace(",", ".") + "',requisito='" + Requisito + "',titulo='" +
-                                           Titulo + "', beneficio='" + Beneficio + "', ativa='" + Ativa +
-                                           "', areadeinteresse='" + Areas + "' where id=" + IdVaga + ";";
+                                          Salario.Replace(",", ".") + "',requisito='" + Requisito + "',titulo='" +
+                                          Titulo + "', beneficio='" + Beneficio + "', ativa='" + Ativa +
+                                          "', areadeinteresse='" + Areas + "' where id=" + IdVaga + ";";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
         }
 
@@ -364,7 +369,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
             var QueryIniciaProcesso = "INSERT INTO processosseletivos (idvaga,idcandidato) VALUES(" + IdVaga + "," +
-                                       DadosCandidatos[0]["id"] + ")";
+                                      DadosCandidatos[0]["id"] + ")";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
         }
 
@@ -377,23 +382,23 @@ namespace PortalSicoobDivicred.Aplicacao
                 if (Restricao.Length > 0 || Restricao != null)
                 {
                     var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado +
-                                               "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
-                                               DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';";
+                                              "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
+                                              DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';";
                     ;
                     ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
                 }
                 else
                 {
                     var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado +
-                                               "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
-                                               DadosCandidatos[0]["id"] + ";";
+                                              "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
+                                              DadosCandidatos[0]["id"] + ";";
                     ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
                 }
             }
             catch
             {
                 var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" +
-                                           IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+                                          IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
                 ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
             }
 
@@ -407,7 +412,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
             var QueryIniciaProcesso = "Update processosseletivos set gerente= '" + Resultado + "' WHERE idvaga = " +
-                                       IdVaga + " AND idcandidato = " + DadosCandidatos[0]["id"] + "; ";
+                                      IdVaga + " AND idcandidato = " + DadosCandidatos[0]["id"] + "; ";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
         }
 
@@ -417,7 +422,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
             var QueryIniciaProcesso = "Update processosseletivos set psicologico='" + Resultado + "' WHERE idvaga=" +
-                                       IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+                                      IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
         }
 
@@ -427,7 +432,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "select id FROM candidatos where cpf='" + Cpf + "';";
             var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
             var QueryIniciaProcesso = "Update processosseletivos set prova='" + Resultado + "' WHERE idvaga=" +
-                                       IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
+                                      IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
             ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
         }
 

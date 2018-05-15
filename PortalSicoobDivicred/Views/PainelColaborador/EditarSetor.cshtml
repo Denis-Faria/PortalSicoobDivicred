@@ -1,14 +1,14 @@
 ﻿@model PortalSicoobDivicred.Models.Setor
 
-<input name="IdSetor" value="@TempData["IdSetor"]" hidden />
+<input name="IdSetor" value="@TempData["IdSetor"]" hidden/>
 <div class="field">
     <label class="label">Nome Setor</label>
     <div class="control">
-        @Html.TextBoxFor(m => m.NomeSetor, null, new { @class = "input", placeholder = "Ex:Assitente..." })
-        @Html.ValidationMessageFor(m => m.NomeSetor, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.NomeSetor, null, new {@class = "input", placeholder = "Ex:Assitente..."})
+        @Html.ValidationMessageFor(m => m.NomeSetor, null, new {style = "color:red"})
     </div>
-    <br />
-    <button type="button" onclick="location.href='@Url.Action("ExcluirSetor","PainelColaborador",new{IdSetor=@TempData["IdSetor"]})'" id="ExcluirSetor" class="button is-danger">Excluir Setor</button>
+    <br/>
+    <button type="button" onclick="location.href = '@Url.Action("ExcluirSetor", "PainelColaborador", new {IdSetor = TempData["IdSetor"]})'" id="ExcluirSetor" class="button is-danger">Excluir Setor</button>
 </div>
 
-<br />
+<br/>

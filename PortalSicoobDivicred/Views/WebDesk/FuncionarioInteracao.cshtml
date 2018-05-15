@@ -1,12 +1,10 @@
-﻿
-@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
-
+﻿@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
 
 
 <div class="field">
     <label class="label">Funcionário Responsável pelo atendimento:</label>
     <p class="select is-fullwidth">
-        @Html.DropDownListFor(m => m.IdFuncionarioResponsavel, new SelectList(Model.FuncionarioResponsavel, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSAVEL", new { @class = "white-text", id = "FuncionarioResponsavel", @required = true })
-        @Html.ValidationMessageFor(m => m.IdFuncionarioResponsavel, null, new { style = "color:red" })
+        @Html.DropDownListFor(m => m.IdFuncionarioResponsavel, new SelectList(Model.FuncionarioResponsavel, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSAVEL", new {@class = "white-text", id = "FuncionarioResponsavel", required = true})
+        @Html.ValidationMessageFor(m => m.IdFuncionarioResponsavel, null, new {style = "color:red"})
     </p>
 </div>

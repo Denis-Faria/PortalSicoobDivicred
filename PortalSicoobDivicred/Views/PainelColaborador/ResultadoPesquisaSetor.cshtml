@@ -12,7 +12,7 @@
                 cache: true,
                 async: true,
                 data: { "IdSetor": Id },
-                success: function (data) {
+                success: function(data) {
 
                     $("#EdicaoSetor").append(data);
 
@@ -23,14 +23,13 @@
 </script>
 <div>
     <ul>
-        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalResultado"]); i++)
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
         {
             <li>
-                <a href="Javascript:Seleciona('@TempData["Id"+i]')">
+                <a href="Javascript:Seleciona('@TempData["Id" + i]')">
                     @TempData["Descricao" + i]
                 </a>
             </li>
         }
     </ul>
 </div>
-

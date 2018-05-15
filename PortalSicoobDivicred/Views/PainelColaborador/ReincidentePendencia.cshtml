@@ -2,129 +2,129 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <body>
-    @if (TempData["Mensagem"] != null)
-    {
-        @Html.Label("")
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
 
-        <script>
-
-            iziToast.success({
-                title: 'Sucesso',
-                position: "center",
-                message: '@TempData["Mensagem"]',
-            });
-
-        </script>
-    }
     <script>
-        function Imprimir() {
 
-            var conteudo = document.getElementById('ReincidentesCompleto').innerHTML,
-                tela_impressao = window.open('about:blank');
-            tela_impressao.document.write(conteudo);
-            tela_impressao.window.print();
-            tela_impressao.window.close();
-        }
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]',
+        });
+
     </script>
-    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-        <ul>
-            <li>
-                <a href="@Url.Action("Principal","Principal")">
-                    <span class="icon is-small">
-                        <i class="fa fa-home"></i>
-                    </span><span>DashBoard</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ColaboradorRh")">
-                    <span class="icon is-small">
-                        <i class="fa fa-user-plus"></i>
-                    </span><span>Colaborador RH</span>
-                </a>
-            </li>
-            <li class="is-active">
-                <a href="#" aria-current="page">
-                    <span class="icon is-small">
-                        <i class="far fa-calendar-times" aria-hidden="true"></i>
-                    </span><span>Reincidente Pendências</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <div>
-        @using (Html.BeginForm("ReincidentePendencia", "PainelColaborador"))
-        {
-            <div class="columns">
-                <div class="content field is-grouped ">
-                    <div class="column is-4">
-                        <div class="control has-icons-left ">
-                            <input class="input is-primary" type="text" name="DataInicial" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Inicial">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="column is-4">
-                        <div class="control has-icons-left ">
-                            <input class="input is-primary" type="text" name="DataFinal" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Final">
-                            <span class="icon is-small is-left">
-                                <i class="fas fa-calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="column is-3">
-                        <p class="control">
-                            <button type="submit" class="button is-success " id="BuscarReincidente" onmouseleave="$('#BuscarReincidente').removeClass('animated pulse')" onmouseover="$('#BuscarReincidente').addClass('animated pulse');" data-balloon="Clique para buscar os reincidentes do período selecionado." data-balloon-pos="down">
-                                <span class="icon">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <span>Buscar Reincidentes</span>
-                            </button>
-                        </p>
-                    </div>
-                    <div class="column is-3">
-                        <p class="control">
-                            <button onclick="Imprimir()" type="submit" class="button is-success">
-                                <span class="icon">
-                                    <i class="fa fa-print"></i>
-                                </span>
-                                <span>Imprimir Reincidentes</span>
-                            </button>
-                        </p>
+}
+<script>
+    function Imprimir() {
+
+        var conteudo = document.getElementById('ReincidentesCompleto').innerHTML,
+            tela_impressao = window.open('about:blank');
+        tela_impressao.document.write(conteudo);
+        tela_impressao.window.print();
+        tela_impressao.window.close();
+    }
+</script>
+<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="@Url.Action("Principal", "Principal")">
+                <span class="icon is-small">
+                    <i class="fa fa-home"></i>
+                </span><span>DashBoard</span>
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("ColaboradorRh")">
+                <span class="icon is-small">
+                    <i class="fa fa-user-plus"></i>
+                </span><span>Colaborador RH</span>
+            </a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">
+                <span class="icon is-small">
+                    <i class="far fa-calendar-times" aria-hidden="true"></i>
+                </span><span>Reincidente Pendências</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<div>
+    @using (Html.BeginForm("ReincidentePendencia", "PainelColaborador"))
+    {
+        <div class="columns">
+            <div class="content field is-grouped ">
+                <div class="column is-4">
+                    <div class="control has-icons-left ">
+                        <input class="input is-primary" type="text" name="DataInicial" onfocus="(this.type = 'date')" onblur="(this.type = 'text')" placeholder="Data Inicial">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-calendar"></i>
+                        </span>
                     </div>
                 </div>
-
+                <div class="column is-4">
+                    <div class="control has-icons-left ">
+                        <input class="input is-primary" type="text" name="DataFinal" onfocus="(this.type = 'date')" onblur="(this.type = 'text')" placeholder="Data Final">
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <p class="control">
+                        <button type="submit" class="button is-success " id="BuscarReincidente" onmouseleave="$('#BuscarReincidente').removeClass('animated pulse')" onmouseover="$('#BuscarReincidente').addClass('animated pulse');" data-balloon="Clique para buscar os reincidentes do período selecionado." data-balloon-pos="down">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>Buscar Reincidentes</span>
+                        </button>
+                    </p>
+                </div>
+                <div class="column is-3">
+                    <p class="control">
+                        <button onclick="Imprimir()" type="submit" class="button is-success">
+                            <span class="icon">
+                                <i class="fa fa-print"></i>
+                            </span>
+                            <span>Imprimir Reincidentes</span>
+                        </button>
+                    </p>
+                </div>
             </div>
-        }
 
-        <br />
-        <div id="ReincidentesCompleto">
-            <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                <thead>
-                <th>ID</th>
-                <th>Funcionário</th>
-                <th>Dias</th>
-                </thead>
-                <tbody>
-                    @for (var i = 0; i < Convert.ToInt32(TempData["TotalReincidente"]); i++)
-                    {
-                        <tr>
-                            <td>
-                                @TempData["IdFuncionario" + i]
-                            </td>
-                            <td>
-                                @TempData["Nome" + i]
-                            </td>
-                            <td>
-                                @TempData["Dia" + i]
-                            </td>
-                        </tr>
-                    }
-                <tbody>
-            </table>
         </div>
+    }
+
+    <br/>
+    <div id="ReincidentesCompleto">
+        <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+            <thead>
+            <th>ID</th>
+            <th>Funcionário</th>
+            <th>Dias</th>
+            </thead>
+            <tbody>
+            @for (var i = 0; i < Convert.ToInt32(TempData["TotalReincidente"]); i++)
+            {
+                <tr>
+                    <td>
+                        @TempData["IdFuncionario" + i]
+                    </td>
+                    <td>
+                        @TempData["Nome" + i]
+                    </td>
+                    <td>
+                        @TempData["Dia" + i]
+                    </td>
+                </tr>
+            }
+            <tbody>
+        </table>
     </div>
+</div>
 </body>
 </div>
 </body>

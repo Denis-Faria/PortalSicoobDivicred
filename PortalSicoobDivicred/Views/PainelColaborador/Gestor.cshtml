@@ -1,5 +1,4 @@
-﻿
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+﻿<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
 </script>
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
@@ -14,13 +13,14 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoGestor": $("#DescricaoGestor").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaGestor").append(data);
 
                 }
             });
 
     }
+
     function BuscaSetores() {
         // Declare variables
         var input, filter, ul, li, a, i;
@@ -39,6 +39,7 @@
             }
         }
     }
+
     function BuscarFuncionario() {
         // Declare variables
         var input, filter, ul, li, a, i;
@@ -57,8 +58,8 @@
             }
         }
     }
+
     $('#CadastroGestor').validate({
-       
         rules: {
             'Funcionario': {
                 required: true,
@@ -69,25 +70,24 @@
                 maxlength: 1
             },
         },
-        messages: { 
-            
+        messages: {
             "Funcionario": {
                 required: "Selecione ao menos 1 funcionário",
-                maxlength:"Selecione apenas 1 funcioário."
+                maxlength: "Selecione apenas 1 funcioário."
 
             },
-                "Setor": {
-                    required: "Selecione ao menos 1 setor",
-                    maxlength:"Selecione apenas 1 setor."
-                }
-            
+            "Setor": {
+                required: "Selecione ao menos 1 setor",
+                maxlength: "Selecione apenas 1 setor."
+            }
+
         },
         errorContainer: $('#Erros'),
         errorLabelContainer: $('#Erros ul'),
         wrapper: 'li'
-       
+
     });
-   
+
 </script>
 <div>
 
@@ -102,18 +102,18 @@
             </button>
         </p>
     </div>
-    @using (Html.BeginForm("Gestor", "PainelColaborador",FormMethod.Post,new{name="CadastroGestor", id="CadastroGestor"}))
+    @using (Html.BeginForm("Gestor", "PainelColaborador", FormMethod.Post, new {name = "CadastroGestor", id = "CadastroGestor"}))
     {
         <div name="Erros" id="Erros" hidden="" class="content notification is-danger">
-        <p>Favor corrija os seguintes erros:</p>
+            <p>Favor corrija os seguintes erros:</p>
             <ul></ul>
-        
+
         </div>
         <div class="field">
             <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
-                       Funcionários
+                        Funcionários
                     </p>
 
                 </header>
@@ -129,7 +129,7 @@
                         </div>
                         <div style="height: 100px; overflow-y: scroll;">
                             <ul id="ListaGestores">
-                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalFuncionarios"]); i++)
+                                @for (var i = 0; i < Convert.ToInt32(TempData["TotalFuncionarios"]); i++)
                                 {
                                     <li>
                                         <label class="checkbox">
@@ -137,7 +137,6 @@
                                             @TempData["Nome" + i]
                                         </label>
                                     </li>
-
                                 }
                             </ul>
                         </div>
@@ -145,7 +144,7 @@
                 </div>
 
             </div>
-            <div class="card" >
+            <div class="card">
                 <header class="card-header">
                     <p class="card-header-title">
                         Setores
@@ -154,32 +153,31 @@
                 </header>
                 <section class="modal-card-body">
 
-                <div class="card-content">
-                    <div class="content" >
-                        <div class="field">
-                            <div class="control has-icons-left ">
-                                <input id="BuscaSetor" class="input is-fullwidth" onkeyup="BuscaSetores()" type="text" placeholder="Busque um setor">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-search"></i>
-                                </span>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="field">
+                                <div class="control has-icons-left ">
+                                    <input id="BuscaSetor" class="input is-fullwidth" onkeyup="BuscaSetores()" type="text" placeholder="Busque um setor">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div style="height: 100px; overflow-y: scroll;">
+                                <ul id="ListaSetores">
+                                    @for (var i = 0; i < Convert.ToInt32(TempData["TotalSetores"]); i++)
+                                    {
+                                        <li>
+                                            <label class="checkbox">
+                                                <input type="checkbox" name="Setor" value="@TempData["IdSetor" + i]">
+                                                @TempData["DescricaoSetor" + i]
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
                         </div>
-                        <div style="height: 100px; overflow-y: scroll;">
-                            <ul id="ListaSetores">
-                                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalSetores"]); i++)
-                                {
-                                    <li>
-                                        <label class="checkbox">
-                                            <input type="checkbox" name="Setor" value="@TempData["IdSetor" + i]">
-                                            @TempData["DescricaoSetor" + i]
-                                        </label>
-                                    </li>
-
-                                }
-                            </ul>
-                        </div>
                     </div>
-                </div>
                 </section>
             </div>
         </div>
@@ -192,58 +190,59 @@
             </button>
         </p>
     }
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
-@using (Html.BeginForm("EditarGestor", "PainelColaborador",FormMethod.Post,new{name="EditarGestor",id="EditarGestor"}))
-{
-    <div id="ModalGestor" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Editar Gestor</p>
-                <a href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Gestores
-                        </p>
+    @using (Html.BeginForm("EditarGestor", "PainelColaborador", FormMethod.Post, new {name = "EditarGestor", id = "EditarGestor"}))
+    {
+        <div id="ModalGestor" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Editar Gestor</p>
+                    <a href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Gestores
+                            </p>
 
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
 
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="DescricaoGestor" class="input is-fullwidth" type="text" placeholder="Busque um gestor.">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-search"></i>
-                                    </span>
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="DescricaoGestor" class="input is-fullwidth" type="text" placeholder="Busque um gestor.">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="control">
+                                        <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                            Procurar
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="control">
-                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
-                                        Procurar
-                                    </a>
-                                </div>
+                                <ul id="ListaGestor"></ul>
                             </div>
-                            <ul id="ListaGestor"></ul>
                         </div>
                     </div>
-                </div>
-                <br/>
-                <div id="EdicaoGestor" hidden>
-
                     <br/>
-                </div>
-            </section>
-            <footer class="modal-card-foot">
-                <button type="submit" id="SalvaGestor" disabled class="button is-success">Salvar Gestor</button>
-                <a class="button" href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);">Cancelar</a>
-            </footer>
+                    <div id="EdicaoGestor" hidden>
+
+                        <br/>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="SalvaGestor" disabled class="button is-success">Salvar Gestor</button>
+                    <a class="button" href="javascript:$('#ModalGestor').removeClass();$('#ModalGestor').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
         </div>
-    </div>
-}
+    }
 
 </div>

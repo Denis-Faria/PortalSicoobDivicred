@@ -23,9 +23,10 @@
             }
         }
     }
+
     function Buscar() {
         $("#ListaFuncoes").empty();
-       $.ajax(
+        $.ajax(
             {
                 type: 'Post',
                 url: '/PainelColaborador/BuscarFuncao',
@@ -33,7 +34,7 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoFuncao": $("#BuscaFuncao").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaFuncoes").append(data);
 
                 }
@@ -59,12 +60,12 @@
         <div class="field">
             <label class="label">Nome Função</label>
             <div class="control">
-                @Html.TextBoxFor(m => m.NomeFuncao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
-                @Html.ValidationMessageFor(m => m.NomeFuncao, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.NomeFuncao, null, new {@class = "input", placeholder = "Ex:Assitente..."})
+                @Html.ValidationMessageFor(m => m.NomeFuncao, null, new {style = "color:red"})
             </div>
         </div>
 
-        <br />
+        <br/>
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
@@ -83,7 +84,7 @@
                         </div>
                     </div>
                     <ul id="ListaCertificacoes">
-                        @for (int i = 0; i < Convert.ToInt32(@TempData["TotalCertificacao"]); i++)
+                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalCertificacao"]); i++)
                         {
                             <li>
                                 <label class="checkbox">
@@ -91,13 +92,12 @@
                                     @TempData["DescricaoCertificacao" + i]
                                 </label>
                             </li>
-
                         }
                     </ul>
                 </div>
             </div>
         </div>
-        <br />
+        <br/>
         <p class="control">
             <button type="submit" class="button is-success " id="CadastroFuncao" onmouseleave="$('#CadastroFuncao').removeClass('animated pulse')" onmouseover="$('#CadastroFuncao').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
                 <span class="icon is-small">
@@ -107,7 +107,8 @@
             </button>
         </p>
     }
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
     @using (Html.BeginForm("EditarFuncao", "PainelColaborador"))
@@ -129,20 +130,20 @@
                         </header>
                         <div class="card-content">
                             <div class="content">
-                               
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left is-expanded">
-                                            <input id="BuscaFuncao" class="input is-fullwidth" type="text" placeholder="Busque uma função.">
-                                            <span class="icon is-small is-left">
-                                                <i class="fas fa-search"></i>
-                                            </span>
-                                        </div>
-                                        <div class="control">
-                                            <a href="Javascript:Buscar();void(0);" class="button is-success">
-                                                Procurar
-                                            </a>
-                                        </div>
+
+                                <div class="field has-addons">
+                                    <div class="control has-icons-left is-expanded">
+                                        <input id="BuscaFuncao" class="input is-fullwidth" type="text" placeholder="Busque uma função.">
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-search"></i>
+                                        </span>
                                     </div>
+                                    <div class="control">
+                                        <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                            Procurar
+                                        </a>
+                                    </div>
+                                </div>
                                 <ul id="ListaFuncoes">
 
                                 </ul>
@@ -150,10 +151,10 @@
                         </div>
                     </div>
                     <br/>
-                    
+
                     <div id="EdicaoFuncao" hidden>
 
-                    <br/>
+                        <br/>
                     </div>
                 </section>
                 <footer class="modal-card-foot">

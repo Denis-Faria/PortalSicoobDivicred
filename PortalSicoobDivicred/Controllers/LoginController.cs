@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Net.Mail;
-using System.Net.Security;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -12,9 +8,6 @@ using Limilabs.Mail;
 using Limilabs.Mail.Headers;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
-
-
-
 
 namespace PortalSicoobDivicred.Controllers
 {
@@ -41,20 +34,13 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         Session["Usuario"] = Dados.Usuario;
                         return RedirectToAction("Principal", "Principal");
+                    }
 
-                    }
-                    else
-                    {
-                        TempData["Erro"] = "Usuário ou senha informados incorretos.";
-                        return View(Dados);
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("EsqueciMinhaSenha");
+                    TempData["Erro"] = "Usuário ou senha informados incorretos.";
+                    return View(Dados);
                 }
 
-                
+                return RedirectToAction("EsqueciMinhaSenha");
             }
 
             if (ModelState["Usuario"].Errors.Count == 0)
@@ -75,6 +61,7 @@ namespace PortalSicoobDivicred.Controllers
                 Cookie.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(Cookie);
             }
+
             return RedirectToAction("Login");
         }
 
@@ -90,64 +77,60 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var VerificaDados = new QueryMysql();
 
-                string password = DadosLogin["Senha"];
+                var password = DadosLogin["Senha"];
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(DadosLogin["Usuario"]);
 
-                MD5 md5Hash = MD5.Create();
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
+                var md5Hash = MD5.Create();
+                var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var sBuilder = new StringBuilder();
+                for (var i = 0; i < data.Length; i++) sBuilder.Append(data[i].ToString("x2"));
 
-                MailBuilder builder = new MailBuilder();
+                var builder = new MailBuilder();
                 builder.From.Add(new MailBox("correio@divicred.com.br", "Portal Sicoob Divicred - Troca de Senha"));
                 builder.To.Add(new MailBox(DadosUsuario[0]["email"]));
                 builder.Subject = "Troca de senha";
-                builder.Html = "<b>Você solicitou uma troca de sneha para confirmar esta alteração clique no link abaixo.</b> <br/>  http://10.11.17.30:9090/Login/AlterarSenha?Senha="+ sBuilder.ToString() + "&Usuario="+DadosLogin["Usuario"]+"";
+                builder.Html =
+                    "<b>Você solicitou uma troca de sneha para confirmar esta alteração clique no link abaixo.</b> <br/>  http://10.11.17.30:9090/Login/AlterarSenha?Senha=" +
+                    sBuilder + "&Usuario=" + DadosLogin["Usuario"] + "";
 
-                IMail email = builder.Create();
+                var email = builder.Create();
 
-                using (Smtp smtp = new Smtp())
+                using (var smtp = new Smtp())
                 {
-                    smtp.Connect("mail.divicred.com.br",587);
+                    smtp.Connect("mail.divicred.com.br", 587);
                     smtp.UseBestLogin("correio@divicred.com.br", "DIVICRED@4030");
 
-                    ISendMessageResult result = smtp.SendMessage(email);
+                    var result = smtp.SendMessage(email);
                     if (result.Status == SendMessageStatus.Success)
                     {
-                       
                     }
 
                     smtp.Close();
                 }
+
                 VerificaDados.AtualizaEmailSenha(DadosUsuario[0]["id"]);
 
-                return RedirectToAction("Login","Login", new { Mensagem = "Um e-mail foi enviado para você com maiores informações! " });
+                return RedirectToAction("Login", "Login",
+                    new {Mensagem = "Um e-mail foi enviado para você com maiores informações! "});
             }
-            else
-            {
-                TempData["Erro"] = "Usuário ou senha informados incorretos.";
-                return View(DadosLogin);
-            }
+
+            TempData["Erro"] = "Usuário ou senha informados incorretos.";
+            return View(DadosLogin);
         }
 
         public ActionResult AlterarSenha(string Senha, string Usuario)
         {
-
             var VerificaDados = new QueryMysql();
             var Dados = VerificaDados.RetornaEmailSenha(Usuario);
 
-            if (Dados[0]["emailtrocasenha"].ToString().Equals("S"))
+            if (Dados[0]["emailtrocasenha"].Equals("S"))
             {
-                VerificaDados.AtualizaSenha(Usuario,Senha);
-                return RedirectToAction("Login","Login",new {Mensagem="Senha alterada com sucesso !"} );
+                VerificaDados.AtualizaSenha(Usuario, Senha);
+                return RedirectToAction("Login", "Login", new {Mensagem = "Senha alterada com sucesso !"});
             }
-            else
-            {
-                return RedirectToAction("Login", "Login", new { Mensagem = "Este link não está mais ativo, favor pedir nova alteração de senha!" });
-            }
+
+            return RedirectToAction("Login", "Login",
+                new {Mensagem = "Este link não está mais ativo, favor pedir nova alteração de senha!"});
         }
     }
 }

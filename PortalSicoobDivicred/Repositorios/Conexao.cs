@@ -77,13 +77,14 @@ namespace Port.Repositorios
             AbrirConexao();
             var comando =
                 new MySqlCommand(
-                    "SELECT * FROM webdeskanexos WHERE idinteracao='"+IdInteracao+"'; ", conexao);
+                    "SELECT * FROM webdeskanexos WHERE idinteracao='" + IdInteracao + "'; ", conexao);
             var Dados = new MySqlDataAdapter(comando);
             var Tabela = new DataTable();
             Dados.Fill(Tabela);
             FecharConexao();
             return Tabela;
         }
+
         public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSQL)
         {
             List<Dictionary<string, string>> linhas = null;
@@ -114,7 +115,7 @@ namespace Port.Repositorios
                 }
             }
             finally
-                                                             {
+            {
                 FecharConexao();
             }
 

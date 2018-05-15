@@ -4,14 +4,14 @@
 <div class="field">
     <label class="label">Nome Função</label>
     <div class="control">
-        @Html.TextBoxFor(m => m.NomeFuncao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
-        @Html.ValidationMessageFor(m => m.NomeFuncao, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.NomeFuncao, null, new {@class = "input", placeholder = "Ex:Assitente..."})
+        @Html.ValidationMessageFor(m => m.NomeFuncao, null, new {style = "color:red"})
     </div>
     <br/>
-    <button type="button" onclick="location.href='@Url.Action("ExcluirFuncao","PainelColaborador",new{IdFuncao=@TempData["IdFuncao"]})'" id="ExcluirFuncao"   class="button is-danger">Excluir Função</button>
+    <button type="button" onclick="location.href = '@Url.Action("ExcluirFuncao", "PainelColaborador", new {IdFuncao = TempData["IdFuncao"]})'" id="ExcluirFuncao" class="button is-danger">Excluir Função</button>
 </div>
 
-<br />
+<br/>
 <div class="card">
     <header class="card-header">
         <p class="card-header-title">
@@ -30,15 +30,14 @@
                 </div>
             </div>
             <ul id="ListaCertificacoes">
-                @for (int i = 0; i < Convert.ToInt32(@TempData["TotalCertificacaoEditar"]); i++)
+                @for (var i = 0; i < Convert.ToInt32(TempData["TotalCertificacaoEditar"]); i++)
                 {
                     <li>
                         <label class="checkbox">
-                            <input type="checkbox" name="Certificacao @i"  @TempData["CertificaFuncao" + i] value="@TempData["IdCertificacaoEditar" + i]">
+                            <input type="checkbox" name="Certificacao @i" @TempData["CertificaFuncao" + i] value="@TempData["IdCertificacaoEditar" + i]">
                             @TempData["DescricaoCertificacaoEditar" + i]
                         </label>
                     </li>
-
                 }
             </ul>
         </div>

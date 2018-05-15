@@ -13,52 +13,51 @@
     <th class="has-text-centered">Apontar Pendência</th>
     </thead>
     <tbody>
-        @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
-        {
+    @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemPendencia"]); i++)
+    {
+        <tr>
+            <td class="has-text-centered">
+                @TempData["IdPontoCerto" + i]
+            </td>
 
-            <tr>
-                <td class="has-text-centered">
-                    @TempData["IdPontoCerto" + i]
-                </td>
-
-                <td class="has-text-centered">
-                    @TempData["NomePontoCerto" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["DiaCerto" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["HoraCerto0" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["HoraCerto1" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["HoraCerto2" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["HoraCerto3" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["JornadaCerto" + i]
-                </td>
-                <td class="has-text-centered" style="color: green">
-                    @TempData["HoraExtraCerto" + i]
-                </td>
-                <td class="has-text-centered" style="color: red">
-                    @TempData["DebitoCerto" + i]
-                </td>
-                <td class="has-text-centered">
-                    <p class="control">
-                        <a class="button is-outlined is-success" href="Javascript:ApontarPendencia('@i');void(0);" data-balloon="Apontar pendências" data-balloon-pos="up">
-                            <span class="icon is-small">
-                                <i class="fas fa-thumbtack"></i>
-                            </span>
-                            <span>Apontar pendências</span>
-                        </a>
-                    </p>
-                </td>
-            </tr>
-        }
+            <td class="has-text-centered">
+                @TempData["NomePontoCerto" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["DiaCerto" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["HoraCerto0" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["HoraCerto1" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["HoraCerto2" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["HoraCerto3" + i]
+            </td>
+            <td class="has-text-centered">
+                @TempData["JornadaCerto" + i]
+            </td>
+            <td class="has-text-centered" style="color: green">
+                @TempData["HoraExtraCerto" + i]
+            </td>
+            <td class="has-text-centered" style="color: red">
+                @TempData["DebitoCerto" + i]
+            </td>
+            <td class="has-text-centered">
+                <p class="control">
+                    <a class="button is-outlined is-success" href="Javascript:ApontarPendencia('@i');void(0);" data-balloon="Apontar pendências" data-balloon-pos="up">
+                        <span class="icon is-small">
+                            <i class="fas fa-thumbtack"></i>
+                        </span>
+                        <span>Apontar pendências</span>
+                    </a>
+                </p>
+            </td>
+        </tr>
+    }
     <tbody>
 </table>

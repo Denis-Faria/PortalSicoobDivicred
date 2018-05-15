@@ -87,6 +87,7 @@ namespace ElasticEmailClient
                         rs.Write(headerbytes, 0, headerbytes.Length);
                         rs.Write(file.Content, 0, file.Content.Length);
                     }
+
                 var trailer = Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
                 rs.Write(trailer, 0, trailer.Length);
                 rs.Close();
@@ -172,6 +173,7 @@ namespace ElasticEmailClient
                         if (!apiRet.success) throw new ApplicationException(apiRet.error);
                         return null;
                     }
+
                     var cd = new ContentDisposition(cds);
                     var fileData = new ApiTypes.FileData();
                     fileData.Content = response.ToArray();

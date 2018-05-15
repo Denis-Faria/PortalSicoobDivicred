@@ -499,6 +499,9 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Images\sucesso.png" />
     <Content Include="Images\user.png" />
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />

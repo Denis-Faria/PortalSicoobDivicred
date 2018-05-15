@@ -120,6 +120,7 @@ namespace PortalSicoobDivicred.Controllers
                         return RedirectToAction("ParecerProcesso",
                             new {Cpf = Formulario["Cpf"], IdVaga = Formulario["IdVaga"]});
                     }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -185,6 +186,7 @@ namespace PortalSicoobDivicred.Controllers
                     return View();
                 }
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -227,6 +229,7 @@ namespace PortalSicoobDivicred.Controllers
                         return RedirectToAction("RecrutamentoSelecao",
                             new {IdVaga = Formulario["IdVaga"]});
                     }
+
             return RedirectToAction("Login", "Login");
         }
     }

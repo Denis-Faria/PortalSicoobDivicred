@@ -3,180 +3,180 @@
 }
 <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
 <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
 <body>
-    <script>
+<script>
 
-        function LinhaSeleciona() {
-            $('#TabelaCurriculo').find('tr').each(function () {
-                var row = $(this);
-                if (row.find('input[type="checkbox"]').is(':checked')) {
-                    row.addClass("is-selected");
-                } else {
-                    row.removeClass("is-selected");
-                }
+    function LinhaSeleciona() {
+        $('#TabelaCurriculo').find('tr').each(function() {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                row.addClass("is-selected");
+            } else {
+                row.removeClass("is-selected");
+            }
 
-            });
-
-        }
-        function VerPerfil(Cpf) {
-            $("#PerfilCompleto").empty();
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/Curriculo/PerfilCandidato',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "Cpf": Cpf },
-                    success: function (data) {
-                        $("#PerfilCompleto").append(data);
-                        $('#ModalPerfil').removeClass();
-                        $('#ModalPerfil').addClass('modal is-active');
-
-
-                    }
-                });
-        }
-
-        function EncerrarProcesso(IdVaga) {
-            var id = IdVaga;
-            $("#ProcessoCompleto").empty();
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/Curriculo/PerfilCandidatoProcesso',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdVaga": id },
-                    success: function (data) {
-                        $("#ProcessoCompleto").append(data);
-                        $('#ModalEncerramento').removeClass();
-                        $('#ModalEncerramento').addClass('modal is-active');
-
-
-                    }
-                });
-        }
-
-        function ResultadoProcesso(IdVaga) {
-            $("#ResultadoCompleto").empty();
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/Curriculo/ResultadoProcesso',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdVaga": IdVaga },
-                    success: function (data) {
-                        $("#ResultadoCompleto").append(data);
-                        $('#ModalResultado').removeClass();
-                        $('#ModalResultado').addClass('modal is-active');
-
-
-                    }
-                });
-        }
-
-
-
-        function SelecionaTodas() {
-            $('#TabelaCurriculo').find('tr').each(function () {
-                var row = $(this);
-                if (row.find('input[type="checkbox"]').is(':checked')) {
-                    row.removeClass("is-selected");
-                    row.find('input[type="checkbox"]').prop("checked", false);
-                } else {
-                    row.find('input[type="checkbox"]').prop("checked", true);
-                    row.addClass("is-selected");
-                }
-            });
-        }
-
-
-
-        $(function () {
-            $("#TabelaCurriculo").tablesorter();
         });
 
-        function AbrirProcesso(Id) {
-            if ($("#AbrirProcesso").is(":disabled")) {
+    }
+
+    function VerPerfil(Cpf) {
+        $("#PerfilCompleto").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Curriculo/PerfilCandidato',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "Cpf": Cpf },
+                success: function(data) {
+                    $("#PerfilCompleto").append(data);
+                    $('#ModalPerfil').removeClass();
+                    $('#ModalPerfil').addClass('modal is-active');
+
+
+                }
+            });
+    }
+
+    function EncerrarProcesso(IdVaga) {
+        var id = IdVaga;
+        $("#ProcessoCompleto").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Curriculo/PerfilCandidatoProcesso',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": id },
+                success: function(data) {
+                    $("#ProcessoCompleto").append(data);
+                    $('#ModalEncerramento').removeClass();
+                    $('#ModalEncerramento').addClass('modal is-active');
+
+
+                }
+            });
+    }
+
+    function ResultadoProcesso(IdVaga) {
+        $("#ResultadoCompleto").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Curriculo/ResultadoProcesso',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": IdVaga },
+                success: function(data) {
+                    $("#ResultadoCompleto").append(data);
+                    $('#ModalResultado').removeClass();
+                    $('#ModalResultado').addClass('modal is-active');
+
+
+                }
+            });
+    }
+
+
+    function SelecionaTodas() {
+        $('#TabelaCurriculo').find('tr').each(function() {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                row.removeClass("is-selected");
+                row.find('input[type="checkbox"]').prop("checked", false);
             } else {
-                var IdVaga = Id;
-                var form = $("#Curriculos").serialize();
-                iziToast.show({
-                    title: 'Processo seletivo.',
-                    message: 'Você tem certeza que deseja abrir um processo seletivo com os curriculos filtrados ?',
-                    position: 'center',
-                    progressBarColor: 'rgb(0, 255, 184)',
-                    buttons: [
-                        [
-                            '<button>Sim</button>', function (instance, toast) {
-                                var count = 0;
-                                $('#TabelaCurriculo').find('tr').each(function () {
-                                    var row = $(this);
-                                    if (row.find('input[type="checkbox"]').is(':checked')) {
-                                        count++;
-                                    }
-                                });
-                                if (count == 0) {
-                                    instance.hide({
+                row.find('input[type="checkbox"]').prop("checked", true);
+                row.addClass("is-selected");
+            }
+        });
+    }
+
+
+    $(function() {
+        $("#TabelaCurriculo").tablesorter();
+    });
+
+    function AbrirProcesso(Id) {
+        if ($("#AbrirProcesso").is(":disabled")) {
+        } else {
+            var IdVaga = Id;
+            var form = $("#Curriculos").serialize();
+            iziToast.show({
+                title: 'Processo seletivo.',
+                message: 'Você tem certeza que deseja abrir um processo seletivo com os curriculos filtrados ?',
+                position: 'center',
+                progressBarColor: 'rgb(0, 255, 184)',
+                buttons: [
+                    [
+                        '<button>Sim</button>', function(instance, toast) {
+                            var count = 0;
+                            $('#TabelaCurriculo').find('tr').each(function() {
+                                var row = $(this);
+                                if (row.find('input[type="checkbox"]').is(':checked')) {
+                                    count++;
+                                }
+                            });
+                            if (count == 0) {
+                                instance.hide({
                                         transitionOut: 'fadeOutUp',
-                                        onClosing: function (instance, toast, closedBy) {
+                                        onClosing: function(instance, toast, closedBy) {
                                             console.info('closedBy: ' + closedBy); //btn2
                                         }
                                     },
-                                        toast,
-                                        'close',
-                                        'btn2');
-                                    iziToast.error({
-                                        title: 'Error',
-                                        message: 'Favor selecionar os curriculos que participaram do processo seletivo',
-                                        position: 'center'
-                                    });
-                                } else {
-                                    $("#FormCurriculo").submit();
-                                }
-
-                            }
-                        ],
-                        [
-                            '<button>Não</button>', function (instance, toast) {
-                                instance.hide({
-                                    transitionOut: 'fadeOutUp',
-                                    onClosing: function (instance, toast, closedBy) {
-                                        console.info('closedBy: ' + closedBy); //btn2
-                                    }
-                                },
                                     toast,
                                     'close',
                                     'btn2');
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: 'Favor selecionar os curriculos que participaram do processo seletivo',
+                                    position: 'center'
+                                });
+                            } else {
+                                $("#FormCurriculo").submit();
                             }
-                        ]
+
+                        }
                     ],
-                    onOpening: function (instance, toast) {
-                        console.info('callback abriu!');
-                    },
-                    onClosing: function (instance, toast, closedBy) {
-                        console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
-                    }
-                });
-            }
+                    [
+                        '<button>Não</button>', function(instance, toast) {
+                            instance.hide({
+                                    transitionOut: 'fadeOutUp',
+                                    onClosing: function(instance, toast, closedBy) {
+                                        console.info('closedBy: ' + closedBy); //btn2
+                                    }
+                                },
+                                toast,
+                                'close',
+                                'btn2');
+                        }
+                    ]
+                ],
+                onOpening: function(instance, toast) {
+                    console.info('callback abriu!');
+                },
+                onClosing: function(instance, toast, closedBy) {
+                    console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+                }
+            });
         }
-        function Imprimir() {
+    }
 
-            var conteudo = document.getElementById('PerfilCompleto').innerHTML,
-                tela_impressao = window.open('about:blank');
-            tela_impressao.document.write(conteudo);
-            tela_impressao.window.print();
-            tela_impressao.window.close();
-        }
+    function Imprimir() {
 
-    </script>
+        var conteudo = document.getElementById('PerfilCompleto').innerHTML,
+            tela_impressao = window.open('about:blank');
+        tela_impressao.document.write(conteudo);
+        tela_impressao.window.print();
+        tela_impressao.window.close();
+    }
+
+</script>
 
 @if (TempData["Mensagem"] != null)
 {
@@ -193,292 +193,292 @@
 
     </script>
 }
-    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-        <ul>
-            <li>
-                <a href="@Url.Action("Principal","Principal")">
-                    <span class="icon is-small">
-                        <i class="fa fa-home"></i>
-                    </span><span>DashBoard</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Curriculo")">
-                    <span class="icon is-small">
-                        <i class="fa fa-book"></i>
-                    </span><span>Curriculos</span>
-                </a>
-            </li>
-            <li class="is-active">
-                <a href="#" aria-current="page" >
-                    <span class="icon is-small" >
-                        <i class="fa fa-suitcase" aria-hidden="true"></i>
-                    </span><span>Vagas - @TempData["TituloVaga"]</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="@Url.Action("Principal", "Principal")">
+                <span class="icon is-small">
+                    <i class="fa fa-home"></i>
+                </span><span>DashBoard</span>
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Curriculo")">
+                <span class="icon is-small">
+                    <i class="fa fa-book"></i>
+                </span><span>Curriculos</span>
+            </a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">
+                <span class="icon is-small">
+                    <i class="fa fa-suitcase" aria-hidden="true"></i>
+                </span><span>Vagas - @TempData["TituloVaga"]</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
-    <div>
-        @using (Html.BeginForm("FiltrarPerfilVaga", "Curriculo", FormMethod.Post, new {id = "FiltroPerfil"}))
+<div>
+@using (Html.BeginForm("FiltrarPerfilVaga", "Curriculo", FormMethod.Post, new {id = "FiltroPerfil"}))
+{
+    <span>
+        <h2 class="subtitle">@TempData["TituloVaga"]</h2>
+    </span>
+    <input id="TituloVaga" name="TituloVaga" value="@TempData["TituloVaga"]" hidden="true"/>
+    <br/>
+    <div class="field is-grouped">
+        <p class="control has-icons-left">
+            <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
+            <span class="icon is-small is-left">
+                <i class="fas fa-calendar-alt"></i>
+            </span>
+        </p>
+        <p class="control has-icons-left">
+            <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
+            <span class="icon is-small is-left">
+                <i class="fas fa-university"></i>
+            </span>
+        </p>
+
+        <p class="control has-icons-left">
+            <span class="select">
+                <select name="FiltroSexo" id="FiltroSexo">
+                    <option selected>Sexo</option>
+                    <option>Masculino</option>
+                    <option>Feminino</option>
+                </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fas fa-venus-mars" aria-hidden="true"></i>
+            </span>
+        </p>
+
+
+        <p class="control has-icons-left">
+            <span class="select">
+                <select id="FiltroGraduacao" name="FiltroGraduacao">
+                    <option selected>Graduação</option>
+                    <option>Ensino médio | Andamento/Completo</option>
+                    <option>Superior | Andamento/Completo </option>
+                    <option>Pós-Graduação | Andamento/Completo</option>
+                    <option>Mestrado/Doutorado | Andamento/Completo</option>
+                </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
+            </span>
+        </p>
+
+
+        <p class="control has-icons-left">
+            <input id="FiltroCurso" name="FiltroCurso" class="input" type="text" placeholder="Curso Graduação">
+            <span class="icon is-small is-left">
+                <i class="fas fa-sticky-note"></i>
+            </span>
+        </p>
+
+
+        <p class="control has-icons-left">
+            <span class="select">
+                <select id="FiltroFaixaEtaria" name="FiltroFaixaEtaria">
+                    <option selected>Faixa Etária</option>
+                    <option> < 18 </option>
+                    <option>18 - 25 </option>
+                    <option>25 - 30 </option>
+                    <option>30 - 40 </option>
+                    <option> 40 > </option>
+                </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fas fa-birthday-cake" aria-hidden="true"></i>
+            </span>
+        </p>
+
+
+    </div>
+    <div class="field is-grouped">
+        <p class="control has-icons-left">
+            <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
+            <span class="icon is-small is-left">
+                <i class="fas fa-certificate"></i>
+            </span>
+        </p>
+        <p class="control has-icons-left">
+            <input id="FiltroProfissional" name="FiltroProfissional" class="input" type="text" placeholder="Profissional">
+            <span class="icon is-small is-left">
+                <i class="fas fa-users"></i>
+            </span>
+        </p>
+    </div>
+
+    <!--
+    Parte Superior com tabela
+    -->
+    <p class="field">
+        <button type="submit" class="button is-success" data-balloon="Clique para filtrar os perfis para esta vaga" data-balloon-pos="down" id="Filtro" name="Filtro" onmouseleave="$('#Filtro').removeClass('animated pulse')" onmouseover="$('#Filtro').addClass('animated pulse');">
+            <span class="icon is-small">
+                <i class="fas fa-filter" aria-hidden="true"></i>
+            </span>
+            <span>Aplicar Filtro</span>
+        </button>
+
+        <button type="button" @TempData["ProcessoAtivo"] onclick="location.href = 'javascript:AbrirProcesso();void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fas fa-bolt" aria-hidden="true"> </i>
+            </span> <span>Iniciar Processo Seletivo</span>
+        </button>
+        <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);void(0);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fas fa-check-square" aria-hidden="true"> </i>
+            </span> <span>Ver Resultado</span>
+        </a>
+        <a type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]');void(0);" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fas fa-comments" aria-hidden="true"> </i>
+            </span><span> Gerenciar Processo Seletivo</span>
+        </a>
+        <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Curriculo", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
+            <span class="icon is-small">
+                <i class="fas fa-times fa-fw" aria-hidden="true"> </i>
+            </span> <span>Encerrar Vaga</span>
+        </a>
+        <a target="_blank" href="@Url.Action("ImprimirTodos", "Curriculo", new {IdVaga = TempData["IdVaga"]})" type="submit" class="button is-success" id="ImprimirTodos" onmouseleave="$('#ImprimirTodos').removeClass('animated pulse')" onmouseover="$('#ImprimirTodos').addClass('animated pulse');" data-balloon="Clique para imprimir todos os currículos." data-balloon-pos="down">
+            <span class="icon">
+                <i class="fas fa-print"></i>
+            </span>
+            <span>Imprimir Todos</span>
+        </a>
+        <a target="_blank" href="@Url.Action("RecrutamentoSelecao", "FormulariosMig", new {IdVaga = TempData["IdVaga"]})" id="Recrutamento" type="submit" class="button is-success" onmouseleave="$('#Recrutamento').removeClass('animated pulse')" onmouseover="$('#Recrutamento').addClass('animated pulse');" data-balloon="Clique para preencher os dados do formulário de recrutamento." data-balloon-pos="down">
+            <span class="icon">
+                <i class="fas fa-file"></i>
+            </span>
+            <span>Recrutamento e Seleção</span>
+        </a>
+    </p>
+    <hr/>
+}
+<!--
+Parte Inferior com tabela
+-->
+<span>
+    <h2 class="subtitle">@TempData["QuantidadeCurriculo"]</h2>
+</span>
+<br/>
+@using (Html.BeginForm("AbrirProcesso", "Curriculo", FormMethod.Post, new {id = "FormCurriculo"}))
+{
+    <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]"/>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript">
+    </script>
+    <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]"/>
+    <div class="field">
+        <label class="label">Alerta:</label>
+        <p class="control">
+            <input class="input" id="Alerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="Alerta" type="text" placeholder="Ex: Novas vagas lançadas !!!" maxlength=160>
+            <span class="field-validation-valid" data-valmsg-for="Alerta" data-valmsg-replace="true" style="color: red"></span>
+        </p>
+    </div>
+    <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-fullwidth is-fullheight" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th class="has-text-centered">
+            <label class="checkbox">
+                <input type="checkbox" onclick="SelecionaTodas()">
+                Selecionar Todos
+            </label>
+        </th>
+        <th class="has-text-centered">Nome</th>
+        <th class="has-text-centered">Email</th>
+        <th class="has-text-centered">Cidade</th>
+        <th class="has-text-centered">Certificação</th>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
         {
-            <span>
-                <h2 class="subtitle">@TempData["TituloVaga"]</h2>
-            </span>
-            <input id="TituloVaga" name="TituloVaga" value="@TempData["TituloVaga"]" hidden="true"/>
-            <br/>
-            <div class="field is-grouped">
-                <p class="control has-icons-left">
-                    <input id="FiltroAnoFormacao" name="FiltroAnoFormacao" class="input" type="text" placeholder="Ano de Formação">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-calendar-alt"></i>
-                    </span>
-                </p>
-                <p class="control has-icons-left">
-                    <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-university"></i>
-                    </span>
-                </p>
-
-                <p class="control has-icons-left">
-                    <span class="select">
-                        <select name="FiltroSexo" id="FiltroSexo">
-                            <option selected>Sexo</option>
-                            <option>Masculino</option>
-                            <option>Feminino</option>
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-venus-mars" aria-hidden="true"></i>
-                    </span>
-                </p>
-
-
-                <p class="control has-icons-left">
-                    <span class="select">
-                        <select id="FiltroGraduacao" name="FiltroGraduacao">
-                            <option selected>Graduação</option>
-                            <option>Ensino médio | Andamento/Completo</option>
-                            <option>Superior | Andamento/Completo </option>
-                            <option>Pós-Graduação | Andamento/Completo</option>
-                            <option>Mestrado/Doutorado | Andamento/Completo</option>
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-                    </span>
-                </p>
-
-
-                <p class="control has-icons-left">
-                    <input id="FiltroCurso" name="FiltroCurso" class="input" type="text" placeholder="Curso Graduação">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-sticky-note"></i>
-                    </span>
-                </p>
-
-
-                <p class="control has-icons-left">
-                    <span class="select">
-                        <select id="FiltroFaixaEtaria" name="FiltroFaixaEtaria">
-                            <option selected>Faixa Etária</option>
-                            <option> < 18 </option>
-                            <option>18 - 25 </option>
-                            <option>25 - 30 </option>
-                            <option>30 - 40 </option>
-                            <option> 40 > </option>
-                        </select>
-                    </span>
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-birthday-cake" aria-hidden="true"></i>
-                    </span>
-                </p>
-
-
-            </div>
-            <div class="field is-grouped">
-                <p class="control has-icons-left">
-                    <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-certificate"></i>
-                    </span>
-                </p>
-                <p class="control has-icons-left">
-                    <input id="FiltroProfissional" name="FiltroProfissional" class="input" type="text" placeholder="Profissional">
-                    <span class="icon is-small is-left">
-                        <i class="fas fa-users"></i>
-                    </span>
-                </p>
-            </div>
-
-            <!--
-            Parte Superior com tabela
-            -->
-            <p class="field">
-                <button type="submit" class="button is-success" data-balloon="Clique para filtrar os perfis para esta vaga" data-balloon-pos="down" id="Filtro" name="Filtro" onmouseleave="$('#Filtro').removeClass('animated pulse')" onmouseover="$('#Filtro').addClass('animated pulse');">
-                    <span class="icon is-small">
-                        <i class="fas fa-filter" aria-hidden="true"></i>
-                    </span>
-                    <span>Aplicar Filtro</span>
-                </button>
-
-                <button type="button" @TempData["ProcessoAtivo"] onclick="location.href = 'javascript:AbrirProcesso();void(0);'" name="AbrirProcesso" id="AbrirProcesso" onmouseleave="$('#AbrirProcesso').removeClass('animated pulse')" onmouseover="$('#AbrirProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaProcesso"]" data-balloon-pos="down">
-                    <span class="icon is-small">
-                        <i class="fas fa-bolt" aria-hidden="true"> </i>
-                    </span> <span>Iniciar Processo Seletivo</span>
-                </button>
-                <a type="button" href="javascript:ResultadoProcesso(@TempData["IdVaga"]);void(0);" name="ResultadoProcesso" id="ResultadoProcesso" onmouseleave="$('#ResultadoProcesso').removeClass('animated pulse')" onmouseover="$('#ResultadoProcesso').addClass('animated pulse');" class="button is-success" data-balloon="Clique para ver o resultado do processo seletivo!" data-balloon-pos="down">
-                    <span class="icon is-small">
-                        <i class="fas fa-check-square" aria-hidden="true"> </i>
-                    </span> <span>Ver Resultado</span>
-                </a>
-                <a type="button" href="javascript:EncerrarProcesso('@TempData["IdVaga"]');void(0);" name="EncerrarProcesso" id="EncerrarProcesso" onmouseleave="$('#EncerrarProcesso').removeClass('animated pulse')" onmouseover="$('#EncerrarProcesso').addClass('animated pulse');" class="button is-success" data-balloon="@TempData["DicaEncerramento"]" data-balloon-pos="down">
-                    <span class="icon is-small">
-                        <i class="fas fa-comments" aria-hidden="true"> </i>
-                    </span><span> Gerenciar Processo Seletivo</span>
-                </a>
-                <a @TempData["Ativa"] type="button" href='@Url.Action("EncerrarVaga", "Curriculo", new {IdVaga = TempData["IdVaga"]})' class="button is-danger" data-balloon="@TempData["Dica"]" data-balloon-pos="down" id="EncerrarVaga" name="EncerrarVaga" onmouseleave="$('#EncerrarVaga').removeClass('animated pulse')" onmouseover="$('#EncerrarVaga').addClass('animated pulse');">
-                    <span class="icon is-small">
-                        <i class="fas fa-times fa-fw" aria-hidden="true"> </i>
-                    </span> <span>Encerrar Vaga</span>
-                </a>
-                <a target="_blank" href="@Url.Action("ImprimirTodos", "Curriculo", new {IdVaga = TempData["IdVaga"]})" type="submit" class="button is-success" id="ImprimirTodos" onmouseleave="$('#ImprimirTodos').removeClass('animated pulse')" onmouseover="$('#ImprimirTodos').addClass('animated pulse');" data-balloon="Clique para imprimir todos os currículos." data-balloon-pos="down">
-                    <span class="icon">
-                        <i class="fas fa-print"></i>
-                    </span>
-                    <span>Imprimir Todos</span>
-                </a>
-                <a target="_blank" href="@Url.Action("RecrutamentoSelecao", "FormulariosMig", new {IdVaga = TempData["IdVaga"]})" id="Recrutamento" type="submit" class="button is-success" onmouseleave="$('#Recrutamento').removeClass('animated pulse')" onmouseover="$('#Recrutamento').addClass('animated pulse');" data-balloon="Clique para preencher os dados do formulário de recrutamento." data-balloon-pos="down">
-                    <span class="icon">
-                        <i class="fas fa-file"></i>
-                    </span>
-                    <span>Recrutamento e Seleção</span>
-                </a>
-            </p>
-            <hr/>
+            <tr>
+                <td class="has-text-centered">
+                    <label class="checkbox">
+                        <input id="@TempData["Cpf" + i]" name="@TempData["Cpf" + i]" type="checkbox" onchange="LinhaSeleciona()">
+                    </label>
+                </td>
+                <td class="has-text-centered">
+                    <article class="media">
+                        <div class="media-left grow pic">
+                            <figure class="image is-32x32 is-square">
+                                <img src="@TempData["Imagem" + i]"/>
+                            </figure>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <a href="javascript:VerPerfil('@TempData["Cpf" + i]');void(0);">@TempData["Nome" + i].ToString()</a> <strong></strong>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </td>
+                <td class="has-text-centered">@TempData["Email" + i].ToString()</td>
+                <td class="has-text-centered">@TempData["Cidade" + i].ToString()</td>
+                <td class="has-text-centered">@TempData["Certificacao" + i].ToString()</td>
+            </tr>
         }
-            <!--
-            Parte Inferior com tabela
-            -->
-            <span>
-                <h2 class="subtitle">@TempData["QuantidadeCurriculo"]</h2>
-            </span>
-            <br />
-            @using (Html.BeginForm("AbrirProcesso", "Curriculo", FormMethod.Post, new { id = "FormCurriculo" }))
-            {
-                <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
-                <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-                </script>
-                <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript">
-                </script>
-                <input hidden="true" id="vaga" name="vaga" value="@TempData["IdVaga"]" />
-                <div class="field">
-                    <label class="label">Alerta:</label>
-                    <p class="control">
-                        <input class="input" id="Alerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="Alerta" type="text" placeholder="Ex: Novas vagas lançadas !!!" maxlength=160>
-                        <span class="field-validation-valid" data-valmsg-for="Alerta" data-valmsg-replace="true" style="color: red"></span>
-                    </p>
-                </div>
-                <table id="TabelaCurriculo" name="TabelaCurriculo" class="lista-curriculo table is-striped is-centered is-fullwidth is-fullheight" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-                    <thead>
-                    <th class="has-text-centered">
-                        <label class="checkbox">
-                            <input type="checkbox" onclick="SelecionaTodas()">
-                            Selecionar Todos
-                        </label>
-                    </th>
-                    <th class="has-text-centered">Nome</th>
-                    <th class="has-text-centered">Email</th>
-                    <th class="has-text-centered">Cidade</th>
-                    <th class="has-text-centered">Certificação</th>
-                    </thead>
-                    <tbody>
-                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); i++)
-                        {
-                            <tr>
-                                <td class="has-text-centered">
-                                    <label class="checkbox">
-                                        <input id="@TempData["Cpf" + i]" name="@TempData["Cpf" + i]" type="checkbox" onchange="LinhaSeleciona()">
-                                    </label>
-                                </td>
-                                <td class="has-text-centered">
-                                    <article class="media">
-                                        <div class="media-left grow pic">
-                                            <figure class="image is-32x32 is-square">
-                                                <img src="@TempData["Imagem" + i]" />
-                                            </figure>
-                                        </div>
-                                        <div class="media-content">
-                                            <div class="content">
-                                                <p>
-                                                    <a href="javascript:VerPerfil('@TempData["Cpf" + i]');void(0);">@TempData["Nome" + i].ToString()</a> <strong></strong>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </td>
-                                <td class="has-text-centered">@TempData["Email" + i].ToString()</td>
-                                <td class="has-text-centered">@TempData["Cidade" + i].ToString()</td>
-                                <td class="has-text-centered">@TempData["Certificacao" + i].ToString()</td>
-                            </tr>
-                        }
-                    <tbody>
-                </table>
-            }
+        <tbody>
+    </table>
+}
 
 
-            <div id="ProcessoCompleto"></div>
+<div id="ProcessoCompleto"></div>
 
 
-            <!--
+<!--
 
-            Modal Perfil
-            -->
-
-
-            <div id="ModalPerfil" class="modal">
-                <div class="modal-background"></div>
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Perfil</p>
-                        <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);" class="delete"></a>
-                    </header>
-                    <section class="modal-card-body">
-                        <div id="PerfilCompleto">
-
-                        </div>
+Modal Perfil
+-->
 
 
-                    </section>
-                    <footer class="modal-card-foot">
-                        <p class="field">
-                            <button onclick="Imprimir()" type="submit" class="button is-success">
-                                <span class="icon">
-                                    <i class="fa fa-print"></i>
-                                </span>
-                                <span>Imprimir</span>
-                            </button>
+<div id="ModalPerfil" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Perfil</p>
+            <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);" class="delete"></a>
+        </header>
+        <section class="modal-card-body">
+            <div id="PerfilCompleto">
 
-                            <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
-                        </p>
-                    </footer>
-                </div>
             </div>
 
-            <div id="ModalResultado" class="modal">
-                <div class="modal-background"></div>
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <button class="delete" aria-label="close" onclick="javascript:$('#ModalResultado').removeClass();$('#ModalResultado').addClass('modal');void(0);"></button>
-                    </header>
-                    <section class="modal-card-body is-centered">
 
-                        <div id="ResultadoCompleto">
+        </section>
+        <footer class="modal-card-foot">
+            <p class="field">
+                <button onclick="Imprimir()" type="submit" class="button is-success">
+                    <span class="icon">
+                        <i class="fa fa-print"></i>
+                    </span>
+                    <span>Imprimir</span>
+                </button>
 
-                        </div>
-                    </section>
-                </div>
+                <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
+            </p>
+        </footer>
+    </div>
+</div>
+
+<div id="ModalResultado" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <button class="delete" aria-label="close" onclick="javascript:$('#ModalResultado').removeClass();$('#ModalResultado').addClass('modal');void(0);"></button>
+        </header>
+        <section class="modal-card-body is-centered">
+
+            <div id="ResultadoCompleto">
+
             </div>
-        </div>
-    </body>
+        </section>
+    </div>
+</div>
+</div>
+</body>

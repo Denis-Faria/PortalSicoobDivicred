@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PortalSicoobDivicred.Models
 {
@@ -10,6 +6,5 @@ namespace PortalSicoobDivicred.Models
     {
         [Required(ErrorMessage = "Favor inserir um nome para esta função!")]
         public string NomeCertificacao { get; set; }
-
     }
 }

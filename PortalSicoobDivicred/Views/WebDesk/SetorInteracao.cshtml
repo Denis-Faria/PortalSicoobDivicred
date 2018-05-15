@@ -3,7 +3,7 @@
 <div class="field">
     <label class="label">Setor Responsável:</label>
     <p class="select is-fullwidth">
-        @Html.DropDownListFor(m => m.IdSetorResponsavel, new SelectList(Model.SetorResponsavel, "Value", "Text"), "SELECIONE O SETOR RESPONSAVEL", new { id = "SetorResponsavel", onchange = "SetorSelecionado(this)" })
-        @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new { style = "color:red" })
+        @Html.DropDownListFor(m => m.IdSetorResponsavel, new SelectList(Model.SetorResponsavel, "Value", "Text"), "SELECIONE O SETOR RESPONSAVEL", new {id = "SetorResponsavel", onchange = "SetorSelecionado(this)"})
+        @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new {style = "color:red"})
     </p>
 </div>

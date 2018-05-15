@@ -10,7 +10,7 @@
         $("#PanelCertificacao").addClass("panel-block");
         $("#PanelGestor").addClass("panel-block");
         $("#PanelSetor").addClass("panel-block");
-        
+
         $.ajax(
             {
                 type: 'GET',
@@ -18,13 +18,14 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function (data) {
+                success: function(data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
             });
 
     }
+
     function Certificacao() {
         $("#ParametroSelecionado").empty();
         $("#PanelCertificacao").addClass("is-active");
@@ -35,7 +36,7 @@
         $("#PanelFuncao").addClass("panel-block");
         $("#PanelGestor").addClass("panel-block");
         $("#PanelSetor").addClass("panel-block");
-        
+
         $.ajax(
             {
                 type: 'GET',
@@ -43,13 +44,14 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function (data) {
+                success: function(data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
             });
 
     }
+
     function Gestor() {
         $("#ParametroSelecionado").empty();
         $("#PanelGestor").addClass("is-active");
@@ -60,7 +62,7 @@
         $("#PanelFuncao").addClass("panel-block");
         $("#PanelCertificacao").addClass("panel-block");
         $("#PanelSetor").addClass("panel-block");
-        
+
         $.ajax(
             {
                 type: 'GET',
@@ -68,13 +70,14 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function (data) {
+                success: function(data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
             });
 
     }
+
     function Setor() {
         $("#ParametroSelecionado").empty();
         $("#PanelSetor").addClass("is-active");
@@ -92,7 +95,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function (data) {
+                success: function(data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
@@ -136,7 +139,6 @@
         </nav>
     </div>
     <div id="ParametroSelecionado" class="column is-6">
-    
+
     </div>
 </div>
-

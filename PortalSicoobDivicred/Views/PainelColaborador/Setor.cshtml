@@ -7,7 +7,7 @@
 <script>
     function Buscar() {
         $("#ListaSetor").empty();
-       $.ajax(
+        $.ajax(
             {
                 type: 'Post',
                 url: '/PainelColaborador/BuscarSetor',
@@ -15,7 +15,7 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoSetor": $("#BuscaSetor").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaSetor").append(data);
 
                 }
@@ -41,8 +41,8 @@
         <div class="field">
             <label class="label">Nome Setor</label>
             <div class="control">
-                @Html.TextBoxFor(m => m.NomeSetor, null, new { @class = "input", placeholder = "Ex:Assitente..." })
-                @Html.ValidationMessageFor(m => m.NomeSetor, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.NomeSetor, null, new {@class = "input", placeholder = "Ex:Assitente..."})
+                @Html.ValidationMessageFor(m => m.NomeSetor, null, new {style = "color:red"})
             </div>
         </div>
         <p class="control">
@@ -54,7 +54,8 @@
             </button>
         </p>
     }
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
     @using (Html.BeginForm("EditarSetor", "PainelColaborador"))
@@ -70,7 +71,7 @@
                     <div class="card">
                         <header class="card-header">
                             <p class="card-header-title">
-                               Setores
+                                Setores
                             </p>
 
                         </header>
@@ -94,10 +95,10 @@
                             </div>
                         </div>
                     </div>
-                    <br />
+                    <br/>
                     <div id="EdicaoSetor" hidden>
 
-                        <br />
+                        <br/>
                     </div>
                 </section>
                 <footer class="modal-card-foot">
@@ -109,4 +110,3 @@
     }
 
 </div>
-

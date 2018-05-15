@@ -1,16 +1,14 @@
-﻿
-@model PortalSicoobDivicred.Models.Certificacao
+﻿@model PortalSicoobDivicred.Models.Certificacao
 
-<input name="IdCertificacao" value="@TempData["IdCertificacao"]" hidden />
+<input name="IdCertificacao" value="@TempData["IdCertificacao"]" hidden/>
 <div class="field">
     <label class="label">Nome Função</label>
     <div class="control">
-        @Html.TextBoxFor(m => m.NomeCertificacao, null, new { @class = "input", placeholder = "Ex:Assitente..." })
-        @Html.ValidationMessageFor(m => m.NomeCertificacao, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.NomeCertificacao, null, new {@class = "input", placeholder = "Ex:Assitente..."})
+        @Html.ValidationMessageFor(m => m.NomeCertificacao, null, new {style = "color:red"})
     </div>
-    <br />
-    <button type="button" onclick="location.href='@Url.Action("ExcluirCertificacao","PainelColaborador",new{IdFuncao=@TempData["IdCertificacao"]})'" id="ExcluirCertificacao" class="button is-danger">Excluir Certificação</button>
+    <br/>
+    <button type="button" onclick="location.href = '@Url.Action("ExcluirCertificacao", "PainelColaborador", new {IdFuncao = TempData["IdCertificacao"]})'" id="ExcluirCertificacao" class="button is-danger">Excluir Certificação</button>
 </div>
 
-<br />
-
+<br/>

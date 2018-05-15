@@ -337,8 +337,8 @@
             <div class="control is-2 ">
                 <label class="label">Setor</label>
                 <div class="select">
-                    @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
-                    @Html.ValidationMessageFor(m => m.IdSetor, null, new { style = "color:red" })
+                    @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new {id = "Setor"})
+                    @Html.ValidationMessageFor(m => m.IdSetor, null, new {style = "color:red"})
                 </div>
             </div>
             <div class="control is-4">

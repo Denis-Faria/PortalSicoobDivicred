@@ -2,148 +2,148 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <body>
-    @if (TempData["Mensagem"] != null)
-    {
-        @Html.Label("")
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
 
-        <script>
-
-            iziToast.success({
-                title: 'Sucesso',
-                position: "center",
-                message: '@TempData["Mensagem"]',
-            });
-
-
-        </script>
-    }
     <script>
-        function Imprimir() {
 
-            var conteudo = document.getElementById('HistoricoCompleto').innerHTML,
-                tela_impressao = window.open('about:blank');
-            tela_impressao.document.write(conteudo);
-            tela_impressao.window.print();
-            tela_impressao.window.close();
-        }
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]',
+        });
+
+
     </script>
-    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-        <ul>
-            <li>
-                <a href="@Url.Action("Principal","Principal")">
-                    <span class="icon is-small">
-                        <i class="fa fa-home"></i>
-                    </span><span>DashBoard</span>
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("ColaboradorRh")">
-                    <span class="icon is-small">
-                        <i class="fa fa-user-plus"></i>
-                    </span><span>Colaborador RH</span>
-                </a>
-            </li>
-            <li class="is-active">
-                <a href="#" aria-current="page">
-                    <span class="icon is-small">
-                        <i class="fa fa-history" aria-hidden="true"></i>
-                    </span><span>Histórico de Pendências</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    @using (Html.BeginForm("HistoricoPendencia", "PainelColaborador"))
-    {
-        <div class="columns">
-            <div class="content field is-grouped ">
-                <div class="column is-4">
-                    <div class="control has-icons-left ">
-                        <input class="input is-primary" type="text" name="DataInicial" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Inicial">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-calendar"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="column is-4">
-                    <div class="control has-icons-left ">
-                        <input class="input is-primary" type="text" name="DataFinal" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Data Final">
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-calendar"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="column is-3">
-                    <p class="control">
-                        <button type="submit" class="button is-success " id="BuscarReincidente" onmouseleave="$('#BuscarReincidente').removeClass('animated pulse')" onmouseover="$('#BuscarReincidente').addClass('animated pulse');" data-balloon="Clique para buscar os reincidentes do período selecionado." data-balloon-pos="down">
-                            <span class="icon">
-                                <i class="fas fa-search"></i>
-                            </span>
-                            <span>Buscar Reincidentes</span>
-                        </button>
-                    </p>
-                </div>
-                <div class="column is-3">
-                    <p class="control">
-                        <button onclick="Imprimir()" type="submit" class="button is-success">
-                            <span class="icon">
-                                <i class="fa fa-print"></i>
-                            </span>
-                            <span>Imprimir Pendências</span>
-                        </button>
-                    </p>
+}
+<script>
+    function Imprimir() {
+
+        var conteudo = document.getElementById('HistoricoCompleto').innerHTML,
+            tela_impressao = window.open('about:blank');
+        tela_impressao.document.write(conteudo);
+        tela_impressao.window.print();
+        tela_impressao.window.close();
+    }
+</script>
+<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+    <ul>
+        <li>
+            <a href="@Url.Action("Principal", "Principal")">
+                <span class="icon is-small">
+                    <i class="fa fa-home"></i>
+                </span><span>DashBoard</span>
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("ColaboradorRh")">
+                <span class="icon is-small">
+                    <i class="fa fa-user-plus"></i>
+                </span><span>Colaborador RH</span>
+            </a>
+        </li>
+        <li class="is-active">
+            <a href="#" aria-current="page">
+                <span class="icon is-small">
+                    <i class="fa fa-history" aria-hidden="true"></i>
+                </span><span>Histórico de Pendências</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+@using (Html.BeginForm("HistoricoPendencia", "PainelColaborador"))
+{
+    <div class="columns">
+        <div class="content field is-grouped ">
+            <div class="column is-4">
+                <div class="control has-icons-left ">
+                    <input class="input is-primary" type="text" name="DataInicial" onfocus="(this.type = 'date')" onblur="(this.type = 'text')" placeholder="Data Inicial">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-calendar"></i>
+                    </span>
                 </div>
             </div>
-
+            <div class="column is-4">
+                <div class="control has-icons-left ">
+                    <input class="input is-primary" type="text" name="DataFinal" onfocus="(this.type = 'date')" onblur="(this.type = 'text')" placeholder="Data Final">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-calendar"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="column is-3">
+                <p class="control">
+                    <button type="submit" class="button is-success " id="BuscarReincidente" onmouseleave="$('#BuscarReincidente').removeClass('animated pulse')" onmouseover="$('#BuscarReincidente').addClass('animated pulse');" data-balloon="Clique para buscar os reincidentes do período selecionado." data-balloon-pos="down">
+                        <span class="icon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <span>Buscar Reincidentes</span>
+                    </button>
+                </p>
+            </div>
+            <div class="column is-3">
+                <p class="control">
+                    <button onclick="Imprimir()" type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-print"></i>
+                        </span>
+                        <span>Imprimir Pendências</span>
+                    </button>
+                </p>
+            </div>
         </div>
-    }
-    <br />
-    <div id="HistoricoCompleto">
-        <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
-            <thead>
-            <th class="has-text-centered">ID</th>
-            <th class="has-text-centered">Funcionário</th>
-            <th class="has-text-centered">Dia</th>
-            <th class="has-text-centered">Entrada</th>
-            <th class="has-text-centered">Saída Almoço</th>
-            <th class="has-text-centered">Volta Almoço</th>
-            <th class="has-text-centered">Saída</th>
-            <th class="has-text-centered" @TempData["ExtraJustifica1"]>Extra 1</th>
-            <th class="has-text-centered" @TempData["ExtraJustifica2"]>Extra 2</th>
-            <th class="has-text-centered">Justificativa</th>
-            </thead>
-            <tbody>
-                @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
-                {
-                    <tr>
-                        <td class="has-text-centered">@TempData["IdPendencia" + i]</td>
-                        <td>
-                            @TempData["NomePendencia" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["DiaPendencia" + i]
-                        </td>
-                        @for (int k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
-                        {
-                            <td class="has-text-centered">
-                                @TempData["Hora" + k + "Pendencia" + i]
-                            </td>
-                        }
-                        @if (@TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
-                        {
-                            <td class="has-text-centered"></td>
-                        }
-                        @if (@TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
-                        {
-                            <td class="has-text-centered"></td>
-                        }
-                        <td class="has-text-centered">
-                          @TempData["Justificativa" + i]
-                        </td>
-                      
-                    </tr>
-                }
-            <tbody>
-        </table>
+
     </div>
+}
+<br/>
+<div id="HistoricoCompleto">
+    <table id="NaoJustificada" name="NaoJustificada" class="table is-striped is-centered is-narrow is-fullwidth" style="box-shadow: 2px 2px 2px grey; text-align: center;">
+        <thead>
+        <th class="has-text-centered">ID</th>
+        <th class="has-text-centered">Funcionário</th>
+        <th class="has-text-centered">Dia</th>
+        <th class="has-text-centered">Entrada</th>
+        <th class="has-text-centered">Saída Almoço</th>
+        <th class="has-text-centered">Volta Almoço</th>
+        <th class="has-text-centered">Saída</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica1"]>Extra 1</th>
+        <th class="has-text-centered" @TempData["ExtraJustifica2"]>Extra 2</th>
+        <th class="has-text-centered">Justificativa</th>
+        </thead>
+        <tbody>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalSemConfirmar"]); i++)
+        {
+            <tr>
+                <td class="has-text-centered">@TempData["IdPendencia" + i]</td>
+                <td>
+                    @TempData["NomePendencia" + i]
+                </td>
+                <td class="has-text-centered">
+                    @TempData["DiaPendencia" + i]
+                </td>
+                @for (var k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
+                {
+                    <td class="has-text-centered">
+                        @TempData["Hora" + k + "Pendencia" + i]
+                    </td>
+                }
+                @if (TempData["ExtraJustifica1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                {
+                    <td class="has-text-centered"></td>
+                }
+                @if (TempData["ExtraJustifica2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                {
+                    <td class="has-text-centered"></td>
+                }
+                <td class="has-text-centered">
+                    @TempData["Justificativa" + i]
+                </td>
+
+            </tr>
+        }
+        <tbody>
+    </table>
+</div>
 </body>

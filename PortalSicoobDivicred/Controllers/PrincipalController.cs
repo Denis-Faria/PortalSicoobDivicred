@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using OneApi.Client.Impl;
-using OneApi.Config;
-using OneApi.Model;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -12,7 +8,6 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class PrincipalController : Controller
     {
-        // GET: Principal
         public ActionResult Principal()
         {
             var VerificaDados = new QueryMysql();
@@ -34,13 +29,13 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoCurriculo"] = "display: none";
                 if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
                 {
-                    TempData["PermissaoGestor"] = "hidden";
-                    TempData["AreaGestor"] = "";
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "S";
                 }
                 else
                 {
-                    TempData["PermissaoGestor"] = "hidden";
-                    TempData["AreaGestor"] = "hidden";
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "N";
                 }
 
 
@@ -78,17 +73,15 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
                 if (Participa != null)
-                {
                     if (Participa.Equals("SIM"))
-                    {
                         TempData["Interesse " + 0] = "OK";
-                    }
-                }
             }
 
             #endregion
+
             return View();
         }
+
         public ActionResult Dashboard()
         {
             var VerificaDados = new QueryMysql();
@@ -121,6 +114,7 @@ namespace PortalSicoobDivicred.Controllers
                             if (Interesse[j]["idvaga"].Equals(VagasInternas[i]["id"]))
                                 TempData["Interesse " + i] = "Ok";
                     }
+
                     TempData["TotalProcessos"] = Interesse.Count;
                     for (var j = 0; j < Interesse.Count; j++)
                     {
@@ -132,9 +126,9 @@ namespace PortalSicoobDivicred.Controllers
                 #endregion
 
 
-
                 return PartialView("Dashboard");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -205,6 +199,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 return View(DadosFuncionario);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -252,6 +247,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.Funcao = Funcao;
                     ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                 }
+
                 if (ModelState.IsValid)
                 {
                     var Cookie = Request.Cookies.Get("CookieFarm");
@@ -306,8 +302,10 @@ namespace PortalSicoobDivicred.Controllers
                         Confirma, "S");
                     return RedirectToAction("Principal", "Principal");
                 }
+
                 return View(DadosFuncionario);
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -327,8 +325,10 @@ namespace PortalSicoobDivicred.Controllers
                     var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
                     TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
                 }
+
                 return PartialView("CertificacaoFuncao");
             }
+
             return RedirectToAction("Login", "Login");
         }
 
@@ -336,27 +336,22 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult TenhoInteresse(FormCollection Dados)
         {
             var VerificaDados = new QueryMysql();
-           
-                var QueryRh = new QueryMysqlRh();
 
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(Dados["nome"]);
-                var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
-                var valor = true;
-                for (var j = 0; j < Interesse.Count; j++)
-                {
-                    if (Interesse[j]["idvaga"].Equals(Dados["idvaga"]))
-                        valor = false;
-                }
-                if (valor)
-                {
-                    QueryRh.CadastraInteresse(Dados["idvaga"], DadosTabelaFuncionario[0]["id"]);
-                    return RedirectToAction("VagasInternas", "Principal",new{Participa="SIM"});
-                }
-                else
-                {
-                    return RedirectToAction("VagasInternas", "Principal", new { Participa = "SIM" });
-                }
-           
+            var QueryRh = new QueryMysqlRh();
+
+            var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(Dados["nome"]);
+            var Interesse = QueryRh.RetornaInteresseVagaInterna(DadosTabelaFuncionario[0]["id"]);
+            var valor = true;
+            for (var j = 0; j < Interesse.Count; j++)
+                if (Interesse[j]["idvaga"].Equals(Dados["idvaga"]))
+                    valor = false;
+            if (valor)
+            {
+                QueryRh.CadastraInteresse(Dados["idvaga"], DadosTabelaFuncionario[0]["id"]);
+                return RedirectToAction("VagasInternas", "Principal", new {Participa = "SIM"});
+            }
+
+            return RedirectToAction("VagasInternas", "Principal", new {Participa = "SIM"});
         }
 
         public ActionResult Justificativas()
@@ -377,7 +372,7 @@ namespace PortalSicoobDivicred.Controllers
             TempData["TotalJustificativas"] = JustificativasFirebird.Count;
             TempData["TotalPonto"] = DadosPendencias.Count;
 
-            for (int j = 0; j < JustificativasFirebird.Count; j++)
+            for (var j = 0; j < JustificativasFirebird.Count; j++)
             {
                 TempData["Justificativa" + j] = JustificativasFirebird[j]["DESCRICAO"];
                 TempData["IdJustificativa" + j] = JustificativasFirebird[j]["ID_JUSTIFICATIVA"];
@@ -386,13 +381,12 @@ namespace PortalSicoobDivicred.Controllers
 
             TempData["Extra1"] = "hidden";
             TempData["Extra2"] = "hidden";
-            for (int i = 0; i < DadosPendencias.Count; i++)
-            {
+            for (var i = 0; i < DadosPendencias.Count; i++)
                 if (!Convert.ToBoolean(DadosPendencias[i]["ConfirmaGestor"]))
                 {
-
                     TempData["IdPendencia" + i] = DadosPendencias[i]["IdPendencia"];
-                    TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData["DiaPendencia" + i] =
+                        Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
                     TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
                     TempData["IdFuncionario" + i] = DadosPendencias[0]["IdFuncionarioFireBird"];
                     TempData["TotalHorarioPendencia" + i] = DadosPendencias[i]["TotalHorario"];
@@ -412,30 +406,23 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Extra1"] = "";
                             TempData["Extra2"] = "";
                         }
+
                         TempData["TotalTextBox" + i] = 0;
                     }
 
-                    for (int j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
-                    {
-
+                    for (var j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
                         TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
 
 
-                    }
-
-
                     if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
-                    {
                         TempData["Esconde" + i] = "hidden";
-                    }
                     else
-                    {
                         TempData["Esconde" + i] = "";
-                    }
                 }
-            }
+
             return PartialView("JustificativaPonto");
         }
+
         [HttpPost]
         public ActionResult Justificativas(JustificativaPonto Justificativa, FormCollection Formulario)
         {
@@ -443,13 +430,9 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-
-
-
                 var Keys = Formulario.AllKeys;
 
-                for (int i = 0; i < Formulario.Count; i++)
-                {
+                for (var i = 0; i < Formulario.Count; i++)
                     if (Formulario.AllKeys[i].Contains("Id"))
                     {
                         var IdHistorico = Formulario[i];
@@ -458,11 +441,9 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             VerificaDados.AtualizaJustificativaSemFireBird(IdHistorico,
                                 Formulario["Observacao"]);
-
                         }
                         else
                         {
-
                             if (Keys.Contains("Hora 0 " + IdHistorico))
                             {
                                 VerificaDados.InseriJustificativa(IdHistorico,
@@ -500,16 +481,10 @@ namespace PortalSicoobDivicred.Controllers
                             }
 
                             if (TemHorario)
-                            {
                                 VerificaDados.AtualizaJustificativa(IdHistorico,
                                     Formulario["JustificativaFire " + IdHistorico + ""]);
-                            }
-
                         }
-
-
                     }
-                }
 
                 return RedirectToAction("Principal", "Principal",
                     new
@@ -518,10 +493,9 @@ namespace PortalSicoobDivicred.Controllers
                         Mensagem = "!",
                         Controlle = "Principal"
                     });
-
             }
-            return RedirectToAction("Login", "Login");
 
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult JustificativasSetor()
@@ -539,13 +513,12 @@ namespace PortalSicoobDivicred.Controllers
 
             TempData["Extra1"] = "hidden";
             TempData["Extra2"] = "hidden";
-            for (int i = 0; i < DadosPendencias.Count; i++)
-            {
+            for (var i = 0; i < DadosPendencias.Count; i++)
                 if (!Convert.ToBoolean(DadosPendencias[i]["ConfirmaGestor"]))
                 {
-
                     TempData["IdPendencia" + i] = DadosPendencias[i]["IdPendencia"];
-                    TempData["DiaPendencia" + i] = Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData["DiaPendencia" + i] =
+                        Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
                     TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
                     TempData["IdFuncionario" + i] = DadosPendencias[0]["IdFuncionarioFireBird"];
                     TempData["TotalHorarioPendencia" + i] = DadosPendencias[i]["TotalHorario"];
@@ -565,16 +538,12 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Extra1"] = "";
                             TempData["Extra2"] = "";
                         }
+
                         TempData["TotalTextBox" + i] = 0;
                     }
 
-                    for (int j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
-                    {
-
+                    for (var j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
                         TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
-
-
-                    }
                     if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
                     {
                         TempData["StatusJustificativa" + i] = "green";
@@ -588,7 +557,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Esconde" + i] = "hidden";
                     }
                 }
-            }
+
             return PartialView("JustificativaSetor");
         }
 
@@ -600,22 +569,23 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var Keys = Formulario.AllKeys;
-                for (int i = 0; i < Formulario.Count; i++)
-                {
+                for (var i = 0; i < Formulario.Count; i++)
                     if (Formulario.AllKeys[i].Contains("Id"))
                     {
                         var IdHistorico = Formulario[i];
                         VerificaDados.AtualizaJustificativaGestor(IdHistorico);
-
                     }
 
-                }
-
                 return RedirectToAction("Principal", "Principal",
-                    new { Acao = "Dashboard", Mensagem = "Justificativa confirmada com sucesso !", Controlle = "Principal" });
+                    new
+                    {
+                        Acao = "Dashboard",
+                        Mensagem = "Justificativa confirmada com sucesso !",
+                        Controlle = "Principal"
+                    });
             }
-            return RedirectToAction("Login", "Login");
 
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult NegarJustificativa(string IdHistorico)
@@ -643,10 +613,10 @@ namespace PortalSicoobDivicred.Controllers
             if (DadosFuncionario[0]["gestor"].Equals("N"))
             {
                 TempData["Gestor"] = "N";
-                string result = VerificaDados.RemoveAccents(DadosFuncionario[0]["nome"]);
+                var result = VerificaDados.RemoveAccents(DadosFuncionario[0]["nome"]);
                 var Cracha = VerificaDadosFire.RetornaCrachaFuncionario(result);
                 var Horas = VerificaDados.RetornaHoras(Cracha[0]["MATRICULA"]);
-                TimeSpan HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
+                var HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
                 if (HoraTotal.Hours < 0)
                 {
                     TempData["NomeFuncionario"] = DadosFuncionario[0]["nome"];
@@ -667,34 +637,32 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["Gestor"] = "S";
                 var TodosFuncionariosSetor = VerificaDados.RetornaFuncionariosSetor(DadosFuncionario[0]["idsetor"]);
                 TempData["TotalEquipe"] = TodosFuncionariosSetor.Count;
-                for (int i = 0; i < TodosFuncionariosSetor.Count; i++)
+                for (var i = 0; i < TodosFuncionariosSetor.Count; i++)
                 {
-                    string result = VerificaDados.RemoveAccents(TodosFuncionariosSetor[i]["nome"]);
+                    var result = VerificaDados.RemoveAccents(TodosFuncionariosSetor[i]["nome"]);
                     var Cracha = VerificaDadosFire.RetornaCrachaFuncionario(result);
                     var Horas = VerificaDados.RetornaHoras(Cracha[0]["MATRICULA"]);
-                    TimeSpan HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
-                    if (HoraTotal.Hours < 0 || HoraTotal.Minutes<0)
+                    var HoraTotal = TimeSpan.Parse(Horas[0]["hora"]);
+                    if (HoraTotal.Hours < 0 || HoraTotal.Minutes < 0)
                     {
                         TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
                         TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
-                        TempData["DataReferencia"+i] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
+                        TempData["DataReferencia" + i] =
+                            Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                         TempData["CorEquipe" + i] = "red";
                     }
                     else
                     {
-
-
                         TempData["NomeFuncionarioEquipe" + i] = TodosFuncionariosSetor[i]["nome"];
                         TempData["SaldoHorasEquipe" + i] = Horas[0]["hora"];
-                        TempData["DataReferencia"+i] = Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
+                        TempData["DataReferencia" + i] =
+                            Convert.ToDateTime(Horas[0]["datareferencia"]).ToString("dd/MM/yyyy");
                         TempData["CorEquipe" + i] = "black";
                     }
-
                 }
             }
 
             return PartialView("BancoHoras");
-
         }
 
         public ActionResult ShowdePremios(string Cpf)
@@ -705,22 +673,19 @@ namespace PortalSicoobDivicred.Controllers
 
             var NumeroDaSorte = RecuperaDados.BuscaNumerodaSorte();
             if (NumeroDaSorte.Count > 0)
-            {
-                TempData["NumeroDaSorte"] = "O último número da sorte foi: " + NumeroDaSorte[0]["numerodasorte"] + " na data: " + NumeroDaSorte[0]["data"];
-            }
+                TempData["NumeroDaSorte"] = "O último número da sorte foi: " + NumeroDaSorte[0]["numerodasorte"] +
+                                            " na data: " + NumeroDaSorte[0]["data"];
             else
-            {
                 TempData["NumeroDaSorte"] = "Nenhum sorteio foi realizado até o momento.";
-            }
 
-           
+
             var Extrato = RecuperaDados.RetornaExtrato(CpfLimpo);
             TempData["TotalCupons"] = Extrato.Count;
-            for (int i = 0; i < Extrato.Count; i++)
+            for (var i = 0; i < Extrato.Count; i++)
             {
                 TempData["Numero" + i] = Extrato[i]["id"];
                 TempData["Motivo" + i] = Extrato[i]["motivo"];
-                TempData["Data"+i] = Extrato[i]["data"];
+                TempData["Data" + i] = Extrato[i]["data"];
             }
 
             return PartialView("ShowdePremios");

@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
 <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,43 +22,36 @@
     </script>
 }
 
-<br />
+<br/>
 <script>
-    $(function () {
+    $(function() {
         $("#TabBancoHoras").tabs();
     });
-    
+
     function ValidaMascara(valor) {
 
-        if (valor.replace(/\D/g, '').length === 11) {           
+        if (valor.replace(/\D/g, '').length === 11) {
             $('#cpf').mask('000.000.000-00');
-        }
-        else {            
+        } else {
             $('#cpf').mask('00.000.000/0000-00');
         }
 
     };
+
     function RemoveMascara() {
         $("#cpf").unmask();
-       
+
     }
 
 </script>
 
 
-
-
-
-
-
 <!DOCTYPE html>
-
-
 
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"/>
     <title>Pgd</title>
 </head>
 
@@ -69,30 +62,31 @@
 </nav>
 
 
-<div class="notification is-primary" align="center" style="font-size: 170% ">
-    Pontuação atual: @TempData["saldo"]  |  Meta: @TempData["meta"]</strong></div>
+<div class="notification is-primary" align="center" style="font-size: 170%">
+    Pontuação atual: @TempData["saldo"] | Meta: @TempData["meta"]</strong>
+</div>
 
 <body>
-    <div id="TabBancoHoras">
-        <div class="tabs is-centered is-boxed">
-            <ul>
-                <li id="AbaCadastro" class="is-active">
-                    <a href="#Cadastro" onclick="javascript:$('#AbaExtrato').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaCadastro').addClass('is-active');">
-                        <span class="icon is-small">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                        <span>Cadastro</span>
-                    </a>
-                </li>
-                <li id='AbaExtrato'>
-                    <a href='#Extrato' onclick="javascript: $('#AbaCadastro').removeClass(); $('#AbaExtratoGestor').removeClass();$('#AbaExtrato').addClass('is-active');">
-                        <span class='icon is-small'>
-                            <i class='fa fa-list'></i>
-                        </span>
-                        <span>Extrato</span>
-                    </a>
-                </li>
-                
+<div id="TabBancoHoras">
+    <div class="tabs is-centered is-boxed">
+        <ul>
+            <li id="AbaCadastro" class="is-active">
+                <a href="#Cadastro" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaExtratoGestor').removeClass();$('#AbaCadastro').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span>Cadastro</span>
+                </a>
+            </li>
+            <li id="AbaExtrato">
+                <a href="#Extrato" onclick="javascript: $('#AbaCadastro').removeClass();$('#AbaExtratoGestor').removeClass();$('#AbaExtrato').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-list"></i>
+                    </span>
+                    <span>Extrato</span>
+                </a>
+            </li>
+
             @if (TempData["Gestor"].ToString().Equals("S"))
             {
                 <li id='AbaExtratoGestor'>
@@ -103,23 +97,23 @@
                         <span>Área Gestor</span>
                     </a>
                 </li>
-
             }
-            </ul>
-        </div>
-        <div id="Cadastro">
-            @Html.Action("Cadastro","Pgd")
-        </div>
-        <div id="Extrato">
-            @Html.Action("Extrato", "Pgd")
-        </div>
-        @if (TempData["Gestor"].ToString().Equals("S")) { 
+        </ul>
+    </div>
+    <div id="Cadastro">
+        @Html.Action("Cadastro", "Pgd")
+    </div>
+    <div id="Extrato">
+        @Html.Action("Extrato", "Pgd")
+    </div>
+    @if (TempData["Gestor"].ToString().Equals("S"))
+    {
         <div id="ExtratoGestor">
             @Html.Action("ExtratoGestor", "Pgd")
         </div>
-        }
+    }
 
-    </div>
+</div>
 
 </body>
 </html>

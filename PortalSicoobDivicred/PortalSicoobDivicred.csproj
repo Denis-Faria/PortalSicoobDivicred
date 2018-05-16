@@ -106,7 +106,6 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.3.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -115,15 +114,11 @@
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -423,6 +418,26 @@
     <Content Include="node_modules\bulma-steps\package.json" />
     <Content Include="node_modules\bulma-steps\README.md" />
     <Content Include="node_modules\bulma-steps\steps.sass" />
+    <Content Include="node_modules\progressbar.js\.editorconfig" />
+    <Content Include="node_modules\progressbar.js\.eslintrc" />
+    <Content Include="node_modules\progressbar.js\.jscs.json" />
+    <Content Include="node_modules\progressbar.js\.npmignore" />
+    <Content Include="node_modules\progressbar.js\.travis.yml" />
+    <Content Include="node_modules\progressbar.js\bower.json" />
+    <Content Include="node_modules\progressbar.js\dist\progressbar.min.js.map" />
+    <Content Include="node_modules\progressbar.js\docs\api\general.md" />
+    <Content Include="node_modules\progressbar.js\docs\api\parameters.md" />
+    <Content Include="node_modules\progressbar.js\docs\api\path.md" />
+    <Content Include="node_modules\progressbar.js\docs\api\shape.md" />
+    <Content Include="node_modules\progressbar.js\docs\contributing.md" />
+    <Content Include="node_modules\progressbar.js\docs\index.md" />
+    <Content Include="node_modules\progressbar.js\LICENSE" />
+    <Content Include="node_modules\progressbar.js\mkdocs.yml" />
+    <Content Include="node_modules\progressbar.js\package.json" />
+    <Content Include="node_modules\progressbar.js\README.md" />
+    <Content Include="node_modules\progressbar.js\testem.json" />
+    <Content Include="node_modules\progressbar.js\tools\lint.sh" />
+    <Content Include="node_modules\progressbar.js\tools\test.sh" />
     <Content Include="node_modules\bulma\bulma.sass" />
     <Content Include="node_modules\bulma\CHANGELOG.md" />
     <Content Include="node_modules\bulma\css\bulma.css.map" />
@@ -474,34 +489,11 @@
     <Content Include="node_modules\bulma\sass\utilities\initial-variables.sass" />
     <Content Include="node_modules\bulma\sass\utilities\mixins.sass" />
     <Content Include="node_modules\bulma\sass\utilities\_all.sass" />
-    <Content Include="node_modules\progressbar.js\.editorconfig" />
-    <Content Include="node_modules\progressbar.js\.eslintrc" />
-    <Content Include="node_modules\progressbar.js\.jscs.json" />
-    <Content Include="node_modules\progressbar.js\.npmignore" />
-    <Content Include="node_modules\progressbar.js\.travis.yml" />
-    <Content Include="node_modules\progressbar.js\bower.json" />
-    <Content Include="node_modules\progressbar.js\dist\progressbar.min.js.map" />
-    <Content Include="node_modules\progressbar.js\docs\api\general.md" />
-    <Content Include="node_modules\progressbar.js\docs\api\parameters.md" />
-    <Content Include="node_modules\progressbar.js\docs\api\path.md" />
-    <Content Include="node_modules\progressbar.js\docs\api\shape.md" />
-    <Content Include="node_modules\progressbar.js\docs\contributing.md" />
-    <Content Include="node_modules\progressbar.js\docs\index.md" />
-    <Content Include="node_modules\progressbar.js\LICENSE" />
-    <Content Include="node_modules\progressbar.js\mkdocs.yml" />
-    <Content Include="node_modules\progressbar.js\package.json" />
-    <Content Include="node_modules\progressbar.js\README.md" />
-    <Content Include="node_modules\progressbar.js\testem.json" />
-    <Content Include="node_modules\progressbar.js\tools\lint.sh" />
-    <Content Include="node_modules\progressbar.js\tools\test.sh" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Images\sucesso.png" />
     <Content Include="Images\user.png" />
-    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
@@ -686,9 +678,9 @@
     <Content Include="Views\PainelColaborador\Indicadores.cshtml" />
     <Content Include="Views\PainelColaborador\IndicadorOitoHoras.cshtml" />
     <Content Include="Views\Pgd\Pgd.cshtml" />
-    <Content Include="Views\Pgd\ViewCadastro.cshtml" />
-    <Content Include="Views\Pgd\ViewExtrato.cshtml" />
-    <Content Include="Views\Pgd\ViewExtratoGestor.cshtml" />
+    <Content Include="Views\Pgd\Cadastro.cshtml" />
+    <Content Include="Views\Pgd\Extrato.cshtml" />
+    <Content Include="Views\Pgd\ExtratoGestor.cshtml" />
     <Content Include="Views\Tesouraria\Tesouraria.cshtml" />
     <Content Include="Views\Login\EsqueciMinhaSenha.cshtml" />
     <Content Include="Views\WebDesk\Setor.cshtml" />

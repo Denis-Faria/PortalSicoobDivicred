@@ -8,15 +8,16 @@
     <script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
     <script src='@Url.Content("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
-    <script type="text/javascript" src="@Url.Content("~/Assets/css/bulma-steps/steps.js")"></script>
 
-    <meta name="viewport" content="width=device-width"/>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width" />
 
     <title>Principal</title>
 
@@ -114,12 +115,12 @@
                 <span class="icon">
 
                 </span>
-                <a href="@Url.Action("Principal", "Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
+                <a href="@Url.Action("Principal", "Principal")" class="item" style="color: #38d5c5;"  data-balloon="Dashboard" data-balloon-pos="right">
                     <span class="icon is-flex">
                         <i class="fas fa-tachometer-alt"></i>
                     </span>
                 </a>
-                <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
+                <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;"  data-balloon="WebDesk" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fas fa-tasks" aria-hidden="true"></i>
                     </span>
@@ -140,7 +141,7 @@
                     </span><span class="name"></span>
                 </a>
 
-                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
+                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]"  data-balloon="Portal do Colaborador" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fas fa-user-plus"></i>
                     </span>

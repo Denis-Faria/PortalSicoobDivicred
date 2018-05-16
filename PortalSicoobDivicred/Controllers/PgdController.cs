@@ -50,7 +50,7 @@ namespace PortalSicoobDivicred.Controllers
             dadosPGD.nomeFuncionario = dadosTabelaPGD;
 
 
-            return PartialView("ViewCadastro", dadosPGD);
+            return PartialView("Cadastro", dadosPGD);
         }
 
         [HttpPost]
@@ -127,7 +127,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["valorponto" + i] = DadosTabelaFuncionario[i]["valorponto"];
             }
 
-            return PartialView("ViewExtrato");
+            return PartialView("Extrato");
         }
 
         public ActionResult ExtratoGestor()
@@ -171,7 +171,7 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["valorponto" + i] = DadosTabelaFuncionario[i]["valorponto"].ToString();
                         }
           */
-            return PartialView("ViewExtratoGestor");
+            return PartialView("ExtratoGestor");
         }
     }
 }

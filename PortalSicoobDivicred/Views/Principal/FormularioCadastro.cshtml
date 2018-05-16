@@ -240,7 +240,7 @@
                     </div>
                     <div class="field is-grouped">
                         <p class="control column is-3">
-                            <label class="label">Nacionalidade</label>
+                            <label class="label">Local de Nascimento</label>
                             @Html.TextBoxFor(m => m.LocalNascimento, null, new { @class = "input", placeholder = "Ex: Divinópolis" })
                             @Html.ValidationMessageFor(m => m.LocalNascimento, null, new { style = "color:red" })
                         </p>
@@ -311,20 +311,20 @@
                     </P>
 
                     <div class="field is-grouped column">
-                        <div class="control is-2">
+                        <div class="control column is-2">
                             <label class="label">Usuário do Sistema</label>
                             @Html.TextBoxFor(m => m.UsuarioSistema, null, new { @class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario" })
                             @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new { style = "color:red" })
                         </div>
 
 
-                        <div class="control is-3">
+                        <div class="control column is-3">
                             <label class="label">E-mail</label>
                             @Html.TextBoxFor(m => m.Email, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
                             @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
                         </div>
 
-                        <div class="control is-3">
+                        <div class="control column is-3">
                             <label class="label">PA</label>
                             @Html.TextBoxFor(m => m.PA, null, new { @class = "input", placeholder = "Ex:99", id = "PaFuncionario" })
                             @Html.ValidationMessageFor(m => m.PA, null, new { style = "color:red" })
@@ -372,7 +372,18 @@
                             @Html.ValidationMessageFor(m => m.Cidade, null, new { style = "color:red" })
                         </div>
                     </div>
-
+                    <div class="field is-grouped ">
+                        <div class="control column is-2">
+                            <label class="label">País</label>
+                            @Html.TextBoxFor(m => m.Pais, null, new { @class = "input", placeholder = "Ex: 35500-002" })
+                            @Html.ValidationMessageFor(m => m.Pais, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-2">
+                            <label class="label">País</label>
+                            @Html.TextBoxFor(m => m.Pais, null, new { @class = "input", placeholder = "Ex: 35500-002" })
+                            @Html.ValidationMessageFor(m => m.Pais, null, new { style = "color:red" })
+                        </div>
+                    </div>
                 </div>
                 <div id="Pro" hidden class="content">
                     <div class="field is-grouped column">

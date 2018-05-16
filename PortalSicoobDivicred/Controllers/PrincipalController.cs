@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
@@ -248,6 +249,14 @@ namespace PortalSicoobDivicred.Controllers
                     ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                 }
 
+                var erro = new ArrayList();
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        erro.Add(error);
+                    }
+                }
                 if (ModelState.IsValid)
                 {
                     var Cookie = Request.Cookies.Get("CookieFarm");
@@ -299,11 +308,33 @@ namespace PortalSicoobDivicred.Controllers
                         DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
                         DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita,
                         DadosFuncionario.Viagem,
-                        Confirma, "S");
+                        Confirma, "S", DadosFuncionario.Nacionalidade, DadosFuncionario.NomeMae,
+                        DadosFuncionario.NomePai, DadosFuncionario.LocalNascimento, DadosFuncionario.UfNascimento,
+                        DadosFuncionario.Complemento, DadosFuncionario.Cep, DadosFuncionario.Pais,
+                        DadosFuncionario.ResidenciaPropria, DadosFuncionario.RecursoFgts, DadosFuncionario.NumeroCTPS,
+                        DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS,DadosFuncionario.TelefoneFixo,DadosFuncionario.TelefoneCelular,
+                        DadosFuncionario.EmailSecundario,DadosFuncionario.Cnh,DadosFuncionario.OrgaoEmissorCnh,DadosFuncionario.DataExpedicaoDocumentoCnh
+                        ,DadosFuncionario.DataValidadeCnh,DadosFuncionario.Oc,DadosFuncionario.OrgaoEmissorOc,DadosFuncionario.DataExpedicaoOc,DadosFuncionario.DataValidadeOc);
                     return RedirectToAction("Principal", "Principal");
                 }
+                else
+                {
+                    var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                    var Sexo = VerificaDados.RetornaSexo();
+                    var Etnia = VerificaDados.RetornaEtnia();
+                    var Formacao = VerificaDados.RetornaFormacao();
+                    var Setor = VerificaDados.RetornaSetor();
+                    var Funcao = VerificaDados.RetornaFuncao();
 
-                return View(DadosFuncionario);
+                    DadosFuncionario.EstadoCivil = EstadoCivil;
+                    DadosFuncionario.Sexo = Sexo;
+                    DadosFuncionario.Etnia = Etnia;
+                    DadosFuncionario.Formacao = Formacao;
+                    DadosFuncionario.Setor = Setor;
+                    DadosFuncionario.Funcao = Funcao;
+
+                    return View(DadosFuncionario);
+                }
             }
 
             return RedirectToAction("Login", "Login");
@@ -322,8 +353,16 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var j = 0; j < IdCertificacoes.Length; j++)
                 {
-                    var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
-                    TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                    try
+                    {
+                        var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
+
+                        TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                    }
+                    catch
+                    {
+                        TempData["Certificacao" + j] = "NENHUMA CERTIFICAÇÂO OBRIGATÓRIA";
+                    }
                 }
 
                 return PartialView("CertificacaoFuncao");

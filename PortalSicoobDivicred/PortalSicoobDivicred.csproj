@@ -163,12 +163,10 @@
     <Content Include="Assets\css\Bulma\bulma\bulma.min.css">
       <DependentUpon>bulma.css</DependentUpon>
     </Content>
-    <Content Include="Assets\css\dropzone.css" />
     <Content Include="Assets\css\Imprimir.css" />
     <Content Include="Assets\css\iziToast.css" />
     <Content Include="Assets\css\iziToast.min.css" />
     <Content Include="Assets\css\Login.css" />
-    <Content Include="Assets\css\over.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\StyleSheet1.css">
       <DependentUpon>StyleSheet1.scss</DependentUpon>

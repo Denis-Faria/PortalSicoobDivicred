@@ -18,6 +18,14 @@
             $('#CpfFuncionario').mask('000.000.000-00');
             $('#DataNascimentoFuncionario').mask('00/00/0000');
             $('#PisFuncionario').mask('000.00000.00-0');
+            $('#CepFuncionario').mask('99999-999');
+            $('#TelefoneFixoFuncionario').mask('(99) 9999-9999)');
+            $('#TelefoneCelularFuncionario').mask('(99) 99999-9999');
+
+            $('#DataExpedicaoCnh').mask('00/00/0000');
+            $('#DataVencimentoCnh').mask('00/00/0000');
+            $('#DataExpedicaoOc').mask('00/00/0000');
+            $('#DataVencimentoOc').mask('00/00/0000');
 
         });
 
@@ -191,91 +199,150 @@
             @using (Html.BeginForm("FormularioCadastro", "Principal"))
             {
                 @Html.ValidationSummary(true, "", new { style = "color:red;" })
+
                 <div class="content" id="Pessoais">
                     <div class="field is-grouped">
-                        <p class="control column is-3">
+                        <p class="control column is-3 is-expanded">
                             <label class="label">Nome</label>
                             @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", placeholder = "Ex:José Da Silva" })
                             @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new { style = "color:red" })
                         </p>
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">CPF</label>
                             @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario" })
                             @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">RG</label>
                             @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario" })
                             @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">PIS</label>
                             @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
                             @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-2">
-                            <label class="label">Data Nascimento</label>
-                            @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
-                            @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
-                        </div>
                     </div>
                     <div class="field is-grouped">
-                        <p class="control column is-3">
+                        <p class="control column is-3 is-expanded">
                             <label class="label">Nacionalidade</label>
                             @Html.TextBoxFor(m => m.Nacionalidade, null, new { @class = "input", placeholder = "Ex:Brasileiro" })
                             @Html.ValidationMessageFor(m => m.Nacionalidade, null, new { style = "color:red" })
                         </p>
-                        <div class="control column is-4">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Nome da Mãe</label>
                             @Html.TextBoxFor(m => m.NomeMae, null, new { @class = "input", placeholder = "Ex: Maria da Silva" })
                             @Html.ValidationMessageFor(m => m.NomeMae, null, new { style = "color:red" })
                         </div>
 
-                        <div class="control column is-4">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Nome do Pai</label>
                             @Html.TextBoxFor(m => m.NomePai, null, new { @class = "input", placeholder = "Ex: Joaquin da Silva" })
                             @Html.ValidationMessageFor(m => m.NomePai, null, new { style = "color:red" })
                         </div>
 
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Nascimento</label>
+                            @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
+                            @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
+                        </div>
+
                     </div>
                     <div class="field is-grouped">
-                        <p class="control column is-3">
+                        <p class="control column is-3 is-expanded">
                             <label class="label">Local de Nascimento</label>
                             @Html.TextBoxFor(m => m.LocalNascimento, null, new { @class = "input", placeholder = "Ex: Divinópolis" })
                             @Html.ValidationMessageFor(m => m.LocalNascimento, null, new { style = "color:red" })
                         </p>
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Estado de Nascimento</label>
                             @Html.TextBoxFor(m => m.UfNascimento, null, new { @class = "input", placeholder = "Ex: MG" })
                             @Html.ValidationMessageFor(m => m.UfNascimento, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Fixo</label>
+                            @Html.TextBoxFor(m => m.TelefoneFixo, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "TelefoneFixoFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneFixo, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Celular</label>
+                            @Html.TextBoxFor(m => m.TelefoneCelular, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "TelefoneCelularFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneCelular, null, new { style = "color:red" })
+                        </div>
+
+                    </div>
+                    <div class="field is-grouped">
+                        <p class="control column is-3 is-expanded">
+                            <label class="label">N° CNH</label>
+                            @Html.TextBoxFor(m => m.Cnh, null, new { @class = "input", placeholder = "Ex: 999999" })
+                            @Html.ValidationMessageFor(m => m.Cnh, null, new { style = "color:red" })
+                        </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Orgão Emissor CNH</label>
+                            @Html.TextBoxFor(m => m.OrgaoEmissorCnh, null, new { @class = "input", placeholder = "Ex: DETRAM-MG" })
+                            @Html.ValidationMessageFor(m => m.OrgaoEmissorCnh, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Epedição CNH</label>
+                            @Html.TextBoxFor(m => m.DataExpedicaoDocumentoCnh, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "DataExpedicaoCnh" })
+                            @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoCnh, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Vencimento CNH</label>
+                            @Html.TextBoxFor(m => m.DataValidadeCnh, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "DataVencimentoCnh" })
+                            @Html.ValidationMessageFor(m => m.DataValidadeCnh, null, new { style = "color:red" })
+                        </div>
+
+                    </div>
+                    <div class="field is-grouped">
+                        <p class="control column is-3 is-expanded">
+                            <label class="label">N° OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.Oc, null, new { @class = "input", placeholder = "Ex: 999999" })
+                            @Html.ValidationMessageFor(m => m.Oc, null, new { style = "color:red" })
+                        </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Orgão Emissor OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.OrgaoEmissorOc, null, new { @class = "input", placeholder = "Ex: CREA-MG" })
+                            @Html.ValidationMessageFor(m => m.OrgaoEmissorOc, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Epedição OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.DataExpedicaoOc, null, new { @class = "input", placeholder = "Ex: 99/99/99999", id = "DataExpedicaoOc" })
+                            @Html.ValidationMessageFor(m => m.DataExpedicaoOc, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Vencimento OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.DataValidadeOc, null, new { @class = "input", placeholder = "Ex:99/99/9999", id = "DataVencimentoOc" })
+                            @Html.ValidationMessageFor(m => m.DataValidadeOc, null, new { style = "color:red" })
                         </div>
 
                     </div>
 
 
+
                     <hr />
 
                     <div class="field is-grouped column">
-                        <div class="control is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Género</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdSexo, new SelectList(Model.Sexo, "Value", "Text"), "SELECIONE O SEU GÉNERO", new { id = "Sexo" })
                                 @Html.ValidationMessageFor(m => m.IdSexo, null, new { style = "color:red" })
                             </div>
                         </div>
-                        <div class="control is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Descrição de Género:</label>
                             @Html.TextBoxFor(m => m.DescricaoSexo, null, new { @class = "input", id = "DescricaosexoFuncionario" })
                             @Html.ValidationMessageFor(m => m.DescricaoSexo, null, new { style = "color:red" })
                         </div>
-                        <div class="control ">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Etnia/Raça</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdEtnia, new SelectList(Model.Etnia, "Value", "Text"), "SELECIONE A SUA ETNIA/RAÇA", new { id = "Etnia" })
                                 @Html.ValidationMessageFor(m => m.IdEtnia, null, new { style = "color:red" })
                             </div>
                         </div>
-                        <div class="control ">
+                        <div class="control column is-3 is-expanded ">
                             <label class="label">Estado Civil</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdEstadoCivil, new SelectList(Model.EstadoCivil, "Value", "Text"), "SELECIONE O SEU ESTADO CIVIL", new { id = "EstadoCivil" })
@@ -287,14 +354,14 @@
 
                     <hr />
                     <div class="field is-grouped column">
-                        <div class="control is-2 ">
+                        <div class="control column is-4 is-expanded ">
                             <label class="label">Formação</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdFormacao, new SelectList(Model.Formacao, "Value", "Text"), "SELECIONE A SUA FORMAÇÃO", new { id = "Formacao" })
                                 @Html.ValidationMessageFor(m => m.IdFormacao, null, new { style = "color:red" })
                             </div>
                         </div>
-                        <div class="control is-4 is-expanded">
+                        <div class="control is-4 column is-expanded">
                             <label class="label">Formação Acadêmica</label>
                             @Html.TextBoxFor(m => m.FormacaoAcademica, null, new { @class = "input", placeholder = "Ex: Administração", id = "FormacaoFuncionario" })
                             @Html.ValidationMessageFor(m => m.FormacaoAcademica, null, new { style = "color:red" })
@@ -311,20 +378,25 @@
                     </P>
 
                     <div class="field is-grouped column">
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Usuário do Sistema</label>
                             @Html.TextBoxFor(m => m.UsuarioSistema, null, new { @class = "input", placeholder = "Ex:SicoobD4030_00", id = "UsuarioFuncionario" })
                             @Html.ValidationMessageFor(m => m.UsuarioSistema, null, new { style = "color:red" })
                         </div>
 
 
-                        <div class="control column is-3">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">E-mail</label>
                             @Html.TextBoxFor(m => m.Email, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
                             @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
                         </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">E-mail Secundário</label>
+                            @Html.TextBoxFor(m => m.EmailSecundario, null, new { @class = "input", placeholder = "Ex:teste@divicred.com.br", id = "EmailFuncionario" })
+                            @Html.ValidationMessageFor(m => m.EmailSecundario, null, new { style = "color:red" })
+                        </div>
 
-                        <div class="control column is-3">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">PA</label>
                             @Html.TextBoxFor(m => m.PA, null, new { @class = "input", placeholder = "Ex:99", id = "PaFuncionario" })
                             @Html.ValidationMessageFor(m => m.PA, null, new { style = "color:red" })
@@ -337,64 +409,106 @@
                     </div>
 
                     <div class="field is-grouped ">
-                        <div class="control column is-2">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">CEP</label>
-                            @Html.TextBoxFor(m => m.Cep, null, new { @class = "input", placeholder = "Ex: 35500-002" })
+                            @Html.TextBoxFor(m => m.Cep, null, new { @class = "input", placeholder = "Ex: 35500-002", id = "CepFuncionario" })
                             @Html.ValidationMessageFor(m => m.Cep, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-3">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Rua</label>
                             @Html.TextBoxFor(m => m.Rua, null, new { @class = "input", placeholder = "Ex: Av. Primeiro de Junho", id = "RuaFuncionario" })
                             @Html.ValidationMessageFor(m => m.Rua, null, new { style = "color:red" })
                         </div>
 
-                        <div class="control column is-1">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">N°</label>
                             @Html.TextBoxFor(m => m.Numero, null, new { @class = "input", placeholder = "Ex: 210", id = "NumeroFuncionario" })
                             @Html.ValidationMessageFor(m => m.Numero, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-1">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">Complemento</label>
                             @Html.TextBoxFor(m => m.Complemento, null, new { @class = "input", placeholder = "Ex: Apt:210", })
                             @Html.ValidationMessageFor(m => m.Complemento, null, new { style = "color:red" })
                         </div>
 
-
-                        <div class="control column is-2">
-                            <label class="label">Bairro</label>
-                            @Html.TextBoxFor(m => m.Bairro, null, new { @class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario" })
-                            @Html.ValidationMessageFor(m => m.Bairro, null, new { style = "color:red" })
-                        </div>
-
-                        <div class="control column is-2">
-                            <label class="label">Cidade</label>
-                            @Html.TextBoxFor(m => m.Cidade, null, new { @class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario" })
-                            @Html.ValidationMessageFor(m => m.Cidade, null, new { style = "color:red" })
-                        </div>
+                        
                     </div>
-                    <div class="field is-grouped ">
-                        <div class="control column is-2">
-                            <label class="label">País</label>
-                            @Html.TextBoxFor(m => m.Pais, null, new { @class = "input", placeholder = "Ex: 35500-002" })
-                            @Html.ValidationMessageFor(m => m.Pais, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-2">
-                            <label class="label">País</label>
-                            @Html.TextBoxFor(m => m.Pais, null, new { @class = "input", placeholder = "Ex: 35500-002" })
-                            @Html.ValidationMessageFor(m => m.Pais, null, new { style = "color:red" })
-                        </div>
+                <div class="field is-grouped ">
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">Bairro</label>
+                        @Html.TextBoxFor(m => m.Bairro, null, new { @class = "input", placeholder = "Ex: Centro", id = "BairroFuncionario" })
+                        @Html.ValidationMessageFor(m => m.Bairro, null, new { style = "color:red" })
                     </div>
+
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">Cidade</label>
+                        @Html.TextBoxFor(m => m.Cidade, null, new { @class = "input", placeholder = "Ex: Divinópolis", id = "CidadeFuncionario" })
+                        @Html.ValidationMessageFor(m => m.Cidade, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">País</label>
+                        @Html.TextBoxFor(m => m.Pais, null, new {@class = "input", placeholder = "Ex: Brasil"})
+                        @Html.ValidationMessageFor(m => m.Pais, null, new {style = "color:red"})
+                    </div>
+                </div>
+                <div class="control column is-2">
+                    <label class="label">Residência própria ?</label>
+                    <div class="control">
+                        <label class="radio">
+                            @Html.RadioButtonFor(m => m.ResidenciaPropria, "Sim")
+                            Sim
+                        </label>
+                        <label class="radio">
+                            @Html.RadioButtonFor(m => m.ResidenciaPropria, "Não")
+
+                            Não
+                        </label>
+                        @Html.ValidationMessageFor(m => m.ResidenciaPropria, null, new {style = "color:red"})
+                    </div>
+                </div>
+                <div class="control column is-4">
+                    <label class="label">Sua residência foi comprada com recursos de FGTS ?</label>
+                    <div class="control">
+                        <label class="radio">
+                            @Html.RadioButtonFor(m => m.RecursoFgts, "Sim")
+                            Sim
+                        </label>
+                        <label class="radio">
+                            @Html.RadioButtonFor(m => m.RecursoFgts, "Não")
+                            Não
+                        </label>
+                        @Html.ValidationMessageFor(m => m.RecursoFgts, null, new {style = "color:red"})
+                    </div>
+                </div>
                 </div>
                 <div id="Pro" hidden class="content">
                     <div class="field is-grouped column">
-                        <div class="control is-2 ">
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">N° CTPS</label>
+                            @Html.TextBoxFor(m => m.NumeroCTPS, null, new { @class = "input", placeholder = "Ex: 9999999" })
+                            @Html.ValidationMessageFor(m => m.NumeroCTPS, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Serie CTPS</label>
+                            @Html.TextBoxFor(m => m.SerieCTPS, null, new { @class = "input", placeholder = "Ex: 0000" })
+                            @Html.ValidationMessageFor(m => m.SerieCTPS, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3">
+                            <label class="label">Estado de expedição CTPS</label>
+                            @Html.TextBoxFor(m => m.UfCTPS, null, new { @class = "input", placeholder = "Ex: 0000" })
+                            @Html.ValidationMessageFor(m => m.UfCTPS, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="field is-grouped column">
+                        <div class="control column is-6 is-expanded">
                             <label class="label">Setor</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
                                 @Html.ValidationMessageFor(m => m.IdSetor, null, new { style = "color:red" })
                             </div>
                         </div>
-                        <div class="control is-4">
+                        <div class="control column is-6 is-expanded">
                             <label class="label">Função</label>
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
@@ -402,6 +516,7 @@
                             </div>
                         </div>
                     </div>
+
                     <blockquote id="Certificacoes" hidden>
                         <b>Certificações Obrigatórias</b>
                         <div id="Conteudo">

@@ -1,5 +1,5 @@
 {
-  "_from": "bulma@^0.6.0",
+  "_from": "bulma@^0.6.2",
   "_id": "bulma@0.6.2",
   "_inBundle": false,
   "_integrity": "sha1-9LHRHVrMUaeWROsKKwsQZJ09cfU=",
@@ -8,12 +8,12 @@
   "_requested": {
     "type": "range",
     "registry": true,
-    "raw": "bulma@^0.6.0",
+    "raw": "bulma@^0.6.2",
     "name": "bulma",
     "escapedName": "bulma",
-    "rawSpec": "^0.6.0",
+    "rawSpec": "^0.6.2",
     "saveSpec": null,
-    "fetchSpec": "^0.6.0"
+    "fetchSpec": "^0.6.2"
   },
   "_requiredBy": [
     "#DEV:/",
@@ -21,7 +21,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/bulma/-/bulma-0.6.2.tgz",
   "_shasum": "f4b1d11d5acc51a79644eb0a2b0b10649d3d71f5",
-  "_spec": "bulma@^0.6.0",
+  "_spec": "bulma@^0.6.2",
   "_where": "C:\\Users\\Davic4030_00\\OneDrive\\Projetos\\Solução_Portal\\PortalSicoobDivicred\\PortalSicoobDivicred",
   "author": {
     "name": "Jeremy Thomas",

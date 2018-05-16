@@ -35,6 +35,7 @@ namespace PortalSicoobDivicred.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string PA { get; set; }
 
         [Required(ErrorMessage = "Favor informar sua Nacionalidade!")]
@@ -68,33 +69,46 @@ namespace PortalSicoobDivicred.Models
         public string RecursoFgts { get; set; }
 
         [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string NumeroCTPS{ get; set; }
 
         [Required(ErrorMessage = "Favor informar a serie da sua CTPS")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string SerieCTPS { get; set; }
 
         [Required(ErrorMessage = "Favor informar o estado em que sua CTPS foi emitida")]
+        [MaxLength(2, ErrorMessage = "Coloque a abreviação de seu estado")]
         public string UfCTPS { get; set; }
 
-        [Required(ErrorMessage = "Favor informar a data de expedição do seu documento")]
-        public DateTime DataExpedicaoDocumento { get; set; }
+        public string Cnh { get; set; }
 
-        [Required(ErrorMessage = "Favor informar o orgão emissor do seu documento")]
-        public string OrgaoEmissor { get; set; }
+        public string Oc { get; set; }
 
-        [Required(ErrorMessage = "Favor informar a data de validade do seu documento")]
-        public DateTime DataValidadeDocumento { get; set; }
+        public DateTime DataExpedicaoDocumentoCnh { get; set; }
 
-        [Required(ErrorMessage = "Favor informar o número de telefone fixo")]
+        public string OrgaoEmissorCnh { get; set; }
+
+        public DateTime DataValidadeCnh { get; set; }
+
+        public DateTime DataExpedicaoOc { get; set; }
+
+        public string OrgaoEmissorOc { get; set; }
+
+        public DateTime DataValidadeOc { get; set; }
+
         public string TelefoneFixo { get; set; }
 
         [Required(ErrorMessage = "Favor informar o número de telefone movel")]
         public string TelefoneCelular { get; set; }
 
+        [Required(ErrorMessage = "Favor informar um e-mail secundário")]
+        public string EmailSecundario { get; set; }
+
         [Required(ErrorMessage = "Informe a sua rua!")]
         public string Rua { get; set; }
 
         [Required(ErrorMessage = "Informe o numero da sua casa!")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string Numero { get; set; }
 
         [Required(ErrorMessage = "Informe o seu bairro!")]

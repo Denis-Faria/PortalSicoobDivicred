@@ -610,7 +610,11 @@ namespace PortalSicoobDivicred.Aplicacao
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
             string Numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem, string ConfirmacaoCertificacao, string ConfirmaDados)
+            string Viagem, string ConfirmacaoCertificacao, string ConfirmaDados,string Nacionalidade,string NomeMae,
+            string NomePai,string LocalNascimento,string UfNascimento,string Complemento,string Cep,string Pais,
+            string ResidenciaPropria,string RecursoFgts,string NumeroCtps,string SerieCtps,string UfCtps,string TelefoneFixo,
+            string TelefoneCelular,string EmailSecundario,string Cnh,string OrgaoCnh,DateTime DataExpedicaoCnh,DateTime DataValidadeCnh,
+            string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -627,7 +631,16 @@ namespace PortalSicoobDivicred.Aplicacao
                                            ComidaFavorita + "',viagem='" + Viagem +
                                            "', perfilcompleto='S',confirmacaodado='" + ConfirmaDados +
                                            "',confirmacaocertificacao='" +
-                                           ConfirmacaoCertificacao + "' WHERE nome='" + Nome + "'";
+                                           ConfirmacaoCertificacao + "',nacionalidade='"+Nacionalidade+"'," +
+                                           "nomemae='"+NomeMae+"',nomepai='"+NomePai+"',localnascimento='"+LocalNascimento+"'" +
+                                           ",ufnascimento='"+UfNascimento+"',complemento='"+Complemento+"',cep='"+Cep+"'" +
+                                           ",pais='"+Pais+"',residenciapropria='"+ResidenciaPropria+"',recursofgts='"+RecursoFgts+"'" +
+                                           ",numeroctps='"+NumeroCtps+"',seriectps='"+SerieCtps+"',ufctps='"+UfCtps+"', telefonefixo='"+TelefoneFixo+"'" +
+                                           ",telefonecelular='"+TelefoneCelular+"',emailsecundario='"+EmailSecundario+"',cnh='"+Cnh+"',orgaoemissorcnh='"+OrgaoCnh+"'" +
+                                           ",dataexpedicaocnh='"+DataExpedicaoCnh.ToString("yyyy/MM/dd")+"',datavalidadecnh='"+DataValidadeCnh.ToString("yyyy/MM/dd")+"'," +
+                                           "oc='"+Oc+"',orgaoemissoroc='"+OrgaoOc+ "',dataexpedicaooc='" + DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
+                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "'," +
+                                           " WHERE nome='" + Nome + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 

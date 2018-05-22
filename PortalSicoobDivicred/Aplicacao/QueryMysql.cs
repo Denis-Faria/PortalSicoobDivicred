@@ -276,6 +276,23 @@ namespace PortalSicoobDivicred.Aplicacao
             return EstadoCivil;
         }
 
+        public List<SelectListItem> RetornaTipoConta()
+        {
+            var TipoConta = new List<SelectListItem>();
+
+            const string QueryRetornaTipoConta = "SELECT id,descricao FROM tiposcontas";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaTipoConta);
+            foreach (var row in Dados)
+                TipoConta.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return TipoConta;
+        }
+
         public List<SelectListItem> RetornaSexo()
         {
             var Sexo = new List<SelectListItem>();
@@ -614,7 +631,10 @@ namespace PortalSicoobDivicred.Aplicacao
             string NomePai,string LocalNascimento,string UfNascimento,string Complemento,string Cep,string Pais,
             string ResidenciaPropria,string RecursoFgts,string NumeroCtps,string SerieCtps,string UfCtps,string TelefoneFixo,
             string TelefoneCelular,string EmailSecundario,string Cnh,string OrgaoCnh,DateTime DataExpedicaoCnh,DateTime DataValidadeCnh,
-            string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc)
+            string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc,string DeficienteMotor,string DeficienteVisual,
+            string DeficienteAuditivo,string Reabilitado,string ObservacaoDeficiente,int IdTipoConta,string CodigoBanco,string Agencia,
+            string ContaCorrente,string DependenteIrrf,string DependenteFamilia,string DadosDependentes,string TipoDependentes,string Matricula,
+            string PrimeiroEmprego, string EmissaoCtps,string Divorcio)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -639,7 +659,11 @@ namespace PortalSicoobDivicred.Aplicacao
                                            ",telefonecelular='"+TelefoneCelular+"',emailsecundario='"+EmailSecundario+"',cnh='"+Cnh+"',orgaoemissorcnh='"+OrgaoCnh+"'" +
                                            ",dataexpedicaocnh='"+DataExpedicaoCnh.ToString("yyyy/MM/dd")+"',datavalidadecnh='"+DataValidadeCnh.ToString("yyyy/MM/dd")+"'," +
                                            "oc='"+Oc+"',orgaoemissoroc='"+OrgaoOc+ "',dataexpedicaooc='" + DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
-                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "'," +
+                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "',deficientemotor='"+DeficienteMotor+"',deficientevisual='"+DeficienteVisual+"'" +
+                                           ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"', idtipoconta="+IdTipoConta+"," +
+                                           "codigobanco="+CodigoBanco+",agencia='"+Agencia+"',contacorrente='"+ContaCorrente+"', informacaodependente='"+DadosDependentes+"',dependenteirrf='"+DependenteIrrf+"'," +
+                                           "dependentesalariofamilia='"+DependenteFamilia+"',tipodependente='"+TipoDependentes+"',matricula='"+Matricula+"',anoprimeiroemprego='"+PrimeiroEmprego+"'," +
+                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+"'" +
                                            " WHERE nome='" + Nome + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }

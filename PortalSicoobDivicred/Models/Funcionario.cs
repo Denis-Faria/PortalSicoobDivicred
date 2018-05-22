@@ -68,6 +68,42 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar se sua residência foi adquirida com recursos de FGTS")]
         public string RecursoFgts { get; set; }
 
+        [Required(ErrorMessage = "Favor informar se você é uma pessoa com deficiência motora")]
+        public string DeficienteMotor { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se você é uma pessoa com deficiência auditiva")]
+        public string DeficienteAuditivo { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se você é uma pessoa com deficiência visual")]
+        public string DeficienteVisual { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se você é uma pessoa que passou por reabilitação")]
+        public string Reabilitado { get; set; }
+
+        public string ObservacaoDeficiente { get; set; }
+
+        public string DadosDependentes{ get; set; }
+
+        [Required(ErrorMessage = "Favor informar o codigo de seu banco")]
+        public string CodigoBanco { get; set; }
+
+
+        [Required(ErrorMessage = "Favor informar o numero de sua agência")]
+        public string Agencia { get; set; }
+
+
+        [Required(ErrorMessage = "Favor informar o número de sua conta")]
+        public string ContaCorrente { get; set; }
+
+
+        [DisplayName("Tipo Conta")] public List<SelectListItem> Conta { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o estado civil!")]
+        [DisplayName("IdTipoConta")]
+        public int IdTipoConta { get; set; }
+
+
+
         [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string NumeroCTPS{ get; set; }
@@ -97,6 +133,8 @@ namespace PortalSicoobDivicred.Models
         public DateTime DataValidadeOc { get; set; }
 
         public string TelefoneFixo { get; set; }
+
+        public string Dependente { get; set; }
 
         [Required(ErrorMessage = "Favor informar o número de telefone movel")]
         public string TelefoneCelular { get; set; }
@@ -140,12 +178,15 @@ namespace PortalSicoobDivicred.Models
         [DisplayName("IdEstadoCivil")]
         public int IdEstadoCivil { get; set; }
 
-
         [DisplayName("Sexo")] public List<SelectListItem> Sexo { get; set; }
 
         [Required(ErrorMessage = "Favor informar o seu sexo!")]
         [DisplayName("IdSexo")]
         public int IdSexo { get; set; }
+
+
+
+
 
         [DisplayName("Formação")] public List<SelectListItem> Formacao { get; set; }
 
@@ -170,5 +211,26 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o estado civil!")]
         [DisplayName("IdEstadoCivil")]
         public int IdFuncao { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se os dependentes são para fins de IRRF!")]
+        public string DependenteIrrf { get; set; }
+
+        [Required(ErrorMessage = "Favor informar se os dependentes são para salário-família!")]
+        public string DependenteFamilia { get; set; }
+
+
+        [Required(ErrorMessage = "Favor informar se seus pais são divorciados!")]
+        public string PaisDivorciados { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o ano de seu primeiro emprego!")]
+        [MaxLength(2,ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
+        public string AnoPrimeiroEmprego { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de emissçao de sua CTPS!")]
+        public string EmissaoCtps { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a sua matricula!")]
+        public string Matricula { get; set; }
     }
 }

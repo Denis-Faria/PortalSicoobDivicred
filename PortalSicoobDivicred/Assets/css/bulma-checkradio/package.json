@@ -1,0 +1,87 @@
+{
+  "_from": "bulma-checkradio",
+  "_id": "bulma-checkradio@1.0.2",
+  "_inBundle": false,
+  "_integrity": "sha1-25EEa0Z8RMk0Wouz2RqlH1DaP24=",
+  "_location": "/bulma-checkradio",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "bulma-checkradio",
+    "name": "bulma-checkradio",
+    "escapedName": "bulma-checkradio",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/bulma-checkradio/-/bulma-checkradio-1.0.2.tgz",
+  "_shasum": "db91046b467c44c9345a8bb3d91aa51f50da3f6e",
+  "_spec": "bulma-checkradio",
+  "_where": "C:\\Users\\Davic4030_00\\OneDrive\\Projetos\\Solução_Portal\\PortalSicoobDivicred\\PortalSicoobDivicred",
+  "author": {
+    "name": "Wikiki",
+    "email": "wikiki@protonmail.com",
+    "url": "https://wikiki.github.io/bulma-extensions/overview"
+  },
+  "bugs": {
+    "url": "https://github.com/Wikiki/bulma-checkradio/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Make classic checkbox and radio more sexy in different colors, sizes, and states ",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.39",
+    "@babel/preset-env": "^7.0.0-beta.39",
+    "babel-core": "^7.0.0-beta.3",
+    "bulma": "^0.6.2",
+    "camelcase": "^4.1.0",
+    "conventional-github-releaser": "^2.0.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-babel-minify": "^0.3.0",
+    "gulp-better-rollup": "^3.0.0",
+    "gulp-bump": "^3.1.0",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-conventional-changelog": "^1.1.11",
+    "gulp-git": "^2.5.1",
+    "gulp-postcss": "^7.0.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "rollup-plugin-babel": "^3.0.3",
+    "run-sequence": "^2.2.1"
+  },
+  "files": [
+    "dist/bulma-checkradio.sass",
+    "dist/bulma-checkradio.min.css",
+    "LICENSE",
+    "README.md"
+  ],
+  "homepage": "https://github.com/Wikiki/bulma-checkradio#readme",
+  "keywords": [
+    "Bulma",
+    "bulma",
+    "extensions",
+    "bulma.io"
+  ],
+  "license": "MIT",
+  "main": "dist/bulma-checkradio.sass",
+  "name": "bulma-checkradio",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wikiki/bulma-checkradio.git"
+  },
+  "scripts": {
+    "build": "gulp"
+  },
+  "version": "1.0.2"
+}

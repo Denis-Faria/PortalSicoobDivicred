@@ -169,6 +169,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
 
                 var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                var TipoConta = VerificaDados.RetornaTipoConta();
                 var Sexo = VerificaDados.RetornaSexo();
                 var Etnia = VerificaDados.RetornaEtnia();
                 var Formacao = VerificaDados.RetornaFormacao();
@@ -181,6 +182,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Formacao = Formacao;
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
+                DadosFuncionario.Conta = TipoConta;
 
                 TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
                 TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
@@ -211,6 +213,15 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                var TiposDependentes = "";
+                for (int i = 0; i < 10; i++)
+                {
+                    if (Formulario["Check" + i].Equals("on"))
+                    {
+                        TiposDependentes = TiposDependentes + i+ ";";
+                    }
+
+                }
                 try
                 {
                     if (!Formulario["ConfirmacaoDados"].Equals("on"))
@@ -221,7 +232,9 @@ namespace PortalSicoobDivicred.Controllers
                         var Formacao = VerificaDados.RetornaFormacao();
                         var Setor = VerificaDados.RetornaSetor();
                         var Funcao = VerificaDados.RetornaFuncao();
+                        var TipoConta = VerificaDados.RetornaTipoConta();
 
+                        DadosFuncionario.Conta = TipoConta;
                         DadosFuncionario.EstadoCivil = EstadoCivil;
                         DadosFuncionario.Sexo = Sexo;
                         DadosFuncionario.Etnia = Etnia;
@@ -239,7 +252,9 @@ namespace PortalSicoobDivicred.Controllers
                     var Formacao = VerificaDados.RetornaFormacao();
                     var Setor = VerificaDados.RetornaSetor();
                     var Funcao = VerificaDados.RetornaFuncao();
+                    var TipoConta = VerificaDados.RetornaTipoConta();
 
+                    DadosFuncionario.Conta = TipoConta;
                     DadosFuncionario.EstadoCivil = EstadoCivil;
                     DadosFuncionario.Sexo = Sexo;
                     DadosFuncionario.Etnia = Etnia;
@@ -277,7 +292,6 @@ namespace PortalSicoobDivicred.Controllers
                     else
                         DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
                     var Confirma = "";
-
                     try
                     {
                         if (Formulario["ConfirmacaoCertificacao"].Equals("on"))
@@ -312,9 +326,14 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.NomePai, DadosFuncionario.LocalNascimento, DadosFuncionario.UfNascimento,
                         DadosFuncionario.Complemento, DadosFuncionario.Cep, DadosFuncionario.Pais,
                         DadosFuncionario.ResidenciaPropria, DadosFuncionario.RecursoFgts, DadosFuncionario.NumeroCTPS,
-                        DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS,DadosFuncionario.TelefoneFixo,DadosFuncionario.TelefoneCelular,
-                        DadosFuncionario.EmailSecundario,DadosFuncionario.Cnh,DadosFuncionario.OrgaoEmissorCnh,DadosFuncionario.DataExpedicaoDocumentoCnh
-                        ,DadosFuncionario.DataValidadeCnh,DadosFuncionario.Oc,DadosFuncionario.OrgaoEmissorOc,DadosFuncionario.DataExpedicaoOc,DadosFuncionario.DataValidadeOc);
+                        DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS, DadosFuncionario.TelefoneFixo, DadosFuncionario.TelefoneCelular,
+                        DadosFuncionario.EmailSecundario, DadosFuncionario.Cnh, DadosFuncionario.OrgaoEmissorCnh, DadosFuncionario.DataExpedicaoDocumentoCnh
+                        , DadosFuncionario.DataValidadeCnh, DadosFuncionario.Oc, DadosFuncionario.OrgaoEmissorOc, DadosFuncionario.DataExpedicaoOc,
+                        DadosFuncionario.DataValidadeOc, DadosFuncionario.DeficienteMotor, DadosFuncionario.DeficienteVisual, DadosFuncionario.DeficienteAuditivo,
+                        DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
+                        DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia, 
+                        DadosFuncionario.DadosDependentes,TiposDependentes,DadosFuncionario.Matricula,DadosFuncionario.AnoPrimeiroEmprego,DadosFuncionario.EmissaoCtps,
+                        DadosFuncionario.PaisDivorciados);
                     return RedirectToAction("Principal", "Principal");
                 }
                 else
@@ -325,7 +344,9 @@ namespace PortalSicoobDivicred.Controllers
                     var Formacao = VerificaDados.RetornaFormacao();
                     var Setor = VerificaDados.RetornaSetor();
                     var Funcao = VerificaDados.RetornaFuncao();
+                    var TipoConta = VerificaDados.RetornaTipoConta();
 
+                    DadosFuncionario.Conta = TipoConta;
                     DadosFuncionario.EstadoCivil = EstadoCivil;
                     DadosFuncionario.Sexo = Sexo;
                     DadosFuncionario.Etnia = Etnia;
@@ -387,10 +408,10 @@ namespace PortalSicoobDivicred.Controllers
             if (valor)
             {
                 QueryRh.CadastraInteresse(Dados["idvaga"], DadosTabelaFuncionario[0]["id"]);
-                return RedirectToAction("VagasInternas", "Principal", new {Participa = "SIM"});
+                return RedirectToAction("VagasInternas", "Principal", new { Participa = "SIM" });
             }
 
-            return RedirectToAction("VagasInternas", "Principal", new {Participa = "SIM"});
+            return RedirectToAction("VagasInternas", "Principal", new { Participa = "SIM" });
         }
 
         public ActionResult Justificativas()

@@ -155,6 +155,7 @@
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\balloon.css" />
     <Content Include="Assets\css\basic.css" />
+    <Content Include="Assets\css\bulma-checkradio\dist\bulma-checkradio.min.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.min.css" />
     <Content Include="Assets\css\Bulma\bulma\bulma.css">
@@ -221,6 +222,11 @@
     <Content Include="Assets\css\bulma-switch\package.json" />
     <Content Include="Assets\css\bulma-switch\README.md" />
     <Content Include="Assets\css\bulma-switch\switch.sass" />
+    <Content Include="Assets\css\bulma-checkradio\CHANGELOG.md" />
+    <Content Include="Assets\css\bulma-checkradio\dist\bulma-checkradio.sass" />
+    <Content Include="Assets\css\bulma-checkradio\LICENSE" />
+    <Content Include="Assets\css\bulma-checkradio\package.json" />
+    <Content Include="Assets\css\bulma-checkradio\README.md" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -232,6 +238,7 @@
     <Content Include="Images\Sem pendencias.png" />
     <Content Include="Images\Sem pontuacao.png" />
     <Content Include="Images\Webdesk.png" />
+    <Content Include="node_modules\bulma-checkradio\dist\bulma-checkradio.min.css" />
     <Content Include="node_modules\bulma-steps-component\bulma\css\bulma.css" />
     <Content Include="node_modules\bulma-steps-component\index.html" />
     <Content Include="node_modules\bulma-steps-component\steps-example.png" />
@@ -487,6 +494,11 @@
     <Content Include="node_modules\bulma\sass\utilities\initial-variables.sass" />
     <Content Include="node_modules\bulma\sass\utilities\mixins.sass" />
     <Content Include="node_modules\bulma\sass\utilities\_all.sass" />
+    <Content Include="node_modules\bulma-checkradio\CHANGELOG.md" />
+    <Content Include="node_modules\bulma-checkradio\dist\bulma-checkradio.sass" />
+    <Content Include="node_modules\bulma-checkradio\LICENSE" />
+    <Content Include="node_modules\bulma-checkradio\package.json" />
+    <Content Include="node_modules\bulma-checkradio\README.md" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />

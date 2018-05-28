@@ -1,0 +1,203 @@
+﻿
+
+@model PortalSicoobDivicred.Models.Tesouraria
+
+<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hora").mask('00:00');
+
+    });
+</script>
+<script>
+    function acrescentarLinhas(mostrar) {
+        $(tabelaDados).show();
+        $(botoes).show();
+    }
+
+    $(document).ready(function () {
+        $("#justificativa").html("teste");
+    });
+</script>
+
+
+
+
+
+
+<div class="content">
+
+
+    @if (TempData["RetornaValor"].ToString() == "0")
+    {
+        using (Html.BeginForm("Pesquisa", "Tesouraria", FormMethod.Post))
+        {
+            <div id="tabelaDados" style="background-color:white">
+                <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
+                    <thead>
+                    <th class="has-text-centered">Histórico</th>
+                    <th class="has-text-centered">Extrato</th>
+                    <th class="has-text-centered">Arquivos</th>
+                    <th class="has-text-centered">Diferença</th>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico1"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato1"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos1"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca1"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico2"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato2"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos2"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca2"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico3"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato3"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos3"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca3"]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico4"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato4"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos4"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca4"]
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico5"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato5"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos5"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca5"]
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico6"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato6"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos6"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca6"]
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico7"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato7"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos7"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca7"]
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        using (Html.BeginForm("AtualizaJustificativa", "Tesouraria", FormMethod.Post))
+        {
+            <div class="columns content">
+                <div class="column is-12">
+                    <label class="label">Justificativa</label>
+
+                    @Html.TextAreaFor(m => m.justificativa, new { @class = "textarea", type = "string", rows = "6", placeholder = "Max 200 caracteres" })
+
+                </div>
+            </div>
+
+
+            <div id="botoes">
+                <p class="control" style="left:40%">
+                    <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
+
+
+                        <span>Salvar</span>
+
+                    </button>
+                </p>
+            </div>
+
+
+        }
+    }
+    else
+    {
+
+        <nav class="level ">
+            <p class="level-item has-text-centered">
+                <img src="/Images/CIM.png" alt="" style="height: 30px;">
+            </p>
+        </nav>
+    }
+
+</div>

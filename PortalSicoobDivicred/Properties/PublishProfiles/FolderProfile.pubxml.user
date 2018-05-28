@@ -14,19 +14,27 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Assets/css/animate.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:17</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/asc.png">
-      <publishTime>03/08/2007 17:04:42</publishTime>
+      <publishTime>08/03/2007 17:04:42</publishTime>
     </File>
     <File Include="Assets/css/balloon.css">
       <publishTime>06/03/2018 10:09:17</publishTime>
     </File>
     <File Include="Assets/css/basic.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/bg.png">
-      <publishTime>03/08/2007 17:04:42</publishTime>
+      <publishTime>08/03/2007 17:04:42</publishTime>
     </File>
     <File Include="Assets/css/bulma-steps/bulma-steps-example.png">
       <publishTime>06/03/2018 10:09:17</publishTime>
@@ -50,7 +58,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:17</publishTime>
     </File>
     <File Include="Assets/css/bulma-switch/bulma-switch.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:17</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/bulma-switch/bulma-switch.min.css">
       <publishTime>06/03/2018 10:09:17</publishTime>
@@ -92,6 +104,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:17</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/bulma.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:42:34</publishTime>
     </File>
     <File Include="Assets/css/Bulma/bulma/bulma.min.css">
@@ -258,15 +271,183 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Assets/css/Bulma/bulma/sass/utilities/_all.sass">
       <publishTime>05/16/2018 10:34:59</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/bulma.min.css">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/bulma.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/CHANGELOG.md">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/css/bulma.css">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/css/bulma.css.map">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/LICENSE">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/package.json">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/README.md">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/base/generic.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/base/helpers.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/base/minireset.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/base/_all.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/breadcrumb.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/card.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/dropdown.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/level.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/media.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/menu.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/message.sass">
+      <publishTime>06/03/2018 10:09:17</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/modal.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/nav.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/navbar.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/pagination.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/panel.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/tabs.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/components/_all.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/box.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/button.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/container.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/content.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/form.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/icon.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/image.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/notification.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/other.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/progress.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/table.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/tag.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/title.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/elements/_all.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/grid/columns.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/grid/tiles.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/grid/_all.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/layout/footer.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/layout/hero.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/layout/section.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/layout/_all.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/animations.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/controls.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/derived-variables.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/functions.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/initial-variables.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/mixins.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/variables.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+    </File>
+    <File Include="Assets/css/Bulma/bulma/sass/utilities/_all.sass">
+      <publishTime>06/03/2018 10:09:18</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/Bulma/_layouts/default.html">
       <publishTime>06/03/2018 10:09:17</publishTime>
     </File>
     <File Include="Assets/css/desc.png">
-      <publishTime>03/08/2007 17:04:42</publishTime>
+      <publishTime>08/03/2007 17:04:42</publishTime>
     </File>
     <File Include="Assets/css/dropzone.css">
-      <publishTime>03/21/2018 16:09:14</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Assets/css/font-awesome.min.css">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -275,7 +456,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:18</publishTime>
     </File>
     <File Include="Assets/css/iziToast.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:18</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/iziToast.min.css">
       <publishTime>06/03/2018 10:09:18</publishTime>
@@ -290,7 +475,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:18</publishTime>
     </File>
     <File Include="Assets/css/StyleSheet1.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:18</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/css/StyleSheet1.min.css">
       <publishTime>06/03/2018 10:09:18</publishTime>
@@ -551,16 +740,23 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:18</publishTime>
     </File>
     <File Include="Assets/js/dropzone.js">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/js/iziToast.js">
       <publishTime>06/03/2018 10:09:18</publishTime>
     </File>
     <File Include="Assets/js/iziToast.min.js">
       <publishTime>06/03/2018 10:09:18</publishTime>
+<<<<<<< refs/remotes/upstream/master
     </File>
     <File Include="Assets/js/jPages.min.js">
       <publishTime>03/04/2018 15:09:01</publishTime>
+=======
+>>>>>>> Alteração
     </File>
     <File Include="Assets/js/jquery-ui.min.js">
       <publishTime>06/03/2018 10:09:19</publishTime>
@@ -572,10 +768,14 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:19</publishTime>
     </File>
     <File Include="Assets/js/jquery.tablesorter.min.js">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>04/04/2018 10:48:46</publishTime>
     </File>
     <File Include="Assets/js/jquery.tablesorter.pager.js">
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:18</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Assets/js/jquery.validate.min.js">
       <publishTime>06/03/2018 10:09:18</publishTime>
@@ -605,7 +805,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:08:59</publishTime>
     </File>
     <File Include="bin/Mail.dll">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>03/13/2018 10:13:38</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
       <publishTime>06/03/2018 10:09:00</publishTime>
@@ -647,18 +851,23 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/12/2017 15:19:52</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
-      <publishTime>02/18/2018 09:44:54</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/OneApi.dll">
       <publishTime>06/03/2018 10:09:01</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/21/2018 14:47:25</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/21/2018 14:47:25</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
@@ -678,6 +887,27 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/pt-br/System.Web.Webpages.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Mvc.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Razor.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.Deployment.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.Razor.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+    </File>
+    <File Include="bin/pt-br/System.Web.Webpages.resources.dll">
+      <publishTime>06/03/2018 10:08:59</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="bin/RestSharp.dll">
       <publishTime>06/03/2018 10:09:01</publishTime>
@@ -701,25 +931,25 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
-      <publishTime>03/06/2018 10:09:00</publishTime>
+      <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
       <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
-      <publishTime>03/06/2018 10:09:00</publishTime>
+      <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
       <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
-      <publishTime>03/06/2018 10:09:00</publishTime>
+      <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
       <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
-      <publishTime>03/06/2018 10:09:00</publishTime>
+      <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
       <publishTime>06/03/2018 10:09:00</publishTime>
@@ -737,7 +967,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.IO.FileSystem.dll">
-      <publishTime>03/06/2018 10:09:00</publishTime>
+      <publishTime>06/03/2018 10:09:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
       <publishTime>06/03/2018 10:09:00</publishTime>
@@ -800,10 +1030,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="Images/extrato - Copia.png">
-      <publishTime>03/21/2018 15:49:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Images/extrato.png">
-      <publishTime>03/21/2018 15:49:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Images/FundoUser.png">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -851,7 +1081,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps-component/bulma/css/bulma.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps-component/bulma/css/bulma.css.map">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -860,7 +1094,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps-component/bulma/package.json">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps-component/bulma/README.md">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1010,13 +1248,21 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps-component/index.html">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps-component/LICENSE">
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps-component/package.json">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps-component/README.md">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1028,7 +1274,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps-component/_layouts/default.html">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps/bulma-steps-example.png">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1037,13 +1287,21 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps/package.json">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps/README.md">
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma-steps/steps.js">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/bulma-steps/steps.sass">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1070,6 +1328,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/bulma/bulma.sass">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>10/01/2018 15:44:07</publishTime>
     </File>
     <File Include="node_modules/bulma/CHANGELOG.md">
@@ -1224,6 +1483,162 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="node_modules/bulma/sass/utilities/_all.sass">
       <publishTime>10/24/2017 06:53:14</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/CHANGELOG.md">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/css/bulma.css">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/css/bulma.css.map">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/LICENSE">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/package.json">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/README.md">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/base/generic.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/base/helpers.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/base/minireset.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/base/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/breadcrumb.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/card.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/dropdown.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/level.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/media.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/menu.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/message.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/modal.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/navbar.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/pagination.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/panel.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/tabs.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/components/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/box.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/button.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/container.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/content.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/form.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/icon.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/image.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/notification.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/other.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/progress.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/table.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/tag.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/title.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/elements/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/grid/columns.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/grid/tiles.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/grid/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/layout/footer.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/layout/hero.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/layout/section.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/layout/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/animations.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/controls.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/derived-variables.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/functions.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/initial-variables.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/mixins.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+    </File>
+    <File Include="node_modules/bulma/sass/utilities/_all.sass">
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/install/.npmignore">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1232,7 +1647,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:20</publishTime>
     </File>
     <File Include="node_modules/install/docs/docco.css">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:20</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="node_modules/install/docs/install.html">
       <publishTime>06/03/2018 10:09:20</publishTime>
@@ -1287,6 +1706,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="node_modules/install/scripts/prepublish.sh">
       <publishTime>06/03/2018 10:09:21</publishTime>
+<<<<<<< refs/remotes/upstream/master
     </File>
     <File Include="node_modules/progressbar.js/.editorconfig">
       <publishTime>04/23/2016 06:37:16</publishTime>
@@ -1431,6 +1851,14 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="packages.config">
       <publishTime>05/16/2018 10:13:49</publishTime>
+=======
+    </File>
+    <File Include="package.json">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Scripts/jquery-3.1.1.js">
       <publishTime>06/03/2018 10:09:22</publishTime>
@@ -1472,30 +1900,46 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:22</publishTime>
     </File>
     <File Include="Views/Curriculo/Curriculo.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:38:22</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Curriculo/FormularioInicial.cshtml">
       <publishTime>06/03/2018 10:09:22</publishTime>
     </File>
     <File Include="Views/Curriculo/GerenciarVaga.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:07:29</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:22</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Curriculo/ImprimirTodos.cshtml">
       <publishTime>06/03/2018 10:09:22</publishTime>
     </File>
     <File Include="Views/Curriculo/ModalEditarVaga.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
     </File>
     <File Include="Views/Curriculo/ModalPerfil.cshtml">
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/Curriculo/ModalPerfil.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Curriculo/PerfilProcesso.cshtml">
-      <publishTime>03/19/2018 17:15:27</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Curriculo/ResultadoProcesso.cshtml">
       <publishTime>06/03/2018 10:09:22</publishTime>
     </File>
     <File Include="Views/FormulariosMig/ParecerProcesso.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
     </File>
     <File Include="Views/FormulariosMig/RecrutamentoSelecao.cshtml">
@@ -1596,15 +2040,112 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Pgd/ViewCadastro.cshtml">
       <publishTime>03/23/2018 16:03:45</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/FormulariosMig/RecrutamentoSelecao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/Login/EsqueciMinhaSenha.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Login/Login.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Certificacao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ColaboradorRh.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/EditarCertificacao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/EditarFuncao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/EditarGestor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/EditarSetor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Funcao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/GerenciarVaga.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Gestor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/HistoricoPendencia.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Indicadores.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/IndicadorOitoHoras.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ModalEditarVagaInterna.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ModalPerfil.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ModalVagaInterna.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Parametros.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Perfil.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ReincidentePendencia.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ResultadoPesquisa.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ResultadoPesquisaCertificacao.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ResultadoPesquisaGestor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ResultadoPesquisaSetor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/SemPendencia.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/Setor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/PainelColaborador/ValidacaoPonto.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/Pgd/Pgd.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Pgd/ViewCadastro.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Pgd/ViewExtrato.cshtml">
-      <publishTime>03/21/2018 15:49:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Pgd/ViewExtratoGestor.cshtml">
-      <publishTime>03/21/2018 15:49:40</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/BancoHoras.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:11</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Principal/CertificacaoFuncao.cshtml">
       <publishTime>06/03/2018 10:09:22</publishTime>
@@ -1613,25 +2154,39 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:02:58</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>05/17/2018 11:42:27</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Principal/FormularioCadastro.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Principal/FormularioInicial.cshtml">
-      <publishTime>10/05/2017 09:49:10</publishTime>
+      <publishTime>05/10/2017 09:49:10</publishTime>
     </File>
     <File Include="Views/Principal/GerenciarVaga.cshtml">
       <publishTime>10/10/2017 10:30:37</publishTime>
     </File>
     <File Include="Views/Principal/ImprimirTodos.cshtml">
-      <publishTime>10/02/2017 14:57:37</publishTime>
+      <publishTime>02/10/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaPonto.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:03:57</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaSetor.cshtml">
       <publishTime>05/16/2018 10:04:41</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/Principal/JustificativaSetor.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Principal/ModalEditarVaga.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -1643,6 +2198,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/15/2018 10:10:12</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
@@ -1653,11 +2209,18 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Principal/VagasInternas.cshtml">
       <publishTime>05/15/2018 10:10:12</publishTime>
+=======
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/Principal/ResultadoProcesso.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
     <File Include="Views/Principal/WidgetVagas.cshtml">
-      <publishTime>01/09/2018 14:05:07</publishTime>
+      <publishTime>09/01/2018 14:05:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
+<<<<<<< refs/remotes/upstream/master
       <publishTime>05/16/2018 10:22:04</publishTime>
     </File>
     <File Include="Views/Tesouraria/Tesouraria.cshtml">
@@ -1695,6 +2258,30 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Web.config">
       <publishTime>05/16/2018 10:28:04</publishTime>
+=======
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/Tesouraria/Tesouraria.cshtml">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/web.config">
+      <publishTime>06/03/2018 10:09:22</publishTime>
+    </File>
+    <File Include="Views/WebDesk/CategoriaSetorSolicitacao.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/WebDesk/Chamados.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/WebDesk/ResultadoPesquisa.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Views/WebDesk/Setor.cshtml">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+>>>>>>> Alteração
     </File>
   </ItemGroup>
 </Project>

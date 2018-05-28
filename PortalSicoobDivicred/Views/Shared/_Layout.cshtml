@@ -124,6 +124,7 @@
                     <span class="icon">
                         <i class="fas fa-tasks" aria-hidden="true"></i>
                     </span>
+<<<<<<< refs/remotes/upstream/master
                 </a>
                 <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="CIM" data-balloon-pos="right">
                     <span class="icon">
@@ -151,6 +152,49 @@
         <div class="container">
             <div class="column is-12" id="Conteudo" name="Conteudo">
                 @RenderBody()
+=======
+                    <a href="@Url.Action("Principal","Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
+                        <span class="icon is-flex">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Chamados","Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-tasks" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Pgd","Pgd")" class="item" style="color: #38d5c5;" data-balloon="CIM" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-trophy" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Perfil","PainelColaborador")" class="item" style="color: #38d5c5;" data-balloon="Meu Perfil" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                    </a>
+
+                    <a href="@Url.Action("Tesouraria","Tesouraria")" class="item" style="color: #38d5c5;" data-balloon="Tesouraria" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="far fa-money-bill-alt"></i>
+                        </span>
+                    </a>
+
+
+                    <a href='@Url.Action("Curriculo","Curriculo")' class='item' style='color: #38d5c5;  @TempData["PermissaoCurriculo"]' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fas fa-book'></i></span><span class='name'></span></a>
+
+                    <a href="@Url.Action("ColaboradorRh","PainelColaborador")" class="item" style="color: #38d5c5;@TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                    </a>
+                </ul>
+            </aside>
+            <div class="container">
+                <div class="column is-12" id="Conteudo" name="Conteudo">
+                    @RenderBody()
+                </div>
+>>>>>>> Alteração
             </div>
         </div>
     </div>

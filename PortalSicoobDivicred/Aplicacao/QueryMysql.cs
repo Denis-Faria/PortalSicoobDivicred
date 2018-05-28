@@ -311,6 +311,7 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
+<<<<<<< refs/remotes/upstream/master
         public List<SelectListItem> RetornaProdutos()
         {
             var Produtos = new List<SelectListItem>();
@@ -344,9 +345,13 @@ namespace PortalSicoobDivicred.Aplicacao
                 "SELECT * FROM cimproducao WHERE Login='" + UsuarioSistema + "' and excluido='N'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
+=======
 
-            return Dados;
-        }
+        
+>>>>>>> Alteração
+
+        
+       
 
         public List<Dictionary<string, string>> RecuperaPontuacaoFuncionariosSetor(string UsuarioSistema)
         {
@@ -361,6 +366,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+<<<<<<< refs/remotes/upstream/master
         public string ExisteRegistro(string Login)
         {
             var QueryExiste = "SELECT count(*) from cimpontuacao where Login='" + Login + "'";
@@ -425,6 +431,10 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados[0]["descricao"];
         }
 
+=======
+        
+
+>>>>>>> Alteração
         public string RecuperaDadosPontos(int idProduto)
         {
             var Query =
@@ -436,12 +446,16 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
+<<<<<<< refs/remotes/upstream/master
         public List<Dictionary<string, string>> retornaDadosProdutos(int id)
         {
             var QueryRetornaDadosProdutos = "SELECT peso,valorminimo from pgdprodutos where id='" + id + "'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaDadosProdutos);
             return Dados;
         }
+=======
+        
+>>>>>>> Alteração
 
         public List<SelectListItem> RetornaFuncionario()
         {
@@ -460,6 +474,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return Funcionario;
         }
 
+<<<<<<< refs/remotes/upstream/master
         public void InsereProducao(string cpf, int produtos, string observacao, DateTime data, string Login,
             string valor, string valorponto)
         {
@@ -470,8 +485,12 @@ namespace PortalSicoobDivicred.Aplicacao
                 valorponto.Replace(".", "").Replace(",", ".") + "') ";
             ConexaoMysql.ExecutaComando(QueryInsereProducao);
         }
+=======
+        
+>>>>>>> Alteração
 
 
+<<<<<<< refs/remotes/upstream/master
         public void IncluirPontucao(string Login, double ponto)
         {
             var existe = ExisteRegistro(Login);
@@ -498,6 +517,9 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(QueryAtualizaPontuacao);
             // }
         }
+=======
+        
+>>>>>>> Alteração
 
         public string RecuperaUsuario(string login)
         {
@@ -508,6 +530,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return id[0]["id"];
         }
 
+<<<<<<< refs/remotes/upstream/master
         public string Gestor(string login)
         {
             var QueryGestor = "SELECT gestor from funcionarios where login='" + login + "'";
@@ -544,6 +567,8 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
+=======
+>>>>>>> Alteração
         public string RecuperaUsuarioLogin(string usuario)
         {
             var QueryRecuperaUsuarioLogin = "SELECT login from usuarios where id='" + usuario + "'";

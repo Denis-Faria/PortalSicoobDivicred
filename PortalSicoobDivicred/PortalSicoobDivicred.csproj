@@ -704,9 +704,12 @@
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <Content Include="Views\Principal\VagasInternas.cshtml" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Content Include="Views\Principal\MultiplosVinculos.cshtml" />
 =======
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+>>>>>>> parent of 9b6cb82... Alteração
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

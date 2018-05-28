@@ -28,6 +28,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Assets/css/bg.png">
       <publishTime>03/08/2007 17:04:42</publishTime>
 <<<<<<< HEAD
+<<<<<<< HEAD
     </File>
     <File Include="Assets/css/bulma-checkradio/CHANGELOG.md">
       <publishTime>05/22/2018 08:59:01</publishTime>
@@ -48,6 +49,8 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/22/2018 08:59:01</publishTime>
 =======
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="Assets/css/bulma-steps/bulma-steps-example.png">
       <publishTime>03/06/2018 10:09:17</publishTime>
@@ -312,10 +315,14 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Assets/css/StyleSheet1.css">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>05/22/2018 10:54:43</publishTime>
 =======
       <publishTime>05/15/2018 10:10:11</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+      <publishTime>05/15/2018 10:10:11</publishTime>
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="Assets/css/StyleSheet1.min.css">
       <publishTime>05/22/2018 10:54:43</publishTime>
@@ -592,7 +599,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Assets/js/jPages.min.js">
       <publishTime>03/04/2018 15:09:01</publishTime>
+<<<<<<< HEAD
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="Assets/js/jquery-ui.min.js">
       <publishTime>03/06/2018 10:09:19</publishTime>
@@ -686,20 +696,28 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>05/24/2018 14:47:17</publishTime>
 =======
       <publishTime>05/21/2018 14:47:25</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+      <publishTime>05/21/2018 14:47:25</publishTime>
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>05/24/2018 14:47:17</publishTime>
 =======
       <publishTime>05/21/2018 14:47:25</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+      <publishTime>05/21/2018 14:47:25</publishTime>
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>01/28/2015 04:04:40</publishTime>
@@ -1129,8 +1147,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="node_modules/bulma/bulma.sass">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>01/10/2018 15:44:07</publishTime>
 =======
+=======
+>>>>>>> parent of 9b6cb82... Alteração
       <publishTime>10/01/2018 15:44:07</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
     </File>
@@ -1352,7 +1373,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>03/06/2018 10:09:21</publishTime>
 =======
       <publishTime>06/03/2018 10:09:21</publishTime>
+<<<<<<< HEAD
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="node_modules/progressbar.js/.editorconfig">
       <publishTime>04/23/2016 06:37:16</publishTime>
@@ -1683,10 +1707,14 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>05/24/2018 14:45:27</publishTime>
 =======
       <publishTime>05/17/2018 11:42:27</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
+=======
+      <publishTime>05/17/2018 11:42:27</publishTime>
+>>>>>>> parent of 9b6cb82... Alteração
     </File>
     <File Include="Views/Principal/FormularioInicial.cshtml">
       <publishTime>10/05/2017 09:49:10</publishTime>
@@ -1732,8 +1760,11 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <publishTime>05/23/2018 14:51:39</publishTime>
 =======
+=======
+>>>>>>> parent of 9b6cb82... Alteração
       <publishTime>05/16/2018 10:22:04</publishTime>
 >>>>>>> parent of 686615d... Merge pull request #7 from Denis-Faria/master
     </File>

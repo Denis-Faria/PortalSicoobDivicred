@@ -1,17 +1,7 @@
-﻿<script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
-<script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script>
-    $(function () {
-        $("#Tabopcoes").tabs();
-    });
-    </script>
 
-<<<<<<< refs/remotes/upstream/master
 <br/>
 <nav class="level ">
     <p class="level-item has-text-centered">
@@ -22,15 +12,13 @@
 <script>
     function alteracor() {
         alert("Alerta");
-=======
 
-@if (TempData["MensagemValidacao"] != null)
-{
-    @Html.Label("")
->>>>>>> Alteração
+        $("#cor").removeClass();
+        $("#cor").addClass("file is-primary");
+    }
+</script>
+<body>
 
-
-<<<<<<< refs/remotes/upstream/master
 @using (Html.BeginForm("ProcessaArquivos", "Tesouraria", FormMethod.Post, new {enctype = "multipart/form-data"}))
 
 {
@@ -57,29 +45,8 @@
                             </label>
                         </div>
                     </div>
-=======
-    <script>
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["MensagemValidacao"]'
-        });
 
-</script>
-}
-
-<br />
-<!DOCTYPE html>
->>>>>>> Alteração
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Tesouraria</title>
-</head>
-
-<<<<<<< refs/remotes/upstream/master
                     <footer class="card-footer">
                         <input type="submit" class="card-footer-item" value="qualquer"/>
                     </footer>
@@ -90,57 +57,3 @@
     </div>
 }
 </body>
-=======
-<nav class="level ">
-    <p class="level-item has-text-centered">
-        <img src="/Images/CIM.png" alt="" style="height: 30px;">
-    </p>
-</nav>
-
-
-<body>
-    <div id="Tabopcoes">
-        <div class="tabs is-centered is-boxed">
-            <ul>
-                <li id="AbaArquivos" class="is-active">
-                    <a href="#Arquivos" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaPesquisar').removeClass();$('#AbaArquivos').addClass('is-active');">
-                        <span class="icon is-small">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                        <span>Inserir Arquivos</span>
-                    </a>
-                </li>
-                <li id='AbaExtrato' >
-                    <a href='#Resultado' onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaPesquisar').removeClass();$('#AbaExtrato').addClass('is-active');">
-                        <span class='icon is-small'>
-                            <i class='fa fa-list'></i>
-                        </span>
-                        <span>Resultados</span>
-                    </a>
-                </li>
-                <li id='AbaPesquisar'>
-                    <a href='#Pesquisar' onclick="javascript: $('#AbaArquivos').removeClass(); $('#AbaExtrato').removeClass();$('#AbaPesquisar').addClass('is-active');">
-                        <span class='icon is-small'>
-                            <i class='fa fa-list'></i>
-                        </span>
-                        <span>Pesquisar/Editar</span>
-                    </a>
-                </li>
-
-
-            </ul>
-        </div>
-        <div id="Arquivos">
-            @Html.Action("ProcessaArquivos")
-        </div>
-        <div id="Resultado">
-            @Html.Action("Resultado")
-        </div>
-            <div id="Pesquisar">
-                @Html.Action("Pesquisa")
-            </div>
-    </div>
-
-</body>
-</html>
->>>>>>> Alteração

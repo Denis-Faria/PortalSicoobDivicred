@@ -3,7 +3,7 @@
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
 
-<table id="ExtratoGestor" name="ExtratoGestor" class="table  is-centered is-narrow is-fullwidth ">
+<table id="Funcionario" name="Funcionario" class="table  is-centered is-narrow is-fullwidth ">
     <thead>
     <th class="has-text-centered">Funcionário</th>
     <th class="has-text-centered">Pontuação</th>
@@ -14,7 +14,6 @@
     {
         using (Html.BeginForm("ExtratoGestor", "Pgd"))
         {
-<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/ExtratoGestor.cshtml
             <tr>
                 <td class="has-text-centered">
                     <input name="Funcionario @TempData["nome" + i]" id="Funcionario @TempData["nome" + i]" value="@TempData["nome" + i]" hidden="true"/>@TempData["nome" + i]
@@ -27,20 +26,6 @@
                 </td>
 
             </tr>
-=======
-    <tr>
-        <td class="has-text-centered">
-            <input name="Funcionario @TempData["nome" + i]" id="Funcionario @TempData["nome" + i]" value="@TempData["nome" + i]" hidden="true" />@TempData["nome" + i]
-        </td>
-        <td class="has-text-centered">
-            <input name="PontuacaoAtual @TempData["pontuacaoatual" + i]" id="PontuacaoAtual @TempData["pontuacaoatual" + i]" value="@TempData["pontuacaoatual" + i]" hidden="true" /> @TempData["pontuacaoatual" + i]
-        </td>
-        <td class="has-text-centered">
-            <input name="Meta @TempData["meta" + i]" id="Meta @TempData["meta" + i]" value="@TempData["meta" + i]" hidden="true" /> @TempData["meta" + i]
-        </td>
-
-    </tr>
->>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewExtratoGestor.cshtml
         }
     }
     <tr>
@@ -48,7 +33,6 @@
             <b> TOTAL </b>
         </td>
         <td class="has-text-centered">
-<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/ExtratoGestor.cshtml
             <b>
                 <input name="Data @TempData["pontuacaototal"]" id="Data  @TempData["pontuacaototal"]" value=" @TempData["pontuacaototal"]" hidden="true"/> @TempData["pontuacaototal"]</b>
         </td>
@@ -56,13 +40,6 @@
         <td class="has-text-centered">
             <b>
                 <input name="Data @TempData["metatotal"]" id="Data  @TempData["metatotal"]" value=" @TempData["metacaototal"]" hidden="true"/> @TempData["metatotal"]</b>
-=======
-            <b><input name="PontuacaoTotal @TempData["pontuacaototal"]" id="PontuacaoTotal  @TempData["pontuacaototal"]" value=" @TempData["pontuacaototal"]" hidden="true" />  @TempData["pontuacaototal"]</b>
-        </td>
-
-        <td class="has-text-centered">
-            <b><input name="MetaTotal @TempData["metatotal"]" id="MetaTotal  @TempData["metatotal"]" value=" @TempData["metacaototal"]" hidden="true" />  @TempData["metatotal"]</b>
->>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewExtratoGestor.cshtml
         </td>
 
     </tr>

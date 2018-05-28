@@ -160,12 +160,10 @@ C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debu
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CoreCompileInputs.cache
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davic4030_00\Desktop\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
-<<<<<<< refs/remotes/upstream/master
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
-=======
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
->>>>>>> Alteração
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CoreCompileInputs.cache
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe.config
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.rsp
@@ -195,10 +193,6 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.dll.config
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\PortalSicoobDivicred.pdb
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\ClosedXML.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\DocumentFormat.OpenXml.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\ExcelNumberFormat.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\FastMember.Signed.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\FirebirdSql.Data.FirebirdClient.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
@@ -215,10 +209,8 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Newtonsoft.Json.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\OFXSharp.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\OneApi.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\RestSharp.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\SgmlReaderDll.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Runtime.InteropServices.RuntimeInformation.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Helpers.dll
@@ -227,10 +219,6 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.Deployment.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Web.Webpages.Razor.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\ClosedXML.pdb
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\ClosedXML.xml
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\DocumentFormat.OpenXml.xml
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\ExcelNumberFormat.xml
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\FirebirdSql.Data.FirebirdClient.pdb
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.xml
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
@@ -259,9 +247,7 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Webpages.Razor.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Helpers.resources.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\pt-br\System.Web.Mvc.resources.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojResolveAssemblyReference.cache
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
-<<<<<<< refs/remotes/upstream/master
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.exe.config
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\roslyn\csc.rsp
@@ -352,7 +338,3 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojAssemblyReference.cache
-=======
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
-C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
->>>>>>> Alteração

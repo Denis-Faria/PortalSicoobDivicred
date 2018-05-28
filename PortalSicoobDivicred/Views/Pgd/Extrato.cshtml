@@ -9,8 +9,8 @@
 
 </script>
 
+<script>
 
-<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/Extrato.cshtml
     function confirmExclusao() {
         if (confirm("Tem certeza que deseja excluir essa categoria?")) {
             var id = document.getElementById('categoria').value;
@@ -22,8 +22,6 @@
         }
     }
 </script>
-=======
->>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewExtrato.cshtml
 <script>
     function AbrirProcesso(id) {
 
@@ -90,7 +88,7 @@
 }
 else
 {
-    <table id="tblExtrato" class="table  is-centered is-narrow is-fullwidth ">
+    <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
         <thead>
         <th class="has-text-centered">CPF Cliente</th>
         <th class="has-text-centered">Produto</th>
@@ -106,7 +104,6 @@ else
                 <tr>
 
                     <td class="has-text-centered">
-<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/Extrato.cshtml
                         <input name="Funcionario @TempData["cpf" + i]" id="Funcionario @TempData["cpf" + i]" value="@TempData["cpf" + i]" hidden="true"/>@TempData["cpf" + i]
                     </td>
                     <td class="has-text-centered">
@@ -114,25 +111,12 @@ else
                     </td>
                     <td class="has-text-centered">
                         <input name="Data @TempData["Observacao" + i]" id="Data @TempData["Observacao" + i]" value="@TempData["Observacao" + i]" hidden="true"/> @TempData["Observacao" + i]
-=======
-                        <input name="CPF @TempData["cpf" + i]" id="CPF @TempData["cpf" + i]" value="@TempData["cpf" + i]" hidden="true" />@TempData["cpf" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        <input name="Produto @TempData["Produtos" + i]" id="Produto @TempData["Produtos" + i]" value="@TempData["Produtos" + i]" hidden="true" /> @TempData["Produtos" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        <input name="Observacao @TempData["Observacao" + i]" id="Observacao @TempData["Observacao" + i]" value="@TempData["Observacao" + i]" hidden="true" /> @TempData["Observacao" + i]
->>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewExtrato.cshtml
                     </td>
                     <td class="has-text-centered">
                         <input name="Data @TempData["DataContratacao" + i]" id="Data @TempData["DataContratacao" + i]" value="@TempData["DataContratacao" + i]" hidden="true"/> @TempData["DataContratacao" + i]
                     </td>
                     <td class="has-text-centered">
-<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/Extrato.cshtml
                         <input name="Data @TempData["valorponto" + i]" id="Data @TempData["valorponto" + i]" value="@TempData["valorponto" + i]" hidden="true"/> @TempData["valorponto" + i]
-=======
-                        <input name="Pontuacao @TempData["valorponto" + i]" id="Pontuacao @TempData["valorponto" + i]" value="@TempData["valorponto" + i]" hidden="true" /> @TempData["valorponto" + i]
->>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewExtrato.cshtml
                     </td>
 
                     <td class="has-text-centered">

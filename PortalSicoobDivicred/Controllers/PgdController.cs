@@ -159,7 +159,7 @@ namespace PortalSicoobDivicred.Controllers
             TempData["metatotal"] = metatotal.ToString();
 
             
-            return PartialView("ViewExtratoGestor");
+            return PartialView("ExtratoGestor");
         }
     }
 }

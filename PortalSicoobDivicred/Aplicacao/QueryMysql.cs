@@ -84,6 +84,25 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
+        public bool PermissaoTesouraria(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                Usuario + "' and a.idaplicativo=10";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public List<Dictionary<string, string>> RecuperaDocumentosFuncionario(string Login)
         {
             var Query =

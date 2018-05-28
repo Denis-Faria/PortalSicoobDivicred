@@ -125,7 +125,7 @@
                         <i class="fas fa-tasks" aria-hidden="true"></i>
                     </span>
                 </a>
-                <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="CIM" data-balloon-pos="right">
+                <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="CIM" data-balloon-pos="right" >
                     <span class="icon">
                         <i class="fas fa-trophy" aria-hidden="true"></i>
                     </span>
@@ -135,7 +135,7 @@
                         <i class="fas fa-user-circle"></i>
                     </span>
                 </a>
-                 <a href="@Url.Action("Tesouraria","Tesouraria")" class="item" style="color: #38d5c5;" data-balloon="Tesouraria" data-balloon-pos="right">
+                 <a href="@Url.Action("Tesouraria","Tesouraria")" class="item" style="color: #38d5c5;@TempData["PermissaoTesouraria"]" data-balloon="Tesouraria" data-balloon-pos="right">
                         <span class="icon">
                             <i class="far fa-money-bill-alt"></i>
                         </span>

@@ -13,13 +13,11 @@
 
 
     <script>
-
         var Forma = 0;
         $(document).ready(function () {
             $('#CpfFuncionario').mask('000.000.000-00');
             $('#DataNascimentoFuncionario').mask('00/00/0000');
             $('#EmissaoCtps').mask('00/00/0000');
-            $('#DataEmissaoRg').mask('00/00/0000');
             $('#PisFuncionario').mask('000.00000.00-0');
             $('#CepFuncionario').mask('99999-999');
             $('#TelefoneFixoFuncionario').mask('(99) 9999-9999');
@@ -55,18 +53,6 @@
             div.appendChild(div2);
             div2.appendChild(label);
             div2.appendChild(x);
-        }
-
-        function MostrarDocumentosExtras() {
-            $("#documentosextras").removeAttr("style");
-            $("#Oculta").removeAttr("style");
-            $("#Mostra").attr("style", "display:none");
-        }
-
-        function OcultaDocumentosExtras() {
-            $("#documentosextras").attr("style", "display:none");
-            $("#Oculta").attr("style", "display:none");
-            $("#Mostra").removeAttr("style");
         }
 
         function BuscaCertificacao(Nome) {
@@ -141,24 +127,6 @@
             }
         }
 
-        function OutroVinculo() {
-            $("#VinculoExtra").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Principal/RetornaOutroVinculo',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    success: function(data) {
-                        $("#VinculoExtra").append(data);
-                        $.validator.unobtrusive.parse($("#VinculoExtra"));
-                        $("form").removeData("validator");
-                        $("form").removeData("unobtrusiveValidation");
-                        $.validator.unobtrusive.parse("form");
-                    }
-                });
-        }
 
     </script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
@@ -246,26 +214,14 @@
                             @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
                         </div>
                         <div class="control column is-3 is-expanded">
-                            <label class="label">PIS</label>
-                            @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
-                            @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
-                        </div>
-                    </div>
-                    <div class="field is-grouped">
-                        <div class="control column is-3 is-expanded">
                             <label class="label">RG</label>
                             @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario" })
                             @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
                         </div>
                         <div class="control column is-3 is-expanded">
-                            <label class="label">Data Emissão RG</label>
-                            @Html.TextBoxFor(m => m.DataExpedicaoDocumentoRg, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataEmissaoRg" })
-                            @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoRg, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Orgão Emissor RG</label>
-                            @Html.TextBoxFor(m => m.OrgaoEmissorRg, null, new { @class = "input", placeholder = "Ex: PC-MG" })
-                            @Html.ValidationMessageFor(m => m.OrgaoEmissorRg, null, new { style = "color:red" })
+                            <label class="label">PIS</label>
+                            @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
+                            @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
                         </div>
                     </div>
                     <div class="field is-grouped">
@@ -274,6 +230,34 @@
                             @Html.TextBoxFor(m => m.Nacionalidade, null, new { @class = "input", placeholder = "Ex:Brasileiro" })
                             @Html.ValidationMessageFor(m => m.Nacionalidade, null, new { style = "color:red" })
                         </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Nome da Mãe</label>
+                            @Html.TextBoxFor(m => m.NomeMae, null, new { @class = "input", placeholder = "Ex: Maria da Silva" })
+                            @Html.ValidationMessageFor(m => m.NomeMae, null, new { style = "color:red" })
+                        </div>
+
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Nome do Pai</label>
+                            @Html.TextBoxFor(m => m.NomePai, null, new { @class = "input", placeholder = "Ex: Joaquin da Silva" })
+                            @Html.ValidationMessageFor(m => m.NomePai, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3">
+                            <label class="label">Seus pais são divorciados ?</label>
+                            <div class="field">
+                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Sim", new { @class = "is-checkradio is-small", id = "checkpaissim" })
+                                <label for="checkpaissim">
+                                    Sim
+                                </label>
+                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Não", new { @class = "is-checkradio is-small", id = "checkpaisnao" })
+                                <label for="checkpaisnao">
+                                    Não
+                                </label>
+                                @Html.ValidationMessageFor(m => m.DeficienteVisual, null, new { style = "color:red" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="field is-grouped">
                         <div class="control column is-3 is-expanded">
                             <label class="label">Data Nascimento</label>
                             @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
@@ -284,103 +268,72 @@
                             @Html.TextBoxFor(m => m.LocalNascimento, null, new { @class = "input", placeholder = "Ex: Divinópolis" })
                             @Html.ValidationMessageFor(m => m.LocalNascimento, null, new { style = "color:red" })
                         </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Estado de Nascimento</label>
+                            @Html.TextBoxFor(m => m.UfNascimento, null, new { @class = "input", placeholder = "Ex: MG" })
+                            @Html.ValidationMessageFor(m => m.UfNascimento, null, new { style = "color:red" })
+                        </div>
                     </div>
-                <div class="field is-grouped">
-                    <div class="control column is-3 is-expanded">
-                        <label class="label">Estado de Nascimento</label>
-                        @Html.TextBoxFor(m => m.UfNascimento, null, new { @class = "input", placeholder = "Ex: MG" })
-                        @Html.ValidationMessageFor(m => m.UfNascimento, null, new { style = "color:red" })
+                    <div class="field is-grouped">
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Fixo</label>
+                            @Html.TextBoxFor(m => m.TelefoneFixo, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "TelefoneFixoFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneFixo, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Celular</label>
+                            @Html.TextBoxFor(m => m.TelefoneCelular, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "TelefoneCelularFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneCelular, null, new { style = "color:red" })
+                        </div>
+
                     </div>
-                    <div class="control column is-3 is-expanded">
-                        <label class="label">Telefone Fixo</label>
-                        @Html.TextBoxFor(m => m.TelefoneFixo, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "TelefoneFixoFuncionario" })
-                        @Html.ValidationMessageFor(m => m.TelefoneFixo, null, new { style = "color:red" })
+                    <div class="field is-grouped">
+                        <p class="control column is-3 is-expanded">
+                            <label class="label">N° CNH</label>
+                            @Html.TextBoxFor(m => m.Cnh, null, new { @class = "input", placeholder = "Ex: 999999" })
+                            @Html.ValidationMessageFor(m => m.Cnh, null, new { style = "color:red" })
+                        </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Orgão Emissor CNH</label>
+                            @Html.TextBoxFor(m => m.OrgaoEmissorCnh, null, new { @class = "input", placeholder = "Ex: DETRAM-MG" })
+                            @Html.ValidationMessageFor(m => m.OrgaoEmissorCnh, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Epedição CNH</label>
+                            @Html.TextBoxFor(m => m.DataExpedicaoDocumentoCnh, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "DataExpedicaoCnh" })
+                            @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoCnh, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Vencimento CNH</label>
+                            @Html.TextBoxFor(m => m.DataValidadeCnh, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "DataVencimentoCnh" })
+                            @Html.ValidationMessageFor(m => m.DataValidadeCnh, null, new { style = "color:red" })
+                        </div>
+
                     </div>
-                    <div class="control column is-3 is-expanded">
-                        <label class="label">Telefone Celular</label>
-                        @Html.TextBoxFor(m => m.TelefoneCelular, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "TelefoneCelularFuncionario" })
-                        @Html.ValidationMessageFor(m => m.TelefoneCelular, null, new { style = "color:red" })
-                    </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="control column is-3 is-expanded">
-                        <label class="label">Nome da Mãe</label>
-                        @Html.TextBoxFor(m => m.NomeMae, null, new { @class = "input", placeholder = "Ex: Maria da Silva" })
-                        @Html.ValidationMessageFor(m => m.NomeMae, null, new { style = "color:red" })
+                    <div class="field is-grouped">
+                        <p class="control column is-3 is-expanded">
+                            <label class="label">N° OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.Oc, null, new { @class = "input", placeholder = "Ex: 999999" })
+                            @Html.ValidationMessageFor(m => m.Oc, null, new { style = "color:red" })
+                        </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Orgão Emissor OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.OrgaoEmissorOc, null, new { @class = "input", placeholder = "Ex: CREA-MG" })
+                            @Html.ValidationMessageFor(m => m.OrgaoEmissorOc, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Epedição OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.DataExpedicaoOc, null, new { @class = "input", placeholder = "Ex: 99/99/99999", id = "DataExpedicaoOc" })
+                            @Html.ValidationMessageFor(m => m.DataExpedicaoOc, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Vencimento OC(Órgão de Classe)</label>
+                            @Html.TextBoxFor(m => m.DataValidadeOc, null, new { @class = "input", placeholder = "Ex:99/99/9999", id = "DataVencimentoOc" })
+                            @Html.ValidationMessageFor(m => m.DataValidadeOc, null, new { style = "color:red" })
+                        </div>
+
                     </div>
 
-                    <div class="control column is-3 is-expanded">
-                        <label class="label">Nome do Pai</label>
-                        @Html.TextBoxFor(m => m.NomePai, null, new { @class = "input", placeholder = "Ex: Joaquin da Silva" })
-                        @Html.ValidationMessageFor(m => m.NomePai, null, new { style = "color:red" })
-                    </div>
-                    <div class="control column is-3">
-                        <label class="label">Seus pais são divorciados ?</label>
-                        <div class="field">
-                            @Html.RadioButtonFor(m => m.PaisDivorciados, "Sim", new { @class = "is-checkradio is-small", id = "checkpaissim" })
-                            <label for="checkpaissim">
-                                Sim
-                            </label>
-                            @Html.RadioButtonFor(m => m.PaisDivorciados, "Não", new { @class = "is-checkradio is-small", id = "checkpaisnao" })
-                            <label for="checkpaisnao">
-                                Não
-                            </label>
-                            @Html.ValidationMessageFor(m => m.DeficienteVisual, null, new { style = "color:red" })
-                        </div>
-                    </div>
-                </div>
-                    <hr />
-                    <P class="control column">
-                        <a class="tag is-primary is-rounded is-medium" id="Mostra" href="javascript:MostrarDocumentosExtras();void(0);">Mostrar Documentos Extras</a>
-                        <a class="tag is-primary is-rounded is-medium" style="display: none" id="Oculta" href="javascript:OcultaDocumentosExtras();void(0);">Ocultar Documentos Extras</a>
-                    </P>
-                    <div id="documentosextras" style="display:none">
-                        <div class="field is-grouped">
-                            <p class="control column is-3 is-expanded">
-                                <label class="label">N° CNH</label>
-                                @Html.TextBoxFor(m => m.Cnh, null, new { @class = "input", placeholder = "Ex: 999999" })
-                                @Html.ValidationMessageFor(m => m.Cnh, null, new { style = "color:red" })
-                            </p>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Orgão Emissor CNH</label>
-                                @Html.TextBoxFor(m => m.OrgaoEmissorCnh, null, new { @class = "input", placeholder = "Ex: DETRAM-MG" })
-                                @Html.ValidationMessageFor(m => m.OrgaoEmissorCnh, null, new { style = "color:red" })
-                            </div>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Data Epedição CNH</label>
-                                @Html.TextBoxFor(m => m.DataExpedicaoDocumentoCnh, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "DataExpedicaoCnh" })
-                                @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoCnh, null, new { style = "color:red" })
-                            </div>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Data Vencimento CNH</label>
-                                @Html.TextBoxFor(m => m.DataValidadeCnh, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "DataVencimentoCnh" })
-                                @Html.ValidationMessageFor(m => m.DataValidadeCnh, null, new { style = "color:red" })
-                            </div>
-                        </div>
-                        <div class="field is-grouped">
-                            <p class="control column is-3 is-expanded">
-                                <label class="label">N° OC(Órgão de Classe)</label>
-                                @Html.TextBoxFor(m => m.Oc, null, new { @class = "input", placeholder = "Ex: 999999" })
-                                @Html.ValidationMessageFor(m => m.Oc, null, new { style = "color:red" })
-                            </p>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Orgão Emissor OC(Órgão de Classe)</label>
-                                @Html.TextBoxFor(m => m.OrgaoEmissorOc, null, new { @class = "input", placeholder = "Ex: CREA-MG" })
-                                @Html.ValidationMessageFor(m => m.OrgaoEmissorOc, null, new { style = "color:red" })
-                            </div>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Data Epedição OC(Órgão de Classe)</label>
-                                @Html.TextBoxFor(m => m.DataExpedicaoOc, null, new { @class = "input", placeholder = "Ex: 99/99/99999", id = "DataExpedicaoOc" })
-                                @Html.ValidationMessageFor(m => m.DataExpedicaoOc, null, new { style = "color:red" })
-                            </div>
-                            <div class="control column is-3 is-expanded">
-                                <label class="label">Data Vencimento OC(Órgão de Classe)</label>
-                                @Html.TextBoxFor(m => m.DataValidadeOc, null, new { @class = "input", placeholder = "Ex:99/99/9999", id = "DataVencimentoOc" })
-                                @Html.ValidationMessageFor(m => m.DataValidadeOc, null, new { style = "color:red" })
-                            </div>
-
-                        </div>
-                    </div>
 
 
                     <hr />
@@ -710,121 +663,107 @@
                         </blockquote>
                     </div>
                     <hr />
-                <div class="field">
-                    <div class="title is-4 is-vertical is-parent">
-                        <h2 class="title is-4">Dependentes</h2>
-                    </div>
                     <div class="field">
-                        <input type="checkbox" value="1" name="check1" id="check1" class="is-checkradio is-small  has-background-color">
-                        <label for="check1">
-                            CÔNJUGE OU COMPANHEIRO (A) COM O (A) QUAL TENHA FILHO OU VIVA A MAIS DE 5(CINCO) ANOS
-                        </label>
-                        <br />
-                        <input type="checkbox" value="2" name="check2" id="check2" class="is-checkradio is-small  has-background-color">
-                        <label for="check2">
-                            FILHO (A) OU ENTEADO (A) ATÉ 21 (VINTE E UM) ANOS
-                        </label>
-                        <br />
-
-                        <input type="checkbox" value="3" name="check3" id="check3" class="is-checkradio is-small  has-background-color">
-                        <label for="check3">
-                            FILHO (A) OU ENTEADO (A) UNIVERSITÁRIO (A) OU CURSANDO ESCOLA TÉCNICA DE 2º GRAU, ATÉ 24 (VINTE E QUATRO) ANOS
-                        </label>
-                        <br />
-
-                        <input type="checkbox" value="4" id="check4" name="check4" class="is-checkradio is-small  has-background-color">
-                        <label for="check4">
-                            FILHO (A) OU ENTEADO (A) EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
-                        </label>
-                        <br />
-
-                        <input type="checkbox" value="5" id="check5" name="check5" class="is-checkradio is-small  has-background-color">
-                        <label for="check5">
-                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, ATÉ 21 (VINTE UM) ANOS
-                        </label>
-                        <br />
-
-                        <input type="checkbox" value="6" id="check6" name="check6" class="is-checkradio is-small  has-background-color">
-                        <label for="check6">
-                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS,COM IDADE ATÉ 24 ANOS, SE AINDA ESTIVER CURSANDO ESTABELECIMENTO DE NÍVEL SUPERIOR OU ESCOLA TÉCNICA DE 2º GRAU, DESDE QUE TENHA DETIDO SUA GUARDA JUDICIAL ATÉ OS 21 ANOS
-                        </label>
-                        <br />
-
-                        <input type="checkbox" value="7" id="check7" name="check7" class="is-checkradio is-small  has-background-color">
-                        <label for="check7">
-                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
-
-                        </label>
-                        <br />
-
-                        <input type="checkbox" id="check8" value="8" name="check8" class="is-checkradio is-small  has-background-color">
-                        <label for="check8">
-                            PAIS,AVÓS E BISAVÓS
-                        </label>
-                        <br />
-
-                        <input type="checkbox" id="check9" value="9" name="check9" class="is-checkradio is-small  has-background-color">
-                        <label for="check9">
-                            MENOR POBRE, ATÉ 21 (VINTE E UM ANOS), QUE CRIE E EDUQUE E DO QUAL DETENHA A GUARDA JUDICIAL
-                        </label>
-                        <br />
-
-                        <input type="checkbox" id="check10" value="10" name="check10" class="is-checkradio is-small  has-background-color">
-                        <label for="check10">
-                            A PESSOA ABSOLUTAMENTE INCAPAZ, DA QUAL SEJA TUTOR OU CURADOR
-                        </label>
-                    </div>
-                    <br />
-                    <div class="control  is-fullwidth  is-expanded">
-                        <label class="label">Nome dos dependentes junto com CPF:</label>
-                        @Html.TextAreaFor(m => m.DadosDependentes, new { @class = "textarea", placeholder = "Ex: Descrição de alguma deficiência não citada acima" })
-                        @Html.ValidationMessageFor(m => m.DadosDependentes, null, new { style = "color:red" })
-                    </div>
-                    <div class="control column is-6  is-expanded">
-                        <label class="label">Algum dos dependentes citados acima são para fins de IRRF?</label>
-                        <div class="field">
-                            @Html.RadioButtonFor(m => m.DependenteIrrf, "Sim", new { @class = "is-checkradio is-small", id = "checkirrfsim" })
-                            <label for="checkirrfsim">
-                                Sim
-                            </label>
-                            @Html.RadioButtonFor(m => m.DependenteIrrf, "Não", new { @class = "is-checkradio is-small", id = "checkirrfnao" })
-                            <label for="checkirrfnao">
-                                Não
-                            </label>
-                            @Html.ValidationMessageFor(m => m.DependenteIrrf, null, new { style = "color:red" })
+                        <div class="title is-4 is-vertical is-parent">
+                            <h2 class="title is-4">Dependentes</h2>
                         </div>
-                    </div>
-                    <div class="control is-fullwidth  is-expanded">
-                        <label class="label">Informe os CPF e nome dos dependentes para fins de IRRF. Caso não tenha nenhum informe abaixo.</label>
-                        @Html.TextAreaFor(m => m.CpfIrrf, new { @class = "textarea", placeholder = "Ex: CPF - NOME" })
-                        @Html.ValidationMessageFor(m => m.CpfIrrf, null, new { style = "color:red" })
-                            
-                    </div>
-
-                    <div class="control column is-6  is-expanded">
-                        <label class="label">Algum dos dependentes citados acima são para fins de salário-família?</label>
                         <div class="field">
-                            @Html.RadioButtonFor(m => m.DependenteFamilia, "Sim", new { @class = "is-checkradio is-small", id = "checkfamiliasim" })
-                            <label for="checkfamiliasim">
-                                Sim
+                            <input type="checkbox" value="1" name="check1" id="check1" class="is-checkradio is-small  has-background-color">
+                            <label for="check1">
+                                CÔNJUGE OU COMPANHEIRO (A) COM O (A) QUAL TENHA FILHO OU VIVA A MAIS DE 5(CINCO) ANOS
                             </label>
-                            @Html.RadioButtonFor(m => m.DependenteFamilia, "Não", new { @class = "is-checkradio is-small", id = "checkfamilianao" })
-                            <label for="checkfamilianao">
-                                Não
+                            <br />
+                            <input type="checkbox" value="2" name="check2" id="check2" class="is-checkradio is-small  has-background-color">
+                            <label for="check2">
+                                FILHO (A) OU ENTEADO (A) ATÉ 21 (VINTE E UM) ANOS
                             </label>
-                            @Html.ValidationMessageFor(m => m.DependenteFamilia, null, new { style = "color:red" })
+                            <br />
+
+                            <input type="checkbox" value="3" name="check3" id="check3" class="is-checkradio is-small  has-background-color">
+                            <label for="check3">
+                                FILHO (A) OU ENTEADO (A) UNIVERSITÁRIO (A) OU CURSANDO ESCOLA TÉCNICA DE 2º GRAU, ATÉ 24 (VINTE E QUATRO) ANOS
+                            </label>
+                            <br />
+
+                            <input type="checkbox" value="4" id="check4" name="check4" class="is-checkradio is-small  has-background-color">
+                            <label for="check4">
+                                FILHO (A) OU ENTEADO (A) EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
+                            </label>
+                            <br />
+
+                            <input type="checkbox" value="5" id="check5" name="check5" class="is-checkradio is-small  has-background-color">
+                            <label for="check5">
+                                IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, ATÉ 21 (VINTE UM) ANOS
+                            </label>
+                            <br />
+
+                            <input type="checkbox" value="6" id="check6" name="check6" class="is-checkradio is-small  has-background-color">
+                            <label for="check6">
+                                IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS,COM IDADE ATÉ 24 ANOS, SE AINDA ESTIVER CURSANDO ESTABELECIMENTO DE NÍVEL SUPERIOR OU ESCOLA TÉCNICA DE 2º GRAU, DESDE QUE TENHA DETIDO SUA GUARDA JUDICIAL ATÉ OS 21 ANOS
+                            </label>
+                            <br />
+
+                            <input type="checkbox" value="7" id="check7" name="check7" class="is-checkradio is-small  has-background-color">
+                            <label for="check7">
+                                IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
+
+                            </label>
+                            <br />
+
+                            <input type="checkbox" id="check8" value="8" name="check8" class="is-checkradio is-small  has-background-color">
+                            <label for="check8">
+                                PAIS,AVÓS E BISAVÓS
+                            </label>
+                            <br />
+
+                            <input type="checkbox" id="check9" value="9" name="check9" class="is-checkradio is-small  has-background-color">
+                            <label for="check9">
+                                MENOR POBRE, ATÉ 21 (VINTE E UM ANOS), QUE CRIE E EDUQUE E DO QUAL DETENHA A GUARDA JUDICIAL
+                            </label>
+                            <br />
+
+                            <input type="checkbox" id="check10" value="10" name="check10" class="is-checkradio is-small  has-background-color">
+                            <label for="check10">
+                                A PESSOA ABSOLUTAMENTE INCAPAZ, DA QUAL SEJA TUTOR OU CURADOR
+                            </label>
                         </div>
+                        <br />
+                        <div class="control  is-fullwidth">
+                            <label class="label">Nome dos dependentes junto com CPF:</label>
+                            @Html.TextAreaFor(m => m.DadosDependentes, new { @class = "textarea", placeholder = "Ex: Descrição de alguma deficiência não citada acima" })
+                            @Html.ValidationMessageFor(m => m.DadosDependentes, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-4">
+                            <label class="label">Algum dos dependentes citados acima são para fins de IRRF?</label>
+                            <div class="field">
+                                @Html.RadioButtonFor(m => m.DependenteIrrf, "Sim", new { @class = "is-checkradio is-small", id = "checkirrfsim" })
+                                <label for="checkirrfsim">
+                                    Sim
+                                </label>
+                                @Html.RadioButtonFor(m => m.DependenteIrrf, "Não", new { @class = "is-checkradio is-small", id = "checkirrfnao" })
+                                <label for="checkirrfnao">
+                                    Não
+                                </label>
+                                @Html.ValidationMessageFor(m => m.DependenteIrrf, null, new { style = "color:red" })
+                            </div>
+                        </div>
+
+                        <div class="control column is-4">
+                            <label class="label">Algum dos dependentes citados acima são para fins de salário-família?</label>
+                            <div class="field">
+                                @Html.RadioButtonFor(m => m.DependenteFamilia, "Sim", new { @class = "is-checkradio is-small", id = "checkfamiliasim" })
+                                <label for="checkfamiliasim">
+                                    Sim
+                                </label>
+                                @Html.RadioButtonFor(m => m.DependenteFamilia, "Não", new { @class = "is-checkradio is-small", id = "checkfamilianao" })
+                                <label for="checkfamilianao">
+                                    Não
+                                </label>
+                                @Html.ValidationMessageFor(m => m.DependenteFamilia, null, new { style = "color:red" })
+                            </div>
+                        </div>
+
                     </div>
-
-                </div>
-                <div>
-                    <a class="tag is-primary is-rounded is-medium" id="Mostra" href="javascript:OutroVinculo();void(0);">Adicionar Outro Vinculo Empregatício</a>
-                    <div id="VinculoExtra">
-
-                    </div>
-                </div>
-                <hr />
-
                     <div>
                         <article class="message  is-primary">
                             <div class="message-body">

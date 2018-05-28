@@ -46,6 +46,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.91.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.91.0\lib\net452\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net40\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FastMember.Signed, Version=1.0.0.9, Culture=neutral, PublicKeyToken=9e8f22703bef9a29, processorArchitecture=MSIL">
+      <HintPath>..\packages\FastMember.Signed.1.1.0\lib\net40\FastMember.Signed.dll</HintPath>
+    </Reference>
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=5.12.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.5.12.1\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
@@ -98,11 +110,17 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OFXSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OFXSharp.1.0.4002\lib\net35\OFXSharp.dll</HintPath>
+    </Reference>
     <Reference Include="OneApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\OneApi.1.0.0.0\lib\net35\OneApi.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=102.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.102.7\lib\net35\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SgmlReaderDll, Version=1.8.11.0, Culture=neutral, PublicKeyToken=46b2db9ca481831b, processorArchitecture=MSIL">
+      <HintPath>..\packages\SgmlReader.1.8.11\lib\4.0\SgmlReaderDll.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.IO.Compression" />
@@ -521,11 +539,15 @@
     <Content Include="Views\Principal\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aplicacao\Conexao.cs" />
+    <Compile Include="Aplicacao\QueryMysqTesouraria .cs" />
     <Compile Include="Aplicacao\QueryMysql.cs" />
     <Compile Include="Aplicacao\QueryMysqlCurriculo.cs" />
+    <Compile Include="Aplicacao\QueryMysqCIM .cs" />
     <Compile Include="Aplicacao\QueryMysqlRh.cs" />
     <Compile Include="Aplicacao\QueryFirebird.cs" />
     <Compile Include="Aplicacao\QueryMysqlWebdesk.cs" />
+    <Compile Include="Aplicacao\ManipularPlanilha.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />
@@ -552,6 +574,7 @@
     <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Models\SolicitacaoWebDesk.cs" />
+    <Compile Include="Models\Tesouraria.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
     <Compile Include="Models\VagasInternas.cs" />
@@ -696,6 +719,7 @@
     <Content Include="Views\WebDesk\Setor.cshtml" />
     <Content Include="Views\WebDesk\ResultadoPesquisa.cshtml" />
     <Content Include="Views\WebDesk\CategoriaSetorSolicitacao.cshtml" />
+
     <Content Include="Views\WebDesk\InteracaoChamado.cshtml" />
     <Content Include="Views\WebDesk\CategoriaInteracao.cshtml" />
     <Content Include="Views\WebDesk\SetorInteracao.cshtml" />
@@ -704,7 +728,11 @@
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <Content Include="Views\Principal\VagasInternas.cshtml" />
 
-    <Content Include="Views\Principal\MultiplosVinculos.cshtml" />
+    <Content Include="Views\Tesouraria\ViewArquivos.cshtml" />
+    <Content Include="Views\Tesouraria\ViewResultado.cshtml" />
+    <Content Include="Views\Tesouraria\ViewPesquisar.cshtml" />
+    <Content Include="Views\Tesouraria\ViewTabelaPesquisar.cshtml" />
+
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

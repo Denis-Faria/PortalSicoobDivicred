@@ -10,28 +10,24 @@ namespace PortalSicoobDivicred.Controllers
         // GET: Pgd
         public ActionResult Pgd(string Mensagem)
         {
-            var insereDados = new QueryMysql();
-            var Logado = insereDados.UsuarioLogado();
+            var verificaDados = new QueryMysqlCIM();
+            var verificaDadosLogin = new QueryMysql();
+            var Logado = verificaDadosLogin.UsuarioLogado();
             if (Logado)
             {
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
-                if (insereDados.PermissaoCurriculos(Login))
-                    TempData["PermissaoCurriculo"] =
-                        " ";
-                else
-                    TempData["PermissaoCurriculo"] = "display: none";
-
-                var funcao = insereDados.RecuperaFuncao(Login);
-                TempData["meta"] = insereDados.RecuperaMetaCim(funcao);
-
-                var idUsuario = insereDados.RecuperaUsuario(Login);
-                var saldoAtual = insereDados.BuscaSaldoAtual(Login);
-
-                TempData["saldo"] = saldoAtual;
-                var gestor = insereDados.Gestor(Login);
-                TempData["Gestor"] = gestor;
+            
+                var funcao = verificaDados.RecuperaFuncao(Login);
+                @TempData["meta"]= verificaDados.RecuperaMetaCim(funcao);
+                
+                string idUsuario = verificaDadosLogin.RecuperaUsuario(Login);
+                var saldoAtual = verificaDados.BuscaSaldoAtual(Login);
+                
+                @TempData["saldo"] = saldoAtual;
+                var gestor = verificaDados.Gestor(Login);
+                TempData["Gestor"] = gestor.ToString();
                 TempData["Mensagem"] = Mensagem;
                 return View("Pgd");
             }
@@ -42,11 +38,13 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Cadastro()
         {
-            var consultaDados = new QueryMysql();
+
+            var consultaDados = new QueryMysqlCIM();
+            var verificaDadosLogin = new QueryMysql();
             var dadosPGD = new Pgd();
             var dadosTabelaPGD = consultaDados.RetornaProdutos();
             dadosPGD.descricaoProduto = dadosTabelaPGD;
-            dadosTabelaPGD = consultaDados.RetornaFuncionario();
+            dadosTabelaPGD = verificaDadosLogin.RetornaFuncionario();
             dadosPGD.nomeFuncionario = dadosTabelaPGD;
 
 
@@ -56,11 +54,11 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult Salvarproducao(Pgd Dados, FormCollection receberForm)
         {
-            var insereDados = new QueryMysql();
+            var insereDados = new QueryMysqlCIM();
+            var verificaDadosLogin = new QueryMysql();
 
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
-
 
             var valor = receberForm["valor"];
             var DadosProdutos = insereDados.retornaDadosProdutos(Dados.idProduto);
@@ -69,20 +67,21 @@ namespace PortalSicoobDivicred.Controllers
             double valorponto = 0;
 
             if (valorminimo != "1")
-                valorponto = Convert.ToDouble(valor) / Convert.ToDouble(valorminimo) *
-                             Convert.ToDouble(peso);
+            {
+                double teste = Convert.ToDouble(valor.ToString().Replace(".",","));
+                valorponto = (teste / Convert.ToDouble(valorminimo)) *
+                                 Convert.ToDouble(peso);
+            }
             else
                 valorponto = Convert.ToDouble(peso);
 
-            //string idUsuario = insereDados.RecuperaUsuario(Login);
-            //  insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, idUsuario,
-            insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, Login,
-                valor,
+                insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, Login,
+                valor.ToString(), 
                 valorponto.ToString("N2"));
 
             insereDados.IncluirPontucao(Login, valorponto);
 
-            var idUsu = insereDados.RecuperaUsuario(Login);
+            string idUsu = verificaDadosLogin.RecuperaUsuario(Login);
             var saldoAtual = insereDados.BuscaSaldoAtual(Login);
 
             TempData["saldo"] = saldoAtual;
@@ -93,25 +92,26 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ExcluirRegistro(int id)
         {
-            var ExcluiRegistro = new QueryMysql();
+
+            var ExcluiRegistro = new QueryMysqlCIM();
             var usuario = ExcluiRegistro.BuscaDadosProducao(id);
             ExcluiRegistro.ExcluirRegistro(id);
             ExcluiRegistro.AtualizarRegistroExclusao(usuario[0]["Login"], Convert.ToDouble(usuario[0]["valorponto"]));
 
             var saldoAtual = ExcluiRegistro.BuscaSaldoAtual(usuario[0]["Login"]);
 
-
-            //return PartialView("ViewExtrato");
-            return RedirectToAction("Pgd", "Pgd", new {Mensagem = "Pontuação excluída com sucesso !"});
+            return RedirectToAction("Pgd", "Pgd", new { Mensagem = "Pontuação excluída com sucesso !" });
         }
 
         public ActionResult Extrato()
         {
+            var VerificaDados = new QueryMysqlCIM();
+
             var Validacoes = new ValidacoesPonto();
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
-            var VerificaDados = new QueryMysql();
-            //string loginUsuario = VerificaDados.RecuperaUsuario(Login);
+            
+            
             var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(Login);
 
             TempData["TotalPonto"] = DadosTabelaFuncionario.Count;
@@ -132,12 +132,14 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ExtratoGestor()
         {
+            var VerificaDadosGestor = new QueryMysqlCIM();
+
             var Validacoes = new ValidacoesPonto();
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
-            var dadosSubordinados = VerificaDados.RecuperaSubordinadosGestor(Login);
-
+            var dadosSubordinados = VerificaDadosGestor.RecuperaSubordinadosGestor(Login);
+            
 
             TempData["TotalFuncionarios"] = dadosSubordinados.Count;
             double pontuacaoTotal = 0;
@@ -145,7 +147,7 @@ namespace PortalSicoobDivicred.Controllers
             var metaindIvidual = 0;
             for (var i = 0; i < dadosSubordinados.Count; i++)
             {
-                TempData["meta" + i] = VerificaDados.RecuperaMetaCim(dadosSubordinados[i]["funcao"]);
+                TempData["meta" +i] = VerificaDadosGestor.RecuperaMetaCim(dadosSubordinados[i]["funcao"]);
                 TempData["nome" + i] = dadosSubordinados[i]["nome"];
                 TempData["pontuacaoatual" + i] = dadosSubordinados[i]["pontuacaoatual"];
                 pontuacaoTotal = pontuacaoTotal + Convert.ToDouble(dadosSubordinados[i]["pontuacaoatual"]);
@@ -156,22 +158,8 @@ namespace PortalSicoobDivicred.Controllers
             TempData["pontuacaototal"] = pontuacaoTotal.ToString();
             TempData["metatotal"] = metatotal.ToString();
 
-            //var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(loginUsuario);
-            /*            var pontuacaoFuncionarios = VerificaDados.
-
-                        TempData["TotalPonto"] = DadosTabelaFuncionario.Count;
-                        for (int i = 0; i < DadosTabelaFuncionario.Count; i++)
-                        {
-
-                            TempData["id" + i] = DadosTabelaFuncionario[i]["id"];
-                            TempData["cpf" + i] = DadosTabelaFuncionario[i]["cpf"];
-                            TempData["DataContratacao" + i] = Convert.ToDateTime(DadosTabelaFuncionario[i]["datacontratacao"]).ToString("dd/MM/yyyy");
-                            TempData["Observacao" + i] = DadosTabelaFuncionario[i]["observacao"];
-                            TempData["Produtos" + i] = (VerificaDados.RecuperaProduto(Convert.ToInt32(DadosTabelaFuncionario[i]["produto"]))).ToString();
-                            TempData["valorponto" + i] = DadosTabelaFuncionario[i]["valorponto"].ToString();
-                        }
-          */
-            return PartialView("ExtratoGestor");
+            
+            return PartialView("ViewExtratoGestor");
         }
     }
 }

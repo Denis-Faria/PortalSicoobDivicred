@@ -311,42 +311,11 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
-        public List<SelectListItem> RetornaProdutos()
-        {
-            var Produtos = new List<SelectListItem>();
 
-            const string QueryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos";
+        
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaProdutos);
-            foreach (var row in Dados)
-                Produtos.Add(new SelectListItem
-                {
-                    Value = row["id"],
-                    Text = row["descricao"]
-                });
-
-            return Produtos;
-        }
-
-        public List<Dictionary<string, string>> BuscaDadosProducao(int idProducao)
-        {
-            var QueryConsultaValorAtual =
-                "select Login,valorponto from cimproducao where id=" + idProducao;
-
-            var idDados = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorAtual);
-
-            return idDados;
-        }
-
-        public List<Dictionary<string, string>> RecuperaDadosProducao(string UsuarioSistema)
-        {
-            var Query =
-                "SELECT * FROM cimproducao WHERE Login='" + UsuarioSistema + "' and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-
-
-            return Dados;
-        }
+        
+       
 
         public List<Dictionary<string, string>> RecuperaPontuacaoFuncionariosSetor(string UsuarioSistema)
         {
@@ -361,69 +330,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
-        public string ExisteRegistro(string Login)
-        {
-            var QueryExiste = "SELECT count(*) from cimpontuacao where Login='" + Login + "'";
-
-            var id = ConexaoMysql.ExecutaComandoComRetorno(QueryExiste);
-
-            return id[0]["count(*)"];
-        }
-
-        public string BuscaSaldoAtual(string Login)
-        {
-            var QueryConsultaValorAtual =
-                "select pontuacaoatual from cimpontuacao where Login='" + Login + "'";
-
-            var pontuacaoAtual = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorAtual);
-            if (pontuacaoAtual.Count == 0)
-            {
-                //string login = RecuperaUsuarioLogin(usuario.ToString());
-
-                var QueryIncluiPontuacao =
-                    "INSERT INTO cimpontuacao (pontuacaoatual,login) values ('0','" + Login + "')";
-                ConexaoMysql.ExecutaComando(QueryIncluiPontuacao);
-                //var QueryIncluiPontuacao = "INSERT INTO cimpontuacao (usuario,pontuacaoatual,) values ('" + usuario + "','0')";
-                //ConexaoMysql.ExecutaComando(QueryIncluiPontuacao);
-
-                var QueryConsultaValorPrimeiraVez =
-                    "select pontuacaoatual from cimpontuacao where Login='" + Login + "'";
-
-                pontuacaoAtual = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorPrimeiraVez);
-            }
-
-            return pontuacaoAtual[0]["pontuacaoatual"];
-        }
-
-
-        public void ExcluirRegistro(int id)
-        {
-            var QueryExcluiProducao = "UPDATE cimproducao SET excluido='S' where id='" + id + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(QueryExcluiProducao);
-        }
-
-        public void AtualizarRegistroExclusao(string Login, double valor)
-        {
-            var auxSaldoAtual = BuscaSaldoAtual(Login);
-            var saldoatual = Convert.ToDouble(auxSaldoAtual);
-
-            var saldo = saldoatual - valor;
-
-            var QueryExcluiProducao = "UPDATE cimpontuacao set pontuacaoatual =" + saldo.ToString().Replace(",", ".") +
-                                      " where Login='" + Login + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(QueryExcluiProducao);
-        }
-
-
-        public string RecuperaProduto(int idProduto)
-        {
-            var Query =
-                "select descricao from pgdprodutos where id='" + idProduto + "'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-
-
-            return Dados[0]["descricao"];
-        }
+        
 
         public string RecuperaDadosPontos(int idProduto)
         {
@@ -436,12 +343,7 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
-        public List<Dictionary<string, string>> retornaDadosProdutos(int id)
-        {
-            var QueryRetornaDadosProdutos = "SELECT peso,valorminimo from pgdprodutos where id='" + id + "'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaDadosProdutos);
-            return Dados;
-        }
+        
 
         public List<SelectListItem> RetornaFuncionario()
         {
@@ -460,44 +362,10 @@ namespace PortalSicoobDivicred.Aplicacao
             return Funcionario;
         }
 
-        public void InsereProducao(string cpf, int produtos, string observacao, DateTime data, string Login,
-            string valor, string valorponto)
-        {
-            var QueryInsereProducao =
-                "INSERT INTO cimproducao (cpf,produto,observacao,datacontratacao,excluido,Login,valor,valorponto) values ('" +
-                cpf + "','" + produtos + "','" + observacao + "','" + Convert.ToDateTime(data).ToString("yyyy-MM-dd") +
-                "','N','" + Login + "','" + valor.Replace(",", ".") + "','" +
-                valorponto.Replace(".", "").Replace(",", ".") + "') ";
-            ConexaoMysql.ExecutaComando(QueryInsereProducao);
-        }
+        
 
 
-        public void IncluirPontucao(string Login, double ponto)
-        {
-            var existe = ExisteRegistro(Login);
-            /*    if (existe == "0")
-                {
-                    string aux1=ponto.ToString("N2");
-                    double aux2 = Convert.ToDouble(aux1);
-    
-                    string login = RecuperaUsuarioLogin(usuario.ToString());
-    
-                    var QueryIncluiPontuacao = "INSERT INTO cimpontuacao (usuario,pontuacaoatual,login) values ('"+usuario+"','" + ponto.ToString("N2").Replace(".","").Replace(",",".") + "','"+login+")";
-                    ConexaoMysql.ExecutaComando(QueryIncluiPontuacao);
-                }
-                else
-                {*/
-            var auxSaldoAtual = BuscaSaldoAtual(Login);
-            var saldoatual = Convert.ToDouble(auxSaldoAtual);
-
-
-            var valorAtual = saldoatual + ponto;
-            var QueryAtualizaPontuacao = "update cimpontuacao set pontuacaoatual =" +
-                                         valorAtual.ToString("N2").Replace(".", "").Replace(",", ".") +
-                                         " where Login='" + Login + "'";
-            ConexaoMysql.ExecutaComando(QueryAtualizaPontuacao);
-            // }
-        }
+        
 
         public string RecuperaUsuario(string login)
         {
@@ -507,42 +375,6 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return id[0]["id"];
         }
-
-        public string Gestor(string login)
-        {
-            var QueryGestor = "SELECT gestor from funcionarios where login='" + login + "'";
-
-            var gestor = ConexaoMysql.ExecutaComandoComRetorno(QueryGestor);
-
-            return gestor[0]["gestor"];
-        }
-
-        public List<Dictionary<string, string>> RecuperaSubordinadosGestor(string login)
-        {
-            var QueryRecuperaSetorUsuario = "SELECT idsetor from funcionarios where login='" + login + "'";
-            var idsetor = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaSetorUsuario);
-
-            var Query =
-                "select a.nome,b.pontuacaoatual,a.funcao from funcionarios as a inner join cimpontuacao as b on a.login=b.login " +
-                "where a.idsetor='" + idsetor[0]["idsetor"] + "'";
-            var row = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return row;
-        }
-
-        public string RecuperaMetaCim(string funcao)
-        {
-            var QueryRecuperaMetaUsuario = "SELECT cimmeta from funcoes where id='" + funcao + "'";
-            var meta = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaMetaUsuario);
-            return meta[0]["cimmeta"];
-        }
-
-        public string RecuperaFuncao(string Login)
-        {
-            var QueryRecuperaFuncaoUsuario = "SELECT funcao from funcionarios where Login='" + Login + "'";
-            var funcao = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaFuncaoUsuario);
-            return funcao[0]["funcao"];
-        }
-
 
         public string RecuperaUsuarioLogin(string usuario)
         {
@@ -634,7 +466,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc,string DeficienteMotor,string DeficienteVisual,
             string DeficienteAuditivo,string Reabilitado,string ObservacaoDeficiente,int IdTipoConta,string CodigoBanco,string Agencia,
             string ContaCorrente,string DependenteIrrf,string DependenteFamilia,string DadosDependentes,string TipoDependentes,string Matricula,
-            string PrimeiroEmprego, string EmissaoCtps,string Divorcio,string OrgaoEmissorRg,DateTime DataEmissaoRg,string CpfIrrf)
+            string PrimeiroEmprego, string EmissaoCtps,string Divorcio)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -663,7 +495,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                            ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"', idtipoconta="+IdTipoConta+"," +
                                            "codigobanco="+CodigoBanco+",agencia='"+Agencia+"',contacorrente='"+ContaCorrente+"', informacaodependente='"+DadosDependentes+"',dependenteirrf='"+DependenteIrrf+"'," +
                                            "dependentesalariofamilia='"+DependenteFamilia+"',tipodependente='"+TipoDependentes+"',matricula='"+Matricula+"',anoprimeiroemprego='"+PrimeiroEmprego+"'," +
-                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+"', dataemissaorg='"+DataEmissaoRg.Date.ToString("yyyy/MM/dd")+"',orgaoemissorrg='"+OrgaoEmissorRg+"', cpfirrf='"+CpfIrrf+"'" +
+                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+"'" +
                                            " WHERE nome='" + Nome + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }

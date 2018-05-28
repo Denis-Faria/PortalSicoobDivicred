@@ -13,48 +13,8 @@
 
     });
 
+</script>
 
-    function AbrirProcesso(id) {
-
-        iziToast.show({
-            message: 'Confirma a exclusão do Registro ?',
-            position: 'center',
-            progressBarColor: 'rgb(0, 255, 184)',
-            buttons: [
-                [
-                    '<button>Sim</button>', function(instance, toast) {
-
-                        $("#PerfilCompleto").empty();
-                        $.ajax(
-                            {
-                                type: 'GET',
-                                url: '/Pgd/ExcluirRegistro',
-                                cache: true,
-                                async: true,
-                                data: { "id": id },
-                                success: function(data) {
-                                    instance.hide({
-                                            transitionOut: 'fadeOutUp',
-                                            onClosing: function(instance, toast, closedBy) {
-                                                console.info('closedBy: ' + closedBy); //btn2
-
-                                            }
-                                        },
-                                        toast,
-                                        'close',
-                                        'btn1');
-
-                                    location.href = "/Pgd/Pgd?Mensagem=Pontuação excluída com sucesso";
-
-                                }
-                            });
-
-                    }
-                ],
-            ]
-
-        });
-    }
 
 
 </script>
@@ -77,7 +37,7 @@
             </div>
         </div>
         <div class="column is-6">
-            <div class="control" id="funcionario">
+            <div class="control" id="dataContratacao">
                 <label class="label">Data Contratação</label>
                 @Html.TextBoxFor(m => m.datacontratacao, null, new {@class = "input", type = "date"})
 
@@ -131,8 +91,12 @@
                     <span class="name">Salvar Produção</span>
                 </button>
             </p>
+<<<<<<< refs/remotes/upstream/master:PortalSicoobDivicred/Views/Pgd/Cadastro.cshtml
 
 
+=======
+            
+>>>>>>> Alteração:PortalSicoobDivicred/Views/Pgd/ViewCadastro.cshtml
         </div>
     </div>
 }

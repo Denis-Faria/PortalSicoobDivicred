@@ -28,6 +28,13 @@ namespace PortalSicoobDivicred.Controllers
                         " ";
                 else
                     TempData["PermissaoCurriculo"] = "display: none";
+
+                if (VerificaDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
+                        " ";
+                else
+                    TempData["PermissaoTesouraria"] = "display: none";
+
                 if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
                 {
                     TempData["PermissaoGestor"] = "N";

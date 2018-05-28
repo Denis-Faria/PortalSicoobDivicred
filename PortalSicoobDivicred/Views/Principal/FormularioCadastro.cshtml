@@ -13,11 +13,13 @@
 
 
     <script>
+
         var Forma = 0;
         $(document).ready(function () {
             $('#CpfFuncionario').mask('000.000.000-00');
             $('#DataNascimentoFuncionario').mask('00/00/0000');
             $('#EmissaoCtps').mask('00/00/0000');
+            $('#DataEmissaoRg').mask('00/00/0000');
             $('#PisFuncionario').mask('000.00000.00-0');
             $('#CepFuncionario').mask('99999-999');
             $('#TelefoneFixoFuncionario').mask('(99) 9999-9999');
@@ -53,6 +55,18 @@
             div.appendChild(div2);
             div2.appendChild(label);
             div2.appendChild(x);
+        }
+
+        function MostrarDocumentosExtras() {
+            $("#documentosextras").removeAttr("style");
+            $("#Oculta").removeAttr("style");
+            $("#Mostra").attr("style", "display:none");
+        }
+
+        function OcultaDocumentosExtras() {
+            $("#documentosextras").attr("style", "display:none");
+            $("#Oculta").attr("style", "display:none");
+            $("#Mostra").removeAttr("style");
         }
 
         function BuscaCertificacao(Nome) {
@@ -127,6 +141,24 @@
             }
         }
 
+        function OutroVinculo() {
+            $("#VinculoExtra").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Principal/RetornaOutroVinculo',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    success: function (data) {
+                        $("#VinculoExtra").append(data);
+                        $.validator.unobtrusive.parse($("#VinculoExtra"));
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                });
+        }
 
     </script>
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
@@ -214,14 +246,26 @@
                             @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
                         </div>
                         <div class="control column is-3 is-expanded">
+                            <label class="label">PIS</label>
+                            @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
+                            @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control column is-3 is-expanded">
                             <label class="label">RG</label>
                             @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", placeholder = "Ex: 13980091", id = "RgFuncionario" })
                             @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
                         </div>
                         <div class="control column is-3 is-expanded">
-                            <label class="label">PIS</label>
-                            @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", placeholder = "Ex: 999.99999.99-9", id = "PisFuncionario" })
-                            @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
+                            <label class="label">Data Emissão RG</label>
+                            @Html.TextBoxFor(m => m.DataExpedicaoDocumentoRg, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataEmissaoRg" })
+                            @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoRg, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Orgão Emissor RG</label>
+                            @Html.TextBoxFor(m => m.OrgaoEmissorRg, null, new { @class = "input", placeholder = "Ex: PC-MG" })
+                            @Html.ValidationMessageFor(m => m.OrgaoEmissorRg, null, new { style = "color:red" })
                         </div>
                     </div>
                     <div class="field is-grouped">
@@ -230,6 +274,35 @@
                             @Html.TextBoxFor(m => m.Nacionalidade, null, new { @class = "input", placeholder = "Ex:Brasileiro" })
                             @Html.ValidationMessageFor(m => m.Nacionalidade, null, new { style = "color:red" })
                         </p>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Data Nascimento</label>
+                            @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
+                            @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
+                        </div>
+                        <p class="control column is-3 is-expanded">
+                            <label class="label">Local de Nascimento</label>
+                            @Html.TextBoxFor(m => m.LocalNascimento, null, new { @class = "input", placeholder = "Ex: Divinópolis" })
+                            @Html.ValidationMessageFor(m => m.LocalNascimento, null, new { style = "color:red" })
+                        </p>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Estado de Nascimento</label>
+                            @Html.TextBoxFor(m => m.UfNascimento, null, new { @class = "input", placeholder = "Ex: MG" })
+                            @Html.ValidationMessageFor(m => m.UfNascimento, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Fixo</label>
+                            @Html.TextBoxFor(m => m.TelefoneFixo, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "TelefoneFixoFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneFixo, null, new { style = "color:red" })
+                        </div>
+                        <div class="control column is-3 is-expanded">
+                            <label class="label">Telefone Celular</label>
+                            @Html.TextBoxFor(m => m.TelefoneCelular, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "TelefoneCelularFuncionario" })
+                            @Html.ValidationMessageFor(m => m.TelefoneCelular, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
                         <div class="control column is-3 is-expanded">
                             <label class="label">Nome da Mãe</label>
                             @Html.TextBoxFor(m => m.NomeMae, null, new { @class = "input", placeholder = "Ex: Maria da Silva" })
@@ -255,85 +328,59 @@
                                 @Html.ValidationMessageFor(m => m.DeficienteVisual, null, new { style = "color:red" })
                             </div>
                         </div>
-
                     </div>
-                    <div class="field is-grouped">
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Data Nascimento</label>
-                            @Html.TextBoxFor(m => m.DataNascimentoFuncionario, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "DataNascimentoFuncionario" })
-                            @Html.ValidationMessageFor(m => m.DataNascimentoFuncionario, null, new { style = "color:red" })
+                    <hr />
+                    <P class="control column">
+                        <a class="tag is-primary is-rounded is-medium" id="Mostra" href="javascript:MostrarDocumentosExtras();void(0);">Mostrar Documentos Extras</a>
+                        <a class="tag is-primary is-rounded is-medium" style="display: none" id="Oculta" href="javascript:OcultaDocumentosExtras();void(0);">Ocultar Documentos Extras</a>
+                    </P>
+                    <div id="documentosextras" style="display:none">
+                        <div class="field is-grouped">
+                            <p class="control column is-3 is-expanded">
+                                <label class="label">N° CNH</label>
+                                @Html.TextBoxFor(m => m.Cnh, null, new { @class = "input", placeholder = "Ex: 999999" })
+                                @Html.ValidationMessageFor(m => m.Cnh, null, new { style = "color:red" })
+                            </p>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Orgão Emissor CNH</label>
+                                @Html.TextBoxFor(m => m.OrgaoEmissorCnh, null, new { @class = "input", placeholder = "Ex: DETRAM-MG" })
+                                @Html.ValidationMessageFor(m => m.OrgaoEmissorCnh, null, new { style = "color:red" })
+                            </div>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Data Epedição CNH</label>
+                                @Html.TextBoxFor(m => m.DataExpedicaoDocumentoCnh, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "DataExpedicaoCnh" })
+                                @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoCnh, null, new { style = "color:red" })
+                            </div>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Data Vencimento CNH</label>
+                                @Html.TextBoxFor(m => m.DataValidadeCnh, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "DataVencimentoCnh" })
+                                @Html.ValidationMessageFor(m => m.DataValidadeCnh, null, new { style = "color:red" })
+                            </div>
                         </div>
-                        <p class="control column is-3 is-expanded">
-                            <label class="label">Local de Nascimento</label>
-                            @Html.TextBoxFor(m => m.LocalNascimento, null, new { @class = "input", placeholder = "Ex: Divinópolis" })
-                            @Html.ValidationMessageFor(m => m.LocalNascimento, null, new { style = "color:red" })
-                        </p>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Estado de Nascimento</label>
-                            @Html.TextBoxFor(m => m.UfNascimento, null, new { @class = "input", placeholder = "Ex: MG" })
-                            @Html.ValidationMessageFor(m => m.UfNascimento, null, new { style = "color:red" })
+                        <div class="field is-grouped">
+                            <p class="control column is-3 is-expanded">
+                                <label class="label">N° OC(Órgão de Classe)</label>
+                                @Html.TextBoxFor(m => m.Oc, null, new { @class = "input", placeholder = "Ex: 999999" })
+                                @Html.ValidationMessageFor(m => m.Oc, null, new { style = "color:red" })
+                            </p>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Orgão Emissor OC(Órgão de Classe)</label>
+                                @Html.TextBoxFor(m => m.OrgaoEmissorOc, null, new { @class = "input", placeholder = "Ex: CREA-MG" })
+                                @Html.ValidationMessageFor(m => m.OrgaoEmissorOc, null, new { style = "color:red" })
+                            </div>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Data Epedição OC(Órgão de Classe)</label>
+                                @Html.TextBoxFor(m => m.DataExpedicaoOc, null, new { @class = "input", placeholder = "Ex: 99/99/99999", id = "DataExpedicaoOc" })
+                                @Html.ValidationMessageFor(m => m.DataExpedicaoOc, null, new { style = "color:red" })
+                            </div>
+                            <div class="control column is-3 is-expanded">
+                                <label class="label">Data Vencimento OC(Órgão de Classe)</label>
+                                @Html.TextBoxFor(m => m.DataValidadeOc, null, new { @class = "input", placeholder = "Ex:99/99/9999", id = "DataVencimentoOc" })
+                                @Html.ValidationMessageFor(m => m.DataValidadeOc, null, new { style = "color:red" })
+                            </div>
+
                         </div>
                     </div>
-                    <div class="field is-grouped">
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Telefone Fixo</label>
-                            @Html.TextBoxFor(m => m.TelefoneFixo, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "TelefoneFixoFuncionario" })
-                            @Html.ValidationMessageFor(m => m.TelefoneFixo, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Telefone Celular</label>
-                            @Html.TextBoxFor(m => m.TelefoneCelular, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "TelefoneCelularFuncionario" })
-                            @Html.ValidationMessageFor(m => m.TelefoneCelular, null, new { style = "color:red" })
-                        </div>
-
-                    </div>
-                    <div class="field is-grouped">
-                        <p class="control column is-3 is-expanded">
-                            <label class="label">N° CNH</label>
-                            @Html.TextBoxFor(m => m.Cnh, null, new { @class = "input", placeholder = "Ex: 999999" })
-                            @Html.ValidationMessageFor(m => m.Cnh, null, new { style = "color:red" })
-                        </p>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Orgão Emissor CNH</label>
-                            @Html.TextBoxFor(m => m.OrgaoEmissorCnh, null, new { @class = "input", placeholder = "Ex: DETRAM-MG" })
-                            @Html.ValidationMessageFor(m => m.OrgaoEmissorCnh, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Data Epedição CNH</label>
-                            @Html.TextBoxFor(m => m.DataExpedicaoDocumentoCnh, null, new { @class = "input", placeholder = "Ex:(37)3222-2222", id = "DataExpedicaoCnh" })
-                            @Html.ValidationMessageFor(m => m.DataExpedicaoDocumentoCnh, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Data Vencimento CNH</label>
-                            @Html.TextBoxFor(m => m.DataValidadeCnh, null, new { @class = "input", placeholder = "Ex:(37)99999-9999", id = "DataVencimentoCnh" })
-                            @Html.ValidationMessageFor(m => m.DataValidadeCnh, null, new { style = "color:red" })
-                        </div>
-
-                    </div>
-                    <div class="field is-grouped">
-                        <p class="control column is-3 is-expanded">
-                            <label class="label">N° OC(Órgão de Classe)</label>
-                            @Html.TextBoxFor(m => m.Oc, null, new { @class = "input", placeholder = "Ex: 999999" })
-                            @Html.ValidationMessageFor(m => m.Oc, null, new { style = "color:red" })
-                        </p>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Orgão Emissor OC(Órgão de Classe)</label>
-                            @Html.TextBoxFor(m => m.OrgaoEmissorOc, null, new { @class = "input", placeholder = "Ex: CREA-MG" })
-                            @Html.ValidationMessageFor(m => m.OrgaoEmissorOc, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Data Epedição OC(Órgão de Classe)</label>
-                            @Html.TextBoxFor(m => m.DataExpedicaoOc, null, new { @class = "input", placeholder = "Ex: 99/99/99999", id = "DataExpedicaoOc" })
-                            @Html.ValidationMessageFor(m => m.DataExpedicaoOc, null, new { style = "color:red" })
-                        </div>
-                        <div class="control column is-3 is-expanded">
-                            <label class="label">Data Vencimento OC(Órgão de Classe)</label>
-                            @Html.TextBoxFor(m => m.DataValidadeOc, null, new { @class = "input", placeholder = "Ex:99/99/9999", id = "DataVencimentoOc" })
-                            @Html.ValidationMessageFor(m => m.DataValidadeOc, null, new { style = "color:red" })
-                        </div>
-
-                    </div>
-
 
 
                     <hr />
@@ -728,12 +775,12 @@
                             </label>
                         </div>
                         <br />
-                        <div class="control  is-fullwidth">
+                        <div class="control  is-fullwidth  is-expanded">
                             <label class="label">Nome dos dependentes junto com CPF:</label>
                             @Html.TextAreaFor(m => m.DadosDependentes, new { @class = "textarea", placeholder = "Ex: Descrição de alguma deficiência não citada acima" })
                             @Html.ValidationMessageFor(m => m.DadosDependentes, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-4">
+                        <div class="control column is-6  is-expanded">
                             <label class="label">Algum dos dependentes citados acima são para fins de IRRF?</label>
                             <div class="field">
                                 @Html.RadioButtonFor(m => m.DependenteIrrf, "Sim", new { @class = "is-checkradio is-small", id = "checkirrfsim" })
@@ -747,8 +794,14 @@
                                 @Html.ValidationMessageFor(m => m.DependenteIrrf, null, new { style = "color:red" })
                             </div>
                         </div>
+                        <div class="control is-fullwidth  is-expanded">
+                            <label class="label">Informe os CPF e nome dos dependentes para fins de IRRF. Caso não tenha nenhum informe abaixo.</label>
+                            @Html.TextAreaFor(m => m.CpfIrrf, new { @class = "textarea", placeholder = "Ex: CPF - NOME" })
+                            @Html.ValidationMessageFor(m => m.CpfIrrf, null, new { style = "color:red" })
 
-                        <div class="control column is-4">
+                        </div>
+
+                        <div class="control column is-6  is-expanded">
                             <label class="label">Algum dos dependentes citados acima são para fins de salário-família?</label>
                             <div class="field">
                                 @Html.RadioButtonFor(m => m.DependenteFamilia, "Sim", new { @class = "is-checkradio is-small", id = "checkfamiliasim" })
@@ -764,6 +817,14 @@
                         </div>
 
                     </div>
+                    <div>
+                        <a class="tag is-primary is-rounded is-medium" id="Mostra" href="javascript:OutroVinculo();void(0);">Adicionar Outro Vinculo Empregatício</a>
+                        <div id="VinculoExtra">
+
+                        </div>
+                    </div>
+                    <hr />
+
                     <div>
                         <article class="message  is-primary">
                             <div class="message-body">

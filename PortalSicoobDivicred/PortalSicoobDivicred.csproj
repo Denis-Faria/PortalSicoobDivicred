@@ -719,7 +719,6 @@
     <Content Include="Views\WebDesk\Setor.cshtml" />
     <Content Include="Views\WebDesk\ResultadoPesquisa.cshtml" />
     <Content Include="Views\WebDesk\CategoriaSetorSolicitacao.cshtml" />
-
     <Content Include="Views\WebDesk\InteracaoChamado.cshtml" />
     <Content Include="Views\WebDesk\CategoriaInteracao.cshtml" />
     <Content Include="Views\WebDesk\SetorInteracao.cshtml" />
@@ -727,12 +726,11 @@
     <Content Include="Views\WebDesk\faltapermissao.cshtml" />
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <Content Include="Views\Principal\VagasInternas.cshtml" />
-
     <Content Include="Views\Tesouraria\ViewArquivos.cshtml" />
     <Content Include="Views\Tesouraria\ViewResultado.cshtml" />
     <Content Include="Views\Tesouraria\ViewPesquisar.cshtml" />
     <Content Include="Views\Tesouraria\ViewTabelaPesquisar.cshtml" />
-
+    <Content Include="Views\Principal\multiplosvinculos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

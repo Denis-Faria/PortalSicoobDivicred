@@ -51,9 +51,9 @@ namespace PortalSicoobDivicred.Models
         public string LocalNascimento { get; set; }
 
         [Required(ErrorMessage = "Favor informar o estado de nascimento")]
-        [MaxLength(2,ErrorMessage = "Coloque a abreviação de seu estado")]
+        [MaxLength(2, ErrorMessage = "Coloque a abreviação de seu estado")]
         public string UfNascimento { get; set; }
-       
+
         public string Complemento { get; set; }
 
         [Required(ErrorMessage = "Favor informar o CEP")]
@@ -82,7 +82,7 @@ namespace PortalSicoobDivicred.Models
 
         public string ObservacaoDeficiente { get; set; }
 
-        public string DadosDependentes{ get; set; }
+        public string DadosDependentes { get; set; }
 
         [Required(ErrorMessage = "Favor informar o codigo de seu banco")]
         public string CodigoBanco { get; set; }
@@ -106,7 +106,7 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
-        public string NumeroCTPS{ get; set; }
+        public string NumeroCTPS { get; set; }
 
         [Required(ErrorMessage = "Favor informar a serie da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
@@ -223,7 +223,7 @@ namespace PortalSicoobDivicred.Models
         public string PaisDivorciados { get; set; }
 
         [Required(ErrorMessage = "Favor informar o ano de seu primeiro emprego!")]
-        [MaxLength(2,ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
+        [MaxLength(2, ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string AnoPrimeiroEmprego { get; set; }
 
@@ -232,5 +232,26 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar a sua matricula!")]
         public string Matricula { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de expedissão de seu RG!")]
+        public DateTime DataExpedicaoDocumentoRg { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o orgão emissor de seu RG!")]
+        public string OrgaoEmissorRg { get; set; }
+
+        [Required(ErrorMessage = "Favor informar os cpf dos dependentes para IRRF!")]
+        public string CpfIrrf { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o nome da empresa!")]
+        public string MultiploNomeEmpresa { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o CNPJ desta empresa!")]
+        public string MultiploCnpj { get; set; }
+
+        [Required(ErrorMessage = "Favor informar sua remuneração nesta empresa!")]
+        public string MultiploRemuneracao { get; set; }
+
+
+        public string MultiploComentario { get; set; }
     }
 }

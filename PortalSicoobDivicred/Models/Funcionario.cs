@@ -232,5 +232,27 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar a sua matricula!")]
         public string Matricula { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de expedissão de seu RG!")]
+        public DateTime DataExpedicaoDocumentoRg { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o orgão emissor de seu RG!")]
+        public string OrgaoEmissorRg { get; set; }
+
+        [Required(ErrorMessage = "Favor informar os cpf dos dependentes para IRRF!")]
+        public string CpfIrrf { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o nome da empresa!")]
+        public string MultiploNomeEmpresa { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o CNPJ desta empresa!")]
+        public string MultiploCnpj { get; set; }
+
+        [Required(ErrorMessage = "Favor informar sua remuneração nesta empresa!")]
+        public string MultiploRemuneracao { get; set; }
+
+
+        public string MultiploComentario { get; set; }
+
     }
 }

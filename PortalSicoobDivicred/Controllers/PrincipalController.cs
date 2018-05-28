@@ -214,14 +214,22 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var TiposDependentes = "";
+
                 for (int i = 0; i < 10; i++)
                 {
-                    if (Formulario["Check" + i].Equals("on"))
+                    try
                     {
-                        TiposDependentes = TiposDependentes + i+ ";";
+                        if (Formulario["Check" + i].Equals("on"))
+                        {
+                            TiposDependentes = TiposDependentes + i + ";";
+                        }
                     }
+                    catch
+                    {
 
+                    }
                 }
+
                 try
                 {
                     if (!Formulario["ConfirmacaoDados"].Equals("on"))
@@ -331,9 +339,9 @@ namespace PortalSicoobDivicred.Controllers
                         , DadosFuncionario.DataValidadeCnh, DadosFuncionario.Oc, DadosFuncionario.OrgaoEmissorOc, DadosFuncionario.DataExpedicaoOc,
                         DadosFuncionario.DataValidadeOc, DadosFuncionario.DeficienteMotor, DadosFuncionario.DeficienteVisual, DadosFuncionario.DeficienteAuditivo,
                         DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
-                        DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia, 
-                        DadosFuncionario.DadosDependentes,TiposDependentes,DadosFuncionario.Matricula,DadosFuncionario.AnoPrimeiroEmprego,DadosFuncionario.EmissaoCtps,
-                        DadosFuncionario.PaisDivorciados);
+                        DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
+                        DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
+                        DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf);
                     return RedirectToAction("Principal", "Principal");
                 }
                 else
@@ -361,6 +369,10 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        public ActionResult RetornaOutroVinculo()
+        {
+            return PartialView("MultiplosVinculos");
+        }
         public ActionResult BuscaCertificacao(string IdFuncao)
         {
             var VerificaDados = new QueryMysql();

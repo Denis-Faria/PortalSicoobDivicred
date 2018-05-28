@@ -703,6 +703,7 @@
     <Content Include="Views\WebDesk\faltapermissao.cshtml" />
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <Content Include="Views\Principal\VagasInternas.cshtml" />
+    <Content Include="Views\Principal\MultiplosVinculos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

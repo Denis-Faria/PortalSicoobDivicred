@@ -394,9 +394,8 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-        public async Task<ActionResult> PerfilCandidato(string cpf)
-#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+
+        public ActionResult PerfilCandidato(string cpf)
         {
             var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
@@ -436,7 +435,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["NomeVaga" + i] = DadosProcessosSeletivos[i]["nomevaga"];
                         TempData["IdVaga" + i] = DadosProcessosSeletivos[i]["idvaga"];
                         TempData["Escrita" + i] = DadosProcessosSeletivos[i]["prova"];
-                        if (Convert.ToDecimal(DadosProcessosSeletivos[i]["prova"]) >= 60)
+                        if (Convert.ToDecimal(DadosProcessosSeletivos[i]["prova"].Replace(",",".")) >= 60)
                         {
                             TempData["CorEscrita" + i] = "green";
                         }
@@ -838,9 +837,9 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-        public async Task<ActionResult> PerfilCandidatoProcesso(string IdVaga)
-#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
+
+        public ActionResult PerfilCandidatoProcesso(string IdVaga)
+
         {
             var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
@@ -853,8 +852,14 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var i = 0; i < DadosProcesso.Count; i++)
                 {
-                    if (DadosProcesso[i]["prova"] == null ||
-                        Convert.ToDecimal(DadosProcesso[i]["prova"].Replace(',', '.')) < 60)
+                    var prova = DadosProcesso[i]["prova"];
+                    if (prova.Equals(""))
+                    {
+                        TempData["ResultadoProva" + i] = DadosProcesso[i]["prova"];
+                        TempData["EscondePsicologico" + i] = "hidden disabled";
+                        TempData["EscondeGerente" + i] = "hidden disabled";
+                    }
+                    else if(Convert.ToDecimal(prova.Replace(",","."))<60)
                     {
                         TempData["ResultadoProva" + i] = DadosProcesso[i]["prova"];
                         TempData["EscondePsicologico" + i] = "hidden disabled";
@@ -879,7 +884,7 @@ namespace PortalSicoobDivicred.Controllers
                     try
                     {
                         if (DadosProcesso[i]["aprovado"].Equals("Aprovado") ||
-                            DadosProcesso[i]["aprovado"].Equals("Excedente"))
+                            DadosProcesso[i]["aprovado"].Equals("Excedente") || DadosProcesso[i]["aprovado"] == null)
                         {
                             TempData["EscondePsicologico" + i] = "";
                             TempData["EscondeGerente" + i] = "";
@@ -892,8 +897,8 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     catch
                     {
-                        TempData["EscondePsicologico" + i] = "hidden disabled";
-                        TempData["EscondeGerente" + i] = "hidden disabled";
+                        TempData["EscondePsicologico" + i] = "";
+                        TempData["EscondeGerente" + i] = "";
                     }
 
                     if (DadosProcesso[i]["aprovado"] == null)

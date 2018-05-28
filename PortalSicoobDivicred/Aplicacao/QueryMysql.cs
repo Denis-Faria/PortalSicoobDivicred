@@ -634,7 +634,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc,string DeficienteMotor,string DeficienteVisual,
             string DeficienteAuditivo,string Reabilitado,string ObservacaoDeficiente,int IdTipoConta,string CodigoBanco,string Agencia,
             string ContaCorrente,string DependenteIrrf,string DependenteFamilia,string DadosDependentes,string TipoDependentes,string Matricula,
-            string PrimeiroEmprego, string EmissaoCtps,string Divorcio)
+            string PrimeiroEmprego, string EmissaoCtps,string Divorcio,string OrgaoEmissorRg,DateTime DataEmissaoRg,string CpfIrrf)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -663,7 +663,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                            ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"', idtipoconta="+IdTipoConta+"," +
                                            "codigobanco="+CodigoBanco+",agencia='"+Agencia+"',contacorrente='"+ContaCorrente+"', informacaodependente='"+DadosDependentes+"',dependenteirrf='"+DependenteIrrf+"'," +
                                            "dependentesalariofamilia='"+DependenteFamilia+"',tipodependente='"+TipoDependentes+"',matricula='"+Matricula+"',anoprimeiroemprego='"+PrimeiroEmprego+"'," +
-                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+"'" +
+                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+"', dataemissaorg='"+DataEmissaoRg.Date.ToString("yyyy/MM/dd")+"',orgaoemissorrg='"+OrgaoEmissorRg+"', cpfirrf='"+CpfIrrf+"'" +
                                            " WHERE nome='" + Nome + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }

@@ -516,10 +516,19 @@ namespace PortalSicoobDivicred.Aplicacao
                                            "dependentesalariofamilia='"+DependenteFamilia+"',tipodependente='"+TipoDependentes+"',matricula='"+Matricula+"',anoprimeiroemprego='"+PrimeiroEmprego+"'," +
                                            "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+ "'," +
                                            " dataemissaorg='" + DataEmissaoRg.Date.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "', cpfirrf='" + CpfIrrf + "'" +
-                                           " WHERE nome='" + Nome + "'";
+                                           " WHERE login='" + UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
+        public void InserirVinculoEmpregaticio(string IdFuncionario, string NomeEmpresa, string Cnpj,
+            string Remuneracao, string Comentario)
+        {
+            var QueryInserirVinculo =
+                "INSERT INTO vinculosempregaticiosfuncionarios (idfuncionario,nomeempresa,cnpj,remuneracao,comentario) VALUES(" +
+                IdFuncionario + ",'" + NomeEmpresa + "','" + Cnpj + "','" + Remuneracao + "','" + Comentario + "')";
+
+            ConexaoMysql.ExecutaComando(QueryInserirVinculo);
+        }
         public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
@@ -671,7 +680,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RetornaExtrato(string Cpf)
         {
-            var Query = "SELECT* FROM showdepremioscupons WHERE  numdoccliente = '" + Cpf + "'";
+            var Query = "SELECT* FROM showdepremioscupons WHERE  numdoccliente = " + Cpf + "";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }

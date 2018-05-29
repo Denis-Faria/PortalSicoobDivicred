@@ -38,6 +38,12 @@ namespace PortalSicoobDivicred.Controllers
                     k = 4;
                     m = 32;
                     break;
+
+                case "4":
+                    palavraInicio = "CHEQUE DEVOLVIDO CAIXA";
+                    k = 4;
+                    m = 12;
+                    break;
             }
 
             for (int j = k; j <= output.Tables[0].Rows.Count; j++)
@@ -76,6 +82,7 @@ namespace PortalSicoobDivicred.Controllers
             double valorArq9 = 0;
             double valorArq10 = 0;
             double valorArq11 = 0;
+            double valorArq12 = 0;
             int j;
             int aux = 0;
             double[] numeros = new double[716];
@@ -215,6 +222,26 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                     somatorio.Add("Arquivo3", valorArq7);
+                    break;
+
+                case "4":
+                    for (j = inicio; j < output.Tables[0].Rows.Count; j++)
+                    {
+                        try
+                        {
+                            if (output.Tables[0].Rows[j]["F23"].ToString().Length>0)
+                            {
+                                valorArq12 = Math.Round(valorArq12 + Convert.ToDouble((output.Tables[0].Rows[j]["F28"])), 2);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                    somatorio.Add("Arquivo4", valorArq12);
                     break;
 
             }

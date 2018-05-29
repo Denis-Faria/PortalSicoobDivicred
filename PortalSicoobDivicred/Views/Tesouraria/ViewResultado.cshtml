@@ -199,6 +199,25 @@
 
     </tr>
 
+    <tr>
+        <td class="has-text-centered">
+            NR DEV ELETRONICA
+        </td>
+        <td class="has-text-centered">
+            @Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <input name="Historico @TempData["257/258"]" id="Historico @TempData["257/258"]" value="@TempData["257/258"]" hidden="true" />@Convert.ToDouble(@TempData["257/258"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <input name="Diferenca @TempData["Diferenca10"]" id="Diferenca @TempData["Diferenca10"]" value="@TempData["Diferenca10"]" hidden="true" />@Convert.ToDouble(TempData["Diferenca10"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <img src="/Images/@TempData["Diferencatexto10"]">
+        </td>
+
+    </tr>
+
 </table>
 
     <div class="columns content">

@@ -30,6 +30,7 @@
                     document.getElementById("file1").value = "";
                     $(camposNr).hide();
                     $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
                     break;
 
                 case "2":
@@ -47,6 +48,7 @@
                     $(devolucaoCheques).hide();
                     $(camposNr).hide();
                     $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
                     break;
 
                 case "3":
@@ -62,6 +64,7 @@
                     $(valorDevolucaoCheques).hide();
                     $(devolucaoCheques).hide();
                     $(camposNr).hide();
+                    $(operacaoCaixa).hide();
                     break;
 
                 case "4":
@@ -77,7 +80,28 @@
                     document.getElementById("file4").value = "";
                     $(camposNr).hide();
                     $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
                     break;
+
+                case "5":
+
+                    $(Extrato).hide();
+                    $(lancamentoContaCorrente).hide();
+                    $(iconeOperacaodeCaixa).hide();
+                    $(valorJudicial).hide();
+                    $(botaoProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(operacaoCaixa).show();
+                    document.getElementById("file5").value = "";
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+                   
+                    
+                    break;
+
+
 
 
             }
@@ -88,13 +112,10 @@
             switch (ocultar) {
                 case "Extrato":
                     $(iconeExtrato).show();
-
+                    $(operacaoCaixa).hide();
                     $(Extrato).hide();
                     if (document.getElementById("file2").value == "") {
-
                         $(lancamentoContaCorrente).show();
-
-
 
                     } else if (document.getElementById("file3").value == "") {
 
@@ -107,12 +128,18 @@
                         $(devolucaoCheques).show();
 
                     }
+                    else if (document.getElementById("file5").value == "") {
+                        $(operacaoCaixa).show();
+
+
+                    }
 
                     break;
 
                 case "lancamentoContaCorrente":
                     $(iconelancamentoContaCorrente).show();
                     $(lancamentoContaCorrente).hide();
+                    $(operacaoCaixa).hide();
 
                     if (document.getElementById("file1").value == "") {
 
@@ -125,6 +152,11 @@
                     } else if (document.getElementById("file4").value == "") {
                         $(valorDevolucaoCheques).show();
                         $(devolucaoCheques).show();
+
+                    }
+                    else if (document.getElementById("file5").value == "") {
+                        $(operacaoCaixa).show();
+
 
                     }
 
@@ -136,6 +168,7 @@
                     $(iconeEnviadaseRecebidas).show();
                     $(valorJudicial).hide();
                     $(enviadaRecebida).hide();
+                    $(operacaoCaixa).hide();
 
                     if (document.getElementById("file1").value == "") {
                         $(Extrato).show();
@@ -148,11 +181,19 @@
                         $(devolucaoCheques).show();
 
                     }
+                    else if (document.getElementById("file5").value == "") {
+                        $(operacaoCaixa).show();
+
+
+                    }
                     break;
 
                 case "devolucaoCheques":
 
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
                     $(iconeDevolucaoCheques).show();
+                    $(operacaoCaixa).hide();
 
 
                     if (document.getElementById("file1").value == "") {
@@ -167,6 +208,39 @@
 
                     }
 
+                    else if (document.getElementById("file5").value == "") {
+                        $(operacaoCaixa).show();
+                       
+
+                    }
+
+                    break;
+
+                case "operacaoCaixa":
+
+                    $(iconeOperacaodeCaixa).show();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorJudicial).hide();
+                    $(enviadaRecebida).hide();
+                    $(camposNr).show();
+
+
+                    if (document.getElementById("file1").value == "") {
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file2").value == "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file3").value == "") {
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+
+                    } else if (document.getElementById("file4").value == "") {
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+                        
+                    }
+
                     break;
 
             }
@@ -175,9 +249,9 @@
 
 
 
-            if (countArquivos === 4) {
+            if (countArquivos === 5) {
                 $(botaoProcessar).show();
-
+                $(operacaoCaixa).hide();
                 $(enviadaRecebida).hide();
                 $(lancamentoContaCorrente).hide();
                 $(enviadaRecebida).hide();
@@ -185,6 +259,7 @@
                 $(devolucaoCheques).hide();
                 $(valorDevolucaoCheques).hide();
                 $(Extrato).hide();
+                $(operacaoCaixa).hide();
                 $(camposNr).show();
                 $(teste).attr('desabled', true);
 
@@ -297,6 +372,21 @@
                             </div>
 
                         </div>
+                        <div>
+                            <div class="panel-block">
+                                <div style="width:99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Operação de Caixa
+                                </div>
+                                <div id="iconeOperacaodeCaixa" hidden>
+                                    <span><a href="#" onclick="javascript:AlternarBotoes('5')"><i class="fas fa-times"></i></a></span>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </nav>
             </div>
@@ -380,49 +470,61 @@
                                                 </div>
                                             </div>
 
+                                            <div id="operacaoCaixa" class="field" hidden>
+                                                <div class="file is-primary " style="display:block;width:100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('operacaoCaixa')" name="file" id="file5">
+                                                        <span class="file-cta" style="display:block;width:100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Operação de caixa(dia ant.)</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
                                             <div class="field" id="camposNr" hidden>
                                                 <div class="control" id="NR1">
                                                     <label>NR1</label>
                                                     @Html.TextBoxFor(m => m.valorCampoNr1, null, new
-                                                    {
-                                                        @class = "input",
-                                                        type = "number",
-                                                        step = "0.01",
-                                                        focusout = "javascript:if(this.value==''){this.value=0}"
-                                                    })
+            {
+                @class = "input",
+                type = "number",
+                step = "0.01",
+                focusout = "javascript:if(this.value==''){this.value=0}"
+            })
                                                 </div>
 
                                                 <div class="control" id="NR2">
                                                     <label>NR2</label>
                                                     @Html.TextBoxFor(m => m.valorCampoNr2, null, new
-                                                    {
-                                                        @class = "input",
-                                                        type = "number",
-                                                        step = "0.01",
-                                                        focusout = "javascript:if(this.value==''){this.value=0}"
-                                                    })
+            {
+                @class = "input",
+                type = "number",
+                step = "0.01",
+                focusout = "javascript:if(this.value==''){this.value=0}"
+            })
                                                 </div>
 
                                                 <div class="control" id="NR3">
                                                     <label>NR3</label>
                                                     @Html.TextBoxFor(m => m.valorCampoNr3, null, new
-                                                    {
-                                                        @class = "input",
-                                                        type = "number",
-                                                        step = "0.01",
-                                                        focusout = "javascript:if(this.value==''){this.value=0}"
-                                                    })
+            {
+                @class = "input",
+                type = "number",
+                step = "0.01",
+                focusout = "javascript:if(this.value==''){this.value=0}"
+            })
                                                 </div>
 
                                                 <div class="control" id="NR4">
                                                     <label>NR4</label>
                                                     @Html.TextBoxFor(m => m.valorCampoNr4, null, new
-                                                    {
-                                                        @class = "input",
-                                                        type = "number",
-                                                        step = "0.01",
-                                                        focusout = "javascript:if(this.value==''){this.value=0}"
-                                                    })
+            {
+                @class = "input",
+                type = "number",
+                step = "0.01",
+                focusout = "javascript:if(this.value==''){this.value=0}"
+            })
                                                 </div>
 
                                             </div>

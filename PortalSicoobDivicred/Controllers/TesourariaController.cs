@@ -96,6 +96,7 @@ namespace PortalSicoobDivicred.Controllers
             double arqext8 = 0;
             double arqext9 = 0;
             double arqext10 = 0;
+            double arqext11 = 0;
 
             var parser = new OFXDocumentParser();
 
@@ -120,6 +121,7 @@ namespace PortalSicoobDivicred.Controllers
                 Dictionary<string, double> dados1 = new Dictionary<string, double>();
                 Dictionary<string, double> dados2 = new Dictionary<string, double>();
                 Dictionary<string, double> dados3 = new Dictionary<string, double>();
+                Dictionary<string, double> dados4 = new Dictionary<string, double>();
                 int i = 0;
                 while (i < arquivos.Count)
                 {
@@ -216,6 +218,13 @@ namespace PortalSicoobDivicred.Controllers
 
 
                                 }
+                                else
+                                if (historico.Contains("NR DEV ELETR")) {
+                                    arqext11 = arqext11 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                    arqext11 = Math.Round(arqext11, 2);
+                                    TempData["Extrato-NRDEVELETRONICA"] = arqext11;
+
+                                }
                             }
 
                             break;
@@ -287,7 +296,7 @@ namespace PortalSicoobDivicred.Controllers
 
                         case 3:
                             inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
-                            dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha1);
+                            dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
                             TempData["6/192-FINAL"] = (Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]));
 
                             TempData["6/192-FINALB"] = Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]);
@@ -300,6 +309,9 @@ namespace PortalSicoobDivicred.Controllers
 
                         case 4:
                             inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
+                            dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
+                            TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
+
                             break;
 
                         case 5:
@@ -307,7 +319,7 @@ namespace PortalSicoobDivicred.Controllers
                             break;
                     }
                     i++;
-                    if (i == 4)
+                    if (i == 5)
                     {
                         break;
                     }

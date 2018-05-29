@@ -140,74 +140,82 @@ namespace PortalSicoobDivicred.Controllers
                             for (int j = 0; j < transacoes.Count; j++)
                             {
                                 historico = transacoes[j].Memo;
+                                var dataExtrato = transacoes[j].Date;
+                                var dataSelecionada = Convert.ToDateTime(TempData["data"]);
+                                if (dataExtrato == dataSelecionada)
+                                {
 
-                                if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
-                                {
-                                    arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext1 = Math.Round(arqext1, 2);
-                                    TempData["Extrato-3/4/5"] = arqext1;
-                                }
-                                else if (historico.Contains("NICA NOITE") || historico.Contains("SR DEV CONVENCIONAL DIA"))
-                                {
-                                    arqext2 = arqext2 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext2 = Math.Round(arqext2, 2);
-                                    TempData["Extrato-6/192"] = arqext2;
-                                }
-                                else if (historico.Contains("O TED - SPB") || historico.Contains("BITO TED CONTA SAL") || historico.Contains("O TED BANCOOB - SPB") || historico.Contains("O TED BANCOOB MESMA TITULAR"))
-                                {
-                                    arqext3 = arqext3 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext3 = Math.Round(arqext3, 2);
-                                    TempData["Extrato-5472/5473/5474/232/233/234/235"] = arqext3;
-                                }
-                                else if (historico.Contains("DITO TED RECEBIDA -SPB") || historico.Contains("DITO TED BANCOOB RECEBIDA -SPB") || historico.Contains("DITO DEC-CONTA SALARIO") || historico.Contains("SUA REMESSA TEC - ELETR") || historico.Contains("DITO TED CONTA SAL"))
-                                {
-                                    arqext4 = arqext4 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext4 = Math.Round(arqext4, 2);
-                                    TempData["Extrato-821/2/7286/7336/847"] = arqext4;
-                                }
-                                else if (historico.Contains("DEV.TIT.PG.AUTOATENDIMENTO"))
-                                {
-                                    arqext5 = arqext5 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext5 = Math.Round(arqext5, 2);
-                                    TempData["Extrato-7027"] = arqext5;
-                                }
-                                else if (historico.Contains("NRI ELETR") || historico.Contains("NRS ELETR") || historico.Contains("NR CHQ ROUBADO SUP ELETR"))
-                                {
-                                    arqext6 = arqext6 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    TempData["ExtratoCampos"] = Math.Round(arqext6, 2);
-
-                                    Maior = inicio.diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
-                                    TempData["Diferenca7"] = Maior.Split(';')[1];
-                                    TempData["DiferencaTexto7"] = Maior.Split(';')[0];
-                                  
-
-                                }
-                                else if (historico.Contains("A VLB-INF"))
-                                {
-                                    arqext7 = arqext7 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext7 = Math.Round(arqext7, 2);
-                                }
-                                else if (historico.Contains("BITO EMP. - REPES COTAS PARTES CDI")|| historico.Contains("BITO LIQUIDAÇÃO COTAS PARTES"))
-                                {
-                                    arqext8 = arqext8 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext8 = Math.Round(arqext8, 2);
-                                    TempData["Extrato-5761"] = arqext8;
-                                }
-                                else if (historico.Contains("SR DOC ELETR") )
-                                {
-                                    arqext9 = arqext9 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext9 = Math.Round(arqext9, 2);
-                                    TempData["Extrato-820"] = arqext9;
-                                }
-
-                                else if (historico.Contains("NR DOC ELETR"))
-                                {
-                                    arqext10 = arqext10 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                    arqext10 = Math.Round(arqext10, 2);
-                                    TempData["Extrato-257/258"] = arqext10;
-                                }
+                                    if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
+                                    {
 
 
+                                        var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext1 = Math.Round(arqext1, 2);
+                                        TempData["Extrato-3/4/5"] = arqext1;
+                                    }
+                                    else if (historico.Contains("NICA NOITE") || historico.Contains("SR DEV CONVENCIONAL DIA"))
+                                    {
+                                        arqext2 = arqext2 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext2 = Math.Round(arqext2, 2);
+                                        TempData["Extrato-6/192"] = arqext2;
+                                    }
+                                    else if (historico.Contains("O TED - SPB") || historico.Contains("BITO TED CONTA SAL") || historico.Contains("O TED BANCOOB - SPB") || historico.Contains("O TED BANCOOB MESMA TITULAR"))
+                                    {
+                                        arqext3 = arqext3 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext3 = Math.Round(arqext3, 2);
+                                        TempData["Extrato-5472/5473/5474/232/233/234/235"] = arqext3;
+                                    }
+                                    else if (historico.Contains("DITO TED RECEBIDA -SPB") || historico.Contains("DITO TED BANCOOB RECEBIDA -SPB") || historico.Contains("DITO DEC-CONTA SALARIO") || historico.Contains("SUA REMESSA TEC - ELETR") || historico.Contains("DITO TED CONTA SAL"))
+                                    {
+                                        arqext4 = arqext4 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext4 = Math.Round(arqext4, 2);
+                                        TempData["Extrato-821/2/7286/7336/847"] = arqext4;
+                                    }
+                                    else if (historico.Contains("DEV.TIT.PG.AUTOATENDIMENTO"))
+                                    {
+                                        arqext5 = arqext5 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext5 = Math.Round(arqext5, 2);
+                                        TempData["Extrato-7027"] = arqext5;
+                                    }
+                                    else if (historico.Contains("NRI ELETR") || historico.Contains("NRS ELETR") || historico.Contains("NR CHQ ROUBADO SUP ELETR"))
+                                    {
+                                        arqext6 = arqext6 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        TempData["ExtratoCampos"] = Math.Round(arqext6, 2);
+
+                                        Maior = inicio.diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
+                                        TempData["Diferenca7"] = Maior.Split(';')[1];
+                                        TempData["DiferencaTexto7"] = Maior.Split(';')[0];
+
+
+                                    }
+                                    else if (historico.Contains("A VLB-INF"))
+                                    {
+                                        arqext7 = arqext7 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext7 = Math.Round(arqext7, 2);
+                                    }
+                                    else if (historico.Contains("BITO EMP. - REPES COTAS PARTES CDI") || historico.Contains("BITO LIQUIDAÇÃO COTAS PARTES"))
+                                    {
+                                        arqext8 = arqext8 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext8 = Math.Round(arqext8, 2);
+                                        TempData["Extrato-5761"] = arqext8;
+                                    }
+                                    else if (historico.Contains("SR DOC ELETR"))
+                                    {
+                                        arqext9 = arqext9 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext9 = Math.Round(arqext9, 2);
+                                        TempData["Extrato-820"] = arqext9;
+                                    }
+
+                                    else if (historico.Contains("NR DOC ELETR"))
+                                    {
+                                        arqext10 = arqext10 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                        arqext10 = Math.Round(arqext10, 2);
+                                        TempData["Extrato-257/258"] = arqext10;
+                                    }
+
+
+                                }
                             }
 
                             break;

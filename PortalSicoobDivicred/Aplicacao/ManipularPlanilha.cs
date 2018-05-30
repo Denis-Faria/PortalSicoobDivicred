@@ -225,12 +225,13 @@ namespace PortalSicoobDivicred.Controllers
                     break;
 
                 case "4":
-                    for (j = inicio; j < output.Tables[0].Rows.Count; j++)
+                    for (j = inicio -1; j < output.Tables[0].Rows.Count; j++)
                     {
                         try
                         {
                             if (output.Tables[0].Rows[j]["F23"].ToString().Length>0)
                             {
+                                double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F28"]));
                                 valorArq12 = Math.Round(valorArq12 + Convert.ToDouble((output.Tables[0].Rows[j]["F28"])), 2);
 
                             }

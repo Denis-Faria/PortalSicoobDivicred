@@ -223,7 +223,7 @@ namespace PortalSicoobDivicred.Models
         public string PaisDivorciados { get; set; }
 
         [Required(ErrorMessage = "Favor informar o ano de seu primeiro emprego!")]
-        [MaxLength(2, ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
+        [MaxLength(4, ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string AnoPrimeiroEmprego { get; set; }
 
@@ -253,5 +253,13 @@ namespace PortalSicoobDivicred.Models
 
 
         public string MultiploComentario { get; set; }
+
+
+        [Required(ErrorMessage = "Favor informar se você deseja contribuir com o sindicato!")]
+        public string ContribuicaoSindical { get; set; }
+
+
+        [Required(ErrorMessage = "Favor informar o orgão emissor de seu RG!")]
+        public string NotificacaoEmail { get; set; }
     }
 }

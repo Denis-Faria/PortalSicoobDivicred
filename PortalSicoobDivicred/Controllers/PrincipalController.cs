@@ -292,7 +292,7 @@ namespace PortalSicoobDivicred.Controllers
                     var Cookie = Request.Cookies.Get("CookieFarm");
                     var Login = Criptografa.Descriptografar(Cookie.Value);
 
-                    var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(Login);
+                    var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin(Login);
                     var DadosTabelaFuncionario =
                         VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
 
@@ -324,9 +324,6 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"]);
 
 
-
-
-
                     VerificaDados.AtualizaDadosFuncionarioFormulario(DadosFuncionario.NomeFuncionario,
                         DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                         DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,
@@ -352,9 +349,10 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
                         DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                         DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
-                        DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf);
+                        DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf,
+                        DadosFuncionario.NotificacaoEmail,DadosFuncionario.ContribuicaoSindical);
 
-                    if (DadosFuncionario.MultiploNomeEmpresa == null)
+                    if (DadosFuncionario.MultiploNomeEmpresa != "" )
                     {
                         VerificaDados.InserirVinculoEmpregaticio(DadosTabelaFuncionario[0]["id"],
                             DadosFuncionario.MultiploNomeEmpresa, DadosFuncionario.MultiploCnpj,

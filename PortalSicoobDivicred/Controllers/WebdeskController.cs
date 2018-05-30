@@ -42,7 +42,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamados"] = ChamadosEmAberto.Count;
                 for (var i = 0; i < ChamadosEmAberto.Count; i++)
                 {
-                    if (ChamadosEmAberto[i]["cpf"] != null)
+                    if (ChamadosEmAberto[i]["cpf"] != "")
                         TempData["Titulo" + i] =
                             ChamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + ChamadosEmAberto[i]["cpf"];
                     else
@@ -80,7 +80,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosOperador"] = ChamadosOperador.Count;
                 for (var i = 0; i < ChamadosOperador.Count; i++)
                 {
-                    if (ChamadosOperador[i]["cpf"] != null)
+                    if (ChamadosOperador[i]["cpf"] != "")
                         TempData["TituloOperador" + i] =
                             ChamadosOperador[i]["titulo"] + " CPF/CNPJ: " + ChamadosOperador[i]["cpf"];
                     else
@@ -111,7 +111,7 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalChamadosSetor"] = ChamadosSetor.Count;
                 for (var i = 0; i < ChamadosSetor.Count; i++)
                 {
-                    if (ChamadosSetor[i]["cpf"] != null)
+                    if (ChamadosSetor[i]["cpf"] != "")
                         TempData["TituloSetor" + i] =
                             ChamadosSetor[i]["titulo"] + " CPF/CNPJ: " + ChamadosSetor[i]["cpf"];
                     else
@@ -175,9 +175,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoCurriculo"] = "display: none";
 
 
-                var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"]);
+                var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"],DadosUsuarios[0]["idsetor"]);
 
-                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"]);
+                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"],DadosFuncionarios[0]["idsetor"]);
 
                 TempData["TotalResultado"] = ResultadoPEsquisa.Count;
                 TempData["TotalResultadoNovo"] = ResultadoPesquisaNova.Count;
@@ -239,7 +239,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                 var IdInteracao = "";
-                if (Dados.AllKeys.Contains("CpfAbertura"))
+                if (Dados["CpfAbertura"]!="")
                     IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"],
                         Dados["IdFuncionarioResponsavel"],
                         Dados["Descricao"], DadosUsuario[0]["id"], Dados["CpfAbertura"]);

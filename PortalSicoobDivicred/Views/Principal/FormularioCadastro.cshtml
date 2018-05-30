@@ -890,6 +890,35 @@
                             @Html.TextBoxFor(m => m.Viagem, null, new { @class = "input" })
                             @Html.ValidationMessageFor(m => m.Viagem, null, new { style = "color:red" })
                         </div>
+                        
+                        <div class="control column is-6">
+                            <label class="label">Você deseja contribuir com o sindicato ?</label>
+                            <div class="field">
+                                @Html.RadioButtonFor(m => m.ContribuicaoSindical, "Sim", new { @class = "is-checkradio is-small", id = "checksindicalsim" })
+                                <label for="checksindicalsim">
+                                    Sim
+                                </label>
+                                @Html.RadioButtonFor(m => m.ContribuicaoSindical, "Não", new { @class = "is-checkradio is-small", id = "checksindicalnao" })
+                                <label for="checksindicalnao">
+                                    Não
+                                </label>
+                                @Html.ValidationMessageFor(m => m.ContribuicaoSindical, null, new { style = "color:red" })
+                            </div>
+                        </div>
+                        <div class="control column is-6">
+                            <label class="label">Você deseja receber notificações do Portal Sicoob Divicred via e-mail ?</label>
+                            <div class="field">
+                                @Html.RadioButtonFor(m => m.NotificacaoEmail, "Sim", new { @class = "is-checkradio is-small", id = "checknotificacaosim" })
+                                <label for="checknotificacaosim">
+                                    Sim
+                                </label>
+                                @Html.RadioButtonFor(m => m.NotificacaoEmail, "Não", new { @class = "is-checkradio is-small", id = "checknotificacaonao" })
+                                <label for="checknotificacaonao">
+                                    Não
+                                </label>
+                                @Html.ValidationMessageFor(m => m.NotificacaoEmail, null, new { style = "color:red" })
+                            </div>
+                        </div>
 
                         <br />
 

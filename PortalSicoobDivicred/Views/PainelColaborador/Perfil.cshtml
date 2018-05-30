@@ -231,7 +231,7 @@
                     <div class="control is-2 ">
                         <label class="label">Setor</label>
                         <div class="select  is-fullwidth">
-                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new {id = "Setor"})
+                            @Html.DropDownListFor(m => m.IdSetor, new SelectList(Model.Setor, "Value", "Text"), "SELECIONE O SEU SETOR", new { id = "Setor" })
                             @if (Convert.ToInt32(TempData["IdSetor"].ToString()) > 0)
                             {
                                 @Html.Label("")
@@ -267,8 +267,8 @@
 
                         <label class="label">Função</label>
                         <div class="select  is-fullwidth">
-                            @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new {id = "Funcao", onchange = "BuscaCertificacao(this)"})
-                            @Html.ValidationMessageFor(m => m.Funcao, null, new {style = "color:red"})
+                            @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
+                            @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
                             @if (Convert.ToInt32(TempData["IdFuncao"].ToString()) > 0)
                             {
                                 @Html.Label("")
@@ -299,43 +299,241 @@
                             }
                         </div>
                     </div>
-
-                </div>
-                <div class="content">
-                    <blockquote id="Certificacoes">
+                    
+                    <blockquote id="Certificacoes" hidden>
                         <b>Certificações Obrigatórias</b>
-                        <div id="ConteudoCertificacao">
-                            <ul>
+                        <div id="Conteudo">
 
-                                @for (var i = 0; i < Convert.ToInt32(TempData["TotalCertificacoes"]); i++)
-                                {
-                                    <li>
-                                        <p>@TempData["Certificacao" + i].ToString()</p>
-                                    </li>
-                                }
-                            </ul>
                         </div>
-                        <br/>
+                        <br />
                         <label class="checkbox">
-                            <input type="checkbox" @TempData["ConfirmaCertificacao"] id="ConfirmaCertificacoes" name="ConfirmaCertificacoes">
+                            <input type="checkbox" id="ConfirmacaoCertificacao" name="ConfirmacaoCertificacao">
                             Possuo todas as certificações acima.
                         </label>
                     </blockquote>
-
-                    <hr/>
                     <div class="field">
                         <blockquote>
                             <p>
                                 <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
                             </p>
                             <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
-                            <br/>
+                            <br />
                             <b>Anuênio: R$@TempData["Anuenio"]</b>
-                            <br/>
+                            <br />
                             <b>Ticket: R$@TempData["Ticket"]</b>
-                            <br/>
+                            <br />
                         </blockquote>
                     </div>
+                    <hr />
+
+                </div>
+                <div class="field is-grouped column">
+                    <div class="control column is-4 is-expanded">
+                        <label class="label">N° Matricula</label>
+                        @Html.TextBoxFor(m => m.Matricula, null, new { @class = "input", placeholder = "Ex: 000168" })
+                        @Html.ValidationMessageFor(m => m.Matricula, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-4 is-expanded">
+                        <label class="label">N° CTPS</label>
+                        @Html.TextBoxFor(m => m.NumeroCTPS, null, new { @class = "input", placeholder = "Ex: 9999999" })
+                        @Html.ValidationMessageFor(m => m.NumeroCTPS, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-4 is-expanded">
+                        <label class="label">Serie CTPS</label>
+                        @Html.TextBoxFor(m => m.SerieCTPS, null, new { @class = "input", placeholder = "Ex: 0000" })
+                        @Html.ValidationMessageFor(m => m.SerieCTPS, null, new { style = "color:red" })
+                    </div>
+                </div>
+                <div class="field is-grouped column">
+                    <div class="control column is-4">
+                        <label class="label">Estado de expedição CTPS</label>
+                        @Html.TextBoxFor(m => m.UfCTPS, null, new { @class = "input", placeholder = "Ex: 0000" })
+                        @Html.ValidationMessageFor(m => m.UfCTPS, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-4">
+                        <label class="label">Data de expedição CTPS</label>
+                        @Html.TextBoxFor(m => m.EmissaoCtps, null, new { @class = "input", placeholder = "Ex: 99/99/9999", id = "EmissaoCtps" })
+                        @Html.ValidationMessageFor(m => m.EmissaoCtps, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-4">
+                        <label class="label">Ano do primeiro emprego</label>
+                        @Html.TextBoxFor(m => m.AnoPrimeiroEmprego, null, new { @class = "input", placeholder = "Ex: 2010" })
+                        @Html.ValidationMessageFor(m => m.AnoPrimeiroEmprego, null, new { style = "color:red" })
+                    </div>
+                </div>
+                <hr />
+                <div class="field is-grouped column">
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">Tipo Conta</label>
+                        <div class="select">
+                            @Html.DropDownListFor(m => m.IdTipoConta, new SelectList(Model.Conta, "Value", "Text"), "SELECIONE O  TIPO DE CONTA")
+                            @Html.ValidationMessageFor(m => m.IdTipoConta, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">Código Banco</label>
+                        @Html.TextBoxFor(m => m.CodigoBanco, null, new { @class = "input", placeholder = "Ex: 756" })
+                        @Html.ValidationMessageFor(m => m.CodigoBanco, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-3 is-expanded">
+                        <label class="label">Agência</label>
+                        @Html.TextBoxFor(m => m.Agencia, null, new { @class = "input", placeholder = "Ex: 4030" })
+                        @Html.ValidationMessageFor(m => m.Agencia, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-3">
+                        <label class="label">Conta Corrente</label>
+                        @Html.TextBoxFor(m => m.ContaCorrente, null, new { @class = "input", placeholder = "Ex: 99.999-9" })
+                        @Html.ValidationMessageFor(m => m.ContaCorrente, null, new { style = "color:red" })
+                    </div>
+                </div>
+                <hr />
+
+                <div class="field">
+                    <div class="title is-4 is-vertical is-parent">
+                        <h2 class="title is-4">Dependentes</h2>
+                    </div>
+                    <div class="field">
+                        <input type="checkbox" value="1" name="check1" id="check1" class="is-checkradio is-small  has-background-color">
+                        <label for="check1">
+                            CÔNJUGE OU COMPANHEIRO (A) COM O (A) QUAL TENHA FILHO OU VIVA A MAIS DE 5(CINCO) ANOS
+                        </label>
+                        <br />
+                        <input type="checkbox" value="2" name="check2" id="check2" class="is-checkradio is-small  has-background-color">
+                        <label for="check2">
+                            FILHO (A) OU ENTEADO (A) ATÉ 21 (VINTE E UM) ANOS
+                        </label>
+                        <br />
+
+                        <input type="checkbox" value="3" name="check3" id="check3" class="is-checkradio is-small  has-background-color">
+                        <label for="check3">
+                            FILHO (A) OU ENTEADO (A) UNIVERSITÁRIO (A) OU CURSANDO ESCOLA TÉCNICA DE 2º GRAU, ATÉ 24 (VINTE E QUATRO) ANOS
+                        </label>
+                        <br />
+
+                        <input type="checkbox" value="4" id="check4" name="check4" class="is-checkradio is-small  has-background-color">
+                        <label for="check4">
+                            FILHO (A) OU ENTEADO (A) EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
+                        </label>
+                        <br />
+
+                        <input type="checkbox" value="5" id="check5" name="check5" class="is-checkradio is-small  has-background-color">
+                        <label for="check5">
+                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, ATÉ 21 (VINTE UM) ANOS
+                        </label>
+                        <br />
+
+                        <input type="checkbox" value="6" id="check6" name="check6" class="is-checkradio is-small  has-background-color">
+                        <label for="check6">
+                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS,COM IDADE ATÉ 24 ANOS, SE AINDA ESTIVER CURSANDO ESTABELECIMENTO DE NÍVEL SUPERIOR OU ESCOLA TÉCNICA DE 2º GRAU, DESDE QUE TENHA DETIDO SUA GUARDA JUDICIAL ATÉ OS 21 ANOS
+                        </label>
+                        <br />
+
+                        <input type="checkbox" value="7" id="check7" name="check7" class="is-checkradio is-small  has-background-color">
+                        <label for="check7">
+                            IRMÃO (A), NETO (A) OU BISNETO (A) SEM ARRIMO DOS PAIS, DO (A) QUAL DETENHA A GUARDA JUDICIAL, EM QUALQUER IDADE, QUANDO INCAPACITADO FÍSICA E/OU MENTALMENTE PARA O TRABALHO
+
+                        </label>
+                        <br />
+
+                        <input type="checkbox" id="check8" value="8" name="check8" class="is-checkradio is-small  has-background-color">
+                        <label for="check8">
+                            PAIS,AVÓS E BISAVÓS
+                        </label>
+                        <br />
+
+                        <input type="checkbox" id="check9" value="9" name="check9" class="is-checkradio is-small  has-background-color">
+                        <label for="check9">
+                            MENOR POBRE, ATÉ 21 (VINTE E UM ANOS), QUE CRIE E EDUQUE E DO QUAL DETENHA A GUARDA JUDICIAL
+                        </label>
+                        <br />
+
+                        <input type="checkbox" id="check10" value="10" name="check10" class="is-checkradio is-small  has-background-color">
+                        <label for="check10">
+                            A PESSOA ABSOLUTAMENTE INCAPAZ, DA QUAL SEJA TUTOR OU CURADOR
+                        </label>
+                    </div>
+                    <br />
+                    <div class="control  is-fullwidth  is-expanded">
+                        <label class="label">Nome dos dependentes junto com CPF:</label>
+                        @Html.TextAreaFor(m => m.DadosDependentes, new { @class = "textarea", placeholder = "Ex: Descrição de alguma deficiência não citada acima" })
+                        @Html.ValidationMessageFor(m => m.DadosDependentes, null, new { style = "color:red" })
+                    </div>
+                    <div class="control column is-6  is-expanded">
+                        <label class="label">Algum dos dependentes citados acima são para fins de IRRF?</label>
+                        <div class="field">
+                            @Html.RadioButtonFor(m => m.DependenteIrrf, "Sim", new { @class = "is-checkradio is-small", id = "checkirrfsim" })
+                            <label for="checkirrfsim">
+                                Sim
+                            </label>
+                            @Html.RadioButtonFor(m => m.DependenteIrrf, "Não", new { @class = "is-checkradio is-small", id = "checkirrfnao" })
+                            <label for="checkirrfnao">
+                                Não
+                            </label>
+                            @Html.ValidationMessageFor(m => m.DependenteIrrf, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                    <div class="control is-fullwidth  is-expanded">
+                        <label class="label">Informe os CPF e nome dos dependentes para fins de IRRF. Caso não tenha nenhum informe abaixo.</label>
+                        @Html.TextAreaFor(m => m.CpfIrrf, new { @class = "textarea", placeholder = "Ex: CPF - NOME" })
+                        @Html.ValidationMessageFor(m => m.CpfIrrf, null, new { style = "color:red" })
+
+                    </div>
+
+                    <div class="control column is-6  is-expanded">
+                        <label class="label">Algum dos dependentes citados acima são para fins de salário-família?</label>
+                        <div class="field">
+                            @Html.RadioButtonFor(m => m.DependenteFamilia, "Sim", new { @class = "is-checkradio is-small", id = "checkfamiliasim" })
+                            <label for="checkfamiliasim">
+                                Sim
+                            </label>
+                            @Html.RadioButtonFor(m => m.DependenteFamilia, "Não", new { @class = "is-checkradio is-small", id = "checkfamilianao" })
+                            <label for="checkfamilianao">
+                                Não
+                            </label>
+                            @Html.ValidationMessageFor(m => m.DependenteFamilia, null, new { style = "color:red" })
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <a class="tag is-primary is-rounded is-medium" id="Mostra" href="javascript:OutroVinculo();void(0);">Adicionar Outro Vinculo Empregatício</a>
+                    <div id="VinculoExtra">
+
+                    </div>
+                </div>
+                <hr />
+
+                <div>
+                    <article class="message  is-primary">
+                        <div class="message-body">
+                            <h2 class="title is-5 has-text-centered">
+                                DECLARAÇÃO
+                            </h2>
+                            <div class="container content">
+                                <p>
+                                    Declaro para os devidos fins que as informações constantes desse formulário são fieis à verdade e condizentes com a realidade dos fatos à época.
+                                </p>
+                                <p>
+                                    Declaro que todas as informações mencionadas nesse formulário foram extraídas dos documentos são da minha inteira responsabilidade.
+                                </p>
+                                <p>
+                                    Além disso, fui informado que se houver qualquer alteração nesta Declaração, a mesma deverá ser modificada junto ao Departamento de Recursos Humanos.
+                                </p>
+                                <p>
+                                    Por fim, fico ciente que através desse documento a falsidade das informações configura crime previsto no Código Penal Brasileiro e passível de apuração na forma da Lei.
+                                </p>
+                                <p>
+                                    Nada mais a declarar, e ciente das responsabilidades pelas declarações prestadas, firmo a presente.
+                                </p>
+                                <div class="control">
+                                    <input type="checkbox" id="ConfirmacaoDados" name="ConfirmacaoDados" class="is-checkradio has-background-color " required>
+                                    <label for="ConfirmacaoDados">
+                                        <strong> Eu aceito e estou ciente de todos os termos citados acima.</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
             <footer class="card-footer">

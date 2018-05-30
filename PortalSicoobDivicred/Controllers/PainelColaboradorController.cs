@@ -95,6 +95,7 @@ namespace PortalSicoobDivicred.Controllers
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
 
                 var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                var TipoConta = VerificaDados.RetornaTipoConta();
                 var Sexo = VerificaDados.RetornaSexo();
                 var Etnia = VerificaDados.RetornaEtnia();
                 var Formacao = VerificaDados.RetornaFormacao();
@@ -107,6 +108,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Formacao = Formacao;
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
+                DadosFuncionario.Conta = TipoConta;
 
 
                 TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];

@@ -23,22 +23,22 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public List<Dictionary<string, string>> BuscaChamadosMeuSetor(string Pesquisa, string IdUsuario)
+        public List<Dictionary<string, string>> BuscaChamadosMeuSetor(string Pesquisa, string IdUsuario,string IdSetor)
         {
             var Query =
                 "SELECT distinct a.id,a.titulochamado,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdeskchamados a LEFT JOIN usuarios u1 on a.idusuariocadastro=u1.id LEFT JOIN usuarios u2 on a.idoperador=u2.id, webdeskinteracoes b where  b.idchamado=a.id and(MATCH (b.textointeracao) AGAINST ('" +
-                Pesquisa + "')  or a.id=" + Pesquisa + ") and b.idusuariointeracao=" + IdUsuario + "";
+                Pesquisa + "')  or a.id='" + Pesquisa + "') and b.idusuariointeracao=" + IdUsuario + " and a.idsetor='"+IdSetor+"'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
 
 
-        public List<Dictionary<string, string>> BuscaChamadosMeuSetorNovo(string Pesquisa, string IdUsuario)
+        public List<Dictionary<string, string>> BuscaChamadosMeuSetorNovo(string Pesquisa, string IdUsuario,string IdSetor)
         {
             var Query =
                 "SELECT distinct a.id,c.descricao as titulo,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id LEFT JOIN funcionarios u2 on a.idfuncionarioresponsavel=u2.id, webdeskinteracoessolicitacoes b,webdeskcategorias c where  b.idsolicitacao=a.id and(MATCH (b.textointeracao) AGAINST ('" +
-                Pesquisa + "')) and b.idfuncionariointeracao=" + IdUsuario + " AND a.idcategoria=c.id AND  a.id=" +
-                Pesquisa + "";
+                Pesquisa + "')) and b.idfuncionariointeracao=" + IdUsuario + " AND a.idcategoria=c.id AND  a.id='" +
+                Pesquisa + "' and a.idsetor='"+IdSetor+"'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }

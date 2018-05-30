@@ -177,6 +177,15 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return Dados;
         }
+        public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionariosLogin(string Login)
+        {
+            var Query =
+                "SELECT * FROM funcionarios where login='" + Login + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+
+            return Dados;
+        }
 
         public List<Dictionary<string, string>> RecuperaDadosFuncionariosTabelaFuncionariosPerfil(string UsuarioSistema)
         {
@@ -485,7 +494,8 @@ namespace PortalSicoobDivicred.Aplicacao
             string Oc,string OrgaoOc,DateTime DataExpedicaoOc,DateTime DataValidadeOc,string DeficienteMotor,string DeficienteVisual,
             string DeficienteAuditivo,string Reabilitado,string ObservacaoDeficiente,int IdTipoConta,string CodigoBanco,string Agencia,
             string ContaCorrente,string DependenteIrrf,string DependenteFamilia,string DadosDependentes,string TipoDependentes,string Matricula,
-            string PrimeiroEmprego, string EmissaoCtps,string Divorcio,string OrgaoEmissorRg,DateTime DataEmissaoRg,string CpfIrrf)
+            string PrimeiroEmprego, string EmissaoCtps,string Divorcio,string OrgaoEmissorRg,DateTime DataEmissaoRg,string CpfIrrf,
+            string NotificacaoEmail,string ContribuicaoSindical)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -512,10 +522,11 @@ namespace PortalSicoobDivicred.Aplicacao
                                            "oc='"+Oc+"',orgaoemissoroc='"+OrgaoOc+ "',dataexpedicaooc='" + DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
                                            ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "',deficientemotor='"+DeficienteMotor+"',deficientevisual='"+DeficienteVisual+"'" +
                                            ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"', idtipoconta="+IdTipoConta+"," +
-                                           "codigobanco="+CodigoBanco+",agencia='"+Agencia+"',contacorrente='"+ContaCorrente+"', informacaodependente='"+DadosDependentes+"',dependenteirrf='"+DependenteIrrf+"'," +
+                                           "codigobanco="+CodigoBanco+",agencia='"+Agencia+"',contacorrente='"+ContaCorrente+"', informacaodependente='"+DadosDependentes+ "',dependenteirrpf='" + DependenteIrrf+"'," +
                                            "dependentesalariofamilia='"+DependenteFamilia+"',tipodependente='"+TipoDependentes+"',matricula='"+Matricula+"',anoprimeiroemprego='"+PrimeiroEmprego+"'," +
-                                           "dataemissaoctps='"+EmissaoCtps+"',paisdivorciado='"+Divorcio+ "'," +
-                                           " dataemissaorg='" + DataEmissaoRg.Date.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "', cpfirrf='" + CpfIrrf + "'" +
+                                           "dataemissaoctps='"+Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd")+"',paisdivorciado='"+Divorcio+ "'," +
+                                           " dataemissaorg='" + DataEmissaoRg.Date.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "', cpfirrf='" + CpfIrrf + "'," +
+                                           "contribuicaosindical='"+ContribuicaoSindical+"',notificacaoemail='"+NotificacaoEmail+"'" +
                                            " WHERE login='" + UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }

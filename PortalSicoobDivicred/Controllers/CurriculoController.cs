@@ -434,16 +434,23 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["NomeVaga" + i] = DadosProcessosSeletivos[i]["nomevaga"];
                         TempData["IdVaga" + i] = DadosProcessosSeletivos[i]["idvaga"];
                         TempData["Escrita" + i] = DadosProcessosSeletivos[i]["prova"];
-                        if (Convert.ToDecimal(DadosProcessosSeletivos[i]["prova"].Replace(",", ".")) >= 60)
+                        try
                         {
-                            TempData["CorEscrita" + i] = "green";
+                            if (Convert.ToDecimal(DadosProcessosSeletivos[i]["prova"].Replace(",", ".")) >= 60)
+                            {
+                                TempData["CorEscrita" + i] = "green";
+                            }
+                            else
+                            {
+                                TempData["CorEscrita" + i] = "red";
+                                TempData["Aprovado" + i] = "red";
+                            }
                         }
-                        else
+                        catch
                         {
                             TempData["CorEscrita" + i] = "red";
                             TempData["Aprovado" + i] = "red";
                         }
-
                         TempData["Psicologico" + i] = DadosProcessosSeletivos[i]["psicologico"];
                         try
                         {

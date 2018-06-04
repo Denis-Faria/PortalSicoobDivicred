@@ -111,6 +111,13 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosCurriculos;
         }
+        public List<Dictionary<string, string>> RecuperaVinculoExtra(string IdFuncionario)
+        {
+            var Query =
+                "SELECT * FROM vinculosempregaticiosfuncionarios WHERE idfuncionario="+IdFuncionario+"";
+            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return DadosCurriculos;
+        }
 
         public void InserirFormacao(string Formacao, string IdFuncionario)
         {
@@ -540,10 +547,23 @@ namespace PortalSicoobDivicred.Aplicacao
 
             ConexaoMysql.ExecutaComando(QueryInserirVinculo);
         }
+        public void AtualizaVinculoEmpregaticio(string IdFuncionario, string NomeEmpresa, string Cnpj,
+            string Remuneracao, string Comentario)
+        {
+            var QueryInserirVinculo =
+                "UPDATE vinculosempregaticiosfuncionarios set nomeempresa='" + NomeEmpresa + "',cnpj='" + Cnpj + "',remuneracao='" + Remuneracao + "',comentario='" + Comentario + "' WHERE idfuncionario="+IdFuncionario+"";
+
+            ConexaoMysql.ExecutaComando(QueryInserirVinculo);
+        }
         public void AtualizaDadosFuncionarioDadosPessoais(string Nome, string Cpf, string Rg, string Pis,
             string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
             string Formacao, string FormacaoAcademica, string UsuarioSistema, string Email, string PA, string Rua,
-            string Numero, string Bairro, string Cidade, string ConfirmaDados)
+            string Numero, string Bairro, string Cidade, string ConfirmaDados,      string Nacionalidade,string NomeMae,
+            string NomePai, string LocalNascimento, string UfNascimento, string Complemento, string Cep, string Pais, 
+            string ResidenciaPropria, string RecursoFgts, string TelefoneFixo, string TelefoneCelular,string EmailSecundario, 
+            string Cnh, string OrgaoEmissorCnh, DateTime DataExpedicaoDocumentoCnh, DateTime DataValidadeCnh, string Oc, string OrgaoEmissorOc, 
+            DateTime DataExpedicaoOc, DateTime DataValidadeOc, string DeficienteMotor, string DeficienteVisual, string DeficienteAuditivo,
+            string Reabilitado, string ObservacaoDeficiente, string PaisDivorciados, string OrgaoEmissorRg, DateTime DataExpedicaoDocumentoRg)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -553,15 +573,32 @@ namespace PortalSicoobDivicred.Aplicacao
                                            Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
                                            UsuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
                                            Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
-                                           Cidade + "', confirmacaodado='" + ConfirmaDados + "' WHERE login='" +
-                                           UsuarioSistema + "'";
+                                           Cidade + "', confirmacaodado='" + ConfirmaDados + "',nacionalidade='"+Nacionalidade+"'," +
+                                           "nomemae='"+NomeMae+"',nomepai='"+NomePai+"',localnascimento='"+LocalNascimento+"'" +
+                                           ",ufnascimento='"+UfNascimento+"',complemento='"+Complemento+"',cep='"+Cep+"'" +
+                                           ",pais='"+Pais+"',residenciapropria='"+ResidenciaPropria+"',recursofgts='"+RecursoFgts+"'" +
+                                           ",telefonefixo='"+TelefoneFixo+"'" +",telefonecelular='"+TelefoneCelular+"',emailsecundario='"+EmailSecundario+"'" +
+                                           ",cnh='"+Cnh+"',orgaoemissorcnh='"+OrgaoEmissorCnh+"'" +
+                                           ",dataexpedicaocnh='"+DataExpedicaoDocumentoCnh.ToString("yyyy/MM/dd")+"',datavalidadecnh='"+DataValidadeCnh.ToString("yyyy/MM/dd")+"'," +
+                                           "oc='"+Oc+"',orgaoemissoroc='"+OrgaoEmissorOc+ "',dataexpedicaooc='" + DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
+                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "',deficientemotor='"+DeficienteMotor+"',deficientevisual='"+DeficienteVisual+"'" +
+                                           ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"'"+
+                                           ",paisdivorciado='"+PaisDivorciados+ "', dataemissaorg='" + DataExpedicaoDocumentoRg.Date.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "'" +
+                                           "  WHERE login='"+UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
-        public void AtualizaDadosFuncionarioProfissional(string Setor, string Funcao, string UsuarioSistema)
+        public void AtualizaDadosFuncionarioProfissional(string Setor, string Funcao, string UsuarioSistema, string NumeroCTPS,
+            string SerieCTPS, string UfCTPS, int IdTipoConta, string CodigoBanco,
+            string Agencia, string ContaCorrente, string DependenteIrrf, string DependenteFamilia,
+            string DadosDependentes, string TiposDependentes, string Matricula, string AnoPrimeiroEmprego, string EmissaoCtps,
+            string CpfIrrf)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +
-                                           "' WHERE login='" + UsuarioSistema + "'";
+                                           "',numeroctps='" + NumeroCTPS + "',seriectps='" + SerieCTPS + "',ufctps='" + UfCTPS + "', idtipoconta=" + IdTipoConta + "," +
+                                           "codigobanco=" + CodigoBanco + ",agencia='" + Agencia + "',contacorrente='" + ContaCorrente + "', informacaodependente='" + DadosDependentes + "',dependenteirrpf='" + DependenteIrrf + "'," +
+                                           "dependentesalariofamilia='" + DependenteFamilia + "',tipodependente='" + TiposDependentes + "',matricula='" + Matricula + "'" +
+                                           ",anoprimeiroemprego='" + AnoPrimeiroEmprego + "', dataemissaoctps='" + Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd") + "', cpfirrf='" + CpfIrrf + "' WHERE login='" + UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
@@ -574,14 +611,14 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public void AtualizaDadosFuncionarioPerguntas(string UsuarioSistema, string QuatidadeFilhos,
             string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem)
+            string Viagem,string Sindicato,string Email)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET quantidadefilho='" + QuatidadeFilhos +
                                            "',datanascimentofilho='" +
                                            DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
                                            "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
                                            ComidaFavorita + "',viagem='" + Viagem +
-                                           "', perfilcompleto='S' WHERE login='" + UsuarioSistema + "'";
+                                           "', perfilcompleto='S',contribuicaosindical = '"+Sindicato+"',notificacaoemail = '"+Email+"' WHERE login='" + UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 

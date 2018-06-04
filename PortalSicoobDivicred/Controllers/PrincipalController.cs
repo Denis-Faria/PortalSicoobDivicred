@@ -175,6 +175,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
                 DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
 
+
                 var EstadoCivil = VerificaDados.RetornaEstadoCivil();
                 var TipoConta = VerificaDados.RetornaTipoConta();
                 var Sexo = VerificaDados.RetornaSexo();
@@ -227,7 +228,7 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     try
                     {
-                        if (Formulario["Check" + i].Equals("on"))
+                        if (Formulario["check" + i].Equals("true"))
                         {
                             TiposDependentes = TiposDependentes + i + ";";
                         }
@@ -352,7 +353,7 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf,
                         DadosFuncionario.NotificacaoEmail,DadosFuncionario.ContribuicaoSindical);
 
-                    if (DadosFuncionario.MultiploNomeEmpresa != "" )
+                    if (DadosFuncionario.MultiploNomeEmpresa != null )
                     {
                         VerificaDados.InserirVinculoEmpregaticio(DadosTabelaFuncionario[0]["id"],
                             DadosFuncionario.MultiploNomeEmpresa, DadosFuncionario.MultiploCnpj,

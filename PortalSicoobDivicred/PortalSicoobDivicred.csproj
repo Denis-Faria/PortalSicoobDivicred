@@ -540,6 +540,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aplicacao\Conexao.cs" />
+    <Compile Include="Aplicacao\EnviodeAlertas.cs" />
     <Compile Include="Aplicacao\QueryMysqTesouraria .cs" />
     <Compile Include="Aplicacao\QueryMysql.cs" />
     <Compile Include="Aplicacao\QueryMysqlCurriculo.cs" />

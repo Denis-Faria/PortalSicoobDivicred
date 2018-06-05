@@ -16,14 +16,7 @@
     });
 </script>
 <script>
-    function acrescentarLinhas(mostrar) {
-        $(tabelaDados).show();
-        $(botoes).show();
-    }
-
-    $(document).ready(function () {
-        $("#justificativa").html("teste");
-    });
+ 
 </script>
 
 
@@ -161,6 +154,36 @@
                             @TempData["diferenca7"]
                         </td>
                     </tr>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico8"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato8"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos8"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca8"]
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["historico9"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["extrato9"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["arquivos9"]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["diferenca9"]
+                        </td>
+                    </tr>
                 </table>
             </div>
         }
@@ -179,10 +202,7 @@
             <div id="botoes">
                 <p class="control" style="left:40%">
                     <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
-
-
                         <span>Salvar</span>
-
                     </button>
                 </p>
             </div>

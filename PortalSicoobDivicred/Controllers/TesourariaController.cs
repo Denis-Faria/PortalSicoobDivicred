@@ -17,10 +17,11 @@ namespace PortalSicoobDivicred.Controllers
     {
         private DataSet mDataSet;
         // GET: Tesouraria
-        public ActionResult Tesouraria(string MensagemValidacao)
+        public ActionResult Tesouraria(string MensagemValidacao,string Erro)
         {
 
             TempData["MensagemValidacao"] = MensagemValidacao;
+            TempData["Erro"] = Erro;
             var insereDados = new QueryMysql();
             var Logado = insereDados.UsuarioLogado();
             if (Logado)
@@ -122,6 +123,7 @@ namespace PortalSicoobDivicred.Controllers
                 Dictionary<string, double> dados2 = new Dictionary<string, double>();
                 Dictionary<string, double> dados3 = new Dictionary<string, double>();
                 Dictionary<string, double> dados4 = new Dictionary<string, double>();
+                Dictionary<string, double> dados5 = new Dictionary<string, double>();
                 int i = 0;
                 while (i < arquivos.Count)
                 {
@@ -258,7 +260,7 @@ namespace PortalSicoobDivicred.Controllers
                             Maior = inicio.diferenciar(arqext10, Math.Round(Convert.ToDouble(dados1["257/258"]), 2));
                             TempData["Diferenca10"] = Maior.Split(';')[1];
                             TempData["DiferencaTexto10"] = Maior.Split(';')[0];
-                            insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["257/258"].ToString());
+                            insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["Diferenca10"].ToString());
 
                             TempData["5472/5473/5474/232/233/234/235"] = Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial);
                             Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
@@ -268,7 +270,6 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Diferenca4"] = Maior.Split(';')[1];
                             TempData["DiferencaTexto4"] = Maior.Split(';')[0];
                             insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
-
                             TempData["6/192"] = Convert.ToDouble(dados1["6/192"]) - Convert.ToDouble(valor6192);
 
                             TempData["7027"] = Convert.ToDouble(dados1["7027"]);
@@ -316,10 +317,16 @@ namespace PortalSicoobDivicred.Controllers
 
                         case 5:
                             inicioPlanilha4 = inicio.InicioPlanilha(caminho, i.ToString());
+                            dados5 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha4);
+                            TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
+                            Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
+                            TempData["Diferenca11"] = Maior.Split(';')[1];
+                            TempData["DiferencaTexto11"] = Maior.Split(';')[0];
+                            insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", arqext11.ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
                             break;
                     }
                     i++;
-                    if (i == 5)
+                    if (i == 6)
                     {
                         break;
                     }
@@ -362,7 +369,7 @@ namespace PortalSicoobDivicred.Controllers
         {
             var dadosTableCon = new QueryMysqlTesouraria();
             var DadosTable= dadosTableCon.RecuperaDadosTabela(data);
-            if (DadosTable.ToString().Length > 0)
+            if (DadosTable.Count > 0)
             {
                 TempData["RetornaValor"] = 0;
                 TempData["historico"] = DadosTable[0]["historico"].ToString();
@@ -410,6 +417,13 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["arquivos8"] = DadosTable[8]["arquivos"].ToString();
                 TempData["diferenca8"] = DadosTable[8]["diferenca"].ToString();
 
+                TempData["historico9"] = DadosTable[9]["historico"].ToString();
+                TempData["extrato9"] = DadosTable[9]["extrato"].ToString();
+                TempData["arquivos9"] = DadosTable[9]["arquivos"].ToString();
+                TempData["diferenca9"] = DadosTable[9]["diferenca"].ToString();
+
+
+
                 TempData["data"] = data.ToString();
 
                 var dadosJustificativa = dadosTableCon.RecuperaDadosJustificativa(data);
@@ -422,7 +436,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             else
             {
-                
+                TempData["RetornaValor"] = 1;
                 return PartialView("ViewTabelaPesquisar");
             }
         }
@@ -442,6 +456,23 @@ namespace PortalSicoobDivicred.Controllers
 
             atualizaJustificativa.atualizaJustificativa(TempData["data"].ToString(), receberForm["justificativa"].ToString());
             return RedirectToAction("Tesouraria",new { MensagemValidacao = "Registro alterado com sucesso!!" });
+        }
+
+        public ActionResult VerificaData()
+        {
+            return PartialView("ViewPesquisar");
+        }
+
+        [HttpPost]
+        public ActionResult VerificaData(string data)
+        {
+            var verificarData = new QueryMysqlTesouraria();
+
+            int retornaData = Convert.ToInt32(verificarData.VerificaData(data));
+            if(retornaData!=0)
+            return RedirectToAction("Tesouraria", new { Erro = "Já existe conferência para essa data." });
+            else
+                return RedirectToAction("Tesouraria");
         }
 
     }

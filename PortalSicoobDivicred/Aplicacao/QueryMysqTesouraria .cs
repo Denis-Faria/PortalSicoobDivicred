@@ -42,6 +42,8 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+
+
         public List<Dictionary<string, string>> RecuperaDadosJustificativa(string Data)
         {
             var Query =
@@ -60,6 +62,15 @@ namespace PortalSicoobDivicred.Aplicacao
 
 
             return Dados;
+        }
+
+        public int VerificaData(string Data)
+        {
+            var Query =
+                "SELECT count(*) as count FROM dadosextrato WHERE data='" + Data + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+            return Convert.ToInt32(Dados[0]["count"]);
         }
 
         public void atualizaJustificativa(string data, string justificativa)

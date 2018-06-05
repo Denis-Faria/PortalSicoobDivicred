@@ -44,20 +44,30 @@ namespace PortalSicoobDivicred.Controllers
                     k = 4;
                     m = 12;
                     break;
+
+                case "5":
+                    palavraInicio = "Total:";
+                    k = 4;
+                    m = 15;
+                    break;
             }
 
             for (int j = k; j <= output.Tables[0].Rows.Count; j++)
             {
                 string nomeColuna = output.Tables[0].Columns[m].ColumnName;
-                if (output.Tables[0].Rows[j][nomeColuna].ToString().Length > 0)
+                try
                 {
-                    if (output.Tables[0].Rows[j][nomeColuna].ToString().Contains(palavraInicio))
+                    if (output.Tables[0].Rows[j][nomeColuna].ToString().Length > 0)
                     {
-                        string nome = output.Tables[0].Rows[j][nomeColuna].ToString();
-                        inicio = j + 1;
-                        break;
+                        if (output.Tables[0].Rows[j][nomeColuna].ToString().Contains(palavraInicio))
+                        {
+                            string nome = output.Tables[0].Rows[j][nomeColuna].ToString();
+                            inicio = j + 1;
+                            break;
+                        }
                     }
                 }
+                catch { }
             }
             return inicio;
         }
@@ -83,6 +93,7 @@ namespace PortalSicoobDivicred.Controllers
             double valorArq10 = 0;
             double valorArq11 = 0;
             double valorArq12 = 0;
+            double valorArq13 = 0;
             int j;
             int aux = 0;
             double[] numeros = new double[716];
@@ -243,6 +254,12 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                     somatorio.Add("Arquivo4", valorArq12);
+                    break;
+
+                case "5":
+                    
+                    valorArq13 = Convert.ToDouble(output.Tables[0].Rows[inicio-1]["F18"]);
+                    somatorio.Add("Arquivo5", valorArq13);
                     break;
 
             }

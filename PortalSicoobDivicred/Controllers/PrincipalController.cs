@@ -11,6 +11,10 @@ namespace PortalSicoobDivicred.Controllers
     {
         public ActionResult Principal()
         {
+
+
+            var Alerta = new EnviodeAlertas();
+ 
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
@@ -779,6 +783,13 @@ namespace PortalSicoobDivicred.Controllers
             }
 
             return PartialView("ShowdePremios");
+        }
+        public void CadastroIdNotificacao(string IdNotificacao)
+        {
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+            var Atualiza = new QueryMysql();
+            Atualiza.CadastraIdNotificacao(IdNotificacao,Login);
         }
     }
 }

@@ -280,5 +280,18 @@ namespace PortalSicoobDivicred.Aplicacao
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
+        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
+        {
+            var Query = "select email,idnotificacao,notificacaoemail from funcionarios where id=" + IdFuncionario + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public List<Dictionary<string, string>> RetornaIdSolicitantes(string IdChamado)
+        {
+            var Query = "select idfuncionariocadastro from webdesksolicitacoes where id=" + IdChamado + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+
     }
 }

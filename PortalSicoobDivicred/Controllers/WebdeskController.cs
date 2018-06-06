@@ -175,9 +175,9 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoCurriculo"] = "display: none";
 
 
-                var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"],DadosUsuarios[0]["idsetor"]);
+                var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"], DadosUsuarios[0]["idsetor"]);
 
-                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"],DadosFuncionarios[0]["idsetor"]);
+                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"], DadosFuncionarios[0]["idsetor"]);
 
                 TempData["TotalResultado"] = ResultadoPEsquisa.Count;
                 TempData["TotalResultadoNovo"] = ResultadoPesquisaNova.Count;
@@ -239,7 +239,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                 var IdInteracao = "";
-                if (Dados["CpfAbertura"]!="")
+                if (Dados["CpfAbertura"] != "")
                     IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"],
                         Dados["IdFuncionarioResponsavel"],
                         Dados["Descricao"], DadosUsuario[0]["id"], Dados["CpfAbertura"]);
@@ -264,7 +264,28 @@ namespace PortalSicoobDivicred.Controllers
                         VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType, NomeArquivo);
                     }
 
-                return RedirectToAction("Chamados", "Webdesk", new {Mensagem = "Solicitação cadastrada com sucesso!"});
+                var Envia = new EnviodeAlertas();
+                var CadastroAlerta = new QueryMysql();
+
+                var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(Dados["IdFuncionarioResponsavel"]);
+                if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                {
+                    CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "Foi Aberto um chamado para você.");
+                    Envia.EnviaEmail(DadosOperador[0]["email"], "Foi aberto um chamado para você.");
+                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Foi Aberto um chamado para você.");
+                    }
+                }
+                else
+                {
+                    CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "Foi Aberto um chamado para você.");
+                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Foi Aberto um chamado para você.");
+                    }
+                }
+                return RedirectToAction("Chamados", "Webdesk", new { Mensagem = "Solicitação cadastrada com sucesso!" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -410,7 +431,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["TotalAnexos" + Interacoes[i]["id"]] = AnexoInteracao.Rows.Count;
                         for (var j = 0; j < AnexoInteracao.Rows.Count; j++)
                         {
-                            var bytes = (byte[]) AnexoInteracao.Rows[j]["arquivo"];
+                            var bytes = (byte[])AnexoInteracao.Rows[j]["arquivo"];
                             var img64 = Convert.ToBase64String(bytes);
                             var img64Url =
                                 string.Format("data:" + AnexoInteracao.Rows[j]["tipoarquivo"] + ";base64,{0}", img64);
@@ -527,6 +548,29 @@ namespace PortalSicoobDivicred.Controllers
 
                     VerificaDados.EncerrarSolicitacao(Dados["IdSolicitacao"]);
 
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+                    var IdSolicitante = VerificaDados.RetornaIdSolicitantes(Dados["IdSolicitacao"]);
+
+                    var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        }
+                    }
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
@@ -567,6 +611,75 @@ namespace PortalSicoobDivicred.Controllers
 
                             VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType, NomeArquivo);
                         }
+
+                    #region Enviar para solicitante
+
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+                    var IdSolicitante = VerificaDados.RetornaIdSolicitantes(Dados["IdSolicitacao"]);
+
+                    var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                                                                                                      DadosUsuario[0]["nome"]);
+
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                                                                    DadosUsuario[0]["nome"]);
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                                                                                    DadosUsuario[0]["nome"]);
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                                                                                                      DadosUsuario[0]["nome"]);
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                                                                                    DadosUsuario[0]["nome"]);
+                        }
+                    }
+
+                    #endregion
+
+                    #region Envia para operador novo
+
+
+
+                    var DadosOperadorNovo = VerificaDados.RetornaInformacoesNotificacao(Dados["IdFuncionarioResponsavel"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por " +
+                                                                                                      DadosUsuario[0]["nome"]);
+
+                        Envia.EnviaEmail(DadosOperadorNovo[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por" +
+                                                                    DadosUsuario[0]["nome"]);
+
+                        if (DadosOperadorNovo[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperadorNovo[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + "  foi encaminhada para você por " +
+                                                                                    DadosUsuario[0]["nome"]);
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por " +
+                                                                                                      DadosUsuario[0]["nome"]);
+
+                        if (DadosOperadorNovo[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(Dados["IdFuncionarioResponsavel"], "Sua solicitação n°" + Dados["IdSolicitacao"] + "  foi encaminhada para você por " +
+                                                                                    DadosUsuario[0]["nome"]);
+                        }
+                    }
+                    #endregion
 
                     VerificaDados.AlterarResponsavelSolicitacao(Dados["IdSolicitacao"], Dados["IdSetorResponsavel"],
                         Dados["IdFuncionarioResponsavel"]);
@@ -614,6 +727,32 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType, NomeArquivo);
                         }
 
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+                    var IdSolicitante = VerificaDados.RetornaIdSolicitantes(Dados["IdSolicitacao"]);
+
+                    var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
+                        }
+                    }
+
+
+
                     VerificaDados.AlterarCategoriaSolicitacao(Dados["IdSolicitacao"], Dados["IdCategoria"]);
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
@@ -653,12 +792,34 @@ namespace PortalSicoobDivicred.Controllers
 
                     VerificaDados.ReabrirSolicitacao(Dados["IdSolicitacao"]);
 
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(DadosUsuario[0]["id"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        }
+                    }
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
                         {
                             IdChamado = Dados["IdSolicitacao"],
-                            Mensagem = "Solicitação encerrada com sucesso !",
+                            Mensagem = "Solicitação reaberta com sucesso !",
                             TipoChamado = "Novo"
                         });
                 }
@@ -686,6 +847,30 @@ namespace PortalSicoobDivicred.Controllers
                             VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType, NomeArquivo);
                         }
 
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+                    var IdSolicitante = VerificaDados.RetornaIdSolicitantes(Dados["IdSolicitacao"]);
+
+                    var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        }
+                    }
+
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
@@ -712,9 +897,32 @@ namespace PortalSicoobDivicred.Controllers
                 DadosUsuario[0]["id"], "S");
             VerificaDados.IniciarAtendimentoSolicitacao(IdSolicitacao);
 
+            var Envia = new EnviodeAlertas();
+            var CadastroAlerta = new QueryMysql();
+            var IdSolicitante = VerificaDados.RetornaIdSolicitantes(IdSolicitacao);
+
+            var DadosOperador = VerificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+
+            if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+            {
+                CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                {
+                    Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                }
+            }
+            else
+            {
+                CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                {
+                    Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                }
+            }
 
             return RedirectToAction("InteracaoChamado", "Webdesk",
-                new {IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo"});
+                new { IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" });
         }
     }
 }

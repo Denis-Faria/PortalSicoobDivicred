@@ -732,5 +732,11 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+
+        public void CadastraIdNotificacao(string IdNotificacao, string Login)
+        {
+            var Query = "UPDATE funcionarios set idnotificacao='"+IdNotificacao+"' WHERE login='"+Login+"'";
+            ConexaoMysql.ExecutaComando(Query);
+        }
     }
 }

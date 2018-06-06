@@ -21,6 +21,7 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+
                 TempData["Mensagem"] = Mensagem;
                 var CarregaDados = new QueryMysqlCurriculo();
                 List<Dictionary<string, string>> DadosCurriculos = null;

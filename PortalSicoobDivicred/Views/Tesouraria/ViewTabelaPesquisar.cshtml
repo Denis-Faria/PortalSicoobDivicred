@@ -16,7 +16,62 @@
     });
 </script>
 <script>
- 
+    function AbrirProcesso(data) {
+
+
+        iziToast.show({
+            message: 'Confirma a exclusão do Registro ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function (instance, toast) {
+
+                       
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/Tesouraria/DeletaProducao',
+                                cache: true,
+                                async: true,
+                                data: { "data": data },
+                                success: function (data) {
+                                    instance.hide({
+                                        transitionOut: 'fadeOutUp',
+                                        onClosing: function (instance, toast, closedBy) {
+                                            console.info('closedBy: ' + closedBy); //btn2
+
+                                        }
+                                    },
+                                        toast,
+                                        'close',
+                                        'btn1');
+
+                                    location.href = "/Tesouraria/Tesouraria?Mensagem=Pontuação excluída com sucesso";
+
+                                }
+                            });
+
+                    }
+                ],
+                [
+                    '<button>Não</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function (instance, toast, closedBy) {
+                                console.info('closedBy: ' + closedBy); //btn2
+                            }
+                        },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ]
+
+        });
+    }
+
 </script>
 
 
@@ -206,9 +261,18 @@
                     </button>
                 </p>
             </div>
-
-
         }
+
+        
+            <div id="botoes">
+
+                <p class="control">
+                    <button style="display: block; margin-left: auto; margin-right: auto" type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["dataPesquisa"]);void(0);'" name="AbrirProcesso">
+                        Delete
+                    </button>
+                </p>
+            </div>
+        
     }
     else
     {

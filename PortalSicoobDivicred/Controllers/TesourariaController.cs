@@ -149,8 +149,29 @@ namespace PortalSicoobDivicred.Controllers
                         dataSelecionada = Convert.ToDateTime(TempData["data"]);
                         dataExtratoDia = transacoes[0].Date;
                     }
+                    var consultaFeriado = new QueryFirebird();
+                    for (int m = 1; m <= 7; m++)
+                    {
+                        if ((consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-m))).Count > 0)
+                        {
 
-                    if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(1))
+                        }
+                    }
+                    int qtddias = 0;
+                    if (dataSelecionada.Date.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        qtddias = -3;
+                       
+
+                        //var feriado = consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-3));
+                        //if(dataSelecionada.Date.AddDays(-3))
+                    }
+                    //if (dataSelecionada.DayOfWeek == DayOfWeek.Monday)
+                    //{
+                        
+                    //}
+
+                    if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(qtddias))
                     {
                         var insereConferencia1 = new QueryMysqlTesouraria();
                         switch (i)

@@ -38,20 +38,36 @@ namespace PortalSicoobDivicred.Controllers
                     k = 4;
                     m = 32;
                     break;
+
+                case "4":
+                    palavraInicio = "CHEQUE DEVOLVIDO CAIXA";
+                    k = 4;
+                    m = 12;
+                    break;
+
+                case "5":
+                    palavraInicio = "Total:";
+                    k = 4;
+                    m = 15;
+                    break;
             }
 
             for (int j = k; j <= output.Tables[0].Rows.Count; j++)
             {
                 string nomeColuna = output.Tables[0].Columns[m].ColumnName;
-                if (output.Tables[0].Rows[j][nomeColuna].ToString().Length > 0)
+                try
                 {
-                    if (output.Tables[0].Rows[j][nomeColuna].ToString().Contains(palavraInicio))
+                    if (output.Tables[0].Rows[j][nomeColuna].ToString().Length > 0)
                     {
-                        string nome = output.Tables[0].Rows[j][nomeColuna].ToString();
-                        inicio = j + 1;
-                        break;
+                        if (output.Tables[0].Rows[j][nomeColuna].ToString().Contains(palavraInicio))
+                        {
+                            string nome = output.Tables[0].Rows[j][nomeColuna].ToString();
+                            inicio = j + 1;
+                            break;
+                        }
                     }
                 }
+                catch { }
             }
             return inicio;
         }
@@ -76,6 +92,8 @@ namespace PortalSicoobDivicred.Controllers
             double valorArq9 = 0;
             double valorArq10 = 0;
             double valorArq11 = 0;
+            double valorArq12 = 0;
+            double valorArq13 = 0;
             int j;
             int aux = 0;
             double[] numeros = new double[716];
@@ -108,11 +126,15 @@ namespace PortalSicoobDivicred.Controllers
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
 
                                 }
-                                else if (output.Tables[0].Rows[j]["F13"].ToString() == "5472" || output.Tables[0].Rows[j]["F13"].ToString() == "5473" || output.Tables[0].Rows[j]["F13"].ToString() == "5474" || output.Tables[0].Rows[j]["F13"].ToString() == "232" || output.Tables[0].Rows[j]["F13"].ToString() == "233" || output.Tables[0].Rows[j]["F13"].ToString() == "234" || output.Tables[0].Rows[j]["F13"].ToString() == "235")
+                                else if (output.Tables[0].Rows[j]["F13"].ToString() == "500" || output.Tables[0].Rows[j]["F13"].ToString() == "5472" || output.Tables[0].Rows[j]["F13"].ToString() == "5473" || output.Tables[0].Rows[j]["F13"].ToString() == "5474" || output.Tables[0].Rows[j]["F13"].ToString() == "232" || output.Tables[0].Rows[j]["F13"].ToString() == "233" || output.Tables[0].Rows[j]["F13"].ToString() == "234" || output.Tables[0].Rows[j]["F13"].ToString() == "235")
                                 {
-                                    if ((output.Tables[0].Rows[j]["F25"]).ToString().Contains('C'))
+
+                                    if (output.Tables[0].Rows[j]["F13"].ToString()=="500")
                                     {
-                                        valorArq3 = valorArq3 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                        if ((output.Tables[0].Rows[j]["F14"].ToString() == "5472" || output.Tables[0].Rows[j]["F14"].ToString() == "5473" || output.Tables[0].Rows[j]["F14"].ToString() == "5474" || output.Tables[0].Rows[j]["F14"].ToString() == "232" || output.Tables[0].Rows[j]["F14"].ToString() == "233" || output.Tables[0].Rows[j]["F14"].ToString() == "234" || output.Tables[0].Rows[j]["F14"].ToString() == "235"))
+                                        {
+                                            valorArq3 = valorArq3 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                        }
                                     }
                                     else
                                     {
@@ -211,6 +233,33 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                     somatorio.Add("Arquivo3", valorArq7);
+                    break;
+
+                case "4":
+                    for (j = inicio -1; j < output.Tables[0].Rows.Count; j++)
+                    {
+                        try
+                        {
+                            if (output.Tables[0].Rows[j]["F23"].ToString().Length>0)
+                            {
+                                double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F28"]));
+                                valorArq12 = Math.Round(valorArq12 + Convert.ToDouble((output.Tables[0].Rows[j]["F28"])), 2);
+
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+
+                    somatorio.Add("Arquivo4", valorArq12);
+                    break;
+
+                case "5":
+                    
+                    valorArq13 = Convert.ToDouble(output.Tables[0].Rows[inicio-1]["F18"]);
+                    somatorio.Add("Arquivo5", valorArq13);
                     break;
 
             }

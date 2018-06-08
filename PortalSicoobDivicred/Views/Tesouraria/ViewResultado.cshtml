@@ -199,6 +199,25 @@
 
     </tr>
 
+    <tr>
+        <td class="has-text-centered">
+            Cheques Devolvidos 4030
+        </td>
+        <td class="has-text-centered">
+            @Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <input name="Historico @TempData["CHEQUEDEVOLVIDO"]" id="Historico @TempData["CHEQUEDEVOLVIDO"]" value="@TempData["CHEQUEDEVOLVIDO"]" hidden="true" />@Convert.ToDouble(@TempData["CHEQUEDEVOLVIDO"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <input name="Diferenca @TempData["Diferenca11"]" id="Diferenca @TempData["Diferenca11"]" value="@TempData["Diferenca11"]" hidden="true" />@Convert.ToDouble(TempData["Diferenca11"]).ToString("C")
+        </td>
+        <td class="has-text-centered">
+            <img src="/Images/@TempData["Diferencatexto11"]">
+        </td>
+
+    </tr>
+
 </table>
 
     <div class="columns content">

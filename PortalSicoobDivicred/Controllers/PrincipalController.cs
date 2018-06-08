@@ -155,7 +155,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var DadosTabelaUsuario = VerificaDados.RecuperaDadosFuncionariosTabelaUsuario(Login);
                 var DadosTabelaFuncionario =
-                    VerificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(DadosTabelaUsuario[0]["nome"]);
+                    VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin(Login);
 
                 var DadosFuncionario = new Funcionario();
                 DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
@@ -165,7 +165,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.DataNascimentoFuncionario =
                     Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
-                DadosFuncionario.UsuarioSistema = DadosTabelaUsuario[0]["login"];
+                DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario[0]["login"];
                 DadosFuncionario.Email = DadosTabelaFuncionario[0]["email"];
                 DadosFuncionario.PA = DadosTabelaFuncionario[0]["idpa"];
                 DadosFuncionario.Rua = DadosTabelaFuncionario[0]["rua"];

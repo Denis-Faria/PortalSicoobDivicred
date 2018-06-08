@@ -149,29 +149,30 @@ namespace PortalSicoobDivicred.Controllers
                         dataSelecionada = Convert.ToDateTime(TempData["data"]);
                         dataExtratoDia = transacoes[0].Date;
                     }
-                    var consultaFeriado = new QueryFirebird();
+                    var consultaFeriado = new QueryMysqlTesouraria();
+                    int auxdias = 0;
                     for (int m = 1; m <= 7; m++)
                     {
-                        if ((consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-m))).Count > 0)
+                        if ((consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-m))) == 0 && dataSelecionada.Date.AddDays(-m).DayOfWeek != DayOfWeek.Sunday && dataSelecionada.Date.AddDays(-m).DayOfWeek != DayOfWeek.Saturday)
                         {
-
+                            auxdias = m;
+                            break;
                         }
                     }
-                    int qtddias = 0;
-                    if (dataSelecionada.Date.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    {
-                        qtddias = -3;
-                       
+                  //  int qtddias = 0;
+                 //   if (dataSelecionada.Date.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                 //   {
+                 //       qtddias = -3;
 
                         //var feriado = consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-3));
                         //if(dataSelecionada.Date.AddDays(-3))
-                    }
+                  //  }
                     //if (dataSelecionada.DayOfWeek == DayOfWeek.Monday)
                     //{
                         
                     //}
 
-                    if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(qtddias))
+                    if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias))
                     {
                         var insereConferencia1 = new QueryMysqlTesouraria();
                         switch (i)
@@ -189,7 +190,6 @@ namespace PortalSicoobDivicred.Controllers
                                     {
                                         if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
                                         {
-
                                             var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                             arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                             arqext1 = Math.Round(arqext1, 2);
@@ -253,8 +253,6 @@ namespace PortalSicoobDivicred.Controllers
                                             arqext10 = Math.Round(arqext10, 2);
                                             TempData["Extrato-257/258"] = arqext10;
                                         }
-
-
                                     }
                                     else
                                     if (historico.Contains("NR DEV ELETR"))

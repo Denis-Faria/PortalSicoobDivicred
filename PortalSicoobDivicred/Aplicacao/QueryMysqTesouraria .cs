@@ -76,6 +76,17 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+        public int VerificaFeriadoDivinopolis(DateTime data)
+        {
+
+            var Query =
+                "SELECT count(id_feriado) as total FROM FERIADO_nacional  WHERE DATA='" +
+                data.ToString("yyyy/MM/dd")+"'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+            return Convert.ToInt32(Dados[0]["total"]);
+        }
+
         public int VerificaData(string Data)
         {
             var Query =

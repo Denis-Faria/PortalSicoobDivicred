@@ -791,5 +791,9 @@ namespace PortalSicoobDivicred.Controllers
             var Atualiza = new QueryMysql();
             Atualiza.CadastraIdNotificacao(IdNotificacao,Login);
         }
+        public ActionResult ControleNumerario()
+        {
+            return PartialView("ControleNumerario");
+        }
     }
 }

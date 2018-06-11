@@ -3,84 +3,84 @@
 
 <script>
 
-     var OneSignal = window.OneSignal || [];
-     OneSignal.push(function () {
-         OneSignal.init({
-             appId: "a41d4d09-06f8-4912-9a7a-50d4303637e6",
-             autoRegister: false,
-             notifyButton: {
-                 enable: true,
-                 size: 'medium',
-                 colors: {
-                     'circle.background': 'rgb(8,56,70)'
-                 },
-                 position: 'bottom-right',
-                 offset: {
-                     bottom: '0px',
-                     left: '0px',
-                     right: '0px'
-                 }
-             },
-             welcomeNotification: {
-                 "title": "Bem-Vindo",
-                 "message": "Obrigado por se inscrever!"
-             },
-         });
-
-     });
-     
-
- /*   var OneSignal = window.OneSignal || [];
+    var OneSignal = window.OneSignal || [];
     OneSignal.push(function () {
         OneSignal.init({
-            appId: "61722dc3-6845-49e9-8dc5-42c210b4697c",
+            appId: "a41d4d09-06f8-4912-9a7a-50d4303637e6",
             autoRegister: false,
             notifyButton: {
-                enable: true, 
-                size: 'medium', 
-                colors: { 
+                enable: true,
+                size: 'medium',
+                colors: {
                     'circle.background': 'rgb(8,56,70)'
                 },
-                position: 'bottom-right', 
+                position: 'bottom-right',
                 offset: {
                     bottom: '0px',
-                    left: '0px', 
-                    right: '0px' 
+                    left: '0px',
+                    right: '0px'
                 }
             },
             welcomeNotification: {
                 "title": "Bem-Vindo",
                 "message": "Obrigado por se inscrever!"
             },
-
-
-
         });
 
-    });*/
+    });
 
-        OneSignal.push(function () {
-            OneSignal.on('subscriptionChange',
-                function (isSubscribed) {
-                    if (isSubscribed) {
-                        OneSignal.getUserId(function (userId) {
-                            alert(userId);
-                          $.ajax(
-                                {
-                                    type: 'POST',
-                                    url: '/Principal/CadastroIdNotificacao',
-                                    dataType: 'html',
-                                    cache: true,
-                                    async: true,
-                                    data: { "IdNotificacao": userId },
-                                    success: function (data) {
 
-                                    }
-                                });
-                        });
-                    }
-                });
-        });
+    /*   var OneSignal = window.OneSignal || [];
+       OneSignal.push(function () {
+           OneSignal.init({
+               appId: "61722dc3-6845-49e9-8dc5-42c210b4697c",
+               autoRegister: false,
+               notifyButton: {
+                   enable: true,
+                   size: 'medium',
+                   colors: {
+                       'circle.background': 'rgb(8,56,70)'
+                   },
+                   position: 'bottom-right',
+                   offset: {
+                       bottom: '0px',
+                       left: '0px',
+                       right: '0px'
+                   }
+               },
+               welcomeNotification: {
+                   "title": "Bem-Vindo",
+                   "message": "Obrigado por se inscrever!"
+               },
+
+
+
+           });
+
+       });*/
+
+    OneSignal.push(function () {
+        OneSignal.on('subscriptionChange',
+            function (isSubscribed) {
+                if (isSubscribed) {
+                    OneSignal.getUserId(function (userId) {
+                        alert(userId);
+                        $.ajax(
+                            {
+                                type: 'POST',
+                                url: '/Principal/CadastroIdNotificacao',
+                                dataType: 'html',
+                                cache: true,
+                                async: true,
+                                data: { "IdNotificacao": userId },
+                                success: function (data) {
+
+                                }
+                            });
+                    });
+                }
+            });
+    });
 
 </script>
 <script>
@@ -129,6 +129,22 @@
             $("#Show").show();
         }
     }
+    function EscondeNumerario() {
+        if ($("#Numerario").is(":visible")) {
+            $("#Numerario").addClass("animated fadeOut");
+
+            $("#Numerario").hide();
+        } else {
+            $("#Numerario").removeClass("animated fadeOut");
+            $("#Numerario").addClass("animated fadeIn");
+            $("#Numerario").show();
+        }
+    }
+
+
+
+
+
     function Mascara() {
         var tamanho = $("#BuscaCpf").val().length;
 
@@ -366,6 +382,27 @@
                                     <div id="ResultadoPesquisa" class="content container">
 
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-7">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Controle de Numerário
+                            </p>
+                            <a href="javascript: EscondeNumerario();void(0);" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div id="Numerario">
+                            <div class="card-content">
+                                <div class="content">
+                                   
                                 </div>
                             </div>
                         </div>

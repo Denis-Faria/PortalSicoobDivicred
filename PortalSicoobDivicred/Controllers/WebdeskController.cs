@@ -57,7 +57,15 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         var Sla = TimeSpan.Parse(ChamadosEmAberto[i]["sla"]);
 
-                        var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+                        var Horas = new double();
+                        if (TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes == 0)
+                        {
+                            Horas = 00;
+                        }
+                        else
+                        {
+                            Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosEmAberto[i]["tempo"]).TotalMinutes;
+                        }
                         if (Horas > 100)
                             TempData["StatusCor" + i] = "is-danger";
                         else
@@ -93,7 +101,15 @@ namespace PortalSicoobDivicred.Controllers
 
                     var Sla = TimeSpan.Parse(ChamadosOperador[i]["sla"]);
 
-                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosOperador[i]["tempo"]).TotalMinutes;
+                    var Horas = new double();
+                    if (TimeSpan.Parse(ChamadosOperador[i]["tempo"]).TotalMinutes == 0)
+                    {
+                        Horas = 00;
+                    }
+                    else
+                    {
+                        Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosOperador[i]["tempo"]).TotalMinutes;
+                    }
                     if (Horas > 100)
                         TempData["StatusCorOperador" + i] = "is-danger";
                     else
@@ -123,8 +139,15 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["CadastroSetor" + i] = ChamadosSetor[i]["cadastro"];
 
                     var Sla = TimeSpan.Parse(ChamadosSetor[i]["sla"]);
-
-                    var Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosSetor[i]["tempo"]).TotalMinutes;
+                    var Horas = new double();
+                    if (TimeSpan.Parse(ChamadosSetor[i]["tempo"]).TotalMinutes == 0)
+                    {
+                        Horas = 00;
+                    }
+                    else
+                    {
+                        Horas = Sla.TotalMinutes * 100 / TimeSpan.Parse(ChamadosSetor[i]["tempo"]).TotalMinutes;
+                    }
                     if (Horas > 100)
                         TempData["StatusCorSetor" + i] = "is-danger";
                     else

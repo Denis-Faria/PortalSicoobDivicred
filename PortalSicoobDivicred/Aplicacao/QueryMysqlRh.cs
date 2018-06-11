@@ -348,7 +348,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaDadosPendenciaConfirmacao(string IdPendencia)
         {
             var Query =
-                "Select a.*,b.data from historicoshorariosponto a, historicosjustificativaspontos b where b.id=a.idhistorico and a.idhistorico=" +
+                "Select a.*,b.data,b.idfuncionario from historicoshorariosponto a, historicosjustificativaspontos b where b.id=a.idhistorico and a.idhistorico=" +
                 IdPendencia + " ORDER BY a.horario DESC;";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;

@@ -331,18 +331,43 @@ namespace PortalSicoobDivicred.Controllers
                                 break;
 
                             case 3:
+
                                 inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
                                 dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
-                                TempData["6/192-FINAL"] = (Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]));
+                                //TempData["6/192-FINAL"] = (Convert.ToDouble(TempData["6/192"]) );
+                                //TempData["6/192-FINALB"] = Convert.ToDouble(TempData["6/192"]) ;
 
-                                TempData["6/192-FINALB"] = Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]);
-                                Maior = inicio.diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192-FINALB"]), 2));
-                                TempData["Diferenca5"] = Maior.Split(';')[1];
+                               // TempData["6/192-FINAL"] = (Convert.ToDouble(TempData["6/192"]));
+                                //TempData["6/192-FINALB"] = Convert.ToDouble(TempData["6/192"]);
+                                Maior = inicio.diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192"]), 2));
+
+                                //TempData["Diferenca5"] = Maior.Split(';')[1];
+                                TempData["Diferenca5"] = (Convert.ToDouble(Maior.Split(';')[1])) - Convert.ToDouble(dados3["Arquivo3"]);
                                 TempData["DiferencaTexto5"] = Maior.Split(';')[0];
+                                TempData["6/192-FINAL"]=   arqext2 + (Convert.ToDouble(TempData["Diferenca5"]));
+                                TempData["6/192-FINALB"] = arqext2 - (Convert.ToDouble(Maior.Split(';')[1])) - Convert.ToDouble(dados3["Arquivo3"]);
+
+
 
                                 insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
                                 break;
 
+
+                            /*
+                            inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
+                            dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
+                            TempData["6/192-FINAL"] = (Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]));
+
+                            TempData["6/192-FINALB"] = Convert.ToDouble(TempData["6/192"]) - Convert.ToDouble(dados3["Arquivo3"]);
+                            Maior = inicio.diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192-FINALB"]), 2));
+
+                            TempData["Diferenca5"] = Maior.Split(';')[1];
+                            TempData["DiferencaTexto5"] = Maior.Split(';')[0];
+
+
+                            insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
+                            break;
+                            */
                             case 4:
                                 inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
                                 dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);

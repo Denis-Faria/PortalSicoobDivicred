@@ -175,7 +175,7 @@ namespace PortalSicoobDivicred.Controllers
 
                                 }
 
-                                else if (output.Tables[0].Rows[j]["F13"].ToString() == "258"|| output.Tables[0].Rows[j]["F13"].ToString() == "258")
+                                else if (output.Tables[0].Rows[j]["F13"].ToString() == "257"|| output.Tables[0].Rows[j]["F13"].ToString() == "258")
                                 {
                                     valorArq11 = valorArq11 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
@@ -220,9 +220,19 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         try
                         {
-                            if (output.Tables[0].Rows[j]["F33"].ToString() != "403.000.000-2" && output.Tables[0].Rows[j + 1]["F45"].ToString() == "DEV. 39 REJEITADA - REDIGITALIZAR")
+                            string auxlinha="";
+                            if (output.Tables[0].Rows[j + 1]["F46"].ToString().Length == 0)
                             {
-                                valorArq7 = Math.Round(valorArq7 + Convert.ToDouble((output.Tables[0].Rows[j]["F42"])), 2);
+                                auxlinha = output.Tables[0].Rows[j]["F46"].ToString();
+                            }
+                            else
+                            {
+                                auxlinha = output.Tables[0].Rows[j + 1]["F46"].ToString();
+                            }
+
+                            if (output.Tables[0].Rows[j]["F33"].ToString() != "403.000.000-2" && auxlinha == "DEV. 39 REJEITADA - REDIGITALIZAR" && output.Tables[0].Rows[j]["F33"].ToString() != "")
+                            {
+                                valorArq7 = Math.Round(valorArq7 + Convert.ToDouble((output.Tables[0].Rows[j]["F41"])), 2);
 
                             }
                         }

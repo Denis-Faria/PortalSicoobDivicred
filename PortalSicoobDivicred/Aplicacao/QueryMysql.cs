@@ -738,5 +738,19 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "UPDATE funcionarios set idnotificacao='"+IdNotificacao+"' WHERE login='"+Login+"'";
             ConexaoMysql.ExecutaComando(Query);
         }
+        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
+        {
+            var Query = "select email,idnotificacao,notificacaoemail,idsetor,nome from funcionarios where id=" + IdFuncionario + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+
+        public List<Dictionary<string, string>> RetornaInformacoesGestor(string IdSetor)
+        {
+            var Query = "select id,email,idnotificacao,notificacaoemail from funcionarios where idsetor=" + IdSetor + " and gestor='S' ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+
     }
 }

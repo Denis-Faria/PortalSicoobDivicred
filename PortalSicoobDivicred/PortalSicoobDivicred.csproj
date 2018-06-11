@@ -37,6 +37,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -899,6 +900,7 @@
     <Content Include="Views\Tesouraria\ViewPesquisar.cshtml" />
     <Content Include="Views\Tesouraria\ViewTabelaPesquisar.cshtml" />
     <Content Include="Views\Principal\multiplosvinculos.cshtml" />
+    <Content Include="Views\Principal\ControleNumerario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

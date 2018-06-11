@@ -388,7 +388,8 @@ namespace PortalSicoobDivicred.Aplicacao
                     (Convert.ToInt32(UltimosDados[0]["SEQUENCIAL"]) + 1) + ", '" +
                     Convert.ToDateTime(DataPendencia).ToString("yyyy/MM/dd") + "','" + HoraPendencia + "', 'I','', '" +
                     PisFuncionario[0]["PIS"] + "'); ");
-                cmdComando.ExecuteReader();
+                cmdComando.ExecuteNonQuery();
+                
             }
             finally
             {

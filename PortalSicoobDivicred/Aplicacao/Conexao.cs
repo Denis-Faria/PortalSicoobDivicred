@@ -12,7 +12,7 @@ namespace PortalSicoobDivicred.Controllers
             //DataSet ds = new DataSet();
             DataTable tabela0 = new DataTable();
             //--------------------------------------------------------------------------------
-            string strConexao0 = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=no;IMEX=1\"", caminhoPlanilha);
+            string strConexao0 = string.Format("Provider=Microsoft.Ace.OLEDB.12.0;Data Source={0};Extended Properties=\"Excel 8.0;HDR=no;IMEX=1\"", caminhoPlanilha);
             OleDbConnection conn0 = new OleDbConnection(strConexao0);
             conn0.Open();
             DataTable dt0 = conn0.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });

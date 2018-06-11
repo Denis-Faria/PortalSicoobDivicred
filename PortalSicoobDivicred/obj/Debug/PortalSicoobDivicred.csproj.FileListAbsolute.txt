@@ -327,6 +327,7 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\ExcelNumberFormat.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\FastMember.Signed.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\FirebirdSql.Data.FirebirdClient.dll
+C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\InfobipClientLib.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\log4net.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Mail.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.AspNetCore.Authentication.Abstractions.dll
@@ -382,6 +383,7 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Newtonsoft.Json.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\OFXSharp.dll
+C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\OneSignal.CSharp.SDK.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\RestSharp.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\SgmlReaderDll.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Buffers.dll
@@ -461,6 +463,7 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Microsoft.Net.Http.Headers.xml
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\MySql.Data.xml
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Newtonsoft.Json.xml
+C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\RestSharp.xml
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Buffers.xml
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Collections.Immutable.xml
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\System.Diagnostics.DiagnosticSource.xml
@@ -488,6 +491,3 @@ C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
 C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csprojAssemblyReference.cache
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\InfobipClientLib.dll
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\OneSignal.CSharp.SDK.dll
-C:\Users\Davic4030_00\OneDrive\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\RestSharp.xml

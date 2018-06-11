@@ -30,7 +30,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
                 }
 
-                var Tipos =  DadosTabelaFuncionario[0]["tipodependente"].ToString().Split(';');
+                var Tipos = DadosTabelaFuncionario[0]["tipodependente"].ToString().Split(';');
                 for (int i = 0; i < 10; i++)
                 {
                     if (Tipos.Contains(i.ToString()))
@@ -42,7 +42,7 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Check" + i] = "";
                     }
                 }
-               
+
 
                 var DadosFuncionario = new Funcionario();
                 if (VinculoExtra.Count > 0)
@@ -153,7 +153,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaooc"]).Date;
                     DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario[0]["orgaoemissoroc"];
                 }
-                
+
                 TempData["TotalFormacao"] = Formacoes.Count;
                 for (var j = 0; j < Formacoes.Count; j++)
                 {
@@ -252,7 +252,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult AtualizarDadosProfissionais(Funcionario DadosFuncionario,FormCollection Formulario)
+        public ActionResult AtualizarDadosProfissionais(Funcionario DadosFuncionario, FormCollection Formulario)
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
@@ -300,9 +300,9 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
                     DadosFuncionario.CpfIrrf);
 
-                
+
                 return RedirectToAction("Perfil", "PainelColaborador",
-                    new {Mensagem = "Dados Profissionais atualizados com sucesso !"});
+                    new { Mensagem = "Dados Profissionais atualizados com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -350,14 +350,14 @@ namespace PortalSicoobDivicred.Controllers
                     "S", DadosFuncionario.Nacionalidade, DadosFuncionario.NomeMae,
                     DadosFuncionario.NomePai, DadosFuncionario.LocalNascimento, DadosFuncionario.UfNascimento,
                     DadosFuncionario.Complemento, DadosFuncionario.Cep, DadosFuncionario.Pais,
-                    DadosFuncionario.ResidenciaPropria, DadosFuncionario.RecursoFgts,DadosFuncionario.TelefoneFixo, DadosFuncionario.TelefoneCelular,
+                    DadosFuncionario.ResidenciaPropria, DadosFuncionario.RecursoFgts, DadosFuncionario.TelefoneFixo, DadosFuncionario.TelefoneCelular,
                     DadosFuncionario.EmailSecundario, DadosFuncionario.Cnh, DadosFuncionario.OrgaoEmissorCnh, DadosFuncionario.DataExpedicaoDocumentoCnh
                     , DadosFuncionario.DataValidadeCnh, DadosFuncionario.Oc, DadosFuncionario.OrgaoEmissorOc, DadosFuncionario.DataExpedicaoOc,
                     DadosFuncionario.DataValidadeOc, DadosFuncionario.DeficienteMotor, DadosFuncionario.DeficienteVisual, DadosFuncionario.DeficienteAuditivo,
-                    DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente,DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg);
+                    DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg);
 
                 return RedirectToAction("Perfil", "PainelColaborador",
-                    new {Mensagem = "Dados Pessoais atualizados com sucesso !"});
+                    new { Mensagem = "Dados Pessoais atualizados com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -448,7 +448,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem, DadosFuncionario.NotificacaoEmail, DadosFuncionario.ContribuicaoSindical);
 
                 return RedirectToAction("Perfil", "PainelColaborador",
-                    new {Mensagem = "Formulário Pessoal atualizado com sucesso !"});
+                    new { Mensagem = "Formulário Pessoal atualizado com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -612,7 +612,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
                     TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
 
-                    var bytes = (byte[]) DocumentosUpados.Rows[i]["arquivo"];
+                    var bytes = (byte[])DocumentosUpados.Rows[i]["arquivo"];
                     var img64 = Convert.ToBase64String(bytes);
                     var img64Url = string.Format("data:image/;base64,{0}", img64);
                     TempData["Imagem" + DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
@@ -701,12 +701,12 @@ namespace PortalSicoobDivicred.Controllers
                     VerificaDados.CadastraVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao);
 
                     return RedirectToAction("ColaboradorRH", "PainelColaborador",
-                        new {Mensagem = "Vaga interna criada com sucesso !"});
+                        new { Mensagem = "Vaga interna criada com sucesso !" });
                 }
                 else
                 {
                     return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                        new {Mensagem = "Vaga interna não cadastrada !"});
+                        new { Mensagem = "Vaga interna não cadastrada !" });
                 }
 
             return RedirectToAction("Login", "Login");
@@ -762,7 +762,7 @@ namespace PortalSicoobDivicred.Controllers
                     QueryRh.AtualizaVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
                         Formulario["IdVaga"]);
                     return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                        new {Mensagem = "Vaga alterada com sucesso!"});
+                        new { Mensagem = "Vaga alterada com sucesso!" });
                 }
 
             return RedirectToAction("Login", "Login");
@@ -853,7 +853,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 VerificaDados.EncerraVaga(Formulario["vaga"]);
                 return RedirectToAction("GerenciarVaga", "PainelColaborador",
-                    new {IdVaga = Formulario["vaga"], Mensagem = "Vaga interna encerrada com sucesso !"});
+                    new { IdVaga = Formulario["vaga"], Mensagem = "Vaga interna encerrada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -934,6 +934,71 @@ namespace PortalSicoobDivicred.Controllers
                     catch
                     {
                     }
+
+
+                    #region Alerta Funcionario
+
+
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    var DadosOperador =
+                        CadastroAlerta.RetornaInformacoesNotificacao(DadosFuncionario[0]["id"].ToString());
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
+                            "Você tem justificativas pendentes.");
+
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
+                            "Você tem justificativas pendentes.");
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                        }
+                    }
+                    #endregion
+
+                    #region Alerta Gestor
+
+
+                    var DadosGestor =
+                        CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
+
+                    if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                            "O funcionário "+DadosOperador[0]["nome"]+" tem justificativas pendentes");
+
+                        Envia.EnviaEmail(DadosGestor[0]["email"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+
+                        if (DadosGestor[0]["id"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                            "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+
+                        if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+                        }
+                    }
+
+                    #endregion
                 }
 
                 return Json("Ok");
@@ -948,7 +1013,7 @@ namespace PortalSicoobDivicred.Controllers
             QueryRh.NegaJustificativa(IdHistorico);
             QueryRh.NegaJustificativaGestor(IdHistorico);
             return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                new {Mensagem = "Pendencia negada com sucesso !"});
+                new { Mensagem = "Pendencia negada com sucesso !" });
         }
 
         [HttpPost]
@@ -960,11 +1025,77 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var FuncionarioPendentes = VerificaDados.RetornaPendenciaAlerta();
                 for (var i = 0; i < FuncionarioPendentes.Count; i++)
+                {
                     VerificaDados.CadastraAlertaJustificativa(FuncionarioPendentes[i]["idfuncionario"],
                         Dados["TextAlerta"]);
 
+                    #region Alerta Funcionario
+
+
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    var DadosOperador =
+                        CadastroAlerta.RetornaInformacoesNotificacao(FuncionarioPendentes[i]["idfuncionario"]);
+
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionarioPendentes[i]["idfuncionario"], "11",
+                            "Você tem justificativas pendentes.");
+
+                        Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionarioPendentes[i]["idfuncionario"], "11",
+                            "Você tem justificativas pendentes.");
+
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                        }
+                    }
+                    #endregion
+
+                    #region Alerta Gestor
+
+
+                    var DadosGestor =
+                        CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
+
+                    if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                            "Existem funcionários do seu setor com justificativas pendentes.");
+
+                        Envia.EnviaEmail(DadosGestor[0]["email"], "Existem funcionários do seu setor com justificativas pendentes.");
+
+                        if (DadosGestor[0]["id"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                            "Existem funcionários do seu setor com justificativas pendentes.");
+
+                        if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes.");
+                        }
+                    }
+
+                    #endregion
+                }
+
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Alerta cadastrado com sucesso !"});
+                    new { Mensagem = "Alerta cadastrado com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1162,7 +1293,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Função cadastrada com sucesso !"});
+                    new { Mensagem = "Função cadastrada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1182,7 +1313,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 VerificaDados.EditarFuncao(Dados["IdFuncao"], DadosCadastro.NomeFuncao, Certificacoes);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Função alterada com sucesso !"});
+                    new { Mensagem = "Função alterada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1355,6 +1486,70 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosPendenciaFire = Firebird.RetornaDadosMarcacao(DadosPendencia[0]["data"],
                     DadosPendencia[0]["idfuncionariofirebird"]);
 
+                #region Alerta Funcionario
+
+
+                var Envia = new EnviodeAlertas();
+                var CadastroAlerta = new QueryMysql();
+
+                var DadosOperador =
+                    CadastroAlerta.RetornaInformacoesNotificacao(DadosPendencia[0]["idfuncionario"]);
+
+                if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                {
+                    CadastroAlerta.cadastrarAlert(DadosPendencia[0]["idfuncionario"], "11",
+                        "Sua justificativa foi confirmada.");
+
+                    Envia.EnviaEmail(DadosOperador[0]["email"], "Sua justificativa foi confirmada.");
+
+                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua justificativa foi confirmada.");
+                    }
+                }
+                else
+                {
+                    CadastroAlerta.cadastrarAlert(DadosPendencia[0]["idfuncionario"], "11",
+                        "Sua justificativa foi confirmada.");
+
+                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua justificativa foi confirmada.");
+                    }
+                }
+                #endregion
+
+                #region Alerta Gestor
+
+
+                var DadosGestor =
+                    CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
+
+                if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                {
+                    CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                        "A justificativa do funcionário: "+DadosOperador[0]["nome"]+"  foi confirmada.");
+
+                    Envia.EnviaEmail(DadosGestor[0]["email"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+
+                    if (DadosGestor[0]["id"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                    }
+                }
+                else
+                {
+                    CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                        "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+
+                    if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                    {
+                        Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                    }
+                }
+
+                #endregion
+
                 var Existe = false;
                 var NegaFireBird = false;
                 for (var i = 0; i < DadosPendencia.Count; i++)
@@ -1398,7 +1593,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Justificativa confirmada com sucesso !"});
+                    new { Mensagem = "Justificativa confirmada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1412,7 +1607,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirFuncao(IdFuncao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Função excluida com sucesso !"});
+                    new { Mensagem = "Função excluida com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1436,7 +1631,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Certificação cadastrada com sucesso !"});
+                    new { Mensagem = "Certificação cadastrada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1450,7 +1645,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.EditarCertificacao(Dados["IdCertificacao"], DadosCadastro.NomeCertificacao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Certificação atualizada com sucesso !"});
+                    new { Mensagem = "Certificação atualizada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1464,7 +1659,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirCertificacao(IdFuncao);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Certificação excluida com sucesso !"});
+                    new { Mensagem = "Certificação excluida com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1547,7 +1742,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.CadastrarGestor(DadosCadastro["Funcionario"], DadosCadastro["Setor"]);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Gestor cadastrado com sucesso !"});
+                    new { Mensagem = "Gestor cadastrado com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1561,7 +1756,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.EditarGestor(Dados["FuncionarioEdicao"], Dados["SetorEdicao"]);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Certificação atualizada com sucesso !"});
+                    new { Mensagem = "Certificação atualizada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1575,7 +1770,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirGestor(IdGestor);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Gestor removido com sucesso !"});
+                    new { Mensagem = "Gestor removido com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1665,7 +1860,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.CadastrarSetor(DadosCadastro.NomeSetor);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Setor cadastrado com sucesso !"});
+                    new { Mensagem = "Setor cadastrado com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1679,7 +1874,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.EditarSetor(Dados["IdSetor"], DadosCadastro.NomeSetor);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Setor atualizada com sucesso !"});
+                    new { Mensagem = "Setor atualizada com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
@@ -1693,7 +1888,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirSetor(IdSetor);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new {Mensagem = "Setor excluido com sucesso !"});
+                    new { Mensagem = "Setor excluido com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");

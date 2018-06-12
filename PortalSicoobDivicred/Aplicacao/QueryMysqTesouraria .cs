@@ -16,6 +16,21 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
+        public string consultaValorNR()
+        {
+            string QueryValor = "SELECT valor from tesourariavalornr where data = (SELECT Max(data) FROM tesourariavalornr)";
+
+            var consultaValor = ConexaoMysql.ExecutaComandoComRetorno(QueryValor);
+
+            return consultaValor[0]["valor"];
+        }
+
+        public void insereValorNR(string valor, String data)
+        {
+            var QueryInsereValorNR = "INSERT INTO tesourariavalornr (valor,data) values('"+valor.Replace(",",".")+"','"+ data.ToString() +"')";
+            ConexaoMysql.ExecutaComando(QueryInsereValorNR);
+        }
+
         public void InsereConferencia(String data, string historico, string extrato,string arquivos,string diferenca)
         {
             

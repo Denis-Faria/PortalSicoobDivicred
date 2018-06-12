@@ -437,6 +437,7 @@
 
                         </div>
                         <div>
+                            
                             <div class="panel-block">
                                 <div style="width:99%">
                                     <span class="panel-icon">
@@ -551,13 +552,19 @@
                                             </div>
 
                                             <div id="operacaoCaixa" class="field" hidden>
+                                                
                                                 <div class="file is-primary " style="display:block;width:100%">
                                                     <label class="file-label">
+
                                                         <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('operacaoCaixa')" name="file" id="file5">
                                                         <span class="file-cta" style="display:block;width:100%;">
                                                             <i class="fas fa-upload"></i>
                                                             <label>Operação de caixa(dia ant.)</label>
                                                         </span>
+                                                    </label>
+                                                    <input type="checkbox" id="validaCampoOperacao" value="true" name="check9" onchange="AlternarBotoes('operacaoCaixa')" class="is-checkradio is-small  has-background-color">
+                                                    <label for="validaCampoOperacao">
+                                                        Não houve movimentação
                                                     </label>
                                                 </div>
                                             </div>

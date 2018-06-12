@@ -108,6 +108,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return id[0]["count(*)"];
         }
 
+
+
+        
         public void IncluirPontucao(string Login, double ponto)
         {
             string existe = ExisteRegistro(Login);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
+using PortalSicoobDivicred.Aplicacao;
 
 namespace PortalSicoobDivicred.Controllers
 {
@@ -77,6 +78,7 @@ namespace PortalSicoobDivicred.Controllers
 
             Dictionary<string, double> somatorio = new Dictionary<string, double>();
 
+            
             Conexao conectaPlanilha = new Conexao();
             DataSet output = new DataSet();
             output.Tables.Add(conectaPlanilha.importarExcel(caminho, count));
@@ -118,17 +120,11 @@ namespace PortalSicoobDivicred.Controllers
 
                                 if (output.Tables[0].Rows[j]["F13"].ToString() == "3" || output.Tables[0].Rows[j]["F13"].ToString() == "4" || output.Tables[0].Rows[j]["F13"].ToString() == "5")
                                 {
-
-                                   // numeros[aux] = Math.Round(Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", "")), 2);
-                                   // double teste= Math.Round(Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", "")), 2);
-                                   // aux = aux + 1;
                                     valorArq1 = Math.Round(valorArq1 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", "")), 2);
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
-
                                 }
                                 else if (output.Tables[0].Rows[j]["F13"].ToString() == "500" || output.Tables[0].Rows[j]["F13"].ToString() == "5472" || output.Tables[0].Rows[j]["F13"].ToString() == "5473" || output.Tables[0].Rows[j]["F13"].ToString() == "5474" || output.Tables[0].Rows[j]["F13"].ToString() == "232" || output.Tables[0].Rows[j]["F13"].ToString() == "233" || output.Tables[0].Rows[j]["F13"].ToString() == "234" || output.Tables[0].Rows[j]["F13"].ToString() == "235")
                                 {
-
                                     if (output.Tables[0].Rows[j]["F13"].ToString()=="500")
                                     {
                                         if ((output.Tables[0].Rows[j]["F14"].ToString() == "5472" || output.Tables[0].Rows[j]["F14"].ToString() == "5473" || output.Tables[0].Rows[j]["F14"].ToString() == "5474" || output.Tables[0].Rows[j]["F14"].ToString() == "232" || output.Tables[0].Rows[j]["F14"].ToString() == "233" || output.Tables[0].Rows[j]["F14"].ToString() == "234" || output.Tables[0].Rows[j]["F14"].ToString() == "235"))
@@ -145,7 +141,6 @@ namespace PortalSicoobDivicred.Controllers
 
                                 else if (output.Tables[0].Rows[j]["F13"].ToString() == "821" || output.Tables[0].Rows[j]["F13"].ToString() == "822" || output.Tables[0].Rows[j]["F13"].ToString() == "7286" || output.Tables[0].Rows[j]["F13"].ToString() == "7336" || output.Tables[0].Rows[j]["F13"].ToString() == "847")
                                 {
-
                                     valorArq4 = valorArq4 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
                                 }
@@ -235,6 +230,8 @@ namespace PortalSicoobDivicred.Controllers
                                 valorArq7 = Math.Round(valorArq7 + Convert.ToDouble((output.Tables[0].Rows[j]["F41"])), 2);
 
                             }
+
+                            
                         }
                         catch
                         {

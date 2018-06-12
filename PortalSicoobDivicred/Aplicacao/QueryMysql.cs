@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Port.Repositorios;
 using PortalSicoobDivicred.Models;
 
@@ -751,6 +752,61 @@ namespace PortalSicoobDivicred.Aplicacao
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
+        public List<Dictionary<string, string>> RetornaInformacoesNumerario(string IdAgencia)
+        {
+            var Query = "select * from numerariosagencias WHERE idagencia="+IdAgencia+" ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados;
+        }
+        public string RetornaNomeFuncionario(string IdFuncionario)
+        {
+            var Query = "select nome from funcionarios WHERE id=" + IdFuncionario + " ";
+            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Chamados[0]["nome"];
+        }
+
+        public void AtualizaNumerario(string Valor, string Observacao, string Agencia, string UsuarioAlteracao)
+        {
+            var Query = "UPDATE numerariosagencias SET valor='"+Valor+"',idfuncionarioalteracao="+UsuarioAlteracao+",observacao='"+Observacao+"',dataalteracao=NOW() WHERE idagencia="+Agencia+"";
+            ConexaoMysql.ExecutaComando(Query);
+        }
+        public bool PermissaoControleTesouraria(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                Usuario + "' and a.idaplicativo=12";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool PermissaoControleFuncionario(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesfuncionarios a, funcionarios b where a.idfuncionario = b.id and b.id = a.idfuncionario and b.login='" +
+                Usuario + "' and a.idaplicativo=12";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
     }
 }

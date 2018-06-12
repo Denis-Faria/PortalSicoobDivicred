@@ -9,16 +9,17 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class PrincipalController : Controller
     {
-        public ActionResult Principal()
+        public ActionResult Principal(string Mensagem)
         {
 
 
             var Alerta = new EnviodeAlertas();
- 
+
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                TempData["Mensagem"] = Mensagem;
                 var Cookie = Request.Cookies.Get("CookieFarm");
 
                 var Login = Criptografa.Descriptografar(Cookie.Value);
@@ -49,6 +50,21 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["PermissaoGestor"] = "N";
                     TempData["AreaGestor"] = "N";
                 }
+
+                if (VerificaDados.PermissaoControleTesouraria(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoNumerario"] =
+                        " ";
+                else
+                    TempData["PermissaoNumerario"] = "display: none";
+
+
+
+                if (VerificaDados.PermissaoControleFuncionario(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoNumerario"] =
+                        " ";
+                else
+                    TempData["PermissaoNumerario"] = "display: none";
+
 
 
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
@@ -355,9 +371,9 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                         DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
                         DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf,
-                        DadosFuncionario.NotificacaoEmail,DadosFuncionario.ContribuicaoSindical);
+                        DadosFuncionario.NotificacaoEmail, DadosFuncionario.ContribuicaoSindical);
 
-                    if (DadosFuncionario.MultiploNomeEmpresa != null )
+                    if (DadosFuncionario.MultiploNomeEmpresa != null)
                     {
                         VerificaDados.InserirVinculoEmpregaticio(DadosTabelaFuncionario[0]["id"],
                             DadosFuncionario.MultiploNomeEmpresa, DadosFuncionario.MultiploCnpj,
@@ -789,11 +805,129 @@ namespace PortalSicoobDivicred.Controllers
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var Atualiza = new QueryMysql();
-            Atualiza.CadastraIdNotificacao(IdNotificacao,Login);
+            Atualiza.CadastraIdNotificacao(IdNotificacao, Login);
         }
         public ActionResult ControleNumerario()
         {
+            var VerificaDados = new QueryMysql();
+            for (int i = 0; i < 9; i++)
+            {
+                var DadosNumerarios = VerificaDados.RetornaInformacoesNumerario(i.ToString());
+                if (i == 0)
+                {
+                    TempData["ValorMatriz"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoMatriz"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataMatriz"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoMatriz"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 1)
+                {
+                    TempData["ValorParana"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoParana"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataParana"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoParana"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+
+                }
+                else if (i == 2)
+                {
+                    TempData["ValorCajuru"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoCajuru"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataCajuru"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoCajuru"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 3)
+                {
+                    TempData["ValorStClara"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoStClara"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataStClara"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoStClara"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 4)
+                {
+                    TempData["ValorBH"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoBH"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataBH"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoBH"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 5)
+                {
+                    TempData["ValorBetim"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoBetim"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataBetim"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoBetim"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 6)
+                {
+                    TempData["ValorContagem"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoContagem"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataContagem"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoContagem"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 7)
+                {
+                    TempData["ValorGoias"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoGoias"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataGoias"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoGoias"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+                else if (i == 8)
+                {
+                    TempData["ValorBarreiro"] = string.Format("{0:N}", DadosNumerarios[0]["valor"]);
+                    TempData["ObservacaoBarreiro"] = DadosNumerarios[0]["observacao"];
+                    TempData["DataBarreiro"] = DadosNumerarios[0]["dataalteracao"];
+                    TempData["AlteradoBarreiro"] = VerificaDados.RetornaNomeFuncionario(DadosNumerarios[0]["idfuncionarioalteracao"]);
+                }
+            }
+
             return PartialView("ControleNumerario");
+        }
+
+        [HttpPost]
+        public JsonResult SalvaNumerario(string Valor, string Observacao, string Agencia)
+        {
+            var VerificaDados = new QueryMysql();
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+
+            var DadosFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin(Login);
+
+            if (Agencia.Equals("Matriz"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao,"0",DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Parana"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "1", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Cajuru"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "2", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("StClara"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "3", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("BH"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "4", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Betim"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "5", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Contagem"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "6", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Goias"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}",Valor), Observacao, "7", DadosFuncionario[0]["id"]);
+            }
+            else if (Agencia.Equals("Barreiro"))
+            {
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "8", DadosFuncionario[0]["id"]);
+            }
+            return Json("ok");
         }
     }
 }

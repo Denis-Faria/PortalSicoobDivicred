@@ -987,13 +987,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
       <publishTime>05/21/2018 14:47:25</publishTime>
-      <publishTime>06/11/2018 16:07:54</publishTime>
+      <publishTime>06/12/2018 11:06:28</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>06/11/2018 16:07:54</publishTime>
+      <publishTime>06/12/2018 11:06:28</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>05/10/2018 22:43:02</publishTime>
@@ -2379,13 +2379,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/01/2018 15:24:19</publishTime>
     </File>
     <File Include="Views/Principal/ControleNumerario.cshtml">
-      <publishTime>06/11/2018 15:52:22</publishTime>
+      <publishTime>06/12/2018 11:04:14</publishTime>
     </File>
     <File Include="Views/Principal/Curriculo.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
-      <publishTime>06/11/2018 15:57:48</publishTime>
+      <publishTime>06/12/2018 10:52:45</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>05/17/2018 11:42:27</publishTime>
@@ -2426,7 +2426,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
-      <publishTime>05/28/2018 12:03:17</publishTime>
+      <publishTime>06/12/2018 11:03:22</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>

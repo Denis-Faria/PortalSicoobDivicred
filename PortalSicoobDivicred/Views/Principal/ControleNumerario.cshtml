@@ -1,5 +1,57 @@
-﻿
+﻿<script type="text/javascript">
 
+    function EditarValor(Agencia) {
+
+        $("#Observacao" + Agencia).removeAttr("style");
+        $("#LabelObservacao" + Agencia).attr("style", "display:none");
+        $("#Valor" + Agencia).removeAttr("style");
+        $("#LabelValor" + Agencia).attr("style", "display:none");
+        $("#Salva" + Agencia).removeAttr("style");
+        $("#Editar" + Agencia).attr("style", "display:none");
+
+    }
+
+    function SalvarValor(Agencia) {
+
+
+        valor = $("#Valor" + Agencia).val();
+        observacao = $("#Observacao" + Agencia).val();
+        if (valor.length === 0) {
+            iziToast.error({
+                title: 'Erro',
+                position: "center",
+                message: 'Nenhum valor valido preenchido. nenhuma alteração salva!',
+            });
+
+        }
+        else if (observacao.length === 0) {
+
+            iziToast.error({
+                title: 'Erro',
+                position: "center",
+                message: 'Nenhum observação preenchida. nenhuma alteração salva!'
+            });
+        }
+        else {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Principal/SalvaNumerario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "Valor": valor, "Observacao": observacao, "Agencia": Agencia },
+                    success: function (data) {
+                        window.location.href = "http://10.11.17.30:9090/Principal/Principal?Mensagem=Numerário salvos com sucesso'";
+
+                    }
+                });
+
+        }
+
+    }
+
+</script>
 
 <table class="table">
     <thead>
@@ -15,75 +67,75 @@
     <tbody>
         <tr>
             <td>Matriz</td>
-            <td>R$@TempData["ValorMatriz"]<input id="ValorMatriz" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorMatriz">R$@TempData["ValorMatriz"]</label><input id="ValorMatriz" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoMatriz">@TempData["ObservacaoMatriz"]</label><input id="ObservacaoMatriz" style="display:none" class="input" /> </td>
+            <td>@TempData["DataMatriz"]</td>
+            <td>@TempData["AlteradoMatriz"]</td>
+            <td><a id="EditarMatriz" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Matriz')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaMatriz" data-balloon-pos="right" href="javascript:SalvarValor('Matriz')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Parana</td>
-            <td>R$@TempData["ValorParana"]<input id="ValorParana" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorParana">R$@TempData["ValorParana"]</label><input id="ValorParana" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoParana">@TempData["ObservacaoParana"]</label><input id="ObservacaoParana" style="display:none" class="input" /> </td>
+            <td>@TempData["DataParana"]</td>
+            <td>@TempData["AlteradoParana"]</td>
+            <td><a id="EditarParana" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Parana')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaParana" data-balloon-pos="right" href="javascript:SalvarValor('Parana')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Cajuru</td>
-            <td>R$@TempData["ValorCajuru"]<input id="ValorCajuru" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorCajuru">R$@TempData["ValorCajuru"]</label><input id="ValorCajuru" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoCajuru">@TempData["ObservacaoCajuru"]</label><input id="ObservacaoCajuru" style="display:none" class="input" /> </td>
+            <td>@TempData["DataCajuru"]</td>
+            <td>@TempData["AlteradoCajuru"]</td>
+            <td><a id="EditarCajuru" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Cajuru')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaCajuru" data-balloon-pos="right" href="javascript:SalvarValor('Cajuru')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>St. Clara</td>
-            <td>R$@TempData["ValorStClara"]<input id="ValorStClara" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorStClara">R$@TempData["ValorStClara"]</label><input id="ValorStClara" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoStClara">@TempData["ObservacaoStClara"]</label><input id="ObservacaoStClara" style="display:none" class="input" /> </td>
+            <td>@TempData["DataStClara"]</td>
+            <td>@TempData["AlteradoStClara"]</td>
+            <td><a id="EditarStClara" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('StClara')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaStClara" data-balloon-pos="right" href="javascript:SalvarValor('StClara')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>BH</td>
-            <td>R$@TempData["ValorBH"]<input id="ValorBH" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorBH">R$@TempData["ValorBH"]</label><input id="ValorBH" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoBH">@TempData["ObservacaoBH"]</label><input id="ObservacaoBH" style="display:none" class="input" /> </td>
+            <td>@TempData["DataBH"]</td>
+            <td>@TempData["AlteradoBH"]</td>
+            <td><a id="EditarBH" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('BH')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaBH" data-balloon-pos="right" href="javascript:SalvarValor('BH')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Betim</td>
-            <td>R$@TempData["ValorBetim"]<input id="ValorBetim" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorBetim">R$@TempData["ValorBetim"]</label><input id="ValorBetim" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoBetim">@TempData["ObservacaoBetim"]</label><input id="ObservacaoBetim" style="display:none" class="input" /> </td>
+            <td>@TempData["DataBetim"]</td>
+            <td>@TempData["AlteradoBetim"]</td>
+            <td><a id="EditarBetim" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Betim')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaBetim" data-balloon-pos="right" href="javascript:SalvarValor('Betim')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Contagem</td>
-            <td>R$@TempData["ValorContagem"]<input id="ValorContagem" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorContagem">R$@TempData["ValorContagem"]</label><input id="ValorContagem" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoContagem">@TempData["ObservacaoContagem"]</label><input id="ObservacaoContagem" style="display:none" class="input" /> </td>
+            <td>@TempData["DataContagem"]</td>
+            <td>@TempData["AlteradoContagem"]</td>
+            <td><a id="EditarContagem" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Contagem')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaContagem" data-balloon-pos="right" href="javascript:SalvarValor('Contagem')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Goias</td>
-            <td>R$@TempData["ValorGoias"]<input id="ValorGoias" style="display:none" class="input" /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><label id="LabelValorGoias">R$@TempData["ValorGoias"]</label><input id="ValorGoias" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoGoias">@TempData["ObservacaoGoias"]</label><input id="ObservacaoGoias" style="display:none" class="input" /> </td>
+            <td>@TempData["DataGoias"]</td>
+            <td>@TempData["AlteradoGoias"]</td>
+            <td><a id="EditarGoias" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Goias')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaGoias" data-balloon-pos="right" href="javascript:SalvarValor('Goias')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
         <tr>
             <td>Barreiro</td>
-            <td>R$@TempData["ValorBarreiro"]<input id="ValorBarreiro" style="display:none" class="input" /></td>
-            <td><label>@TempData["ObservacaoBarreiro"]</label><input id="ObservacaoBarreiro" style="display:none" class="input" /> </td>
+            <td><label id="LabelValorBarreiro">R$@TempData["ValorBarreiro"]</label><input id="ValorBarreiro" style="display:none" class="input" type="number" /></td>
+            <td><label id="LabelObservacaoBarreiro">@TempData["ObservacaoBarreiro"]</label><input id="ObservacaoBarreiro" style="display:none" class="input" /> </td>
             <td>@TempData["DataBarreiro"]</td>
             <td>@TempData["AlteradoBarreiro"]</td>
-            <td><a data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Barreiro')"><i class="fas fa-edit"></i></a></td>
+            <td><a id="EditarBarreiro" data-balloon="Editar" data-balloon-pos="right" href="javascript:EditarValor('Barreiro')"><i class="fas fa-edit"></i></a> <a data-balloon="Salvar" id="SalvaBarreiro" data-balloon-pos="right" href="javascript:SalvarValor('Barreiro')" style="display: none"><i class="fas fa-save"></i></a></td>
         </tr>
     </tbody>
 </table>

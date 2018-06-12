@@ -445,7 +445,7 @@ namespace PortalSicoobDivicred.Controllers
                     DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
                 VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho,
                     DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
-                    DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem, DadosFuncionario.NotificacaoEmail, DadosFuncionario.ContribuicaoSindical);
+                    DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem, DadosFuncionario.ContribuicaoSindical, DadosFuncionario.NotificacaoEmail);
 
                 return RedirectToAction("Perfil", "PainelColaborador",
                     new { Mensagem = "Formulário Pessoal atualizado com sucesso !" });

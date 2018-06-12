@@ -1,6 +1,6 @@
 language: csharp
 solution: PortalSicoobDivicred.sln
- install:
+install:
 - travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./PortalSicoobDivicred.sln
 script:
 - xbuild ./PortalSicoobDivicred.sln

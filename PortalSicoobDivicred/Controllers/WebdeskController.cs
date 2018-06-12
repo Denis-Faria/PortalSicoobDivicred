@@ -159,6 +159,18 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["SlaSetor" + i] = Convert.ToInt32(Horas);
                 }
 
+
+                if (DadosUsuario[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "S";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "N";
+                }
+
                 var Solicitacao = new SolicitacaoWebDesk();
                 var Setores = VerificaDados.RetornaSetor();
                 Solicitacao.SetorResponsavel = Setores;
@@ -946,6 +958,62 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("InteracaoChamado", "Webdesk",
                 new { IdChamado = IdSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" });
+        }
+
+        public ActionResult AreaGestor(string Mensagem)
+        {
+            TempData["Mensagem"] = Mensagem;
+            var Cookie = Request.Cookies.Get("CookieFarm");
+            var Login = Criptografa.Descriptografar(Cookie.Value);
+            var VerificaDados = new QueryMysql();
+
+            var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
+
+            if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                TempData["PermissaoCurriculo"] =
+                    " ";
+            else
+                TempData["PermissaoCurriculo"] = "display: none";
+
+            if (VerificaDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
+                TempData["PermissaoTesouraria"] =
+                    " ";
+            else
+                TempData["PermissaoTesouraria"] = "display: none";
+
+            if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+            {
+                TempData["PermissaoGestor"] = "N";
+                TempData["AreaGestor"] = "S";
+            }
+            else
+            {
+                TempData["PermissaoGestor"] = "N";
+                TempData["AreaGestor"] = "N";
+            }
+
+            if (DadosUsuarioBanco[0]["foto"] == null)
+                TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+            else
+                TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+
+            TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+
+
+
+
+
+
+
+
+
+
+            return View("AreaGestor");
+        }
+
+        public ActionResult FormularioSetor()
+        {
+            return PartialView("FormularioSetor");
         }
     }
 }

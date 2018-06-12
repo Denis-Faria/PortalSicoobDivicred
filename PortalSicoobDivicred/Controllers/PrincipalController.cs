@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
@@ -883,7 +884,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public JsonResult SalvaNumerario(string Valor, string Observacao, string Agencia)
+        public async Task<JsonResult> SalvaNumerario(string Valor, string Observacao, string Agencia)
         {
             var VerificaDados = new QueryMysql();
             var Cookie = Request.Cookies.Get("CookieFarm");
@@ -894,38 +895,284 @@ namespace PortalSicoobDivicred.Controllers
             if (Agencia.Equals("Matriz"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao,"0",DadosFuncionario[0]["id"]);
+
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A "+Agencia+".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
+
+           
             }
             else if (Agencia.Equals("Parana"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "1", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("Cajuru"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "2", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("StClara"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "3", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("BH"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "4", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("Betim"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "5", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("Contagem"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "6", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("Goias"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}",Valor), Observacao, "7", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             else if (Agencia.Equals("Barreiro"))
             {
                 VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "8", DadosFuncionario[0]["id"]);
+                var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
+
+                for (int i = 0; i < FuncionariosSetor.Count; i++)
+                {
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+
+                        if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(FuncionariosSetor[i]["idnotificacao"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        }
+                    }
+                }
             }
             return Json("ok");
         }

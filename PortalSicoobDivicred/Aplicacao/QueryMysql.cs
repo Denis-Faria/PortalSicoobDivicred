@@ -690,7 +690,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaFuncionariosSetor(string IdSetor)
         {
             var Query =
-                "SELECT nome FROM funcionarios WHERE idsetor='" + IdSetor + "'";
+                "SELECT nome,idnotificacao,notificacaoemail,id,email FROM funcionarios WHERE idsetor='" + IdSetor + "'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
 
 
@@ -773,7 +773,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public bool PermissaoControleTesouraria(string Usuario)
         {
             var Query =
-                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                "select a.valor from permissoesgrupo a, funcionarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
                 Usuario + "' and a.idaplicativo=12";
 
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
@@ -806,6 +806,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             }
         }
+       
 
 
     }

@@ -901,6 +901,8 @@
     <Content Include="Views\Tesouraria\ViewTabelaPesquisar.cshtml" />
     <Content Include="Views\Principal\multiplosvinculos.cshtml" />
     <Content Include="Views\Principal\ControleNumerario.cshtml" />
+    <Content Include="Views\WebDesk\AreaGestor.cshtml" />
+    <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

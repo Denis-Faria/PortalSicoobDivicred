@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Serialization;
 using Limilabs.Client.SMTP;
@@ -38,7 +39,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
-        public void CadastraAlerta(string IdAlerta,string Mensagem)
+        public  void CadastraAlerta(string IdAlerta,string Mensagem)
         {
             var request = WebRequest.Create("https://onesignal.com/api/v1/notifications") as HttpWebRequest;
 

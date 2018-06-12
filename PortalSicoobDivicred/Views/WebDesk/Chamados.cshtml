@@ -207,7 +207,7 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
-                    if (IdSetor.value == 42) {
+                    if (IdSetor.value === 42) {
                         $("#CpfCadastro").show();
                     } else {
                         $("#CpfCadastro").hide();
@@ -247,6 +247,15 @@
             </span>
             <span class="name">Criar Solicitação</span>
         </button>
+    @if (TempData["AreaGestor"].ToString().Equals("S"))
+    {
+        <button class="button is-primary" id="AreaGestor" onclick="location.href = '@Url.Action("AreaGestor")'" onmouseleave="$('#AreaGestor').removeClass('animated pulse')" onmouseover="$('#AreaGestor').addClass('animated pulse');" data-balloon="Clique para gerenciar categorias e gerar relatórios." data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fas fa-users-cog" aria-hidden="true"></i>
+            </span>
+            <span class="name">Área da Gestão</span>
+        </button>
+    }
     </p>
     <div class="field has-addons">
         <div class="control">
@@ -490,7 +499,7 @@
                 <br/>
                 <div class="field is-grouped" id="CpfCadastro" hidden>
                     <div class="field control is-fullwidth">
-                        <label class="label">CPF do associado:</label>
+                        <label class="label">CPF/CNPJ do associado:</label>
                         <input class="input  is-fullwidth" name="CpfAbertura" id="CpfAbertura" onfocusout="javascript:ValidaMascara(this.value)" ,onfocus="RemoveMascara()" required/>
                     </div>
                 </div>

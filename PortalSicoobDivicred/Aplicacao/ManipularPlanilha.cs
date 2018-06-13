@@ -70,6 +70,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 catch { }
             }
+            
             return inicio;
         }
 
@@ -172,12 +173,19 @@ namespace PortalSicoobDivicred.Controllers
 
                                 else if (output.Tables[0].Rows[j]["F13"].ToString() == "257"|| output.Tables[0].Rows[j]["F13"].ToString() == "258")
                                 {
-                                    valorArq11 = valorArq11 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                    if (output.Tables[0].Rows[j]["F13"].ToString() == "500")
+                                    {
+                                        if (output.Tables[0].Rows[j]["F14"].ToString() == "257" || output.Tables[0].Rows[j]["F14"].ToString() == "258")
+                                        {
+                                            valorArq11 = valorArq11 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                        }
+                                    }
+                                    else {
+
+                                        valorArq11 = valorArq11 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                    }
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
-
                                 }
-
-
                             }
                             catch { }
                         }

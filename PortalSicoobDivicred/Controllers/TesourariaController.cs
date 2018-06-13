@@ -137,6 +137,16 @@ namespace PortalSicoobDivicred.Controllers
                     var dataSelecionada = new DateTime();
                     var dataExtratoDia = new DateTime();
                     //var naoofx = 0;
+                    if (i == 4)
+                    {
+                        if (arquivos[i]== null)
+                        {
+                            i = 5;
+                        }
+                        else {
+                            i = 4;
+                        }
+                    }
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
                     caminho     = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
                     arquivos[i].SaveAs(caminho);                    
@@ -338,8 +348,7 @@ namespace PortalSicoobDivicred.Controllers
 
                             case 3:
 
-                                if (caminho.ToString() == "")
-                                {
+                                
 
                                     inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
                                     dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
@@ -355,14 +364,20 @@ namespace PortalSicoobDivicred.Controllers
                                     atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), TempData["data"].ToString());
 
                                     insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
-                                }
+                                
                                 break;
                            
                             case 4:
-                                inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
-                                dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
-                                TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
-
+                                if (caminho.ToString() == "")
+                                {
+                                    TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
+                                }
+                                else
+                                {
+                                    inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
+                                    dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
+                                    TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
+                                }
                                 break;
 
                             case 5:

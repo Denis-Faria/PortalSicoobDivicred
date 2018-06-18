@@ -584,7 +584,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                            "oc='"+Oc+"',orgaoemissoroc='"+OrgaoEmissorOc+ "',dataexpedicaooc='" + DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
                                            ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "',deficientemotor='"+DeficienteMotor+"',deficientevisual='"+DeficienteVisual+"'" +
                                            ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"'"+
-                                           ",paisdivorciado='"+PaisDivorciados+ "', dataemissaorg='" + DataExpedicaoDocumentoRg.Date.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "'" +
+                                           ",paisdivorciado='"+PaisDivorciados+ "', dataemissaorg='" + DataExpedicaoDocumentoRg.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "'" +
                                            "  WHERE login='"+UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }

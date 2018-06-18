@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
@@ -547,7 +548,7 @@ namespace PortalSicoobDivicred.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CadastrarInteracao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
+        public async Task<ActionResult> CadastrarInteracao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
         {
             var VerificaDados = new QueryMysqlWebdesk();
             var Logado = VerificaDados.UsuarioLogado();
@@ -902,7 +903,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
-                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         }
                     }
 
@@ -921,7 +922,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult IniciarAtendimento(string IdSolicitacao)
+        public async Task<ActionResult> IniciarAtendimento(string IdSolicitacao)
         {
             var VerificaDados = new QueryMysqlWebdesk();
             var Cookie = Request.Cookies.Get("CookieFarm");
@@ -963,57 +964,92 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult AreaGestor(string Mensagem)
         {
             TempData["Mensagem"] = Mensagem;
-            var Cookie = Request.Cookies.Get("CookieFarm");
-            var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
-
-            var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
-
-            if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
-                TempData["PermissaoCurriculo"] =
-                    " ";
-            else
-                TempData["PermissaoCurriculo"] = "display: none";
-
-            if (VerificaDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
-                TempData["PermissaoTesouraria"] =
-                    " ";
-            else
-                TempData["PermissaoTesouraria"] = "display: none";
-
-            if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
             {
-                TempData["PermissaoGestor"] = "N";
-                TempData["AreaGestor"] = "S";
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+
+                var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
+
+                if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
+                if (VerificaDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
+                        " ";
+                else
+                    TempData["PermissaoTesouraria"] = "display: none";
+
+                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                {
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "S";
+                }
+                else
+                {
+                    TempData["PermissaoGestor"] = "N";
+                    TempData["AreaGestor"] = "N";
+                }
+
+                if (DadosUsuarioBanco[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+
+
+
+
+
+
+
+
+
+
+                return View("AreaGestor");
             }
-            else
-            {
-                TempData["PermissaoGestor"] = "N";
-                TempData["AreaGestor"] = "N";
-            }
 
-            if (DadosUsuarioBanco[0]["foto"] == null)
-                TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-            else
-                TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
-
-            TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
-
-
-
-
-
-
-
-
-
-
-            return View("AreaGestor");
+            return RedirectToAction("Login", "Login");
         }
 
         public ActionResult FormularioSetor()
         {
-            return PartialView("FormularioSetor");
+            var VerificaDados = new QueryMysqlWebdesk();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+
+                var DadosFormularios = VerificaDados.RetornaFormulariosSetor(DadosUsuario[0]["idsetor"]);
+
+                TempData["TotalFormularios"] = DadosFormularios.Count();
+
+                for (int i = 0; i < DadosFormularios.Count; i++)
+                {
+                    TempData["CategoriaFormulario" + i] = DadosFormularios[i]["descricao"];
+                    TempData["CamposFormulario" + i] = DadosFormularios[i]["campo"];
+                    TempData["CamposFormularioObrigatorio" + i] = DadosFormularios[i]["campoobrigatorio"];
+                }
+
+                return PartialView("FormularioSetor");
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult CadastrarFormulario()
+        {
+            throw new NotImplementedException();
         }
     }
 }

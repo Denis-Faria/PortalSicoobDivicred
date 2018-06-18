@@ -102,10 +102,20 @@
     }
 
     $(document).ready(function() {
+        $("#CadastraInteracao").click(function () {
+            if(!$(this).disabled){
+                var oldText = $(this).html();
+                $(this).html("<i class='material-icons animate-spin'>Processando Aguarde</i>");
+                // Desabilita o botao
+                $(this).disabled = true;
 
-        // var editor = CKEDITOR.replace('Descricao');
-        //editor.config.width = '100%';
-
+           
+                setTimeout(function () {
+                    $(this).disabled = false;
+                    $(this).html(oldText);
+                }.bind(this), 20000);
+            }
+        });
         if (!$('#Cadastro').validate({
             ignore: "input:hidden:not(input:hidden.required)",
             rules: {
@@ -488,7 +498,7 @@
             </p>
             <p class="control">
 
-                <button type="submit" class="button is-success">
+                <button type="submit" class="button is-success" id="CadastraInteracao">
                     <span class="icon is-small is-left">
                         <i class="fa fa-save"></i>
                     </span>

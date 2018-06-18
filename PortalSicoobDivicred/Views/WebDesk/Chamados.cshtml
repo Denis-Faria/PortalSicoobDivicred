@@ -146,8 +146,23 @@
 
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
+        $("#CadastraChamado").click(function () {
+            if(!$(this).disabled){
+                var oldText = $(this).html();
+                $(this).html("<i class='material-icons animate-spin'>Processando Aguarde</i>");
+                // Desabilita o botao
+                $(this).disabled = true;
+
+           
+                setTimeout(function () {
+                    $(this).disabled = false;
+                    $(this).html(oldText);
+                }.bind(this), 20000);
+            }
+        });
+        
         $("#CpfCadastro").hide();
         $("#TabWebdesk").tabs();
         var editor = CKEDITOR.replace('Descricao');
@@ -207,11 +222,6 @@
                     $("form").removeData("validator");
                     $("form").removeData("unobtrusiveValidation");
                     $.validator.unobtrusive.parse("form");
-                    if (IdSetor.value === 42) {
-                        $("#CpfCadastro").show();
-                    } else {
-                        $("#CpfCadastro").hide();
-                    }
                 }
             });
     }
@@ -516,7 +526,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button type="submit" class="button is-success">Cadastrar Solicitação</button>
+                <button type="submit" id="CadastraChamado" class="button is-success">Cadastrar Solicitação</button>
                 <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
             </footer>
         </div>

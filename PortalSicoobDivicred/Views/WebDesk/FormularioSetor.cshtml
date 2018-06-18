@@ -1,20 +1,32 @@
-﻿        <table id="TabelaFormulariosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+﻿
+<button class="button is-primary modal-button" id="NovoFormulario" onclick="javascript:$('#ModalFormulario').removeClass();$('#ModalFormularo').addClass('modal is-active');void(0);" data-target="#ModalSolicitacao" data-vivaldi-spatnav-clickable="1" onmouseleave="$('#NovoFormulario').removeClass('animated pulse')" onmouseover="$('#NovoFormulario').addClass('animated pulse');" data-balloon="Clique para criar um novo chamado." data-balloon-pos="down">
+    <span class="icon is-small">
+        <i class="fas fa-plus-square" aria-hidden="true"></i>
+    </span>
+    <span class="name">Criar Novo Formulário</span>
+</button>
+
+<br />
+<br/>
+<table id="TabelaFormulariosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
     <thead>
     <th class="has-text-centered">Categoria</th>
     <th class="has-text-centered">Campos do Formulário</th>
+    <th class="has-text-centered">Obrigatorio</th>
     <th class="has-text-centered">Ações</th>
     </thead>
     <tbody>
 
-    @for (var j = 0; j < Convert.ToInt32(TempData["TotalFormularios"].ToString()); j++)
-    {
-        <tr>
-            <td class="has-text-centered">@TempData["CategoriaFormulario" + j].ToString()</td>
-            <td class="has-text-centered">@TempData["CamposFormulario" + j].ToString()</td>
-            <td class="has-text-centered">
+        @for (var j = 0; j < Convert.ToInt32(TempData["TotalFormularios"].ToString()); j++)
+        {
+            <tr>
+                <td class="has-text-centered">@TempData["CategoriaFormulario" + j].ToString()</td>
+                <td class="has-text-centered">@TempData["CamposFormulario" + j].ToString()</td>
+                <td class="has-text-centered">@TempData["CamposFormularioObrigatorio" + j].ToString()</td>
+                <td class="has-text-centered"></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-            </td>
-        </tr>
-    }
-            </tbody>
-        </table>
+

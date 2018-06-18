@@ -363,7 +363,6 @@
     <Content Include="Assets\fonts\dropify.svg" />
     <Content Include="Assets\fonts\Flat-it License.txt" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="Assets\js\dropzone.js" />
     <Content Include="Assets\js\iziToast.js" />
     <Content Include="Assets\js\iziToast.min.js" />
     <Content Include="Assets\js\jPages.min.js" />

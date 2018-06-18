@@ -293,5 +293,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return Chamados;
         }
 
+        public List<Dictionary<string, string>> RetornaFormulariosSetor(string IdSetor)
+        {
+            var Query = "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" + IdSetor + "";
+            var Formularios = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Formularios;
+        }
+
     }
 }

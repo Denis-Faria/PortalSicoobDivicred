@@ -987,13 +987,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
       <publishTime>05/21/2018 14:47:25</publishTime>
-      <publishTime>06/12/2018 13:44:41</publishTime>
+      <publishTime>06/15/2018 15:43:17</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>06/12/2018 13:44:41</publishTime>
+      <publishTime>06/15/2018 15:43:17</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>10/05/2018 22:43:02</publishTime>
@@ -1036,7 +1036,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>08/26/2015 16:33:34</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
-      <publishTime>05/24/2018 13:38:22</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe.config">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -1057,25 +1057,25 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:22</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.Scripting.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.Scripting.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.amd64.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/Microsoft.DiaSymReader.Native.x86.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1090,7 +1090,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.Collections.Immutable.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.Console.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1105,10 +1105,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.IO.FileSystem.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.IO.FileSystem.Primitives.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.IO.Pipes.AccessControl.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1117,7 +1117,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.Reflection.Metadata.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.Security.AccessControl.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1126,13 +1126,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.Security.Cryptography.Algorithms.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.Security.Cryptography.Encoding.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.Security.Cryptography.Primitives.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.Security.Cryptography.X509Certificates.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1144,7 +1144,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/System.ValueTuple.dll">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/System.Xml.ReaderWriter.dll">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -1168,7 +1168,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/24/2018 13:38:24</publishTime>
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe">
-      <publishTime>05/24/2018 13:38:24</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>05/24/2018 13:38:24</publishTime>
@@ -2379,13 +2379,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/02/2018 15:24:19</publishTime>
     </File>
     <File Include="Views/Principal/ControleNumerario.cshtml">
-      <publishTime>06/12/2018 11:04:14</publishTime>
+      <publishTime>06/12/2018 15:30:39</publishTime>
     </File>
     <File Include="Views/Principal/Curriculo.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Dashboard.cshtml">
-      <publishTime>06/12/2018 10:52:45</publishTime>
+      <publishTime>06/12/2018 15:30:39</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>05/17/2018 11:42:27</publishTime>
@@ -2426,7 +2426,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Principal/Principal.cshtml">
-      <publishTime>06/12/2018 11:03:22</publishTime>
+      <publishTime>06/12/2018 15:30:39</publishTime>
     </File>
     <File Include="Views/Principal/ResultadoProcesso.cshtml">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -2445,13 +2445,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/01/2018 14:05:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/08/2018 14:50:42</publishTime>
+      <publishTime>06/12/2018 15:30:39</publishTime>
     </File>
     <File Include="Views/Tesouraria/Tesouraria.cshtml">
       <publishTime>06/08/2018 14:52:21</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewArquivos.cshtml">
-      <publishTime>06/08/2018 14:52:21</publishTime>
+      <publishTime>06/12/2018 15:33:04</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewPesquisar.cshtml">
       <publishTime>06/08/2018 14:52:21</publishTime>
@@ -2465,6 +2465,9 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     <File Include="Views/web.config">
       <publishTime>01/02/2018 15:24:19</publishTime>
     </File>
+    <File Include="Views/WebDesk/AreaGestor.cshtml">
+      <publishTime>06/12/2018 16:40:15</publishTime>
+    </File>
     <File Include="Views/WebDesk/CategoriaInteracao.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
@@ -2472,10 +2475,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>06/08/2018 14:50:42</publishTime>
+      <publishTime>06/15/2018 15:31:10</publishTime>
     </File>
     <File Include="Views/WebDesk/faltapermissao.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
+    </File>
+    <File Include="Views/WebDesk/FormularioSetor.cshtml">
+      <publishTime>06/12/2018 16:20:37</publishTime>
     </File>
     <File Include="Views/WebDesk/FuncionarioInteracao.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
@@ -2506,7 +2512,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>06/08/2018 14:50:42</publishTime>
+      <publishTime>06/15/2018 15:31:10</publishTime>
     </File>
     <File Include="Views/WebDesk/ResultadoPesquisa.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>

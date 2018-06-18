@@ -60,11 +60,12 @@ namespace PortalSicoobDivicred.Aplicacao
         public void DeletaProducao(string Data)
         {
 
-            var Query1 = "DELETE from dadosextrato where data='" +
+            var Query1 = "UPDATE  dadosextrato SET excluido='S' where data='" +
                             (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
+            
             ConexaoMysql.ExecutaComandoComRetorno(Query1);
 
-            var Query2 = "DELETE from justificativaextrato where data='" +
+            var Query2 = "UPDATE  justificativaextrato set excluido='S' where data='" +
                 (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
             ConexaoMysql.ExecutaComandoComRetorno(Query2);
         }

@@ -102,6 +102,9 @@ namespace PortalSicoobDivicred.Controllers
             double arqext9 = 0;
             double arqext10 = 0;
             double arqext11 = 0;
+            double arqext12 = 0;
+            int auxNR = 0;//quando 1, o usuário selecionou a opção de não usar o arquivo de op de caixa. Assim apenas o valor do NRDEV aparece no campo de extrato.
+
 
             var parser = new OFXDocumentParser();
 
@@ -136,7 +139,18 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var dataSelecionada = new DateTime();
                     var dataExtratoDia = new DateTime();
-                    //var naoofx = 0;
+                    
+                    if (i == 4)
+                    {
+                        if (arquivos[i]== null)
+                        {
+                            auxNR = 1;
+                            i = 5;
+                        }
+                        else {
+                            i = 4;
+                        }
+                    }
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
                     caminho     = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
                     arquivos[i].SaveAs(caminho);                    
@@ -218,6 +232,12 @@ namespace PortalSicoobDivicred.Controllers
                                             arqext4 = arqext4 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                             arqext4 = Math.Round(arqext4, 2);
                                             TempData["Extrato-821/2/7286/7336/847"] = arqext4;
+                                            
+                                        }
+                                        else if (historico.Contains("O TED EMITIDA-SPB") )
+                                        {
+                                            arqext12 = arqext12 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                            arqext12 = Math.Round(arqext12, 2);
                                         }
                                         else if (historico.Contains("DEV.TIT.PG.AUTOATENDIMENTO"))
                                         {
@@ -306,8 +326,8 @@ namespace PortalSicoobDivicred.Controllers
                                 TempData["5472/5473/5474/232/233/234/235"] = Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial);
                                 Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
 
-                                TempData["821/2/7286/7336/847"] = Convert.ToDouble(dados1["821/2/7286/7336/847"]);
-                                Maior = inicio.diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"]), 2));
+                                TempData["821/2/7286/7336/847"] = Convert.ToDouble(dados1["821/2/7286/7336/847"])+Convert.ToDouble(arqext12);
+                                Maior = inicio.diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"])+ Convert.ToDouble(arqext12), 2));
                                 TempData["Diferenca4"] = Maior.Split(';')[1];
                                 TempData["DiferencaTexto4"] = Maior.Split(';')[0];
                                 insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
@@ -338,8 +358,7 @@ namespace PortalSicoobDivicred.Controllers
 
                             case 3:
 
-                                if (caminho.ToString() == "")
-                                {
+                                
 
                                     inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
                                     dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
@@ -355,24 +374,30 @@ namespace PortalSicoobDivicred.Controllers
                                     atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), TempData["data"].ToString());
 
                                     insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
-                                }
+                                
                                 break;
                            
                             case 4:
-                                inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
-                                dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
-                                TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
 
+                                    inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
+                                    dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
+                                    TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
+                                
                                 break;
 
                             case 5:
+
+                                if (auxNR == 1)
+                                {
+                                    TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
+                                }
                                 inicioPlanilha4 = inicio.InicioPlanilha(caminho, i.ToString());
                                 dados5 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha4);
                                 TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
                                 Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
                                 TempData["Diferenca11"] = Maior.Split(';')[1];
                                 TempData["DiferencaTexto11"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", arqext11.ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
+                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
                                 break;
                         }
                     }

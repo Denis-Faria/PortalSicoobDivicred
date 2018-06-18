@@ -30,7 +30,7 @@
                        
                         $.ajax(
                             {
-                                type: 'GET',
+                                type: 'POST',
                                 url: '/Tesouraria/DeletaProducao',
                                 cache: true,
                                 async: true,
@@ -99,13 +99,13 @@
                             @TempData["historico"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato"]
+                            @Convert.ToDouble(TempData["extrato"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos"]
+                            @Convert.ToDouble(TempData["arquivos"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca"]
+                            @Convert.ToDouble(TempData["diferenca"]).ToString("C")
                         </td>
                     </tr>
                     <tr>
@@ -113,13 +113,13 @@
                             @TempData["historico1"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato1"]
+                            @Convert.ToDouble(TempData["extrato1"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos1"]
+                            @Convert.ToDouble(TempData["arquivos1"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca1"]
+                            @Convert.ToDouble(TempData["diferenca1"]).ToString("C")
                         </td>
                     </tr>
                     <tr>
@@ -127,13 +127,13 @@
                             @TempData["historico2"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato2"]
+                            @Convert.ToDouble(TempData["extrato2"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos2"]
+                            @Convert.ToDouble(TempData["arquivos2"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca2"]
+                            @Convert.ToDouble(TempData["diferenca2"]).ToString("C")
                         </td>
                     </tr>
                     <tr>
@@ -141,13 +141,13 @@
                             @TempData["historico3"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato3"]
+                            @Convert.ToDouble(TempData["extrato3"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos3"]
+                            @Convert.ToDouble(TempData["arquivos3"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca3"]
+                            @Convert.ToDouble(TempData["diferenca3"]).ToString("C")
                         </td>
                     </tr>
                     <tr>
@@ -155,13 +155,13 @@
                             @TempData["historico4"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato4"]
+                            @Convert.ToDouble(TempData["extrato4"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos4"]
+                            @Convert.ToDouble(TempData["arquivos4"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca4"]
+                            @Convert.ToDouble(TempData["diferenca4"]).ToString("C")
                         </td>
                     </tr>
 
@@ -170,13 +170,13 @@
                             @TempData["historico5"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato5"]
+                            @Convert.ToDouble(TempData["extrato5"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos5"]
+                            @Convert.ToDouble(TempData["arquivos5"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca5"]
+                            @Convert.ToDouble(TempData["diferenca5"]).ToString("C")
                         </td>
                     </tr>
 
@@ -185,13 +185,13 @@
                             @TempData["historico6"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato6"]
+                            @Convert.ToDouble(TempData["extrato6"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos6"]
+                            @Convert.ToDouble(TempData["arquivos6"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca6"]
+                            @Convert.ToDouble(TempData["diferenca6"]).ToString("C")
                         </td>
                     </tr>
 
@@ -200,13 +200,13 @@
                             @TempData["historico7"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato7"]
+                            @Convert.ToDouble(TempData["extrato7"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos7"]
+                            @Convert.ToDouble(TempData["arquivos7"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca7"]
+                            @Convert.ToDouble(TempData["diferenca7"]).ToString("C")
                         </td>
                     </tr>
 
@@ -215,13 +215,13 @@
                             @TempData["historico8"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato8"]
+                            @Convert.ToDouble(TempData["extrato8"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos8"]
+                            @Convert.ToDouble(TempData["arquivos8"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca8"]
+                            @Convert.ToDouble(TempData["diferenca8"]).ToString("C")
                         </td>
                     </tr>
 
@@ -230,13 +230,13 @@
                             @TempData["historico9"]
                         </td>
                         <td class="has-text-centered">
-                            @TempData["extrato9"]
+                            @Convert.ToDouble(TempData["extrato9"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["arquivos9"]
+                            @Convert.ToDouble(TempData["arquivos9"]).ToString("C")
                         </td>
                         <td class="has-text-centered">
-                            @TempData["diferenca9"]
+                            @Convert.ToDouble(TempData["diferenca9"]).ToString("C")
                         </td>
                     </tr>
                 </table>

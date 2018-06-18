@@ -276,7 +276,6 @@ namespace PortalSicoobDivicred.Controllers
                     valorArq13 = Convert.ToDouble(output.Tables[0].Rows[inicio-1]["F18"]);
                     somatorio.Add("Arquivo5", valorArq13);
                     break;
-
             }
             return somatorio;
         }

@@ -116,28 +116,7 @@
                 }.bind(this), 20000);
             }
         });
-        if (!$('#Cadastro').validate({
-            ignore: "input:hidden:not(input:hidden.required)",
-            rules: {
-                Descricao: {
-                    required: true,
-                    minlength: 20
-                }
-            },
-            messages: {
-                Descricao: {
-                    required: "Adicione uma descrição",
-                    minlength: "Digite ao menos 20 caracteres"
-                }
-            },
-            errorElement: "span",
-            errorPlacement: function(error) {
-                error.appendTo($("#Erro"));
-            }
-        }).form()) {
-            console.log('Form errors');
-            return false;
-        }
+
 
     });
 

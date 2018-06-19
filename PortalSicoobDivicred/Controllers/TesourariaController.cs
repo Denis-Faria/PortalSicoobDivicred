@@ -347,8 +347,8 @@ namespace PortalSicoobDivicred.Controllers
 
                                 inicioPlanilha1 = inicio.InicioPlanilha(caminho, i.ToString());
                                 dados2 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha1);
-                                TempData["5472/5473/5474/232/233/234/235-FINAL"] = (Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]));
-                                TempData["5472/5473/5474/232/233/234/235-FINALB"] = Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]);
+                                TempData["5472/5473/5474/232/233/234/235-FINAL"] = Math.Round((Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"])),2);
+                                TempData["5472/5473/5474/232/233/234/235-FINALB"] =Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]),2);
                                 Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
                                 TempData["Diferenca3"] = Maior.Split(';')[1];
                                 TempData["DiferencaTexto3"] = Maior.Split(';')[0];
@@ -371,7 +371,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["6/192-FINALB"] = arqext2 - (Convert.ToDouble(Maior.Split(';')[1])) - Convert.ToDouble(dados3["Arquivo3"]);
 
                                     var atualizaValorNR = new QueryMysqlTesouraria();
-                                    atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), TempData["data"].ToString());
+                                    atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
                                     insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
                                 

@@ -68,6 +68,8 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query2 = "UPDATE  justificativaextrato set excluido='S' where data='" +
                 (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
             ConexaoMysql.ExecutaComandoComRetorno(Query2);
+
+            
         }
 
 

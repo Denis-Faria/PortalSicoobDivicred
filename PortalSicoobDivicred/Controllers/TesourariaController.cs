@@ -46,8 +46,28 @@ namespace PortalSicoobDivicred.Controllers
 
         }
 
+      //  public ActionResult ValidaDataArquivo()
+    //    {
+    //        return PartialView("ViewArquivos");
+     //   }
 
+     /*   [HttpPost]
+        public ActionResult ValidaDataArquivo(FormCollection receberForm)
+        {
+            
+            int qtdarquivos = 5;
+            ManipularPlanilha validarData = new ManipularPlanilha();
 
+            switch (qtdarquivos)
+            {
+                case 5:
+                    string posicao = "F11";
+                    validarData.validaDataRelatorio(posicao,qtdarquivos);
+
+                    break;
+            }
+            return PartialView("Tesouraria");
+       }*/
 
         public ActionResult ProcessaArquivos()
         {
@@ -135,11 +155,15 @@ namespace PortalSicoobDivicred.Controllers
                 Dictionary<string, double> dados4 = new Dictionary<string, double>();
                 Dictionary<string, double> dados5 = new Dictionary<string, double>();
                 int i = 0;
+                var dataSelecionadaValidar = new DateTime();
+                var dataExtratoDiaValidar = new DateTime();
                 while (i < arquivos.Count)
                 {
                     var dataSelecionada = new DateTime();
                     var dataExtratoDia = new DateTime();
-                    
+
+                   
+
                     if (i == 4)
                     {
                         if (arquivos[i]== null)
@@ -168,6 +192,9 @@ namespace PortalSicoobDivicred.Controllers
                         var transacoes = ofxdocument.Transactions;
                         dataSelecionada = Convert.ToDateTime(TempData["data"]);
                         dataExtratoDia = transacoes[0].Date;
+
+                        dataSelecionadaValidar = Convert.ToDateTime(TempData["data"]);
+                        dataExtratoDiaValidar = transacoes[0].Date;
                     }
                     
                     int auxdias = 0;
@@ -179,19 +206,32 @@ namespace PortalSicoobDivicred.Controllers
                             break;
                         }
                     }
-                  //  int qtddias = 0;
-                 //   if (dataSelecionada.Date.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                 //   {
-                 //       qtddias = -3;
 
-                        //var feriado = consultaFeriado.VerificaFeriadoDivinopolis(dataSelecionada.Date.AddDays(-3));
-                        //if(dataSelecionada.Date.AddDays(-3))
-                  //  }
-                    //if (dataSelecionada.DayOfWeek == DayOfWeek.Monday)
-                    //{
-                        
-                    //}
+                    //-----teste
+                    //Lembrar de deletar o que for para o banco de dados
+                    if (i == 5)
+                    {
+                        string posicao = "F11";
+                        string valeData=inicio.validaDataRelatorio(posicao,i,caminho);
+                        if (valeData == "0")
+                        {
+                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Cheques Devolvidos(Dia Anterior) são diferentes" });
+                        }
+                        else
+                        {
+                            if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                            {
 
+                            }
+                            else
+                            {
+                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)" });
+                            }
+                         
+                        }
+                    }
+
+                    //fim teste
                     if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias))
                     {
                         var insereConferencia1 = new QueryMysqlTesouraria();

@@ -74,7 +74,7 @@ namespace PortalSicoobDivicred.Controllers
             return inicio;
         }
 
-        public string validaDataRelatorio(string posicao, int i,string caminho)
+        public string validaDataRelatorio(string posicao, int i, string caminho)
         {
             int resposta = 0;
             Conexao conectaPlanilha = new Conexao();
@@ -84,34 +84,127 @@ namespace PortalSicoobDivicred.Controllers
             string data1 = "";
             string data2 = "";
             string auxVerificaDataMaior = "";
-            for (m = 1; m < output.Tables[0].Rows.Count; m++)
+
+            if (i == 1)
             {
-                if (output.Tables[0].Rows[m]["F11"].ToString().Contains("Período"))
+                for (m = 0; m < output.Tables[0].Rows.Count; m++)
                 {
-                    string texto = output.Tables[0].Rows[m]["F11"].ToString();
-
-                    for (int k = 0; k <= texto.Length; k++)
+                    if (output.Tables[0].Rows[m]["F4"].ToString().Contains("Período:"))
                     {
-                        if (texto.Substring(k, 1).Equals("0") || texto.Substring(k, 1).Equals("1") || texto.Substring(k, 1).Equals("2") || texto.Substring(k, 1).Equals("3") || texto.Substring(k, 1).Equals("4") || texto.Substring(k, 1).Equals("5") || texto.Substring(k, 1).Equals("6") || texto.Substring(k, 1).Equals("7") || texto.Substring(k, 1).Equals("8") || texto.Substring(k, 1).Equals("9"))
+                        string texto = output.Tables[0].Rows[m]["F4"].ToString();
+                        for (int k = 0; k <= texto.Length; k++)
                         {
-                            data1=texto.Substring(k, 10);
-                            data2 = texto.Substring(k+13, 10);
-                            if (data1 == data2)
+                            if (texto.Substring(k, 1).Equals("0") || texto.Substring(k, 1).Equals("1") || texto.Substring(k, 1).Equals("2") || texto.Substring(k, 1).Equals("3") || texto.Substring(k, 1).Equals("4") || texto.Substring(k, 1).Equals("5") || texto.Substring(k, 1).Equals("6") || texto.Substring(k, 1).Equals("7") || texto.Substring(k, 1).Equals("8") || texto.Substring(k, 1).Equals("9"))
                             {
+                                data1 = texto.Substring(k, 10);
                                 auxVerificaDataMaior = data1;
+                                break;
                             }
-                            else
-                            {
-                                auxVerificaDataMaior = "0";
-                            }
-
-                            break;
                         }
                     }
-                    break;
                 }
             }
-                return auxVerificaDataMaior;
+
+            if (i == 2)
+            {
+                for (m = 0; m < output.Tables[0].Rows.Count; m++)
+                {
+                    if (output.Tables[0].Rows[m]["F3"].ToString().Contains("Período:"))
+                    {
+                        string texto1 = output.Tables[0].Rows[m]["F5"].ToString();
+                        string texto2 = output.Tables[0].Rows[m]["F10"].ToString();
+
+                        data1 = texto1.Substring(0, 10);
+                        data2 = texto1.Substring(0, 10);
+
+                        if (data1 == data2)
+                        {
+                            auxVerificaDataMaior = data1;
+                        }
+                        else
+                        {
+                            auxVerificaDataMaior = "0";
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (i == 3)
+            {
+                for (m = 0; m < output.Tables[0].Rows.Count; m++)
+                {
+                    if (output.Tables[0].Rows[m]["F4"].ToString().Contains("Data de Compensa"))
+                    {
+                        string texto = output.Tables[0].Rows[m]["F4"].ToString();
+                        for (int k = 0; k <= texto.Length; k++)
+                        {
+                            if (texto.Substring(k, 1).Equals("0") || texto.Substring(k, 1).Equals("1") || texto.Substring(k, 1).Equals("2") || texto.Substring(k, 1).Equals("3") || texto.Substring(k, 1).Equals("4") || texto.Substring(k, 1).Equals("5") || texto.Substring(k, 1).Equals("6") || texto.Substring(k, 1).Equals("7") || texto.Substring(k, 1).Equals("8") || texto.Substring(k, 1).Equals("9"))
+                            {
+                                data1 = texto.Substring(k, 10);
+                                auxVerificaDataMaior = data1;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (i == 4)
+            {
+                for (m = 1; m < output.Tables[0].Rows.Count; m++)
+                {
+                    if (output.Tables[0].Rows[m]["F16"].ToString().Contains("a"))
+                    {
+                        data1 = output.Tables[0].Rows[m]["F15"].ToString();
+                        data2 = output.Tables[0].Rows[m]["F18"].ToString();
+
+                        if (data1 == data2)
+                        {
+                            auxVerificaDataMaior = data1;
+                        }
+                        else
+                        {
+                            auxVerificaDataMaior = "0";
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            if (i == 5)
+            {
+                for (m = 1; m < output.Tables[0].Rows.Count; m++)
+                {
+                    if (output.Tables[0].Rows[m]["F11"].ToString().Contains("Período"))
+                    {
+                        string texto = output.Tables[0].Rows[m]["F11"].ToString();
+
+                        for (int k = 0; k <= texto.Length; k++)
+                        {
+                            if (texto.Substring(k, 1).Equals("0") || texto.Substring(k, 1).Equals("1") || texto.Substring(k, 1).Equals("2") || texto.Substring(k, 1).Equals("3") || texto.Substring(k, 1).Equals("4") || texto.Substring(k, 1).Equals("5") || texto.Substring(k, 1).Equals("6") || texto.Substring(k, 1).Equals("7") || texto.Substring(k, 1).Equals("8") || texto.Substring(k, 1).Equals("9"))
+                            {
+                                data1 = texto.Substring(k, 10);
+                                data2 = texto.Substring(k + 13, 10);
+                                if (data1 == data2)
+                                {
+                                    auxVerificaDataMaior = data1;
+                                }
+                                else
+                                {
+                                    auxVerificaDataMaior = "0";
+                                }
+
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+            return auxVerificaDataMaior;
         }
 
         public Dictionary<string, double> calculo1(string caminho, string count, int inicio)
@@ -176,28 +269,28 @@ namespace PortalSicoobDivicred.Controllers
                                     }
                                     else if ((output.Tables[0].Rows[j]["F14"].ToString() == "5472" || output.Tables[0].Rows[j]["F14"].ToString() == "5473" || output.Tables[0].Rows[j]["F14"].ToString() == "5474" || output.Tables[0].Rows[j]["F14"].ToString() == "232" || output.Tables[0].Rows[j]["F14"].ToString() == "233" || output.Tables[0].Rows[j]["F14"].ToString() == "234" || output.Tables[0].Rows[j]["F14"].ToString() == "235"))
                                     {
-                                    //    double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                        //    double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
                                         valorArq3 = valorArq3 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
                                         varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
                                         varGuardaUltimoHistAux = output.Tables[0].Rows[j]["F14"].ToString();
                                     }
                                 }
-                                else if ( output.Tables[0].Rows[j]["F13"].ToString() == "5472" || output.Tables[0].Rows[j]["F13"].ToString() == "5473" || output.Tables[0].Rows[j]["F13"].ToString() == "5474" || output.Tables[0].Rows[j]["F13"].ToString() == "232" || output.Tables[0].Rows[j]["F13"].ToString() == "233" || output.Tables[0].Rows[j]["F13"].ToString() == "234" || output.Tables[0].Rows[j]["F13"].ToString() == "235")
+                                else if (output.Tables[0].Rows[j]["F13"].ToString() == "5472" || output.Tables[0].Rows[j]["F13"].ToString() == "5473" || output.Tables[0].Rows[j]["F13"].ToString() == "5474" || output.Tables[0].Rows[j]["F13"].ToString() == "232" || output.Tables[0].Rows[j]["F13"].ToString() == "233" || output.Tables[0].Rows[j]["F13"].ToString() == "234" || output.Tables[0].Rows[j]["F13"].ToString() == "235")
                                 {
-                                   // if (output.Tables[0].Rows[j]["F13"].ToString() == "500")
-                                   // {
-                                   //     if ((output.Tables[0].Rows[j]["F14"].ToString() == "5472" || output.Tables[0].Rows[j]["F14"].ToString() == "5473" || output.Tables[0].Rows[j]["F14"].ToString() == "5474" || output.Tables[0].Rows[j]["F14"].ToString() == "232" || output.Tables[0].Rows[j]["F14"].ToString() == "233" || output.Tables[0].Rows[j]["F14"].ToString() == "234" || output.Tables[0].Rows[j]["F14"].ToString() == "235"))
-                                  //      {
-                                  //          double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
-                                  //          valorArq3 = valorArq3 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
-                                  //          varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
-                                  //      }
-                                  //  }
-                                  //  else
-                                  //  {
-                                        valorArq3 = valorArq3 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
-                                        varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
-                                  //  }
+                                    // if (output.Tables[0].Rows[j]["F13"].ToString() == "500")
+                                    // {
+                                    //     if ((output.Tables[0].Rows[j]["F14"].ToString() == "5472" || output.Tables[0].Rows[j]["F14"].ToString() == "5473" || output.Tables[0].Rows[j]["F14"].ToString() == "5474" || output.Tables[0].Rows[j]["F14"].ToString() == "232" || output.Tables[0].Rows[j]["F14"].ToString() == "233" || output.Tables[0].Rows[j]["F14"].ToString() == "234" || output.Tables[0].Rows[j]["F14"].ToString() == "235"))
+                                    //      {
+                                    //          double teste = Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                    //          valorArq3 = valorArq3 - Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                    //          varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
+                                    //      }
+                                    //  }
+                                    //  else
+                                    //  {
+                                    valorArq3 = valorArq3 + Convert.ToDouble((output.Tables[0].Rows[j]["F25"]).ToString().Replace(" ", "").Replace("D", "").Replace("C", ""));
+                                    varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
+                                    //  }
 
                                 }
 

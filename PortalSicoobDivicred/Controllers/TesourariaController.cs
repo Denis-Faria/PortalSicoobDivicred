@@ -46,28 +46,28 @@ namespace PortalSicoobDivicred.Controllers
 
         }
 
-      //  public ActionResult ValidaDataArquivo()
-    //    {
-    //        return PartialView("ViewArquivos");
-     //   }
+        //  public ActionResult ValidaDataArquivo()
+        //    {
+        //        return PartialView("ViewArquivos");
+        //   }
 
-     /*   [HttpPost]
-        public ActionResult ValidaDataArquivo(FormCollection receberForm)
-        {
-            
-            int qtdarquivos = 5;
-            ManipularPlanilha validarData = new ManipularPlanilha();
+        /*   [HttpPost]
+           public ActionResult ValidaDataArquivo(FormCollection receberForm)
+           {
 
-            switch (qtdarquivos)
-            {
-                case 5:
-                    string posicao = "F11";
-                    validarData.validaDataRelatorio(posicao,qtdarquivos);
+               int qtdarquivos = 5;
+               ManipularPlanilha validarData = new ManipularPlanilha();
 
-                    break;
-            }
-            return PartialView("Tesouraria");
-       }*/
+               switch (qtdarquivos)
+               {
+                   case 5:
+                       string posicao = "F11";
+                       validarData.validaDataRelatorio(posicao,qtdarquivos);
+
+                       break;
+               }
+               return PartialView("Tesouraria");
+          }*/
 
         public ActionResult ProcessaArquivos()
         {
@@ -135,6 +135,7 @@ namespace PortalSicoobDivicred.Controllers
             var arquivos = file.ToList();
             var nomeArquivo = "";
             var caminho = "";
+            int dataValida = 0;
 
             int inicioPlanilha1 = 0;
             int inicioPlanilha2 = 0;
@@ -162,29 +163,28 @@ namespace PortalSicoobDivicred.Controllers
                     var dataSelecionada = new DateTime();
                     var dataExtratoDia = new DateTime();
 
-                   
-
                     if (i == 4)
                     {
-                        if (arquivos[i]== null)
+                        if (arquivos[i] == null)
                         {
                             auxNR = 1;
                             i = 5;
                         }
-                        else {
+                        else
+                        {
                             i = 4;
                         }
                     }
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
-                    caminho     = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
-                    arquivos[i].SaveAs(caminho);                    
+                    caminho = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
+                    arquivos[i].SaveAs(caminho);
 
                     if (i != 0)
-                    { 
+                    {
                         output.Tables.Add(conectaPlanilha.importarExcel(caminho, i.ToString()));
 
-                         dataSelecionada = DateTime.Now;
-                         dataExtratoDia = DateTime.Now;
+                        dataSelecionada = DateTime.Now;
+                        dataExtratoDia = DateTime.Now;
                     }
                     else
                     {
@@ -196,7 +196,7 @@ namespace PortalSicoobDivicred.Controllers
                         dataSelecionadaValidar = Convert.ToDateTime(TempData["data"]);
                         dataExtratoDiaValidar = transacoes[0].Date;
                     }
-                    
+
                     int auxdias = 0;
                     for (int m = 1; m <= 7; m++)
                     {
@@ -207,14 +207,97 @@ namespace PortalSicoobDivicred.Controllers
                         }
                     }
 
-                    //-----teste
+                    //Tratamento Validação Data
+                    if (i == 1)
+                    {
+                        string posicao = "F4";
+                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
+
+                        if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                        {
+
+                        }
+                        else
+                        {
+                            dataValida = 1;
+                            return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                        }
+                    }
+                    if (i == 2)
+                    {
+                        string posicao = "F3";
+                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
+
+                        if (valeData == "0")
+                        {
+                            dataValida = 1;
+                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                        }
+                        else
+                        {
+                            if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                            {
+
+                            }
+                            else
+                            {
+                                dataValida = 1;
+                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                            }
+                        }
+
+                    }
+
+                    if (i == 3)
+                    {
+                        string posicao = "F4";
+                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
+
+                        if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                        {
+
+                        }
+                        else
+                        {
+                            dataValida = 1;
+                            return RedirectToAction("Tesouraria", new { Erro = "Data Invalida no Relatório de Devolução de Cheques" });
+                        }
+
+                    }
+
+
+
+                    if (i == 4)
+                    {
+                        string posicao = "F15";
+                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
+                        if (valeData == "0")
+                        {
+                            dataValida = 1;
+                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                        }
+                        else
+                        {
+                            if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                            {
+
+                            }
+                            else
+                            {
+                                dataValida = 1;
+                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                            }
+                        }
+                    }
                     //Lembrar de deletar o que for para o banco de dados
+
                     if (i == 5)
                     {
                         string posicao = "F11";
-                        string valeData=inicio.validaDataRelatorio(posicao,i,caminho);
+                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
                         if (valeData == "0")
                         {
+                            dataValida = 1;
                             return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Cheques Devolvidos(Dia Anterior) são diferentes" });
                         }
                         else
@@ -225,180 +308,182 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             else
                             {
+                                dataValida = 1;
                                 return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)" });
                             }
-                         
+
                         }
                     }
-
-                    //fim teste
-                    if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias))
+                    if (dataValida == 0)
                     {
-                        var insereConferencia1 = new QueryMysqlTesouraria();
-                        switch (i)
+                        //fim teste
+                        if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias))
                         {
-                            case 0:
-                                var ofxdocument = parser.Import(new FileStream(caminho, FileMode.Open));
-                                var transacoes = ofxdocument.Transactions;
+                            var insereConferencia1 = new QueryMysqlTesouraria();
+                            switch (i)
+                            {
+                                case 0:
+                                    var ofxdocument = parser.Import(new FileStream(caminho, FileMode.Open));
+                                    var transacoes = ofxdocument.Transactions;
 
-                                for (int j = 0; j < transacoes.Count; j++)
-                                {
-                                    historico = transacoes[j].Memo;
-                                    var dataExtrato = transacoes[j].Date;
-
-                                    if (dataExtrato == dataSelecionada)
+                                    for (int j = 0; j < transacoes.Count; j++)
                                     {
-                                        if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
-                                        {
-                                            var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext1 = Math.Round(arqext1, 2);
-                                            TempData["Extrato-3/4/5"] = arqext1;
-                                        }
-                                        else if (historico.Contains("NICA NOITE") || historico.Contains("SR DEV CONVENCIONAL DIA"))
-                                        {
-                                            arqext2 = arqext2 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext2 = Math.Round(arqext2, 2);
-                                            TempData["Extrato-6/192"] = arqext2;
-                                        }
-                                        else if (historico.Contains("O TED - SPB") || historico.Contains("BITO TED CONTA SAL") || historico.Contains("O TED BANCOOB - SPB") || historico.Contains("O TED BANCOOB MESMA TITULAR"))
-                                        {
-                                            arqext3 = arqext3 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext3 = Math.Round(arqext3, 2);
-                                            TempData["Extrato-5472/5473/5474/232/233/234/235"] = arqext3;
-                                        }
-                                        else if (historico.Contains("DITO TED RECEBIDA -SPB") || historico.Contains("DITO TED BANCOOB RECEBIDA -SPB") || historico.Contains("DITO DEC-CONTA SALARIO") || historico.Contains("SUA REMESSA TEC - ELETR") || historico.Contains("DITO TED CONTA SAL"))
-                                        {
-                                            arqext4 = arqext4 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext4 = Math.Round(arqext4, 2);
-                                            TempData["Extrato-821/2/7286/7336/847"] = arqext4;
-                                            
-                                        }
-                                        else if (historico.Contains("O TED EMITIDA-SPB") )
-                                        {
-                                            arqext12 = arqext12 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext12 = Math.Round(arqext12, 2);
-                                        }
-                                        else if (historico.Contains("DEV.TIT.PG.AUTOATENDIMENTO"))
-                                        {
-                                            arqext5 = arqext5 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext5 = Math.Round(arqext5, 2);
-                                            TempData["Extrato-7027"] = arqext5;
-                                        }
-                                        else if (historico.Contains("NRI ELETR") || historico.Contains("NRS ELETR") || historico.Contains("NR CHQ ROUBADO SUP ELETR"))
-                                        {
-                                            arqext6 = arqext6 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            TempData["ExtratoCampos"] = Math.Round(arqext6, 2);
+                                        historico = transacoes[j].Memo;
+                                        var dataExtrato = transacoes[j].Date;
 
-                                            Maior = inicio.diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
-                                            TempData["Diferenca7"] = Maior.Split(';')[1];
-                                            TempData["DiferencaTexto7"] = Maior.Split(';')[0];
+                                        if (dataExtrato == dataSelecionada)
+                                        {
+                                            if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
+                                            {
+                                                var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext1 = Math.Round(arqext1, 2);
+                                                TempData["Extrato-3/4/5"] = arqext1;
+                                            }
+                                            else if (historico.Contains("NICA NOITE") || historico.Contains("SR DEV CONVENCIONAL DIA"))
+                                            {
+                                                arqext2 = arqext2 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext2 = Math.Round(arqext2, 2);
+                                                TempData["Extrato-6/192"] = arqext2;
+                                            }
+                                            else if (historico.Contains("O TED - SPB") || historico.Contains("BITO TED CONTA SAL") || historico.Contains("O TED BANCOOB - SPB") || historico.Contains("O TED BANCOOB MESMA TITULAR"))
+                                            {
+                                                arqext3 = arqext3 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext3 = Math.Round(arqext3, 2);
+                                                TempData["Extrato-5472/5473/5474/232/233/234/235"] = arqext3;
+                                            }
+                                            else if (historico.Contains("DITO TED RECEBIDA -SPB") || historico.Contains("DITO TED BANCOOB RECEBIDA -SPB") || historico.Contains("DITO DEC-CONTA SALARIO") || historico.Contains("SUA REMESSA TEC - ELETR") || historico.Contains("DITO TED CONTA SAL"))
+                                            {
+                                                arqext4 = arqext4 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext4 = Math.Round(arqext4, 2);
+                                                TempData["Extrato-821/2/7286/7336/847"] = arqext4;
 
-                                        }
-                                        else if (historico.Contains("A VLB-INF"))
-                                        {
-                                            arqext7 = arqext7 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext7 = Math.Round(arqext7, 2);
-                                        }
-                                        else if (historico.Contains("BITO EMP. - REPES COTAS PARTES CDI") || historico.Contains("O COTAS PARTES"))
-                                        {
-                                            arqext8 = arqext8 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext8 = Math.Round(arqext8, 2);
-                                            TempData["Extrato-5761"] = arqext8;
-                                        }
-                                        else if (historico.Contains("SR DOC ELETR"))
-                                        {
-                                            arqext9 = arqext9 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext9 = Math.Round(arqext9, 2);
-                                            TempData["Extrato-820"] = arqext9;
-                                        }
+                                            }
+                                            else if (historico.Contains("O TED EMITIDA-SPB"))
+                                            {
+                                                arqext12 = arqext12 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext12 = Math.Round(arqext12, 2);
+                                            }
+                                            else if (historico.Contains("DEV.TIT.PG.AUTOATENDIMENTO"))
+                                            {
+                                                arqext5 = arqext5 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext5 = Math.Round(arqext5, 2);
+                                                TempData["Extrato-7027"] = arqext5;
+                                            }
+                                            else if (historico.Contains("NRI ELETR") || historico.Contains("NRS ELETR") || historico.Contains("NR CHQ ROUBADO SUP ELETR"))
+                                            {
+                                                arqext6 = arqext6 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                TempData["ExtratoCampos"] = Math.Round(arqext6, 2);
 
-                                        else if (historico.Contains("NR DOC ELETR"))
+                                                Maior = inicio.diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
+                                                TempData["Diferenca7"] = Maior.Split(';')[1];
+                                                TempData["DiferencaTexto7"] = Maior.Split(';')[0];
+
+                                            }
+                                            else if (historico.Contains("A VLB-INF"))
+                                            {
+                                                arqext7 = arqext7 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext7 = Math.Round(arqext7, 2);
+                                            }
+                                            else if (historico.Contains("BITO EMP. - REPES COTAS PARTES CDI") || historico.Contains("O COTAS PARTES"))
+                                            {
+                                                arqext8 = arqext8 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext8 = Math.Round(arqext8, 2);
+                                                TempData["Extrato-5761"] = arqext8;
+                                            }
+                                            else if (historico.Contains("SR DOC ELETR"))
+                                            {
+                                                arqext9 = arqext9 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext9 = Math.Round(arqext9, 2);
+                                                TempData["Extrato-820"] = arqext9;
+                                            }
+
+                                            else if (historico.Contains("NR DOC ELETR"))
+                                            {
+                                                arqext10 = arqext10 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                arqext10 = Math.Round(arqext10, 2);
+                                                TempData["Extrato-257/258"] = arqext10;
+                                            }
+                                        }
+                                        else
+                                        if (historico.Contains("NR DEV ELETR"))
                                         {
-                                            arqext10 = arqext10 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                            arqext10 = Math.Round(arqext10, 2);
-                                            TempData["Extrato-257/258"] = arqext10;
+                                            arqext11 = arqext11 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                            arqext11 = Math.Round(arqext11, 2);
+                                            TempData["Extrato-NRDEVELETRONICA"] = arqext11;
+
                                         }
                                     }
-                                    else
-                                    if (historico.Contains("NR DEV ELETR"))
-                                    {
-                                        arqext11 = arqext11 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
-                                        arqext11 = Math.Round(arqext11, 2);
-                                        TempData["Extrato-NRDEVELETRONICA"] = arqext11;
 
-                                    }
-                                }
-
-                                break;
+                                    break;
 
 
-                            case 1:
+                                case 1:
 
-                                int inicioPlanilha0 = 0;
-                                inicioPlanilha0 = inicio.InicioPlanilha(caminho, i.ToString());
-                                dados1 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha0);
+                                    int inicioPlanilha0 = 0;
+                                    inicioPlanilha0 = inicio.InicioPlanilha(caminho, i.ToString());
+                                    dados1 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha0);
 
-                                TempData["3/4/5"] = Convert.ToDouble(dados1["3/4/5"]);
-                                Maior = inicio.diferenciar(Math.Round(arqext1, 2), Math.Round(Convert.ToDouble(dados1["3/4/5"]), 2));
-                                TempData["Diferenca1"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto1"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(), TempData["Diferenca1"].ToString());
+                                    TempData["3/4/5"] = Convert.ToDouble(dados1["3/4/5"]);
+                                    Maior = inicio.diferenciar(Math.Round(arqext1, 2), Math.Round(Convert.ToDouble(dados1["3/4/5"]), 2));
+                                    TempData["Diferenca1"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto1"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(), TempData["Diferenca1"].ToString());
 
-                                TempData["5761"] = Convert.ToDouble(dados1["5761"]);
-                                Maior = inicio.diferenciar(arqext8, Math.Round(Convert.ToDouble(dados1["5761"]), 2));
-                                TempData["Diferenca8"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto8"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(), TempData["Diferenca8"].ToString());
+                                    TempData["5761"] = Convert.ToDouble(dados1["5761"]);
+                                    Maior = inicio.diferenciar(arqext8, Math.Round(Convert.ToDouble(dados1["5761"]), 2));
+                                    TempData["Diferenca8"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto8"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(), TempData["Diferenca8"].ToString());
 
-                                TempData["820"] = Convert.ToDouble(dados1["820"]);
-                                Maior = inicio.diferenciar(arqext9, Math.Round(Convert.ToDouble(dados1["820"]), 2));
-                                TempData["Diferenca9"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto9"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(), TempData["Diferenca9"].ToString());
+                                    TempData["820"] = Convert.ToDouble(dados1["820"]);
+                                    Maior = inicio.diferenciar(arqext9, Math.Round(Convert.ToDouble(dados1["820"]), 2));
+                                    TempData["Diferenca9"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto9"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(), TempData["Diferenca9"].ToString());
 
-                                TempData["257/258"] = Convert.ToDouble(dados1["257/258"]);
-                                Maior = inicio.diferenciar(arqext10, Math.Round(Convert.ToDouble(dados1["257/258"]), 2));
-                                TempData["Diferenca10"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto10"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["Diferenca10"].ToString());
+                                    TempData["257/258"] = Convert.ToDouble(dados1["257/258"]);
+                                    Maior = inicio.diferenciar(arqext10, Math.Round(Convert.ToDouble(dados1["257/258"]), 2));
+                                    TempData["Diferenca10"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto10"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["Diferenca10"].ToString());
 
-                                TempData["5472/5473/5474/232/233/234/235"] = Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial);
-                                Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
+                                    TempData["5472/5473/5474/232/233/234/235"] = Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial);
+                                    Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
 
-                                TempData["821/2/7286/7336/847"] = Convert.ToDouble(dados1["821/2/7286/7336/847"])+Convert.ToDouble(arqext12);
-                                Maior = inicio.diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"])+ Convert.ToDouble(arqext12), 2));
-                                TempData["Diferenca4"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto4"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
-                                TempData["6/192"] = Convert.ToDouble(dados1["6/192"]) - Convert.ToDouble(valor6192);
+                                    TempData["821/2/7286/7336/847"] = Convert.ToDouble(dados1["821/2/7286/7336/847"]) + Convert.ToDouble(arqext12);
+                                    Maior = inicio.diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"]) + Convert.ToDouble(arqext12), 2));
+                                    TempData["Diferenca4"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto4"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
+                                    TempData["6/192"] = Convert.ToDouble(dados1["6/192"]) - Convert.ToDouble(valor6192);
 
-                                TempData["7027"] = Convert.ToDouble(dados1["7027"]);
-                                Maior = inicio.diferenciar(arqext5, Math.Round(Convert.ToDouble(dados1["7027"]), 2));
-                                TempData["Diferenca6"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto6"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(), TempData["Diferenca6"].ToString());
+                                    TempData["7027"] = Convert.ToDouble(dados1["7027"]);
+                                    Maior = inicio.diferenciar(arqext5, Math.Round(Convert.ToDouble(dados1["7027"]), 2));
+                                    TempData["Diferenca6"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto6"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(), TempData["Diferenca6"].ToString());
 
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(), TempData["Diferenca7"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(), TempData["Diferenca7"].ToString());
 
-                                break;
+                                    break;
 
-                            case 2:
+                                case 2:
 
-                                inicioPlanilha1 = inicio.InicioPlanilha(caminho, i.ToString());
-                                dados2 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha1);
-                                TempData["5472/5473/5474/232/233/234/235-FINAL"] = Math.Round((Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"])),2);
-                                TempData["5472/5473/5474/232/233/234/235-FINALB"] =Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]),2);
-                                Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
-                                TempData["Diferenca3"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto3"] = Maior.Split(';')[0];
+                                    inicioPlanilha1 = inicio.InicioPlanilha(caminho, i.ToString());
+                                    dados2 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha1);
+                                    TempData["5472/5473/5474/232/233/234/235-FINAL"] = Math.Round((Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"])), 2);
+                                    TempData["5472/5473/5474/232/233/234/235-FINALB"] = Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]), 2);
+                                    Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
+                                    TempData["Diferenca3"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto3"] = Maior.Split(';')[0];
 
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Enviadas", arqext3.ToString(), TempData["5472/5473/5474/232/233/234/235-FINAL"].ToString(), TempData["Diferenca3"].ToString());
-                                break;
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Enviadas", arqext3.ToString(), TempData["5472/5473/5474/232/233/234/235-FINAL"].ToString(), TempData["Diferenca3"].ToString());
+                                    break;
 
-                            case 3:
+                                case 3:
 
-                                
+
 
                                     inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
                                     dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
@@ -414,41 +499,43 @@ namespace PortalSicoobDivicred.Controllers
                                     atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
                                     insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
-                                
-                                break;
-                           
-                            case 4:
+
+                                    break;
+
+                                case 4:
 
                                     inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
                                     dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
                                     TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
-                                
-                                break;
 
-                            case 5:
+                                    break;
 
-                                if (auxNR == 1)
-                                {
-                                    TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
-                                }
-                                inicioPlanilha4 = inicio.InicioPlanilha(caminho, i.ToString());
-                                dados5 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha4);
-                                TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
-                                Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
-                                TempData["Diferenca11"] = Maior.Split(';')[1];
-                                TempData["DiferencaTexto11"] = Maior.Split(';')[0];
-                                insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
-                                break;
+                                case 5:
+
+                                    if (auxNR == 1)
+                                    {
+                                        TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
+                                    }
+                                    inicioPlanilha4 = inicio.InicioPlanilha(caminho, i.ToString());
+                                    dados5 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha4);
+                                    TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
+                                    Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
+                                    TempData["Diferenca11"] = Maior.Split(';')[1];
+                                    TempData["DiferencaTexto11"] = Maior.Split(';')[0];
+                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
+                                    break;
+                            }
                         }
-                    }
-                    else {
-                        i=arquivos.Count();
-                        break;
-                    }
-                    i++;
-                    if (i == 6)
-                    {
-                        break;
+                        else
+                        {
+                            i = arquivos.Count();
+                            break;
+                        }
+                        i++;
+                        if (i == 6)
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -456,7 +543,8 @@ namespace PortalSicoobDivicred.Controllers
             {
                 return RedirectToAction("Tesouraria", new { MensagemValidacao = "Registro salvo com sucesso!!" });
             }
-            else{
+            else
+            {
 
                 return RedirectToAction("Tesouraria", new { Erro = "Data selecionada não e a mesma do extrato.Refaça o processo." });
             }

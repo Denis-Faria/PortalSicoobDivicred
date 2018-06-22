@@ -134,7 +134,9 @@ namespace PortalSicoobDivicred.Controllers
             ManipularPlanilha inicio = new ManipularPlanilha();
             var arquivos = file.ToList();
             var nomeArquivo = "";
+            var nomeArquivo1 = "";
             var caminho = "";
+            var caminho1 = "";
             int dataValida = 0;
 
             int inicioPlanilha1 = 0;
@@ -178,6 +180,35 @@ namespace PortalSicoobDivicred.Controllers
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
                     caminho = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
                     arquivos[i].SaveAs(caminho);
+                    string caminho01 = "";
+                    string caminho02 = "";
+                    string caminho03 = "";
+                    string caminho04 = "";
+                    string caminho05 = "";
+                    string nomeArquivo01 = "";
+                    string nomeArquivo02 = "";
+                    string nomeArquivo03 = "";
+                    string nomeArquivo04 = "";
+                    string nomeArquivo05 = "";
+
+
+                    nomeArquivo01 = Path.GetFileName(arquivos[1].FileName);
+                    caminho01 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo01);
+
+                    nomeArquivo02 = Path.GetFileName(arquivos[2].FileName);
+                    caminho02 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo02);
+
+                    nomeArquivo03 = Path.GetFileName(arquivos[3].FileName);
+                    caminho03 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo03);
+
+                    nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
+                    caminho04 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo04);
+
+                    nomeArquivo05 = Path.GetFileName(arquivos[5].FileName);
+                    caminho05 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo05);
+
+
+
 
                     if (i != 0)
                     {
@@ -207,113 +238,132 @@ namespace PortalSicoobDivicred.Controllers
                         }
                     }
 
-                    //Tratamento Validação Data
-                    if (i == 1)
+                    if (dataValida == 0 && i != 0)
                     {
-                        string posicao = "F4";
-                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
-
-                        if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                        int k;
+                        var arquivosAUX = file.ToList();
+                        for (k = 0; k < arquivosAUX.Count; k++)
                         {
+                            nomeArquivo1 = Path.GetFileName(arquivosAUX[k].FileName);
+                           // caminho1 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
+                            //arquivos[k].SaveAs(caminho);
 
-                        }
-                        else
-                        {
-                            dataValida = 1;
-                            return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                            //--
+                            //Tratamento Validação Data
+                            if (k == 1)
+                            {
+                                string posicao = "F4";
+                                string valeData = inicio.validaDataRelatorio(posicao, k, caminho01);
+
+                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                {
+
+                                }
+                                else
+                                {
+                                    dataValida = 1;
+                                    return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+
+                                }
+
+                            }
+                            if (k == 2)
+                            {
+                                string posicao = "F3";
+                                string valeData = inicio.validaDataRelatorio(posicao, k, caminho02);
+
+                                if (valeData == "0")
+                                {
+                                    dataValida = 1;
+                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                                }
+                                else
+                                {
+                                    if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        dataValida = 1;
+                                        return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                                    }
+                                }
+
+                            }
+
+                            if (k == 3)
+                            {
+                                string posicao = "F4";
+                                string valeData = inicio.validaDataRelatorio(posicao, k, caminho03);
+
+                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                {
+
+                                }
+                                else
+                                {
+                                    dataValida = 1;
+                                    return RedirectToAction("Tesouraria", new { Erro = "Data Invalida no Relatório de Devolução de Cheques" });
+                                }
+
+                            }
+
+                            if (k == 4)
+                            {
+                                string posicao = "F15";
+                                string valeData = inicio.validaDataRelatorio(posicao, k, caminho04);
+                                if (valeData == "0")
+                                {
+                                    dataValida = 1;
+                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                                }
+                                else
+                                {
+                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        dataValida = 1;
+                                        return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                                    }
+                                }
+
+                            }
+                            //Lembrar de deletar o que for para o banco de dados
+
+                            if (k == 5)
+                            {
+                                string posicao = "F11";
+                                string valeData = inicio.validaDataRelatorio(posicao, k, caminho05);
+                                if (valeData == "0")
+                                {
+                                    dataValida = 1;
+                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Cheques Devolvidos(Dia Anterior) são diferentes" });
+                                }
+                                else
+                                {
+                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        dataValida = 1;
+                                        return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)" });
+                                    }
+
+                                }
+
+                            }
+                            //--
                         }
                     }
-                    if (i == 2)
-                    {
-                        string posicao = "F3";
-                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
-
-                        if (valeData == "0")
-                        {
-                            dataValida = 1;
-                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
-                        }
-                        else
-                        {
-                            if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
-                            {
-
-                            }
-                            else
-                            {
-                                dataValida = 1;
-                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
-                            }
-                        }
-
-                    }
-
-                    if (i == 3)
-                    {
-                        string posicao = "F4";
-                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
-
-                        if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
-                        {
-
-                        }
-                        else
-                        {
-                            dataValida = 1;
-                            return RedirectToAction("Tesouraria", new { Erro = "Data Invalida no Relatório de Devolução de Cheques" });
-                        }
-
-                    }
 
 
 
-                    if (i == 4)
-                    {
-                        string posicao = "F15";
-                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
-                        if (valeData == "0")
-                        {
-                            dataValida = 1;
-                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
-                        }
-                        else
-                        {
-                            if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
-                            {
-
-                            }
-                            else
-                            {
-                                dataValida = 1;
-                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
-                            }
-                        }
-                    }
-                    //Lembrar de deletar o que for para o banco de dados
-
-                    if (i == 5)
-                    {
-                        string posicao = "F11";
-                        string valeData = inicio.validaDataRelatorio(posicao, i, caminho);
-                        if (valeData == "0")
-                        {
-                            dataValida = 1;
-                            return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Cheques Devolvidos(Dia Anterior) são diferentes" });
-                        }
-                        else
-                        {
-                            if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
-                            {
-
-                            }
-                            else
-                            {
-                                dataValida = 1;
-                                return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)" });
-                            }
-
-                        }
-                    }
                     if (dataValida == 0)
                     {
                         //fim teste

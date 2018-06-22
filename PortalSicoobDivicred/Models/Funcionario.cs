@@ -215,8 +215,20 @@ namespace PortalSicoobDivicred.Models
         public string DependenteFamilia { get; set; }
 
 
-        [Required(ErrorMessage = "Favor informar se seus pais são divorciados!")]
-        public string PaisDivorciados { get; set; }
+
+        [Required(ErrorMessage = "Favor informar o seu horario de trabalho!")]
+        [DisplayName("IdHorario")]
+        public int IdHorario { get; set; }
+
+        public List<SelectListItem> HorarioTrabalho { get; set; }
+
+
+
+        [Required(ErrorMessage = "Favor informar o estado civil de seus pais!")]
+        [DisplayName("IdEstadoCivilPais")]
+        public int IdEstadoCivilPais { get; set; }
+
+        public List<SelectListItem> PaisDivorciados { get; set; }
 
         [Required(ErrorMessage = "Favor informar o ano de seu primeiro emprego!")]
         [MaxLength(4, ErrorMessage = "Favor adicionar somente o ano de fichamento.")]

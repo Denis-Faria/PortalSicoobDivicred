@@ -48,11 +48,11 @@
 
             x.setAttribute("type", "text");
             x.setAttribute("placeholder","EX: PÓS-GRADUAÇÃO");
-            x.setAttribute("id", "tipoformacao " + Forma);
-            x.setAttribute("name", "tipoformacao " + Forma);
+            x.setAttribute("id", "Tipo " + Forma);
+            x.setAttribute("name", "Tipo " + Forma);
             x.setAttribute("class", "input");
             x.setAttribute("required", "");
-            Forma = Forma + 1;
+
             document.getElementById("NovaFormacao").appendChild(div);
             div.appendChild(div2);
             div2.appendChild(label);
@@ -340,18 +340,11 @@
                             @Html.TextBoxFor(m => m.NomePai, null, new { @class = "input", placeholder = "Ex: Joaquin da Silva" })
                             @Html.ValidationMessageFor(m => m.NomePai, null, new { style = "color:red" })
                         </div>
-                        <div class="control column is-3">
-                            <label class="label">Seus pais são divorciados ?</label>
-                            <div class="field">
-                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Sim", new { @class = "is-checkradio is-small", id = "checkpaissim" })
-                                <label for="checkpaissim">
-                                    Sim
-                                </label>
-                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Não", new { @class = "is-checkradio is-small", id = "checkpaisnao" })
-                                <label for="checkpaisnao">
-                                    Não
-                                </label>
-                                @Html.ValidationMessageFor(m => m.DeficienteVisual, null, new { style = "color:red" })
+                        <div class="control column is-4 is-expanded ">
+                            <label class="label">Estado Civil dos Pais</label>
+                            <div class="select is-fullwidth">
+                                @Html.DropDownListFor(m => m.IdEstadoCivilPais, new SelectList(Model.PaisDivorciados, "Value", "Text"), "SELECIONE O ESTADO CIVIL", new { id = "EstadoCivilPais" })
+                                @Html.ValidationMessageFor(m => m.PaisDivorciados, null, new { style = "color:red" })
                             </div>
                         </div>
                     </div>
@@ -706,6 +699,13 @@
                             <div class="select">
                                 @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
                                 @Html.ValidationMessageFor(m => m.IdFuncao, null, new { style = "color:red" })
+                            </div>
+                        </div>
+                        <div class="control column is-4 is-expanded ">
+                            <label class="label">Horário de Trabalho</label>
+                            <div class="select is-fullwidth">
+                                @Html.DropDownListFor(m => m.IdHorario, new SelectList(Model.HorarioTrabalho, "Value", "Text"), "SELECIONE O SEU HORÁRIO", new { id = "EstadoCivilPais" })
+                                @Html.ValidationMessageFor(m => m.HorarioTrabalho, null, new { style = "color:red" })
                             </div>
                         </div>
                     </div>

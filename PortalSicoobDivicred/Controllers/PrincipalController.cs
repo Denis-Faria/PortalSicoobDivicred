@@ -204,6 +204,8 @@ namespace PortalSicoobDivicred.Controllers
                 var Formacao = VerificaDados.RetornaFormacao();
                 var Setor = VerificaDados.RetornaSetor();
                 var Funcao = VerificaDados.RetornaFuncao();
+                var EstadosCivisPais = VerificaDados.RetornaEstadoCivilPais();
+                var HorariosTrabalhos = VerificaDados.RetornaHorarioTrabalho();
 
                 DadosFuncionario.EstadoCivil = EstadoCivil;
                 DadosFuncionario.Sexo = Sexo;
@@ -212,7 +214,8 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
                 DadosFuncionario.Conta = TipoConta;
-               
+                DadosFuncionario.PaisDivorciados = EstadosCivisPais;
+                DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
 
                 if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
                 {
@@ -259,41 +262,51 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     if (!Formulario["ConfirmacaoDados"].Equals("on"))
                     {
+
                         var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                        var TipoConta = VerificaDados.RetornaTipoConta();
                         var Sexo = VerificaDados.RetornaSexo();
                         var Etnia = VerificaDados.RetornaEtnia();
                         var Formacao = VerificaDados.RetornaFormacao();
                         var Setor = VerificaDados.RetornaSetor();
                         var Funcao = VerificaDados.RetornaFuncao();
-                        var TipoConta = VerificaDados.RetornaTipoConta();
+                        var EstadosCivisPais = VerificaDados.RetornaEstadoCivilPais();
+                        var HorariosTrabalhos = VerificaDados.RetornaHorarioTrabalho();
 
-                        DadosFuncionario.Conta = TipoConta;
                         DadosFuncionario.EstadoCivil = EstadoCivil;
                         DadosFuncionario.Sexo = Sexo;
                         DadosFuncionario.Etnia = Etnia;
                         DadosFuncionario.Formacao = Formacao;
                         DadosFuncionario.Setor = Setor;
                         DadosFuncionario.Funcao = Funcao;
+                        DadosFuncionario.Conta = TipoConta;
+                        DadosFuncionario.PaisDivorciados = EstadosCivisPais;
+                        DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
                         ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                     }
                 }
                 catch
                 {
+
                     var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                    var TipoConta = VerificaDados.RetornaTipoConta();
                     var Sexo = VerificaDados.RetornaSexo();
                     var Etnia = VerificaDados.RetornaEtnia();
                     var Formacao = VerificaDados.RetornaFormacao();
                     var Setor = VerificaDados.RetornaSetor();
                     var Funcao = VerificaDados.RetornaFuncao();
-                    var TipoConta = VerificaDados.RetornaTipoConta();
+                    var EstadosCivisPais = VerificaDados.RetornaEstadoCivilPais();
+                    var HorariosTrabalhos = VerificaDados.RetornaHorarioTrabalho();
 
-                    DadosFuncionario.Conta = TipoConta;
                     DadosFuncionario.EstadoCivil = EstadoCivil;
                     DadosFuncionario.Sexo = Sexo;
                     DadosFuncionario.Etnia = Etnia;
                     DadosFuncionario.Formacao = Formacao;
                     DadosFuncionario.Setor = Setor;
                     DadosFuncionario.Funcao = Funcao;
+                    DadosFuncionario.Conta = TipoConta;
+                    DadosFuncionario.PaisDivorciados = EstadosCivisPais;
+                    DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
                     ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                 }
 
@@ -338,8 +351,14 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
                     for (var i = 0; i < Formulario.Count; i++)
+                    {
                         if (Formulario.AllKeys[i].Contains("formacao"))
-                            VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"]);
+                        {
+                            var Tipo = "Tipo " + Formulario.GetKey(i).Split(' ')[1];
+                            VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"],
+                                Formulario[Tipo]);
+                        }
+                    }
 
 
                     VerificaDados.AtualizaDadosFuncionarioFormulario(DadosFuncionario.NomeFuncionario,
@@ -367,7 +386,7 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
                         DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                         DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
-                        DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf,
+                        DadosFuncionario.IdEstadoCivilPais.ToString(), DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.CpfIrrf,
                         DadosFuncionario.NotificacaoEmail, DadosFuncionario.ContribuicaoSindical);
 
                     if (DadosFuncionario.MultiploNomeEmpresa != null)
@@ -381,21 +400,26 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 else
                 {
+
                     var EstadoCivil = VerificaDados.RetornaEstadoCivil();
+                    var TipoConta = VerificaDados.RetornaTipoConta();
                     var Sexo = VerificaDados.RetornaSexo();
                     var Etnia = VerificaDados.RetornaEtnia();
                     var Formacao = VerificaDados.RetornaFormacao();
                     var Setor = VerificaDados.RetornaSetor();
                     var Funcao = VerificaDados.RetornaFuncao();
-                    var TipoConta = VerificaDados.RetornaTipoConta();
+                    var EstadosCivisPais = VerificaDados.RetornaEstadoCivilPais();
+                    var HorariosTrabalhos = VerificaDados.RetornaHorarioTrabalho();
 
-                    DadosFuncionario.Conta = TipoConta;
                     DadosFuncionario.EstadoCivil = EstadoCivil;
                     DadosFuncionario.Sexo = Sexo;
                     DadosFuncionario.Etnia = Etnia;
                     DadosFuncionario.Formacao = Formacao;
                     DadosFuncionario.Setor = Setor;
                     DadosFuncionario.Funcao = Funcao;
+                    DadosFuncionario.Conta = TipoConta;
+                    DadosFuncionario.PaisDivorciados = EstadosCivisPais;
+                    DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
 
                     return View(DadosFuncionario);
                 }

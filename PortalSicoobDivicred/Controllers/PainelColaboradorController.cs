@@ -101,7 +101,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.TelefoneCelular = DadosTabelaFuncionario[0]["telefonecelular"];
                 DadosFuncionario.NomeMae = DadosTabelaFuncionario[0]["nomemae"];
                 DadosFuncionario.NomePai = DadosTabelaFuncionario[0]["nomepai"];
-                DadosFuncionario.PaisDivorciados = DadosTabelaFuncionario[0]["paisdivorciado"];
+
                 DadosFuncionario.EmailSecundario = DadosTabelaFuncionario[0]["emailsecundario"];
                 DadosFuncionario.Cep = DadosTabelaFuncionario[0]["cep"];
                 DadosFuncionario.Complemento = DadosTabelaFuncionario[0]["complemento"];
@@ -115,6 +115,25 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.ObservacaoDeficiente = DadosTabelaFuncionario[0]["observacaodeficiente"];
                 DadosFuncionario.DataExpedicaoDocumentoRg = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataemissaorg"]).Date;
                 DadosFuncionario.IdEstadoCivil = Convert.ToInt32(DadosTabelaFuncionario[0]["idestadocivil"]);
+                try
+                {
+                    DadosFuncionario.IdEstadoCivilPais = Convert.ToInt32(DadosTabelaFuncionario[0]["paisdivorciado"]);
+                }
+                catch
+                {
+
+                    DadosFuncionario.IdEstadoCivilPais = 0;
+                }
+
+                try
+                {
+                    DadosFuncionario.IdHorario = Convert.ToInt32(DadosTabelaFuncionario[0]["idhorariotrabalho"]);
+                }
+                catch
+                {
+                    DadosFuncionario.IdHorario = 0;
+                }
+
                 DadosFuncionario.IdSexo = Convert.ToInt32(DadosTabelaFuncionario[0]["sexo"]);
                 DadosFuncionario.IdEtnia = Convert.ToInt32(DadosTabelaFuncionario[0]["etnia"]);
                 DadosFuncionario.IdFormacao = Convert.ToInt32(DadosTabelaFuncionario[0]["idescolaridade"]);
@@ -163,7 +182,9 @@ namespace PortalSicoobDivicred.Controllers
                 for (var j = 0; j < Formacoes.Count; j++)
                 {
                     TempData["IdFormacaoExtra" + j] = "Extra|" + Formacoes[j]["id"];
+                    TempData["IdTipoFormacao" + j ] = "Tipo|" + Formacoes[j]["id"];
                     TempData["FormacaoExtra" + j] = Formacoes[j]["descricao"];
+                    TempData["TipoFormacaoExtra"+j] = Formacoes[j]["tipoformacao"];
                 }
 
 
@@ -201,6 +222,8 @@ namespace PortalSicoobDivicred.Controllers
                 var Formacao = VerificaDados.RetornaFormacao();
                 var Setor = VerificaDados.RetornaSetor();
                 var Funcao = VerificaDados.RetornaFuncao();
+                var EstadosCivisPais = VerificaDados.RetornaEstadoCivilPais();
+                var HorariosTrabalhos = VerificaDados.RetornaHorarioTrabalho();
 
                 DadosFuncionario.EstadoCivil = EstadoCivil;
                 DadosFuncionario.Sexo = Sexo;
@@ -209,6 +232,8 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
                 DadosFuncionario.Conta = TipoConta;
+                DadosFuncionario.PaisDivorciados = EstadosCivisPais;
+                DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
 
                 if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
                 {
@@ -297,7 +322,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
                     DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                     DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
-                    DadosFuncionario.CpfIrrf);
+                    DadosFuncionario.CpfIrrf,DadosFuncionario.IdHorario);
 
 
                 return RedirectToAction("Perfil", "PainelColaborador",
@@ -328,12 +353,18 @@ namespace PortalSicoobDivicred.Controllers
 
                 for (var i = 0; i < Formulario.Count; i++)
                 {
+
                     if (Formulario.AllKeys[i].Contains("formacao"))
-                        VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"]);
+                    {
+                        var Tipo = "Tipo " + Formulario.GetKey(i).Split(' ')[1];
+                        VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"],
+                            Formulario[Tipo]);
+                    }
+
                     if (Formulario.AllKeys[i].Contains("Extra"))
                     {
                         var IdFormacao = Formulario.AllKeys[i].Split('|');
-                        VerificaDados.AtualizaFormacao(Formulario[i], IdFormacao[1]);
+                        VerificaDados.AtualizaFormacao(Formulario[i], IdFormacao[1], Formulario["Tipo|" + IdFormacao[1]]);
                     }
                 }
 
@@ -353,7 +384,8 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.EmailSecundario, DadosFuncionario.Cnh, DadosFuncionario.OrgaoEmissorCnh, DadosFuncionario.DataExpedicaoDocumentoCnh
                     , DadosFuncionario.DataValidadeCnh, DadosFuncionario.Oc, DadosFuncionario.OrgaoEmissorOc, DadosFuncionario.DataExpedicaoOc,
                     DadosFuncionario.DataValidadeOc, DadosFuncionario.DeficienteMotor, DadosFuncionario.DeficienteVisual, DadosFuncionario.DeficienteAuditivo,
-                    DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.PaisDivorciados, DadosFuncionario.OrgaoEmissorRg, DadosFuncionario.DataExpedicaoDocumentoRg);
+                    DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdEstadoCivilPais.ToString(), DadosFuncionario.OrgaoEmissorRg,
+                    DadosFuncionario.DataExpedicaoDocumentoRg,DadosFuncionario.IdHorario);
 
                 return RedirectToAction("Perfil", "PainelColaborador",
                     new { Mensagem = "Dados Pessoais atualizados com sucesso !" });

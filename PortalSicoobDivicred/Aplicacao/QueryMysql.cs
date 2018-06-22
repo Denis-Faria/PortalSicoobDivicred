@@ -112,6 +112,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return DadosCurriculos;
         }
+
         public List<Dictionary<string, string>> RecuperaVinculoExtra(string IdFuncionario)
         {
             var Query =
@@ -120,16 +121,16 @@ namespace PortalSicoobDivicred.Aplicacao
             return DadosCurriculos;
         }
 
-        public void InserirFormacao(string Formacao, string IdFuncionario)
+        public void InserirFormacao(string Formacao, string IdFuncionario,string TipoFormacao)
         {
-            var QueryFormacao = "INSERT INTO formacoesfuncionarios (idfuncionario,descricao) VALUES('" +
-                                IdFuncionario + "','" + Formacao + "')";
+            var QueryFormacao = "INSERT INTO formacoesfuncionarios (idfuncionario,descricao,tipoformacao) VALUES('" +
+                                IdFuncionario + "','" + Formacao + "','"+TipoFormacao+"')";
             ConexaoMysql.ExecutaComandoComRetorno(QueryFormacao);
         }
 
-        public void AtualizaFormacao(string Formacao, string Id)
+        public void AtualizaFormacao(string Formacao, string Id,string TipoFormacao)
         {
-            var QueryFormacao = "UPDATE formacoesfuncionarios  SET descricao='" + Formacao + "' WHERE id='" + Id + "'";
+            var QueryFormacao = "UPDATE formacoesfuncionarios  SET descricao='" + Formacao + "',tipoformacao='"+TipoFormacao+"' WHERE id='" + Id + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryFormacao);
         }
 
@@ -300,6 +301,38 @@ namespace PortalSicoobDivicred.Aplicacao
             var EstadoCivil = new List<SelectListItem>();
 
             const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM tiposestadoscivis";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEstadoCivil);
+            foreach (var row in Dados)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+        public List<SelectListItem> RetornaHorarioTrabalho()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM tiposhorariosfuncionarios";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEstadoCivil);
+            foreach (var row in Dados)
+                EstadoCivil.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return EstadoCivil;
+        }
+        public List<SelectListItem> RetornaEstadoCivilPais()
+        {
+            var EstadoCivil = new List<SelectListItem>();
+
+            const string QueryRetornaEstadoCivil = "SELECT id,descricao FROM tiposestadoscivispais";
 
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaEstadoCivil);
             foreach (var row in Dados)
@@ -564,7 +597,7 @@ namespace PortalSicoobDivicred.Aplicacao
             string ResidenciaPropria, string RecursoFgts, string TelefoneFixo, string TelefoneCelular,string EmailSecundario, 
             string Cnh, string OrgaoEmissorCnh, DateTime DataExpedicaoDocumentoCnh, DateTime DataValidadeCnh, string Oc, string OrgaoEmissorOc, 
             DateTime DataExpedicaoOc, DateTime DataValidadeOc, string DeficienteMotor, string DeficienteVisual, string DeficienteAuditivo,
-            string Reabilitado, string ObservacaoDeficiente, string PaisDivorciados, string OrgaoEmissorRg, DateTime DataExpedicaoDocumentoRg)
+            string Reabilitado, string ObservacaoDeficiente, string PaisDivorciados, string OrgaoEmissorRg, DateTime DataExpedicaoDocumentoRg,int IdHorarioTrabalho)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
                                            Rg + "', pis='" + Pis + "',datanascimento='" +
@@ -585,7 +618,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                            ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") + "',deficientemotor='"+DeficienteMotor+"',deficientevisual='"+DeficienteVisual+"'" +
                                            ",deficienteauditivo='"+DeficienteAuditivo+"',reabilitado='"+Reabilitado+"',observacaodeficiente='"+ObservacaoDeficiente+"'"+
                                            ",paisdivorciado='"+PaisDivorciados+ "', dataemissaorg='" + DataExpedicaoDocumentoRg.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" + OrgaoEmissorRg + "'" +
-                                           "  WHERE login='"+UsuarioSistema + "'";
+                                           ", idhorariotrabalho="+IdHorarioTrabalho+"  WHERE login='"+UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 
@@ -593,13 +626,13 @@ namespace PortalSicoobDivicred.Aplicacao
             string SerieCTPS, string UfCTPS, int IdTipoConta, string CodigoBanco,
             string Agencia, string ContaCorrente, string DependenteIrrf, string DependenteFamilia,
             string DadosDependentes, string TiposDependentes, string Matricula, string AnoPrimeiroEmprego, string EmissaoCtps,
-            string CpfIrrf)
+            string CpfIrrf,int IdHorariOtrabalho)
         {
             var QueryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +
                                            "',numeroctps='" + NumeroCTPS + "',seriectps='" + SerieCTPS + "',ufctps='" + UfCTPS + "', idtipoconta=" + IdTipoConta + "," +
                                            "codigobanco=" + CodigoBanco + ",agencia='" + Agencia + "',contacorrente='" + ContaCorrente + "', informacaodependente='" + DadosDependentes + "',dependenteirrpf='" + DependenteIrrf + "'," +
                                            "dependentesalariofamilia='" + DependenteFamilia + "',tipodependente='" + TiposDependentes + "',matricula='" + Matricula + "'" +
-                                           ",anoprimeiroemprego='" + AnoPrimeiroEmprego + "', dataemissaoctps='" + Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd") + "', cpfirrf='" + CpfIrrf + "' WHERE login='" + UsuarioSistema + "'";
+                                           ",anoprimeiroemprego='" + AnoPrimeiroEmprego + "', dataemissaoctps='" + Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd") + "', cpfirrf='" + CpfIrrf + "',idhorariotrabalho="+IdHorariOtrabalho+" WHERE login='" + UsuarioSistema + "'";
             ConexaoMysql.ExecutaComandoComRetorno(QueryAtualizaFuncionario);
         }
 

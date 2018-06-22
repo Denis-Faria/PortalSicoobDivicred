@@ -27,6 +27,31 @@
     });
 
     function AdicionarFormacao() {
+
+        var x = document.createElement("INPUT");
+        var div = document.createElement('div');
+        var div2 = document.createElement('div');
+        var label = document.createElement("label");
+
+        label.setAttribute("class", "label");
+
+        label.innerHTML = "Tipo Formação Acadêmica";
+
+        div.setAttribute("class", "field");
+        div2.setAttribute("class", "control");
+
+        x.setAttribute("type", "text");
+        x.setAttribute("placeholder", "EX: PÓS-GRADUAÇÃO");
+        x.setAttribute("id", "Tipo " + Forma);
+        x.setAttribute("name", "Tipo " + Forma);
+        x.setAttribute("class", "input");
+        x.setAttribute("required", "");
+
+        document.getElementById("NovaFormacao").appendChild(div);
+        div.appendChild(div2);
+        div2.appendChild(label);
+        div2.appendChild(x);
+
         var x = document.createElement("INPUT");
         var div = document.createElement('div');
         var div2 = document.createElement('div');
@@ -40,6 +65,7 @@
         div2.setAttribute("class", "control");
 
         x.setAttribute("type", "text");
+        x.setAttribute("placeholder", "EX: MBA");
         x.setAttribute("id", "formacao " + Forma);
         x.setAttribute("name", "formacao " + Forma);
         x.setAttribute("class", "input");
@@ -64,7 +90,7 @@
     }
 
     function BuscaCertificacao(Nome) {
-        $("#Conteudo").empty();
+        $("#ConteudoCertificacao").empty();
         $.ajax(
             {
                 type: 'POST',
@@ -74,7 +100,7 @@
                 async: true,
                 data: { "IdFuncao": Nome.value },
                 success: function (data) {
-                    $("#Conteudo").append(data);
+                    $("#ConteudoCertificaco").append(data);
                     $("#Certificacoes").removeAttr("hidden");
 
                 }
@@ -276,30 +302,39 @@
                                 </div>
                                 <div class="field ">
                                     <div class="control">
-
                                         <label class="label">Função</label>
                                         <div class="select  is-fullwidth">
                                             @Html.DropDownListFor(m => m.IdFuncao, new SelectList(Model.Funcao, "Value", "Text"), "SELECIONE A SUA FUNÇÃO", new { id = "Funcao", onchange = "BuscaCertificacao(this)" })
                                             @Html.ValidationMessageFor(m => m.Funcao, null, new { style = "color:red" })
-
                                         </div>
                                     </div>
-
-                                    <blockquote id="Certificacoes" hidden>
+                                    <blockquote id="Certificacoes">
                                         <b>Certificações Obrigatórias</b>
-                                        <div id="Conteudo">
+                                        <div id="ConteudoCertificacao">
+                                            @for (int i = 0; i < Convert.ToInt32(TempData["TotalCertificacao"]); i++)
+                                            {
+                                                @TempData["Certificacao" + i]
+                                            }
 
                                         </div>
                                         <br />
                                         <label class="checkbox">
-                                            <input type="checkbox" id="ConfirmacaoCertificacao" name="ConfirmacaoCertificacao">
+                                            <input type="checkbox" id="ConfirmacaoCertificacao" name="ConfirmacaoCertificacao" @TempData["ConfirmaCertificacao"]>
                                             Possuo todas as certificações acima.
                                         </label>
                                     </blockquote>
-                                  
-                                    <hr />
-
                                 </div>
+                                <div class="field ">
+                                    <div class="control ">
+                                        <label class="label">Horário de Trabalho</label>
+                                        <div class="select is-fullwidth">
+                                            @Html.DropDownListFor(m => m.IdHorario, new SelectList(Model.HorarioTrabalho, "Value", "Text"), "SELECIONE O SEU HORÁRIO", new { id = "HorarioTrabalho" })
+                                            @Html.ValidationMessageFor(m => m.HorarioTrabalho, null, new { style = "color:red" })
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </div>
+
                                 <div class="field is-grouped column">
                                     <div class="control column is-4 is-expanded">
                                         <label class="label">N° Matricula</label>
@@ -1006,17 +1041,10 @@
                                         </div>
                                     </div>
                                     <div class="field is-grouped">
-                                        <div class="control column is-6">
-                                            <label class="label">Seus pais são divorciados ?</label>
-                                            <div class="field">
-                                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Sim", new { @class = "is-checkradio is-small", id = "checkpaissim" })
-                                                <label for="checkpaissim">
-                                                    Sim
-                                                </label>
-                                                @Html.RadioButtonFor(m => m.PaisDivorciados, "Não", new { @class = "is-checkradio is-small", id = "checkpaisnao" })
-                                                <label for="checkpaisnao">
-                                                    Não
-                                                </label>
+                                        <div class="control column is-4 is-expanded ">
+                                            <label class="label">Estado Civil dos Pais</label>
+                                            <div class="select">
+                                                @Html.DropDownListFor(m => m.IdEstadoCivilPais, new SelectList(Model.PaisDivorciados, "Value", "Text"), "SELECIONE O ESTADO CIVIL", new { id = "EstadoCivilPais" })
                                                 @Html.ValidationMessageFor(m => m.PaisDivorciados, null, new { style = "color:red" })
                                             </div>
                                         </div>
@@ -1142,7 +1170,13 @@
                                     {
                                         <div class=" column">
                                             <div class="field">
-                                                <div class="control">
+                                                <div class="contro">
+                                                    <label class="label">Tipo Formação Acadêmica</label>
+                                                    <input type="text" class="input is-fullwidth" name="@TempData["IdTipoFormacao" + i ]" value="@TempData["TipoFormacaoExtra" + i]" />
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="control ">
                                                     <label class="label">Formação Acadêmica</label>
                                                     <input type="text" class="input is-fullwidth" name="@TempData["IdFormacaoExtra" + i]" value="@TempData["FormacaoExtra" + i]" />
                                                 </div>

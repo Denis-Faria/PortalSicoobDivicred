@@ -10,12 +10,11 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class PrincipalController : Controller
     {
-        public ActionResult Principal(string Mensagem)
+        public async Task<ActionResult> Principal(string Mensagem)
         {
 
 
             var Alerta = new EnviodeAlertas();
-
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
@@ -52,19 +51,20 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["AreaGestor"] = "N";
                 }
 
-                if (VerificaDados.PermissaoControleTesouraria(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoNumerario"] =
-                        " ";
-                else
-                    TempData["PermissaoNumerario"] = "display: none";
-
-
-
                 if (VerificaDados.PermissaoControleFuncionario(DadosUsuarioBanco[0]["login"]))
                     TempData["PermissaoNumerario"] =
                         " ";
+                else if (VerificaDados.PermissaoControleTesouraria(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoNumerario"] =
+                        " ";
                 else
                     TempData["PermissaoNumerario"] = "display: none";
+
+
+
+
+
+
 
 
 
@@ -212,11 +212,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
                 DadosFuncionario.Conta = TipoConta;
-
-                TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
-                TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
-                TempData["Anuenio"] = DadosTabelaFuncionario[0]["anuenio"];
-                TempData["Ticket"] = DadosTabelaFuncionario[0]["ticket"];
+               
 
                 if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
                 {
@@ -601,7 +597,7 @@ namespace PortalSicoobDivicred.Controllers
                     new
                     {
                         Acao = "Dashboard",
-                        Mensagem = "!",
+                        Mensagem = "Pendência justificada com sucesso!",
                         Controlle = "Principal"
                     });
             }
@@ -894,7 +890,7 @@ namespace PortalSicoobDivicred.Controllers
 
             if (Agencia.Equals("Matriz"))
             {
-                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao,"0",DadosFuncionario[0]["id"]);
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "0", DadosFuncionario[0]["id"]);
 
                 var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
 
@@ -905,8 +901,8 @@ namespace PortalSicoobDivicred.Controllers
 
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
-                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A "+Agencia+".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                       await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -924,7 +920,7 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-           
+
             }
             else if (Agencia.Equals("Parana"))
             {
@@ -939,7 +935,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                       await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -970,7 +966,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1001,7 +997,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1032,7 +1028,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                       await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1063,7 +1059,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                       await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1094,7 +1090,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                       await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1114,7 +1110,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             else if (Agencia.Equals("Goias"))
             {
-                VerificaDados.AtualizaNumerario(string.Format("{0:N}",Valor), Observacao, "7", DadosFuncionario[0]["id"]);
+                VerificaDados.AtualizaNumerario(string.Format("{0:N}", Valor), Observacao, "7", DadosFuncionario[0]["id"]);
                 var FuncionariosSetor = VerificaDados.RetornaFuncionariosSetor("53");
 
                 for (int i = 0; i < FuncionariosSetor.Count; i++)
@@ -1125,7 +1121,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1156,7 +1152,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (FuncionariosSetor[i]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(FuncionariosSetor[i]["id"], "12", "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
-                        Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
+                        await Envia.EnviaEmail(FuncionariosSetor[i]["email"], "Foi feita uma alteração no numerário do P.A " + Agencia + ".");
 
                         if (FuncionariosSetor[i]["idnotificacao"].ToString().Length > 0)
                         {

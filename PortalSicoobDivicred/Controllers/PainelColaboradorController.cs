@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
@@ -136,10 +137,12 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.Cnh = DadosTabelaFuncionario[0]["cnh"];
                         DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaocnh"]).Date;
                         DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario[0]["orgaoemissorcnh"];
+                        DadosFuncionario.DataValidadeCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadecnh"]);
 
                         DadosFuncionario.Oc = DadosTabelaFuncionario[0]["oc"];
                         DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaooc"]).Date;
                         DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario[0]["orgaoemissoroc"];
+                        DadosFuncionario.DataValidadeOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadeoc"]);
                     }
                 }
                 else
@@ -148,10 +151,12 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.Cnh = DadosTabelaFuncionario[0]["cnh"];
                     DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaocnh"]).Date;
                     DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario[0]["orgaoemissorcnh"];
+                    DadosFuncionario.DataValidadeCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadecnh"]);
 
                     DadosFuncionario.Oc = DadosTabelaFuncionario[0]["oc"];
                     DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaooc"]).Date;
                     DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario[0]["orgaoemissoroc"];
+                    DadosFuncionario.DataValidadeOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadeoc"]);
                 }
 
                 TempData["TotalFormacao"] = Formacoes.Count;
@@ -204,12 +209,6 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Setor = Setor;
                 DadosFuncionario.Funcao = Funcao;
                 DadosFuncionario.Conta = TipoConta;
-
-
-                TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
-                TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
-                TempData["Anuenio"] = DadosTabelaFuncionario[0]["anuenio"];
-                TempData["Ticket"] = DadosTabelaFuncionario[0]["ticket"];
 
                 if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
                 {
@@ -860,7 +859,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public JsonResult ConfirmarPendencia(Item[] TabelaPendencias)
+        public async Task<JsonResult> ConfirmarPendencia(Item[] TabelaPendencias)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
@@ -936,7 +935,7 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
 
-                    #region Alerta Funcionario
+                  #region Alerta Funcionario
 
 
                     var Envia = new EnviodeAlertas();
@@ -950,53 +949,70 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
                             "Você tem justificativas pendentes.");
 
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
-
-                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                       await Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
+                        try
                         {
-                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                            if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                            {
+                                Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"],
+                                    "Você tem justificativas pendentes.");
+                            }
+                        }
+                        catch
+                        {
+
                         }
                     }
                     else
                     {
                         CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
                             "Você tem justificativas pendentes.");
-
-                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        try
                         {
-                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
+                            if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                            {
+                                Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"],
+                                    "Você tem justificativas pendentes.");
+                            }
                         }
+                        catch { }
                     }
                     #endregion
 
                     #region Alerta Gestor
 
-
-                    var DadosGestor =
-                        CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
-
-                    if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                    try
                     {
-                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                            "O funcionário "+DadosOperador[0]["nome"]+" tem justificativas pendentes");
+                        var DadosGestor =
+                            CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
 
-                        Envia.EnviaEmail(DadosGestor[0]["email"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-
-                        if (DadosGestor[0]["id"].ToString().Length > 0)
+                        if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
                         {
-                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+                            CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+
+                          await  Envia.EnviaEmail(DadosGestor[0]["email"],
+                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+
+                            if (DadosGestor[0]["id"].ToString().Length > 0)
+                            {
+                                Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"],
+                                    "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+                            }
+                        }
+                        else
+                        {
+                            CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
+                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+
+                            if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                            {
+                                Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"],
+                                    "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
+                            }
                         }
                     }
-                    else
-                    {
-                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                            "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-
-                        if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
-                        {
-                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-                        }
-                    }
+                    catch { }
 
                     #endregion
                 }
@@ -1017,7 +1033,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult CadastraAlerta(FormCollection Dados)
+        public async Task<ActionResult> CadastraAlerta(FormCollection Dados)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
@@ -1043,7 +1059,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(FuncionarioPendentes[i]["idfuncionario"], "11",
                             "Você tem justificativas pendentes.");
 
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
 
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
@@ -1073,7 +1089,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
                             "Existem funcionários do seu setor com justificativas pendentes.");
 
-                        Envia.EnviaEmail(DadosGestor[0]["email"], "Existem funcionários do seu setor com justificativas pendentes.");
+                      await  Envia.EnviaEmail(DadosGestor[0]["email"], "Existem funcionários do seu setor com justificativas pendentes.");
 
                         if (DadosGestor[0]["id"].ToString().Length > 0)
                         {
@@ -1474,7 +1490,7 @@ namespace PortalSicoobDivicred.Controllers
             return PartialView("SemPendencia");
         }
 
-        public ActionResult ConfirmarJustificativa(string IdPendencia)
+        public async Task<ActionResult> ConfirmarJustificativa(string IdPendencia)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
@@ -1500,7 +1516,7 @@ namespace PortalSicoobDivicred.Controllers
                     CadastroAlerta.cadastrarAlert(DadosPendencia[0]["idfuncionario"], "11",
                         "Sua justificativa foi confirmada.");
 
-                    Envia.EnviaEmail(DadosOperador[0]["email"], "Sua justificativa foi confirmada.");
+                   await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua justificativa foi confirmada.");
 
                     if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                     {
@@ -1530,7 +1546,7 @@ namespace PortalSicoobDivicred.Controllers
                     CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
                         "A justificativa do funcionário: "+DadosOperador[0]["nome"]+"  foi confirmada.");
 
-                    Envia.EnviaEmail(DadosGestor[0]["email"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                  await  Envia.EnviaEmail(DadosGestor[0]["email"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
 
                     if (DadosGestor[0]["id"].ToString().Length > 0)
                     {

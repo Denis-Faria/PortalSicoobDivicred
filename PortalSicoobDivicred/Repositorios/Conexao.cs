@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data;
 using MySql.Data.MySqlClient;
 
-namespace Port.Repositorios
+namespace PortalSicoobDivicred.Repositorios
 {
     public class Conexao : IDisposable
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web;
-using Port.Repositorios;
+using PortalSicoobDivicred.Repositorios;
 
 namespace PortalSicoobDivicred.Aplicacao
 {

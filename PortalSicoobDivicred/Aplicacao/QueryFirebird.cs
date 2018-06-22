@@ -147,24 +147,14 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
-
-        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaDataAdmissao(string IdFuncionario, DateTime DiaValidar)
         {
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var DiaValidar = new DateTime();
-
-                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-                    DiaValidar = DateTime.Now.AddDays(-3);
-                else
-                    DiaValidar = DateTime.Now.AddDays(-1);
-
                 var cmdComando = CriarComandoSQL(
-                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE 'DATA'='" +
-                    DiaValidar.ToString("yyyy/MM/dd") + 
-                    "' AND ID_CALENDARIO=(SELECT max(ID_CALENDARIO) FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                    IdFuncionario + ")");
+                    "SELECT * FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" +
+                    IdFuncionario + " AND DATA_ADMISSAO <='" + DiaValidar.ToString("yyyy/MM/dd") + "';");
                 using (var reader = cmdComando.ExecuteReader())
                 {
                     linhas = new List<Dictionary<string, string>>();
@@ -190,6 +180,77 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return linhas;
         }
+        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario, string IdCalendario,DateTime DiaValidar)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+                var cmdComando = CriarComandoSQL(
+                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA = '" + DiaValidar.ToString("yyyy/MM/dd") +
+                    "' AND ID_CALENDARIO=" + IdCalendario + "");
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
+        public List<Dictionary<string, string>> VerificaCalendario(string IdFuncionario, DateTime DiaValidar)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
+               
+
+                var cmdComando = CriarComandoSQL("SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO = " +IdFuncionario + " and DATA_INICIO <= '" + DiaValidar.ToString("yyyy/MM/dd") + "' ORDER BY DATA_INICIO DESC");
+                using (var reader = cmdComando.ExecuteReader())
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while (reader.Read())
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for (var i = 0; i < reader.FieldCount; i++)
+                        {
+                            var nomeDaColuna = reader.GetName(i);
+                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
+                            linha.Add(nomeDaColuna, valorDaColuna);
+                        }
+
+                        linhas.Add(linha);
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao(con);
+            }
+
+            return linhas;
+        }
+
+
+
+
 
         public List<Dictionary<string, string>> VerificaFeriadoDivinopolis(DateTime data)
         {

@@ -184,10 +184,6 @@ namespace PortalSicoobDivicred.Models
         [DisplayName("IdSexo")]
         public int IdSexo { get; set; }
 
-
-
-
-
         [DisplayName("Formação")] public List<SelectListItem> Formacao { get; set; }
 
         [Required(ErrorMessage = "Favor informar a sua Formação!")]
@@ -237,6 +233,7 @@ namespace PortalSicoobDivicred.Models
         public DateTime DataExpedicaoDocumentoRg { get; set; }
 
         [Required(ErrorMessage = "Favor informar o orgão emissor de seu RG!")]
+        [MaxLength(10, ErrorMessage = "Favor adicionar somente o ano de fichamento.")]
         public string OrgaoEmissorRg { get; set; }
 
 

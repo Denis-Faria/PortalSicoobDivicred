@@ -181,7 +181,7 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Login", "Login");
         }
-
+        [ValidateInput(false)]
         public ActionResult BuscaChamados(string Busca)
         {
             var VerificaDados = new QueryMysqlWebdesk();
@@ -264,7 +264,7 @@ namespace PortalSicoobDivicred.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult CadastrarSolicitacao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
+        public async Task<ActionResult> CadastrarSolicitacao(FormCollection Dados, IEnumerable<HttpPostedFileBase> postedFiles)
         {
             var VerificaDados = new QueryMysqlWebdesk();
             var Logado = VerificaDados.UsuarioLogado();
@@ -307,7 +307,7 @@ namespace PortalSicoobDivicred.Controllers
                 if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                 {
                     CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "Foi Aberto um chamado para você.");
-                    Envia.EnviaEmail(DadosOperador[0]["email"], "Foi aberto um chamado para você.");
+                    await Envia.EnviaEmail(DadosOperador[0]["email"], "Foi aberto um chamado para você.");
                     if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                     {
                         Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Foi Aberto um chamado para você.");
@@ -593,7 +593,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
@@ -661,7 +661,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
                                                                                                       DadosUsuario[0]["nome"]);
 
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para " + NomeFuncionarioNovo[0]["nome"] + " por " +
                                                                     DadosUsuario[0]["nome"]);
 
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
@@ -695,7 +695,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(Dados["IdFuncionarioResponsavel"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por " +
                                                                                                       DadosUsuario[0]["nome"]);
 
-                        Envia.EnviaEmail(DadosOperadorNovo[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por" +
+                        await Envia.EnviaEmail(DadosOperadorNovo[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encaminhada para você por" +
                                                                     DadosUsuario[0]["nome"]);
 
                         if (DadosOperadorNovo[0]["idnotificacao"].ToString().Length > 0)
@@ -772,7 +772,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " foi encerrada.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " alterou de categoria.");
@@ -836,7 +836,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                       await Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
@@ -892,7 +892,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
-                        Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                       await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
@@ -942,7 +942,7 @@ namespace PortalSicoobDivicred.Controllers
             if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
             {
                 CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
-                Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
+                await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);
                 if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                 {
                     Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + IdSolicitacao + " teve o atendimento iniciado por " + DadosUsuario[0]["nome"]);

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Web;
 using System.Web.Mvc;
-using Port.Repositorios;
+using PortalSicoobDivicred.Repositorios;
 
 namespace PortalSicoobDivicred.Aplicacao
 {

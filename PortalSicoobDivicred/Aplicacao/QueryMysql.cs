@@ -6,7 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using DocumentFormat.OpenXml.Spreadsheet;
-using Port.Repositorios;
+using PortalSicoobDivicred.Repositorios;
 using PortalSicoobDivicred.Models;
 
 namespace PortalSicoobDivicred.Aplicacao

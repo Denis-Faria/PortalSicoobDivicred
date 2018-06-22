@@ -147,23 +147,8 @@
     }
 
     $(document).ready(function () {
-
-        $("#CadastraChamado").click(function () {
-            if(!$(this).disabled){
-                var oldText = $(this).html();
-                $(this).html("<i class='material-icons animate-spin'>Processando Aguarde</i>");
-                // Desabilita o botao
-                $(this).disabled = true;
-
-           
-                setTimeout(function () {
-                    $(this).disabled = false;
-                    $(this).html(oldText);
-                }.bind(this), 20000);
-            }
-        });
-        
-        $("#CpfCadastro").hide();
+      
+      $("#CpfCadastro").hide();
         $("#TabWebdesk").tabs();
         var editor = CKEDITOR.replace('Descricao');
         try {
@@ -280,7 +265,7 @@
                     <span class="icon is-small">
                         <i class="fa fa-inbox"></i>
                     </span>
-                    <span>Minhas solicitações em Atendimento</span>
+                    <span>Minhas solicitações</span>
                 </a>
             </li>
 
@@ -359,7 +344,7 @@
 
             @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
             {
-                <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})">
+                <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})" onclick="location.href='@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})'" >
                     <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
                     <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
                     <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
@@ -504,7 +489,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button type="submit" id="CadastraChamado" class="button is-success">Cadastrar Solicitação</button>
+                <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'" >Cadastrar Solicitação</button>
                 <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
             </footer>
         </div>

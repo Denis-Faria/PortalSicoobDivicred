@@ -33,6 +33,31 @@
         });
 
         function AdicionarFormacao() {
+
+            var x = document.createElement("INPUT");
+            var div = document.createElement('div');
+            var div2 = document.createElement('div');
+            var label = document.createElement("label");
+
+            label.setAttribute("class", "label");
+
+            label.innerHTML = "Tipo Formação Acadêmica";
+
+            div.setAttribute("class", "field");
+            div2.setAttribute("class", "control");
+
+            x.setAttribute("type", "text");
+            x.setAttribute("placeholder","EX: PÓS-GRADUAÇÃO");
+            x.setAttribute("id", "tipoformacao " + Forma);
+            x.setAttribute("name", "tipoformacao " + Forma);
+            x.setAttribute("class", "input");
+            x.setAttribute("required", "");
+            Forma = Forma + 1;
+            document.getElementById("NovaFormacao").appendChild(div);
+            div.appendChild(div2);
+            div2.appendChild(label);
+            div2.appendChild(x);
+
             var x = document.createElement("INPUT");
             var div = document.createElement('div');
             var div2 = document.createElement('div');
@@ -46,6 +71,7 @@
             div2.setAttribute("class", "control");
 
             x.setAttribute("type", "text");
+            x.setAttribute("placeholder", "EX: MBA");
             x.setAttribute("id", "formacao " + Forma);
             x.setAttribute("name", "formacao " + Forma);
             x.setAttribute("class", "input");
@@ -696,19 +722,6 @@
                             Possuo todas as certificações acima.
                         </label>
                     </blockquote>
-                    <div class="field">
-                        <blockquote>
-                            <p>
-                                <b>Salário Base: R$@TempData["Salario"]</b> || <b>Estagiário: @TempData["Estagiario"]</b> || <b>Contrato Estágio: @TempData["DataEstagio"]</b>
-                            </p>
-                            <b>Quebra de Caixa: R$@TempData["QuebraCaixa"]</b>
-                            <br />
-                            <b>Anuênio: R$@TempData["Anuenio"]</b>
-                            <br />
-                            <b>Ticket: R$@TempData["Ticket"]</b>
-                            <br />
-                        </blockquote>
-                    </div>
                     <hr />
                     <div class="field">
                         <div class="title is-4 is-vertical is-parent">

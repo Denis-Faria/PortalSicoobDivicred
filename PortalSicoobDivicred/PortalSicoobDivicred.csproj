@@ -421,6 +421,7 @@
     <Content Include="Assets\css\bulma-steps\steps.js" />
     <Content Include="Images\Sem pendencias.png" />
     <Content Include="Images\Sem pontuacao.png" />
+    <Content Include="Images\Sem regitro.png" />
     <Content Include="Images\Webdesk.png" />
     <Content Include="node_modules\bulma-checkradio\dist\bulma-checkradio.min.css" />
     <Content Include="node_modules\bulma-steps-component\bulma\css\bulma.css" />

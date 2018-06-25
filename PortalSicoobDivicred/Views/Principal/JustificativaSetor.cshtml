@@ -26,7 +26,7 @@ else
         <th>Saída</th>
         <th @TempData["Extra1"]>Extra 1</th>
         <th @TempData["Extra2"]>Extra 2</th>
-        <th>Jusificativa</th>
+        <th>Justificativa</th>
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
         {
             using (Html.BeginForm("JustificativasGestor", "Principal"))

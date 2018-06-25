@@ -499,7 +499,7 @@ namespace PortalSicoobDivicred.Controllers
 
             var JustificativasFirebird = QueryFire.RecuperaJustificativas();
 
-
+            
             TempData["TotalJustificativas"] = JustificativasFirebird.Count;
             TempData["TotalPonto"] = DadosPendencias.Count;
 
@@ -521,7 +521,7 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
                     TempData["IdFuncionario" + i] = DadosPendencias[0]["IdFuncionarioFireBird"];
                     TempData["TotalHorarioPendencia" + i] = DadosPendencias[i]["TotalHorario"];
-
+                    
                     if (4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) > 0)
                     {
                         TempData["TotalTextBox" + i] = 4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]);
@@ -549,7 +549,17 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Esconde" + i] = "hidden";
                     else
                         TempData["Esconde" + i] = "";
+
+                    if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
+                    {
+                        TempData["MostraCampoLivre"] = true;
+                    }
+                    else
+                    {
+                        TempData["MostraCampoLivre"] = false;
+                    }
                 }
+
 
             return PartialView("JustificativaPonto");
         }

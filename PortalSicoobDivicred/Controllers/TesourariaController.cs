@@ -109,6 +109,9 @@ namespace PortalSicoobDivicred.Controllers
 
             TempData["data"] = receberForm["data"].ToString();
 
+            var insereValorCampos = new QueryMysqlTesouraria();
+            insereValorCampos.insereValoresCampos(valorJudicial.ToString(), valor6192.ToString(), valorNr1.ToString(), valorNr2.ToString(), valorNr3.ToString(), Convert.ToDateTime(TempData["data"]), DateTime.Now);
+
             string Maior = "";
             string historico = "";
             double arqext1 = 0;
@@ -193,19 +196,24 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     nomeArquivo01 = Path.GetFileName(arquivos[1].FileName);
-                    caminho01 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo01);
+                    caminho01 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString()+ (DateTime.Now.Minute).ToString() + nomeArquivo01);
+                    arquivos[1].SaveAs(caminho01);
 
                     nomeArquivo02 = Path.GetFileName(arquivos[2].FileName);
-                    caminho02 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo02);
+                    caminho02 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo02);
+                    arquivos[2].SaveAs(caminho02);
 
                     nomeArquivo03 = Path.GetFileName(arquivos[3].FileName);
-                    caminho03 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo03);
+                    caminho03 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo03);
+                    arquivos[3].SaveAs(caminho03);
 
                     nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
-                    caminho04 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo04);
+                    caminho04 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo04);
+                    arquivos[4].SaveAs(caminho04);
 
                     nomeArquivo05 = Path.GetFileName(arquivos[5].FileName);
-                    caminho05 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo05);
+                    caminho05 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo05);
+                    arquivos[5].SaveAs(caminho05);
 
 
 
@@ -262,7 +270,7 @@ namespace PortalSicoobDivicred.Controllers
                                 else
                                 {
                                     dataValida = 1;
-                                    return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                                    return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Lançamento" });
 
                                 }
 
@@ -275,7 +283,7 @@ namespace PortalSicoobDivicred.Controllers
                                 if (valeData == "0")
                                 {
                                     dataValida = 1;
-                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Enviadas e Recebidas são diferentes" });
                                 }
                                 else
                                 {
@@ -286,7 +294,7 @@ namespace PortalSicoobDivicred.Controllers
                                     else
                                     {
                                         dataValida = 1;
-                                        return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                                        return RedirectToAction("Tesouraria", new { Erro = "Data Invalida do Relatório Enviadas e Recebidas" });
                                     }
                                 }
 
@@ -316,7 +324,7 @@ namespace PortalSicoobDivicred.Controllers
                                 if (valeData == "0")
                                 {
                                     dataValida = 1;
-                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes" });
+                                    return RedirectToAction("Tesouraria", new { Erro = "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes!!!!" });
                                 }
                                 else
                                 {

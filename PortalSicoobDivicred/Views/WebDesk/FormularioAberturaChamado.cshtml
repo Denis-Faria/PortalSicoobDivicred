@@ -11,17 +11,22 @@
 @{
     foreach (var Combo in (Dictionary<string, string>)TempData["Combos"])
     {
-        <div class="select">
+    <div>
+        <label class="label">@Combo.Key</label>
+        <div class="select is-fullwidth">
             <select>
+                <option> SELECIONE O @Combo.Key</option>
                 @{
                     var total = Combo.Value.ToString().Split(';');
                     for (int i = 0; i < total.Length; i++)
                     {
-                        <option>@total[i]</option>
+                        <option value="@total[i]">@total[i]</option>
                     }
                 }
             </select>
         </div>
+    </div>
+        <br/>
     }
 
 

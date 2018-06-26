@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using PortalSicoobDivicred.Repositorios;
+using PortalSicoobDivicred.Models;
 
 namespace PortalSicoobDivicred.Aplicacao
 {
@@ -14,6 +15,9 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             ConexaoMysql = new Conexao();
         }
+
+        
+
 
 
         public string consultaValorNR()
@@ -30,6 +34,18 @@ namespace PortalSicoobDivicred.Aplicacao
             var QueryInsereValorNR = "INSERT INTO tesourariavalornr (valor,data) values('"+valor.Replace(",",".")+"','"+ data.ToString() +"')";
             ConexaoMysql.ExecutaComando(QueryInsereValorNR);
         }
+
+        public void insereValoresCampos(string valorJudicial,string valorDevolucaoCheques,string valorCampo1, string valorCampo2, string valorCampo3,DateTime dataEscolhida,DateTime dataGeracao)
+        {
+            var QueryInsereValorCamposDigitaveis = "INSERT INTO tesourariavalorescamposdigitaveis (valorjudicial,valordevolucaocheques,valorcampo1,valorcampo2,valorcampo3,dataescolhida,datageracao,excluido)" +
+                " values('" + valorJudicial.Replace(",", ".") + "','" + valorDevolucaoCheques.Replace(",", ".") + "','" + valorCampo1.Replace(",", ".") + "','" + valorCampo2.Replace(",", ".") + "','" + valorCampo3.Replace(",", ".") + "','" + dataEscolhida.ToString("yyyy-MM-dd 00:00:00") + "','" + dataGeracao.ToString("yyyy-MM-dd hh:MM:ss") + "','N')";
+            ConexaoMysql.ExecutaComando(QueryInsereValorCamposDigitaveis);
+        }
+
+
+
+
+
 
         public void InsereConferencia(String data, string historico, string extrato,string arquivos,string diferenca)
         {
@@ -69,7 +85,11 @@ namespace PortalSicoobDivicred.Aplicacao
                 (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
             ConexaoMysql.ExecutaComandoComRetorno(Query2);
 
-            
+            var Query3 = "UPDATE  tesourariavalorescamposdigitaveis set excluido='S' where dataescolhida='" +
+    (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00") + "'";
+            ConexaoMysql.ExecutaComandoComRetorno(Query3);
+
+
         }
 
 

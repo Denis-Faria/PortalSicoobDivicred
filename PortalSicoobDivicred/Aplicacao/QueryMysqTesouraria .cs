@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Port.Repositorios;
+using Port.Repositorios;
+using PortalSicoobDivicred.Models;
 
 namespace PortalSicoobDivicred.Aplicacao
 {
@@ -14,6 +16,9 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             ConexaoMysql = new Conexao();
         }
+
+        
+
 
 
         public string consultaValorNR()

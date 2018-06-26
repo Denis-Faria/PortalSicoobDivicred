@@ -29,13 +29,15 @@ namespace PortalSicoobDivicred.Controllers
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 var DadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(Login);
-                if (insereDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoCurriculo"] =
+                if (insereDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
                         " ";
                 else
-                    TempData["PermissaoCurriculo"] = "display: none";
+                    TempData["PermissaoTesouraria"] = "display: none";
 
                 string idUsuario = insereDados.RecuperaUsuario(Login);
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
 
                 return View("Tesouraria");
             }

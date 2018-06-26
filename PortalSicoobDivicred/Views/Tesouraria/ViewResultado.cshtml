@@ -223,8 +223,7 @@
     <div class="columns content">
         <div class="column is-12">
             <label class="label">Justificativa</label>
-
-            @Html.TextAreaFor(m => m.justificativa, new { @class = "textarea", type = "string", rows = "6", placeholder = "Max 200 caracteres" })
+            @Html.TextAreaFor(m => m.justificativa, new { @class = "textarea", required = "required", type = "string", rows = "6", placeholder = "Max 200 caracteres" })
         </div>
     </div>
 

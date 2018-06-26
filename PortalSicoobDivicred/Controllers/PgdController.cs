@@ -24,7 +24,11 @@ namespace PortalSicoobDivicred.Controllers
                 
                 string idUsuario = verificaDadosLogin.RecuperaUsuario(Login);
                 var saldoAtual = verificaDados.BuscaSaldoAtual(Login);
-                
+
+                var DadosUsuarioBanco = verificaDadosLogin.RecuperaDadosUsuarios(Login);
+                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+
                 @TempData["saldo"] = saldoAtual;
                 var gestor = verificaDados.Gestor(Login);
                 TempData["Gestor"] = gestor.ToString();

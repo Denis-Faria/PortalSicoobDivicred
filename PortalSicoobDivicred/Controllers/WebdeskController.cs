@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -1004,15 +1005,6 @@ namespace PortalSicoobDivicred.Controllers
 
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
 
-
-
-
-
-
-
-
-
-
                 return View("AreaGestor");
             }
 
@@ -1050,6 +1042,69 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult CadastrarFormulario()
         {
             throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public ActionResult RetornaFormulario(string IdCategoria)
+        {
+            var VerificaDados = new QueryMysqlWebdesk();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Formulario = VerificaDados.RetornaFormularioCategoria(IdCategoria);
+                if (Formulario.Count > 0)
+                {
+                    var count = 0;
+                    var ArrayCombo = new Dictionary<string,string>();
+
+                    
+                    foreach (var Campo in Formulario)
+                    {
+                        if (Campo["campoobrigatorio"].Equals("S"))
+                        {
+                            TempData["Obrigatorio" + count] = "required";
+                        }
+                        else
+                        {
+                            TempData["Obrigatorio" + count] = "";
+                        }
+                        if (Campo["combo"].Equals("S"))
+                        {
+                            if (ArrayCombo.ContainsKey(Campo["nomecombo"]))
+                            {
+
+                                var CamposCombo = ArrayCombo[Campo["nomecombo"]];
+                                CamposCombo = CamposCombo +";" +Campo["campo"];
+                                ArrayCombo[Campo["nomecombo"]] = CamposCombo;
+                            }
+                            else
+                            {
+                                ArrayCombo.Add(Campo["nomecombo"],Campo["campo"]);
+                               
+                            }
+                            
+                        }
+                        else
+                        {
+                            TempData["NomeCampo" + count] = Campo["campo"];
+                            count++;
+                        }
+
+                        
+                    }
+                    TempData["TotalCampos"] = count;
+                    TempData["Combos"] = ArrayCombo;
+
+                    return PartialView("FormularioAberturaChamado");
+                }
+                else
+                {
+                    return null;
+                }
+
+
+            }
+            return RedirectToAction("Login", "Login");
         }
     }
 }

@@ -287,11 +287,7 @@
         Div3.append(del);
         input.__fileHolder.appendChild(Div2);
     }
-    $(document).ready(function() {
-        $('form').on('submit', function(e) {
-            $(this).find('button, input[type=button]').prop('disabled', true);
-        });
-    });
+
 
 </script>
 <style>
@@ -473,7 +469,7 @@
             </p>
             <p class="control">
 
-                <button type="submit" class="button is-success" id="CadastraInteracao" onclick=" this.disabled = 'disabled'">
+                <button type="submit" class="button is-success" id="CadastraInteracao"  onsubmit="this.disabled = 'disabled'">
                     <span class="icon is-small is-left">
                         <i class="fa fa-save"></i>
                     </span>

@@ -300,5 +300,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return Formularios;
         }
 
+        public List<Dictionary<string, string>> RetornaFormularioCategoria(string IdCategoria)
+        {
+            var Query = "SELECT * FROM webdeskformularioscategorias WHERE idcategoria=" + IdCategoria + "";
+            var Formularios = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Formularios;
+        }
+
     }
 }

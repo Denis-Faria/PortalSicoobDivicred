@@ -911,6 +911,7 @@
     <Content Include="Views\Principal\ControleNumerario.cshtml" />
     <Content Include="Views\WebDesk\AreaGestor.cshtml" />
     <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
+    <Content Include="Views\WebDesk\FormularioAberturaChamado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

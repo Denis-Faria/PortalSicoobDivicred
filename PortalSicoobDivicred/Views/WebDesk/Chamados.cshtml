@@ -6,12 +6,12 @@
 
 <body>
 
-@if (TempData["Mensagem"] != null)
-{
-    @Html.Label("")
+    @if (TempData["Mensagem"] != null)
+    {
+        @Html.Label("")
 
 
-    <script>
+        <script>
 
         iziToast.success({
             title: 'Sucesso',
@@ -19,480 +19,520 @@
             message: '@TempData["Mensagem"]',
         });
 
-    </script>
-}
-
-
-<br/>
-<nav class="level ">
-    <p class="level-item has-text-centered">
-        <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
-    </p>
-</nav>
-
-
-<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
-<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
-<script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
-
-<script type="text/javascript">
-
-    var multiFiles = [];
-
-    function multiUp(e) {
-        $(e).removeClass("file-input");
-        $(e).hide();
-        $("#formesconde").hide();
-        $("#" + multiFiles.length).hide();
-        this.__fileHolder = document.querySelector("#ArquivosSelecionados");
-
-        this.__fileHolder.innerHTML = '';
-        var i;
-
-        for (i = 0; i < e.files.length; i++) {
-            this.multiFiles.push(e.files[i]);
-
-        }
-        $("#Upload-form").append(
-            " <div id=" +
-            multiFiles.length +
-            " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
-        for (i = 0; i < this.multiFiles.length; i++) {
-            addDeleteBtn(i, this, this.multiFiles[i].name);
-        }
-
+        </script>
     }
 
-    function addDeleteBtn(f, input, NomeArquivo) {
 
-        var Div2 = document.createElement('div');
-        Div2.className = 'control';
-
-        var Div3 = document.createElement('div');
-        Div3.className = 'tags has-addons';
-
-
-        var Nome = document.createElement('span');
-        Nome.className = 'tag is-dark ';
-        Nome.innerHTML = NomeArquivo;
-
-        Div2.append(Div3);
-
-        Div3.append(Nome);
-
-        var del = document.createElement('a');
-        del.className = 'tag is-delete is-primary';
-        del.title = 'remove this file';
-
-        del.addEventListener('click',
-            function() {
+    <br />
+    <nav class="level ">
+        <p class="level-item has-text-centered">
+            <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
+        </p>
+    </nav>
 
 
-                $("#" + input.multiFiles.length).remove();
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
+    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
 
-                input.multiFiles.splice(f, 1);
+    <script type="text/javascript">
 
-                $("#" + input.multiFiles.length).show();
+        var multiFiles = [];
+
+        function multiUp(e) {
+            $(e).removeClass("file-input");
+            $(e).hide();
+            $("#formesconde").hide();
+            $("#" + multiFiles.length).hide();
+            this.__fileHolder = document.querySelector("#ArquivosSelecionados");
+
+            this.__fileHolder.innerHTML = '';
+            var i;
+
+            for (i = 0; i < e.files.length; i++) {
+                this.multiFiles.push(e.files[i]);
+
+            }
+            $("#Upload-form").append(
+                " <div id=" +
+                multiFiles.length +
+                " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+            for (i = 0; i < this.multiFiles.length; i++) {
+                addDeleteBtn(i, this, this.multiFiles[i].name);
+            }
+
+        }
+
+        function addDeleteBtn(f, input, NomeArquivo) {
+
+            var Div2 = document.createElement('div');
+            Div2.className = 'control';
+
+            var Div3 = document.createElement('div');
+            Div3.className = 'tags has-addons';
 
 
-                input.__fileHolder.innerHTML = "";;
+            var Nome = document.createElement('span');
+            Nome.className = 'tag is-dark ';
+            Nome.innerHTML = NomeArquivo;
 
-                var fileLength = input.multiFiles.length;
+            Div2.append(Div3);
 
-                if (fileLength > 0) {
-                    for (var i = 0; i < fileLength; i++) {
+            Div3.append(Nome);
+
+            var del = document.createElement('a');
+            del.className = 'tag is-delete is-primary';
+            del.title = 'remove this file';
+
+            del.addEventListener('click',
+                function () {
 
 
-                        var Div2 = document.createElement('div');
-                        Div2.className = 'control';
+                    $("#" + input.multiFiles.length).remove();
 
-                        var Div3 = document.createElement('div');
-                        Div3.className = 'tags has-addons';
+                    input.multiFiles.splice(f, 1);
 
-                        var Nome = document.createElement('span');
-                        Nome.className = 'tag is-dark';
-                        Nome.innerHTML = input.multiFiles[i].name;
+                    $("#" + input.multiFiles.length).show();
 
-                        var del = document.createElement('a');
-                        del.className = 'tag is-delete is-primary';
-                        del.title = 'remove this file';
 
-                        input.__fileHolder.appendChild(Div3);
-                        addDeleteBtn(i, input, input.multiFiles[i].name);
+                    input.__fileHolder.innerHTML = "";;
+
+                    var fileLength = input.multiFiles.length;
+
+                    if (fileLength > 0) {
+                        for (var i = 0; i < fileLength; i++) {
+
+
+                            var Div2 = document.createElement('div');
+                            Div2.className = 'control';
+
+                            var Div3 = document.createElement('div');
+                            Div3.className = 'tags has-addons';
+
+                            var Nome = document.createElement('span');
+                            Nome.className = 'tag is-dark';
+                            Nome.innerHTML = input.multiFiles[i].name;
+
+                            var del = document.createElement('a');
+                            del.className = 'tag is-delete is-primary';
+                            del.title = 'remove this file';
+
+                            input.__fileHolder.appendChild(Div3);
+                            addDeleteBtn(i, input, input.multiFiles[i].name);
+                        }
+                    } else {
+                        $("#formesconde").show();
+                        input.__fileHolder.innerHTML = 'Selecione um arquivo';
                     }
-                } else {
-                    $("#formesconde").show();
-                    input.__fileHolder.innerHTML = 'Selecione um arquivo';
-                }
-            },
-            false);
-        Div3.append(del);
-        input.__fileHolder.appendChild(Div2);
-    }
-
-
-    function ValidaMascara(valor) {
-
-        if (valor.replace(/\D/g, '').length === 11) {
-            $('#CpfAbertura').mask('000.000.000-00');
-        } else {
-            $('#CpfAbertura').mask('00.000.000/0000-00');
+                },
+                false);
+            Div3.append(del);
+            input.__fileHolder.appendChild(Div2);
         }
 
-    };
 
-    function RemoveMascara() {
-        $("#CpfAbertura").unmask();
+        function ValidaMascara(valor) {
 
-    }
+            if (valor.replace(/\D/g, '').length === 11) {
+                $('#CpfAbertura').mask('000.000.000-00');
+            } else {
+                $('#CpfAbertura').mask('00.000.000/0000-00');
+            }
 
-    $(document).ready(function () {
-      
-      $("#CpfCadastro").hide();
-        $("#TabWebdesk").tabs();
-        var editor = CKEDITOR.replace('Descricao');
-        try {
-            $("#TabelaChamados")
-                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
-                .tablesorterPager({ container: $("#pager") });
-        } catch (e) {
+        };
+
+        function RemoveMascara() {
+            $("#CpfAbertura").unmask();
 
         }
 
-        jQuery(document).ready(function($) {
-            $(".clickable-row").click(function() {
-                window.location = $(this).data("href");
+        $(document).ready(function () {
+
+            $("#CpfCadastro").hide();
+            $("#TabWebdesk").tabs();
+            var editor = CKEDITOR.replace('Descricao');
+            try {
+                $("#TabelaChamados")
+                    .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+                    .tablesorterPager({ container: $("#pager") });
+            } catch (e) {
+
+            }
+
+            jQuery(document).ready(function ($) {
+                $(".clickable-row").click(function () {
+                    window.location = $(this).data("href");
+                });
             });
+
+
         });
 
 
-    });
+        function SetorSelecionado(IdSetor) {
+            $("#CategoriaFuncionario").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaCategoriaFuncionario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdSetor": IdSetor.value },
+                    success: function (data) {
+                        $("#CategoriaFuncionario").append(data);
+                        $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+                        $("form").removeData("validator");
+                        $("form").removeData("unobtrusiveValidation");
+                        $.validator.unobtrusive.parse("form");
+                    }
+                });
+        }
+        function CategoriaSelecionado(IdCategoria) {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaFormulario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdCategoria": IdCategoria.value },
+                    success: function (data) {
+                        if (data != null) {
+                            $('#ModalFormulario').removeClass();
+                            $('#ModalFormulario').addClass('modal is-active');
+                            $("#FormularioCategoria").append(data);
+                        }
+                    }
+                });
+        }
 
 
-    function SetorSelecionado(IdSetor) {
-        $("#CategoriaFuncionario").empty();
-        $.ajax(
-            {
-                type: 'POST',
-                url: '/Webdesk/RetornaCategoriaFuncionario',
-                dataType: 'html',
-                cache: true,
-                async: true,
-                data: { "IdSetor": IdSetor.value },
-                success: function(data) {
-                    $("#CategoriaFuncionario").append(data);
-                    $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                    $("form").removeData("validator");
-                    $("form").removeData("unobtrusiveValidation");
-                    $.validator.unobtrusive.parse("form");
-                }
-            });
-    }
+    </script>
+    <style>
+        #add {
+            cursor: pointer;
+            font-size: 2em;
+        }
 
+        #fileHolder {
+            color: rgba(0, 0, 0, .7);
+            display: inline-block;
+            font-size: 70%;
+            max-width: 80%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
 
-</script>
-<style>
-    #add {
-        cursor: pointer;
-        font-size: 2em;
-    }
+        .deleteBtn {
+            color: #000;
+            cursor: pointer;
+        }
+    </style>
+    <div class="field is-grouped is-desktop">
 
-    #fileHolder {
-        color: rgba(0, 0, 0, .7);
-        display: inline-block;
-        font-size: 70%;
-        max-width: 80%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .deleteBtn {
-        color: #000;
-        cursor: pointer;
-    }
-</style>
-<div class="field is-grouped is-desktop">
-
-    <p class="control">
-        <button class="button is-primary modal-button" id="NovoChamado" onclick="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal is-active');void(0);" data-target="#ModalSolicitacao" data-vivaldi-spatnav-clickable="1" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para criar um novo chamado." data-balloon-pos="down">
-            <span class="icon is-small">
-                <i class="fas fa-plus-square" aria-hidden="true"></i>
-            </span>
-            <span class="name">Criar Solicitação</span>
-        </button>
-    @if (TempData["AreaGestor"].ToString().Equals("S"))
-    {
-        <button class="button is-primary" id="AreaGestor" onclick="location.href = '@Url.Action("AreaGestor")'" onmouseleave="$('#AreaGestor').removeClass('animated pulse')" onmouseover="$('#AreaGestor').addClass('animated pulse');" data-balloon="Clique para gerenciar categorias e gerar relatórios." data-balloon-pos="down">
-            <span class="icon is-small">
-                <i class="fas fa-users-cog" aria-hidden="true"></i>
-            </span>
-            <span class="name">Área da Gestão</span>
-        </button>
-    }
-    </p>
-    <div class="field has-addons">
-        <div class="control">
-            <input class="input" id="BuscaChamado" type="text" placeholder="Encontre uma solicitação...">
-        </div>
-        <div class="control">
-            <button onclick="location.href = '@Url.Action("BuscaChamados")?Busca=' + document.getElementById('BuscaChamado').value;" class="button is-primary">
-                Pesquisar
+        <p class="control">
+            <button class="button is-primary modal-button" id="NovoChamado" onclick="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal is-active');void(0);" data-target="#ModalSolicitacao" data-vivaldi-spatnav-clickable="1" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para criar um novo chamado." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-plus-square" aria-hidden="true"></i>
+                </span>
+                <span class="name">Criar Solicitação</span>
             </button>
+            @if (TempData["AreaGestor"].ToString().Equals("S"))
+            {
+                <button class="button is-primary" id="AreaGestor" onclick="location.href = '@Url.Action("AreaGestor")'" onmouseleave="$('#AreaGestor').removeClass('animated pulse')" onmouseover="$('#AreaGestor').addClass('animated pulse');" data-balloon="Clique para gerenciar categorias e gerar relatórios." data-balloon-pos="down">
+                    <span class="icon is-small">
+                        <i class="fas fa-users-cog" aria-hidden="true"></i>
+                    </span>
+                    <span class="name">Área da Gestão</span>
+                </button>
+            }
+        </p>
+        <div class="field has-addons">
+            <div class="control">
+                <input class="input" id="BuscaChamado" type="text" placeholder="Encontre uma solicitação...">
+            </div>
+            <div class="control">
+                <button onclick="location.href = '@Url.Action("BuscaChamados")?Busca=' + document.getElementById('BuscaChamado').value;" class="button is-primary">
+                    Pesquisar
+                </button>
+            </div>
         </div>
     </div>
-</div>
-<div id="TabWebdesk">
-    <div class="tabs is-boxed is-centered">
-        <ul>
-            <li id="AbaMeusChamados" class="is-active">
-                <a href="#MeusChamados" onclick="javascript:$('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamadosAbertos').removeClass();$('#AbaMeusChamados').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fas fa-sticky-note" aria-hidden="true"></i>
-                    </span>
-                    <span>Solicitações Aguardando Meu Atendimento</span>
-                </a>
-            </li>
-            <li id="AbaChamadosdoMeuSetor">
-                <a href="#ChamadosSetor" onclick="javascript:$('#AbaMeusChamadosAbertos').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaChamadosdoMeuSetor').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-tag"></i>
-                    </span>
-                    <span>Solicitações do Meu Setor</span>
-                </a>
-            </li>
-            <li id="AbaMeusChamadosAbertos">
-                <a href="#MeusChamadosAberto" onclick="javascript:$('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaMeusChamadosAbertos').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-inbox"></i>
-                    </span>
-                    <span>Minhas solicitações</span>
-                </a>
-            </li>
-
-        </ul>
-    </div>
-    <div id="MeusChamados">
-        <table id="TabelaChamadosOperador" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
-            <thead>
-            <th class="has-text-centered">N° Chamado</th>
-            <th class="has-text-centered">Categoria</th>
-            <th class="has-text-centered">Funcionário Solicitante</th>
-            <th class="has-text-centered">Funcionário Responsável</th>
-            <th class="has-text-centered">Status</th>
-            <th class="has-text-centered">SLA</th>
-            </thead>
-            <tbody>
-
-            @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosOperador"].ToString()); j++)
-            {
-                <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo"})">
-                    <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["OperadorOperador" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["SituacaoOperador" + j].ToString()</td>
-                    <td class="has-text-centered">
-                        <div data-balloon="@TempData["InformacaoSLAOperador" + j]" data-balloon-pos="down">
-                            <progress class="progress @TempData["StatusCorOperador" + j]" value="@TempData["SlaOperador" + j]" max="100">15%</progress>
-                        </div>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </div>
-    <div id="ChamadosSetor">
-        <table id="TabelaChamadosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
-            <thead>
-            <th class="has-text-centered">N° Chamado</th>
-            <th class="has-text-centered">Categoria</th>
-            <th class="has-text-centered">Funcionário Solicitante</th>
-            <th class="has-text-centered">Funcionário Responsável</th>
-            <th class="has-text-centered">Status</th>
-            <th class="has-text-centered">SLA</th>
-            </thead>
-            <tbody>
-
-            @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosSetor"].ToString()); j++)
-            {
-                <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroSetor" + j].ToString(), TipoChamado = "Novo"})">
-                    <td class="has-text-centered">@TempData["NumeroSetor" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["TituloSetor" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["CadastroSetor" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["OperadorSetor" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["SituacaoSetor" + j].ToString()</td>
-                    <td class="has-text-centered">
-                        <div data-balloon="@TempData["InformacaoSLASetor" + j]" data-balloon-pos="down">
-                            <progress class="progress @TempData["StatusCorSetor" + j]" value="@TempData["SlaSetor" + j]" max="100">15%</progress>
-                        </div>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    </div>
-    <div id="MeusChamadosAberto">
-        <table id="TabelaChamados" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
-            <thead>
-            <th class="has-text-centered">N° Chamado</th>
-            <th class="has-text-centered">Categoria</th>
-            <th class="has-text-centered">Funcionário Responsável</th>
-            <th class="has-text-centered">Status</th>
-            <th class="has-text-centered">SLA</th>
-            </thead>
-            <tbody>
-
-            @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
-            {
-                <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})" onclick="location.href='@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})'" >
-                    <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
-                    <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
-                    <td class="has-text-centered">
-                        <div data-balloon="@TempData["InformacaoSLA" + j]" data-balloon-pos="down">
-                            <progress class="progress @TempData["StatusCor" + j]" value="@TempData["Sla" + j]" max="100">15%</progress>
-                        </div>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-        <div id="pager" class="tablewrapper pager" style="position: relative">
-            <form>
-                <div class="field is-grouped">
-                    <p class="control">
-                        <button class="first button is-primary is-small">
-                            <span class="icon is-small">
-                                <i class="fas fa-fast-backward"></i>
-                            </span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <button class="prev button  is-primary is-small">
-                            <span class="icon is-small">
-                                <i class="fas fa-step-backward"></i>
-                            </span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <input class="pagedisplay input is-small" type="text">
-                    </p>
-                    <p class="control">
-                        <button class="next button  is-primary is-small">
-                            <span class="icon is-small">
-                                <i class="fas fa-step-forward"></i>
-                            </span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <button class="last button is-primary is-small">
-                            <span class="icon is-small">
-                                <i class="fas fa-fast-forward"></i>
-                            </span>
-                        </button>
-                    </p>
-                    <p class="control">
-                        <span class="select is-small">
-                            <select class="pagesize">
-                                <option selected="selected" value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="40">40</option>
-                            </select>
+    <div id="TabWebdesk">
+        <div class="tabs is-boxed is-centered">
+            <ul>
+                <li id="AbaMeusChamados" class="is-active">
+                    <a href="#MeusChamados" onclick="javascript:$('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamadosAbertos').removeClass();$('#AbaMeusChamados').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fas fa-sticky-note" aria-hidden="true"></i>
                         </span>
-                    </p>
-                </div>
-            </form>
-            <br/>
-            <br/>
+                        <span>Solicitações Aguardando Meu Atendimento</span>
+                    </a>
+                </li>
+                <li id="AbaChamadosdoMeuSetor">
+                    <a href="#ChamadosSetor" onclick="javascript:$('#AbaMeusChamadosAbertos').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaChamadosdoMeuSetor').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-tag"></i>
+                        </span>
+                        <span>Solicitações do Meu Setor</span>
+                    </a>
+                </li>
+                <li id="AbaMeusChamadosAbertos">
+                    <a href="#MeusChamadosAberto" onclick="javascript:$('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaMeusChamadosAbertos').addClass('is-active');">
+                        <span class="icon is-small">
+                            <i class="fa fa-inbox"></i>
+                        </span>
+                        <span>Minhas solicitações</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+        <div id="MeusChamados">
+            <table id="TabelaChamadosOperador" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Solicitante</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosOperador"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo"})">
+                            <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["OperadorOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["SituacaoOperador" + j].ToString()</td>
+                            <td class="has-text-centered">
+                                <div data-balloon="@TempData["InformacaoSLAOperador" + j]" data-balloon-pos="down">
+                                    <progress class="progress @TempData["StatusCorOperador" + j]" value="@TempData["SlaOperador" + j]" max="100">15%</progress>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="ChamadosSetor">
+            <table id="TabelaChamadosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Solicitante</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosSetor"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroSetor" + j].ToString(), TipoChamado = "Novo"})">
+                            <td class="has-text-centered">@TempData["NumeroSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["TituloSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["CadastroSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["OperadorSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["SituacaoSetor" + j].ToString()</td>
+                            <td class="has-text-centered">
+                                <div data-balloon="@TempData["InformacaoSLASetor" + j]" data-balloon-pos="down">
+                                    <progress class="progress @TempData["StatusCorSetor" + j]" value="@TempData["SlaSetor" + j]" max="100">15%</progress>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="MeusChamadosAberto">
+            <table id="TabelaChamados" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
+                <thead>
+                <th class="has-text-centered">N° Chamado</th>
+                <th class="has-text-centered">Categoria</th>
+                <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">SLA</th>
+                </thead>
+                <tbody>
+
+                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamados"].ToString()); j++)
+                    {
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})" onclick="location.href='@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})'">
+                            <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
+                            <td class="has-text-centered">
+                                <div data-balloon="@TempData["InformacaoSLA" + j]" data-balloon-pos="down">
+                                    <progress class="progress @TempData["StatusCor" + j]" value="@TempData["Sla" + j]" max="100">15%</progress>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div id="pager" class="tablewrapper pager" style="position: relative">
+                <form>
+                    <div class="field is-grouped">
+                        <p class="control">
+                            <button class="first button is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-fast-backward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="prev button  is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-step-backward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <input class="pagedisplay input is-small" type="text">
+                        </p>
+                        <p class="control">
+                            <button class="next button  is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-step-forward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <button class="last button is-primary is-small">
+                                <span class="icon is-small">
+                                    <i class="fas fa-fast-forward"></i>
+                                </span>
+                            </button>
+                        </p>
+                        <p class="control">
+                            <span class="select is-small">
+                                <select class="pagesize">
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                            </span>
+                        </p>
+                    </div>
+                </form>
+                <br />
+                <br />
+            </div>
         </div>
     </div>
-</div>
 
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-</script>
-<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-@using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new {enctype = "multipart/form-data", id = "Cadastro"}))
-{
-    <div id="ModalSolicitacao" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Cadastrar Solicitação</p>
-                <a href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
+    {
+        <div id="ModalSolicitacao" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Cadastrar Solicitação</p>
+                    <a href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
 
-                <div class="field">
-                    <label class="label">Setor Responsável:</label>
-                    <p class="select is-fullwidth">
-                        @Html.DropDownListFor(m => m.IdSetorResponsavel, new SelectList(Model.SetorResponsavel, "Value", "Text"), "SELECIONE O SETOR RESPONSAVEL", new {id = "SetorResponsavel", onchange = "SetorSelecionado(this)"})
-                        @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new {style = "color:red"})
-                    </p>
-                </div>
-                <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
-                <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-                <div id="CategoriaFuncionario">
+                    <div class="field">
+                        <label class="label">Setor Responsável:</label>
+                        <p class="select is-fullwidth">
+                            @Html.DropDownListFor(m => m.IdSetorResponsavel, new SelectList(Model.SetorResponsavel, "Value", "Text"), "SELECIONE O SETOR RESPONSAVEL", new { id = "SetorResponsavel", onchange = "SetorSelecionado(this)" })
+                            @Html.ValidationMessageFor(m => m.IdSetorResponsavel, null, new { style = "color:red" })
+                        </p>
+                    </div>
+                    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+                    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+                    <div id="CategoriaFuncionario">
 
-                </div>
-                <br/>
-                <div id="anexos" class="AreaAnexo">
-                    <div id="formesconde">
-                        <div div="Primeiro" class="field is-fullwidth">
-                            <div class="file is-primary">
-                                <label class="file-label">
+                    </div>
+                    <br />
+                    <div id="anexos" class="AreaAnexo">
+                        <div id="formesconde">
+                            <div div="Primeiro" class="field is-fullwidth">
+                                <div class="file is-primary">
+                                    <label class="file-label">
 
-                                    <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
+                                        <input class="file-input" type="file" onchange="multiUp(this)" name="postedFiles">
 
 
-                                    <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Anexar Arquivos
+                                            </span>
                                         </span>
-                                        <span class="file-label">
-                                            Anexar Arquivos
-                                        </span>
-                                    </span>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="Upload-form">
+                        <div id="Upload-form">
+
+                        </div>
 
                     </div>
+                    <br />
+                    <p>Arquivos </p>
+                    <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
 
-                </div>
-                <br/>
-                <p>Arquivos </p>
-                <div id="ArquivosSelecionados" class="field is-grouped is-grouped-multiline">
-
-                    Nenhum anexo selecionado.
-                </div>
-                <br/>
-                <div class="field is-grouped" id="CpfCadastro" hidden>
-                    <div class="field control is-fullwidth">
-                        <label class="label">CPF/CNPJ do associado:</label>
-                        <input class="input  is-fullwidth" name="CpfAbertura" id="CpfAbertura" onfocusout="javascript:ValidaMascara(this.value)" ,onfocus="RemoveMascara()" required/>
+                        Nenhum anexo selecionado.
                     </div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="field control">
-                        <label class="label">Descrição da sua solicitação:</label>
-                        <p class="control is-fullwidth">
-                            @Html.TextAreaFor(m => m.Descricao, new {@class = "textarea", id = "Descricao", required = true})
-                            @Html.ValidationMessageFor(m => m.Descricao, null, new {style = "color:red"})
-                            <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
-                        </p>
-
+                    <br />
+                    <div class="field is-grouped" id="CpfCadastro" hidden>
+                        <div class="field control is-fullwidth">
+                            <label class="label">CPF/CNPJ do associado:</label>
+                            <input class="input  is-fullwidth" name="CpfAbertura" id="CpfAbertura" onfocusout="javascript:ValidaMascara(this.value)" ,onfocus="RemoveMascara()" required />
+                        </div>
                     </div>
-                </div>
-            </section>
-            <footer class="modal-card-foot">
-                <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'" >Cadastrar Solicitação</button>
-                <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
-            </footer>
+                    <div class="field is-grouped">
+                        <div class="field control">
+                            <label class="label">Descrição da sua solicitação:</label>
+                            <p class="control is-fullwidth">
+                                @Html.TextAreaFor(m => m.Descricao, new { @class = "textarea", id = "Descricao", required = true })
+                                @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
+                                <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
+                            </p>
+
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Solicitação</button>
+                    <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
         </div>
-    </div>
-}
+    }
+    @using (Html.BeginForm("CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" }))
+    {
+        <div id="ModalFormulario" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Formulário Webdesk</p>
+                    <a href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div id="FormularioCategoria">
+
+                    </div>
+                    
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Formulário</button>
+                    <a class="button" href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+    }
 </body>

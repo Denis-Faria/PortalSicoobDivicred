@@ -853,3 +853,7 @@ C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\Po
 C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.csproj.CopyComplete
 C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.dll
 C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\obj\Debug\PortalSicoobDivicred.pdb
+C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Elasticsearch.Net.dll
+C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Nest.dll
+C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Elasticsearch.Net.xml
+C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\Nest.xml

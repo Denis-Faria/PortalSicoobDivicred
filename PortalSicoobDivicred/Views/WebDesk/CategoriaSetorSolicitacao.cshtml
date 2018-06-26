@@ -4,7 +4,7 @@
 <div class="field">
     <label class="label">Categoria Solicitação:</label>
     <p class="select is-fullwidth">
-        @Html.DropDownListFor(m => m.IdCategoria, new SelectList(Model.Categoria, "Value", "Text"), "SELECIONE A CATEGORIA PARA SUA SOLICITAÇÃO", new {@class = "white-text", id = "Categoria", required = true})
+        @Html.DropDownListFor(m => m.IdCategoria, new SelectList(Model.Categoria, "Value", "Text"), "SELECIONE A CATEGORIA PARA SUA SOLICITAÇÃO", new {@class = "white-text", id = "Categoria", required = true,onchange = "CategoriaSelecionado(this)"})
         @Html.ValidationMessageFor(m => m.IdCategoria, null, new {style = "color:red"})
     </p>
 </div>

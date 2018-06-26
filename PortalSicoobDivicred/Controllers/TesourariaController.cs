@@ -165,6 +165,24 @@ namespace PortalSicoobDivicred.Controllers
                 int i = 0;
                 var dataSelecionadaValidar = new DateTime();
                 var dataExtratoDiaValidar = new DateTime();
+                int uploadrealizado = 0;
+
+                string caminho01 = "";
+                string caminho02 = "";
+                string caminho03 = "";
+                string caminho04 = "";
+                string caminho05 = "";
+                string nomeArquivo01 = "";
+                string nomeArquivo02 = "";
+                string nomeArquivo03 = "";
+                string nomeArquivo04 = "";
+                string nomeArquivo05 = "";
+                int aux01 = 0;
+                int aux02 = 0;
+                int aux03 = 0;
+                int aux04 = 0;
+                int aux05 = 0;
+
                 while (i < arquivos.Count)
                 {
                     var dataSelecionada = new DateTime();
@@ -184,45 +202,64 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
                     caminho = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
-                    arquivos[i].SaveAs(caminho);
-                    string caminho01 = "";
-                    string caminho02 = "";
-                    string caminho03 = "";
-                    string caminho04 = "";
-                    string caminho05 = "";
-                    string nomeArquivo01 = "";
-                    string nomeArquivo02 = "";
-                    string nomeArquivo03 = "";
-                    string nomeArquivo04 = "";
-                    string nomeArquivo05 = "";
+                    if (i == 0)
+                    {
+                        arquivos[i].SaveAs(caminho);
+                    }
 
 
-                    nomeArquivo01 = Path.GetFileName(arquivos[1].FileName);
-                    caminho01 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString()+ (DateTime.Now.Minute).ToString() + nomeArquivo01);
-                    arquivos[1].SaveAs(caminho01);
+                    if (uploadrealizado == 0)
+                    {
+                        nomeArquivo01 = Path.GetFileName(arquivos[1].FileName);
+                        caminho01 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo01);
+                        arquivos[1].SaveAs(caminho01);
 
-                    nomeArquivo02 = Path.GetFileName(arquivos[2].FileName);
-                    caminho02 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo02);
-                    arquivos[2].SaveAs(caminho02);
+                        nomeArquivo02 = Path.GetFileName(arquivos[2].FileName);
+                        caminho02 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo02);
+                        arquivos[2].SaveAs(caminho02);
 
-                    nomeArquivo03 = Path.GetFileName(arquivos[3].FileName);
-                    caminho03 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo03);
-                    arquivos[3].SaveAs(caminho03);
+                        nomeArquivo03 = Path.GetFileName(arquivos[3].FileName);
+                        caminho03 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo03);
+                        arquivos[3].SaveAs(caminho03);
 
-                    nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
-                    caminho04 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo04);
-                    arquivos[4].SaveAs(caminho04);
+                        nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
+                        caminho04 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo04);
+                        arquivos[4].SaveAs(caminho04);
 
-                    nomeArquivo05 = Path.GetFileName(arquivos[5].FileName);
-                    caminho05 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo05);
-                    arquivos[5].SaveAs(caminho05);
-
-
+                        nomeArquivo05 = Path.GetFileName(arquivos[5].FileName);
+                        caminho05 = Path.Combine(Server.MapPath("~/Uploads/"), (DateTime.Now.Hour).ToString() + (DateTime.Now.Minute).ToString() + nomeArquivo05);
+                        arquivos[5].SaveAs(caminho05);
+                        uploadrealizado = 1;
+                    }
 
 
                     if (i != 0)
                     {
-                        output.Tables.Add(conectaPlanilha.importarExcel(caminho, i.ToString()));
+                        if (i == 1 && aux01==0)
+                        {
+                            output.Tables.Add(conectaPlanilha.importarExcel(caminho01, i.ToString()));
+                            aux01 = 1;
+                        }
+                        else if (i == 2 && aux02 == 0)
+                        {
+                            output.Tables.Add(conectaPlanilha.importarExcel(caminho02, i.ToString()));
+                            aux02 = 1;
+                        }
+                        else if (i == 3 && aux03 == 0)
+                        {
+                            output.Tables.Add(conectaPlanilha.importarExcel(caminho03, i.ToString()));
+                            aux03 = 1;
+                        }
+                        else if (i == 4 && aux04 == 0)
+                        {
+                            output.Tables.Add(conectaPlanilha.importarExcel(caminho04, i.ToString()));
+                            aux04 = 1;
+                        }
+                        else if (i == 5 && aux05 == 0)
+                        {
+                            output.Tables.Add(conectaPlanilha.importarExcel(caminho05, i.ToString()));
+                            aux05 = 1;
+                        }
 
                         dataSelecionada = DateTime.Now;
                         dataExtratoDia = DateTime.Now;
@@ -255,11 +292,7 @@ namespace PortalSicoobDivicred.Controllers
                         for (k = 0; k < arquivosAUX.Count; k++)
                         {
                             nomeArquivo1 = Path.GetFileName(arquivosAUX[k].FileName);
-                           // caminho1 = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
-                            //arquivos[k].SaveAs(caminho);
-
-                            //--
-                            //Tratamento Validação Data
+                           
                             if (k == 1)
                             {
                                 string posicao = "F4";
@@ -481,8 +514,8 @@ namespace PortalSicoobDivicred.Controllers
                                 case 1:
 
                                     int inicioPlanilha0 = 0;
-                                    inicioPlanilha0 = inicio.InicioPlanilha(caminho, i.ToString());
-                                    dados1 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha0);
+                                    inicioPlanilha0 = inicio.InicioPlanilha(caminho01, i.ToString());
+                                    dados1 = inicio.calculo1(caminho01, i.ToString(), inicioPlanilha0);
 
                                     TempData["3/4/5"] = Convert.ToDouble(dados1["3/4/5"]);
                                     Maior = inicio.diferenciar(Math.Round(arqext1, 2), Math.Round(Convert.ToDouble(dados1["3/4/5"]), 2));
@@ -530,8 +563,8 @@ namespace PortalSicoobDivicred.Controllers
 
                                 case 2:
 
-                                    inicioPlanilha1 = inicio.InicioPlanilha(caminho, i.ToString());
-                                    dados2 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha1);
+                                    inicioPlanilha1 = inicio.InicioPlanilha(caminho02, i.ToString());
+                                    dados2 = inicio.calculo1(caminho02, i.ToString(), inicioPlanilha1);
                                     TempData["5472/5473/5474/232/233/234/235-FINAL"] = Math.Round((Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"])), 2);
                                     TempData["5472/5473/5474/232/233/234/235-FINALB"] = Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]), 2);
                                     Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
@@ -545,8 +578,8 @@ namespace PortalSicoobDivicred.Controllers
 
 
 
-                                    inicioPlanilha2 = inicio.InicioPlanilha(caminho, i.ToString());
-                                    dados3 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha2);
+                                    inicioPlanilha2 = inicio.InicioPlanilha(caminho03, i.ToString());
+                                    dados3 = inicio.calculo1(caminho03, i.ToString(), inicioPlanilha2);
 
                                     Maior = inicio.diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192"]), 2));
 
@@ -564,8 +597,8 @@ namespace PortalSicoobDivicred.Controllers
 
                                 case 4:
 
-                                    inicioPlanilha3 = inicio.InicioPlanilha(caminho, i.ToString());
-                                    dados4 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha3);
+                                    inicioPlanilha3 = inicio.InicioPlanilha(caminho04, i.ToString());
+                                    dados4 = inicio.calculo1(caminho04, i.ToString(), inicioPlanilha3);
                                     TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
 
                                     break;
@@ -576,8 +609,8 @@ namespace PortalSicoobDivicred.Controllers
                                     {
                                         TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
                                     }
-                                    inicioPlanilha4 = inicio.InicioPlanilha(caminho, i.ToString());
-                                    dados5 = inicio.calculo1(caminho, i.ToString(), inicioPlanilha4);
+                                    inicioPlanilha4 = inicio.InicioPlanilha(caminho05, i.ToString());
+                                    dados5 = inicio.calculo1(caminho05, i.ToString(), inicioPlanilha4);
                                     TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
                                     Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
                                     TempData["Diferenca11"] = Maior.Split(';')[1];

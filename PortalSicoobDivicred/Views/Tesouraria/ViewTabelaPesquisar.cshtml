@@ -253,26 +253,23 @@
                 </div>
             </div>
 
+            <div>
+                <div id="botoes">
+                    <p class="control">
+                        <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
+                            <span>Salvar</span>
+                        </button>
+                   
 
-            <div id="botoes">
-                <p class="control" style="left:40%">
-                    <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
-                        <span>Salvar</span>
-                    </button>
-                </p>
+                   
+                        <button  type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["dataPesquisa"]);void(0);'" name="AbrirProcesso">
+                            Delete
+                        </button>
+                    </p>
+                </div>
             </div>
         }
 
-        
-            <div id="botoes">
-
-                <p class="control">
-                    <button style="display: block; margin-left: auto; margin-right: auto" type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["dataPesquisa"]);void(0);'" name="AbrirProcesso">
-                        Delete
-                    </button>
-                </p>
-            </div>
-        
     }
     else
     {

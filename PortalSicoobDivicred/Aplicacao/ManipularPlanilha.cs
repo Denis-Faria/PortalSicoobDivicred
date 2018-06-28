@@ -114,8 +114,8 @@ namespace PortalSicoobDivicred.Controllers
                         string texto1 = output.Tables[0].Rows[m]["F5"].ToString();
                         string texto2 = output.Tables[0].Rows[m]["F10"].ToString();
 
-                        data1 = texto1.Substring(0, 10);
-                        data2 = texto1.Substring(0, 10);
+                        data1 = Convert.ToDateTime(texto1).ToString("yyyy/MM/dd");
+                        data2 = Convert.ToDateTime(texto2).ToString("yyyy/MM/dd");
 
                         if (data1 == data2)
                         {

@@ -76,16 +76,16 @@ namespace PortalSicoobDivicred.Aplicacao
         public void DeletaProducao(string Data)
         {
 
-            var Query1 = "UPDATE  dadosextrato SET excluido='S' where data='" +
+            var Query1 = "UPDATE  dadosextrato SET excluido='S',dataexclusao='" + (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + " where data='" +
                             (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
             
             ConexaoMysql.ExecutaComandoComRetorno(Query1);
 
-            var Query2 = "UPDATE  justificativaextrato set excluido='S' where data='" +
+            var Query2 = "UPDATE  justificativaextrato set excluido='S',dataexclusao='" + (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + "where data='" +
                 (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
             ConexaoMysql.ExecutaComandoComRetorno(Query2);
 
-            var Query3 = "UPDATE  tesourariavalorescamposdigitaveis set excluido='S' where dataescolhida='" +
+            var Query3 = "UPDATE  tesourariavalorescamposdigitaveis set excluido='S',dataexclusao='"+ (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + "  where dataescolhida='" +
     (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00") + "'";
             ConexaoMysql.ExecutaComandoComRetorno(Query3);
 

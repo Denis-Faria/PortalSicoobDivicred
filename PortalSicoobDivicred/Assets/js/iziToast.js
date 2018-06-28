@@ -169,11 +169,6 @@
             return extended;
         };
 
-
-        /**
-         * Create a fragment DOM elements
-         * @private
-         */
         var createFragElem = function(htmlStr) {
             var frag = document.createDocumentFragment(),
                 temp = document.createElement("div");
@@ -185,12 +180,9 @@
         };
 
 
-        /**
-         * Check if is a color
-         * @private
-         */
+
         var isColor = function(color) {
-            if (color.substring(0, 1) == "#" || color.substring(0, 3) == "rgb" || color.substring(0, 3) == "hsl") {
+            if (color.substring(0, 1) === "#" || color.substring(0, 3) === "rgb" || color.substring(0, 3) === "hsl") {
                 return true;
             } else {
                 return false;
@@ -294,10 +286,7 @@
         }();
 
 
-        /**
-         * Do the calculation to move the progress bar
-         * @private
-         */
+
         var moveProgress = function(toast, settings, callback) {
 
             var $elem = toast.querySelector("." + PLUGIN_NAME + "-progressbar div");
@@ -336,7 +325,7 @@
                             100;
                         $elem.style.width = percentage + "%";
 
-                        if (Math.round(percentage) < 0 || typeof toast != "object") {
+                        if (Math.round(percentage) < 0 || typeof toast !== "object") {
                             clearTimeout(timerTimeout);
                             callback.apply();
                         }
@@ -409,18 +398,12 @@
 
             });
 
-
-        /**
-         * Close the specific Toast
-         * @public
-         * @param {Object} options User settings
-         */
         $iziToast.hide = function(options, $toast, closedBy) {
 
             var settings = extend(defaults, options || {});
             closedBy = closedBy || false;
 
-            if (typeof $toast != "object") {
+            if (typeof $toast !== "object") {
                 $toast = document.querySelector($toast);
             }
             $toast.classList.add(PLUGIN_NAME + "-closed");
@@ -767,19 +750,19 @@
 
                 } else {
 
-                    if (POSITIONS.indexOf(settings.position) == -1) {
+                    if (POSITIONS.indexOf(settings.position) === -1) {
                         console.warn("[" + PLUGIN_NAME + "] Incorrect position.\nIt can be › " + POSITIONS);
                         return;
                     }
 
                     if (ISMOBILE || window.innerWidth <= MOBILEWIDTH) {
-                        if (settings.position == "bottomLeft" ||
-                            settings.position == "bottomRight" ||
-                            settings.position == "bottomCenter") {
+                        if (settings.position === "bottomLeft" ||
+                            settings.position === "bottomRight" ||
+                            settings.position === "bottomCenter") {
                             position = PLUGIN_NAME + "-wrapper-bottomCenter";
-                        } else if (settings.position == "topLeft" ||
-                            settings.position == "topRight" ||
-                            settings.position == "topCenter") {
+                        } else if (settings.position === "topLeft" ||
+                            settings.position === "topRight" ||
+                            settings.position === "topCenter") {
                             position = PLUGIN_NAME + "-wrapper-topCenter";
                         } else {
                             position = PLUGIN_NAME + "-wrapper-center";
@@ -795,9 +778,9 @@
                         $DOM.wrapper.classList.add(position);
                         document.body.appendChild($DOM.wrapper);
                     }
-                    if (settings.position == "topLeft" ||
-                        settings.position == "topCenter" ||
-                        settings.position == "topRight") {
+                    if (settings.position === "topLeft" ||
+                        settings.position === "topCenter" ||
+                        settings.position === "topRight") {
                         $DOM.wrapper.insertBefore($DOM.toastCapsule, $DOM.wrapper.firstChild);
                     } else {
                         $DOM.wrapper.appendChild($DOM.toastCapsule);
@@ -819,7 +802,7 @@
                     var timeAnimation1 = 200,
                         timeAnimation2 = 100,
                         timeAnimation3 = 300;
-                    if (settings.transitionIn == "bounceInLeft") {
+                    if (settings.transitionIn === "bounceInLeft") {
                         timeAnimation1 = 400;
                         timeAnimation2 = 200;
                         timeAnimation3 = 400;

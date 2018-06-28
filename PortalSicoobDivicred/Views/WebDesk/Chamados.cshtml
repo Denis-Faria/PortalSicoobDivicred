@@ -203,6 +203,8 @@
                             $('#ModalFormulario').removeClass();
                             $('#ModalFormulario').addClass('modal is-active');
                             $("#FormularioCategoria").append(data);
+                        } else {
+                            $("#Cadastro").submit();
                         }
                     }
                 });
@@ -508,7 +510,7 @@
                     </div>
                 </section>
                 <footer class="modal-card-foot">
-                    <button type="button" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Solicitação</button>
+                    <button type="button" id="CadastraChamado" class="button is-success" onclick="javascript: CategoriaSelecionado(document.getElementById('Categoria'));" >Cadastrar Solicitação</button>
                     <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
                 </footer>
             </div>

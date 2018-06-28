@@ -129,7 +129,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "INSERT INTO webdeskinteracoessolicitacoes(idsolicitacao,textointeracao,idfuncionariointeracao,datahorainteracao) VALUES(" +
                 IdChamado + ",'" + Descricao + "'," + IdUsuario + ",NOW())";
             var IdInteracao = ConexaoMysql.ExecutaComandoComRetornoId(QueryInteracao);
-            return IdInteracao;
+            return IdInteracao+";"+IdChamado;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosUsuarios(string Login)
@@ -305,6 +305,20 @@ namespace PortalSicoobDivicred.Aplicacao
             var Query = "SELECT * FROM webdeskformularioscategorias WHERE idcategoria=" + IdCategoria + "";
             var Formularios = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Formularios;
+        }
+
+        public List<Dictionary<string, string>> RetornaFormularioChamado(string IdSolicitacao)
+        {
+            var Query = "SELECT * FROM webdeskformularios WHERE idsolicitacao=" + IdSolicitacao + "";
+            var Formularios = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Formularios;
+        }
+
+        public void InserirFormulario(string NomeCampos,string DadoFormulario,string IdSolicitacao)
+        {
+            var Query = "INSERT INTO webdeskformularios (idsolicitacao,nomecampo,dadoformulario) VALUES(" +
+                        IdSolicitacao + ",'" + NomeCampos + "','" + DadoFormulario + "')";
+            ConexaoMysql.ExecutaComando(Query);
         }
 
     }

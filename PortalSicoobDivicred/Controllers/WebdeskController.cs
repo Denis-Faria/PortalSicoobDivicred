@@ -277,14 +277,27 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
                 var IdInteracao = "";
                 if (Dados["CpfAbertura"] != "")
+                {
                     IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"],
                         Dados["IdFuncionarioResponsavel"],
                         Dados["Descricao"], DadosUsuario[0]["id"], Dados["CpfAbertura"]);
+                }
                 else
+                {
                     IdInteracao = VerificaDados.CadastraSolicitacao(Dados["IdSetorResponsavel"], Dados["IdCategoria"],
                         Dados["IdFuncionarioResponsavel"],
                         Dados["Descricao"], DadosUsuario[0]["id"], "");
+                }
 
+                for (int i = 0; i < Dados.Count; i++)
+                {
+                    if (!Dados.GetKey(i).Equals("IdSetorResponsavel") && !Dados.GetKey(i).Equals("IdCategoria") &&
+                        !Dados.GetKey(i).Equals("IdFuncionarioResponsavel") && !Dados.GetKey(i).Equals("CpfAbertura") &&
+                        !Dados.GetKey(i).Equals("Descricao"))
+                    {
+                        VerificaDados.InserirFormulario(Dados.GetKey(i), Dados[i], IdInteracao.Split(';')[1]);
+                    }
+                }
 
                 var lista = postedFiles.ToList();
 
@@ -298,7 +311,7 @@ namespace PortalSicoobDivicred.Controllers
                             fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                         }
 
-                        VerificaDados.InserirAnexo(IdInteracao, fileData, lista[i].ContentType, NomeArquivo);
+                        VerificaDados.InserirAnexo(IdInteracao.Split(';')[0], fileData, lista[i].ContentType, NomeArquivo);
                     }
 
                 var Envia = new EnviodeAlertas();
@@ -393,14 +406,18 @@ namespace PortalSicoobDivicred.Controllers
         {
             if (TipoChamado.Equals("Novo"))
             {
+                
                 var VerificaDados = new QueryMysqlWebdesk();
                 var Logado = VerificaDados.UsuarioLogado();
                 if (Logado)
                 {
+
                     var Cookie = Request.Cookies.Get("CookieFarm");
                     var Login = Criptografa.Descriptografar(Cookie.Value);
 
                     var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                    var Formulario = VerificaDados.RetornaFormularioChamado(IdChamado);
+
 
                     if (DadosUsuario[0]["foto"] == null)
                         TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
@@ -417,6 +434,20 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["NomeLateral"] = DadosUsuario[0]["login"];
                     TempData["IdSolicitacao"] = IdChamado;
                     var DadosChamado = VerificaDados.RetornaDadosChamado(IdChamado);
+
+
+
+                    TempData["TotalFormulario"] = Formulario.Count;
+                    for (int i = 0; i < Formulario.Count; i++)
+                    {
+                        TempData["NomeUsuarioFormulario"] = DadosChamado[0]["cadastro"];
+                        TempData["NomeCampo" + i] = Formulario[i]["nomecampo"];
+                        TempData["DadoFormulario" + i] = Formulario[i]["dadoformulario"];
+
+                    }
+
+
+
                     TempData["Setor"] = DadosChamado[0]["setor"];
                     TempData["Situacao"] = DadosChamado[0]["situacao"];
                     TempData["Categoria"] = DadosChamado[0]["titulo"];

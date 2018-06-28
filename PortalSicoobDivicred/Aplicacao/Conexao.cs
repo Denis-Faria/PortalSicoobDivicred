@@ -30,7 +30,8 @@ namespace PortalSicoobDivicred.Controllers
                 new OleDbDataAdapter(cmd0).Fill(tabela0);
                 break;
             }
-            
+
+            conn0.Close();
             return tabela0;
         }
 

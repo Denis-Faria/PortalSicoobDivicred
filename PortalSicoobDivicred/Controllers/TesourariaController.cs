@@ -48,28 +48,6 @@ namespace PortalSicoobDivicred.Controllers
 
         }
 
-        //  public ActionResult ValidaDataArquivo()
-        //    {
-        //        return PartialView("ViewArquivos");
-        //   }
-
-        /*   [HttpPost]
-           public ActionResult ValidaDataArquivo(FormCollection receberForm)
-           {
-
-               int qtdarquivos = 5;
-               ManipularPlanilha validarData = new ManipularPlanilha();
-
-               switch (qtdarquivos)
-               {
-                   case 5:
-                       string posicao = "F11";
-                       validarData.validaDataRelatorio(posicao,qtdarquivos);
-
-                       break;
-               }
-               return PartialView("Tesouraria");
-          }*/
 
         public ActionResult ProcessaArquivos()
         {
@@ -183,10 +161,13 @@ namespace PortalSicoobDivicred.Controllers
                 int aux04 = 0;
                 int aux05 = 0;
 
+                var dataSelecionada = new DateTime();
+                var dataExtratoDia = new DateTime();
+
+
                 while (i < arquivos.Count)
                 {
-                    var dataSelecionada = new DateTime();
-                    var dataExtratoDia = new DateTime();
+
 
                     if (i == 4)
                     {
@@ -261,8 +242,8 @@ namespace PortalSicoobDivicred.Controllers
                             aux05 = 1;
                         }
 
-                        dataSelecionada = DateTime.Now;
-                        dataExtratoDia = DateTime.Now;
+                        //dataSelecionada = DateTime.Now;
+                        //dataExtratoDia = DateTime.Now;
                     }
                     else
                     {

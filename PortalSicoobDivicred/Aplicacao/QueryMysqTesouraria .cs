@@ -56,7 +56,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         }
 
-        public void InsereJustificativa(String data, string justificativa)
+        public void InsereJustificativa(string data, string justificativa)
         {
                 string QueryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
                 ConexaoMysql.ExecutaComando(QueryInsereJustificativa);

@@ -636,6 +636,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Resultado(FormCollection receberForm)
         {
             var insereJustificativa = new QueryMysqlTesouraria();
+            
             if (receberForm.Count > 0)
             {
 
@@ -645,11 +646,7 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Tesouraria");
         }
-
-        public ActionResult Pesquisa()
-        {
-            return PartialView("ViewPesquisar");
-        }
+         
 
         [HttpPost]
         public ActionResult Pesquisa(string data)

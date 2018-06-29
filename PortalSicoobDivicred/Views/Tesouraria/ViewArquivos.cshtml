@@ -3,7 +3,7 @@
 
 <script>
     function verificarData(mostrar) {
-        
+
         $("#telaTabela").empty();
         $.ajax(
             {
@@ -16,6 +16,18 @@
                 success: function (data) {
                     $("#telaTabela").append(data);
 
+                    function enviarData(data) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Tesouraria/VerificaData',
+                            dataType: 'html',
+                            cache: true,
+                            async: true,
+                            data: { "data": mostrar },
+                            sucess: {}
+                        }
+                        );
+                    }
                 }
             });
     }
@@ -380,7 +392,7 @@
                             <div class="panel-block">
                                 <div style="width:130%">
                                     <div style="width:160px">
-                                        @Html.TextBoxFor(m => m.data, null, new { @class = "input",onchange= "javascript:verificarData(this.value)", type = "date"})
+                                        @Html.TextBoxFor(m => m.data, null, new { @class = "input", onchange = "javascript:verificarData(this.value)", type = "date" })
                                     </div>
                                 </div>
                             </div>
@@ -449,7 +461,7 @@
 
                         </div>
                         <div>
-                            
+
                             <div class="panel-block">
                                 <div style="width:99%">
                                     <span class="panel-icon">
@@ -547,7 +559,7 @@
                                             <div class="field" hidden id="valorDevolucaoCheques">
                                                 <div class="control">
                                                     <label>Valor Devolucao de Cheques</label>
-                                                    @Html.TextBoxFor(m => m.valor6192, null, new { @class = "input", type = "number", step = "0.01" , onkeypress = "return tirarPonto( this , event )" })
+                                                    @Html.TextBoxFor(m => m.valor6192, null, new { @class = "input", type = "number", step = "0.01", onkeypress = "return tirarPonto( this , event )" })
                                                 </div>
                                             </div>
 
@@ -564,7 +576,7 @@
                                             </div>
 
                                             <div id="operacaoCaixa" class="field" hidden>
-                                                
+
                                                 <div class="file is-primary " style="display:block;width:100%">
                                                     <label class="file-label">
 

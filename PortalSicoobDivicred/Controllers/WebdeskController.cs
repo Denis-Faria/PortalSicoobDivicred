@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Nest;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -197,6 +198,8 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosUsuarios = VerificaDadosUsuario.RecuperaDadosFuncionariosTabelaUsuario(Login);
                 var DadosFuncionarios = VerificaDadosUsuario.RecuperaDadosUsuarios(Login);
 
+                var BuscaWebdesk = new BuscaElasticSearch();
+
                 if (DadosFuncionarios[0]["foto"] == null)
                     TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
@@ -210,14 +213,22 @@ namespace PortalSicoobDivicred.Controllers
                         " ";
                 else
                     TempData["PermissaoCurriculo"] = "display: none";
-
+    
 
                 var ResultadoPEsquisa = VerificaDados.BuscaChamadosMeuSetor(Busca, DadosUsuarios[0]["id"], DadosUsuarios[0]["idsetor"]);
+                var DadoResultado = new List<IHit<Webdesk>>();
+                if (VerificaDadosUsuario.PermissaoPesquisaWebdDesk(Login))
+                {
+                     DadoResultado = BuscaWebdesk.PesquisaTotalWebdesk(Busca);
+                }
+                else
+                {
 
-                var ResultadoPesquisaNova = VerificaDados.BuscaChamadosMeuSetorNovo(Busca, DadosFuncionarios[0]["id"], DadosFuncionarios[0]["idsetor"]);
+                    DadoResultado = BuscaWebdesk.PesquisaBasicaWebdesk(Busca, DadosFuncionarios[0]["idsetor"]);
+                }
 
                 TempData["TotalResultado"] = ResultadoPEsquisa.Count;
-                TempData["TotalResultadoNovo"] = ResultadoPesquisaNova.Count;
+                TempData["TotalResultadoNovo"] = DadoResultado.Count;
 
                 for (var i = 0; i < ResultadoPEsquisa.Count; i++)
                 {
@@ -237,22 +248,26 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-                for (var i = 0; i < ResultadoPesquisaNova.Count; i++)
+               
+          
+                for (var i = 0; i < DadoResultado.Count; i++)
                 {
-                    TempData["NumeroChamadoNovo" + i] = ResultadoPesquisaNova[i]["id"];
-                    TempData["TituloChamadoNovo" + i] = ResultadoPesquisaNova[i]["titulo"];
-                    TempData["UsuarioCadastroNovo" + i] = ResultadoPesquisaNova[i]["CADASTRO"];
-                    TempData["OperadorNovo" + i] = ResultadoPesquisaNova[i]["OPERADOR"];
-                    var Interacoes = VerificaDados.BuscaInteracaoChamadosNovo(ResultadoPesquisaNova[i]["id"]);
+                    TempData["NumeroChamadoNovo" + i] = DadoResultado[i].Source.idsolicitacao;
+                    var DadosChamado = VerificaDados.RetornaDadosChamado(DadoResultado[i].Source.idsolicitacao);
+                    TempData["TituloChamadoNovo" + i] = DadosChamado[0]["titulo"];
+                    TempData["UsuarioCadastroNovo" + i] = DadosChamado[0]["cadastro"];
+                    TempData["OperadorNovo" + i] = DadosChamado[0]["operador"];
 
-                    TempData["TotalInteracaoNovo" + ResultadoPesquisaNova[i]["id"]] = Interacoes.Count;
+                    var Interacoes = VerificaDados.BuscaInteracaoChamadosNovo(DadoResultado[i].Source.idsolicitacao);
+
+                    TempData["TotalInteracaoNovo" + DadoResultado[i].Source.idsolicitacao] = Interacoes.Count;
 
                     for (var j = 0; j < Interacoes.Count; j++)
                     {
-                        TempData["UsuarioInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] = Interacoes[j]["nome"];
-                        TempData["TextoInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] =
+                        TempData["UsuarioInteracaoNovo" + DadoResultado[i].Source.idsolicitacao + j] = Interacoes[j]["nome"];
+                        TempData["TextoInteracaoNovo" + DadoResultado[i].Source.idsolicitacao + j] =
                             Interacoes[j]["textointeracao"];
-                        TempData["DataInteracaoNovo" + ResultadoPesquisaNova[i]["id"] + j] = Interacoes[j]["data"];
+                        TempData["DataInteracaoNovo" + DadoResultado[i].Source.idsolicitacao + j] = Interacoes[j]["data"];
                     }
                 }
 

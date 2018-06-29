@@ -14,11 +14,19 @@ namespace PortalSicoobDivicred.Aplicacao
             .IndexName("webdesks"));
         ElasticClient client = new ElasticClient(Settings);
 
-        public void PesquisaBasicaWebdesk(string TermoPesquisado)
+        public List<IHit<Webdesk>> PesquisaBasicaWebdesk(string TermoPesquisado,string IdSetor)
         {
-
+            var searchResponse = client.Search<Webdesk>(s => s.Query(q => q.Bool(b => b.Must(mu =>
+                mu.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(TermoPesquisado))
+                ), mu => mu.Match(m => m.Field(f => f.idsetor).Query(IdSetor))))));
+            var teste = searchResponse.Hits.ToList();
+            return teste;
+        }
+        public List<IHit<Webdesk>> PesquisaTotalWebdesk(string TermoPesquisado)
+        {
             var searchResponse = client.Search<Webdesk>(s => s.Query(q => q.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(TermoPesquisado)))));
             var teste = searchResponse.Hits.ToList();
+            return teste;
         }
     }
 }

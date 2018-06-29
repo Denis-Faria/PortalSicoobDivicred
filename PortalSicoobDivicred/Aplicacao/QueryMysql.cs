@@ -84,6 +84,24 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             }
         }
+        public bool PermissaoPesquisaWebdDesk(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesgrupo a, funcionarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                Usuario + "' and a.idpermissao='WEBDESK_PESQUISA'";
+
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public bool PermissaoTesouraria(string Usuario)
         {

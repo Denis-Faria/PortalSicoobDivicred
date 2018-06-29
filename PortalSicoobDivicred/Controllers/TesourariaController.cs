@@ -638,8 +638,7 @@ namespace PortalSicoobDivicred.Controllers
             var insereJustificativa = new QueryMysqlTesouraria();
             if (receberForm.Count > 0)
             {
-
-                string data = TempData["data"].ToString();
+                string data = DateTime.Now.ToString("yyyy/MM/dd");
                 string justificativa = receberForm["justificativa"];
                 insereJustificativa.InsereJustificativa(data, justificativa);
             }

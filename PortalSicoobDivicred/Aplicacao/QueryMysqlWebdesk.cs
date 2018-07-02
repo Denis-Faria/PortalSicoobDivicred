@@ -136,10 +136,7 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var QueryRecuperaUsuario =
                 "SELECT * FROM funcionarios  WHERE login='" + Login + "'";
-
-
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
-
 
             return Dados;
         }

@@ -208,6 +208,8 @@
                 });
         }
 
+        
+
 
     </script>
     <style>
@@ -328,7 +330,7 @@
             </table>
         </div>
 
-
+        @if (TempData["usuarioTI"].ToString()=="2") {
         <div id="Parametros">
             <table id="TabelaChamadosOperador" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
                 <thead>
@@ -343,7 +345,7 @@
 
                     @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosOperador"].ToString()); j++)
                     {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo"})">
+                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new { IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo" })">
                             <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
@@ -359,6 +361,7 @@
                 </tbody>
             </table>
         </div>
+        }
         <div id="ChamadosSetor">
             <table id="TabelaChamadosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
                 <thead>

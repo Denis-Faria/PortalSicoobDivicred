@@ -25,6 +25,7 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
 
                 var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                TempData["usuarioTI"] = DadosUsuario[0]["idgrupo"];
 
                 var permissao = new QueryMysql();
                 if (permissao.PermissaoCurriculos(Login))

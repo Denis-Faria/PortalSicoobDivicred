@@ -15,6 +15,7 @@ namespace PortalSicoobDivicred.Controllers
 
     public class TesourariaController : Controller
     {
+        DateTime dataescolhida;
         private DataSet mDataSet;
         // GET: Tesouraria
         public ActionResult Tesouraria(string MensagemValidacao, string Erro)
@@ -57,6 +58,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult ProcessaArquivos(IEnumerable<HttpPostedFileBase> file, Tesouraria Dados, FormCollection receberForm)
         {
+            
             var consultaValorNR = new QueryMysqlTesouraria();
 
             double valorNR = Convert.ToDouble(consultaValorNR.consultaValorNR());
@@ -639,15 +641,20 @@ namespace PortalSicoobDivicred.Controllers
             
             if (receberForm.Count > 0)
             {
-
-                string data = TempData["data"].ToString();
+                //string teste = dataescolhida.ToString();
+                //  string data = TempData["data"].ToString();
+                string data = receberForm["dataescolhida"].ToString();
                 string justificativa = receberForm["justificativa"];
                 insereJustificativa.InsereJustificativa(data, justificativa);
             }
             return RedirectToAction("Tesouraria");
         }
-         
 
+        public ActionResult Pesquisa()
+        {
+            TempData["RetornaValor"] = 1;
+            return View("ViewPesquisar");
+        }
         [HttpPost]
         public ActionResult Pesquisa(string data)
         {

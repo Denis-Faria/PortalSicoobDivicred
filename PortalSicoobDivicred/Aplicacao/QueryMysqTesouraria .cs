@@ -42,25 +42,16 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(QueryInsereValorCamposDigitaveis);
         }
 
-
-
-
-
-
         public void InsereConferencia(String data, string historico, string extrato,string arquivos,string diferenca)
         {
-            
             string QueryInsereConferencia = "INSERT INTO dadosextrato (data,historico,extrato,arquivos,diferenca,excluido) values ('" + data + "','" + historico + "','" + extrato + "','" + arquivos + "','"+ (Math.Round(Convert.ToDouble(diferenca),2)).ToString() + "','N') ";
             ConexaoMysql.ExecutaComando(QueryInsereConferencia);
-
-
         }
 
         public void InsereJustificativa(string data, string justificativa)
         {
                 string QueryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
                 ConexaoMysql.ExecutaComando(QueryInsereJustificativa);
-
         }
 
         public List<Dictionary<string, string>> RecuperaDadosTabela(string Data)

@@ -14,110 +14,110 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                TempData["Mensagem"] = Mensagem;
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
+                TempData ["Mensagem"] = Mensagem;
+                var Cookie = Request.Cookies.Get( "CookieFarm" );
+                var Login = Criptografa.Descriptografar( Cookie.Value );
 
 
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario(Login);
-                var VinculoExtra = VerificaDados.RecuperaVinculoExtra(DadosTabelaFuncionario[0]["id"]);
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil( Login );
+                var DocumentosUpados = VerificaDados.RecuperaDocumentosFuncionario( Login );
+                var VinculoExtra = VerificaDados.RecuperaVinculoExtra( DadosTabelaFuncionario [0] ["id"] );
 
-                for (var i = 0; i < DocumentosUpados.Count; i++)
+                for ( var i = 0; i < DocumentosUpados.Count; i++ )
                 {
-                    TempData["Status" + DocumentosUpados[i]["nomearquivo"]] = "is-primary";
-                    TempData["Nome" + DocumentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
+                    TempData ["Status" + DocumentosUpados [i] ["nomearquivo"]] = "is-primary";
+                    TempData ["Nome" + DocumentosUpados [i] ["nomearquivo"]] = "Arquivo Enviado";
                 }
 
-                var Tipos = DadosTabelaFuncionario[0]["tipodependente"].ToString().Split(';');
-                for (int i = 0; i < 10; i++)
+                var Tipos = DadosTabelaFuncionario [0] ["tipodependente"].ToString().Split( ';' );
+                for ( int i = 0; i < 10; i++ )
                 {
-                    if (Tipos.Contains(i.ToString()))
+                    if ( Tipos.Contains( i.ToString() ) )
                     {
-                        TempData["Check" + i] = "checked";
+                        TempData ["Check" + i] = "checked";
                     }
                     else
                     {
-                        TempData["Check" + i] = "";
+                        TempData ["Check" + i] = "";
                     }
                 }
 
 
                 var DadosFuncionario = new Funcionario();
-                if (VinculoExtra.Count > 0)
+                if ( VinculoExtra.Count > 0 )
                 {
-                    TempData["MostraVinculo"] = "";
-                    DadosFuncionario.MultiploCnpj = VinculoExtra[0]["cnpj"];
-                    DadosFuncionario.MultiploNomeEmpresa = VinculoExtra[0]["nomeempresa"];
-                    DadosFuncionario.MultiploRemuneracao = VinculoExtra[0]["remuneracao"];
-                    DadosFuncionario.MultiploComentario = VinculoExtra[0]["comentario"];
+                    TempData ["MostraVinculo"] = "";
+                    DadosFuncionario.MultiploCnpj = VinculoExtra [0] ["cnpj"];
+                    DadosFuncionario.MultiploNomeEmpresa = VinculoExtra [0] ["nomeempresa"];
+                    DadosFuncionario.MultiploRemuneracao = VinculoExtra [0] ["remuneracao"];
+                    DadosFuncionario.MultiploComentario = VinculoExtra [0] ["comentario"];
                 }
                 else
                 {
-                    TempData["MostraVinculo"] = "style=display:none;";
+                    TempData ["MostraVinculo"] = "style=display:none;";
                 }
-                DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
-                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
-                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
-                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario[0]["pis"];
+                DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario [0] ["nome"];
+                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario [0] ["cpf"];
+                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario [0] ["rg"];
+                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario [0] ["pis"];
                 DadosFuncionario.DataNascimentoFuncionario =
-                    Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
-                DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
-                DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario[0]["login"];
-                DadosFuncionario.Email = DadosTabelaFuncionario[0]["email"];
-                DadosFuncionario.PA = DadosTabelaFuncionario[0]["idpa"];
-                DadosFuncionario.Rua = DadosTabelaFuncionario[0]["rua"];
-                DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
-                DadosFuncionario.Bairro = DadosTabelaFuncionario[0]["bairro"];
-                DadosFuncionario.Cidade = DadosTabelaFuncionario[0]["cidade"];
-                DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
-                DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
-                DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];
-                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario[0]["principalhobbie"];
-                DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
-                DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
-                DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
-                DadosFuncionario.Matricula = DadosTabelaFuncionario[0]["matricula"];
-                DadosFuncionario.NumeroCTPS = DadosTabelaFuncionario[0]["numeroctps"];
-                DadosFuncionario.SerieCTPS = DadosTabelaFuncionario[0]["seriectps"];
-                DadosFuncionario.UfCTPS = DadosTabelaFuncionario[0]["ufctps"];
-                DadosFuncionario.EmissaoCtps = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataemissaoctps"].ToString()).Date.ToString("dd/MM/yyyy");
-                DadosFuncionario.AnoPrimeiroEmprego = DadosTabelaFuncionario[0]["anoprimeiroemprego"];
-                DadosFuncionario.IdTipoConta = Convert.ToInt32(DadosTabelaFuncionario[0]["idtipoconta"]);
-                DadosFuncionario.CodigoBanco = DadosTabelaFuncionario[0]["codigobanco"];
-                DadosFuncionario.Agencia = DadosTabelaFuncionario[0]["agencia"];
-                DadosFuncionario.ContaCorrente = DadosTabelaFuncionario[0]["contacorrente"];
-                DadosFuncionario.DadosDependentes = DadosTabelaFuncionario[0]["informacaodependente"];
-                DadosFuncionario.DependenteIrrf = DadosTabelaFuncionario[0]["dependenteirrpf"];
-                DadosFuncionario.CpfIrrf = DadosTabelaFuncionario[0]["cpfirrf"];
-                DadosFuncionario.DependenteFamilia = DadosTabelaFuncionario[0]["dependentesalariofamilia"];
-                DadosFuncionario.OrgaoEmissorRg = DadosTabelaFuncionario[0]["orgaoemissorrg"];
-                DadosFuncionario.Nacionalidade = DadosTabelaFuncionario[0]["nacionalidade"];
-                DadosFuncionario.LocalNascimento = DadosTabelaFuncionario[0]["localnascimento"];
-                DadosFuncionario.UfNascimento = DadosTabelaFuncionario[0]["ufnascimento"];
-                DadosFuncionario.TelefoneFixo = DadosTabelaFuncionario[0]["telefonefixo"];
-                DadosFuncionario.TelefoneCelular = DadosTabelaFuncionario[0]["telefonecelular"];
-                DadosFuncionario.NomeMae = DadosTabelaFuncionario[0]["nomemae"];
-                DadosFuncionario.NomePai = DadosTabelaFuncionario[0]["nomepai"];
+                    Convert.ToDateTime( DadosTabelaFuncionario [0] ["datanascimento"] ).ToString( "dd/MM/yyyy" );
+                DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario [0] ["formacaoacademica"];
+                DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario [0] ["login"];
+                DadosFuncionario.Email = DadosTabelaFuncionario [0] ["email"];
+                DadosFuncionario.PA = DadosTabelaFuncionario [0] ["idpa"];
+                DadosFuncionario.Rua = DadosTabelaFuncionario [0] ["rua"];
+                DadosFuncionario.Numero = DadosTabelaFuncionario [0] ["numero"];
+                DadosFuncionario.Bairro = DadosTabelaFuncionario [0] ["bairro"];
+                DadosFuncionario.Cidade = DadosTabelaFuncionario [0] ["cidade"];
+                DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario [0] ["quantidadefilho"];
+                DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario [0] ["datanascimentofilho"];
+                DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario [0] ["contatoemergencia"];
+                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario [0] ["principalhobbie"];
+                DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario [0] ["comidafavorita"];
+                DadosFuncionario.Viagem = DadosTabelaFuncionario [0] ["viagem"];
+                DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario [0] ["descricaosexo"];
+                DadosFuncionario.Matricula = DadosTabelaFuncionario [0] ["matricula"];
+                DadosFuncionario.NumeroCTPS = DadosTabelaFuncionario [0] ["numeroctps"];
+                DadosFuncionario.SerieCTPS = DadosTabelaFuncionario [0] ["seriectps"];
+                DadosFuncionario.UfCTPS = DadosTabelaFuncionario [0] ["ufctps"];
+                DadosFuncionario.EmissaoCtps = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataemissaoctps"].ToString() ).Date.ToString( "dd/MM/yyyy" );
+                DadosFuncionario.AnoPrimeiroEmprego = DadosTabelaFuncionario [0] ["anoprimeiroemprego"];
+                DadosFuncionario.IdTipoConta = Convert.ToInt32( DadosTabelaFuncionario [0] ["idtipoconta"] );
+                DadosFuncionario.CodigoBanco = DadosTabelaFuncionario [0] ["codigobanco"];
+                DadosFuncionario.Agencia = DadosTabelaFuncionario [0] ["agencia"];
+                DadosFuncionario.ContaCorrente = DadosTabelaFuncionario [0] ["contacorrente"];
+                DadosFuncionario.DadosDependentes = DadosTabelaFuncionario [0] ["informacaodependente"];
+                DadosFuncionario.DependenteIrrf = DadosTabelaFuncionario [0] ["dependenteirrpf"];
+                DadosFuncionario.CpfIrrf = DadosTabelaFuncionario [0] ["cpfirrf"];
+                DadosFuncionario.DependenteFamilia = DadosTabelaFuncionario [0] ["dependentesalariofamilia"];
+                DadosFuncionario.OrgaoEmissorRg = DadosTabelaFuncionario [0] ["orgaoemissorrg"];
+                DadosFuncionario.Nacionalidade = DadosTabelaFuncionario [0] ["nacionalidade"];
+                DadosFuncionario.LocalNascimento = DadosTabelaFuncionario [0] ["localnascimento"];
+                DadosFuncionario.UfNascimento = DadosTabelaFuncionario [0] ["ufnascimento"];
+                DadosFuncionario.TelefoneFixo = DadosTabelaFuncionario [0] ["telefonefixo"];
+                DadosFuncionario.TelefoneCelular = DadosTabelaFuncionario [0] ["telefonecelular"];
+                DadosFuncionario.NomeMae = DadosTabelaFuncionario [0] ["nomemae"];
+                DadosFuncionario.NomePai = DadosTabelaFuncionario [0] ["nomepai"];
 
-                DadosFuncionario.EmailSecundario = DadosTabelaFuncionario[0]["emailsecundario"];
-                DadosFuncionario.Cep = DadosTabelaFuncionario[0]["cep"];
-                DadosFuncionario.Complemento = DadosTabelaFuncionario[0]["complemento"];
-                DadosFuncionario.Pais = DadosTabelaFuncionario[0]["pais"];
-                DadosFuncionario.ResidenciaPropria = DadosTabelaFuncionario[0]["residenciapropria"];
-                DadosFuncionario.RecursoFgts = DadosTabelaFuncionario[0]["recursofgts"];
-                DadosFuncionario.DeficienteMotor = DadosTabelaFuncionario[0]["deficientemotor"];
-                DadosFuncionario.DeficienteVisual = DadosTabelaFuncionario[0]["deficientevisual"];
-                DadosFuncionario.DeficienteAuditivo = DadosTabelaFuncionario[0]["deficienteauditivo"];
-                DadosFuncionario.Reabilitado = DadosTabelaFuncionario[0]["reabilitado"];
-                DadosFuncionario.ObservacaoDeficiente = DadosTabelaFuncionario[0]["observacaodeficiente"];
-                DadosFuncionario.DataExpedicaoDocumentoRg = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataemissaorg"]).Date;
-                DadosFuncionario.IdEstadoCivil = Convert.ToInt32(DadosTabelaFuncionario[0]["idestadocivil"]);
+                DadosFuncionario.EmailSecundario = DadosTabelaFuncionario [0] ["emailsecundario"];
+                DadosFuncionario.Cep = DadosTabelaFuncionario [0] ["cep"];
+                DadosFuncionario.Complemento = DadosTabelaFuncionario [0] ["complemento"];
+                DadosFuncionario.Pais = DadosTabelaFuncionario [0] ["pais"];
+                DadosFuncionario.ResidenciaPropria = DadosTabelaFuncionario [0] ["residenciapropria"];
+                DadosFuncionario.RecursoFgts = DadosTabelaFuncionario [0] ["recursofgts"];
+                DadosFuncionario.DeficienteMotor = DadosTabelaFuncionario [0] ["deficientemotor"];
+                DadosFuncionario.DeficienteVisual = DadosTabelaFuncionario [0] ["deficientevisual"];
+                DadosFuncionario.DeficienteAuditivo = DadosTabelaFuncionario [0] ["deficienteauditivo"];
+                DadosFuncionario.Reabilitado = DadosTabelaFuncionario [0] ["reabilitado"];
+                DadosFuncionario.ObservacaoDeficiente = DadosTabelaFuncionario [0] ["observacaodeficiente"];
+                DadosFuncionario.DataExpedicaoDocumentoRg = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataemissaorg"] ).Date;
+                DadosFuncionario.IdEstadoCivil = Convert.ToInt32( DadosTabelaFuncionario [0] ["idestadocivil"] );
                 try
                 {
-                    DadosFuncionario.IdEstadoCivilPais = Convert.ToInt32(DadosTabelaFuncionario[0]["paisdivorciado"]);
+                    DadosFuncionario.IdEstadoCivilPais = Convert.ToInt32( DadosTabelaFuncionario [0] ["paisdivorciado"] );
                 }
                 catch
                 {
@@ -127,93 +127,93 @@ namespace PortalSicoobDivicred.Controllers
 
                 try
                 {
-                    DadosFuncionario.IdHorario = Convert.ToInt32(DadosTabelaFuncionario[0]["idhorariotrabalho"]);
+                    DadosFuncionario.IdHorario = Convert.ToInt32( DadosTabelaFuncionario [0] ["idhorariotrabalho"] );
                 }
                 catch
                 {
                     DadosFuncionario.IdHorario = 0;
                 }
 
-                DadosFuncionario.IdSexo = Convert.ToInt32(DadosTabelaFuncionario[0]["sexo"]);
-                DadosFuncionario.IdEtnia = Convert.ToInt32(DadosTabelaFuncionario[0]["etnia"]);
-                DadosFuncionario.IdFormacao = Convert.ToInt32(DadosTabelaFuncionario[0]["idescolaridade"]);
-                DadosFuncionario.IdSetor = Convert.ToInt32(DadosTabelaFuncionario[0]["idsetor"]);
-                DadosFuncionario.IdFuncao = Convert.ToInt32(DadosTabelaFuncionario[0]["funcao"]);
-                DadosFuncionario.NotificacaoEmail = DadosTabelaFuncionario[0]["notificacaoemail"];
-                DadosFuncionario.ContribuicaoSindical = DadosTabelaFuncionario[0]["contribuicaosindical"];
+                DadosFuncionario.IdSexo = Convert.ToInt32( DadosTabelaFuncionario [0] ["sexo"] );
+                DadosFuncionario.IdEtnia = Convert.ToInt32( DadosTabelaFuncionario [0] ["etnia"] );
+                DadosFuncionario.IdFormacao = Convert.ToInt32( DadosTabelaFuncionario [0] ["idescolaridade"] );
+                DadosFuncionario.IdSetor = Convert.ToInt32( DadosTabelaFuncionario [0] ["idsetor"] );
+                DadosFuncionario.IdFuncao = Convert.ToInt32( DadosTabelaFuncionario [0] ["funcao"] );
+                DadosFuncionario.NotificacaoEmail = DadosTabelaFuncionario [0] ["notificacaoemail"];
+                DadosFuncionario.ContribuicaoSindical = DadosTabelaFuncionario [0] ["contribuicaosindical"];
 
-                var Formacoes = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
+                var Formacoes = VerificaDados.RetornaFormacaoFuncionario( DadosTabelaFuncionario [0] ["id"] );
 
-                if (DadosTabelaFuncionario[0]["cnh"].Equals(""))
+                if ( DadosTabelaFuncionario [0] ["cnh"].Equals( "" ) )
                 {
-                    if (DadosTabelaFuncionario[0]["oc"].Equals(""))
+                    if ( DadosTabelaFuncionario [0] ["oc"].Equals( "" ) )
                     {
-                        TempData["ExibeDocumentoExtra"] = "style=display:none;";
+                        TempData ["ExibeDocumentoExtra"] = "style=display:none;";
                     }
                     else
                     {
-                        TempData["ExibeDocumentoExtra"] = "";
-                        DadosFuncionario.Cnh = DadosTabelaFuncionario[0]["cnh"];
-                        DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaocnh"]).Date;
-                        DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario[0]["orgaoemissorcnh"];
-                        DadosFuncionario.DataValidadeCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadecnh"]);
+                        TempData ["ExibeDocumentoExtra"] = "";
+                        DadosFuncionario.Cnh = DadosTabelaFuncionario [0] ["cnh"];
+                        DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataexpedicaocnh"] ).Date;
+                        DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario [0] ["orgaoemissorcnh"];
+                        DadosFuncionario.DataValidadeCnh = Convert.ToDateTime( DadosTabelaFuncionario [0] ["datavalidadecnh"] );
 
-                        DadosFuncionario.Oc = DadosTabelaFuncionario[0]["oc"];
-                        DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaooc"]).Date;
-                        DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario[0]["orgaoemissoroc"];
-                        DadosFuncionario.DataValidadeOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadeoc"]);
+                        DadosFuncionario.Oc = DadosTabelaFuncionario [0] ["oc"];
+                        DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataexpedicaooc"] ).Date;
+                        DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario [0] ["orgaoemissoroc"];
+                        DadosFuncionario.DataValidadeOc = Convert.ToDateTime( DadosTabelaFuncionario [0] ["datavalidadeoc"] );
                     }
                 }
                 else
                 {
-                    TempData["ExibeDocumentoExtra"] = "";
-                    DadosFuncionario.Cnh = DadosTabelaFuncionario[0]["cnh"];
-                    DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaocnh"]).Date;
-                    DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario[0]["orgaoemissorcnh"];
-                    DadosFuncionario.DataValidadeCnh = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadecnh"]);
+                    TempData ["ExibeDocumentoExtra"] = "";
+                    DadosFuncionario.Cnh = DadosTabelaFuncionario [0] ["cnh"];
+                    DadosFuncionario.DataExpedicaoDocumentoCnh = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataexpedicaocnh"] ).Date;
+                    DadosFuncionario.OrgaoEmissorCnh = DadosTabelaFuncionario [0] ["orgaoemissorcnh"];
+                    DadosFuncionario.DataValidadeCnh = Convert.ToDateTime( DadosTabelaFuncionario [0] ["datavalidadecnh"] );
 
-                    DadosFuncionario.Oc = DadosTabelaFuncionario[0]["oc"];
-                    DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["dataexpedicaooc"]).Date;
-                    DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario[0]["orgaoemissoroc"];
-                    DadosFuncionario.DataValidadeOc = Convert.ToDateTime(DadosTabelaFuncionario[0]["datavalidadeoc"]);
+                    DadosFuncionario.Oc = DadosTabelaFuncionario [0] ["oc"];
+                    DadosFuncionario.DataExpedicaoOc = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataexpedicaooc"] ).Date;
+                    DadosFuncionario.OrgaoEmissorOc = DadosTabelaFuncionario [0] ["orgaoemissoroc"];
+                    DadosFuncionario.DataValidadeOc = Convert.ToDateTime( DadosTabelaFuncionario [0] ["datavalidadeoc"] );
                 }
 
-                TempData["TotalFormacao"] = Formacoes.Count;
-                for (var j = 0; j < Formacoes.Count; j++)
+                TempData ["TotalFormacao"] = Formacoes.Count;
+                for ( var j = 0; j < Formacoes.Count; j++ )
                 {
-                    TempData["IdFormacaoExtra" + j] = "Extra|" + Formacoes[j]["id"];
-                    TempData["IdTipoFormacao" + j ] = "Tipo|" + Formacoes[j]["id"];
-                    TempData["FormacaoExtra" + j] = Formacoes[j]["descricao"];
-                    TempData["TipoFormacaoExtra"+j] = Formacoes[j]["tipoformacao"];
+                    TempData ["IdFormacaoExtra" + j] = "Extra|" + Formacoes [j] ["id"];
+                    TempData ["IdTipoFormacao" + j] = "Tipo|" + Formacoes [j] ["id"];
+                    TempData ["FormacaoExtra" + j] = Formacoes [j] ["descricao"];
+                    TempData ["TipoFormacaoExtra" + j] = Formacoes [j] ["tipoformacao"];
                 }
 
 
-                var CertificacoesFuncao = VerificaDados.RetornaCertificacaoFuncao(DadosTabelaFuncionario[0]["funcao"]);
-                var IdCertificacoes = CertificacoesFuncao[0]["idcertificacao"].Split(';');
+                var CertificacoesFuncao = VerificaDados.RetornaCertificacaoFuncao( DadosTabelaFuncionario [0] ["funcao"] );
+                var IdCertificacoes = CertificacoesFuncao [0] ["idcertificacao"].Split( ';' );
 
-                TempData["TotalCertificacao"] = IdCertificacoes.Length;
+                TempData ["TotalCertificacao"] = IdCertificacoes.Length;
 
-                for (var j = 0; j < IdCertificacoes.Length; j++)
-                    if (IdCertificacoes[j].Length > 0)
+                for ( var j = 0; j < IdCertificacoes.Length; j++ )
+                    if ( IdCertificacoes [j].Length > 0 )
                     {
-                        var Certificacoes = VerificaDados.RetornaCertificacao(IdCertificacoes[j]);
-                        TempData["Certificacao" + j] = Certificacoes[0]["descricao"];
+                        var Certificacoes = VerificaDados.RetornaCertificacao( IdCertificacoes [j] );
+                        TempData ["Certificacao" + j] = Certificacoes [0] ["descricao"];
                     }
 
 
-                if (DadosTabelaFuncionario[0]["confirmacaocertificacao"].Equals("S"))
-                    TempData["ConfirmaCertificacao"] = "Checked";
+                if ( DadosTabelaFuncionario [0] ["confirmacaocertificacao"].Equals( "S" ) )
+                    TempData ["ConfirmaCertificacao"] = "Checked";
                 else
-                    TempData["ConfirmaCertificacao"] = "";
-                if (DadosTabelaFuncionario[0]["foto"] == null)
-                    TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
+                    TempData ["ConfirmaCertificacao"] = "";
+                if ( DadosTabelaFuncionario [0] ["foto"] == null )
+                    TempData ["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
-                    TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
-                var FuncaoFuncionario = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
-                TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
-                TempData["Funcao"] = FuncaoFuncionario;
-                TempData["DataAdmissao"] =
-                    Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
+                    TempData ["Foto"] = "/Uploads/" + DadosTabelaFuncionario [0] ["foto"];
+                var FuncaoFuncionario = VerificaDados.RetornaFuncaoFuncionario( DadosTabelaFuncionario [0] ["funcao"] );
+                TempData ["NomeFuncionario"] = DadosTabelaFuncionario [0] ["nome"];
+                TempData ["Funcao"] = FuncaoFuncionario;
+                TempData ["DataAdmissao"] =
+                    Convert.ToDateTime( DadosTabelaFuncionario [0] ["admissao"] ).ToString( "dd/MM/yyyy" );
 
                 var EstadoCivil = VerificaDados.RetornaEstadoCivil();
                 var TipoConta = VerificaDados.RetornaTipoConta();
@@ -235,44 +235,44 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.PaisDivorciados = EstadosCivisPais;
                 DadosFuncionario.HorarioTrabalho = HorariosTrabalhos;
 
-                if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
+                if ( DadosTabelaFuncionario [0] ["estagiario"].Equals( "S" ) )
                 {
-                    TempData["Estagiario"] = "SIM";
-                    TempData["DataEstagio"] = DadosTabelaFuncionario[0]["contratoestagio"];
+                    TempData ["Estagiario"] = "SIM";
+                    TempData ["DataEstagio"] = DadosTabelaFuncionario [0] ["contratoestagio"];
                 }
                 else
                 {
-                    TempData["Estagiario"] = "NÃO";
-                    TempData["DataEstagio"] = "-";
+                    TempData ["Estagiario"] = "NÃO";
+                    TempData ["DataEstagio"] = "-";
                 }
 
 
-                if (VerificaDados.PermissaoCurriculos(Login))
-                    TempData["PermissaoCurriculo"] =
+                if ( VerificaDados.PermissaoCurriculos( Login ) )
+                    TempData ["PermissaoCurriculo"] =
                         " ";
                 else
-                    TempData["PermissaoCurriculo"] = "display: none";
-                if (DadosTabelaFuncionario[0]["gestor"].Equals("S"))
+                    TempData ["PermissaoCurriculo"] = "display: none";
+                if ( DadosTabelaFuncionario [0] ["gestor"].Equals( "S" ) )
                 {
-                    TempData["PermissaoGestor"] = "";
-                    TempData["AreaGestor"] = "";
+                    TempData ["PermissaoGestor"] = "";
+                    TempData ["AreaGestor"] = "";
                 }
                 else
                 {
-                    TempData["PermissaoGestor"] = "hidden";
-                    TempData["AreaGestor"] = "hidden";
+                    TempData ["PermissaoGestor"] = "hidden";
+                    TempData ["AreaGestor"] = "hidden";
                 }
 
-                TempData["NomeLateral"] = DadosTabelaFuncionario[0]["login"];
-                TempData["EmailLateral"] = DadosTabelaFuncionario[0]["email"];
-                if (DadosTabelaFuncionario[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                TempData ["NomeLateral"] = DadosTabelaFuncionario [0] ["login"];
+                TempData ["EmailLateral"] = DadosTabelaFuncionario [0] ["email"];
+                if ( DadosTabelaFuncionario [0] ["foto"] == null )
+                    TempData ["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                 else
-                    TempData["ImagemPerfil"] = DadosTabelaFuncionario[0]["foto"];
-                return View("Perfil", DadosFuncionario);
+                    TempData ["ImagemPerfil"] = DadosTabelaFuncionario [0] ["foto"];
+                return View( "Perfil", DadosFuncionario );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -280,17 +280,17 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
+                var Cookie = Request.Cookies.Get( "CookieFarm" );
+                var Login = Criptografa.Descriptografar( Cookie.Value );
                 var TiposDependentes = "";
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
-                for (int i = 0; i < 10; i++)
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil( Login );
+                for ( int i = 0; i < 10; i++ )
                 {
                     try
                     {
-                        if (Formulario["check" + i].Equals("true"))
+                        if ( Formulario ["check" + i].Equals( "true" ) )
                         {
                             TiposDependentes = TiposDependentes + i + ";";
                         }
@@ -300,36 +300,36 @@ namespace PortalSicoobDivicred.Controllers
 
                     }
                 }
-                var VinculoExtra = VerificaDados.RecuperaVinculoExtra(DadosTabelaFuncionario[0]["id"]);
+                var VinculoExtra = VerificaDados.RecuperaVinculoExtra( DadosTabelaFuncionario [0] ["id"] );
 
-                if (VinculoExtra.Count == 0)
+                if ( VinculoExtra.Count == 0 )
                 {
-                    if (DadosFuncionario.MultiploNomeEmpresa != null)
+                    if ( DadosFuncionario.MultiploNomeEmpresa != null )
                     {
-                        VerificaDados.InserirVinculoEmpregaticio(DadosTabelaFuncionario[0]["id"],
+                        VerificaDados.InserirVinculoEmpregaticio( DadosTabelaFuncionario [0] ["id"],
                             DadosFuncionario.MultiploNomeEmpresa, DadosFuncionario.MultiploCnpj,
-                            DadosFuncionario.MultiploRemuneracao, DadosFuncionario.MultiploComentario);
+                            DadosFuncionario.MultiploRemuneracao, DadosFuncionario.MultiploComentario );
                     }
                 }
                 else
                 {
-                    VerificaDados.AtualizaVinculoEmpregaticio(DadosTabelaFuncionario[0]["id"],
+                    VerificaDados.AtualizaVinculoEmpregaticio( DadosTabelaFuncionario [0] ["id"],
                         DadosFuncionario.MultiploNomeEmpresa, DadosFuncionario.MultiploCnpj,
-                        DadosFuncionario.MultiploRemuneracao, DadosFuncionario.MultiploComentario);
+                        DadosFuncionario.MultiploRemuneracao, DadosFuncionario.MultiploComentario );
                 }
-                VerificaDados.AtualizaDadosFuncionarioProfissional(DadosFuncionario.IdSetor.ToString(),
+                VerificaDados.AtualizaDadosFuncionarioProfissional( DadosFuncionario.IdSetor.ToString(),
                     DadosFuncionario.IdFuncao.ToString(), Login, DadosFuncionario.NumeroCTPS,
                     DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
                     DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                     DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
-                    DadosFuncionario.CpfIrrf,DadosFuncionario.IdHorario);
+                    DadosFuncionario.CpfIrrf, DadosFuncionario.IdHorario );
 
 
-                return RedirectToAction("Perfil", "PainelColaborador",
-                    new { Mensagem = "Dados Profissionais atualizados com sucesso !" });
+                return RedirectToAction( "Perfil", "PainelColaborador",
+                    new { Mensagem = "Dados Profissionais atualizados com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -337,39 +337,39 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
+                var Cookie = Request.Cookies.Get( "CookieFarm" );
+                var Login = Criptografa.Descriptografar( Cookie.Value );
 
                 var DescricaoSexo = "";
-                if (DadosFuncionario.DescricaoSexo == null)
+                if ( DadosFuncionario.DescricaoSexo == null )
                     DescricaoSexo = "NÃO INFORMOU";
                 else
                     DescricaoSexo = DadosFuncionario.DescricaoSexo;
 
 
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil( Login );
 
-                for (var i = 0; i < Formulario.Count; i++)
+                for ( var i = 0; i < Formulario.Count; i++ )
                 {
 
-                    if (Formulario.AllKeys[i].Contains("formacao"))
+                    if ( Formulario.AllKeys [i].Contains( "formacao" ) )
                     {
-                        var Tipo = "Tipo " + Formulario.GetKey(i).Split(' ')[1];
-                        VerificaDados.InserirFormacao(Formulario[i], DadosTabelaFuncionario[0]["id"],
-                            Formulario[Tipo]);
+                        var Tipo = "Tipo " + Formulario.GetKey( i ).Split( ' ' ) [1];
+                        VerificaDados.InserirFormacao( Formulario [i], DadosTabelaFuncionario [0] ["id"],
+                            Formulario [Tipo] );
                     }
 
-                    if (Formulario.AllKeys[i].Contains("Extra"))
+                    if ( Formulario.AllKeys [i].Contains( "Extra" ) )
                     {
-                        var IdFormacao = Formulario.AllKeys[i].Split('|');
-                        VerificaDados.AtualizaFormacao(Formulario[i], IdFormacao[1], Formulario["Tipo|" + IdFormacao[1]]);
+                        var IdFormacao = Formulario.AllKeys [i].Split( '|' );
+                        VerificaDados.AtualizaFormacao( Formulario [i], IdFormacao [1], Formulario ["Tipo|" + IdFormacao [1]] );
                     }
                 }
 
 
-                VerificaDados.AtualizaDadosFuncionarioDadosPessoais(DadosFuncionario.NomeFuncionario,
+                VerificaDados.AtualizaDadosFuncionarioDadosPessoais( DadosFuncionario.NomeFuncionario,
                     DadosFuncionario.CpfFuncionario, DadosFuncionario.RgFuncionario,
                     DadosFuncionario.PisFuncionario, DadosFuncionario.DataNascimentoFuncionario,
                     DadosFuncionario.IdSexo.ToString(), DescricaoSexo, DadosFuncionario.IdEtnia.ToString(),
@@ -385,79 +385,79 @@ namespace PortalSicoobDivicred.Controllers
                     , DadosFuncionario.DataValidadeCnh, DadosFuncionario.Oc, DadosFuncionario.OrgaoEmissorOc, DadosFuncionario.DataExpedicaoOc,
                     DadosFuncionario.DataValidadeOc, DadosFuncionario.DeficienteMotor, DadosFuncionario.DeficienteVisual, DadosFuncionario.DeficienteAuditivo,
                     DadosFuncionario.Reabilitado, DadosFuncionario.ObservacaoDeficiente, DadosFuncionario.IdEstadoCivilPais.ToString(), DadosFuncionario.OrgaoEmissorRg,
-                    DadosFuncionario.DataExpedicaoDocumentoRg,DadosFuncionario.IdHorario);
+                    DadosFuncionario.DataExpedicaoDocumentoRg, DadosFuncionario.IdHorario );
 
-                return RedirectToAction("Perfil", "PainelColaborador",
-                    new { Mensagem = "Dados Pessoais atualizados com sucesso !" });
+                return RedirectToAction( "Perfil", "PainelColaborador",
+                    new { Mensagem = "Dados Pessoais atualizados com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Upload()
         {
             var InserirFoto = new QueryMysql();
             var Logado = InserirFoto.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Arquivo = Request.Files[0];
-                var NomeArquivo = Path.GetFileName(Arquivo.FileName);
-                var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
+                var Arquivo = Request.Files [0];
+                var NomeArquivo = Path.GetFileName( Arquivo.FileName );
+                var Caminho = Path.Combine( Server.MapPath( "~/Uploads/" ), NomeArquivo );
 
-                if (System.IO.File.Exists(Caminho))
+                if ( System.IO.File.Exists( Caminho ) )
                 {
                     var counter = 1;
                     var tempfileName = "";
-                    while (System.IO.File.Exists(Caminho))
+                    while ( System.IO.File.Exists( Caminho ) )
                     {
                         tempfileName = counter + NomeArquivo;
-                        Caminho = Path.Combine(Server.MapPath("~/Uploads/"), tempfileName);
+                        Caminho = Path.Combine( Server.MapPath( "~/Uploads/" ), tempfileName );
                         counter++;
                     }
 
-                    Caminho = Path.Combine(Server.MapPath("~/Uploads/"), tempfileName);
-                    Arquivo.SaveAs(Caminho);
+                    Caminho = Path.Combine( Server.MapPath( "~/Uploads/" ), tempfileName );
+                    Arquivo.SaveAs( Caminho );
 
-                    var cookie = Request.Cookies.Get("CookieFarm");
-                    var Login = Criptografa.Descriptografar(cookie.Value);
-                    InserirFoto.AtualizaFoto(tempfileName, Login);
-                    return Content("Imagem alterada com sucesso!");
+                    var cookie = Request.Cookies.Get( "CookieFarm" );
+                    var Login = Criptografa.Descriptografar( cookie.Value );
+                    InserirFoto.AtualizaFoto( tempfileName, Login );
+                    return Content( "Imagem alterada com sucesso!" );
                 }
                 else
                 {
-                    Arquivo.SaveAs(Caminho);
-                    var cookie = Request.Cookies.Get("CookieFarm");
-                    var Login = Criptografa.Descriptografar(cookie.Value);
-                    InserirFoto.AtualizaFoto(NomeArquivo, Login);
-                    return Content("Imagem alterada com sucesso!");
+                    Arquivo.SaveAs( Caminho );
+                    var cookie = Request.Cookies.Get( "CookieFarm" );
+                    var Login = Criptografa.Descriptografar( cookie.Value );
+                    InserirFoto.AtualizaFoto( NomeArquivo, Login );
+                    return Content( "Imagem alterada com sucesso!" );
                 }
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult UploadArquivo(string Nome)
         {
             var InserirFoto = new QueryMysql();
             var Logado = InserirFoto.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Arquivo = Request.Files[0];
-                var NomeArquivo = Path.GetFileName(Arquivo.FileName);
-                var Caminho = Path.Combine(Server.MapPath("~/Uploads/"), NomeArquivo);
-                byte[] fileData = null;
-                using (var binaryReader = new BinaryReader(Arquivo.InputStream))
+                var Arquivo = Request.Files [0];
+                var NomeArquivo = Path.GetFileName( Arquivo.FileName );
+                var Caminho = Path.Combine( Server.MapPath( "~/Uploads/" ), NomeArquivo );
+                byte [] fileData = null;
+                using ( var binaryReader = new BinaryReader( Arquivo.InputStream ) )
                 {
-                    fileData = binaryReader.ReadBytes(Arquivo.ContentLength);
+                    fileData = binaryReader.ReadBytes( Arquivo.ContentLength );
                 }
 
-                var cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(cookie.Value);
-                InserirFoto.AtualizarArquivoPessoal(NomeArquivo, fileData, Login);
-                return Content("Imagem alterada com sucesso!");
+                var cookie = Request.Cookies.Get( "CookieFarm" );
+                var Login = Criptografa.Descriptografar( cookie.Value );
+                InserirFoto.AtualizarArquivoPessoal( NomeArquivo, fileData, Login );
+                return Content( "Imagem alterada com sucesso!" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -465,65 +465,65 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
+                var Cookie = Request.Cookies.Get( "CookieFarm" );
+                var Login = Criptografa.Descriptografar( Cookie.Value );
                 var DataNascimentoFilho = "";
-                if (DadosFuncionario.DataNascimentoFilho == null)
+                if ( DadosFuncionario.DataNascimentoFilho == null )
                     DataNascimentoFilho = "NÂO TEM";
                 else
                     DataNascimentoFilho = DadosFuncionario.DataNascimentoFilho;
-                VerificaDados.AtualizaDadosFuncionarioPerguntas(Login, DadosFuncionario.QuatidadeFilho,
+                VerificaDados.AtualizaDadosFuncionarioPerguntas( Login, DadosFuncionario.QuatidadeFilho,
                     DataNascimentoFilho, DadosFuncionario.ContatoEmergencia,
-                    DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem, DadosFuncionario.ContribuicaoSindical, DadosFuncionario.NotificacaoEmail);
+                    DadosFuncionario.PrincipaisHobbies, DadosFuncionario.ComidaFavorita, DadosFuncionario.Viagem, DadosFuncionario.ContribuicaoSindical, DadosFuncionario.NotificacaoEmail );
 
-                return RedirectToAction("Perfil", "PainelColaborador",
-                    new { Mensagem = "Formulário Pessoal atualizado com sucesso !" });
+                return RedirectToAction( "Perfil", "PainelColaborador",
+                    new { Mensagem = "Formulário Pessoal atualizado com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult ColaboradorRh(string Mensagem)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var CarregaDados = new QueryMysql();
-                TempData["Mensagem"] = Mensagem;
+                TempData ["Mensagem"] = Mensagem;
 
-                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Cookie = Request.Cookies.Get( "CookieFarm" );
 
-                var Login = Criptografa.Descriptografar(Cookie.Value);
-                if (CarregaDados.PrimeiroLogin(Login))
-                    return RedirectToAction("FormularioCadastro", "Principal");
-                var DadosUsuarioBanco = CarregaDados.RecuperaDadosUsuarios(Login);
+                var Login = Criptografa.Descriptografar( Cookie.Value );
+                if ( CarregaDados.PrimeiroLogin( Login ) )
+                    return RedirectToAction( "FormularioCadastro", "Principal" );
+                var DadosUsuarioBanco = CarregaDados.RecuperaDadosUsuarios( Login );
 
 
-                if (CarregaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoCurriculo"] =
+                if ( CarregaDados.PermissaoCurriculos( DadosUsuarioBanco [0] ["login"] ) )
+                    TempData ["PermissaoCurriculo"] =
                         " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
                 else
-                    TempData["PermissaoCurriculo"] = "";
-                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                    TempData ["PermissaoCurriculo"] = "";
+                if ( DadosUsuarioBanco [0] ["gestor"].Equals( "S" ) )
                 {
-                    TempData["PermissaoGestor"] = "";
-                    TempData["AreaGestor"] = "";
+                    TempData ["PermissaoGestor"] = "";
+                    TempData ["AreaGestor"] = "";
                 }
                 else
                 {
-                    TempData["PermissaoGestor"] = "hidden";
-                    TempData["AreaGestor"] = "hidden";
+                    TempData ["PermissaoGestor"] = "hidden";
+                    TempData ["AreaGestor"] = "hidden";
                 }
 
-                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
-                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
-                if (DadosUsuarioBanco[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                TempData ["NomeLateral"] = DadosUsuarioBanco [0] ["login"];
+                TempData ["EmailLateral"] = DadosUsuarioBanco [0] ["email"];
+                if ( DadosUsuarioBanco [0] ["foto"] == null )
+                    TempData ["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                 else
-                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+                    TempData ["ImagemPerfil"] = DadosUsuarioBanco [0] ["foto"];
 
 
                 var DadosColaborador = CarregaDados.RecuperaDadosFuncionariosSetor();
@@ -531,193 +531,193 @@ namespace PortalSicoobDivicred.Controllers
                 var QueryRh = new QueryMysqlRh();
                 var VagasInternas = QueryRh.RetornaVagaInternaTotal();
 
-                TempData["TotalColaborador"] = DadosColaborador.Count;
-                TempData["Total"] = VagasInternas.Count;
+                TempData ["TotalColaborador"] = DadosColaborador.Count;
+                TempData ["Total"] = VagasInternas.Count;
 
                 var Validacoes = new ValidacoesPonto();
                 var TabelasPonto = Validacoes.RetornaPendenciasMysql();
-                TempData["ExtraJustifica1"] = "hidden";
-                TempData["ExtraJustifica2"] = "hidden";
+                TempData ["ExtraJustifica1"] = "hidden";
+                TempData ["ExtraJustifica2"] = "hidden";
 
                 #region Preenchimento pendencias MYSQL
 
-                TempData["TotalSemConfirmar"] = TabelasPonto.Count;
-                for (var i = 0; i < TabelasPonto.Count; i++)
+                TempData ["TotalSemConfirmar"] = TabelasPonto.Count;
+                for ( var i = 0; i < TabelasPonto.Count; i++ )
                 {
-                    TempData["IdPendencia" + i] = TabelasPonto[i]["IdPendencia"];
+                    TempData ["IdPendencia" + i] = TabelasPonto [i] ["IdPendencia"];
 
 
-                    TempData["NomePendencia" + i] = TabelasPonto[i]["Nome"];
+                    TempData ["NomePendencia" + i] = TabelasPonto [i] ["Nome"];
 
 
-                    TempData["DiaPendencia" + i] =
-                        Convert.ToDateTime(TabelasPonto[i]["Data"]).ToString("dd/MM/yyyy");
+                    TempData ["DiaPendencia" + i] =
+                        Convert.ToDateTime( TabelasPonto [i] ["Data"] ).ToString( "dd/MM/yyyy" );
 
-                    TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(TabelasPonto[i]["TotalHorario"]);
+                    TempData ["TotalHorarioPendencia" + i] = Convert.ToInt32( TabelasPonto [i] ["TotalHorario"] );
 
-                    for (var j = 0; j < Convert.ToInt32(TabelasPonto[i]["TotalHorario"]); j++)
-                        TempData["Hora" + j + "Pendencia" + i] = TabelasPonto[i]["Horario" + j];
+                    for ( var j = 0; j < Convert.ToInt32( TabelasPonto [i] ["TotalHorario"] ); j++ )
+                        TempData ["Hora" + j + "Pendencia" + i] = TabelasPonto [i] ["Horario" + j];
 
-                    if (4 - Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) > 0)
-                        TempData["TotalHorarioPendencia" + i] = 4;
+                    if ( 4 - Convert.ToInt32( TabelasPonto [i] ["TotalHorario"] ) > 0 )
+                        TempData ["TotalHorarioPendencia" + i] = 4;
 
-                    if (Convert.ToBoolean(TabelasPonto[i]["Justificado"]))
+                    if ( Convert.ToBoolean( TabelasPonto [i] ["Justificado"] ) )
                     {
-                        TempData["StatusJustificativa" + i] = "green";
-                        TempData["Justificativa" + i] = TabelasPonto[i]["Justificativa" + i];
-                        TempData["Esconde" + i] = "";
+                        TempData ["StatusJustificativa" + i] = "green";
+                        TempData ["Justificativa" + i] = TabelasPonto [i] ["Justificativa" + i];
+                        TempData ["Esconde" + i] = "";
                     }
                     else
                     {
-                        TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
-                        TempData["StatusJustificativa" + i] = "red";
-                        TempData["Esconde" + i] = "hidden";
+                        TempData ["Justificativa" + i] = "NÃO JUSTIFICADO";
+                        TempData ["StatusJustificativa" + i] = "red";
+                        TempData ["Esconde" + i] = "hidden";
                     }
 
-                    TempData["StatusJustificativaGetor" + i] = TabelasPonto[i]["ConfirmaGestor"];
-                    if (Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) == 5)
+                    TempData ["StatusJustificativaGetor" + i] = TabelasPonto [i] ["ConfirmaGestor"];
+                    if ( Convert.ToInt32( TabelasPonto [i] ["TotalHorario"] ) == 5 )
                     {
-                        TempData["ExtraJustifica1"] = "";
+                        TempData ["ExtraJustifica1"] = "";
                     }
-                    else if (Convert.ToInt32(TabelasPonto[i]["TotalHorario"]) == 6)
+                    else if ( Convert.ToInt32( TabelasPonto [i] ["TotalHorario"] ) == 6 )
                     {
-                        TempData["ExtraJustifica1"] = "";
-                        TempData["ExtraJustifica2"] = "";
+                        TempData ["ExtraJustifica1"] = "";
+                        TempData ["ExtraJustifica2"] = "";
                     }
                 }
 
                 #endregion
 
 
-                for (var j = 0; j < VagasInternas.Count; j++)
+                for ( var j = 0; j < VagasInternas.Count; j++ )
 
                 {
-                    TempData["Titulo " + j] = VagasInternas[j]["titulo"];
-                    TempData["DescricaoVaga " + j] = VagasInternas[j]["descricao"];
-                    TempData["IdVaga " + j] = VagasInternas[j]["id"];
-                    if (VagasInternas[j]["encerrada"].Equals("N"))
-                        TempData["StatusVaga " + j] = "green";
+                    TempData ["Titulo " + j] = VagasInternas [j] ["titulo"];
+                    TempData ["DescricaoVaga " + j] = VagasInternas [j] ["descricao"];
+                    TempData ["IdVaga " + j] = VagasInternas [j] ["id"];
+                    if ( VagasInternas [j] ["encerrada"].Equals( "N" ) )
+                        TempData ["StatusVaga " + j] = "green";
                     else
-                        TempData["StatusVaga " + j] = "red";
+                        TempData ["StatusVaga " + j] = "red";
                 }
 
-                for (var i = 0; i < DadosColaborador.Count; i++)
+                for ( var i = 0; i < DadosColaborador.Count; i++ )
                 {
-                    TempData["Nome" + i] = DadosColaborador[i]["nome"];
-                    TempData["Setor" + i] = DadosColaborador[i]["setor"];
-                    TempData["PA" + i] = DadosColaborador[i]["idpa"];
-                    TempData["Login" + i] = DadosColaborador[i]["login"];
+                    TempData ["Nome" + i] = DadosColaborador [i] ["nome"];
+                    TempData ["Setor" + i] = DadosColaborador [i] ["setor"];
+                    TempData ["PA" + i] = DadosColaborador [i] ["idpa"];
+                    TempData ["Login" + i] = DadosColaborador [i] ["login"];
                     try
                     {
-                        if (DadosColaborador[i]["foto"].Equals("0") || DadosColaborador[i]["foto"] == null)
-                            TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        if ( DadosColaborador [i] ["foto"].Equals( "0" ) || DadosColaborador [i] ["foto"] == null )
+                            TempData ["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                         else
-                            TempData["Imagem" + i] = "/Uploads/" + DadosColaborador[i]["foto"] + "";
+                            TempData ["Imagem" + i] = "/Uploads/" + DadosColaborador [i] ["foto"] + "";
                     }
                     catch
                     {
-                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        TempData ["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     }
                 }
 
 
-                return View("ColaboradorRh");
+                return View( "ColaboradorRh" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult PerfilFuncionario(string Login)
         {
             var VerificaDados = new QueryMysql();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil(Login);
+                var DadosTabelaFuncionario = VerificaDados.RecuperaDadosFuncionariosTabelaFuncionariosPerfil( Login );
 
 
-                var DocumentosUpados = VerificaDados.RetornaDocumentosFuncionario(Login);
+                var DocumentosUpados = VerificaDados.RetornaDocumentosFuncionario( Login );
 
-                for (var i = 0; i < DocumentosUpados.Rows.Count; i++)
+                for ( var i = 0; i < DocumentosUpados.Rows.Count; i++ )
                 {
-                    TempData["Status" + DocumentosUpados.Rows[i]["nomearquivo"]] = "is-success";
-                    TempData["Nome" + DocumentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
+                    TempData ["Status" + DocumentosUpados.Rows [i] ["nomearquivo"]] = "is-success";
+                    TempData ["Nome" + DocumentosUpados.Rows [i] ["nomearquivo"]] = "Arquivo Enviado";
 
-                    var bytes = (byte[])DocumentosUpados.Rows[i]["arquivo"];
-                    var img64 = Convert.ToBase64String(bytes);
-                    var img64Url = string.Format("data:image/;base64,{0}", img64);
-                    TempData["Imagem" + DocumentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                    var bytes = ( byte [] ) DocumentosUpados.Rows [i] ["arquivo"];
+                    var img64 = Convert.ToBase64String( bytes );
+                    var img64Url = string.Format( "data:image/;base64,{0}", img64 );
+                    TempData ["Imagem" + DocumentosUpados.Rows [i] ["nomearquivo"]] = img64Url;
                 }
 
                 var DadosFuncionario = new Funcionario();
 
 
-                DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario[0]["nome"];
-                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario[0]["cpf"];
-                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario[0]["rg"];
-                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario[0]["pis"];
+                DadosFuncionario.NomeFuncionario = DadosTabelaFuncionario [0] ["nome"];
+                DadosFuncionario.CpfFuncionario = DadosTabelaFuncionario [0] ["cpf"];
+                DadosFuncionario.RgFuncionario = DadosTabelaFuncionario [0] ["rg"];
+                DadosFuncionario.PisFuncionario = DadosTabelaFuncionario [0] ["pis"];
                 DadosFuncionario.DataNascimentoFuncionario =
-                    Convert.ToDateTime(DadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
-                DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario[0]["formacaoacademica"];
-                DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario[0]["login"];
-                DadosFuncionario.Email = DadosTabelaFuncionario[0]["email"];
-                DadosFuncionario.PA = DadosTabelaFuncionario[0]["idpa"];
-                DadosFuncionario.Rua = DadosTabelaFuncionario[0]["rua"];
-                DadosFuncionario.Numero = DadosTabelaFuncionario[0]["numero"];
-                DadosFuncionario.Bairro = DadosTabelaFuncionario[0]["bairro"];
-                DadosFuncionario.Cidade = DadosTabelaFuncionario[0]["cidade"];
-                DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario[0]["quantidadefilho"];
-                DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario[0]["datanascimentofilho"];
-                DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario[0]["contatoemergencia"];
-                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario[0]["principalhobbie"];
-                DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario[0]["comidafavorita"];
-                DadosFuncionario.Viagem = DadosTabelaFuncionario[0]["viagem"];
-                DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario[0]["descricaosexo"];
+                    Convert.ToDateTime( DadosTabelaFuncionario [0] ["datanascimento"] ).ToString( "dd/MM/yyyy" );
+                DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario [0] ["formacaoacademica"];
+                DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario [0] ["login"];
+                DadosFuncionario.Email = DadosTabelaFuncionario [0] ["email"];
+                DadosFuncionario.PA = DadosTabelaFuncionario [0] ["idpa"];
+                DadosFuncionario.Rua = DadosTabelaFuncionario [0] ["rua"];
+                DadosFuncionario.Numero = DadosTabelaFuncionario [0] ["numero"];
+                DadosFuncionario.Bairro = DadosTabelaFuncionario [0] ["bairro"];
+                DadosFuncionario.Cidade = DadosTabelaFuncionario [0] ["cidade"];
+                DadosFuncionario.QuatidadeFilho = DadosTabelaFuncionario [0] ["quantidadefilho"];
+                DadosFuncionario.DataNascimentoFilho = DadosTabelaFuncionario [0] ["datanascimentofilho"];
+                DadosFuncionario.ContatoEmergencia = DadosTabelaFuncionario [0] ["contatoemergencia"];
+                DadosFuncionario.PrincipaisHobbies = DadosTabelaFuncionario [0] ["principalhobbie"];
+                DadosFuncionario.ComidaFavorita = DadosTabelaFuncionario [0] ["comidafavorita"];
+                DadosFuncionario.Viagem = DadosTabelaFuncionario [0] ["viagem"];
+                DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario [0] ["descricaosexo"];
 
-                if (DadosTabelaFuncionario[0]["foto"] == null)
-                    TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
+                if ( DadosTabelaFuncionario [0] ["foto"] == null )
+                    TempData ["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
-                    TempData["Foto"] = "/Uploads/" + DadosTabelaFuncionario[0]["foto"];
+                    TempData ["Foto"] = "/Uploads/" + DadosTabelaFuncionario [0] ["foto"];
 
-                TempData["DataAdmissao"] =
-                    Convert.ToDateTime(DadosTabelaFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
+                TempData ["DataAdmissao"] =
+                    Convert.ToDateTime( DadosTabelaFuncionario [0] ["admissao"] ).ToString( "dd/MM/yyyy" );
 
-                TempData["Genero"] = VerificaDados.RetornaGeneroFuncionario(DadosTabelaFuncionario[0]["sexo"]);
-                TempData["Setor"] = VerificaDados.RetornaSetorFuncionario(DadosTabelaFuncionario[0]["idsetor"]);
-                TempData["Funcao"] = VerificaDados.RetornaFuncaoFuncionario(DadosTabelaFuncionario[0]["funcao"]);
-                TempData["Educacional"] =
-                    VerificaDados.RetornaEscolaridadeFuncionario(DadosTabelaFuncionario[0]["idescolaridade"]);
-                TempData["EstadoCivil"] =
-                    VerificaDados.RetornaEstadoCivilFuncionario(DadosTabelaFuncionario[0]["idestadocivil"]);
-                TempData["Etinia"] = VerificaDados.RetornaEtiniaFuncionario(DadosTabelaFuncionario[0]["etnia"]);
+                TempData ["Genero"] = VerificaDados.RetornaGeneroFuncionario( DadosTabelaFuncionario [0] ["sexo"] );
+                TempData ["Setor"] = VerificaDados.RetornaSetorFuncionario( DadosTabelaFuncionario [0] ["idsetor"] );
+                TempData ["Funcao"] = VerificaDados.RetornaFuncaoFuncionario( DadosTabelaFuncionario [0] ["funcao"] );
+                TempData ["Educacional"] =
+                    VerificaDados.RetornaEscolaridadeFuncionario( DadosTabelaFuncionario [0] ["idescolaridade"] );
+                TempData ["EstadoCivil"] =
+                    VerificaDados.RetornaEstadoCivilFuncionario( DadosTabelaFuncionario [0] ["idestadocivil"] );
+                TempData ["Etinia"] = VerificaDados.RetornaEtiniaFuncionario( DadosTabelaFuncionario [0] ["etnia"] );
 
-                TempData["NomeFuncionario"] = DadosTabelaFuncionario[0]["nome"];
+                TempData ["NomeFuncionario"] = DadosTabelaFuncionario [0] ["nome"];
 
-                var formacao = VerificaDados.RetornaFormacaoFuncionario(DadosTabelaFuncionario[0]["id"]);
-                TempData["TotalFormacao"] = formacao.Count;
-                for (var i = 0; i < formacao.Count; i++)
-                    TempData["Formacao " + i] = formacao[0]["descricao"];
+                var formacao = VerificaDados.RetornaFormacaoFuncionario( DadosTabelaFuncionario [0] ["id"] );
+                TempData ["TotalFormacao"] = formacao.Count;
+                for ( var i = 0; i < formacao.Count; i++ )
+                    TempData ["Formacao " + i] = formacao [0] ["descricao"];
 
-                TempData["Salario"] = DadosTabelaFuncionario[0]["salariobase"];
-                TempData["QuebraCaixa"] = DadosTabelaFuncionario[0]["quebradecaixa"];
-                TempData["Anuenio"] = DadosTabelaFuncionario[0]["anuenio"];
-                TempData["Ticket"] = DadosTabelaFuncionario[0]["ticket"];
+                TempData ["Salario"] = DadosTabelaFuncionario [0] ["salariobase"];
+                TempData ["QuebraCaixa"] = DadosTabelaFuncionario [0] ["quebradecaixa"];
+                TempData ["Anuenio"] = DadosTabelaFuncionario [0] ["anuenio"];
+                TempData ["Ticket"] = DadosTabelaFuncionario [0] ["ticket"];
 
-                if (DadosTabelaFuncionario[0]["estagiario"].Equals("S"))
+                if ( DadosTabelaFuncionario [0] ["estagiario"].Equals( "S" ) )
                 {
-                    TempData["Estagiario"] = "SIM";
-                    TempData["DataEstagio"] = DadosTabelaFuncionario[0]["contratoestagio"];
+                    TempData ["Estagiario"] = "SIM";
+                    TempData ["DataEstagio"] = DadosTabelaFuncionario [0] ["contratoestagio"];
                 }
                 else
                 {
-                    TempData["Estagiario"] = "NÃO";
-                    TempData["DataEstagio"] = "-";
+                    TempData ["Estagiario"] = "NÃO";
+                    TempData ["DataEstagio"] = "-";
                 }
 
-                return PartialView("ModalPerfil", DadosFuncionario);
+                return PartialView( "ModalPerfil", DadosFuncionario );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
 
@@ -726,58 +726,57 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-                if (ModelState.IsValid)
+            if ( Logado )
+                if ( ModelState.IsValid )
                 {
-                    VerificaDados.CadastraVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao);
+                    VerificaDados.CadastraVagaInterna( DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Descricao );
 
-                    return RedirectToAction("ColaboradorRH", "PainelColaborador",
-                        new { Mensagem = "Vaga interna criada com sucesso !" });
+                    return RedirectToAction( "ColaboradorRH", "PainelColaborador",
+                        new { Mensagem = "Vaga interna criada com sucesso !" } );
                 }
                 else
                 {
-                    return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                        new { Mensagem = "Vaga interna não cadastrada !" });
+                    return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                        new { Mensagem = "Vaga interna não cadastrada !" } );
                 }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Vaga()
         {
-            return PartialView("ModalVagaInterna");
+            return PartialView( "ModalVagaInterna" );
         }
-
 
         public ActionResult AlterarVaga(string IdVaga)
         {
             var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var QueryRh = new QueryMysqlRh();
-                var DadosVaga = QueryRh.RetornaVaga(IdVaga);
+                var DadosVaga = QueryRh.RetornaVaga( IdVaga );
                 var Vaga = new VagasInternas();
-                Vaga.Titulo = DadosVaga[0]["titulo"];
-                Vaga.Descricao = DadosVaga[0]["descricao"];
-                Vaga.Requisitos = DadosVaga[0]["requisito"];
-                TempData["IdVaga"] = IdVaga;
+                Vaga.Titulo = DadosVaga [0] ["titulo"];
+                Vaga.Descricao = DadosVaga [0] ["descricao"];
+                Vaga.Requisitos = DadosVaga [0] ["requisito"];
+                TempData ["IdVaga"] = IdVaga;
 
-                if (DadosVaga[0]["encerrada"].Equals("N"))
+                if ( DadosVaga [0] ["encerrada"].Equals( "N" ) )
                 {
-                    TempData["Ativa"] = "checked";
-                    TempData["Status"] = "Ativa";
+                    TempData ["Ativa"] = "checked";
+                    TempData ["Status"] = "Ativa";
                 }
                 else
                 {
-                    TempData["Ativa"] = "";
-                    TempData["Status"] = "Desativada";
+                    TempData ["Ativa"] = "";
+                    TempData ["Status"] = "Desativada";
                 }
 
-                return PartialView("ModalEditarVagaInterna", Vaga);
+                return PartialView( "ModalEditarVagaInterna", Vaga );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -785,73 +784,73 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-                if (ModelState.IsValid)
+            if ( Logado )
+                if ( ModelState.IsValid )
                 {
                     var QueryRh = new QueryMysqlRh();
 
-                    QueryRh.AtualizaVagaInterna(DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
-                        Formulario["IdVaga"]);
-                    return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                        new { Mensagem = "Vaga alterada com sucesso!" });
+                    QueryRh.AtualizaVagaInterna( DadosVaga.Titulo, DadosVaga.Descricao, DadosVaga.Requisitos,
+                        Formulario ["IdVaga"] );
+                    return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                        new { Mensagem = "Vaga alterada com sucesso!" } );
                 }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult GerenciarVaga(string IdVaga, string Mensagem)
         {
             var VerificaDados = new QueryMysqlCurriculo();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                TempData["Mensagem"] = Mensagem;
+                TempData ["Mensagem"] = Mensagem;
 
                 var RecuperaDados = new QueryMysqlRh();
-                var DadosCurriculos = RecuperaDados.RecuperaFuncionariosVaga(IdVaga);
-                var DadosVaga = RecuperaDados.RetornaVaga(IdVaga);
-                TempData["TotalCurriculo"] = DadosCurriculos.Count;
-                TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + DadosCurriculos.Count;
-                TempData["TituloVaga"] = IdVaga + "-" + DadosVaga[0]["titulo"];
-                TempData["DescricaoVaga"] = DadosVaga[0]["descricao"];
-                TempData["IdVaga"] = IdVaga;
+                var DadosCurriculos = RecuperaDados.RecuperaFuncionariosVaga( IdVaga );
+                var DadosVaga = RecuperaDados.RetornaVaga( IdVaga );
+                TempData ["TotalCurriculo"] = DadosCurriculos.Count;
+                TempData ["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + DadosCurriculos.Count;
+                TempData ["TituloVaga"] = IdVaga + "-" + DadosVaga [0] ["titulo"];
+                TempData ["DescricaoVaga"] = DadosVaga [0] ["descricao"];
+                TempData ["IdVaga"] = IdVaga;
 
-                for (var i = 0; i < DadosCurriculos.Count; i++)
+                for ( var i = 0; i < DadosCurriculos.Count; i++ )
                 {
-                    TempData["Id " + i] = DadosCurriculos[i]["id"];
-                    TempData["IdFuncionario" + i] = "IdFuncionario | " + DadosCurriculos[i]["id"];
-                    TempData["Nome" + i] = DadosCurriculos[i]["nome"];
-                    TempData["Login" + i] = DadosCurriculos[i]["login"];
-                    TempData["Setor" + i] = DadosCurriculos[i]["setorfuncionario"];
-                    TempData["PA" + i] = DadosCurriculos[i]["idpa"];
-                    TempData["ResultadoObservacao" + i] = DadosCurriculos[0]["observacao"];
-                    if (Convert.ToBoolean(DadosCurriculos[i]["aprovado"]))
-                        TempData["Resultado" + i] = "checked";
+                    TempData ["Id " + i] = DadosCurriculos [i] ["id"];
+                    TempData ["IdFuncionario" + i] = "IdFuncionario | " + DadosCurriculos [i] ["id"];
+                    TempData ["Nome" + i] = DadosCurriculos [i] ["nome"];
+                    TempData ["Login" + i] = DadosCurriculos [i] ["login"];
+                    TempData ["Setor" + i] = DadosCurriculos [i] ["setorfuncionario"];
+                    TempData ["PA" + i] = DadosCurriculos [i] ["idpa"];
+                    TempData ["ResultadoObservacao" + i] = DadosCurriculos [0] ["observacao"];
+                    if ( Convert.ToBoolean( DadosCurriculos [i] ["aprovado"] ) )
+                        TempData ["Resultado" + i] = "checked";
                     else
-                        TempData["Resultado" + i] = "";
+                        TempData ["Resultado" + i] = "";
 
-                    if (DadosCurriculos[i]["foto"].Equals("0"))
-                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    if ( DadosCurriculos [i] ["foto"].Equals( "0" ) )
+                        TempData ["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
                     else
-                        TempData["Imagem" + i] = "/Uploads/" +
-                                                 DadosCurriculos[i]["foto"] + "";
+                        TempData ["Imagem" + i] = "/Uploads/" +
+                                                 DadosCurriculos [i] ["foto"] + "";
                 }
 
-                if (DadosVaga[0]["encerrada"].Equals("N"))
+                if ( DadosVaga [0] ["encerrada"].Equals( "N" ) )
                 {
-                    TempData["Ativa"] = "";
-                    TempData["Dica"] = "Clique para encerrar esta vaga.";
+                    TempData ["Ativa"] = "";
+                    TempData ["Dica"] = "Clique para encerrar esta vaga.";
                 }
                 else
                 {
-                    TempData["Ativa"] = "disabled";
-                    TempData["Dica"] = "Esta vaga já esta encerrada.";
+                    TempData ["Ativa"] = "disabled";
+                    TempData ["Dica"] = "Esta vaga já esta encerrada.";
                 }
 
-                return View("GerenciarVaga");
+                return View( "GerenciarVaga" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -859,16 +858,16 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                for (var i = 0; i < Formulario.Count; i++)
-                    if (Formulario.AllKeys[i].Contains("IdFuncionario"))
+                for ( var i = 0; i < Formulario.Count; i++ )
+                    if ( Formulario.AllKeys [i].Contains( "IdFuncionario" ) )
                     {
-                        var IdFuncionario = Formulario[i];
+                        var IdFuncionario = Formulario [i];
                         var Aprovado = false;
                         try
                         {
-                            if (Formulario["Aprovado " + IdFuncionario].Equals("on"))
+                            if ( Formulario ["Aprovado " + IdFuncionario].Equals( "on" ) )
                                 Aprovado = true;
                             else
                                 Aprovado = false;
@@ -878,88 +877,88 @@ namespace PortalSicoobDivicred.Controllers
                             Aprovado = false;
                         }
 
-                        var Observacao = Formulario["observacao " + IdFuncionario];
-                        VerificaDados.AtualizaStatus(Formulario["vaga"], IdFuncionario, Aprovado, Observacao);
+                        var Observacao = Formulario ["observacao " + IdFuncionario];
+                        VerificaDados.AtualizaStatus( Formulario ["vaga"], IdFuncionario, Aprovado, Observacao );
                     }
 
-                VerificaDados.EncerraVaga(Formulario["vaga"]);
-                return RedirectToAction("GerenciarVaga", "PainelColaborador",
-                    new { IdVaga = Formulario["vaga"], Mensagem = "Vaga interna encerrada com sucesso !" });
+                VerificaDados.EncerraVaga( Formulario ["vaga"] );
+                return RedirectToAction( "GerenciarVaga", "PainelColaborador",
+                    new { IdVaga = Formulario ["vaga"], Mensagem = "Vaga interna encerrada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
-        public async Task<JsonResult> ConfirmarPendencia(Item[] TabelaPendencias)
+        public async Task<JsonResult> ConfirmarPendencia(Item [] TabelaPendencias)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                for (var i = 0; i < TabelaPendencias.Length; i++)
+                for ( var i = 0; i < TabelaPendencias.Length; i++ )
                 {
                     var RecuperaId = new QueryMysql();
                     var DadosFuncionario =
                         RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
-                            TabelaPendencias[i].Nome.Replace("'", ""));
+                            TabelaPendencias [i].Nome.Replace( "'", "" ) );
                     try
                     {
-                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"],
-                            Convert.ToDateTime(TabelaPendencias[i].Dia));
-                        if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
+                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa( DadosFuncionario [0] ["id"],
+                            Convert.ToDateTime( TabelaPendencias [i].Dia ) );
+                        if ( TabelaPendencias [i].Horario1.Length == 0 || TabelaPendencias [i].Horario1.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario1 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
+                        if ( TabelaPendencias [i].Horario2.Length == 0 || TabelaPendencias [i].Horario2.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario2 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
+                        if ( TabelaPendencias [i].Horario3.Length == 0 || TabelaPendencias [i].Horario3.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario3 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
+                        if ( TabelaPendencias [i].Horario4.Length == 0 || TabelaPendencias [i].Horario4.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario4 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario5.Length == 0 || TabelaPendencias[i].Horario5.Contains("--"))
+                        if ( TabelaPendencias [i].Horario5.Length == 0 || TabelaPendencias [i].Horario5.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario5), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario5 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario6.Length == 0 || TabelaPendencias[i].Horario4.Contains("--") ||
-                            TabelaPendencias[i].Horario6.Contains("<"))
+                        if ( TabelaPendencias [i].Horario6.Length == 0 || TabelaPendencias [i].Horario4.Contains( "--" ) ||
+                            TabelaPendencias [i].Horario6.Contains( "<" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario6), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario6 ), TabelaPendencias [i].Id, "0" );
                         }
                     }
                     catch
@@ -967,21 +966,131 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
 
-                  #region Alerta Funcionario
+                    #region Alerta Funcionario
 
 
                     var Envia = new EnviodeAlertas();
                     var CadastroAlerta = new QueryMysql();
 
                     var DadosOperador =
-                        CadastroAlerta.RetornaInformacoesNotificacao(DadosFuncionario[0]["id"].ToString());
+                        CadastroAlerta.RetornaInformacoesNotificacao( DadosFuncionario [0] ["id"].ToString() );
 
-                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    if ( DadosOperador [0] ["notificacaoemail"].Equals( "Sim" ) )
                     {
-                        CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
-                            "Você tem justificativas pendentes.");
+                        CadastroAlerta.cadastrarAlert( DadosFuncionario [0] ["id"], "11",
+                            "Você tem justificativas pendentes." );
 
-                       await Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
+                        await Envia.EnviaEmail( DadosOperador [0] ["email"], "Você tem justificativas pendentes." );
+                        try
+                        {
+                            if ( DadosOperador [0] ["idnotificacao"].ToString().Length > 0 )
+                            {
+                                Envia.CadastraAlerta( DadosOperador [0] ["idnotificacao"],
+                                    "Você tem justificativas pendentes." );
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert( DadosFuncionario [0] ["id"], "11",
+                            "Você tem justificativas pendentes." );
+                        try
+                        {
+                            if ( DadosOperador [0] ["idnotificacao"].ToString().Length > 0 )
+                            {
+                                Envia.CadastraAlerta( DadosOperador [0] ["idnotificacao"],
+                                    "Você tem justificativas pendentes." );
+                            }
+                        }
+                        catch { }
+                    }
+                    #endregion
+
+                    #region Alerta Gestor
+
+                    try
+                    {
+                        var DadosGestor =
+                            CadastroAlerta.RetornaInformacoesGestor( DadosOperador [0] ["idsetor"] );
+
+                        if ( DadosGestor [0] ["notificacaoemail"].Equals( "Sim" ) )
+                        {
+                            CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                                "O funcionário " + DadosOperador [0] ["nome"] + " tem justificativas pendentes" );
+
+                            await Envia.EnviaEmail( DadosGestor [0] ["email"],
+                                  "O funcionário " + DadosOperador [0] ["nome"] + " tem justificativas pendentes" );
+
+                            if ( DadosGestor [0] ["id"].ToString().Length > 0 )
+                            {
+                                Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"],
+                                    "O funcionário " + DadosOperador [0] ["nome"] + " tem justificativas pendentes" );
+                            }
+                        }
+                        else
+                        {
+                            CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                                "O funcionário " + DadosOperador [0] ["nome"] + " tem justificativas pendentes" );
+
+                            if ( DadosGestor [0] ["idnotificacao"].ToString().Length > 0 )
+                            {
+                                Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"],
+                                    "O funcionário " + DadosOperador [0] ["nome"] + " tem justificativas pendentes" );
+                            }
+                        }
+                    }
+                    catch { }
+
+                    #endregion
+                }
+
+                return Json( "Ok" );
+            }
+
+            return Json( "Ok" );
+        }
+
+        public ActionResult NegarJustificativa(string IdHistorico)
+        {
+            var QueryRh = new QueryMysqlRh();
+            QueryRh.NegaJustificativa( IdHistorico );
+            QueryRh.NegaJustificativaGestor( IdHistorico );
+            return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                new { Mensagem = "Pendencia negada com sucesso !" } );
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CadastraAlerta(FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if ( Logado )
+            {
+                var FuncionarioPendentes = VerificaDados.RetornaPendenciaAlerta();
+                for ( var i = 0; i < FuncionarioPendentes.Count; i++ )
+                {
+                    VerificaDados.CadastraAlertaJustificativa( FuncionarioPendentes [i] ["idfuncionario"],
+                        Dados ["TextAlerta"] );
+
+                    #region Alerta Funcionario
+
+
+                    var Envia = new EnviodeAlertas();
+                    var CadastroAlerta = new QueryMysql();
+
+                    var DadosOperador =
+                        CadastroAlerta.RetornaInformacoesNotificacao( FuncionarioPendentes [i] ["idfuncionario"] );
+
+                    if ( DadosOperador [0] ["notificacaoemail"].Equals( "Sim" ) )
+                    {
+                        CadastroAlerta.cadastrarAlert( FuncionarioPendentes [i] ["idfuncionario"], "11",
+                            "Você tem justificativas pendentes." );
+
+                        await Envia.EnviaEmail( DadosOperador [0] ["email"], "Você tem justificativas pendentes." );
                         try
                         {
                             if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
@@ -997,8 +1106,8 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     else
                     {
-                        CadastroAlerta.cadastrarAlert(DadosFuncionario[0]["id"], "11",
-                            "Você tem justificativas pendentes.");
+                        CadastroAlerta.cadastrarAlert( FuncionarioPendentes [i] ["idfuncionario"], "11",
+                            "Você tem justificativas pendentes." );
                         try
                         {
                             if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
@@ -1013,192 +1122,93 @@ namespace PortalSicoobDivicred.Controllers
 
                     #region Alerta Gestor
 
-                    try
-                    {
-                        var DadosGestor =
-                            CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
-
-                        if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
-                        {
-                            CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-
-                          await  Envia.EnviaEmail(DadosGestor[0]["email"],
-                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-
-                            if (DadosGestor[0]["id"].ToString().Length > 0)
-                            {
-                                Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"],
-                                    "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-                            }
-                        }
-                        else
-                        {
-                            CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                                "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-
-                            if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
-                            {
-                                Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"],
-                                    "O funcionário " + DadosOperador[0]["nome"] + " tem justificativas pendentes");
-                            }
-                        }
-                    }
-                    catch { }
-
-                    #endregion
-                }
-
-                return Json("Ok");
-            }
-
-            return Json("Ok");
-        }
-
-        public ActionResult NegarJustificativa(string IdHistorico)
-        {
-            var QueryRh = new QueryMysqlRh();
-            QueryRh.NegaJustificativa(IdHistorico);
-            QueryRh.NegaJustificativaGestor(IdHistorico);
-            return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                new { Mensagem = "Pendencia negada com sucesso !" });
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CadastraAlerta(FormCollection Dados)
-        {
-            var VerificaDados = new QueryMysqlRh();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-            {
-                var FuncionarioPendentes = VerificaDados.RetornaPendenciaAlerta();
-                for (var i = 0; i < FuncionarioPendentes.Count; i++)
-                {
-                    VerificaDados.CadastraAlertaJustificativa(FuncionarioPendentes[i]["idfuncionario"],
-                        Dados["TextAlerta"]);
-
-                    #region Alerta Funcionario
-
-
-                    var Envia = new EnviodeAlertas();
-                    var CadastroAlerta = new QueryMysql();
-
-                    var DadosOperador =
-                        CadastroAlerta.RetornaInformacoesNotificacao(FuncionarioPendentes[i]["idfuncionario"]);
-
-                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
-                    {
-                        CadastroAlerta.cadastrarAlert(FuncionarioPendentes[i]["idfuncionario"], "11",
-                            "Você tem justificativas pendentes.");
-
-                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Você tem justificativas pendentes.");
-
-                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                        {
-                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
-                        }
-                    }
-                    else
-                    {
-                        CadastroAlerta.cadastrarAlert(FuncionarioPendentes[i]["idfuncionario"], "11",
-                            "Você tem justificativas pendentes.");
-
-                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                        {
-                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Você tem justificativas pendentes.");
-                        }
-                    }
-                    #endregion
-
-                    #region Alerta Gestor
-
 
                     var DadosGestor =
-                        CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
+                        CadastroAlerta.RetornaInformacoesGestor( DadosOperador [0] ["idsetor"] );
 
-                    if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                    if ( DadosGestor [0] ["notificacaoemail"].Equals( "Sim" ) )
                     {
-                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                            "Existem funcionários do seu setor com justificativas pendentes.");
+                        CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                            "Existem funcionários do seu setor com justificativas pendentes." );
 
-                      await  Envia.EnviaEmail(DadosGestor[0]["email"], "Existem funcionários do seu setor com justificativas pendentes.");
+                        await Envia.EnviaEmail( DadosGestor [0] ["email"], "Existem funcionários do seu setor com justificativas pendentes." );
 
-                        if (DadosGestor[0]["id"].ToString().Length > 0)
+                        if ( DadosGestor [0] ["id"].ToString().Length > 0 )
                         {
-                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes.");
+                            Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes." );
                         }
                     }
                     else
                     {
-                        CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                            "Existem funcionários do seu setor com justificativas pendentes.");
+                        CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                            "Existem funcionários do seu setor com justificativas pendentes." );
 
-                        if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                        if ( DadosGestor [0] ["idnotificacao"].ToString().Length > 0 )
                         {
-                            Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes.");
+                            Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"], "Existem funcionários do seu setor com justificativas pendentes." );
                         }
                     }
 
                     #endregion
                 }
 
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Alerta cadastrado com sucesso !" });
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Alerta cadastrado com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult ApontarPendencia(Item[] TabelaPendencias)
+        public ActionResult ApontarPendencia(Item [] TabelaPendencias)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                for (var i = 0; i < TabelaPendencias.Length; i++)
+                for ( var i = 0; i < TabelaPendencias.Length; i++ )
                 {
                     var RecuperaId = new QueryMysql();
                     var DadosFuncionario =
                         RecuperaId.RecuperaDadosFuncionariosTabelaFuncionarios(
-                            TabelaPendencias[i].Nome.Replace("'", ""));
+                            TabelaPendencias [i].Nome.Replace( "'", "" ) );
                     try
                     {
-                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa(DadosFuncionario[0]["id"],
-                            Convert.ToDateTime(TabelaPendencias[i].Dia));
-                        if (TabelaPendencias[i].Horario1.Length == 0 || TabelaPendencias[i].Horario1.Contains("--"))
+                        var IdJustificativa = VerificaDados.InserirHistoricoJustificativa( DadosFuncionario [0] ["id"],
+                            Convert.ToDateTime( TabelaPendencias [i].Dia ) );
+                        if ( TabelaPendencias [i].Horario1.Length == 0 || TabelaPendencias [i].Horario1.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario1), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario1 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario2.Length == 0 || TabelaPendencias[i].Horario2.Contains("--"))
+                        if ( TabelaPendencias [i].Horario2.Length == 0 || TabelaPendencias [i].Horario2.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario2), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario2 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario3.Length == 0 || TabelaPendencias[i].Horario3.Contains("--"))
+                        if ( TabelaPendencias [i].Horario3.Length == 0 || TabelaPendencias [i].Horario3.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario3), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario3 ), TabelaPendencias [i].Id, "0" );
                         }
 
-                        if (TabelaPendencias[i].Horario4.Length == 0 || TabelaPendencias[i].Horario4.Contains("--"))
+                        if ( TabelaPendencias [i].Horario4.Length == 0 || TabelaPendencias [i].Horario4.Contains( "--" ) )
                         {
                         }
                         else
                         {
-                            VerificaDados.InserirHistoricoHorario(IdJustificativa,
-                                TimeSpan.Parse(TabelaPendencias[i].Horario4), TabelaPendencias[i].Id, "0");
+                            VerificaDados.InserirHistoricoHorario( IdJustificativa,
+                                TimeSpan.Parse( TabelaPendencias [i].Horario4 ), TabelaPendencias [i].Id, "0" );
                         }
                     }
                     catch
@@ -1206,10 +1216,10 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-                return Json("Ok");
+                return Json( "Ok" );
             }
 
-            return Json("Ok");
+            return Json( "Ok" );
         }
 
         public ActionResult HistoricoPendencia()
@@ -1223,43 +1233,43 @@ namespace PortalSicoobDivicred.Controllers
             var Validacoes = new ValidacoesPonto();
 
 
-            var DadosPendencias = Validacoes.RetornaHistoricoPendencias(Datas["DataInicial"], Datas["DataFinal"]);
+            var DadosPendencias = Validacoes.RetornaHistoricoPendencias( Datas ["DataInicial"], Datas ["DataFinal"] );
 
-            TempData["ExtraJustifica1"] = "hidden";
-            TempData["ExtraJustifica2"] = "hidden";
-            TempData["TotalSemConfirmar"] = DadosPendencias.Count;
-            for (var i = 0; i < DadosPendencias.Count; i++)
+            TempData ["ExtraJustifica1"] = "hidden";
+            TempData ["ExtraJustifica2"] = "hidden";
+            TempData ["TotalSemConfirmar"] = DadosPendencias.Count;
+            for ( var i = 0; i < DadosPendencias.Count; i++ )
             {
-                TempData["IdPendencia" + i] = DadosPendencias[i]["IdPendencia"];
+                TempData ["IdPendencia" + i] = DadosPendencias [i] ["IdPendencia"];
 
 
-                TempData["NomePendencia" + i] = DadosPendencias[i]["Nome"];
+                TempData ["NomePendencia" + i] = DadosPendencias [i] ["Nome"];
 
 
-                TempData["DiaPendencia" + i] =
-                    Convert.ToDateTime(DadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                TempData ["DiaPendencia" + i] =
+                    Convert.ToDateTime( DadosPendencias [i] ["Data"] ).ToString( "dd/MM/yyyy" );
 
-                TempData["TotalHorarioPendencia" + i] = Convert.ToInt32(DadosPendencias[i]["TotalHorario"]);
+                TempData ["TotalHorarioPendencia" + i] = Convert.ToInt32( DadosPendencias [i] ["TotalHorario"] );
 
-                for (var j = 0; j < Convert.ToInt32(DadosPendencias[i]["TotalHorario"]); j++)
-                    TempData["Hora" + j + "Pendencia" + i] = DadosPendencias[i]["Horario" + j];
+                for ( var j = 0; j < Convert.ToInt32( DadosPendencias [i] ["TotalHorario"] ); j++ )
+                    TempData ["Hora" + j + "Pendencia" + i] = DadosPendencias [i] ["Horario" + j];
 
-                if (4 - Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) > 0)
-                    TempData["TotalHorarioPendencia" + i] = 4;
+                if ( 4 - Convert.ToInt32( DadosPendencias [i] ["TotalHorario"] ) > 0 )
+                    TempData ["TotalHorarioPendencia" + i] = 4;
 
-                if (Convert.ToBoolean(DadosPendencias[i]["Justificado"]))
-                    TempData["Justificativa" + i] = DadosPendencias[i]["Justificativa" + i];
+                if ( Convert.ToBoolean( DadosPendencias [i] ["Justificado"] ) )
+                    TempData ["Justificativa" + i] = DadosPendencias [i] ["Justificativa" + i];
                 else
-                    TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
+                    TempData ["Justificativa" + i] = "NÃO JUSTIFICADO";
 
-                if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 5)
+                if ( Convert.ToInt32( DadosPendencias [i] ["TotalHorario"] ) == 5 )
                 {
-                    TempData["ExtraJustifica1"] = "";
+                    TempData ["ExtraJustifica1"] = "";
                 }
-                else if (Convert.ToInt32(DadosPendencias[i]["TotalHorario"]) == 6)
+                else if ( Convert.ToInt32( DadosPendencias [i] ["TotalHorario"] ) == 6 )
                 {
-                    TempData["ExtraJustifica1"] = "";
-                    TempData["ExtraJustifica2"] = "";
+                    TempData ["ExtraJustifica1"] = "";
+                    TempData ["ExtraJustifica2"] = "";
                 }
             }
 
@@ -1276,55 +1286,55 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Reincidentes = VerificaDados.RetornaReincidentes(Datas["DataInicial"], Datas["DataFinal"]);
+                var Reincidentes = VerificaDados.RetornaReincidentes( Datas ["DataInicial"], Datas ["DataFinal"] );
                 var TotalReincidente = 0;
-                for (var i = 0; i < Reincidentes.Count; i++)
-                    if (Reincidentes[i]["confirma"].Equals("S"))
+                for ( var i = 0; i < Reincidentes.Count; i++ )
+                    if ( Reincidentes [i] ["confirma"].Equals( "S" ) )
                     {
-                        var Dias = VerificaDados.RetornaDataReincidentes(Reincidentes[i]["id"], Datas["DataInicial"],
-                            Datas["DataFinal"]);
-                        TempData["Nome" + TotalReincidente] = Reincidentes[i]["nome"];
-                        TempData["IdFuncionario" + TotalReincidente] = Reincidentes[i]["id"];
-                        TempData["Dia" + TotalReincidente] = Dias;
+                        var Dias = VerificaDados.RetornaDataReincidentes( Reincidentes [i] ["id"], Datas ["DataInicial"],
+                            Datas ["DataFinal"] );
+                        TempData ["Nome" + TotalReincidente] = Reincidentes [i] ["nome"];
+                        TempData ["IdFuncionario" + TotalReincidente] = Reincidentes [i] ["id"];
+                        TempData ["Dia" + TotalReincidente] = Dias;
                         TotalReincidente++;
                     }
 
-                TempData["TotalReincidente"] = TotalReincidente;
+                TempData ["TotalReincidente"] = TotalReincidente;
                 return View();
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Paremetros()
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado) return PartialView("Parametros");
+            if ( Logado ) return PartialView( "Parametros" );
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Funcao()
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Certificacoes = VerificaDados.RetornaCertificacoes();
-                TempData["TotalCertificacao"] = Certificacoes.Count;
-                for (var i = 0; i < Certificacoes.Count; i++)
+                TempData ["TotalCertificacao"] = Certificacoes.Count;
+                for ( var i = 0; i < Certificacoes.Count; i++ )
                 {
-                    TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
-                    TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
+                    TempData ["DescricaoCertificacao" + i] = Certificacoes [i] ["descricao"];
+                    TempData ["IdCertificacao" + i] = Certificacoes [i] ["id"];
                 }
 
-                return PartialView("Funcao");
+                return PartialView( "Funcao" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1332,19 +1342,19 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Certificacoes = "";
-                for (var i = 0; i < Dados.Count; i++)
-                    if (Dados.AllKeys[i].Contains("Certificacao"))
-                        Certificacoes = Certificacoes + Dados[i] + ";";
+                for ( var i = 0; i < Dados.Count; i++ )
+                    if ( Dados.AllKeys [i].Contains( "Certificacao" ) )
+                        Certificacoes = Certificacoes + Dados [i] + ";";
 
-                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Função cadastrada com sucesso !" });
+                VerificaDados.CadastrarFuncao( DadosCadastro.NomeFuncao, Certificacoes );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função cadastrada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1352,19 +1362,19 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Certificacoes = "";
-                for (var i = 0; i < Dados.Count; i++)
-                    if (Dados.AllKeys[i].Contains("Certificacao"))
-                        Certificacoes = Certificacoes + Dados[i] + ";";
+                for ( var i = 0; i < Dados.Count; i++ )
+                    if ( Dados.AllKeys [i].Contains( "Certificacao" ) )
+                        Certificacoes = Certificacoes + Dados [i] + ";";
 
-                VerificaDados.EditarFuncao(Dados["IdFuncao"], DadosCadastro.NomeFuncao, Certificacoes);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Função alterada com sucesso !" });
+                VerificaDados.EditarFuncao( Dados ["IdFuncao"], DadosCadastro.NomeFuncao, Certificacoes );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função alterada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1372,21 +1382,21 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Funcoes = VerificaDados.BuscaFuncao(DescricaoFuncao);
-                for (var i = 0; i < Funcoes.Count; i++)
+                var Funcoes = VerificaDados.BuscaFuncao( DescricaoFuncao );
+                for ( var i = 0; i < Funcoes.Count; i++ )
                 {
-                    TempData["Id" + i] = Funcoes[i]["id"];
-                    TempData["Descricao" + i] = Funcoes[i]["descricao"];
+                    TempData ["Id" + i] = Funcoes [i] ["id"];
+                    TempData ["Descricao" + i] = Funcoes [i] ["descricao"];
                 }
 
-                TempData["TotalResultado"] = Funcoes.Count;
-                TempData["Editar"] = "EditarFuncao";
-                return PartialView("ResultadoPesquisa");
+                TempData ["TotalResultado"] = Funcoes.Count;
+                TempData ["Editar"] = "EditarFuncao";
+                return PartialView( "ResultadoPesquisa" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1394,145 +1404,152 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Certificacoes = VerificaDados.RetornaCertificacoes();
-                var DadosFuncao = VerificaDados.RecuperaDadosFuncao(IdFuncao);
+                var DadosFuncao = VerificaDados.RecuperaDadosFuncao( IdFuncao );
                 var FuncaoRecupera = new Funcao();
 
 
-                var CertificacoesFuncao = DadosFuncao[0]["idcertificacao"].Split(';');
-                TempData["TotalCertificacaoEditar"] = Certificacoes.Count;
+                var CertificacoesFuncao = DadosFuncao [0] ["idcertificacao"].Split( ';' );
+                TempData ["TotalCertificacaoEditar"] = Certificacoes.Count;
                 var Existe = false;
-                for (var i = 0; i < Certificacoes.Count; i++)
+                for ( var i = 0; i < Certificacoes.Count; i++ )
                 {
-                    for (var j = 0; j < CertificacoesFuncao.Length; j++)
-                        if (Certificacoes[i]["id"].Equals(CertificacoesFuncao[j]))
+                    for ( var j = 0; j < CertificacoesFuncao.Length; j++ )
+                        if ( Certificacoes [i] ["id"].Equals( CertificacoesFuncao [j] ) )
                             Existe = true;
 
-                    if (Existe)
+                    if ( Existe )
                     {
-                        TempData["DescricaoCertificacaoEditar" + i] = Certificacoes[i]["descricao"];
-                        TempData["IdCertificacaoEditar" + i] = Certificacoes[i]["id"];
-                        TempData["CertificaFuncao" + i] = "checked";
+                        TempData ["DescricaoCertificacaoEditar" + i] = Certificacoes [i] ["descricao"];
+                        TempData ["IdCertificacaoEditar" + i] = Certificacoes [i] ["id"];
+                        TempData ["CertificaFuncao" + i] = "checked";
                     }
                     else
                     {
-                        TempData["DescricaoCertificacaoEditar" + i] = Certificacoes[i]["descricao"];
-                        TempData["IdCertificacaoEditar" + i] = Certificacoes[i]["id"];
-                        TempData["CertificaFuncao" + i] = "";
+                        TempData ["DescricaoCertificacaoEditar" + i] = Certificacoes [i] ["descricao"];
+                        TempData ["IdCertificacaoEditar" + i] = Certificacoes [i] ["id"];
+                        TempData ["CertificaFuncao" + i] = "";
                     }
 
                     Existe = false;
                 }
 
-                FuncaoRecupera.NomeFuncao = DadosFuncao[0]["descricao"];
-                TempData["IdFuncao"] = DadosFuncao[0]["id"];
-                return PartialView("EditarFuncao", FuncaoRecupera);
+                FuncaoRecupera.NomeFuncao = DadosFuncao [0] ["descricao"];
+                TempData ["IdFuncao"] = DadosFuncao [0] ["id"];
+                return PartialView( "EditarFuncao", FuncaoRecupera );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult BuscaPendencia(string DataConsulta)
         {
             var Validacoes = new ValidacoesPonto();
-            var TabelasPonto = Validacoes.ValidarPonto(Convert.ToDateTime(DataConsulta));
+            var TabelasPonto = Validacoes.ValidarPonto( Convert.ToDateTime( DataConsulta ) );
 
             #region Preenchimento Pendencias Ponto
 
-            TempData["TotalPonto"] = TabelasPonto[0].Count;
-            TempData["ExtraPendente1"] = "hidden";
-            TempData["ExtraPendente2"] = "hidden";
+            TempData ["TotalPonto"] = TabelasPonto [0].Count;
+            TempData ["ExtraPendente1"] = "hidden";
+            TempData ["ExtraPendente2"] = "hidden";
 
 
-            for (var i = 0; i < TabelasPonto[0].Count; i++)
+            for ( var i = 0; i < TabelasPonto [0].Count; i++ )
             {
-                TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+                TempData ["TotalHorarioPonto" + i] = Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] );
 
-                TempData["IdPonto" + i] = TabelasPonto[0][i]["IdFuncionario"];
+                TempData ["IdPonto" + i] = TabelasPonto [0] [i] ["IdFuncionario"];
 
-                TempData["NomePonto" + i] = TabelasPonto[0][i]["NomeFuncionario"];
+                TempData ["NomePonto" + i] = TabelasPonto [0] [i] ["NomeFuncionario"];
 
-                TempData["Dia"] = Convert.ToDateTime(TabelasPonto[0][i]["DataPendencia"]).ToString("dd/MM/yyyy");
-                TempData["TotalHorarioPonto" + i] = Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]);
+                TempData ["Dia"] = Convert.ToDateTime( TabelasPonto [0] [i] ["DataPendencia"] ).ToString( "dd/MM/yyyy" );
+                TempData ["TotalHorarioPonto" + i] = Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] );
 
-                for (var j = 0; j < Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]); j++)
-                    TempData["Hora" + j + i] = TabelasPonto[0][i]["Hora" + j];
+                for ( var j = 0; j < Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] ); j++ )
+                    TempData ["Hora" + j + i] = TabelasPonto [0] [i] ["Hora" + j];
 
-                if (4 - Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) > 0) TempData["TotalHorarioPonto" + i] = 4;
+                if ( 4 - Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] ) > 0 ) TempData ["TotalHorarioPonto" + i] = 4;
 
-                if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 5)
+                if ( Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] ) == 5 )
                 {
-                    TempData["ExtraPendente1"] = "";
+                    TempData ["ExtraPendente1"] = "";
                 }
-                else if (Convert.ToInt32(TabelasPonto[0][i]["TotalHorario"]) == 6)
+                else if ( Convert.ToInt32( TabelasPonto [0] [i] ["TotalHorario"] ) == 6 )
                 {
-                    TempData["ExtraPendente1"] = "";
-                    TempData["ExtraPendente2"] = "";
+                    TempData ["ExtraPendente1"] = "";
+                    TempData ["ExtraPendente2"] = "";
                 }
             }
 
             #endregion
 
 
-            return PartialView("ValidacaoPonto");
+            return PartialView( "ValidacaoPonto" );
         }
 
         public ActionResult BuscaSemPendencia(string DataConsulta)
         {
             var Validacoes = new ValidacoesPonto();
-            var TabelasPonto = Validacoes.ValidarPonto(Convert.ToDateTime(DataConsulta));
+            var TabelasPonto = Validacoes.ValidarPonto( Convert.ToDateTime( DataConsulta ) );
 
 
             #region Preenchimento Sem pendencia
 
-            TempData["TotalSemPendencia"] = TabelasPonto[1].Count;
-            for (var i = 0; i < TabelasPonto[1].Count; i++)
+            TempData ["TotalSemPendencia"] = TabelasPonto [1].Count;
+            for ( var i = 0; i < TabelasPonto [1].Count; i++ )
             {
-                TempData["IdPontoCerto" + i] = TabelasPonto[1][i]["IdFuncionario"];
+                TempData ["IdPontoCerto" + i] = TabelasPonto [1] [i] ["IdFuncionario"];
 
-                TempData["NomePontoCerto" + i] = TabelasPonto[1][i]["NomeFuncionario"];
+                TempData ["NomePontoCerto" + i] = TabelasPonto [1] [i] ["NomeFuncionario"];
 
-                TempData["DiaCerto" + i] =
-                    Convert.ToDateTime(TabelasPonto[1][i]["DataPendencia"]).ToString("dd/MM/yyyy");
-
-                TempData["HoraCerto0" + i] = TabelasPonto[1][i]["Hora0"];
-                TempData["HoraCerto1" + i] = TabelasPonto[1][i]["Hora1"];
-                TempData["HoraCerto2" + i] = TabelasPonto[1][i]["Hora2"];
-                TempData["HoraCerto3" + i] = TabelasPonto[1][i]["Hora3"];
-
-                TempData["JornadaCerto" + i] = TabelasPonto[1][i]["Jornada"];
-                if (TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Hours <= 0 &&
-                    TimeSpan.Parse(TabelasPonto[1][i]["HoraExtra"]).Minutes < 0)
+                TempData ["DiaCerto" + i] =
+                    Convert.ToDateTime( TabelasPonto [1] [i] ["DataPendencia"] ).ToString( "dd/MM/yyyy" );
+                try
                 {
-                    TempData["DebitoCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
-                    TempData["HoraExtraCerto" + i] = "";
+                    TempData ["HoraCerto0" + i] = TabelasPonto [1] [i] ["Hora0"];
+                    TempData ["HoraCerto1" + i] = TabelasPonto [1] [i] ["Hora1"];
+                    TempData ["HoraCerto2" + i] = TabelasPonto [1] [i] ["Hora2"];
+                    TempData ["HoraCerto3" + i] = TabelasPonto [1] [i] ["Hora3"];
+                }
+                catch
+                {
+                    TempData ["HoraCerto0" + i] = TabelasPonto [1] [i] ["Hora0"];
+                    TempData ["HoraCerto1" + i] = TabelasPonto [1] [i] ["Hora1"];
+                }
+
+                TempData ["JornadaCerto" + i] = TabelasPonto [1] [i] ["Jornada"];
+                if ( TimeSpan.Parse( TabelasPonto [1] [i] ["HoraExtra"] ).Hours <= 0 &&
+                    TimeSpan.Parse( TabelasPonto [1] [i] ["HoraExtra"] ).Minutes < 0 )
+                {
+                    TempData ["DebitoCerto" + i] = TabelasPonto [1] [i] ["HoraExtra"];
+                    TempData ["HoraExtraCerto" + i] = "";
                 }
                 else
                 {
-                    TempData["DebitoCerto" + i] = "";
-                    TempData["HoraExtraCerto" + i] = TabelasPonto[1][i]["HoraExtra"];
+                    TempData ["DebitoCerto" + i] = "";
+                    TempData ["HoraExtraCerto" + i] = TabelasPonto [1] [i] ["HoraExtra"];
                 }
             }
 
             #endregion
 
 
-            return PartialView("SemPendencia");
+            return PartialView( "SemPendencia" );
         }
 
         public async Task<ActionResult> ConfirmarJustificativa(string IdPendencia)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Firebird = new QueryFirebird();
 
-                var DadosPendencia = VerificaDados.RecuperaDadosPendenciaConfirmacao(IdPendencia);
-                var DadosPendenciaFire = Firebird.RetornaDadosMarcacao(DadosPendencia[0]["data"],
-                    DadosPendencia[0]["idfuncionariofirebird"]);
+                var DadosPendencia = VerificaDados.RecuperaDadosPendenciaConfirmacao( IdPendencia );
+                var DadosPendenciaFire = Firebird.RetornaDadosMarcacao( DadosPendencia [0] ["data"],
+                    DadosPendencia [0] ["idfuncionariofirebird"] );
 
                 #region Alerta Funcionario
 
@@ -1541,28 +1558,42 @@ namespace PortalSicoobDivicred.Controllers
                 var CadastroAlerta = new QueryMysql();
 
                 var DadosOperador =
-                    CadastroAlerta.RetornaInformacoesNotificacao(DadosPendencia[0]["idfuncionario"]);
+                    CadastroAlerta.RetornaInformacoesNotificacao( DadosPendencia [0] ["idfuncionario"] );
 
-                if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                if ( DadosOperador [0] ["notificacaoemail"].Equals( "Sim" ) )
                 {
-                    CadastroAlerta.cadastrarAlert(DadosPendencia[0]["idfuncionario"], "11",
-                        "Sua justificativa foi confirmada.");
+                    CadastroAlerta.cadastrarAlert( DadosPendencia [0] ["idfuncionario"], "11",
+                        "Sua justificativa foi confirmada." );
 
-                   await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua justificativa foi confirmada.");
-
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    await Envia.EnviaEmail( DadosOperador [0] ["email"], "Sua justificativa foi confirmada." );
+                    try
                     {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua justificativa foi confirmada.");
+
+
+                        if ( DadosOperador [0] ["idnotificacao"].ToString().Length > 0 )
+                        {
+                            Envia.CadastraAlerta( DadosOperador [0] ["idnotificacao"], "Sua justificativa foi confirmada." );
+                        }
+                    }
+                    catch
+                    {
+
                     }
                 }
                 else
                 {
-                    CadastroAlerta.cadastrarAlert(DadosPendencia[0]["idfuncionario"], "11",
-                        "Sua justificativa foi confirmada.");
-
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                    CadastroAlerta.cadastrarAlert( DadosPendencia [0] ["idfuncionario"], "11",
+                        "Sua justificativa foi confirmada." );
+                    try
                     {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua justificativa foi confirmada.");
+                        if ( DadosOperador [0] ["idnotificacao"].ToString().Length > 0 )
+                        {
+                            Envia.CadastraAlerta( DadosOperador [0] ["idnotificacao"], "Sua justificativa foi confirmada." );
+                        }
+                    }
+                    catch
+                    {
+
                     }
                 }
                 #endregion
@@ -1571,28 +1602,28 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 var DadosGestor =
-                    CadastroAlerta.RetornaInformacoesGestor(DadosOperador[0]["idsetor"]);
+                    CadastroAlerta.RetornaInformacoesGestor( DadosOperador [0] ["idsetor"] );
 
-                if (DadosGestor[0]["notificacaoemail"].Equals("Sim"))
+                if ( DadosGestor [0] ["notificacaoemail"].Equals( "Sim" ) )
                 {
-                    CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                        "A justificativa do funcionário: "+DadosOperador[0]["nome"]+"  foi confirmada.");
+                    CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                        "A justificativa do funcionário: " + DadosOperador [0] ["nome"] + "  foi confirmada." );
 
-                  await  Envia.EnviaEmail(DadosGestor[0]["email"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                    await Envia.EnviaEmail( DadosGestor [0] ["email"], "A justificativa do funcionário: " + DadosOperador [0] ["nome"] + "  foi confirmada." );
 
-                    if (DadosGestor[0]["id"].ToString().Length > 0)
+                    if ( DadosGestor [0] ["id"].ToString().Length > 0 )
                     {
-                        Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                        Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"], "A justificativa do funcionário: " + DadosOperador [0] ["nome"] + "  foi confirmada." );
                     }
                 }
                 else
                 {
-                    CadastroAlerta.cadastrarAlert(DadosGestor[0]["id"], "11",
-                        "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                    CadastroAlerta.cadastrarAlert( DadosGestor [0] ["id"], "11",
+                        "A justificativa do funcionário: " + DadosOperador [0] ["nome"] + "  foi confirmada." );
 
-                    if (DadosGestor[0]["idnotificacao"].ToString().Length > 0)
+                    if ( DadosGestor [0] ["idnotificacao"].ToString().Length > 0 )
                     {
-                        Envia.CadastraAlerta(DadosGestor[0]["idnotificacao"], "A justificativa do funcionário: " + DadosOperador[0]["nome"] + "  foi confirmada.");
+                        Envia.CadastraAlerta( DadosGestor [0] ["idnotificacao"], "A justificativa do funcionário: " + DadosOperador [0] ["nome"] + "  foi confirmada." );
                     }
                 }
 
@@ -1600,19 +1631,19 @@ namespace PortalSicoobDivicred.Controllers
 
                 var Existe = false;
                 var NegaFireBird = false;
-                for (var i = 0; i < DadosPendencia.Count; i++)
+                for ( var i = 0; i < DadosPendencia.Count; i++ )
                 {
                     Existe = false;
-                    if (DadosPendencia[i]["observacao"] == null)
+                    if ( DadosPendencia [i] ["observacao"] == null )
                     {
-                        if (DadosPendencia[i]["horario"].Equals("00:00:00"))
+                        if ( DadosPendencia [i] ["horario"].Equals( "00:00:00" ) )
                         {
                             NegaFireBird = true;
                         }
                         else
                         {
-                            for (var j = 0; j < DadosPendenciaFire.Count; j++)
-                                if (DadosPendenciaFire[j]["HORA"].Equals(DadosPendencia[i]["horario"]))
+                            for ( var j = 0; j < DadosPendenciaFire.Count; j++ )
+                                if ( DadosPendenciaFire [j] ["HORA"].Equals( DadosPendencia [i] ["horario"] ) )
                                 {
                                     Existe = true;
                                     break;
@@ -1622,12 +1653,12 @@ namespace PortalSicoobDivicred.Controllers
                                     Existe = false;
                                 }
 
-                            if (!Existe)
+                            if ( !Existe )
                             {
-                                Firebird.InserirMarcacao(DadosPendencia[i]["idfuncionariofirebird"],
-                                    DadosPendencia[i]["idjustificativafirebird"], DadosPendencia[i]["data"],
-                                    DadosPendencia[i]["horario"]);
-                                VerificaDados.AtualizaJustificativaRh(DadosPendencia[i]["idhistorico"]);
+                                Firebird.InserirMarcacao( DadosPendencia [i] ["idfuncionariofirebird"],
+                                    DadosPendencia [i] ["idjustificativafirebird"], DadosPendencia [i] ["data"],
+                                    DadosPendencia [i] ["horario"] );
+                                VerificaDados.AtualizaJustificativaRh( DadosPendencia [i] ["idhistorico"] );
                             }
                         }
                     }
@@ -1637,37 +1668,37 @@ namespace PortalSicoobDivicred.Controllers
                     }
                 }
 
-                if (NegaFireBird) VerificaDados.AtualizaJustificativaRh(DadosPendencia[0]["idhistorico"]);
+                if ( NegaFireBird ) VerificaDados.AtualizaJustificativaRh( DadosPendencia [0] ["idhistorico"] );
 
 
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Justificativa confirmada com sucesso !" });
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Justificativa confirmada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult ExcluirFuncao(string IdFuncao)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.ExcluirFuncao(IdFuncao);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Função excluida com sucesso !" });
+                VerificaDados.ExcluirFuncao( IdFuncao );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função excluida com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Certificacao()
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado) return PartialView("Certificacao");
+            if ( Logado ) return PartialView( "Certificacao" );
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1675,42 +1706,42 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.CadastrarCertificacao(DadosCadastro.NomeCertificacao);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Certificação cadastrada com sucesso !" });
+                VerificaDados.CadastrarCertificacao( DadosCadastro.NomeCertificacao );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação cadastrada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult EditarCertificacao(Certificacao DadosCadastro, FormCollection Dados)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.EditarCertificacao(Dados["IdCertificacao"], DadosCadastro.NomeCertificacao);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Certificação atualizada com sucesso !" });
+                VerificaDados.EditarCertificacao( Dados ["IdCertificacao"], DadosCadastro.NomeCertificacao );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação atualizada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult ExcluirCertificacao(string IdFuncao)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.ExcluirCertificacao(IdFuncao);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Certificação excluida com sucesso !" });
+                VerificaDados.ExcluirCertificacao( IdFuncao );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação excluida com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1718,21 +1749,21 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Certificacao = VerificaDados.BuscaCertificacao(DescricaoCertificacao);
-                for (var i = 0; i < Certificacao.Count; i++)
+                var Certificacao = VerificaDados.BuscaCertificacao( DescricaoCertificacao );
+                for ( var i = 0; i < Certificacao.Count; i++ )
                 {
-                    TempData["Id" + i] = Certificacao[i]["id"];
-                    TempData["Descricao" + i] = Certificacao[i]["descricao"];
+                    TempData ["Id" + i] = Certificacao [i] ["id"];
+                    TempData ["Descricao" + i] = Certificacao [i] ["descricao"];
                 }
 
-                TempData["TotalResultado"] = Certificacao.Count;
-                TempData["Editar"] = "EditarCertificacao";
-                return PartialView("ResultadoPesquisaCertificacao");
+                TempData ["TotalResultado"] = Certificacao.Count;
+                TempData ["Editar"] = "EditarCertificacao";
+                return PartialView( "ResultadoPesquisaCertificacao" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1740,45 +1771,45 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao(IdCertificacao);
+                var DadosCertificacao = VerificaDados.RecuperaDadosCertificacao( IdCertificacao );
                 var CertificacaoRecupera = new Certificacao();
 
-                CertificacaoRecupera.NomeCertificacao = DadosCertificacao[0]["descricao"];
-                TempData["IdCertificacao"] = DadosCertificacao[0]["id"];
-                return PartialView("EditarCertificacao", CertificacaoRecupera);
+                CertificacaoRecupera.NomeCertificacao = DadosCertificacao [0] ["descricao"];
+                TempData ["IdCertificacao"] = DadosCertificacao [0] ["id"];
+                return PartialView( "EditarCertificacao", CertificacaoRecupera );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult Gestor()
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Setores = VerificaDados.RetornaSetores();
-                TempData["TotalSetores"] = Setores.Count;
-                for (var i = 0; i < Setores.Count; i++)
+                TempData ["TotalSetores"] = Setores.Count;
+                for ( var i = 0; i < Setores.Count; i++ )
                 {
-                    TempData["DescricaoSetor" + i] = Setores[i]["descricao"];
-                    TempData["IdSetor" + i] = Setores[i]["id"];
+                    TempData ["DescricaoSetor" + i] = Setores [i] ["descricao"];
+                    TempData ["IdSetor" + i] = Setores [i] ["id"];
                 }
 
                 var Funcionarios = VerificaDados.RetornaFuncionarios();
-                TempData["TotalFuncionarios"] = Setores.Count;
-                for (var i = 0; i < Funcionarios.Count; i++)
+                TempData ["TotalFuncionarios"] = Setores.Count;
+                for ( var i = 0; i < Funcionarios.Count; i++ )
                 {
-                    TempData["Nome" + i] = Funcionarios[i]["nome"];
-                    TempData["IdFuncionario" + i] = Funcionarios[i]["id"];
+                    TempData ["Nome" + i] = Funcionarios [i] ["nome"];
+                    TempData ["IdFuncionario" + i] = Funcionarios [i] ["id"];
                 }
 
-                return PartialView("Gestor");
+                return PartialView( "Gestor" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1786,42 +1817,42 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.CadastrarGestor(DadosCadastro["Funcionario"], DadosCadastro["Setor"]);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Gestor cadastrado com sucesso !" });
+                VerificaDados.CadastrarGestor( DadosCadastro ["Funcionario"], DadosCadastro ["Setor"] );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Gestor cadastrado com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult EditarGestor(FormCollection Dados)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.EditarGestor(Dados["FuncionarioEdicao"], Dados["SetorEdicao"]);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Certificação atualizada com sucesso !" });
+                VerificaDados.EditarGestor( Dados ["FuncionarioEdicao"], Dados ["SetorEdicao"] );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Certificação atualizada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult ExcluirGestor(string IdGestor)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.ExcluirGestor(IdGestor);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Gestor removido com sucesso !" });
+                VerificaDados.ExcluirGestor( IdGestor );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Gestor removido com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1829,22 +1860,22 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Gestor = VerificaDados.BuscaGestor(DescricaoGestor);
-                for (var i = 0; i < Gestor.Count; i++)
+                var Gestor = VerificaDados.BuscaGestor( DescricaoGestor );
+                for ( var i = 0; i < Gestor.Count; i++ )
                 {
-                    TempData["Id" + i] = Gestor[i]["id"];
-                    TempData["Descricao" + i] = Gestor[i]["nome"];
+                    TempData ["Id" + i] = Gestor [i] ["id"];
+                    TempData ["Descricao" + i] = Gestor [i] ["nome"];
                 }
 
-                TempData["TotalResultado"] = Gestor.Count;
-                TempData["Editar"] = "EditarGestor";
+                TempData ["TotalResultado"] = Gestor.Count;
+                TempData ["Editar"] = "EditarGestor";
 
-                return PartialView("ResultadoPesquisaGestor");
+                return PartialView( "ResultadoPesquisaGestor" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1852,41 +1883,41 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var DadosGestor = VerificaDados.RecuperaDadosGestor(IdGestor);
+                var DadosGestor = VerificaDados.RecuperaDadosGestor( IdGestor );
 
                 var Setores = VerificaDados.RetornaSetores();
-                TempData["TotalSetores"] = Setores.Count;
-                for (var i = 0; i < Setores.Count; i++)
+                TempData ["TotalSetores"] = Setores.Count;
+                for ( var i = 0; i < Setores.Count; i++ )
                 {
-                    TempData["DescricaoSetor" + i] = Setores[i]["descricao"];
-                    TempData["IdSetor" + i] = Setores[i]["id"];
-                    if (Setores[i]["id"].Equals(DadosGestor[0]["idsetor"]))
-                        TempData["ValorSetor" + i] = "checked";
+                    TempData ["DescricaoSetor" + i] = Setores [i] ["descricao"];
+                    TempData ["IdSetor" + i] = Setores [i] ["id"];
+                    if ( Setores [i] ["id"].Equals( DadosGestor [0] ["idsetor"] ) )
+                        TempData ["ValorSetor" + i] = "checked";
                     else
-                        TempData["ValorSetor" + i] = "";
+                        TempData ["ValorSetor" + i] = "";
                 }
 
                 var Funcionarios = VerificaDados.RetornaFuncionarios();
-                TempData["TotalFuncionarios"] = Setores.Count;
-                for (var i = 0; i < Funcionarios.Count; i++)
+                TempData ["TotalFuncionarios"] = Setores.Count;
+                for ( var i = 0; i < Funcionarios.Count; i++ )
                 {
-                    TempData["Nome" + i] = Funcionarios[i]["nome"];
-                    TempData["IdFuncionario" + i] = Funcionarios[i]["id"];
-                    if (Funcionarios[i]["id"].Equals(DadosGestor[0]["id"]))
-                        TempData["ValorGestor" + i] = "checked";
+                    TempData ["Nome" + i] = Funcionarios [i] ["nome"];
+                    TempData ["IdFuncionario" + i] = Funcionarios [i] ["id"];
+                    if ( Funcionarios [i] ["id"].Equals( DadosGestor [0] ["id"] ) )
+                        TempData ["ValorGestor" + i] = "checked";
                     else
-                        TempData["ValorGestor" + i] = "";
+                        TempData ["ValorGestor" + i] = "";
                 }
 
-                TempData["ExcluirIdGestor"] = DadosGestor[0]["id"];
-                TempData["ExcluirIdSetor"] = DadosGestor[0]["idsetor"];
+                TempData ["ExcluirIdGestor"] = DadosGestor [0] ["id"];
+                TempData ["ExcluirIdSetor"] = DadosGestor [0] ["idsetor"];
 
-                return PartialView("EditarGestor");
+                return PartialView( "EditarGestor" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
 
@@ -1894,9 +1925,9 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado) return PartialView("Setor");
+            if ( Logado ) return PartialView( "Setor" );
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1904,42 +1935,42 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.CadastrarSetor(DadosCadastro.NomeSetor);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Setor cadastrado com sucesso !" });
+                VerificaDados.CadastrarSetor( DadosCadastro.NomeSetor );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor cadastrado com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult EditarSetor(Setor DadosCadastro, FormCollection Dados)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.EditarSetor(Dados["IdSetor"], DadosCadastro.NomeSetor);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Setor atualizada com sucesso !" });
+                VerificaDados.EditarSetor( Dados ["IdSetor"], DadosCadastro.NomeSetor );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor atualizada com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         public ActionResult ExcluirSetor(string IdSetor)
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                VerificaDados.ExcluirSetor(IdSetor);
-                return RedirectToAction("ColaboradorRh", "PainelColaborador",
-                    new { Mensagem = "Setor excluido com sucesso !" });
+                VerificaDados.ExcluirSetor( IdSetor );
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Setor excluido com sucesso !" } );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1947,23 +1978,23 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var Setor = VerificaDados.BuscaSetor(DescricaoSetor);
+                var Setor = VerificaDados.BuscaSetor( DescricaoSetor );
 
-                for (var i = 0; i < Setor.Count; i++)
+                for ( var i = 0; i < Setor.Count; i++ )
                 {
-                    TempData["Id" + i] = Setor[i]["id"];
-                    TempData["Descricao" + i] = Setor[i]["descricao"];
+                    TempData ["Id" + i] = Setor [i] ["id"];
+                    TempData ["Descricao" + i] = Setor [i] ["descricao"];
                 }
 
-                TempData["TotalResultado"] = Setor.Count;
-                TempData["Editar"] = "EditarSetor";
+                TempData ["TotalResultado"] = Setor.Count;
+                TempData ["Editar"] = "EditarSetor";
 
-                return PartialView("ResultadoPesquisaSetor");
+                return PartialView( "ResultadoPesquisaSetor" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
@@ -1971,30 +2002,30 @@ namespace PortalSicoobDivicred.Controllers
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
-                var DadosCertificacao = VerificaDados.RecuperaDadosSetor(IdSetor);
+                var DadosCertificacao = VerificaDados.RecuperaDadosSetor( IdSetor );
                 var SetorRecupera = new Setor();
 
-                SetorRecupera.NomeSetor = DadosCertificacao[0]["descricao"];
-                TempData["IdSetor"] = DadosCertificacao[0]["id"];
-                return PartialView("EditarSetor", SetorRecupera);
+                SetorRecupera.NomeSetor = DadosCertificacao [0] ["descricao"];
+                TempData ["IdSetor"] = DadosCertificacao [0] ["id"];
+                return PartialView( "EditarSetor", SetorRecupera );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
 
 
         public ActionResult Indicadores()
         {
-            return View("Indicadores");
+            return View( "Indicadores" );
         }
 
         public ActionResult OitoHoras()
         {
             var VerificaDados = new QueryMysqlRh();
             var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            if ( Logado )
             {
                 var Fire = new QueryFirebird();
                 var Acima = 0;
@@ -2003,56 +2034,56 @@ namespace PortalSicoobDivicred.Controllers
                 var count = 0;
 
                 var BancoDeHoras = VerificaDados.RetornaBancoHoras();
-                TempData["ValorUAD"] = 0;
-                TempData["ValorMatriz"] = 0;
-                TempData["ValorParana"] = 0;
-                TempData["ValorCajuru"] = 0;
-                TempData["ValorClara"] = 0;
-                TempData["ValorBh"] = 0;
-                TempData["ValorBetim"] = 0;
-                TempData["ValorContagem"] = 0;
-                TempData["ValorGoias"] = 0;
-                TempData["ValorBarreiro"] = 0;
+                TempData ["ValorUAD"] = 0;
+                TempData ["ValorMatriz"] = 0;
+                TempData ["ValorParana"] = 0;
+                TempData ["ValorCajuru"] = 0;
+                TempData ["ValorClara"] = 0;
+                TempData ["ValorBh"] = 0;
+                TempData ["ValorBetim"] = 0;
+                TempData ["ValorContagem"] = 0;
+                TempData ["ValorGoias"] = 0;
+                TempData ["ValorBarreiro"] = 0;
                 var TotalMatriz = new TimeSpan();
                 var TotalFuncionariosMatriz = 0;
 
-                for (var i = 0; i < BancoDeHoras.Count; i++)
+                for ( var i = 0; i < BancoDeHoras.Count; i++ )
                 {
-                    var Nome = Fire.RetornaFuncionarioMatricula(BancoDeHoras[i]["crachafirebird"]);
+                    var Nome = Fire.RetornaFuncionarioMatricula( BancoDeHoras [i] ["crachafirebird"] );
 
 
                     try
                     {
-                        if (Nome[0]["ID_CENTRO_CUSTO"].Equals("1"))
+                        if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "1" ) )
                         {
-                            TotalMatriz = TotalMatriz.Add(TimeSpan.Parse(BancoDeHoras[i]["hora"]));
+                            TotalMatriz = TotalMatriz.Add( TimeSpan.Parse( BancoDeHoras [i] ["hora"] ) );
                             TotalFuncionariosMatriz++;
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("2"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "2" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("3"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "3" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("4"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "4" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("5"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "5" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("6"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "6" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("7"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "7" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("8"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "8" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("10"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "10" ) )
                         {
                         }
-                        else if (Nome[0]["ID_CENTRO_CUSTO"].Equals("11"))
+                        else if ( Nome [0] ["ID_CENTRO_CUSTO"].Equals( "11" ) )
                         {
                         }
                     }
@@ -2062,27 +2093,27 @@ namespace PortalSicoobDivicred.Controllers
 
                     try
                     {
-                        if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 8 &&
-                            Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) <= 11)
+                        if ( Convert.ToInt32( BancoDeHoras [i] ["hora"].Split( ':' ) [0] ) >= 8 &&
+                            Convert.ToInt32( BancoDeHoras [i] ["hora"].Split( ':' ) [0] ) <= 11 )
                         {
-                            if (Nome.Count > 0)
+                            if ( Nome.Count > 0 )
                             {
-                                TempData["Nome" + count] = Nome[0]["NOME"];
-                                TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"])
-                                    .ToString("dd/MM/yyyy");
-                                TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                                TempData ["Nome" + count] = Nome [0] ["NOME"];
+                                TempData ["Data" + count] = Convert.ToDateTime( BancoDeHoras [i] ["datareferencia"] )
+                                    .ToString( "dd/MM/yyyy" );
+                                TempData ["TotalHoras" + count] = BancoDeHoras [i] ["hora"];
                                 Acima++;
                                 count++;
                             }
                         }
-                        else if (Convert.ToInt32(BancoDeHoras[i]["hora"].Split(':')[0]) >= 12)
+                        else if ( Convert.ToInt32( BancoDeHoras [i] ["hora"].Split( ':' ) [0] ) >= 12 )
                         {
-                            if (Nome.Count > 0)
+                            if ( Nome.Count > 0 )
                             {
-                                TempData["Nome" + count] = Nome[0]["NOME"];
-                                TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"])
-                                    .ToString("dd/MM/yyyy");
-                                TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                                TempData ["Nome" + count] = Nome [0] ["NOME"];
+                                TempData ["Data" + count] = Convert.ToDateTime( BancoDeHoras [i] ["datareferencia"] )
+                                    .ToString( "dd/MM/yyyy" );
+                                TempData ["TotalHoras" + count] = BancoDeHoras [i] ["hora"];
                                 Acima12++;
                                 count++;
                             }
@@ -2094,28 +2125,28 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     catch
                     {
-                        if (Nome.Count > 0)
+                        if ( Nome.Count > 0 )
                         {
-                            TempData["Nome" + count] = Nome[0]["NOME"];
-                            TempData["Data" + count] = Convert.ToDateTime(BancoDeHoras[i]["datareferencia"])
-                                .ToString("dd/MM/yyyy");
-                            TempData["TotalHoras" + count] = BancoDeHoras[i]["hora"];
+                            TempData ["Nome" + count] = Nome [0] ["NOME"];
+                            TempData ["Data" + count] = Convert.ToDateTime( BancoDeHoras [i] ["datareferencia"] )
+                                .ToString( "dd/MM/yyyy" );
+                            TempData ["TotalHoras" + count] = BancoDeHoras [i] ["hora"];
                             Acima++;
                         }
                     }
                 }
 
-                TempData["Total"] = count;
-                TempData["Valor1"] = Abaixo;
-                TempData["Valor2"] = Acima;
-                TempData["Valor3"] = Acima12;
-                TempData["ValorMatriz"] = TotalMatriz.Hours / TotalFuncionariosMatriz;
+                TempData ["Total"] = count;
+                TempData ["Valor1"] = Abaixo;
+                TempData ["Valor2"] = Acima;
+                TempData ["Valor3"] = Acima12;
+                TempData ["ValorMatriz"] = TotalMatriz.Hours / TotalFuncionariosMatriz;
 
 
-                return PartialView("IndicadorOitoHoras");
+                return PartialView( "IndicadorOitoHoras" );
             }
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction( "Login", "Login" );
         }
     }
 }

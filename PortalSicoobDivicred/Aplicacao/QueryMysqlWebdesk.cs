@@ -31,7 +31,14 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
-
+        public List<Dictionary<string, string>> BuscaChamadosTotalAntigo(string Pesquisa, string IdUsuario)
+        {
+            var Query =
+                "SELECT distinct a.id,a.titulochamado,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdeskchamados a LEFT JOIN usuarios u1 on a.idusuariocadastro=u1.id LEFT JOIN usuarios u2 on a.idoperador=u2.id, webdeskinteracoes b where  b.idchamado=a.id and(MATCH (b.textointeracao) AGAINST ('" +
+                Pesquisa + "')  or a.id='" + Pesquisa + "')";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno( Query );
+            return Dados;
+        }
 
         public List<Dictionary<string, string>> BuscaChamadosMeuSetorNovo(string Pesquisa, string IdUsuario,string IdSetor)
         {

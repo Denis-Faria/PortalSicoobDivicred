@@ -15,22 +15,22 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public void Dispose()
         {
-            GC.SuppressFinalize(this);
+            GC.SuppressFinalize( this );
             GC.Collect();
         }
 
         public FbConnection AbrirConexao()
         {
-            var StringConexao = ConfigurationManager.ConnectionStrings["pontorh"].ConnectionString;
-            con = new FbConnection(StringConexao);
-            if (con.State != ConnectionState.Open)
+            var StringConexao = ConfigurationManager.ConnectionStrings ["pontorh"].ConnectionString;
+            con = new FbConnection( StringConexao );
+            if ( con.State != ConnectionState.Open )
                 con.Open();
             return con;
         }
 
         public FbConnection FecharConexao(FbConnection con)
         {
-            if (con.State != ConnectionState.Closed)
+            if ( con.State != ConnectionState.Closed )
                 con.Close();
             return con;
         }
@@ -38,7 +38,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public FbCommand CriarComandoSQL(string Query)
         {
             var Conexao = AbrirConexao();
-            var ComandoSQL = new FbCommand(Query, Conexao);
+            var ComandoSQL = new FbCommand( Query, Conexao );
             return ComandoSQL;
         }
 
@@ -50,29 +50,29 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var cmdComando = CriarComandoSQL("SELECT * FROM FUNCIONARIO WHERE DATA_DEMISSAO IS NULL;");
+                var cmdComando = CriarComandoSQL( "SELECT * FROM FUNCIONARIO WHERE DATA_DEMISSAO IS NULL;" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -83,30 +83,30 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var cmdComando = CriarComandoSQL("SELECT * FROM FUNCIONARIO WHERE MATRICULA=" + Matricula +
-                                                 " AND DATA_DEMISSAO IS NULL;");
+                var cmdComando = CriarComandoSQL( "SELECT * FROM FUNCIONARIO WHERE MATRICULA=" + Matricula +
+                                                 " AND DATA_DEMISSAO IS NULL;" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -118,31 +118,31 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-                var cmdComando = CriarComandoSQL("SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                                                 IdFuncionario + "  AND '" + DiaValidar.ToString("yyyy/MM/dd") +
-                                                 "' BETWEEN DATA_INICIO AND DATA_FIM ;");
+                var cmdComando = CriarComandoSQL( "SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
+                                                 IdFuncionario + "  AND '" + DiaValidar.ToString( "yyyy/MM/dd" ) +
+                                                 "' BETWEEN DATA_INICIO AND DATA_FIM ;" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -154,61 +154,61 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 var cmdComando = CriarComandoSQL(
                     "SELECT * FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                    IdFuncionario + " AND DATA_ADMISSAO <='" + DiaValidar.ToString("yyyy/MM/dd") + "';");
-                using (var reader = cmdComando.ExecuteReader())
+                    IdFuncionario + " AND DATA_ADMISSAO <='" + DiaValidar.ToString( "yyyy/MM/dd" ) + "';" );
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
         }
-        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario, string IdCalendario,DateTime DiaValidar)
+        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario, string IdCalendario, DateTime DiaValidar)
         {
             List<Dictionary<string, string>> linhas = null;
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA = '" + DiaValidar.ToString("yyyy/MM/dd") +
-                    "' AND ID_CALENDARIO=" + IdCalendario + "");
-                using (var reader = cmdComando.ExecuteReader())
+                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA = '" + DiaValidar.ToString( "yyyy/MM/dd" ) +
+                    "' AND ID_CALENDARIO=" + IdCalendario + "" );
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -219,36 +219,69 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-               
 
-                var cmdComando = CriarComandoSQL("SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO = " +IdFuncionario + " and DATA_INICIO <= '" + DiaValidar.ToString("yyyy/MM/dd") + "' ORDER BY DATA_INICIO DESC");
-                using (var reader = cmdComando.ExecuteReader())
+
+                var cmdComando = CriarComandoSQL( "SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO = " + IdFuncionario + " and DATA_INICIO <= '" + DiaValidar.ToString( "yyyy/MM/dd" ) + "' ORDER BY DATA_INICIO DESC" );
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
         }
 
+        public List<Dictionary<string, string>> BuscaJornada(string IdFuncionario, string DataAtualizacao)
+        {
+            List<Dictionary<string, string>> linhas = null;
+            try
+            {
 
+                var cmdComando = CriarComandoSQL( "SELECT ID_JORNADA FROM JORNADA_FUNCIONARIO WHERE ID_FUNCIONARIO=" + IdFuncionario +
+                            " AND DATA_INICIO <='" + DataAtualizacao + "' ORDER BY DATA_INICIO desc;");
+
+                using ( var reader = cmdComando.ExecuteReader() )
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while ( reader.Read() )
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for ( var i = 0; i < reader.FieldCount; i++ )
+                        {
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
+                        }
+
+                        linhas.Add( linha );
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao( con );
+            }
+
+            return linhas;
+        }
 
 
 
@@ -257,38 +290,38 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
             try
             {
-               // var DiaValidar = new DateTime();
+                // var DiaValidar = new DateTime();
 
-//                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
-  //                  DiaValidar = DateTime.Now.AddDays(-3);
-    //            else
-      //              DiaValidar = DateTime.Now.AddDays(-1);
-      //
+                //                if (DateTime.Now.AddDays(-1).DayOfWeek == DayOfWeek.Sunday)
+                //                  DiaValidar = DateTime.Now.AddDays(-3);
+                //            else
+                //              DiaValidar = DateTime.Now.AddDays(-1);
+                //
                 var cmdComando = CriarComandoSQL(
                     "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA='" +
-                    data.ToString("yyyy/MM/dd") +
-                    "' AND ID_CALENDARIO=2");
-                using (var reader = cmdComando.ExecuteReader())
+                    data.ToString( "yyyy/MM/dd" ) +
+                    "' AND ID_CALENDARIO=2" );
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -302,30 +335,30 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 var cmdComando = CriarComandoSQL(
                     "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" +
-                    DiaValidar.ToString("yyyy/MM/dd") + "' AND a.ID_FUNCIONARIO=" + IdFuncionario +
-                    " AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC");
+                    DiaValidar.ToString( "yyyy/MM/dd" ) + "' AND a.ID_FUNCIONARIO=" + IdFuncionario +
+                    " AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -337,29 +370,29 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT   ID_FUNCIONARIO from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'");
+                    "SELECT   ID_FUNCIONARIO from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -371,29 +404,29 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT   MATRICULA from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'");
+                    "SELECT   MATRICULA from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -405,30 +438,30 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT * from MARCACAO  WHERE DATA='" + Convert.ToDateTime(DataMarcacao).ToString("yyyy/MM/dd") +
-                    "' AND ID_FUNCIONARIO=" + IdFuncionario + "");
+                    "SELECT * from MARCACAO  WHERE DATA='" + Convert.ToDateTime( DataMarcacao ).ToString( "yyyy/MM/dd" ) +
+                    "' AND ID_FUNCIONARIO=" + IdFuncionario + "" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -438,23 +471,23 @@ namespace PortalSicoobDivicred.Aplicacao
             string HoraPendencia)
         {
             var UltimosDados = RetornaUltimaId();
-            var PisFuncionario = RetornaPis(IdFuncionarioFireBird);
+            var PisFuncionario = RetornaPis( IdFuncionarioFireBird );
 
             try
             {
                 var cmdComando = CriarComandoSQL(
                     "INSERT INTO MARCACAO(ID_FUNCIONARIO, ID_JUSTIFICATIVA, NUMERO_REP, PIS, SEQUENCIAL, DATA, HORA, TIPO_REGISTRO, TIPO_MARCACAO, IDENTIFICACAO) VALUES(" +
                     IdFuncionarioFireBird + ", " +
-                    IdJustificativaFireBird + ",0,'" + PisFuncionario[0]["PIS"] + "'," +
-                    (Convert.ToInt32(UltimosDados[0]["SEQUENCIAL"]) + 1) + ", '" +
-                    Convert.ToDateTime(DataPendencia).ToString("yyyy/MM/dd") + "','" + HoraPendencia + "', 'I','', '" +
-                    PisFuncionario[0]["PIS"] + "'); ");
+                    IdJustificativaFireBird + ",0,'" + PisFuncionario [0] ["PIS"] + "'," +
+                    (Convert.ToInt32( UltimosDados [0] ["SEQUENCIAL"] ) + 1) + ", '" +
+                    Convert.ToDateTime( DataPendencia ).ToString( "yyyy/MM/dd" ) + "','" + HoraPendencia + "', 'I','', '" +
+                    PisFuncionario [0] ["PIS"] + "'); " );
                 cmdComando.ExecuteNonQuery();
-                
+
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
         }
 
@@ -464,29 +497,29 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT FIRST 1 ID_MARCACAO,SEQUENCIAL FROM MARCACAO ORDER BY SEQUENCIAL DESC;");
+                    "SELECT FIRST 1 ID_MARCACAO,SEQUENCIAL FROM MARCACAO ORDER BY SEQUENCIAL DESC;" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -498,29 +531,29 @@ namespace PortalSicoobDivicred.Aplicacao
             try
             {
                 var cmdComando = CriarComandoSQL(
-                    "SELECT PIS FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" + IdFuncionario + ";");
+                    "SELECT PIS FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" + IdFuncionario + ";" );
 
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
             return linhas;
@@ -531,30 +564,30 @@ namespace PortalSicoobDivicred.Aplicacao
             List<Dictionary<string, string>> linhas = null;
 
             var cmdComando =
-                CriarComandoSQL("SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA ORDER BY DESCRICAO ASC");
+                CriarComandoSQL( "SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA ORDER BY DESCRICAO ASC" );
             try
             {
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
 
@@ -565,31 +598,31 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             List<Dictionary<string, string>> linhas = null;
 
-            var cmdComando = CriarComandoSQL("SELECT DESCRICAO FROM JUSTIFICATIVA WHERE  ID_JUSTIFICATIVA=" +
-                                             IdJustificativa + "");
+            var cmdComando = CriarComandoSQL( "SELECT DESCRICAO FROM JUSTIFICATIVA WHERE  ID_JUSTIFICATIVA=" +
+                                             IdJustificativa + "" );
             try
             {
-                using (var reader = cmdComando.ExecuteReader())
+                using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
-                    while (reader.Read())
+                    while ( reader.Read() )
                     {
                         var linha = new Dictionary<string, string>();
 
-                        for (var i = 0; i < reader.FieldCount; i++)
+                        for ( var i = 0; i < reader.FieldCount; i++ )
                         {
-                            var nomeDaColuna = reader.GetName(i);
-                            var valorDaColuna = reader.IsDBNull(i) ? null : reader.GetString(i);
-                            linha.Add(nomeDaColuna, valorDaColuna);
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
                         }
 
-                        linhas.Add(linha);
+                        linhas.Add( linha );
                     }
                 }
             }
             finally
             {
-                FecharConexao(con);
+                FecharConexao( con );
             }
 
 

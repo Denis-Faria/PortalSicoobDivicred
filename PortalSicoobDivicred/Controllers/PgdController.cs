@@ -17,8 +17,28 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
+                var DadosUsuario = verificaDadosLogin.RecuperaDadosUsuarios(Login);
 
-            
+
+
+                if (verificaDadosLogin.PermissaoCurriculos(Login))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
+                if (DadosUsuario[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
+
+                if (verificaDadosLogin.PermissaoTesouraria(DadosUsuario[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
+                        " ";
+                else
+                    TempData["PermissaoTesouraria"] = "display: none";
+
+
                 var funcao = verificaDados.RecuperaFuncao(Login);
                 @TempData["meta"]= verificaDados.RecuperaMetaCim(funcao);
                 

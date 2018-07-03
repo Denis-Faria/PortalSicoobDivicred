@@ -20,6 +20,9 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o seu PIS!")]
         public string PisFuncionario { get; set; }
 
+        [Required(ErrorMessage = "Favor informar Login do funcionário")]
+        public string LoginFuncionario { get; set; }
+
         [Required(ErrorMessage = "Favor informar a sua data de nascimento!")]
         public string DataNascimentoFuncionario { get; set; }
 
@@ -33,6 +36,10 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o seu e-mail!")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Informe se o funcionário é gestor")]
+        public string Gestor { get; set; }
+
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
@@ -240,6 +247,9 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar a sua matricula!")]
         public string Matricula { get; set; }
+
+        [Required(ErrorMessage = "Favor informar a data de Admissão")]
+        public DateTime dataAdmissao { get; set; }
 
         [Required(ErrorMessage = "Favor informar a data de expedissão de seu RG!")]
         public DateTime DataExpedicaoDocumentoRg { get; set; }

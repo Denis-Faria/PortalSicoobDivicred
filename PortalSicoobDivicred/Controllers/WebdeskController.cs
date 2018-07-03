@@ -39,6 +39,12 @@ namespace PortalSicoobDivicred.Controllers
                 else
                     TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
 
+                if (permissao.PermissaoTesouraria(DadosUsuario[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
+                        " ";
+                else
+                    TempData["PermissaoTesouraria"] = "display: none";
+
                 TempData["NomeLateral"] = DadosUsuario[0]["login"];
 
                 var ChamadosEmAberto = VerificaDados.RetornaChamadosAbertos(DadosUsuario[0]["id"]);
@@ -838,7 +844,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
-                       await Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
@@ -894,7 +900,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
                     {
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
-                       await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
@@ -905,7 +911,7 @@ namespace PortalSicoobDivicred.Controllers
                         CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
                         {
-                             Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
                         }
                     }
 
@@ -1056,9 +1062,9 @@ namespace PortalSicoobDivicred.Controllers
                 if (Formulario.Count > 0)
                 {
                     var count = 0;
-                    var ArrayCombo = new Dictionary<string,string>();
+                    var ArrayCombo = new Dictionary<string, string>();
 
-                    
+
                     foreach (var Campo in Formulario)
                     {
                         if (Campo["campoobrigatorio"].Equals("S"))
@@ -1075,15 +1081,15 @@ namespace PortalSicoobDivicred.Controllers
                             {
 
                                 var CamposCombo = ArrayCombo[Campo["nomecombo"]];
-                                CamposCombo = CamposCombo +";" +Campo["campo"];
+                                CamposCombo = CamposCombo + ";" + Campo["campo"];
                                 ArrayCombo[Campo["nomecombo"]] = CamposCombo;
                             }
                             else
                             {
-                                ArrayCombo.Add(Campo["nomecombo"],Campo["campo"]);
-                               
+                                ArrayCombo.Add(Campo["nomecombo"], Campo["campo"]);
+
                             }
-                            
+
                         }
                         else
                         {
@@ -1091,7 +1097,7 @@ namespace PortalSicoobDivicred.Controllers
                             count++;
                         }
 
-                        
+
                     }
                     TempData["TotalCampos"] = count;
                     TempData["Combos"] = ArrayCombo;
@@ -1105,6 +1111,45 @@ namespace PortalSicoobDivicred.Controllers
 
 
             }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Funcionario()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = VerificaDados.RetornaCertificacoes();
+                TempData["TotalCertificacao"] = Certificacoes.Count;
+                for (var i = 0; i < Certificacoes.Count; i++)
+                {
+                    TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
+                    TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
+                }
+
+                return PartialView("ParametrosFuncionario");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult Funcionario(Funcao DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = "";
+                for (var i = 0; i < Dados.Count; i++)
+                    if (Dados.AllKeys[i].Contains("Certificacao"))
+                        Certificacoes = Certificacoes + Dados[i] + ";";
+
+                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função cadastrada com sucesso !" });
+            }
+
             return RedirectToAction("Login", "Login");
         }
     }

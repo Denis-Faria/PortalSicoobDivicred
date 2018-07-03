@@ -4,6 +4,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<script>
+    function Funcionario() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelFuncao").addClass("is-active");
+
+        $("#PanelCertificacao").removeClass();
+        $("#PanelGestor").removeClass();
+        $("#PanelSetor").removeClass();
+        $("#PanelCertificacao").addClass("panel-block");
+        $("#PanelGestor").addClass("panel-block");
+        $("#PanelSetor").addClass("panel-block");
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/WebDesk/Funcionario',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
+    function Grupo() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelFuncao").addClass("is-active");
+
+        $("#PanelCertificacao").removeClass();
+        $("#PanelGestor").removeClass();
+        $("#PanelSetor").removeClass();
+        $("#PanelCertificacao").addClass("panel-block");
+        $("#PanelGestor").addClass("panel-block");
+        $("#PanelSetor").addClass("panel-block");
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/Funcao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
+
+
+
+
+</script>
 <body>
 
     @if (TempData["Mensagem"] != null)
@@ -208,7 +265,7 @@
                 });
         }
 
-        
+
 
 
     </script>
@@ -289,14 +346,17 @@
                         <span>Minhas solicitações</span>
                     </a>
                 </li>
-                <li id="AbaParametros">
-                    <a href="#Parametros" onclick="javascript: $('#AbaChamadosdoMeuSetor').removeClass(); $('#AbaMeusChamados').removeClass(); $('#AbaMeusChamadosAbertos').removeClass();$('#AbaParametros').addClass('is-active');">
-                        <span class="icon is-small">
-                            <i class="fa fa-inbox"></i>
-                        </span>
-                        <span>Parâmetros</span>
-                    </a>
-                </li>
+                @if (TempData["usuarioTI"].ToString() == "2")
+                {
+                    <li id="AbaParametros">
+                        <a href="#Parametros" onclick="javascript: $('#AbaChamadosdoMeuSetor').removeClass(); $('#AbaMeusChamados').removeClass(); $('#AbaMeusChamadosAbertos').removeClass();$('#AbaParametros').addClass('is-active');">
+                            <span class="icon is-small">
+                                <i class="fa fa-inbox"></i>
+                            </span>
+                            <span>Parâmetros</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
         <div id="MeusChamados">
@@ -330,36 +390,36 @@
             </table>
         </div>
 
-        @if (TempData["usuarioTI"].ToString()=="2") {
+        @if (TempData["usuarioTI"].ToString() == "2")
+        {
         <div id="Parametros">
-            <table id="TabelaChamadosOperador" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
-                <thead>
-                <th class="has-text-centered">N° Chamado</th>
-                <th class="has-text-centered">Categoria</th>
-                <th class="has-text-centered">Funcionário Solicitante</th>
-                <th class="has-text-centered">Funcionário Responsável</th>
-                <th class="has-text-centered">Status</th>
-                <th class="has-text-centered">SLA</th>
-                </thead>
-                <tbody>
 
-                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalChamadosOperador"].ToString()); j++)
-                    {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new { IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo" })">
-                            <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
-                            <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
-                            <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
-                            <td class="has-text-centered">@TempData["OperadorOperador" + j].ToString()</td>
-                            <td class="has-text-centered">@TempData["SituacaoOperador" + j].ToString()</td>
-                            <td class="has-text-centered">
-                                <div data-balloon="@TempData["InformacaoSLAOperador" + j]" data-balloon-pos="down">
-                                    <progress class="progress @TempData["StatusCorOperador" + j]" value="@TempData["SlaOperador" + j]" max="100">15%</progress>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="columns">
+                <div class="column -is-4">
+                    <nav class="panel">
+                        <p class="panel-heading">
+                            Parâmetros
+                        </p>
+                        <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Funcionários
+                        </a>
+                        <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Grupos
+                        </a>
+
+
+                    </nav>
+                </div>
+                <div id="ParametroSelecionado" class="column is-6">
+
+                </div>
+            </div>
         </div>
         }
         <div id="ChamadosSetor">
@@ -564,7 +624,7 @@
                     <div id="FormularioCategoria">
 
                     </div>
-                    
+
                 </section>
                 <footer class="modal-card-foot">
                     <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Formulário</button>

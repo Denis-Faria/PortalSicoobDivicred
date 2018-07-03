@@ -35,6 +35,7 @@ namespace PortalSicoobDivicred.Aplicacao
             _conexaoMysql.ExecutaComando( queryInsereValorCamposDigitaveis );
         }
 
+<<<<<<< HEAD
 
 
 
@@ -47,13 +48,24 @@ namespace PortalSicoobDivicred.Aplicacao
             _conexaoMysql.ExecutaComando( queryInsereConferencia );
 
 
+=======
+        public void InsereConferencia(String data, string historico, string extrato,string arquivos,string diferenca)
+        {
+            string QueryInsereConferencia = "INSERT INTO dadosextrato (data,historico,extrato,arquivos,diferenca,excluido) values ('" + data + "','" + historico + "','" + extrato + "','" + arquivos + "','"+ (Math.Round(Convert.ToDouble(diferenca),2)).ToString() + "','N') ";
+            ConexaoMysql.ExecutaComando(QueryInsereConferencia);
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
         }
 
-        public void InsereJustificativa(String data, string justificativa)
+        public void InsereJustificativa(string data, string justificativa)
         {
+<<<<<<< HEAD
             string queryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
             _conexaoMysql.ExecutaComando( queryInsereJustificativa );
 
+=======
+                string QueryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
+                ConexaoMysql.ExecutaComando(QueryInsereJustificativa);
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
         }
 
         public List<Dictionary<string, string>> RecuperaDadosTabela(string data)

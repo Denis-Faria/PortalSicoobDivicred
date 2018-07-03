@@ -205,7 +205,7 @@
         </td>
         <td class="has-text-centered">
             @Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]).ToString("C")
-        </td>
+        <td>
         <td class="has-text-centered">
             <input name="Historico @TempData["CHEQUEDEVOLVIDO"]" id="Historico @TempData["CHEQUEDEVOLVIDO"]" value="@TempData["CHEQUEDEVOLVIDO"]" hidden="true" />@Convert.ToDouble(@TempData["CHEQUEDEVOLVIDO"]).ToString("C")
         </td>
@@ -215,11 +215,9 @@
         <td class="has-text-centered"style="width:10%">
             <img src="/Images/@TempData["Diferencatexto11"]">
         </td>
-
     </tr>
-
 </table>
-
+    <input type="text"  value="@TempData["data"]" name="dataescolhida"hidden/>
     <div class="columns content">
         <div class="column is-12">
             <label class="label">Justificativa</label>
@@ -227,17 +225,13 @@
         </div>
     </div>
 
-
-
     <div class="buttons">
         <p class="control" id="botaoProcessar"  style="left:40%">
             <button type="submit" class="button is-success" data-balloon="Clique para processar dados" data-balloon-pos="down">
-                
                     <span class="icon is-small">
                         <i class="fas fa-check"></i>
                     </span>
                     <span>Salvar</span>
-                
             </button>
         </p>
     </div>

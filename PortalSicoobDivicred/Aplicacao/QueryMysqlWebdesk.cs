@@ -134,6 +134,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RecuperaDadosUsuarios(string login)
         {
+<<<<<<< HEAD
             var queryRecuperaUsuario =
                 "SELECT * FROM funcionarios  WHERE login='" + login + "'";
 
@@ -142,6 +143,13 @@ namespace PortalSicoobDivicred.Aplicacao
 
 
             return dados;
+=======
+            var QueryRecuperaUsuario =
+                "SELECT * FROM funcionarios  WHERE login='" + Login + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaUsuario);
+
+            return Dados;
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
         }
 
         public void InserirAnexo(string idInteracao, byte[] foto, string tipoArquivo, string nomeArquivo)

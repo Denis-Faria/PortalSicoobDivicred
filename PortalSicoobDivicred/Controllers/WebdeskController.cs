@@ -20,11 +20,20 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if (logado)
             {
+<<<<<<< HEAD
                 TempData["Mensagem"] = mensagem;
                 var cookie = Request.Cookies.Get("CookieFarm");
                 if (cookie != null)
                 {
                     var login = Criptografa.Descriptografar(cookie.Value);
+=======
+                TempData["Mensagem"] = Mensagem;
+                var Cookie = Request.Cookies.Get("CookieFarm");
+                var Login = Criptografa.Descriptografar(Cookie.Value);
+
+                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
+                TempData["usuarioTI"] = DadosUsuario[0]["idgrupo"];
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
 
                     var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
 
@@ -35,11 +44,21 @@ namespace PortalSicoobDivicred.Controllers
                     else
                         TempData["PermissaoCurriculo"] = "display: none";
 
+<<<<<<< HEAD
                     if (permissao.PermissaoTesouraria(login))
                         TempData["PermissaoTesouraria"] =
                             " ";
                     else
                         TempData["PermissaoTesouraria"] = "display: none";
+=======
+                if (permissao.PermissaoTesouraria(DadosUsuario[0]["login"]))
+                    TempData["PermissaoTesouraria"] =
+                        " ";
+                else
+                    TempData["PermissaoTesouraria"] = "display: none";
+
+                TempData["NomeLateral"] = DadosUsuario[0]["login"];
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
 
                     if (dadosUsuario[0]["foto"] == null)
                         TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
@@ -925,6 +944,26 @@ namespace PortalSicoobDivicred.Controllers
                     await envia.EnviaAlertaFuncionario(dadosOperador[0],
                         "A solicitação n°" + dados["IdSolicitacao"] + " cotém pendências .", "6");
 
+<<<<<<< HEAD
+=======
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        }
+                    }
+                    else
+                    {
+                        CadastroAlerta.cadastrarAlert(DadosUsuario[0]["id"], "6", "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "A solicitação n°" + Dados["IdSolicitacao"] + " foi reaberta.");
+                        }
+                    }
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
@@ -970,6 +1009,7 @@ namespace PortalSicoobDivicred.Controllers
                     var envia = new EnviodeAlertas();
                     var idSolicitante = verificaDados.RetornaIdSolicitantes(dados["IdSolicitacao"]);
 
+<<<<<<< HEAD
                     var dadosOperadorNovo = verificaDados.RetornaInformacoesNotificacao(idSolicitante[0]["idfuncionarioresponsavel"]);
 
                     await envia.EnviaAlertaFuncionario(dadosOperadorNovo[0],
@@ -978,6 +1018,13 @@ namespace PortalSicoobDivicred.Controllers
 
                     return RedirectToAction("InteracaoChamado", "Webdesk",
                         new
+=======
+                    if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
+                    {
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
                         {
                             IdChamado = dados["IdSolicitacao"],
                             Mensagem = "Pendência solucionada com sucesso !",
@@ -989,6 +1036,7 @@ namespace PortalSicoobDivicred.Controllers
                     var cookie = Request.Cookies.Get("CookieFarm");
                     if (cookie != null)
                     {
+<<<<<<< HEAD
                         var login = Criptografa.Descriptografar(cookie.Value);
 
                         var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
@@ -1009,6 +1057,13 @@ namespace PortalSicoobDivicred.Controllers
 
                                 verificaDados.InserirAnexo(idInteracao, fileData, lista[i].ContentType, nomeArquivo);
                             }
+=======
+                        CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
+                        {
+                            Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + Dados["IdSolicitacao"] + " teve interações.");
+                        }
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
                     }
 
                     var envia = new EnviodeAlertas();
@@ -1171,7 +1226,10 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var count = 0;
                     var ArrayCombo = new Dictionary<string, string>();
+<<<<<<< HEAD
                     var ArrayObrigatoriedadeCombo = new Dictionary<string, string>();
+=======
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
 
 
                     foreach (var Campo in Formulario)
@@ -1196,6 +1254,7 @@ namespace PortalSicoobDivicred.Controllers
                             }
                             else
                             {
+<<<<<<< HEAD
                                 if (Campo["campoobrigatorio"].Equals("S"))
                                 {
                                     TempData["Obnrigatorio" + Campo["nomecombo"]] = "required";
@@ -1204,6 +1263,8 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     TempData["Obnrigatorio" + Campo["nomecombo"]] = "required";
                                 }
+=======
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
                                 ArrayCombo.Add(Campo["nomecombo"], Campo["campo"]);
 
                             }
@@ -1230,6 +1291,45 @@ namespace PortalSicoobDivicred.Controllers
 
 
             }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Funcionario()
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = VerificaDados.RetornaCertificacoes();
+                TempData["TotalCertificacao"] = Certificacoes.Count;
+                for (var i = 0; i < Certificacoes.Count; i++)
+                {
+                    TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
+                    TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
+                }
+
+                return PartialView("ParametrosFuncionario");
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult Funcionario(Funcao DadosCadastro, FormCollection Dados)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Certificacoes = "";
+                for (var i = 0; i < Dados.Count; i++)
+                    if (Dados.AllKeys[i].Contains("Certificacao"))
+                        Certificacoes = Certificacoes + Dados[i] + ";";
+
+                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
+                return RedirectToAction("ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Função cadastrada com sucesso !" });
+            }
+
             return RedirectToAction("Login", "Login");
         }
     }

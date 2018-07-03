@@ -6,182 +6,181 @@ using PortalSicoobDivicred.Repositorios;
 
 namespace PortalSicoobDivicred.Aplicacao
 {
-    public class QueryMysqlCIM
+    public class QueryMysqlCim
     {
-        private readonly Conexao ConexaoMysql;
+        private readonly Conexao _conexaoMysql;
 
-        public QueryMysqlCIM()
+        public QueryMysqlCim()
         {
-            ConexaoMysql = new Conexao();
+            _conexaoMysql = new Conexao();
         }
 
 
-        public string RecuperaFuncao(string Login)
+        public string RecuperaFuncao(string login)
         {
-            
-            string QueryRecuperaFuncaoUsuario = "SELECT funcao from funcionarios where Login='" + Login + "'";
-            var funcao = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaFuncaoUsuario);
-            return funcao[0]["funcao"];
+
+            string queryRecuperaFuncaoUsuario = "SELECT funcao from funcionarios where Login='" + login + "'";
+            var funcao = _conexaoMysql.ExecutaComandoComRetorno( queryRecuperaFuncaoUsuario );
+            return funcao [0] ["funcao"];
         }
 
         public string RecuperaMetaCim(string funcao)
         {
-            string QueryRecuperaMetaUsuario = "SELECT cimmeta from funcoes where id='" + funcao + "'";
-            var meta = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaMetaUsuario);
-            return meta[0]["cimmeta"];
+            string queryRecuperaMetaUsuario = "SELECT cimmeta from funcoes where id='" + funcao + "'";
+            var meta = _conexaoMysql.ExecutaComandoComRetorno( queryRecuperaMetaUsuario );
+            return meta [0] ["cimmeta"];
         }
 
-        
 
-        public string BuscaSaldoAtual(string Login)
+
+        public string BuscaSaldoAtual(string login)
         {
-            string QueryConsultaValorAtual =
-                "select pontuacaoatual from cimpontuacao where Login='" + Login + "'";
+            string queryConsultaValorAtual =
+                "select pontuacaoatual from cimpontuacao where Login='" + login + "'";
 
-            var pontuacaoAtual = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorAtual);
-            if (pontuacaoAtual.Count == 0)
+            var pontuacaoAtual = _conexaoMysql.ExecutaComandoComRetorno( queryConsultaValorAtual );
+            if ( pontuacaoAtual.Count == 0 )
             {
-                var QueryIncluiPontuacao = "INSERT INTO cimpontuacao (pontuacaoatual,login) values ('0','" + Login + "')";
-                ConexaoMysql.ExecutaComando(QueryIncluiPontuacao);
-               
-                string QueryConsultaValorPrimeiraVez =
-                    "select pontuacaoatual from cimpontuacao where Login='" + Login + "'";
+                var queryIncluiPontuacao = "INSERT INTO cimpontuacao (pontuacaoatual,login) values ('0','" + login + "')";
+                _conexaoMysql.ExecutaComando( queryIncluiPontuacao );
 
-                pontuacaoAtual = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorPrimeiraVez);
+                string queryConsultaValorPrimeiraVez =
+                    "select pontuacaoatual from cimpontuacao where Login='" + login + "'";
+
+                pontuacaoAtual = _conexaoMysql.ExecutaComandoComRetorno( queryConsultaValorPrimeiraVez );
 
             }
 
-            return pontuacaoAtual[0]["pontuacaoatual"];
+            return pontuacaoAtual [0] ["pontuacaoatual"];
         }
 
         public string Gestor(string login)
         {
-            string QueryGestor = "SELECT gestor from funcionarios where login='" + login + "'";
+            string queryGestor = "SELECT gestor from funcionarios where login='" + login + "'";
 
-            var gestor = ConexaoMysql.ExecutaComandoComRetorno(QueryGestor);
+            var gestor = _conexaoMysql.ExecutaComandoComRetorno( queryGestor );
 
-            return gestor[0]["gestor"];
+            return gestor [0] ["gestor"];
         }
 
         public List<SelectListItem> RetornaProdutos()
         {
-            var Produtos = new List<SelectListItem>();
+            var produtos = new List<SelectListItem>();
 
-            const string QueryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos";
+            const string queryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos";
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaProdutos);
-            foreach (var row in Dados)
-                Produtos.Add(new SelectListItem
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( queryRetornaProdutos );
+            foreach ( var row in dados )
+                produtos.Add( new SelectListItem
                 {
-                    Value = row["id"],
-                    Text = row["descricao"]
-                });
+                    Value = row ["id"],
+                    Text = row ["descricao"]
+                } );
 
-            return Produtos;
-        }
-
-       
-
-        public List<Dictionary<string, string>> retornaDadosProdutos(int id)
-        {
-
-            string QueryRetornaDadosProdutos = "SELECT peso,valorminimo from pgdprodutos where id='" + id + "'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryRetornaDadosProdutos);
-            return Dados;
-        }
-
-
-        public void InsereProducao(string cpf, int produtos, string observacao, DateTime data, string Login, string valor, string valorponto)
-        {
-
-            string QueryInsereProducao = "INSERT INTO cimproducao (cpf,produto,observacao,datacontratacao,excluido,Login,valor,valorponto) values ('" + cpf + "','" + produtos + "','" + observacao + "','" + Convert.ToDateTime(data).ToString("yyyy-MM-dd") + "','N','" + Login + "','" + valor.ToString().Replace(",", ".") + "','" + valorponto.ToString().Replace(".", "").Replace(",", ".") + "') ";
-            ConexaoMysql.ExecutaComando(QueryInsereProducao);
-
-        }
-
-        public string ExisteRegistro(string Login)
-        {
-            string QueryExiste = "SELECT count(*) from cimpontuacao where Login='" + Login + "'";
-
-            var id = ConexaoMysql.ExecutaComandoComRetorno(QueryExiste);
-
-            return id[0]["count(*)"];
+            return produtos;
         }
 
 
 
-        
-        public void IncluirPontucao(string Login, double ponto)
+        public List<Dictionary<string, string>> RetornaDadosProdutos(int id)
         {
-            string existe = ExisteRegistro(Login);
-                string auxSaldoAtual = BuscaSaldoAtual(Login);
-            double saldoatual = Convert.ToDouble(auxSaldoAtual);
+
+            string queryRetornaDadosProdutos = "SELECT peso,valorminimo from pgdprodutos where id='" + id + "'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( queryRetornaDadosProdutos );
+            return dados;
+        }
+
+
+        public void InsereProducao(string cpf, int produtos, string observacao, DateTime data, string login, string valor, string valorponto)
+        {
+
+            string queryInsereProducao = "INSERT INTO cimproducao (cpf,produto,observacao,datacontratacao,excluido,Login,valor,valorponto) values ('" + cpf + "','" + produtos + "','" + observacao + "','" + Convert.ToDateTime( data ).ToString( "yyyy-MM-dd" ) + "','N','" + login + "','" + valor.Replace( ",", "." ) + "','" + valorponto.Replace( ".", "" ).Replace( ",", "." ) + "') ";
+            _conexaoMysql.ExecutaComando( queryInsereProducao );
+
+        }
+
+        public string ExisteRegistro(string login)
+        {
+            string queryExiste = "SELECT count(*) from cimpontuacao where Login='" + login + "'";
+
+            var id = _conexaoMysql.ExecutaComandoComRetorno( queryExiste );
+
+            return id [0] ["count(*)"];
+        }
+
+
+
+
+        public void IncluirPontucao(string login, double ponto)
+        {
+            string auxSaldoAtual = BuscaSaldoAtual( login );
+            double saldoatual = Convert.ToDouble( auxSaldoAtual );
 
 
             double valorAtual = saldoatual + ponto;
-            var QueryAtualizaPontuacao = "update cimpontuacao set pontuacaoatual =" + valorAtual.ToString("N2").Replace(".", "").Replace(",", ".") + " where Login='" + Login + "'";
-            ConexaoMysql.ExecutaComando(QueryAtualizaPontuacao);
-            
+            var queryAtualizaPontuacao = "update cimpontuacao set pontuacaoatual =" + valorAtual.ToString( "N2" ).Replace( ".", "" ).Replace( ",", "." ) + " where Login='" + login + "'";
+            _conexaoMysql.ExecutaComando( queryAtualizaPontuacao );
+
         }
 
         public List<Dictionary<string, string>> BuscaDadosProducao(int idProducao)
         {
-            string QueryConsultaValorAtual =
+            string queryConsultaValorAtual =
                 "select Login,valorponto from cimproducao where id=" + idProducao;
 
-            var idDados = ConexaoMysql.ExecutaComandoComRetorno(QueryConsultaValorAtual);
+            var idDados = _conexaoMysql.ExecutaComandoComRetorno( queryConsultaValorAtual );
 
             return idDados;
         }
 
         public void ExcluirRegistro(int id)
         {
-            var QueryExcluiProducao = "UPDATE cimproducao SET excluido='S' where id='" + id + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(QueryExcluiProducao);
+            var queryExcluiProducao = "UPDATE cimproducao SET excluido='S' where id='" + id + "'";
+            _conexaoMysql.ExecutaComandoComRetorno( queryExcluiProducao );
         }
 
-        public void AtualizarRegistroExclusao(string Login, double valor)
+        public void AtualizarRegistroExclusao(string login, double valor)
         {
 
-            string auxSaldoAtual = BuscaSaldoAtual(Login);
-            double saldoatual = Convert.ToDouble(auxSaldoAtual);
+            string auxSaldoAtual = BuscaSaldoAtual( login );
+            double saldoatual = Convert.ToDouble( auxSaldoAtual );
 
             double saldo = saldoatual - valor;
 
-            var QueryExcluiProducao = "UPDATE cimpontuacao set pontuacaoatual =" + saldo.ToString().Replace(",", ".") +
-                                      " where Login='" + Login + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(QueryExcluiProducao);
+            var queryExcluiProducao = "UPDATE cimpontuacao set pontuacaoatual =" + saldo.ToString().Replace( ",", "." ) +
+                                      " where Login='" + login + "'";
+            _conexaoMysql.ExecutaComandoComRetorno( queryExcluiProducao );
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosProducao(string UsuarioSistema)
+        public List<Dictionary<string, string>> RecuperaDadosProducao(string usuarioSistema)
         {
-            var Query =
-                "SELECT * FROM cimproducao WHERE Login='" + UsuarioSistema + "' and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query =
+                "SELECT * FROM cimproducao WHERE Login='" + usuarioSistema + "' and excluido='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
 
-            return Dados;
+            return dados;
         }
 
         public string RecuperaProduto(int idProduto)
         {
-            var Query =
+            var query =
                 "select descricao from pgdprodutos where id='" + idProduto + "'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
 
-            return Dados[0]["descricao"];
+            return dados [0] ["descricao"];
         }
 
         public List<Dictionary<string, string>> RecuperaSubordinadosGestor(string login)
         {
 
-            string QueryRecuperaSetorUsuario = "SELECT idsetor from funcionarios where login='" + login + "'";
-            var idsetor = ConexaoMysql.ExecutaComandoComRetorno(QueryRecuperaSetorUsuario);
+            string queryRecuperaSetorUsuario = "SELECT idsetor from funcionarios where login='" + login + "'";
+            var idsetor = _conexaoMysql.ExecutaComandoComRetorno( queryRecuperaSetorUsuario );
 
-            var Query = "select a.nome,b.pontuacaoatual,a.funcao from funcionarios as a inner join cimpontuacao as b on a.login=b.login " +
-                       "where a.idsetor='" + idsetor[0]["idsetor"] + "'";
-            var row = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "select a.nome,b.pontuacaoatual,a.funcao from funcionarios as a inner join cimpontuacao as b on a.login=b.login " +
+                       "where a.idsetor='" + idsetor [0] ["idsetor"] + "'";
+            var row = _conexaoMysql.ExecutaComandoComRetorno( query );
             return row;
         }
 

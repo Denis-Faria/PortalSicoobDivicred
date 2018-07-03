@@ -14,10 +14,10 @@ namespace PortalSicoobDivicred.Controllers
             int inicio = 0;
             int k = 0;//feito para colocar o inicio do for. Considerando celulas mescladas no inicio.
             int m = 0;//feito para definir qual coluna vai servir de base para o inicio
-            Conexao conectaPlanilha = new Conexao();
+            ConexaoExcel conectaPlanilha = new ConexaoExcel();
             DataSet output = new DataSet();
             string palavraInicio = "";
-            output.Tables.Add(conectaPlanilha.importarExcel(endereco, count));
+            output.Tables.Add(conectaPlanilha.ImportarExcel(endereco, count));
 
 
             switch (count)
@@ -77,9 +77,9 @@ namespace PortalSicoobDivicred.Controllers
         public string validaDataRelatorio(string posicao, int i, string caminho)
         {
             int resposta = 0;
-            Conexao conectaPlanilha = new Conexao();
+            ConexaoExcel conectaPlanilha = new ConexaoExcel();
             DataSet output = new DataSet();
-            output.Tables.Add(conectaPlanilha.importarExcel(caminho, i.ToString()));
+            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho, i.ToString()));
             int m;
             string data1 = "";
             string data2 = "";
@@ -207,15 +207,15 @@ namespace PortalSicoobDivicred.Controllers
             return auxVerificaDataMaior;
         }
 
-        public Dictionary<string, double> calculo1(string caminho, string count, int inicio)
+        public Dictionary<string, double> Calculo1(string caminho, string count, int inicio)
         {
 
             Dictionary<string, double> somatorio = new Dictionary<string, double>();
 
 
-            Conexao conectaPlanilha = new Conexao();
+            ConexaoExcel conectaPlanilha = new ConexaoExcel();
             DataSet output = new DataSet();
-            output.Tables.Add(conectaPlanilha.importarExcel(caminho, count));
+            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho, count));
 
             string varGuardaUltimoHist = "";
             string varGuardaUltimoHistAux = "";
@@ -230,9 +230,9 @@ namespace PortalSicoobDivicred.Controllers
             double valorArq10 = 0;
             double valorArq11 = 0;
             double valorArq12 = 0;
-            double valorArq13 = 0;
+            double valorArq13;
             int j;
-            int aux = 0;
+
             double[] numeros = new double[716];
             switch (count)
             {
@@ -341,7 +341,10 @@ namespace PortalSicoobDivicred.Controllers
                                     varGuardaUltimoHist = output.Tables[0].Rows[j]["F13"].ToString();
                                 }
                             }
-                            catch { }
+                            catch
+                            {
+                                // ignored
+                            }
                         }
 
 
@@ -377,7 +380,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         try
                         {
-                            string auxlinha = "";
+                            string auxlinha;
                             if (output.Tables[0].Rows[j + 1]["F46"].ToString().Length == 0)
                             {
                                 auxlinha = output.Tables[0].Rows[j]["F46"].ToString();
@@ -397,7 +400,7 @@ namespace PortalSicoobDivicred.Controllers
                         }
                         catch
                         {
-
+                            // ignored
                         }
                     }
 
@@ -434,9 +437,9 @@ namespace PortalSicoobDivicred.Controllers
             return somatorio;
         }
 
-        public string diferenciar(double extrato, double arquivo)
+        public string Diferenciar(double extrato, double arquivo)
         {
-            Dictionary<string, double> diferenca = new Dictionary<string, double>();
+
             double valorDiferenca = 0;
             string maior = "";
             if (extrato > arquivo)
@@ -455,7 +458,7 @@ namespace PortalSicoobDivicred.Controllers
                 maior = "ok.png";
             }
 
-            return maior + ";" + valorDiferenca.ToString();
+            return maior + ";" + valorDiferenca;
         }
     }
 }

@@ -719,7 +719,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aplicacao\BuscaElasticSearch.cs" />
-    <Compile Include="Aplicacao\Conexao.cs" />
+    <Compile Include="Aplicacao\ConexaoExcel.cs" />
     <Compile Include="Aplicacao\EnviodeAlertas.cs" />
     <Compile Include="Aplicacao\QueryMysqTesouraria .cs" />
     <Compile Include="Aplicacao\QueryMysql.cs" />

@@ -31,15 +31,15 @@
                 <label class="label">Produto</label>
 
                 <div class="select is-1 is-fullwidth">
-                    @Html.DropDownListFor(m => m.idProduto, new SelectList(Model.descricaoProduto, "Value", "Text"), "SELECIONE O PRODUTO", new {id = "descricaoProduto"})
-                    @Html.ValidationMessageFor(m => m.descricaoProduto, null, new {style = "color:red"})
+                    @Html.DropDownListFor(m => m.IdProduto, new SelectList(Model.DescricaoProduto, "Value", "Text"), "SELECIONE O PRODUTO", new {id = "descricaoProduto"})
+                    @Html.ValidationMessageFor(m => m.DescricaoProduto, null, new {style = "color:red"})
                 </div>
             </div>
         </div>
         <div class="column is-6">
             <div class="control" id="dataContratacao">
                 <label class="label">Data Contratação</label>
-                @Html.TextBoxFor(m => m.datacontratacao, null, new {@class = "input", type = "date"})
+                @Html.TextBoxFor(m => m.Datacontratacao, null, new {@class = "input", type = "date"})
 
             </div>
         </div>
@@ -51,15 +51,15 @@
 
             <label class="label">CPF do Cliente</label>
 
-            @Html.TextBoxFor(m => m.cpf, null, new {@class = "input input-search", type = "text", onfocusout = "javascript:ValidaMascara(this.value)", onfocus = "RemoveMascara()", placeholder = "Ex: 999.999.999 - 99"})
-            @Html.ValidationMessageFor(m => m.cpf, null, new {style = "color:red"})
+            @Html.TextBoxFor(m => m.Cpf, null, new {@class = "input input-search", type = "text", onfocusout = "javascript:ValidaMascara(this.value)", onfocus = "RemoveMascara()", placeholder = "Ex: 999.999.999 - 99"})
+            @Html.ValidationMessageFor(m => m.Cpf, null, new {style = "color:red"})
 
         </div>
 
         <div class="column is-6">
 
             <label class="label">Valor</label>
-            @Html.TextBoxFor(m => m.valor, null, new {@class = "input", type = "number", step = "0.01"})
+            @Html.TextBoxFor(m => m.Valor, null, new {@class = "input", type = "number", step = "0.01"})
 
 
         </div>
@@ -68,8 +68,8 @@
             <label class="label">Funcionário</label>
 
             <div class="select is-1">
-                @Html.DropDownListFor(m => m.idFuncionario, new SelectList(Model.nomeFuncionario, "Value", "Text"), "SELECIONE O FUNCIONARIO", new {id = "nomeFuncionario"})
-                @Html.ValidationMessageFor(m => m.nomeFuncionario, null, new {style = "color:red"})
+                @Html.DropDownListFor(m => m.IdFuncionario, new SelectList(Model.NomeFuncionario, "Value", "Text"), "SELECIONE O FUNCIONARIO", new {id = "nomeFuncionario"})
+                @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new {style = "color:red"})
             </div>
 
         </div>
@@ -79,7 +79,7 @@
         <div class="column is-12">
             <label class="label">Observação</label>
 
-            @Html.TextAreaFor(m => m.observacao, new {@class = "textarea", type = "string", maxlength = "200", placeholder = "Max 200 caracteres. Ex: Número C/C; Nome do cliente"})
+            @Html.TextAreaFor(m => m.Observacao, new {@class = "textarea", type = "string", maxlength = "200", placeholder = "Max 200 caracteres. Ex: Número C/C; Nome do cliente"})
             <br/>
             <br/>
             <p class="control">

@@ -7,8 +7,8 @@ namespace PortalSicoobDivicred.Models
 {
     public class Criptografa
     {
-        private static byte[] chave = { };
-        private static readonly byte[] iv = {12, 34, 56, 78, 90, 102, 114, 126};
+        private static byte[] _chave = { };
+        private static readonly byte[] Iv = {12, 34, 56, 78, 90, 102, 114, 126};
 
         private static readonly string chaveCriptografia = "fabricio1234567";
 
@@ -20,24 +20,17 @@ namespace PortalSicoobDivicred.Models
             CryptoStream cs;
             byte[] input;
 
-            try
-            {
-                des = new DESCryptoServiceProvider();
-                ms = new MemoryStream();
+            des = new DESCryptoServiceProvider();
+            ms = new MemoryStream();
 
-                input = Encoding.UTF8.GetBytes(valor);
-                chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
+            input = Encoding.UTF8.GetBytes(valor);
+            _chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
 
-                cs = new CryptoStream(ms, des.CreateEncryptor(chave, iv), CryptoStreamMode.Write);
-                cs.Write(input, 0, input.Length);
-                cs.FlushFinalBlock();
+            cs = new CryptoStream(ms, des.CreateEncryptor(_chave, Iv), CryptoStreamMode.Write);
+            cs.Write(input, 0, input.Length);
+            cs.FlushFinalBlock();
 
-                return Convert.ToBase64String(ms.ToArray());
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return Convert.ToBase64String(ms.ToArray());
         }
 
         //Descriptografa o cookie
@@ -48,26 +41,18 @@ namespace PortalSicoobDivicred.Models
             CryptoStream cs;
             byte[] input;
 
-            try
-            {
-                des = new DESCryptoServiceProvider();
-                ms = new MemoryStream();
+            des = new DESCryptoServiceProvider();
+            ms = new MemoryStream();
 
-                input = new byte[valor.Length];
-                input = Convert.FromBase64String(valor.Replace(" ", "+"));
+            input = Convert.FromBase64String(valor.Replace(" ", "+"));
 
-                chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
+            _chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
 
-                cs = new CryptoStream(ms, des.CreateDecryptor(chave, iv), CryptoStreamMode.Write);
-                cs.Write(input, 0, input.Length);
-                cs.FlushFinalBlock();
+            cs = new CryptoStream(ms, des.CreateDecryptor(_chave, Iv), CryptoStreamMode.Write);
+            cs.Write(input, 0, input.Length);
+            cs.FlushFinalBlock();
 
-                return Encoding.UTF8.GetString(ms.ToArray());
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return Encoding.UTF8.GetString(ms.ToArray());
         }
     }
 }

@@ -36,7 +36,7 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
-        public string PA { get; set; }
+        public string Pa { get; set; }
 
         [Required(ErrorMessage = "Favor informar sua Nacionalidade!")]
         public string Nacionalidade { get; set; }
@@ -106,15 +106,15 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
-        public string NumeroCTPS { get; set; }
+        public string NumeroCtps { get; set; }
 
         [Required(ErrorMessage = "Favor informar a serie da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
-        public string SerieCTPS { get; set; }
+        public string SerieCtps { get; set; }
 
         [Required(ErrorMessage = "Favor informar o estado em que sua CTPS foi emitida")]
         [MaxLength(2, ErrorMessage = "Coloque a abreviação de seu estado")]
-        public string UfCTPS { get; set; }
+        public string UfCtps { get; set; }
 
         public string Cnh { get; set; }
 

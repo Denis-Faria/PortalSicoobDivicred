@@ -8,25 +8,25 @@ namespace PortalSicoobDivicred.Repositorios
 {
     public class Conexao : IDisposable
     {
-        private MySqlConnection conexao;
+        private MySqlConnection _conexao;
 
         public void Dispose()
         {
-            if (conexao == null) return;
+            if (_conexao == null) return;
 
-            conexao.Dispose();
-            conexao = null;
+            _conexao.Dispose();
+            _conexao = null;
         }
 
-        public int ExecutaComando(string comandoSQL)
+        public int ExecutaComando(string comandoSql)
         {
-            var resultado = 0;
-            if (string.IsNullOrEmpty(comandoSQL))
+            int resultado;
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = CriarComando(comandoSQL);
+                var cmdComando = CriarComando(comandoSql);
                 resultado = cmdComando.ExecuteNonQuery();
             }
             finally
@@ -37,15 +37,15 @@ namespace PortalSicoobDivicred.Repositorios
             return resultado;
         }
 
-        public string ExecutaComandoCandidato(string comandoSQL)
+        public string ExecutaComandoCandidato(string comandoSql)
         {
             long id;
-            if (string.IsNullOrEmpty(comandoSQL))
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = CriarComando(comandoSQL);
+                var cmdComando = CriarComando(comandoSql);
                 cmdComando.ExecuteNonQuery();
                 id = cmdComando.LastInsertedId;
             }
@@ -64,7 +64,7 @@ namespace PortalSicoobDivicred.Repositorios
             var comando =
                 new MySqlCommand(
                     "SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +
-                    Login + "'); ", conexao);
+                    Login + "'); ", _conexao);
             var Dados = new MySqlDataAdapter(comando);
             var Tabela = new DataTable();
             Dados.Fill(Tabela);
@@ -77,7 +77,7 @@ namespace PortalSicoobDivicred.Repositorios
             AbrirConexao();
             var comando =
                 new MySqlCommand(
-                    "SELECT * FROM webdeskanexos WHERE idinteracao='" + IdInteracao + "'; ", conexao);
+                    "SELECT * FROM webdeskanexos WHERE idinteracao='" + IdInteracao + "'; ", _conexao);
             var Dados = new MySqlDataAdapter(comando);
             var Tabela = new DataTable();
             Dados.Fill(Tabela);
@@ -150,7 +150,7 @@ namespace PortalSicoobDivicred.Repositorios
             try
             {
                 AbrirConexao();
-                var cmdComando = new MySqlCommand(comandoSQL, conexao);
+                var cmdComando = new MySqlCommand(comandoSQL, _conexao);
                 cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = Imagem;
                 cmdComando.ExecuteNonQuery();
             }
@@ -199,7 +199,7 @@ namespace PortalSicoobDivicred.Repositorios
 
         private MySqlCommand CriarComando(string comandoSQL)
         {
-            var cmdComando = conexao.CreateCommand();
+            var cmdComando = _conexao.CreateCommand();
             cmdComando.CommandText = comandoSQL;
             return cmdComando;
         }
@@ -207,27 +207,27 @@ namespace PortalSicoobDivicred.Repositorios
         private void AbrirConexao()
         {
             var conexaoString = ConfigurationManager.ConnectionStrings["portalinterno"].ConnectionString;
-            conexao = new MySqlConnection(conexaoString);
+            _conexao = new MySqlConnection(conexaoString);
 
-            if (conexao.State == ConnectionState.Open) return;
+            if (_conexao.State == ConnectionState.Open) return;
 
-            conexao.Open();
+            _conexao.Open();
         }
 
         private void AbrirConexaoPortal()
         {
             var conexaoString = ConfigurationManager.ConnectionStrings["portaldetalentos"].ConnectionString;
-            conexao = new MySqlConnection(conexaoString);
+            _conexao = new MySqlConnection(conexaoString);
 
-            if (conexao.State == ConnectionState.Open) return;
+            if (_conexao.State == ConnectionState.Open) return;
 
-            conexao.Open();
+            _conexao.Open();
         }
 
         private void FecharConexao()
         {
-            if (conexao.State == ConnectionState.Open)
-                conexao.Close();
+            if (_conexao.State == ConnectionState.Open)
+                _conexao.Close();
         }
     }
 }

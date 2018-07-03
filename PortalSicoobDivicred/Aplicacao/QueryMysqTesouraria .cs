@@ -1,45 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
 using PortalSicoobDivicred.Repositorios;
-using PortalSicoobDivicred.Models;
+
 
 namespace PortalSicoobDivicred.Aplicacao
 {
     public class QueryMysqlTesouraria
     {
-        private readonly Conexao ConexaoMysql;
+        private readonly Conexao _conexaoMysql;
 
         public QueryMysqlTesouraria()
         {
-            ConexaoMysql = new Conexao();
+            _conexaoMysql = new Conexao();
+        }
+        public string ConsultaValorNr()
+        {
+            string queryValor = "SELECT valor from tesourariavalornr where data = (SELECT Max(data) FROM tesourariavalornr)";
+
+            var consultaValor = _conexaoMysql.ExecutaComandoComRetorno( queryValor );
+
+            return consultaValor [0] ["valor"];
         }
 
-        
-
-
-
-        public string consultaValorNR()
+        public void InsereValorNr(string valor, String data)
         {
-            string QueryValor = "SELECT valor from tesourariavalornr where data = (SELECT Max(data) FROM tesourariavalornr)";
-
-            var consultaValor = ConexaoMysql.ExecutaComandoComRetorno(QueryValor);
-
-            return consultaValor[0]["valor"];
+            var queryInsereValorNr = "INSERT INTO tesourariavalornr (valor,data) values('" + valor.Replace( ",", "." ) + "','" + data + "')";
+            _conexaoMysql.ExecutaComando( queryInsereValorNr );
         }
 
-        public void insereValorNR(string valor, String data)
+        public void InsereValoresCampos(string valorJudicial, string valorDevolucaoCheques, string valorCampo1, string valorCampo2, string valorCampo3, DateTime dataEscolhida, DateTime dataGeracao)
         {
-            var QueryInsereValorNR = "INSERT INTO tesourariavalornr (valor,data) values('"+valor.Replace(",",".")+"','"+ data.ToString() +"')";
-            ConexaoMysql.ExecutaComando(QueryInsereValorNR);
-        }
-
-        public void insereValoresCampos(string valorJudicial,string valorDevolucaoCheques,string valorCampo1, string valorCampo2, string valorCampo3,DateTime dataEscolhida,DateTime dataGeracao)
-        {
-            var QueryInsereValorCamposDigitaveis = "INSERT INTO tesourariavalorescamposdigitaveis (valorjudicial,valordevolucaocheques,valorcampo1,valorcampo2,valorcampo3,dataescolhida,datageracao,excluido)" +
-                " values('" + valorJudicial.Replace(",", ".") + "','" + valorDevolucaoCheques.Replace(",", ".") + "','" + valorCampo1.Replace(",", ".") + "','" + valorCampo2.Replace(",", ".") + "','" + valorCampo3.Replace(",", ".") + "','" + dataEscolhida.ToString("yyyy-MM-dd 00:00:00") + "','" + dataGeracao.ToString("yyyy-MM-dd hh:MM:ss") + "','N')";
-            ConexaoMysql.ExecutaComando(QueryInsereValorCamposDigitaveis);
+            var queryInsereValorCamposDigitaveis = "INSERT INTO tesourariavalorescamposdigitaveis (valorjudicial,valordevolucaocheques,valorcampo1,valorcampo2,valorcampo3,dataescolhida,datageracao,excluido)" +
+                " values('" + valorJudicial.Replace( ",", "." ) + "','" + valorDevolucaoCheques.Replace( ",", "." ) + "','" + valorCampo1.Replace( ",", "." ) + "','" + valorCampo2.Replace( ",", "." ) + "','" + valorCampo3.Replace( ",", "." ) + "','" + dataEscolhida.ToString( "yyyy-MM-dd 00:00:00" ) + "','" + dataGeracao.ToString( "yyyy-MM-dd hh:MM:ss" ) + "','N')";
+            _conexaoMysql.ExecutaComando( queryInsereValorCamposDigitaveis );
         }
 
 
@@ -47,97 +40,97 @@ namespace PortalSicoobDivicred.Aplicacao
 
 
 
-        public void InsereConferencia(String data, string historico, string extrato,string arquivos,string diferenca)
+        public void InsereConferencia(String data, string historico, string extrato, string arquivos, string diferenca)
         {
-            
-            string QueryInsereConferencia = "INSERT INTO dadosextrato (data,historico,extrato,arquivos,diferenca,excluido) values ('" + data + "','" + historico + "','" + extrato + "','" + arquivos + "','"+ (Math.Round(Convert.ToDouble(diferenca),2)).ToString() + "','N') ";
-            ConexaoMysql.ExecutaComando(QueryInsereConferencia);
+
+            string queryInsereConferencia = "INSERT INTO dadosextrato (data,historico,extrato,arquivos,diferenca,excluido) values ('" + data + "','" + historico + "','" + extrato + "','" + arquivos + "','" + (Math.Round( Convert.ToDouble( diferenca ), 2 )) + "','N') ";
+            _conexaoMysql.ExecutaComando( queryInsereConferencia );
 
 
         }
 
         public void InsereJustificativa(String data, string justificativa)
         {
-                string QueryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
-                ConexaoMysql.ExecutaComando(QueryInsereJustificativa);
+            string queryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" + data + "','" + justificativa + "','N') ";
+            _conexaoMysql.ExecutaComando( queryInsereJustificativa );
 
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosTabela(string Data)
+        public List<Dictionary<string, string>> RecuperaDadosTabela(string data)
         {
-            var Query =
-                "SELECT * FROM dadosextrato WHERE data='" + Data + "' and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query =
+                "SELECT * FROM dadosextrato WHERE data='" + data + "' and excluido='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
 
-            return Dados;
+            return dados;
         }
 
-        public void DeletaProducao(string Data)
+        public void DeletaProducao(string data)
         {
 
-            var Query1 = "UPDATE  dadosextrato SET excluido='S',dataexclusao='" + (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + " where data='" +
-                            (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
-            
-            ConexaoMysql.ExecutaComandoComRetorno(Query1);
+            var query1 = "UPDATE  dadosextrato SET excluido='S',dataexclusao='" + (DateTime.Now).ToString( "yyyy-MM-dd 00:00:00" ) + "'" + " where data='" +
+                            (Convert.ToDateTime( data )).ToString( "yyyy-MM-dd 00:00:00" ) + "'";
 
-            var Query2 = "UPDATE  justificativaextrato set excluido='S',dataexclusao='" + (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + "where data='" +
-                (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00")+"'" ;
-            ConexaoMysql.ExecutaComandoComRetorno(Query2);
+            _conexaoMysql.ExecutaComandoComRetorno( query1 );
 
-            var Query3 = "UPDATE  tesourariavalorescamposdigitaveis set excluido='S',dataexclusao='"+ (DateTime.Now).ToString("yyyy-MM-dd 00:00:00") + "'" + "  where dataescolhida='" +
-    (Convert.ToDateTime(Data)).ToString("yyyy-MM-dd 00:00:00") + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(Query3);
+            var query2 = "UPDATE  justificativaextrato set excluido='S',dataexclusao='" + (DateTime.Now).ToString( "yyyy-MM-dd 00:00:00" ) + "'" + "where data='" +
+                (Convert.ToDateTime( data )).ToString( "yyyy-MM-dd 00:00:00" ) + "'";
+            _conexaoMysql.ExecutaComandoComRetorno( query2 );
+
+            var query3 = "UPDATE  tesourariavalorescamposdigitaveis set excluido='S',dataexclusao='" + (DateTime.Now).ToString( "yyyy-MM-dd 00:00:00" ) + "'" + "  where dataescolhida='" +
+    (Convert.ToDateTime( data )).ToString( "yyyy-MM-dd 00:00:00" ) + "'";
+            _conexaoMysql.ExecutaComandoComRetorno( query3 );
 
 
         }
 
 
 
-        public List<Dictionary<string, string>> RecuperaDadosJustificativa(string Data)
+        public List<Dictionary<string, string>> RecuperaDadosJustificativa(string data)
         {
-            var Query =
-                "SELECT * FROM justificativaextrato WHERE data='" + Data + "' and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query =
+                "SELECT * FROM justificativaextrato WHERE data='" + data + "' and excluido='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
 
-            return Dados;
+            return dados;
         }
 
-        public int ExisteJustificativa(string Data)
+        public int ExisteJustificativa(string data)
         {
-            var Query =
-                "SELECT count(*) FROM justificativaextrato WHERE data='" + Data + "' and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComando(Query);
+            var query =
+                "SELECT count(*) FROM justificativaextrato WHERE data='" + data + "' and excluido='N'";
+            var dados = _conexaoMysql.ExecutaComando( query );
 
 
-            return Dados;
+            return dados;
         }
 
         public int VerificaFeriadoDivinopolis(DateTime data)
         {
 
-            var Query =
+            var query =
                 "SELECT count(id_feriado) as total FROM FERIADO_nacional  WHERE DATA='" +
-                data.ToString("yyyy/MM/dd")+"'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+                data.ToString( "yyyy/MM/dd" ) + "'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
-            return Convert.ToInt32(Dados[0]["total"]);
+            return Convert.ToInt32( dados [0] ["total"] );
         }
 
-        public int VerificaData(string Data)
+        public int VerificaData(string data)
         {
-            var Query =
-                "SELECT count(*) as count FROM dadosextrato WHERE data='" + Data + "'and excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query =
+                "SELECT count(*) as count FROM dadosextrato WHERE data='" + data + "'and excluido='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
-            return Convert.ToInt32(Dados[0]["count"]);
+            return Convert.ToInt32( dados [0] ["count"] );
         }
 
-        public void atualizaJustificativa(string data, string justificativa)
+        public void AtualizaJustificativa(string data, string justificativa)
         {
-            var QueryJustificativa= "UPDATE justificativaextrato  SET justificativa='" + justificativa + "' WHERE data='" + data + "'";
-            ConexaoMysql.ExecutaComandoComRetorno(QueryJustificativa);
+            var queryJustificativa = "UPDATE justificativaextrato  SET justificativa='" + justificativa + "' WHERE data='" + data + "'";
+            _conexaoMysql.ExecutaComandoComRetorno( queryJustificativa );
         }
     }
 }

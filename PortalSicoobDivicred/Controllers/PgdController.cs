@@ -10,7 +10,7 @@ namespace PortalSicoobDivicred.Controllers
         // GET: Pgd
         public ActionResult Pgd(string Mensagem)
         {
-            var verificaDados = new QueryMysqlCIM();
+            var verificaDados = new QueryMysqlCim();
             var verificaDadosLogin = new QueryMysql();
             var Logado = verificaDadosLogin.UsuarioLogado();
             if (Logado)
@@ -43,13 +43,13 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Cadastro()
         {
 
-            var consultaDados = new QueryMysqlCIM();
+            var consultaDados = new QueryMysqlCim();
             var verificaDadosLogin = new QueryMysql();
             var dadosPGD = new Pgd();
             var dadosTabelaPGD = consultaDados.RetornaProdutos();
-            dadosPGD.descricaoProduto = dadosTabelaPGD;
+            dadosPGD.DescricaoProduto = dadosTabelaPGD;
             dadosTabelaPGD = verificaDadosLogin.RetornaFuncionario();
-            dadosPGD.nomeFuncionario = dadosTabelaPGD;
+            dadosPGD.NomeFuncionario = dadosTabelaPGD;
 
 
             return PartialView("Cadastro", dadosPGD);
@@ -58,14 +58,14 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult Salvarproducao(Pgd Dados, FormCollection receberForm)
         {
-            var insereDados = new QueryMysqlCIM();
+            var insereDados = new QueryMysqlCim();
             var verificaDadosLogin = new QueryMysql();
 
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
 
             var valor = receberForm["valor"];
-            var DadosProdutos = insereDados.retornaDadosProdutos(Dados.idProduto);
+            var DadosProdutos = insereDados.RetornaDadosProdutos(Dados.IdProduto);
             var peso = DadosProdutos[0]["peso"];
             var valorminimo = DadosProdutos[0]["valorminimo"];
             double valorponto = 0;
@@ -79,7 +79,7 @@ namespace PortalSicoobDivicred.Controllers
             else
                 valorponto = Convert.ToDouble(peso);
 
-                insereDados.InsereProducao(Dados.cpf, Dados.idProduto, Dados.observacao, Dados.datacontratacao, Login,
+                insereDados.InsereProducao(Dados.Cpf, Dados.IdProduto, Dados.Observacao, Dados.Datacontratacao, Login,
                 valor.ToString(), 
                 valorponto.ToString("N2"));
 
@@ -97,7 +97,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult ExcluirRegistro(int id)
         {
 
-            var ExcluiRegistro = new QueryMysqlCIM();
+            var ExcluiRegistro = new QueryMysqlCim();
             var usuario = ExcluiRegistro.BuscaDadosProducao(id);
             ExcluiRegistro.ExcluirRegistro(id);
             ExcluiRegistro.AtualizarRegistroExclusao(usuario[0]["Login"], Convert.ToDouble(usuario[0]["valorponto"]));
@@ -109,7 +109,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Extrato()
         {
-            var VerificaDados = new QueryMysqlCIM();
+            var VerificaDados = new QueryMysqlCim();
 
             var Validacoes = new ValidacoesPonto();
             var Cookie = Request.Cookies.Get("CookieFarm");
@@ -136,7 +136,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ExtratoGestor()
         {
-            var VerificaDadosGestor = new QueryMysqlCIM();
+            var VerificaDadosGestor = new QueryMysqlCim();
 
             var Validacoes = new ValidacoesPonto();
             var Cookie = Request.Cookies.Get("CookieFarm");

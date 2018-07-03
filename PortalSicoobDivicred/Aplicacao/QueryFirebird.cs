@@ -11,7 +11,7 @@ namespace PortalSicoobDivicred.Aplicacao
         //recebemos a connection string do Web.Config
 
 
-        private FbConnection con;
+        private FbConnection _connexao;
 
         public void Dispose()
         {
@@ -21,25 +21,25 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public FbConnection AbrirConexao()
         {
-            var StringConexao = ConfigurationManager.ConnectionStrings ["pontorh"].ConnectionString;
-            con = new FbConnection( StringConexao );
-            if ( con.State != ConnectionState.Open )
-                con.Open();
-            return con;
+            var stringConexao = ConfigurationManager.ConnectionStrings ["pontorh"].ConnectionString;
+            _connexao = new FbConnection( stringConexao );
+            if ( _connexao.State != ConnectionState.Open )
+                _connexao.Open();
+            return _connexao;
         }
 
-        public FbConnection FecharConexao(FbConnection con)
+        public FbConnection FecharConexao(FbConnection conexao)
         {
-            if ( con.State != ConnectionState.Closed )
-                con.Close();
-            return con;
+            if ( conexao.State != ConnectionState.Closed )
+                conexao.Close();
+            return conexao;
         }
 
-        public FbCommand CriarComandoSQL(string Query)
+        public FbCommand CriarComandoSql(string query)
         {
-            var Conexao = AbrirConexao();
-            var ComandoSQL = new FbCommand( Query, Conexao );
-            return ComandoSQL;
+            var conexao = AbrirConexao();
+            var comandoSql = new FbCommand( query, conexao );
+            return comandoSql;
         }
 
 
@@ -47,10 +47,10 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RetornaListaFuncionario()
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL( "SELECT * FROM FUNCIONARIO WHERE DATA_DEMISSAO IS NULL;" );
+                var cmdComando = CriarComandoSql( "SELECT * FROM FUNCIONARIO WHERE DATA_DEMISSAO IS NULL;" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -72,18 +72,18 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaFuncionarioMatricula(string Matricula)
+        public List<Dictionary<string, string>> RetornaFuncionarioMatricula(string matricula)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL( "SELECT * FROM FUNCIONARIO WHERE MATRICULA=" + Matricula +
+                var cmdComando = CriarComandoSql( "SELECT * FROM FUNCIONARIO WHERE MATRICULA=" + matricula +
                                                  " AND DATA_DEMISSAO IS NULL;" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -106,20 +106,20 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string IdFuncionario,
-            DateTime DiaValidar)
+        public List<Dictionary<string, string>> RetornaListaAfastamentoFuncionario(string idFuncionario,
+            DateTime diaValidar)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL( "SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                                                 IdFuncionario + "  AND '" + DiaValidar.ToString( "yyyy/MM/dd" ) +
+                var cmdComando = CriarComandoSql( "SELECT * FROM AFASTAMENTO_FUNCIONARIO WHERE ID_FUNCIONARIO=" +
+                                                 idFuncionario + "  AND '" + diaValidar.ToString( "yyyy/MM/dd" ) +
                                                  "' BETWEEN DATA_INICIO AND DATA_FIM ;" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -142,19 +142,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
-        public List<Dictionary<string, string>> RetornaDataAdmissao(string IdFuncionario, DateTime DiaValidar)
+        public List<Dictionary<string, string>> RetornaDataAdmissao(string idFuncionario, DateTime diaValidar)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
+                var cmdComando = CriarComandoSql(
                     "SELECT * FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" +
-                    IdFuncionario + " AND DATA_ADMISSAO <='" + DiaValidar.ToString( "yyyy/MM/dd" ) + "';" );
+                    idFuncionario + " AND DATA_ADMISSAO <='" + diaValidar.ToString( "yyyy/MM/dd" ) + "';" );
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
@@ -175,19 +175,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
-        public List<Dictionary<string, string>> VerificaFeriado(string IdFuncionario, string IdCalendario, DateTime DiaValidar)
+        public List<Dictionary<string, string>> VerificaFeriado(string idFuncionario, string idCalendario, DateTime diaValidar)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
-                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA = '" + DiaValidar.ToString( "yyyy/MM/dd" ) +
-                    "' AND ID_CALENDARIO=" + IdCalendario + "" );
+                var cmdComando = CriarComandoSql(
+                    "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA = '" + diaValidar.ToString( "yyyy/MM/dd" ) +
+                    "' AND ID_CALENDARIO=" + idCalendario + "" );
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
                     linhas = new List<Dictionary<string, string>>();
@@ -208,54 +208,54 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
-            }
-
-            return linhas;
-        }
-
-        public List<Dictionary<string, string>> VerificaCalendario(string IdFuncionario, DateTime DiaValidar)
-        {
-            List<Dictionary<string, string>> linhas = null;
-            try
-            {
-
-
-                var cmdComando = CriarComandoSQL( "SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO = " + IdFuncionario + " and DATA_INICIO <= '" + DiaValidar.ToString( "yyyy/MM/dd" ) + "' ORDER BY DATA_INICIO DESC" );
-                using ( var reader = cmdComando.ExecuteReader() )
-                {
-                    linhas = new List<Dictionary<string, string>>();
-                    while ( reader.Read() )
-                    {
-                        var linha = new Dictionary<string, string>();
-
-                        for ( var i = 0; i < reader.FieldCount; i++ )
-                        {
-                            var nomeDaColuna = reader.GetName( i );
-                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
-                            linha.Add( nomeDaColuna, valorDaColuna );
-                        }
-
-                        linhas.Add( linha );
-                    }
-                }
-            }
-            finally
-            {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> BuscaJornada(string IdFuncionario, string DataAtualizacao)
+        public List<Dictionary<string, string>> VerificaCalendario(string idFuncionario, DateTime diaValidar)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
 
-                var cmdComando = CriarComandoSQL( "SELECT ID_JORNADA FROM JORNADA_FUNCIONARIO WHERE ID_FUNCIONARIO=" + IdFuncionario +
-                            " AND DATA_INICIO <='" + DataAtualizacao + "' ORDER BY DATA_INICIO desc;");
+
+                var cmdComando = CriarComandoSql( "SELECT ID_CALENDARIO FROM CALENDARIO_FUNCIONARIO WHERE ID_FUNCIONARIO = " + idFuncionario + " and DATA_INICIO <= '" + diaValidar.ToString( "yyyy/MM/dd" ) + "' ORDER BY DATA_INICIO DESC" );
+                using ( var reader = cmdComando.ExecuteReader() )
+                {
+                    linhas = new List<Dictionary<string, string>>();
+                    while ( reader.Read() )
+                    {
+                        var linha = new Dictionary<string, string>();
+
+                        for ( var i = 0; i < reader.FieldCount; i++ )
+                        {
+                            var nomeDaColuna = reader.GetName( i );
+                            var valorDaColuna = reader.IsDBNull( i ) ? null : reader.GetString( i );
+                            linha.Add( nomeDaColuna, valorDaColuna );
+                        }
+
+                        linhas.Add( linha );
+                    }
+                }
+            }
+            finally
+            {
+                FecharConexao( _connexao );
+            }
+
+            return linhas;
+        }
+
+        public List<Dictionary<string, string>> BuscaJornada(string idFuncionario, string dataAtualizacao)
+        {
+            List<Dictionary<string, string>> linhas;
+            try
+            {
+
+                var cmdComando = CriarComandoSql( "SELECT ID_JORNADA FROM JORNADA_FUNCIONARIO WHERE ID_FUNCIONARIO=" + idFuncionario +
+                            " AND DATA_INICIO <='" + dataAtualizacao + "' ORDER BY DATA_INICIO desc;");
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -277,7 +277,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
@@ -287,7 +287,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> VerificaFeriadoDivinopolis(DateTime data)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
                 // var DiaValidar = new DateTime();
@@ -297,7 +297,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 //            else
                 //              DiaValidar = DateTime.Now.AddDays(-1);
                 //
-                var cmdComando = CriarComandoSQL(
+                var cmdComando = CriarComandoSql(
                     "SELECT count(ID_FERIADO_CALENDARIO) as total FROM FERIADO_CALENDARIO  WHERE DATA='" +
                     data.ToString( "yyyy/MM/dd" ) +
                     "' AND ID_CALENDARIO=2" );
@@ -321,21 +321,21 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
 
-        public List<Dictionary<string, string>> RetornaMarcacao(string IdFuncionario, DateTime DiaValidar)
+        public List<Dictionary<string, string>> RetornaMarcacao(string idFuncionario, DateTime diaValidar)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
+                var cmdComando = CriarComandoSql(
                     "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" +
-                    DiaValidar.ToString( "yyyy/MM/dd" ) + "' AND a.ID_FUNCIONARIO=" + IdFuncionario +
+                    diaValidar.ToString( "yyyy/MM/dd" ) + "' AND a.ID_FUNCIONARIO=" + idFuncionario +
                     " AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -358,19 +358,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaIdFuncionario(string NomeFuncionario)
+        public List<Dictionary<string, string>> RetornaIdFuncionario(string nomeFuncionario)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
-                    "SELECT   ID_FUNCIONARIO from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'" );
+                var cmdComando = CriarComandoSql(
+                    "SELECT   ID_FUNCIONARIO from FUNCIONARIO  WHERE NOME LIKE'%" + nomeFuncionario + "%'" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -392,19 +392,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaCrachaFuncionario(string NomeFuncionario)
+        public List<Dictionary<string, string>> RetornaCrachaFuncionario(string nomeFuncionario)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
-                    "SELECT   MATRICULA from FUNCIONARIO  WHERE NOME LIKE'%" + NomeFuncionario + "%'" );
+                var cmdComando = CriarComandoSql(
+                    "SELECT   MATRICULA from FUNCIONARIO  WHERE NOME LIKE'%" + nomeFuncionario + "%'" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -426,20 +426,20 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaDadosMarcacao(string DataMarcacao, string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaDadosMarcacao(string dataMarcacao, string idFuncionario)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
-                    "SELECT * from MARCACAO  WHERE DATA='" + Convert.ToDateTime( DataMarcacao ).ToString( "yyyy/MM/dd" ) +
-                    "' AND ID_FUNCIONARIO=" + IdFuncionario + "" );
+                var cmdComando = CriarComandoSql(
+                    "SELECT * from MARCACAO  WHERE DATA='" + Convert.ToDateTime( dataMarcacao ).ToString( "yyyy/MM/dd" ) +
+                    "' AND ID_FUNCIONARIO=" + idFuncionario + "" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -461,42 +461,42 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public void InserirMarcacao(string IdFuncionarioFireBird, string IdJustificativaFireBird, string DataPendencia,
-            string HoraPendencia)
+        public void InserirMarcacao(string idFuncionarioFireBird, string idJustificativaFireBird, string dataPendencia,
+            string horaPendencia)
         {
-            var UltimosDados = RetornaUltimaId();
-            var PisFuncionario = RetornaPis( IdFuncionarioFireBird );
+            var ultimosDados = RetornaUltimaId();
+            var pisFuncionario = RetornaPis( idFuncionarioFireBird );
 
             try
             {
-                var cmdComando = CriarComandoSQL(
+                var cmdComando = CriarComandoSql(
                     "INSERT INTO MARCACAO(ID_FUNCIONARIO, ID_JUSTIFICATIVA, NUMERO_REP, PIS, SEQUENCIAL, DATA, HORA, TIPO_REGISTRO, TIPO_MARCACAO, IDENTIFICACAO) VALUES(" +
-                    IdFuncionarioFireBird + ", " +
-                    IdJustificativaFireBird + ",0,'" + PisFuncionario [0] ["PIS"] + "'," +
-                    (Convert.ToInt32( UltimosDados [0] ["SEQUENCIAL"] ) + 1) + ", '" +
-                    Convert.ToDateTime( DataPendencia ).ToString( "yyyy/MM/dd" ) + "','" + HoraPendencia + "', 'I','', '" +
-                    PisFuncionario [0] ["PIS"] + "'); " );
+                    idFuncionarioFireBird + ", " +
+                    idJustificativaFireBird + ",0,'" + pisFuncionario [0] ["PIS"] + "'," +
+                    (Convert.ToInt32( ultimosDados [0] ["SEQUENCIAL"] ) + 1) + ", '" +
+                    Convert.ToDateTime( dataPendencia ).ToString( "yyyy/MM/dd" ) + "','" + horaPendencia + "', 'I','', '" +
+                    pisFuncionario [0] ["PIS"] + "'); " );
                 cmdComando.ExecuteNonQuery();
 
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
         }
 
         public List<Dictionary<string, string>> RetornaUltimaId()
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
+                var cmdComando = CriarComandoSql(
                     "SELECT FIRST 1 ID_MARCACAO,SEQUENCIAL FROM MARCACAO ORDER BY SEQUENCIAL DESC;" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -519,19 +519,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RetornaPis(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaPis(string idFuncionario)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
             try
             {
-                var cmdComando = CriarComandoSQL(
-                    "SELECT PIS FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" + IdFuncionario + ";" );
+                var cmdComando = CriarComandoSql(
+                    "SELECT PIS FROM FUNCIONARIO WHERE ID_FUNCIONARIO=" + idFuncionario + ";" );
 
                 using ( var reader = cmdComando.ExecuteReader() )
                 {
@@ -553,7 +553,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
             return linhas;
@@ -561,10 +561,10 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RecuperaJustificativas()
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
 
             var cmdComando =
-                CriarComandoSQL( "SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA ORDER BY DESCRICAO ASC" );
+                CriarComandoSql( "SELECT ID_JUSTIFICATIVA, DESCRICAO FROM JUSTIFICATIVA ORDER BY DESCRICAO ASC" );
             try
             {
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -587,19 +587,19 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
 
             return linhas;
         }
 
-        public List<Dictionary<string, string>> RecuperaJustificativasFuncioanrio(string IdJustificativa)
+        public List<Dictionary<string, string>> RecuperaJustificativasFuncioanrio(string idJustificativa)
         {
-            List<Dictionary<string, string>> linhas = null;
+            List<Dictionary<string, string>> linhas;
 
-            var cmdComando = CriarComandoSQL( "SELECT DESCRICAO FROM JUSTIFICATIVA WHERE  ID_JUSTIFICATIVA=" +
-                                             IdJustificativa + "" );
+            var cmdComando = CriarComandoSql( "SELECT DESCRICAO FROM JUSTIFICATIVA WHERE  ID_JUSTIFICATIVA=" +
+                                             idJustificativa + "" );
             try
             {
                 using ( var reader = cmdComando.ExecuteReader() )
@@ -622,7 +622,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             finally
             {
-                FecharConexao( con );
+                FecharConexao( _connexao );
             }
 
 

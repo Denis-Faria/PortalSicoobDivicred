@@ -67,7 +67,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario [0] ["formacaoacademica"];
                 DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario [0] ["login"];
                 DadosFuncionario.Email = DadosTabelaFuncionario [0] ["email"];
-                DadosFuncionario.PA = DadosTabelaFuncionario [0] ["idpa"];
+                DadosFuncionario.Pa = DadosTabelaFuncionario [0] ["idpa"];
                 DadosFuncionario.Rua = DadosTabelaFuncionario [0] ["rua"];
                 DadosFuncionario.Numero = DadosTabelaFuncionario [0] ["numero"];
                 DadosFuncionario.Bairro = DadosTabelaFuncionario [0] ["bairro"];
@@ -80,9 +80,9 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.Viagem = DadosTabelaFuncionario [0] ["viagem"];
                 DadosFuncionario.DescricaoSexo = DadosTabelaFuncionario [0] ["descricaosexo"];
                 DadosFuncionario.Matricula = DadosTabelaFuncionario [0] ["matricula"];
-                DadosFuncionario.NumeroCTPS = DadosTabelaFuncionario [0] ["numeroctps"];
-                DadosFuncionario.SerieCTPS = DadosTabelaFuncionario [0] ["seriectps"];
-                DadosFuncionario.UfCTPS = DadosTabelaFuncionario [0] ["ufctps"];
+                DadosFuncionario.NumeroCtps = DadosTabelaFuncionario [0] ["numeroctps"];
+                DadosFuncionario.SerieCtps = DadosTabelaFuncionario [0] ["seriectps"];
+                DadosFuncionario.UfCtps = DadosTabelaFuncionario [0] ["ufctps"];
                 DadosFuncionario.EmissaoCtps = Convert.ToDateTime( DadosTabelaFuncionario [0] ["dataemissaoctps"].ToString() ).Date.ToString( "dd/MM/yyyy" );
                 DadosFuncionario.AnoPrimeiroEmprego = DadosTabelaFuncionario [0] ["anoprimeiroemprego"];
                 DadosFuncionario.IdTipoConta = Convert.ToInt32( DadosTabelaFuncionario [0] ["idtipoconta"] );
@@ -318,8 +318,8 @@ namespace PortalSicoobDivicred.Controllers
                         DadosFuncionario.MultiploRemuneracao, DadosFuncionario.MultiploComentario );
                 }
                 VerificaDados.AtualizaDadosFuncionarioProfissional( DadosFuncionario.IdSetor.ToString(),
-                    DadosFuncionario.IdFuncao.ToString(), Login, DadosFuncionario.NumeroCTPS,
-                    DadosFuncionario.SerieCTPS, DadosFuncionario.UfCTPS, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
+                    DadosFuncionario.IdFuncao.ToString(), Login, DadosFuncionario.NumeroCtps,
+                    DadosFuncionario.SerieCtps, DadosFuncionario.UfCtps, DadosFuncionario.IdTipoConta, DadosFuncionario.CodigoBanco,
                     DadosFuncionario.Agencia, DadosFuncionario.ContaCorrente, DadosFuncionario.DependenteIrrf, DadosFuncionario.DependenteFamilia,
                     DadosFuncionario.DadosDependentes, TiposDependentes, DadosFuncionario.Matricula, DadosFuncionario.AnoPrimeiroEmprego, DadosFuncionario.EmissaoCtps,
                     DadosFuncionario.CpfIrrf, DadosFuncionario.IdHorario );
@@ -375,7 +375,7 @@ namespace PortalSicoobDivicred.Controllers
                     DadosFuncionario.IdSexo.ToString(), DescricaoSexo, DadosFuncionario.IdEtnia.ToString(),
                     DadosFuncionario.IdEstadoCivil.ToString(), DadosFuncionario.IdFormacao.ToString(),
                     DadosFuncionario.FormacaoAcademica,
-                    Login, DadosFuncionario.Email, DadosFuncionario.PA,
+                    Login, DadosFuncionario.Email, DadosFuncionario.Pa,
                     DadosFuncionario.Rua, DadosFuncionario.Numero, DadosFuncionario.Bairro, DadosFuncionario.Cidade,
                     "S", DadosFuncionario.Nacionalidade, DadosFuncionario.NomeMae,
                     DadosFuncionario.NomePai, DadosFuncionario.LocalNascimento, DadosFuncionario.UfNascimento,
@@ -661,7 +661,7 @@ namespace PortalSicoobDivicred.Controllers
                 DadosFuncionario.FormacaoAcademica = DadosTabelaFuncionario [0] ["formacaoacademica"];
                 DadosFuncionario.UsuarioSistema = DadosTabelaFuncionario [0] ["login"];
                 DadosFuncionario.Email = DadosTabelaFuncionario [0] ["email"];
-                DadosFuncionario.PA = DadosTabelaFuncionario [0] ["idpa"];
+                DadosFuncionario.Pa = DadosTabelaFuncionario [0] ["idpa"];
                 DadosFuncionario.Rua = DadosTabelaFuncionario [0] ["rua"];
                 DadosFuncionario.Numero = DadosTabelaFuncionario [0] ["numero"];
                 DadosFuncionario.Bairro = DadosTabelaFuncionario [0] ["bairro"];

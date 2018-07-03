@@ -59,7 +59,7 @@ namespace PortalSicoobDivicred.Controllers
         {
             var consultaValorNR = new QueryMysqlTesouraria();
 
-            double valorNR = Convert.ToDouble(consultaValorNR.consultaValorNR());
+            double valorNR = Convert.ToDouble(consultaValorNR.ConsultaValorNr());
 
             var valorJudicial = 0.0;
             var valor6192 = 0.0;
@@ -90,7 +90,7 @@ namespace PortalSicoobDivicred.Controllers
             TempData["data"] = receberForm["data"].ToString();
 
             var insereValorCampos = new QueryMysqlTesouraria();
-            insereValorCampos.insereValoresCampos(valorJudicial.ToString(), valor6192.ToString(), valorNr1.ToString(), valorNr2.ToString(), valorNr3.ToString(), Convert.ToDateTime(TempData["data"]), DateTime.Now);
+            insereValorCampos.InsereValoresCampos(valorJudicial.ToString(), valor6192.ToString(), valorNr1.ToString(), valorNr2.ToString(), valorNr3.ToString(), Convert.ToDateTime(TempData["data"]), DateTime.Now);
 
             string Maior = "";
             string historico = "";
@@ -113,7 +113,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
             mDataSet = new DataSet();
-            Conexao conectaPlanilha = new Conexao();
+            ConexaoExcel conectaPlanilha = new ConexaoExcel();
             ManipularPlanilha inicio = new ManipularPlanilha();
             var arquivos = file.ToList();
             var nomeArquivo = "";
@@ -218,27 +218,27 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         if (i == 1 && aux01==0)
                         {
-                            output.Tables.Add(conectaPlanilha.importarExcel(caminho01, i.ToString()));
+                            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho01, i.ToString()));
                             aux01 = 1;
                         }
                         else if (i == 2 && aux02 == 0)
                         {
-                            output.Tables.Add(conectaPlanilha.importarExcel(caminho02, i.ToString()));
+                            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho02, i.ToString()));
                             aux02 = 1;
                         }
                         else if (i == 3 && aux03 == 0)
                         {
-                            output.Tables.Add(conectaPlanilha.importarExcel(caminho03, i.ToString()));
+                            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho03, i.ToString()));
                             aux03 = 1;
                         }
                         else if (i == 4 && aux04 == 0)
                         {
-                            output.Tables.Add(conectaPlanilha.importarExcel(caminho04, i.ToString()));
+                            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho04, i.ToString()));
                             aux04 = 1;
                         }
                         else if (i == 5 && aux05 == 0)
                         {
-                            output.Tables.Add(conectaPlanilha.importarExcel(caminho05, i.ToString()));
+                            output.Tables.Add(conectaPlanilha.ImportarExcel(caminho05, i.ToString()));
                             aux05 = 1;
                         }
 
@@ -449,7 +449,7 @@ namespace PortalSicoobDivicred.Controllers
                                                 arqext6 = arqext6 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                                 TempData["ExtratoCampos"] = Math.Round(arqext6, 2);
 
-                                                Maior = inicio.diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
+                                                Maior = inicio.Diferenciar(arqext6, Math.Round(Convert.ToDouble(TempData["valorTotalNr"]), 2));
                                                 TempData["Diferenca7"] = Maior.Split(';')[1];
                                                 TempData["DiferencaTexto7"] = Maior.Split(';')[0];
 
@@ -496,63 +496,63 @@ namespace PortalSicoobDivicred.Controllers
 
                                     int inicioPlanilha0 = 0;
                                     inicioPlanilha0 = inicio.InicioPlanilha(caminho01, i.ToString());
-                                    dados1 = inicio.calculo1(caminho01, i.ToString(), inicioPlanilha0);
+                                    dados1 = inicio.Calculo1(caminho01, i.ToString(), inicioPlanilha0);
 
                                     TempData["3/4/5"] = Convert.ToDouble(dados1["3/4/5"]);
-                                    Maior = inicio.diferenciar(Math.Round(arqext1, 2), Math.Round(Convert.ToDouble(dados1["3/4/5"]), 2));
+                                    Maior = inicio.Diferenciar(Math.Round(arqext1, 2), Math.Round(Convert.ToDouble(dados1["3/4/5"]), 2));
                                     TempData["Diferenca1"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto1"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(), TempData["Diferenca1"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(), TempData["Diferenca1"].ToString());
 
                                     TempData["5761"] = Convert.ToDouble(dados1["5761"]);
-                                    Maior = inicio.diferenciar(arqext8, Math.Round(Convert.ToDouble(dados1["5761"]), 2));
+                                    Maior = inicio.Diferenciar(arqext8, Math.Round(Convert.ToDouble(dados1["5761"]), 2));
                                     TempData["Diferenca8"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto8"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(), TempData["Diferenca8"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(), TempData["Diferenca8"].ToString());
 
                                     TempData["820"] = Convert.ToDouble(dados1["820"]);
-                                    Maior = inicio.diferenciar(arqext9, Math.Round(Convert.ToDouble(dados1["820"]), 2));
+                                    Maior = inicio.Diferenciar(arqext9, Math.Round(Convert.ToDouble(dados1["820"]), 2));
                                     TempData["Diferenca9"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto9"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(), TempData["Diferenca9"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(), TempData["Diferenca9"].ToString());
 
                                     TempData["257/258"] = Convert.ToDouble(dados1["257/258"]);
-                                    Maior = inicio.diferenciar(arqext10, Math.Round(Convert.ToDouble(dados1["257/258"]), 2));
+                                    Maior = inicio.Diferenciar(arqext10, Math.Round(Convert.ToDouble(dados1["257/258"]), 2));
                                     TempData["Diferenca10"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto10"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["Diferenca10"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(), TempData["Diferenca10"].ToString());
 
                                     TempData["5472/5473/5474/232/233/234/235"] = Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial);
-                                    Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
+                                    Maior = inicio.Diferenciar(arqext3, Math.Round(Convert.ToDouble(dados1["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(valorJudicial), 2));
 
                                     TempData["821/2/7286/7336/847"] = Convert.ToDouble(dados1["821/2/7286/7336/847"]) + Convert.ToDouble(arqext12);
-                                    Maior = inicio.diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"]) + Convert.ToDouble(arqext12), 2));
+                                    Maior = inicio.Diferenciar(arqext4, Math.Round(Convert.ToDouble(dados1["821/2/7286/7336/847"]) + Convert.ToDouble(arqext12), 2));
                                     TempData["Diferenca4"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto4"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "TED´s Recebidas", arqext4.ToString(), TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
                                     TempData["6/192"] = Convert.ToDouble(dados1["6/192"]) - Convert.ToDouble(valor6192);
 
                                     TempData["7027"] = Convert.ToDouble(dados1["7027"]);
-                                    Maior = inicio.diferenciar(arqext5, Math.Round(Convert.ToDouble(dados1["7027"]), 2));
+                                    Maior = inicio.Diferenciar(arqext5, Math.Round(Convert.ToDouble(dados1["7027"]), 2));
                                     TempData["Diferenca6"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto6"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(), TempData["Diferenca6"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(), TempData["Diferenca6"].ToString());
 
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(), TempData["Diferenca7"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(), TempData["Diferenca7"].ToString());
 
                                     break;
 
                                 case 2:
 
                                     inicioPlanilha1 = inicio.InicioPlanilha(caminho02, i.ToString());
-                                    dados2 = inicio.calculo1(caminho02, i.ToString(), inicioPlanilha1);
+                                    dados2 = inicio.Calculo1(caminho02, i.ToString(), inicioPlanilha1);
                                     TempData["5472/5473/5474/232/233/234/235-FINAL"] = Math.Round((Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"])), 2);
                                     TempData["5472/5473/5474/232/233/234/235-FINALB"] = Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235"]) + Convert.ToDouble(dados2["Arquivo2"]), 2);
-                                    Maior = inicio.diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
+                                    Maior = inicio.Diferenciar(arqext3, Math.Round(Convert.ToDouble(TempData["5472/5473/5474/232/233/234/235-FINALB"]), 2));
                                     TempData["Diferenca3"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto3"] = Maior.Split(';')[0];
 
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "TED´s Enviadas", arqext3.ToString(), TempData["5472/5473/5474/232/233/234/235-FINAL"].ToString(), TempData["Diferenca3"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "TED´s Enviadas", arqext3.ToString(), TempData["5472/5473/5474/232/233/234/235-FINAL"].ToString(), TempData["Diferenca3"].ToString());
                                     break;
 
                                 case 3:
@@ -560,9 +560,9 @@ namespace PortalSicoobDivicred.Controllers
 
 
                                     inicioPlanilha2 = inicio.InicioPlanilha(caminho03, i.ToString());
-                                    dados3 = inicio.calculo1(caminho03, i.ToString(), inicioPlanilha2);
+                                    dados3 = inicio.Calculo1(caminho03, i.ToString(), inicioPlanilha2);
 
-                                    Maior = inicio.diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192"]), 2));
+                                    Maior = inicio.Diferenciar(arqext2, Math.Round(Convert.ToDouble(TempData["6/192"]), 2));
 
                                     TempData["Diferenca5"] = (Convert.ToDouble(Maior.Split(';')[1])) - Convert.ToDouble(dados3["Arquivo3"]);
                                     TempData["DiferencaTexto5"] = Maior.Split(';')[0];
@@ -570,16 +570,16 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["6/192-FINALB"] = arqext2 - (Convert.ToDouble(Maior.Split(';')[1])) - Convert.ToDouble(dados3["Arquivo3"]);
 
                                     var atualizaValorNR = new QueryMysqlTesouraria();
-                                    atualizaValorNR.insereValorNR(dados3["Arquivo3"].ToString(), dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
+                                    atualizaValorNR.InsereValorNr(dados3["Arquivo3"].ToString(), dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Cheques Dep./TD Devolvidos", arqext2.ToString(), TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
 
                                     break;
 
                                 case 4:
 
                                     inicioPlanilha3 = inicio.InicioPlanilha(caminho04, i.ToString());
-                                    dados4 = inicio.calculo1(caminho04, i.ToString(), inicioPlanilha3);
+                                    dados4 = inicio.Calculo1(caminho04, i.ToString(), inicioPlanilha3);
                                     TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
 
                                     break;
@@ -591,12 +591,12 @@ namespace PortalSicoobDivicred.Controllers
                                         TempData["NRDEVELETRONICA-FINAL"] = arqext11 + 0;
                                     }
                                     inicioPlanilha4 = inicio.InicioPlanilha(caminho05, i.ToString());
-                                    dados5 = inicio.calculo1(caminho05, i.ToString(), inicioPlanilha4);
+                                    dados5 = inicio.Calculo1(caminho05, i.ToString(), inicioPlanilha4);
                                     TempData["CHEQUEDEVOLVIDO"] = Convert.ToDouble(dados5["Arquivo5"]);
-                                    Maior = inicio.diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
+                                    Maior = inicio.Diferenciar(Convert.ToDouble(TempData["NRDEVELETRONICA-FINAL"]), Math.Round(Convert.ToDouble(TempData["CHEQUEDEVOLVIDO"]), 2));
                                     TempData["Diferenca11"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto11"] = Maior.Split(';')[0];
-                                    insereConferencia1.InsereConferencia((Dados.data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
+                                    insereConferencia1.InsereConferencia((Dados.Data).ToString("yyyy/MM/dd"), "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(), TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
                                     break;
                             }
                         }
@@ -715,7 +715,7 @@ namespace PortalSicoobDivicred.Controllers
                 var dadosJustificativa = dadosTableCon.RecuperaDadosJustificativa(data);
                 var modelTesouraria = new Tesouraria();
 
-                modelTesouraria.justificativa = dadosJustificativa[0]["justificativa"];
+                modelTesouraria.Justificativa = dadosJustificativa[0]["justificativa"];
                 TempData["dataPesquisa"] = data;
 
                 return PartialView("ViewTabelaPesquisar", modelTesouraria);
@@ -740,7 +740,7 @@ namespace PortalSicoobDivicred.Controllers
 
             var atualizaJustificativa = new QueryMysqlTesouraria();
 
-            atualizaJustificativa.atualizaJustificativa(TempData["data"].ToString(), receberForm["justificativa"].ToString());
+            atualizaJustificativa.AtualizaJustificativa(TempData["data"].ToString(), receberForm["justificativa"].ToString());
             return RedirectToAction("Tesouraria", new { MensagemValidacao = "Registro alterado com sucesso!!" });
         }
 

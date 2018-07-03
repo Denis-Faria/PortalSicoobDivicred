@@ -380,7 +380,7 @@
                             <div class="panel-block">
                                 <div style="width:130%">
                                     <div style="width:160px">
-                                        @Html.TextBoxFor(m => m.data, null, new { @class = "input",onchange= "javascript:verificarData(this.value)", type = "date"})
+                                        @Html.TextBoxFor(m => m.Data, null, new { @class = "input",onchange= "javascript:verificarData(this.value)", type = "date"})
                                     </div>
                                 </div>
                             </div>
@@ -528,7 +528,7 @@
                                             <div class="field" hidden id="valorJudicial">
                                                 <div class="control">
                                                     <label>Valor Judicial rel enviadas e recebidas</label>
-                                                    @Html.TextBoxFor(m => m.valorJudicial, null, new { @class = "input", type = "number", step = "0.01", onkeypress = "return tirarPonto( this , event )" })
+                                                    @Html.TextBoxFor(m => m.ValorJudicial, null, new { @class = "input", type = "number", step = "0.01", onkeypress = "return tirarPonto( this , event )" })
                                                 </div>
                                             </div>
 
@@ -547,7 +547,7 @@
                                             <div class="field" hidden id="valorDevolucaoCheques">
                                                 <div class="control">
                                                     <label>Valor Devolucao de Cheques</label>
-                                                    @Html.TextBoxFor(m => m.valor6192, null, new { @class = "input", type = "number", step = "0.01" , onkeypress = "return tirarPonto( this , event )" })
+                                                    @Html.TextBoxFor(m => m.Valor6192, null, new { @class = "input", type = "number", step = "0.01" , onkeypress = "return tirarPonto( this , event )" })
                                                 </div>
                                             </div>
 
@@ -596,7 +596,7 @@
                                             <div class="field" id="camposNr" hidden>
                                                 <div class="control" id="NR1">
                                                     <label>NR1</label>
-                                                    @Html.TextBoxFor(m => m.valorCampoNr1, null, new
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr1, null, new
                                                {
                                                    @class = "input",
                                                    type = "number",
@@ -608,7 +608,7 @@
 
                                                 <div class="control" id="NR2">
                                                     <label>NR2</label>
-                                                    @Html.TextBoxFor(m => m.valorCampoNr2, null, new
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr2, null, new
                                                {
                                                    @class = "input",
                                                    type = "number",
@@ -620,7 +620,7 @@
 
                                                 <div class="control" id="NR3">
                                                     <label>NR3</label>
-                                                    @Html.TextBoxFor(m => m.valorCampoNr3, null, new
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr3, null, new
                                                {
                                                    @class = "input",
                                                    type = "number",

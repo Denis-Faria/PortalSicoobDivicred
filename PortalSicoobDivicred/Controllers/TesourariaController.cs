@@ -668,13 +668,9 @@ namespace PortalSicoobDivicred.Controllers
             
             if (receberForm.Count > 0)
             {
-<<<<<<< HEAD
-                string data = DateTime.Now.ToString("yyyy/MM/dd");
-=======
                 //string teste = dataescolhida.ToString();
                 //  string data = TempData["data"].ToString();
                 string data = receberForm["dataescolhida"].ToString();
->>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
                 string justificativa = receberForm["justificativa"];
                 insereJustificativa.InsereJustificativa(data, justificativa);
             }

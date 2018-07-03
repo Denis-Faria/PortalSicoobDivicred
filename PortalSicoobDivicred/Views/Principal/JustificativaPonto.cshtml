@@ -1,20 +1,22 @@
 ﻿@model PortalSicoobDivicred.Models.JustificativaPonto
 @{
+    /**/
+
     Layout = null;
 }
 
 
 <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $.validator.addMethod('time',
-            function(value, element, param) {
+            function (value, element, param) {
                 return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
             },
             'Enter a valid time: hh:mm');
 
-        $(function() {
+        $(function () {
             $('#Formulario').validate({
                 rules: {
                     required: true,
@@ -36,7 +38,7 @@
 
 @if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
 {
-    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png"/>
+    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png" />
 }
 else
 {
@@ -55,90 +57,89 @@ else
 
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
         {
-            using ( Html.BeginForm( "Justificativas", "Principal", FormMethod.Post, new { name = "Formulario", id = "Formulario" } ) )
+            using (Html.BeginForm("Justificativas", "Principal", FormMethod.Post, new { name = "Formulario", id = "Formulario" }))
             {
-        <tr>
-            <td>
-                <input name="Id | @TempData ["IdPendencia" + i]" id="Id | @TempData ["IdPendencia" + i]" value="@TempData ["IdPendencia" + i]" hidden="true" />@TempData ["IdPendencia" + i]
-            </td>
-            <td>
-                <input name="Funcionario @TempData ["IdPendencia" + i]" id="Funcionario @TempData ["IdPendencia" + i]" value="@TempData ["IdFuncionario" + i]" hidden="true" />@TempData ["NomePendencia" + i]
-            </td>
-            <td>
-                <input name="Data @TempData ["IdPendencia" + i]" id="Data @TempData ["IdPendencia" + i]" value="@TempData ["DiaPendencia" + i]" hidden="true" /> @TempData ["DiaPendencia" + i]
-            </td>
+                <tr>
+                    <td>
+                        <input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]
+                    </td>
+                    <td>
+                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
+                    </td>
+                    <td>
+                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true" /> @TempData["DiaPendencia" + i]
+                    </td>
 
-            @for ( var k = 0; k < Convert.ToInt32( TempData ["TotalHorarioPendencia" + i] ); k++ )
-            {
-                <td>
-                    @TempData ["Hora" + k + "Pendencia" + i]
-                </td>
-            }
-            @if ( Convert.ToInt32( TempData ["TotalTextBox" + i] ) == 0 )
-            {
-            }
-            else
-            {
-                if ( Convert.ToBoolean( @TempData ["MostraCampoLivre"] ) && Convert.ToInt32( TempData ["TotalTextBox" + i] ) == 2 )
-                {
-                    <td></td>
-                    <td></td>
-                }
-                else
-                {
-                    for ( var k = 0; k < Convert.ToInt32( TempData ["TotalTextBox" + i] ); k++ )
+                    @for (var k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
                     {
-
                         <td>
-                            <input type="time" class="input" id="Hora @k @TempData ["IdPendencia" + i]" name="Hora @k @TempData ["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required />
-                            <span class="field-validation-valid" data-valmsg-for="Hora @k @TempData ["IdPendencia" + i]" data-valmsg-replace="true" style="color: red"></span>
+                            @TempData["Hora" + k + "Pendencia" + i]
                         </td>
                     }
-                }
-
-                if ( TempData ["Extra1"].Equals( "" ) && Convert.ToInt32( TempData ["TotalHorarioPendencia" + i] ) != 5 )
-                {
-                    <td></td>
-                }
-                if ( TempData ["Extra2"].Equals( "" ) && Convert.ToInt32( TempData ["TotalHorarioPendencia" + i] ) != 6 )
-                {
-                    <td></td>
-                }
-            }
-            <td @TempData ["Esconde" + i]>
-                @if ( Convert.ToInt32( TempData ["TotalHorarioPendencia" + i] ) < 4 && !Convert.ToBoolean( @TempData ["MostraCampoLivre"] ) )
-                {
-                    <div class="select">
-                        <select id="JustificativaFire @TempData ["IdPendencia"]" name="JustificativaFire @TempData ["IdPendencia" + i]">
-                            @for ( var j = 0; j < Convert.ToInt32( TempData ["TotalJustificativas"] ); j++ )
+                    @if (Convert.ToInt32(TempData["TotalTextBox" + i]) == 0)
+                    {
+                    }
+                    else
+                    {
+                        if (Convert.ToBoolean(TempData["MostraCampoLivre"]) && Convert.ToInt32(TempData["TotalTextBox" + i]) == 2)
+                        {
+                            <td></td>
+                            <td></td>
+                        }
+                        else
+                        {
+                            for (var k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
                             {
-                                <option value="@TempData ["IdJustificativa" + j]">@TempData ["Justificativa" + j]</option>
+                                <td>
+                                    <input type="time" class="input" id="Hora @k @TempData["IdPendencia" + i]" name="Hora @k @TempData["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required />
+                                    <span class="field-validation-valid" data-valmsg-for="Hora @k @TempData["IdPendencia" + i]" data-valmsg-replace="true" style="color: red"></span>
+                                </td>
                             }
-                        </select>
+                        }
 
-                    </div>
-                }
-                else
-                {
-                    <div>
+                        if (TempData["Extra1"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 5)
+                        {
+                            <td></td>
+                        }
+                        if (TempData["Extra2"].Equals("") && Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) != 6)
+                        {
+                            <td></td>
+                        }
+                    }
+                    <td @TempData["Esconde" + i]>
+                        @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) < 4 && !Convert.ToBoolean(TempData["MostraCampoLivre"]))
+                        {
+                            <div class="select">
+                                <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">
+                                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalJustificativas"]); j++)
+                                    {
+                                        <option value="@TempData["IdJustificativa" + j]">@TempData["Justificativa" + j]</option>
+                                    }
+                                </select>
 
-                        <input type="Text" class="input is-4" name="Observacao" required placeholder="Justificativa" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
 
-                    </div>
-                }
-            </td>
-            <td @TempData ["Esconde" + i]>
-                <p class="field">
-                    <button type="submit" class="button is-primary">
-                        <span class="icon is-small">
-                            <i class="fas fa-pencil-alt"></i>
-                        </span>
-                        <span> Justificar</span>
-                    </button>
-                </p>
-            </td>
+                                <input type="Text" class="input is-4" name="Observacao" required placeholder="Justificativa" />
 
-        </tr>
+                            </div>
+                        }
+                    </td>
+                    <td @TempData["Esconde" + i]>
+                        <p class="field">
+                            <button type="submit" class="button is-primary">
+                                <span class="icon is-small">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </span>
+                                <span> Justificar</span>
+                            </button>
+                        </p>
+                    </td>
+
+                </tr>
             }
             <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
             </script>

@@ -25,7 +25,7 @@ namespace PortalSicoobDivicred.Aplicacao
             mail.From = new MailAddress("correio@divicred.com.br", "SICOOB DIVICRED");
             mail.To.Add(new MailAddress(email));
             mail.Subject = "ALTERAÇÕES PORTAL SICOOB DIVICRED";
-            mail.Body = " ALTERAÇÃO<br/> <p>"+mensagem+"</p>";
+            mail.Body = " ALTERAÇÃO<br/> <p>" + mensagem + "</p>";
             mail.IsBodyHtml = true;
             mail.Priority = MailPriority.High;
             try
@@ -75,21 +75,24 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
 
-        public async Task EnviaAlertaFuncionario(Dictionary<string, string> funcionarioEnvio,string mensagem,string idAplicativo)
+        public async Task EnviaAlertaFuncionario(Dictionary<string, string> funcionarioEnvio, string mensagem, string idAplicativo)
         {
             var cadastroAlerta = new QueryMysql();
 
-            if ( funcionarioEnvio["notificacaoemail"].Equals( "Sim" ) )
+            if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
-                cadastroAlerta.cadastrarAlert( funcionarioEnvio["id"], idAplicativo, mensagem);
 
-                await EnviaEmail( funcionarioEnvio["email"], mensagem );
+
+                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+
+
+                await EnviaEmail(funcionarioEnvio["email"], mensagem);
 
                 try
                 {
-                    if ( funcionarioEnvio ["idnotificacao"].Length > 0 )
+                    if (funcionarioEnvio["idnotificacao"].Length > 0)
                     {
-                        CadastraAlerta( funcionarioEnvio ["idnotificacao"], mensagem );
+                        CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
                     }
                 }
                 catch
@@ -114,9 +117,45 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
-        public void EnviaAlertaGestor()
+        public async Task EnviaAlertaGestor(Dictionary<string, string> funcionarioEnvio, string mensagem, string idAplicativo)
         {
+            var cadastroAlerta = new QueryMysql();
 
+            if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
+            {
+
+                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+
+
+                await EnviaEmail(funcionarioEnvio["email"], mensagem);
+
+                try
+                {
+                    if (funcionarioEnvio["idnotificacao"].Length > 0)
+                    {
+                        CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
+                    }
+                }
+                catch
+                {
+                    //ignored
+                }
+            }
+            else
+            {
+                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+                try
+                {
+                    if (funcionarioEnvio["idnotificacao"].Length > 0)
+                    {
+                        CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
+                    }
+                }
+                catch
+                {
+                    //ignored
+                }
+            }
         }
     }
 }

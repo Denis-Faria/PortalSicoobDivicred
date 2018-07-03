@@ -327,7 +327,7 @@
                     <a href="#" aria-current="page">
                         <span class="icon is-small">
                             <i class="fa fa-suitcase" aria-hidden="true"></i>
-                        </span><span>Chamnado - n° @TempData["IdSolicitacao"]</span>
+                        </span><span>Chamado - n° @TempData["IdSolicitacao"]</span>
                     </a>
                 </li>
             </ul>
@@ -417,6 +417,8 @@
                         <select id="AcaoInteracao" name="AcaoInteracao" class="is-focused" required onchange="javascript: Acao(this);">
                             <option selected>Realizar Ação</option>
                             <option value="Encerrar">Encerrar Solicitação</option>
+                            <option value="Pendente">Iniciar Pendencia</option>
+                            <option value="Solucionar">Solucionar Pendencia</option>
                             <option value="Repassar">Encaminhar Solicitação</option>
                             <option value="Categoria">Alterar Categoria da Solicitação</option>
                             <option value="Reabrir">Reabrir Solicitação</option>

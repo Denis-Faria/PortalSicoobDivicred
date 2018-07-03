@@ -1,26 +1,26 @@
-﻿@for ( int i = 0; i < Convert.ToInt32( TempData ["TotalCampos"] ); i++ )
+﻿@for ( int i = 0; i < Convert.ToInt32(TempData["TotalCampos"] ); i++ )
 {
     <div class="field">
         <div class="control">
-            <label class="label">@TempData ["NomeCampo" + i]</label>
-            <input name="@TempData["NomeCampo"+i]" class="input" @TempData ["Obrigatorio" + i] />
+            <label class="label">@TempData["NomeCampo" + i]</label>
+            <input name="@TempData["NomeCampo"+i]" class="input" @TempData["Obrigatorio" + i] />
         </div>
     </div>
 
 }
 @{
-    foreach ( var Combo in ( Dictionary<string, string> ) TempData ["Combos"] )
+    foreach ( var Combo in ( Dictionary<string, string> ) TempData["Combos"] )
     {
         <div>
             <label class="label">@Combo.Key</label>
             <div class="select is-fullwidth">
-                <select name="@Combo.Key" @TempData ["Obnrigatorio" + Combo.Key]>
+                <select name="@Combo.Key" @TempData["Obnrigatorio" + Combo.Key]>
                     <option> SELECIONE O @Combo.Key</option>
                     @{
                         var total = Combo.Value.ToString().Split( ';' );
                         for ( int i = 0; i < total.Length; i++ )
                         {
-                            <option value="@total[i]">@total [i]</option>
+                            <option value="@total[i]">@total[i]</option>
                         }
                     }
                 </select>

@@ -16,7 +16,7 @@
         iziToast.success({
             title: 'Sucesso',
             position: "center",
-            message: '@TempData["Mensagem"]',
+            message: '@TempData["Mensagem"]'
         });
 
         </script>
@@ -63,7 +63,7 @@
 
         }
 
-        function addDeleteBtn(f, input, NomeArquivo) {
+        function addDeleteBtn(f, input, nomeArquivo) {
 
             var Div2 = document.createElement('div');
             Div2.className = 'control';
@@ -74,7 +74,7 @@
 
             var Nome = document.createElement('span');
             Nome.className = 'tag is-dark ';
-            Nome.innerHTML = NomeArquivo;
+            Nome.innerHTML = nomeArquivo;
 
             Div2.append(Div3);
 
@@ -171,22 +171,41 @@
 
         function SetorSelecionado(IdSetor) {
             $("#CategoriaFuncionario").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Webdesk/RetornaCategoriaFuncionario',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdSetor": IdSetor.value },
-                    success: function (data) {
-                        $("#CategoriaFuncionario").append(data);
-                        $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                        $("form").removeData("validator");
-                        $("form").removeData("unobtrusiveValidation");
-                        $.validator.unobtrusive.parse("form");
-                    }
-                });
+            if (IdSetor.value === "42") {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaCategoriaAberturaChamado',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdSetor": IdSetor.value },
+                        success: function (data) {
+                            $("#CategoriaFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+            } else {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaCategoriaFuncionario',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdSetor": IdSetor.value },
+                        success: function (data) {
+                            $("#CategoriaFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+            }
         }
         function CategoriaSelecionado(IdCategoria) {
             $("#FormularioCategoria").empty();
@@ -299,6 +318,7 @@
                 <th class="has-text-centered">Categoria</th>
                 <th class="has-text-centered">Funcionário Solicitante</th>
                 <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Data de Abertura</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -311,6 +331,7 @@
                             <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["OperadorOperador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["DataHoraCadastroOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["SituacaoOperador" + j].ToString()</td>
                             <td class="has-text-centered">
                                 <div data-balloon="@TempData["InformacaoSLAOperador" + j]" data-balloon-pos="down">
@@ -329,6 +350,7 @@
                 <th class="has-text-centered">Categoria</th>
                 <th class="has-text-centered">Funcionário Solicitante</th>
                 <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Data de Abertura</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -341,6 +363,7 @@
                             <td class="has-text-centered">@TempData["TituloSetor" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["CadastroSetor" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["OperadorSetor" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["DataHoraSetor" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["SituacaoSetor" + j].ToString()</td>
                             <td class="has-text-centered">
                                 <div data-balloon="@TempData["InformacaoSLASetor" + j]" data-balloon-pos="down">
@@ -358,6 +381,7 @@
                 <th class="has-text-centered">N° Chamado</th>
                 <th class="has-text-centered">Categoria</th>
                 <th class="has-text-centered">Funcionário Responsável</th>
+                <th class="has-text-centered">Data de Abertura</th>
                 <th class="has-text-centered">Status</th>
                 <th class="has-text-centered">SLA</th>
                 </thead>
@@ -369,6 +393,7 @@
                             <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
+                            <td class="has-text-centered">@TempData["DataHoraCadastro" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Situacao" + j].ToString()</td>
                             <td class="has-text-centered">
                                 <div data-balloon="@TempData["InformacaoSLA" + j]" data-balloon-pos="down">
@@ -510,7 +535,7 @@
                     </div>
                 </section>
                 <footer class="modal-card-foot">
-                    <button type="button" id="CadastraChamado" class="button is-success" onclick="javascript: CategoriaSelecionado(document.getElementById('Categoria'));" >Cadastrar Solicitação</button>
+                    <button type="button" id="CadastraChamado" class="button is-success" onclick="javascript: CategoriaSelecionado(document.getElementById('Categoria'));">Cadastrar Solicitação</button>
                     <a class="button" href="javascript:$('#ModalSolicitacao').removeClass();$('#ModalSolicitacao').addClass('modal');void(0);">Cancelar</a>
                 </footer>
             </div>
@@ -526,7 +551,7 @@
                     <div id="FormularioCategoria">
 
                     </div>
-                    
+
                 </section>
                 <footer class="modal-card-foot">
                     <button type="submit" id="CadastraChamado" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Formulário</button>

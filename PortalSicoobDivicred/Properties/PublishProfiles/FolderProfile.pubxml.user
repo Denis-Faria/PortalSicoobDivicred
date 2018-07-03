@@ -993,13 +993,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
       <publishTime>05/21/2018 14:47:25</publishTime>
-      <publishTime>07/02/2018 17:25:32</publishTime>
+      <publishTime>07/03/2018 16:53:31</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>07/02/2018 17:25:32</publishTime>
+      <publishTime>07/03/2018 16:53:31</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>05/10/2018 22:43:02</publishTime>
@@ -1189,22 +1189,22 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/15/2018 13:29:34</publishTime>
     </File>
     <File Include="bin/System.Data.Common.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Diagnostics.DiagnosticSource.dll">
       <publishTime>05/15/2018 13:29:40</publishTime>
     </File>
     <File Include="bin/System.Diagnostics.StackTrace.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Diagnostics.Tracing.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Globalization.Extensions.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.IO.Compression.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.IO.Pipelines.dll">
       <publishTime>05/15/2018 13:29:40</publishTime>
@@ -1213,10 +1213,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/15/2018 13:29:54</publishTime>
     </File>
     <File Include="bin/System.Net.Http.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Net.Sockets.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Numerics.Vectors.dll">
       <publishTime>05/15/2018 13:29:44</publishTime>
@@ -1231,10 +1231,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/03/2018 10:09:09</publishTime>
     </File>
     <File Include="bin/System.Runtime.Serialization.Primitives.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Security.Cryptography.Algorithms.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Security.Cryptography.Cng.dll">
       <publishTime>05/15/2018 13:29:50</publishTime>
@@ -1243,13 +1243,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/15/2018 13:29:42</publishTime>
     </File>
     <File Include="bin/System.Security.SecureString.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Text.Encodings.Web.dll">
       <publishTime>05/15/2018 13:29:52</publishTime>
     </File>
     <File Include="bin/System.Threading.Overlapped.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="bin/System.Threading.Tasks.Extensions.dll">
       <publishTime>05/15/2018 13:29:46</publishTime>
@@ -1273,7 +1273,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/10/2018 22:42:40</publishTime>
     </File>
     <File Include="bin/System.Xml.XPath.XDocument.dll">
-      <publishTime>06/11/2018 14:00:08</publishTime>
+      <publishTime>05/22/2018 08:20:09</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>02/01/2018 15:24:15</publishTime>
@@ -2251,7 +2251,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/01/2018 15:24:19</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalPerfil.cshtml">
-      <publishTime>05/28/2018 12:03:16</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalVagaInterna.cshtml">
       <publishTime>05/28/2018 12:03:16</publishTime>
@@ -2260,7 +2260,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:16</publishTime>
     </File>
     <File Include="Views/PainelColaborador/Perfil.cshtml">
-      <publishTime>06/26/2018 11:16:20</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ReincidentePendencia.cshtml">
       <publishTime>05/28/2018 12:03:16</publishTime>
@@ -2287,7 +2287,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:16</publishTime>
     </File>
     <File Include="Views/Pgd/Cadastro.cshtml">
-      <publishTime>05/28/2018 15:34:22</publishTime>
+      <publishTime>03/07/2018 11:08:03</publishTime>
     </File>
     <File Include="Views/Pgd/Extrato.cshtml">
       <publishTime>05/28/2018 15:35:36</publishTime>
@@ -2351,7 +2351,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/01/2018 15:24:19</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalPerfil.cshtml">
-      <publishTime>05/28/2018 12:03:16</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ModalVagaInterna.cshtml">
       <publishTime>05/28/2018 12:03:16</publishTime>
@@ -2360,7 +2360,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:16</publishTime>
     </File>
     <File Include="Views/PainelColaborador/Perfil.cshtml">
-      <publishTime>06/26/2018 11:16:20</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/PainelColaborador/ReincidentePendencia.cshtml">
       <publishTime>05/28/2018 12:03:16</publishTime>
@@ -2416,10 +2416,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
       <publishTime>05/17/2018 11:42:27</publishTime>
-      <publishTime>06/26/2018 11:16:20</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/Principal/FormularioCadastro.cshtml">
-      <publishTime>06/26/2018 11:16:20</publishTime>
+      <publishTime>03/07/2018 11:06:54</publishTime>
     </File>
     <File Include="Views/Principal/FormularioInicial.cshtml">
       <publishTime>05/10/2017 09:49:10</publishTime>
@@ -2431,7 +2431,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>02/10/2017 14:57:37</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaPonto.cshtml">
-      <publishTime>02/07/2018 17:04:11</publishTime>
+      <publishTime>07/03/2018 14:12:43</publishTime>
     </File>
     <File Include="Views/Principal/JustificativaSetor.cshtml">
       <publishTime>05/16/2018 10:04:41</publishTime>
@@ -2478,16 +2478,16 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/26/2018 11:16:20</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewArquivos.cshtml">
-      <publishTime>06/26/2018 10:59:58</publishTime>
+      <publishTime>03/07/2018 11:09:17</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewPesquisar.cshtml">
       <publishTime>06/08/2018 14:52:21</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewResultado.cshtml">
-      <publishTime>06/28/2018 15:54:16</publishTime>
+      <publishTime>03/07/2018 11:09:17</publishTime>
     </File>
     <File Include="Views/Tesouraria/ViewTabelaPesquisar.cshtml">
-      <publishTime>06/26/2018 11:16:20</publishTime>
+      <publishTime>03/07/2018 11:09:17</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>02/01/2018 15:24:19</publishTime>
@@ -2502,13 +2502,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/28/2018 09:11:22</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>06/28/2018 09:26:46</publishTime>
+      <publishTime>07/03/2018 16:13:37</publishTime>
     </File>
     <File Include="Views/WebDesk/faltapermissao.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
     <File Include="Views/WebDesk/FormularioAberturaChamado.cshtml">
-      <publishTime>06/29/2018 15:39:49</publishTime>
+      <publishTime>07/03/2018 16:15:01</publishTime>
     </File>
     <File Include="Views/WebDesk/FormularioSetor.cshtml">
       <publishTime>06/26/2018 11:16:20</publishTime>
@@ -2517,7 +2517,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
     <File Include="Views/WebDesk/InteracaoChamado.cshtml">
-      <publishTime>06/28/2018 11:20:43</publishTime>
+      <publishTime>07/03/2018 16:02:30</publishTime>
     </File>
     <File Include="Views/WebDesk/ResultadoPesquisa.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
@@ -2530,7 +2530,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Web.config">
       <publishTime>05/16/2018 10:28:04</publishTime>
-      <publishTime>06/26/2018 10:45:36</publishTime>
+      <publishTime>03/07/2018 14:02:33</publishTime>
     </File>
     <File Include="Views/Tesouraria/Tesouraria.cshtml">
       <publishTime>06/26/2018 11:16:20</publishTime>
@@ -2542,7 +2542,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>06/28/2018 09:11:22</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>06/28/2018 09:26:46</publishTime>
+      <publishTime>07/03/2018 16:13:37</publishTime>
     </File>
     <File Include="Views/WebDesk/ResultadoPesquisa.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
@@ -2551,7 +2551,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>05/28/2018 12:03:17</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/26/2018 10:45:36</publishTime>
+      <publishTime>03/07/2018 14:02:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

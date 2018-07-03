@@ -67,7 +67,11 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var produtos = new List<SelectListItem>();
 
+<<<<<<< HEAD
             const string queryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos";
+=======
+            const string QueryRetornaProdutos = "SELECT id,descricao FROM pgdprodutos order by descricao";
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
 
             var dados = _conexaoMysql.ExecutaComandoComRetorno( queryRetornaProdutos );
             foreach ( var row in dados )

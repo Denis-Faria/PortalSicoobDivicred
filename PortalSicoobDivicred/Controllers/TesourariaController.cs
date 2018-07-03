@@ -15,6 +15,7 @@ namespace PortalSicoobDivicred.Controllers
 
     public class TesourariaController : Controller
     {
+        DateTime dataescolhida;
         private DataSet mDataSet;
         // GET: Tesouraria
         public ActionResult Tesouraria(string MensagemValidacao, string Erro)
@@ -28,16 +29,27 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var Cookie = Request.Cookies.Get("CookieFarm");
                 var Login = Criptografa.Descriptografar(Cookie.Value);
-                var DadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(Login);
-                if (insereDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
+                var DadosUsuario = insereDados.RecuperaDadosUsuarios(Login);
+                if (insereDados.PermissaoTesouraria(DadosUsuario[0]["login"]))
                     TempData["PermissaoTesouraria"] =
                         " ";
                 else
                     TempData["PermissaoTesouraria"] = "display: none";
 
+                if (DadosUsuario[0]["foto"] == null)
+                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                else
+                    TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
+
+                if (insereDados.PermissaoCurriculos(Login))
+                    TempData["PermissaoCurriculo"] =
+                        " ";
+                else
+                    TempData["PermissaoCurriculo"] = "display: none";
+
                 string idUsuario = insereDados.RecuperaUsuario(Login);
-                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
-                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
+                TempData["NomeLateral"] = DadosUsuario[0]["login"];
+                TempData["EmailLateral"] = DadosUsuario[0]["email"];
 
                 return View("Tesouraria");
             }
@@ -57,6 +69,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult ProcessaArquivos(IEnumerable<HttpPostedFileBase> file, Tesouraria Dados, FormCollection receberForm)
         {
+            
             var consultaValorNR = new QueryMysqlTesouraria();
 
             double valorNR = Convert.ToDouble(consultaValorNR.ConsultaValorNr());
@@ -161,6 +174,8 @@ namespace PortalSicoobDivicred.Controllers
                 int aux04 = 0;
                 int aux05 = 0;
 
+                int inicioMes = 0;
+
                 var dataSelecionada = new DateTime();
                 var dataExtratoDia = new DateTime();
 
@@ -254,6 +269,10 @@ namespace PortalSicoobDivicred.Controllers
 
                         dataSelecionadaValidar = Convert.ToDateTime(TempData["data"]);
                         dataExtratoDiaValidar = transacoes[0].Date;
+
+
+
+
                     }
 
                     int auxdias = 0;
@@ -265,6 +284,16 @@ namespace PortalSicoobDivicred.Controllers
                             break;
                         }
                     }
+                    DateTime teste = dataSelecionada.AddDays(-auxdias);
+                    string mes1 = dataSelecionada.ToString().Substring(3, 2);
+                    string mes2 = teste.ToString().Substring(3, 2);
+                    //dataExtratoDia.Date.AddDays(auxdias)
+
+                    if (mes1 != mes2)
+                    {
+                        inicioMes = 1;
+                    }
+
 
                     if (dataValida == 0 && i != 0)
                     {
@@ -279,7 +308,7 @@ namespace PortalSicoobDivicred.Controllers
                                 string posicao = "F4";
                                 string valeData = inicio.validaDataRelatorio(posicao, k, caminho01);
 
-                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData)||inicioMes==1)
                                 {
 
                                 }
@@ -303,7 +332,7 @@ namespace PortalSicoobDivicred.Controllers
                                 }
                                 else
                                 {
-                                    if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                    if (dataSelecionadaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
                                     {
 
                                     }
@@ -321,7 +350,7 @@ namespace PortalSicoobDivicred.Controllers
                                 string posicao = "F4";
                                 string valeData = inicio.validaDataRelatorio(posicao, k, caminho03);
 
-                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData))
+                                if (dataSelecionadaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
                                 {
 
                                 }
@@ -344,7 +373,7 @@ namespace PortalSicoobDivicred.Controllers
                                 }
                                 else
                                 {
-                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
                                     {
 
                                     }
@@ -369,7 +398,7 @@ namespace PortalSicoobDivicred.Controllers
                                 }
                                 else
                                 {
-                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData))
+                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
                                     {
 
                                     }
@@ -391,7 +420,7 @@ namespace PortalSicoobDivicred.Controllers
                     if (dataValida == 0)
                     {
                         //fim teste
-                        if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias))
+                        if (dataExtratoDia == dataSelecionada || dataSelecionada == dataExtratoDia.Date.AddDays(auxdias) || inicioMes == 1)
                         {
                             var insereConferencia1 = new QueryMysqlTesouraria();
                             switch (i)
@@ -409,7 +438,7 @@ namespace PortalSicoobDivicred.Controllers
                                         {
                                             if (historico.Contains("SRS ELE") || historico.Contains("SRI ELE") || historico.Contains("SR CHQ ROUBADO SUP ELETR"))
                                             {
-                                                var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
+                                                //var teste = Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                                 arqext1 = arqext1 + Math.Abs(Convert.ToDouble(transacoes[j].Amount));
                                                 arqext1 = Math.Round(arqext1, 2);
                                                 TempData["Extrato-3/4/5"] = arqext1;
@@ -636,9 +665,16 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Resultado(FormCollection receberForm)
         {
             var insereJustificativa = new QueryMysqlTesouraria();
+            
             if (receberForm.Count > 0)
             {
+<<<<<<< HEAD
                 string data = DateTime.Now.ToString("yyyy/MM/dd");
+=======
+                //string teste = dataescolhida.ToString();
+                //  string data = TempData["data"].ToString();
+                string data = receberForm["dataescolhida"].ToString();
+>>>>>>> 849dabe607ffc73905f4dbb544324514d239de41
                 string justificativa = receberForm["justificativa"];
                 insereJustificativa.InsereJustificativa(data, justificativa);
             }
@@ -647,9 +683,9 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Pesquisa()
         {
-            return PartialView("ViewPesquisar");
+            TempData["RetornaValor"] = 1;
+            return View("ViewPesquisar");
         }
-
         [HttpPost]
         public ActionResult Pesquisa(string data)
         {

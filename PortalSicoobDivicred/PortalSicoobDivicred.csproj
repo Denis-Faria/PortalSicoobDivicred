@@ -918,6 +918,7 @@
     <Content Include="Views\WebDesk\AreaGestor.cshtml" />
     <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
     <Content Include="Views\WebDesk\FormularioAberturaChamado.cshtml" />
+    <Content Include="Views\WebDesk\ParametrosFuncionario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -78,7 +78,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public async Task EnviaAlertaFuncionario(Dictionary<string, string> funcionarioEnvio, string mensagem, string idAplicativo)
         {
             var cadastroAlerta = new QueryMysql();
-
+            
             if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
 

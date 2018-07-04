@@ -792,16 +792,19 @@ namespace PortalSicoobDivicred.Aplicacao
         }
         public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
         {
-            var Query = "select email,idnotificacao,notificacaoemail,idsetor,nome from funcionarios where id=" + IdFuncionario + " ";
+            var Query = "select id,email,idnotificacao,notificacaoemail,idsetor,nome from funcionarios where id=" + IdFuncionario + " ";
             var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaInformacoesGestor(string IdSetor)
+        public List<Dictionary<string, string>> RetornaInformacoesGestor(string idSetor)
         {
-            var Query = "select id,email,idnotificacao,notificacaoemail from funcionarios where idsetor=" + IdSetor + " and gestor='S' ";
-            var Chamados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+
+                var query = "select id,email,idnotificacao,notificacaoemail from funcionarios where idsetor=" +
+                            idSetor + " and gestor='S' ";
+                var chamados = ConexaoMysql.ExecutaComandoComRetorno(query);
+                return chamados;
+           
         }
         public List<Dictionary<string, string>> RetornaInformacoesNumerario(string IdAgencia)
         {

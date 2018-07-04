@@ -27,7 +27,9 @@ namespace PortalSicoobDivicred.Controllers
                     var login = Criptografa.Descriptografar(cookie.Value);
 
                     var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
+
                     TempData["usuarioTI"] = dadosUsuario[0]["idgrupo"];
+
                     var permissao = new QueryMysql();
                     if (permissao.PermissaoCurriculos(login))
                         TempData["PermissaoCurriculo"] =
@@ -69,7 +71,7 @@ namespace PortalSicoobDivicred.Controllers
                             var sla = TimeSpan.Parse(chamadosEmAberto[i]["sla"]);
 
                             double horas;
-                            if (TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes == 0)
+                            if (Convert.ToInt32(TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes) == 0)
                             {
                                 horas = 00;
                             }
@@ -114,7 +116,7 @@ namespace PortalSicoobDivicred.Controllers
                         var sla = TimeSpan.Parse(chamadosOperador[i]["sla"]);
 
                         double horas;
-                        if (TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes == 0)
+                        if (Convert.ToInt32(TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes) == 0)
                         {
                             horas = 00;
                         }
@@ -152,8 +154,8 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["DataHoraSetor" + i] = chamadosSetor[i]["datahoracadastro"];
 
                         var sla = TimeSpan.Parse(chamadosSetor[i]["sla"]);
-                        var horas = new double();
-                        if (TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes == 0)
+                        double horas;
+                        if (Convert.ToInt32(TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes) == 0)
                         {
                             horas = 00;
                         }
@@ -365,55 +367,42 @@ namespace PortalSicoobDivicred.Controllers
                     for (var i = 0; i < lista.Count; i++)
                         if (lista[i] != null)
                         {
-                            var NomeArquivo = Path.GetFileName(lista[i].FileName);
-                            byte[] fileData = null;
+                            var nomeArquivo = Path.GetFileName(lista[i].FileName);
+                            byte[] fileData;
                             using (var binaryReader = new BinaryReader(lista[i].InputStream))
                             {
                                 fileData = binaryReader.ReadBytes(lista[i].ContentLength);
                             }
 
-                            verificaDados.InserirAnexo(idInteracao.Split(';')[0], fileData, lista[i].ContentType, NomeArquivo);
+                            verificaDados.InserirAnexo(idInteracao.Split(';')[0], fileData, lista[i].ContentType, nomeArquivo);
                         }
                 }
 
-                var Envia = new EnviodeAlertas();
-                var CadastroAlerta = new QueryMysql();
+                var envia = new EnviodeAlertas();
+                var idSolicitante = verificaDados.RetornaIdSolicitantes( dados["IdSolicitacao"] );
 
-                var DadosOperador = verificaDados.RetornaInformacoesNotificacao(dados["IdFuncionarioResponsavel"]);
-                if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
-                {
-                    CadastroAlerta.cadastrarAlert(dados["IdFuncionarioResponsavel"], "6", "Foi Aberto um chamado para você.");
-                    await Envia.EnviaEmail(DadosOperador[0]["email"], "Foi aberto um chamado para você.");
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                    {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Foi Aberto um chamado para você.");
-                    }
-                }
-                else
-                {
-                    CadastroAlerta.cadastrarAlert(dados["IdFuncionarioResponsavel"], "6", "Foi Aberto um chamado para você.");
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                    {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Foi Aberto um chamado para você.");
-                    }
-                }
+                var dadosOperador = verificaDados.RetornaInformacoesNotificacao( idSolicitante[0]["idfuncionariocadastro"] );
+
+                await envia.EnviaAlertaFuncionario( dadosOperador[0],
+                    "Foi Aberto um chamado para você.", "6" );
+                
                 return RedirectToAction("Chamados", "Webdesk", new { Mensagem = "Solicitação cadastrada com sucesso!" });
             }
 
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult RetornaCategoriaFuncionario(string IdSetor)
+        public ActionResult RetornaCategoriaFuncionario(string idSetor)
         {
-            var Solicitacao = new SolicitacaoWebDesk();
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Categoria = VerificaDados.RetornaCategoria(IdSetor);
-            var Funcionario = VerificaDados.RetornaFuncionario(IdSetor);
+            var solicitacao = new SolicitacaoWebDesk();
+            var verificaDados = new QueryMysqlWebdesk();
+            var categoria = verificaDados.RetornaCategoria(idSetor);
+            var funcionario = verificaDados.RetornaFuncionario(idSetor);
 
-            Solicitacao.Categoria = Categoria;
-            Solicitacao.FuncionarioResponsavel = Funcionario;
+            solicitacao.Categoria = categoria;
+            solicitacao.FuncionarioResponsavel = funcionario;
 
-            return View("CategoriaSetorSolicitacao", Solicitacao);
+            return View("CategoriaSetorSolicitacao", solicitacao);
         }
         public ActionResult RetornaCategoriaAberturaChamado(string idSetor)
         {
@@ -432,45 +421,51 @@ namespace PortalSicoobDivicred.Controllers
             var solicitacao = new SolicitacaoWebDesk();
             var verificaDados = new QueryMysqlWebdesk();
             var cookie = Request.Cookies.Get("CookieFarm");
-            var login = Criptografa.Descriptografar(cookie.Value);
-            var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
-            if (idCadastro.Equals(dadosUsuario[0]["id"])) return View("faltapermissao");
+            if (cookie != null)
+            {
+                var login = Criptografa.Descriptografar(cookie.Value);
+                var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
+                if (idCadastro.Equals(dadosUsuario[0]["id"])) return View("faltapermissao");
 
-            var Categoria = verificaDados.RetornaCategoria(dadosUsuario[0]["idsetor"]);
+                var categoria = verificaDados.RetornaCategoria(dadosUsuario[0]["idsetor"]);
 
-            solicitacao.Categoria = Categoria;
+                solicitacao.Categoria = categoria;
+            }
 
             return View("CategoriaInteracao", solicitacao);
         }
 
 
-        public ActionResult RetornaSetor(string IdCadastro)
+        public ActionResult RetornaSetor(string idCadastro)
         {
-            var Solicitacao = new SolicitacaoWebDesk();
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Cookie = Request.Cookies.Get("CookieFarm");
-            var Login = Criptografa.Descriptografar(Cookie.Value);
-            var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
-            if (IdCadastro.Equals(DadosUsuario[0]["id"])) return View("faltapermissao");
+            var solicitacao = new SolicitacaoWebDesk();
+            var verificaDados = new QueryMysqlWebdesk();
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                var login = Criptografa.Descriptografar(cookie.Value);
+                var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
+                if (idCadastro.Equals(dadosUsuario[0]["id"])) return View("faltapermissao");
+            }
 
-            var Setor = VerificaDados.RetornaSetor();
-            Solicitacao.SetorResponsavel = Setor;
+            var setor = verificaDados.RetornaSetor();
+            solicitacao.SetorResponsavel = setor;
 
-            return View("SetorInteracao", Solicitacao);
+            return View("SetorInteracao", solicitacao);
         }
 
-        public ActionResult RetornaFuncionario(string IdSetor)
+        public ActionResult RetornaFuncionario(string idSetor)
         {
-            var Solicitacao = new SolicitacaoWebDesk();
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Funcionario = VerificaDados.RetornaFuncionario(IdSetor);
+            var solicitacao = new SolicitacaoWebDesk();
+            var verificaDados = new QueryMysqlWebdesk();
+            var funcionario = verificaDados.RetornaFuncionario(idSetor);
 
-            Solicitacao.FuncionarioResponsavel = Funcionario;
+            solicitacao.FuncionarioResponsavel = funcionario;
 
-            return View("FuncionarioInteracao", Solicitacao);
+            return View("FuncionarioInteracao", solicitacao);
         }
 
-        public ActionResult Documentos(string Anexos)
+        public ActionResult Documentos(string anexos)
         {
             return View("Chamados");
         }
@@ -1048,77 +1043,66 @@ namespace PortalSicoobDivicred.Controllers
                     dadosUsuario[0]["id"], "S");
                 verificaDados.IniciarAtendimentoSolicitacao(idSolicitacao);
 
-                var Envia = new EnviodeAlertas();
-                var CadastroAlerta = new QueryMysql();
-                var IdSolicitante = verificaDados.RetornaIdSolicitantes(idSolicitacao);
+                var envia = new EnviodeAlertas();
+                var idSolicitante = verificaDados.RetornaIdSolicitantes(idSolicitacao);
 
-                var DadosOperador = verificaDados.RetornaInformacoesNotificacao(IdSolicitante[0]["idfuncionariocadastro"]);
+                var dadosOperador = verificaDados.RetornaInformacoesNotificacao( idSolicitante[0]["idfuncionariocadastro"] );
 
-                if (DadosOperador[0]["notificacaoemail"].Equals("Sim"))
-                {
-                    CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"]);
-                    await Envia.EnviaEmail(DadosOperador[0]["email"], "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"]);
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                    {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"]);
-                    }
-                }
-                else
-                {
-                    CadastroAlerta.cadastrarAlert(IdSolicitante[0]["idfuncionariocadastro"], "6", "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"]);
-                    if (DadosOperador[0]["idnotificacao"].ToString().Length > 0)
-                    {
-                        Envia.CadastraAlerta(DadosOperador[0]["idnotificacao"], "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"]);
-                    }
-                }
+                await envia.EnviaAlertaFuncionario( dadosOperador[0],
+                    "Sua solicitação n°" + idSolicitacao + " teve o atendimento iniciado por " + dadosUsuario[0]["nome"], "6" );
+
+              
             }
 
             return RedirectToAction("InteracaoChamado", "Webdesk",
                 new { IdChamado = idSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" });
         }
 
-        public ActionResult AreaGestor(string Mensagem)
+        public ActionResult AreaGestor(string mensagem)
         {
-            TempData["Mensagem"] = Mensagem;
-            var VerificaDados = new QueryMysql();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            TempData["Mensagem"] = mensagem;
+            var verificaDados = new QueryMysql();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
-
-
-                var DadosUsuarioBanco = VerificaDados.RecuperaDadosUsuarios(Login);
-
-                if (VerificaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoCurriculo"] =
-                        " ";
-                else
-                    TempData["PermissaoCurriculo"] = "display: none";
-
-                if (VerificaDados.PermissaoTesouraria(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoTesouraria"] =
-                        " ";
-                else
-                    TempData["PermissaoTesouraria"] = "display: none";
-
-                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
+                var cookie = Request.Cookies.Get("CookieFarm");
+                if (cookie != null)
                 {
-                    TempData["PermissaoGestor"] = "N";
-                    TempData["AreaGestor"] = "S";
-                }
-                else
-                {
-                    TempData["PermissaoGestor"] = "N";
-                    TempData["AreaGestor"] = "N";
-                }
+                    var login = Criptografa.Descriptografar(cookie.Value);
 
-                if (DadosUsuarioBanco[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                else
-                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
 
-                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
+                    var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios(login);
+
+                    if (verificaDados.PermissaoCurriculos(dadosUsuarioBanco[0]["login"]))
+                        TempData["PermissaoCurriculo"] =
+                            " ";
+                    else
+                        TempData["PermissaoCurriculo"] = "display: none";
+
+                    if (verificaDados.PermissaoTesouraria(dadosUsuarioBanco[0]["login"]))
+                        TempData["PermissaoTesouraria"] =
+                            " ";
+                    else
+                        TempData["PermissaoTesouraria"] = "display: none";
+
+                    if (dadosUsuarioBanco[0]["gestor"].Equals("S"))
+                    {
+                        TempData["PermissaoGestor"] = "N";
+                        TempData["AreaGestor"] = "S";
+                    }
+                    else
+                    {
+                        TempData["PermissaoGestor"] = "N";
+                        TempData["AreaGestor"] = "N";
+                    }
+
+                    if (dadosUsuarioBanco[0]["foto"] == null)
+                        TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
+                    else
+                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
+
+                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                }
 
                 return View("AreaGestor");
             }
@@ -1128,24 +1112,27 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult FormularioSetor()
         {
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlWebdesk();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
-
-                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(Login);
-
-                var DadosFormularios = VerificaDados.RetornaFormulariosSetor(DadosUsuario[0]["idsetor"]);
-
-                TempData["TotalFormularios"] = DadosFormularios.Count();
-
-                for (int i = 0; i < DadosFormularios.Count; i++)
+                var cookie = Request.Cookies.Get("CookieFarm");
+                if (cookie != null)
                 {
-                    TempData["CategoriaFormulario" + i] = DadosFormularios[i]["descricao"];
-                    TempData["CamposFormulario" + i] = DadosFormularios[i]["campo"];
-                    TempData["CamposFormularioObrigatorio" + i] = DadosFormularios[i]["campoobrigatorio"];
+                    var login = Criptografa.Descriptografar(cookie.Value);
+
+                    var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
+
+                    var dadosFormularios = verificaDados.RetornaFormulariosSetor(dadosUsuario[0]["idsetor"]);
+
+                    TempData["TotalFormularios"] = dadosFormularios.Count;
+
+                    for (int i = 0; i < dadosFormularios.Count; i++)
+                    {
+                        TempData["CategoriaFormulario" + i] = dadosFormularios[i]["descricao"];
+                        TempData["CamposFormulario" + i] = dadosFormularios[i]["campo"];
+                        TempData["CamposFormularioObrigatorio" + i] = dadosFormularios[i]["campoobrigatorio"];
+                    }
                 }
 
                 return PartialView("FormularioSetor");
@@ -1154,29 +1141,24 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult CadastrarFormulario()
-        {
-            throw new NotImplementedException();
-        }
+
 
         [HttpPost]
-        public ActionResult RetornaFormulario(string IdCategoria)
+        public ActionResult RetornaFormulario(string idCategoria)
         {
-            var VerificaDados = new QueryMysqlWebdesk();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlWebdesk();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
             {
-                var Formulario = VerificaDados.RetornaFormularioCategoria(IdCategoria);
-                if (Formulario.Count > 0)
+                var formulario = verificaDados.RetornaFormularioCategoria(idCategoria);
+                if (formulario.Count > 0)
                 {
                     var count = 0;
-                    var ArrayCombo = new Dictionary<string, string>();
-                    var ArrayObrigatoriedadeCombo = new Dictionary<string, string>();
+                    var arrayCombo = new Dictionary<string, string>();
 
-
-                    foreach (var Campo in Formulario)
+                    foreach (var campo in formulario)
                     {
-                        if (Campo["campoobrigatorio"].Equals("S"))
+                        if (campo["campoobrigatorio"].Equals("S"))
                         {
                             TempData["Obrigatorio" + count] = "required";
                         }
@@ -1184,41 +1166,41 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             TempData["Obrigatorio" + count] = "";
                         }
-                        if (Campo["combo"].Equals("S"))
+                        if (campo["combo"].Equals("S"))
                         {
-                            if (ArrayCombo.ContainsKey(Campo["nomecombo"]))
+                            if (arrayCombo.ContainsKey(campo["nomecombo"]))
                             {
 
-                                var CamposCombo = ArrayCombo[Campo["nomecombo"]];
-                                CamposCombo = CamposCombo + ";" + Campo["campo"];
-                                ArrayCombo[Campo["nomecombo"]] = CamposCombo;
+                                var camposCombo = arrayCombo[campo["nomecombo"]];
+                                camposCombo = camposCombo + ";" + campo["campo"];
+                                arrayCombo[campo["nomecombo"]] = camposCombo;
 
                             }
                             else
                             {
-                                if (Campo["campoobrigatorio"].Equals("S"))
+                                if (campo["campoobrigatorio"].Equals("S"))
                                 {
-                                    TempData["Obnrigatorio" + Campo["nomecombo"]] = "required";
+                                    TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
                                 }
                                 else
                                 {
-                                    TempData["Obnrigatorio" + Campo["nomecombo"]] = "required";
+                                    TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
                                 }
-                                ArrayCombo.Add(Campo["nomecombo"], Campo["campo"]);
+                                arrayCombo.Add(campo["nomecombo"], campo["campo"]);
 
                             }
 
                         }
                         else
                         {
-                            TempData["NomeCampo" + count] = Campo["campo"];
+                            TempData["NomeCampo" + count] = campo["campo"];
                             count++;
                         }
 
 
                     }
                     TempData["TotalCampos"] = count;
-                    TempData["Combos"] = ArrayCombo;
+                    TempData["Combos"] = arrayCombo;
 
 
                     return PartialView("FormularioAberturaChamado");
@@ -1235,16 +1217,16 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Funcionario()
         {
-            var VerificaDados = new QueryMysqlRh();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlRh();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
             {
-                var Certificacoes = VerificaDados.RetornaCertificacoes();
-                TempData["TotalCertificacao"] = Certificacoes.Count;
-                for (var i = 0; i < Certificacoes.Count; i++)
+                var certificacoes = verificaDados.RetornaCertificacoes();
+                TempData["TotalCertificacao"] = certificacoes.Count;
+                for (var i = 0; i < certificacoes.Count; i++)
                 {
-                    TempData["DescricaoCertificacao" + i] = Certificacoes[i]["descricao"];
-                    TempData["IdCertificacao" + i] = Certificacoes[i]["id"];
+                    TempData["DescricaoCertificacao" + i] = certificacoes[i]["descricao"];
+                    TempData["IdCertificacao" + i] = certificacoes[i]["id"];
                 }
 
                 return PartialView("ParametrosFuncionario");
@@ -1253,18 +1235,18 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult Funcionario(Funcao DadosCadastro, FormCollection Dados)
+        public ActionResult Funcionario(Funcao dadosCadastro, FormCollection dados)
         {
-            var VerificaDados = new QueryMysqlRh();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlRh();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
             {
-                var Certificacoes = "";
-                for (var i = 0; i < Dados.Count; i++)
-                    if (Dados.AllKeys[i].Contains("Certificacao"))
-                        Certificacoes = Certificacoes + Dados[i] + ";";
+                var certificacoes = "";
+                for (var i = 0; i < dados.Count; i++)
+                    if (dados.AllKeys[i].Contains("Certificacao"))
+                        certificacoes = certificacoes + dados[i] + ";";
 
-                VerificaDados.CadastrarFuncao(DadosCadastro.NomeFuncao, Certificacoes);
+                verificaDados.CadastrarFuncao(dadosCadastro.NomeFuncao, certificacoes);
                 return RedirectToAction("ColaboradorRh", "PainelColaborador",
                     new { Mensagem = "Função cadastrada com sucesso !" });
             }

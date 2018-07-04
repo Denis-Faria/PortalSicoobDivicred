@@ -367,17 +367,21 @@
                         <span>Minhas solicitações</span>
                     </a>
                 </li>
-                @if (TempData["usuarioTI"].ToString() == "2")
+                @try
                 {
-                    <li id="AbaParametros">
-                        <a href="#Parametros" onclick="javascript: $('#AbaChamadosdoMeuSetor').removeClass(); $('#AbaMeusChamados').removeClass(); $('#AbaMeusChamadosAbertos').removeClass();$('#AbaParametros').addClass('is-active');">
-                            <span class="icon is-small">
-                                <i class="fa fa-inbox"></i>
-                            </span>
-                            <span>Parâmetros</span>
-                        </a>
-                    </li>
+                    if (TempData["usuarioTI"].ToString() == "2")
+                    {
+                        <li id="AbaParametros">
+                            <a href="#Parametros" onclick="javascript: $('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaMeusChamadosAbertos').removeClass();$('#AbaParametros').addClass('is-active');">
+                                <span class="icon is-small">
+                                    <i class="fa fa-inbox"></i>
+                                </span>
+                                <span>Parâmetros</span>
+                            </a>
+                        </li>
+                    }
                 }
+                catch { }
             </ul>
         </div>
         <div id="MeusChamados">
@@ -412,40 +416,46 @@
                 </tbody>
             </table>
         </div>
-
-        @if (TempData["usuarioTI"].ToString() == "2")
+    @try
+    {
+        if (TempData["usuarioTI"].ToString() == "2")
         {
-        <div id="Parametros">
+            <div id="Parametros">
 
-            <div class="columns">
-                <div class="column -is-4">
-                    <nav class="panel">
-                        <p class="panel-heading">
-                            Parâmetros
-                        </p>
-                        <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
-                            <span class="panel-icon">
-                                <i class="fas fa-address-card"></i>
-                            </span>
-                            Funcionários
-                        </a>
-                        <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
-                            <span class="panel-icon">
-                                <i class="fas fa-address-card"></i>
-                            </span>
-                            Grupos
-                        </a>
+                <div class="columns">
+                    <div class="column -is-4">
+                        <nav class="panel">
+                            <p class="panel-heading">
+                                Parâmetros
+                            </p>
+                            <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
+                                <span class="panel-icon">
+                                    <i class="fas fa-address-card"></i>
+                                </span>
+                                Funcionários
+                            </a>
+                            <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
+                                <span class="panel-icon">
+                                    <i class="fas fa-address-card"></i>
+                                </span>
+                                Grupos
+                            </a>
 
 
-                    </nav>
-                </div>
-                <div id="ParametroSelecionado" class="column is-6">
+                        </nav>
+                    </div>
+                    <div id="ParametroSelecionado" class="column is-6">
 
+                    </div>
                 </div>
             </div>
-        </div>
         }
-        <div id="ChamadosSetor">
+    }
+    catch
+    {
+
+    }
+    <div id="ChamadosSetor">
             <table id="TabelaChamadosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
                 <thead>
                 <th class="has-text-centered">N° Chamado</th>

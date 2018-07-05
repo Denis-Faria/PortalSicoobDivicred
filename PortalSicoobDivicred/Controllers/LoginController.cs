@@ -115,7 +115,7 @@ namespace PortalSicoobDivicred.Controllers
             }
 
             TempData["Erro"] = "Usuário ou senha informados incorretos.";
-            return View(DadosLogin);
+            return View("Login");
         }
 
         public ActionResult AlterarSenha(string Senha, string Usuario)

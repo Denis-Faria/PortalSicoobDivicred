@@ -36,14 +36,14 @@ class StepsWizard {
     bind() {
         var _this = this;
 
-        if (this.previous_btn != null) {
+        if (this.previous_btn !== null) {
             this.previous_btn.addEventListener("click",
                 function(e) {
                     _this.previous_step();
                 });
         }
 
-        if (this.next_btn != null) {
+        if (this.next_btn !== null) {
             this.next_btn.addEventListener("click",
                 function(e) {
                     _this.next_step();
@@ -70,10 +70,10 @@ class StepsWizard {
 
     updateActions( step ) {
         var stepId = parseInt(step.getAttribute("data-step-id"));
-        if (stepId == 0) {
+        if (stepId === 0) {
             this.previous_btn.setAttribute("disabled", "disabled");
             this.next_btn.removeAttribute("disabled", "disabled");
-        } else if (stepId == (this.steps.length - 1)) {
+        } else if (stepId === (this.steps.length - 1)) {
             this.previous_btn.removeAttribute("disabled", "disabled");
             this.next_btn.setAttribute("disabled", "disabled");
         } else {
@@ -85,27 +85,27 @@ class StepsWizard {
     next_step() {
         var current_id = this.get_current_step_id();
 
-        if (current_id == null) {
+        if (current_id === null) {
             return;
         }
 
         var next_id = current_id + 1,
             errors = [];
 
-        if (typeof this.options.beforeNext != "undefined" &&
-            this.options.beforeNext != null &&
+        if (typeof this.options.beforeNext !== "undefined" &&
+            this.options.beforeNext !== null &&
             this.options.beforeNext) {
             errors = this.options.beforeNext(this.steps[current_id]);
         }
 
-        if (typeof errors == "undefined") {
+        if (typeof errors === "undefined") {
             errors = [];
         }
 
         if (errors.length > 0) {
             for (var i = 0; i < errors.length; i++) {
-                if (typeof this.options.onError != "undefined" &&
-                    this.options.onError != null &&
+                if (typeof this.options.onError !== "undefined" &&
+                    this.options.onError !== null &&
                     this.options.onError) {
                     this.options.onError(errors[i]);
                 }
@@ -115,8 +115,8 @@ class StepsWizard {
         }
 
         if (next_id >= this.steps.length) {
-            if (typeof this.options.onFinish != "undefined" &&
-                this.options.onFinish != null &&
+            if (typeof this.options.onFinish !== "undefined" &&
+                this.options.onFinish !== null &&
                 this.options.onFinish) {
                 this.options.onFinish(this.steps[current_id]);
             }
@@ -129,7 +129,7 @@ class StepsWizard {
 
     previous_step() {
         var current_id = this.get_current_step_id();
-        if (current_id == null) {
+        if (current_id === null) {
             return;
         }
 
@@ -137,17 +137,14 @@ class StepsWizard {
         this.activate_step(this.steps[current_id - 1]);
     }
 
-    /**
-     * Activate a single step,
-     * will deactivate all other steps.
-     */
+
     activate_step(step) {
         this.updateActions(step);
 
         for (var i = 0; i < this.steps.length; i++) {
             var _step = this.steps[i];
 
-            if (_step == step) {
+            if (_step === step) {
                 continue;
 
             }

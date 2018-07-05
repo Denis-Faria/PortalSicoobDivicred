@@ -3,8 +3,22 @@
 }
 
 <body>
+    @if (TempData["Mensagem"] != null)
+    {
+        @Html.Label("")
 
-@Html.Action("Dashboard", "Principal")
+
+        <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]',
+        });
+
+        </script>
+    }
+
+
+    @Html.Action("Dashboard", "Principal")
 </body>
-                    
-               

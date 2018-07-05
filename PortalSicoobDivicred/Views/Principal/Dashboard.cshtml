@@ -175,6 +175,7 @@
     </p>
 </nav>
 <div class="content">
+
     <div class="columns">
         <br />
         <div class="column is-12">
@@ -189,7 +190,9 @@
                         </span>
                     </a>
                 </header>
+
                 <div id="RecursosHumanos">
+
                     <div class="card-content">
                         <div class="content">
                             <div id="TabBancoHoras">
@@ -230,30 +233,41 @@
                                     </ul>
                                 </div>
                                 <div id="Justificativa">
-                                    @Html.Action("Justificativas", "Principal")
-                                </div>
-                                <div id="JustificativaSetor" ">
-                                    @if (TempData["AreaGestor"].ToString().Equals("S"))
+                                    @if(TempData["ValidaBanco"].Equals( "S" ))
                                     {
-                                        <label></label>
-                                        @Html.Action("JustificativasSetor", "Principal")
-                                        ;
+                                        @Html.Action( "Justificativas", "Principal" )
+                                    }
+                                </div>
+                                <div id="JustificativaSetor">
+                                    @if(TempData["ValidaBanco"].Equals( "S" ))
+                                    {
+                                        if(TempData["AreaGestor"].ToString().Equals( "S" ))
+                                        {
+                                            <label></label>
+                                            @Html.Action( "JustificativasSetor", "Principal" )
+                                            ;
+                                        }
                                     }
 
                                 </div>
+
                                 <div id="BancoDeHora">
-                                    @Html.Action("BancoHora", "Principal")
+                                    @if(TempData["ValidaBanco"].Equals( "S" ))
+                                    {
+                                        @Html.Action( "BancoHora", "Principal" )
+
+                                    }
                                 </div>
                                 <div id="VagasInternas">
                                     <p>
                                         <strong>Vagas em Aberto</strong>
                                     </p>
                                     <ul>
-                                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagasInternas"]); i++)
+                                        @for(var i = 0; i < Convert.ToInt32( TempData["TotalVagasInternas"] ); i++)
                                         {
                                             try
                                             {
-                                                if (TempData["Interesse " + i].ToString().Equals("Ok"))
+                                                if(TempData["Interesse " + i].ToString().Equals( "Ok" ))
                                                 {
                                                     <p>
                                                         @TempData["TituloVagaInterna " + i]
@@ -309,9 +323,9 @@
                                             <strong>Resultado Processo Seletivo</strong>
                                         </p>
                                         <ul>
-                                            @for (var j = 0; j < Convert.ToInt32(TempData["TotalProcessos"]); j++)
+                                            @for(var j = 0; j < Convert.ToInt32( TempData["TotalProcessos"] ); j++)
                                             {
-                                                if (Convert.ToBoolean(TempData["Aprovado " + j].ToString()))
+                                                if(Convert.ToBoolean( TempData["Aprovado " + j].ToString() ))
                                                 {
                                                     <p>
                                                         @TempData["TituloVagaInternaProcesso " + j]
@@ -337,7 +351,6 @@
                                                 }
                                             }
 
-
                                         </ul>
                                     </footer>
 
@@ -349,10 +362,12 @@
                 </div>
             </div>
 
+
             <br />
+
             <div class="columns">
                 <div class="column is-5">
-                    <div class="card" >
+                    <div class="card">
                         <header class="card-header">
                             <p class="card-header-title">
                                 Novo Show de Prêmios
@@ -402,7 +417,7 @@
                         <div id="Numerario">
                             <div class="card-content">
                                 <div class="content">
-                                   @Html.Action("ControleNumerario")
+                                    @Html.Action( "ControleNumerario" )
                                 </div>
                             </div>
                         </div>

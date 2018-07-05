@@ -23,12 +23,12 @@
     <link rel="stylesheet" type="text/css" href="/Assets/css/Login.css">
 </head>
 <body>
-    @if (TempData["Mensagem"] != null)
-    {
-        @Html.Label("")
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
 
-        <script>
+    <script>
 
         iziToast.success({
             title: 'Sucesso',
@@ -36,60 +36,60 @@
             message: '@TempData["Mensagem"]',
         });
 
-        </script>
-    }
-    @using (Html.BeginForm("Login", "Login"))
-    {
-        <div class="login-wrapper columns">
-            <div class="column is-8 is-hidden-mobile hero-banner">
-                <section class="hero is-fullheight is-dark">
-                    <div class="hero-body">
-                        <div class="container section">
-                            <div class="has-text-right">
-                                <h1 class="title is-1">Portal</h1> <br>
-                                <p class="title is-3">Sicoob Divicred</p>
-                            </div>
+    </script>
+}
+@using (Html.BeginForm("Login", "Login"))
+{
+    <div class="login-wrapper columns">
+        <div class="column is-8 is-hidden-mobile hero-banner">
+            <section class="hero is-fullheight is-dark">
+                <div class="hero-body">
+                    <div class="container section">
+                        <div class="has-text-right">
+                            <h1 class="title is-1">Portal</h1> <br>
+                            <p class="title is-3">Sicoob Divicred</p>
                         </div>
                     </div>
-                    <div class="hero-footer">
-                        <p class="has-text-centered">Image © Glenn Carstens-Peters via unsplash</p>
+                </div>
+                <div class="hero-footer">
+                    <p class="has-text-centered">Image © Glenn Carstens-Peters via unsplash</p>
+                </div>
+            </section>
+        </div>
+        <div class="column is-4">
+            <section class="hero is-fullheight">
+                <div class="hero-heading">
+                    <div class="section has-text-centered">
+                        <img src="/Images/logo.png" alt="Bulma logo" width="150px">
                     </div>
-                </section>
-            </div>
-            <div class="column is-4">
-                <section class="hero is-fullheight">
-                    <div class="hero-heading">
-                        <div class="section has-text-centered">
-                            <img src="/Images/logo.png" alt="Bulma logo" width="150px">
-                        </div>
-                    </div>
-                    <div class="hero-body">
-                        <div class="container">
-                            <div class="columns">
-                                <div class="column is-8 is-offset-2">
-                                    <div class="login-form">
-                                        <p class="control has-icon has-icon-right">
-                                            @Html.TextBoxFor(m => m.Usuario, null, new { id = "Usuario", @class = "input email-input", placeholder = "Usuário" })
-                                            <span class="icon user">
-                                                <i class="fa fa-user"></i>
-                                            </span>
-                                        </p>
-                                        <p class="control has-icon has-icon-right">
-                                            @Html.Password("Senha", null, new { @class = "input password-input", placeholder = "Senha" })
-                                            <span class="icon user">
-                                                <i class="fa fa-lock"></i>
-                                            </span>
-                                        </p>
-                                        <p class="control login">
-                                            <button class="button is-success is-outlined is-large is-fullwidth">Login</button>
-                                        </p>
-                                    </div>
-                                    @if (TempData["Erro"] != null)
-                                    {
-                                        @Html.Label("")
-                                        ;
+                </div>
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="columns">
+                            <div class="column is-8 is-offset-2">
+                                <div class="login-form">
+                                    <p class="control has-icon has-icon-right">
+                                        @Html.TextBoxFor(m => m.Usuario, null, new {id = "Usuario", @class = "input email-input", placeholder = "Usuário"})
+                                        <span class="icon user">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </p>
+                                    <p class="control has-icon has-icon-right">
+                                        @Html.Password("Senha", null, new {@class = "input password-input", placeholder = "Senha"})
+                                        <span class="icon user">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </p>
+                                    <p class="control login">
+                                        <button class="button is-success is-outlined is-large is-fullwidth">Login</button>
+                                    </p>
+                                </div>
+                                @if (TempData["Erro"] != null)
+                                {
+                                    @Html.Label("")
+                                    ;
 
-                                        <script>
+                                    <script>
 
                                         iziToast.error({
                                             title: 'Erro',
@@ -97,21 +97,21 @@
                                             message: '@TempData["Erro"]',
                                         });
 
-                                        </script>
-                                    }
-                                    <div class="section forgot-password">
-                                        <p class="has-text-centered">
-                                            <a href="@Url.Action("EsqueciMinhaSenha")">Esqueceu sua senha ?</a>
-                                            <a href="#">Precisa de ajuda ?</a>
-                                        </p>
-                                    </div>
+                                    </script>
+                                }
+                                <div class="section forgot-password">
+                                    <p class="has-text-centered">
+                                        <a href="@Url.Action("EsqueciMinhaSenha")">Esqueceu sua senha ?</a>
+                                        <a href="#">Precisa de ajuda ?</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </div>
-    }
+    </div>
+}
 </body>
 </html>

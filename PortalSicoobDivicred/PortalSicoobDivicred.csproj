@@ -697,6 +697,7 @@
     <Content Include="node_modules\bulma-checkradio\package.json" />
     <Content Include="node_modules\bulma-checkradio\README.md" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Images\sucesso.png" />
@@ -740,6 +741,7 @@
     <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="Aplicacao\ElasticEmailClient.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Models\Categorias.cs" />
     <Compile Include="Models\Certificacao.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">

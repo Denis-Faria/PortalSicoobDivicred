@@ -4,12 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <body>
-    @if (TempData["Mensagem"] != null)
-    {
-        @Html.Label("")
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
 
-        <script>
+    <script>
 
         iziToast.success({
             title: 'Sucesso',
@@ -17,887 +17,555 @@
             message: '@TempData["Mensagem"]',
         });
 
-        </script>
-    }
-    <br />
-    <nav class="level ">
-        <p class="level-item has-text-centered">
-            <img src="/Images/Curriculo.png" alt="" style="height: 30px;">
-        </p>
-    </nav>
-    <script src='@Url.Content("https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
-    <link href="@Url.Content("~/Assets/css/over.css")" rel="stylesheet" />
-
-
-    <script>
-
-        function AlterarVaga(IdVaga) {
-            $("#VagaCompleta").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Curriculo/AlterarVaga',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdVaga": IdVaga },
-                    success: function (data) {
-                        $("#VagaCompleta").append(data);
-                        $('#ModalEditarVaga').removeClass();
-                        $('#ModalEditarVaga').addClass('modal is-active');
-
-                    }
-                });
-
-        }
-
-
-
-
-        function VerPerfil(Cpf) {
-            $("#PerfilCompleto").empty();
-            $.ajax(
-                {
-                    type: 'GET',
-                    url: '/Curriculo/PerfilCandidato',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "Cpf": Cpf },
-                    success: function (data) {
-                        $("#PerfilCompleto").append(data);
-                        $('#ModalPerfil').removeClass();
-                        $('#ModalPerfil').addClass('modal is-active');
-                    }
-                });
-        }
-
-        $(function () {
-            $("#Tab").tabs();
-
-            $("#TabelaCurriculo")
-                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
-                .tablesorterPager({ container: $("#pager") });
-
-
-            $("#TabelaVagas")
-                .tablesorter({ widthFixed: true, widgets: ['zebra'] })
-                .tablesorterPager({ container: $("#pager2") });
-
-
-        });
-
-        //Pesqquisa em tabela
-        $(function () {
-            $(".input-search").keyup(function () {
-                var tabela = $(this).attr('alt');
-                if ($(this).val() !== "") {
-                    $("." + tabela + " tbody>tr").hide();
-                    $("." + tabela + " td:contains-ci('" + $(this).val() + "')").parent("tr").show();
-                } else {
-                    $("." + tabela + " tbody>tr").show();
-                }
-            });
-        });
-        $.extend($.expr[":"],
-            {
-                "contains-ci": function(elem, i, match) {
-                    return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase()
-                        .indexOf((match[3] || "").toLowerCase()) >=
-                        0;
-                }
-            });
-        
-        function Imprimir() {
-
-            var conteudo = document.getElementById('PerfilCompleto').innerHTML,
-                tela_impressao = window.open('about:blank');
-            tela_impressao.document.write(conteudo);
-            tela_impressao.window.print();
-            tela_impressao.window.close();
-        }
-
     </script>
-    <style>
-        div.tablewrapper {
-            overflow-y: auto;
-        }
-    </style>
-    <div id="Tab">
-        <div class="tabs is-boxed is-centered is-desktop">
-            <ul>
-                <li id="AbaCurriculo" class="is-active">
-                    <a href="#Curriculo" onclick="javascript:$('#AbaVagas').removeClass();$('#AbaCurriculo').addClass('is-active');void(0);">
-                        <span class="icon is-small">
-                            <i class="fa fa-book" aria-hidden="true"></i>
-                        </span>
-                        <span>Currículos</span>
-                    </a>
-                </li>
-                <li id="AbaVagas">
-                    <a href="#GerenciamentoVaga" onclick="javascript:$('#AbaCurriculo').removeClass();$('#AbaVagas').addClass('is-active');void(0);">
-                        <span class="icon is-small">
-                            <i class="fa fa-suitcase"></i>
-                        </span>
-                        <span>Gerenciar Vagas</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+}
+<br/>
+<nav class="level ">
+    <p class="level-item has-text-centered">
+        <img src="/Images/Curriculo.png" alt="" style="height: 30px;">
+    </p>
+</nav>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
 
-        <div id="Curriculo">
-            @using (Html.BeginForm("CurriculoArea", "Curriculo", FormMethod.Post, new { id = "FiltroPerfil" }))
+
+<script>
+
+    function AlterarVaga(IdVaga) {
+        $("#VagaCompleta").empty();
+        $.ajax(
             {
-                <div class="columns  is-flex-mobile is-flex-tablet is-flex-desktop  is-flex-widescreen ">
-                    <div class="field is-grouped">
-                        <div class="column is-2">
-                            <div class="field has-addons control">
-                                <p class="control">
-                                    <input class="input is-primary input-search " alt="lista-curriculo" type="text" placeholder="Buscar um número da sorte">
-                                </p>
-                            </div>
-                        </div>
-                        <div class="column is-2">
-                            <p class="control has-icons-left ">
-                                <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-university"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column is-2">
-                            <p class="control has-icons-left">
-                                <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-certificate"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column is-2">
-                            <p class="control has-icons-left">
-                                <span class="select">
-                                    <select name="FiltroOrdenacao" id="FiltroOrdenacao">
-                                        <option selected>Filtrar Currículos</option>
-                                        <option value="Alfabetico">Ordem Alfabética</option>
-                                        <option value="Status">Status</option>
-                                    </select>
-                                </span>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column">
-                            <p class="control has-icons-left">
-                                <span class="select">
-                                    <select id="FiltroArea" name="FiltroArea">
-                                        <option selected>Filtrar Área de Interesse</option>
-                                        <option value="Administrativo">Administrativo</option>
-                                        <option value="Gerencia">Gerência</option>
-                                        <option value="Caixas">Caixas</option>
-                                        <option value="Juridico">Jurídico</option>
-                                        <option value="Cadastro">Cadastro</option>
-                                        <option value="Tesouraria">Tesouraria</option>
-                                        <option value="Contabilidade">Contabilidade</option>
-                                        <option value="Atendimento">Atendimento</option>
-                                        <option value="Retaguarda">Retaguarda</option>
-                                        <option value="Credito">Crédito</option>
-                                        <option value="Marketing">Marketing</option>
-                                        <option value="Recuperação de Credito">Recuperação de Crédito</option>
-                                        <option value="Recursos Humanos">Recursos Humanos</option>
-                                        <option value="Departamento Pessoal">Departamento Pessoal</option>
-                                        <option value="Tecnologia da Informação">Tecnologia da Informação</option>
-                                        <option value="Produtos e Serviços">Produtos e Serviços</option>
-                                        <option value="Controle Interno">Controle Interno</option>
-                                        <option value="Aprendiz">Menor Aprendiz/Estagiário</option>
-                                    </select>
-                                </span>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column is-2">
-                            <p class="control has-icons-left">
-                                <span class="select">
-                                    <select id="FiltroFormnacao" name="FiltroFormacao">
-                                        <option selected>Filtrar Formação</option>
-                                        <option value="1">SUPERIOR EM ANDAMENTO</option>
-                                        <option value="2">SUPERIOR COMPLETO</option>
-                                        <option value="3">PÓS-GRADUAÇÃO EM ANDAMENTO</option>
-                                        <option value="4">PÓS-GRADUAÇÃO COMPLETA</option>
-                                        <option value="5">MESTRADO/DOUTORADO EM ANDAMENTO</option>
-                                        <option value="6">MESTRADO/DOUTORADO COMPLETO</option>
-                                        <option value="7">ENSINO MÉDIO COMPLETO</option>
-                                        <option value="8">ENSINO MÉDIO EM ANDAMENTO</option>
-                                    </select>
-                                </span>
-                                <span class="icon is-small is-left">
-                                    <i class="fa fa-filter" aria-hidden="true"></i>
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-grouped is-desktop">
+                type: 'POST',
+                url: '/Curriculo/AlterarVaga',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdVaga": IdVaga },
+                success: function(data) {
+                    $("#VagaCompleta").append(data);
+                    $('#ModalEditarVaga').removeClass();
+                    $('#ModalEditarVaga').addClass('modal is-active');
 
-                    <p class="control">
-                        <button type="submit" class="button is-success" id="AplicarFiltro" onmouseleave="$('#AplicarFiltro').removeClass('animated pulse')" onmouseover="$('#AplicarFiltro').addClass('animated pulse');" data-balloon="Clique para aplicar os filtros." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fas fa-filter" aria-hidden="true"></i>
-                            </span>
-                            <span class="name">Aplicar Filtro Currículos</span>
-                        </button>
-                    </p>
+                }
+            });
+
+    }
 
 
+    function VerPerfil(Cpf) {
+        $("#PerfilCompleto").empty();
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Curriculo/PerfilCandidato',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "Cpf": Cpf },
+                success: function(data) {
+                    $("#PerfilCompleto").append(data);
+                    $('#ModalPerfil').removeClass();
+                    $('#ModalPerfil').addClass('modal is-active');
+                }
+            });
+    }
+
+    $(function() {
+        $("#Tab").tabs();
+
+        $("#TabelaCurriculo")
+            .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+            .tablesorterPager({ container: $("#pager") });
 
 
-
-                    <p class="control">
-                        <button class="button is-primary modal-button" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fa fa-suitcase" aria-hidden="true"></i>
-                            </span>
-                            <span class="name"> Adicionar Vagas</span>
-                        </button>
-                    </p>
+        $("#TabelaVagas")
+            .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+            .tablesorterPager({ container: $("#pager2") });
 
 
-                    <p class="control">
-                        <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaCurriculo" onmouseleave="$('#AdcionarAlertaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fa fa-bell" aria-hidden="true"></i>
-                            </span>
-                            <span class="name">Adicionar Alertas</span>
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemCurriculo" onmouseleave="$('#AdcionarMensagemCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fa fa-comments" aria-hidden="true"></i>
-                            </span>
-                            <span class="name">Adicionar Mensagem</span>
-                        </a>
-                    </p>
-                    <p class="control">
-                        <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaCurriculo" onmouseleave="$('#AdcionarVagaEspecificaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
-                            <span class="icon is-small">
-                                <i class="fa fa-users" aria-hidden="true"></i>
-                            </span>
-                            <span class="name">Criar Vaga Específica</span>
-                        </a>
-                    </p>
-                </div>
-            } <br />
-            <div>
-                <div>
-                    <table id="TabelaCurriculo" class="lista-curriculo table is-striped  is-fullwidth">
-                        <thead>
-                        <th class="has-text-centered">Nome</th>
-                        <th class="has-text-centered">Email</th>
-                        <th class="has-text-centered">Cidade</th>
-                        <th class="has-text-centered">Status</th>
-                        <th class="has-text-centered">Area de Interesse</th>
-                        </thead>
-                        <tbody>
-                            @for (var g = 0; g < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); g++)
-                            {
-                                <tr>
-                                    <td class="has-text-centered">
-                                        <article class="media">
-                                            <div class="media-left grow pic">
-                                                <figure class="image is-32x32">
-                                                    <img src="@TempData["Imagem" + g]" />
-                                                </figure>
-                                            </div>
-                                            <div class="media-content">
-                                                <div class="content">
-                                                    <p>
-                                                        <a href="javascript:VerPerfil('@TempData["Cpf" + g]');void(0);">@TempData["Nome" + g].ToString()</a> <strong></strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </td>
-                                    <td class="has-text-centered">@TempData["Email" + g].ToString()</td>
-                                    <td class="has-text-centered">@TempData["Cidade" + g].ToString()</td>
-                                    <td class="has-text-centered">
-                                        <span class="icon">
-                                            <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["Status" + g].ToString()"></i>
-                                        </span>
-                                    </td>
-                                    <td class="has-text-centered">@TempData["Area" + g].ToString()</td>
-                                </tr>
+    });
 
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div id="pager" class="tablewrapper pager" style="position: relative">
-                    <form>
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <button class="first button is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-fast-backward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button class="prev button  is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-step-backward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <input class="pagedisplay input is-small" type="text">
-                            </p>
-                            <p class="control">
-                                <button class="next button  is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-step-forward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button class="last button is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-fast-forward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <span class="select is-small">
-                                    <select class="pagesize">
-                                        <option selected="selected" value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                    </select>
-                                </span>
-                            </p>
-                        </div>
-                    </form>
-                    <br />
-                    <br />
-                </div>
-            </div>
-        </div>
+    //Pesqquisa em tabela
+    $(function() {
+        $(".input-search").keyup(function() {
+            var tabela = $(this).attr('alt');
+            if ($(this).val() !== "") {
+                $("." + tabela + " tbody>tr").hide();
+                $("." + tabela + " td:contains-ci('" + $(this).val() + "')").parent("tr").show();
+            } else {
+                $("." + tabela + " tbody>tr").show();
+            }
+        });
+    });
+    $.extend($.expr[":"],
+        {
+            "contains-ci": function(elem, i, match) {
+                return (elem.textContent || elem.innerText || $(elem).text() || "").toLowerCase()
+                    .indexOf((match[3] || "").toLowerCase()) >=
+                    0;
+            }
+        });
 
+    function Imprimir() {
 
-        <!-- ABA VAGAS-->
+        var conteudo = document.getElementById('PerfilCompleto').innerHTML,
+            tela_impressao = window.open('about:blank');
+        tela_impressao.document.write(conteudo);
+        tela_impressao.window.print();
+        tela_impressao.window.close();
+    }
 
-        <div id="GerenciamentoVaga">
-            <div class="field is-grouped">
+</script>
+<style>
+    div.tablewrapper { overflow-y: auto; }
+</style>
+<div id="Tab">
+<div class="tabs is-boxed is-centered is-desktop">
+    <ul>
+        <li id="AbaCurriculo" class="is-active">
+            <a href="#Curriculo" onclick="javascript:$('#AbaVagas').removeClass();$('#AbaCurriculo').addClass('is-active');void(0);">
+                <span class="icon is-small">
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                </span>
+                <span>Currículos</span>
+            </a>
+        </li>
+        <li id="AbaVagas">
+            <a href="#GerenciamentoVaga" onclick="javascript:$('#AbaCurriculo').removeClass();$('#AbaVagas').addClass('is-active');void(0);">
+                <span class="icon is-small">
+                    <i class="fa fa-suitcase"></i>
+                </span>
+                <span>Gerenciar Vagas</span>
+            </a>
+        </li>
+    </ul>
+</div>
 
+<div id="Curriculo">
+@using (Html.BeginForm("CurriculoArea", "Curriculo", FormMethod.Post, new {id = "FiltroPerfil"}))
+{
+    <div class="columns  is-flex-mobile is-flex-tablet is-flex-desktop  is-flex-widescreen ">
+        <div class="field is-grouped">
+            <div class="column is-2">
                 <div class="field has-addons control">
                     <p class="control">
-                        <input class="input is-primary input-search" alt="lista-curriculo" type="text" placeholder="Buscar uma Vaga">
+                        <input class="input is-primary input-search " alt="lista-curriculo" type="text" placeholder="Buscar um número da sorte">
                     </p>
                 </div>
-                <p class="control">
-                    <a class="button is-primary modal-button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaVaga" onmouseleave="$('#AdcionarVagaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
-                        <span class="icon is-small">
-                            <i class="fa fa-suitcase" aria-hidden="true"></i>
-                        </span>
-                        <span class="name"> Adicionar Vagas</span>
-                    </a>
-                </p>
-
-
-                <p class="control">
-                    <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaVaga" onmouseleave="$('#AdcionarAlertaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
-                        <span class="icon is-small">
-                            <i class="fa fa-bell" aria-hidden="true"></i>
-                        </span>
-                        <span class="name">Adicionar Alertas</span>
-                    </a>
-                </p>
-
-
-                <p class="control">
-                    <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemVaga" onmouseleave="$('#AdcionarMensagemVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
-                        <span class="icon is-small">
-                            <i class="fa fa-comments" aria-hidden="true"></i>
-                        </span>
-                        <span class="name">Adicionar Mensagem</span>
-                    </a>
-                </p>
-                <p class="control">
-                    <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaVaga" onmouseleave="$('#AdcionarVagaEspecificaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
-                        <span class="icon is-small">
-                            <i class="fa fa-users" aria-hidden="true"></i>
-                        </span>
-                        <span class="name">Criar Vaga Específica</span>
-                    </a>
+            </div>
+            <div class="column is-2">
+                <p class="control has-icons-left ">
+                    <input name="FiltroCidade" id="FiltroCidade" class="input input-search" type="text" placeholder="Cidade">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-university"></i>
+                    </span>
                 </p>
             </div>
-
-            <div>
-                <div>
-                    <table id="TabelaVagas" class="lista-curriculo table is-striped is-centered is-fullwidth">
-                        <thead>
-                        <th class="has-text-centered">Titulo Vaga</th>
-                        <th class="has-text-centered">Descrição</th>
-                        <th class="has-text-centered">Status</th>
-                        <th class="has-text-centered">Area de Interesse</th>
-                        <th class="has-text-centered">Alterar Vaga</th>
-                        </thead>
-                        <tbody>
-                        @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)
-                        {
-                            <tr>
-                                <td>
-                                    <a href="@Url.Action("GerenciarVaga", "Curriculo", new {IdVaga = @TempData["IdVaga" + i].ToString()})">@TempData["Titulo" + i].ToString()</a> <strong></strong>
-                                </td>
-                                <td>@TempData["Descricao" + i].ToString()</td>
-                                <td>
-                                    <span class="icon">
-                                        <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + i].ToString()"></i>
-                                    </span>
-                                </td>
-                                <td>@TempData["AreaVaga" + i].ToString()</td>
-                                <td>
-                                    <a href="javascript:AlterarVaga(@TempData["IdVaga" + i].ToString());void(0);" class="button is-primary">
-                                        <span class="icon is-small">
-                                            <i class="fa fa-pencil-alt" aria-hidden="true"></i>
-                                        </span>
-                                        <span class="name">Editar Vaga</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                        <tbody>
-                    </table>
-                </div>
-                <div id="pager2" class="tablewrapper pager" style="position: relative">
-                    <form>
-                        <div class="field is-grouped">
-                            <p class="control">
-                                <button class="first button is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-fast-backward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button class="prev button  is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-step-backward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <input class="pagedisplay input is-small" type="text">
-                            </p>
-                            <p class="control">
-                                <button class="next button  is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-step-forward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <button class="last button is-primary is-small">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-fast-forward"></i>
-                                    </span>
-                                </button>
-                            </p>
-                            <p class="control">
-                                <span class="select is-small">
-                                    <select class="pagesize">
-                                        <option selected="selected" value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                    </select>
-                                </span>
-                            </p>
-                        </div>
-                    </form>
-                    <br />
-                    <br />
-                </div>
+            <div class="column is-2">
+                <p class="control has-icons-left">
+                    <input id="FiltroCertificacao" name="FiltroCertificacao" class="input" type="text" placeholder="Certificação">
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-certificate"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="column is-2">
+                <p class="control has-icons-left">
+                    <span class="select">
+                        <select name="FiltroOrdenacao" id="FiltroOrdenacao">
+                            <option selected>Filtrar Currículos</option>
+                            <option value="Alfabetico">Ordem Alfabética</option>
+                            <option value="Status">Status</option>
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="column">
+                <p class="control has-icons-left">
+                    <span class="select">
+                        <select id="FiltroArea" name="FiltroArea">
+                            <option selected>Filtrar Área de Interesse</option>
+                            <option value="Administrativo">Administrativo</option>
+                            <option value="Gerencia">Gerência</option>
+                            <option value="Caixas">Caixas</option>
+                            <option value="Juridico">Jurídico</option>
+                            <option value="Cadastro">Cadastro</option>
+                            <option value="Tesouraria">Tesouraria</option>
+                            <option value="Contabilidade">Contabilidade</option>
+                            <option value="Atendimento">Atendimento</option>
+                            <option value="Retaguarda">Retaguarda</option>
+                            <option value="Credito">Crédito</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Recuperação de Credito">Recuperação de Crédito</option>
+                            <option value="Recursos Humanos">Recursos Humanos</option>
+                            <option value="Departamento Pessoal">Departamento Pessoal</option>
+                            <option value="Tecnologia da Informação">Tecnologia da Informação</option>
+                            <option value="Produtos e Serviços">Produtos e Serviços</option>
+                            <option value="Controle Interno">Controle Interno</option>
+                            <option value="Aprendiz">Menor Aprendiz/Estagiário</option>
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="column is-2">
+                <p class="control has-icons-left">
+                    <span class="select">
+                        <select id="FiltroFormnacao" name="FiltroFormacao">
+                            <option selected>Filtrar Formação</option>
+                            <option value="1">SUPERIOR EM ANDAMENTO</option>
+                            <option value="2">SUPERIOR COMPLETO</option>
+                            <option value="3">PÓS-GRADUAÇÃO EM ANDAMENTO</option>
+                            <option value="4">PÓS-GRADUAÇÃO COMPLETA</option>
+                            <option value="5">MESTRADO/DOUTORADO EM ANDAMENTO</option>
+                            <option value="6">MESTRADO/DOUTORADO COMPLETO</option>
+                            <option value="7">ENSINO MÉDIO COMPLETO</option>
+                            <option value="8">ENSINO MÉDIO EM ANDAMENTO</option>
+                        </select>
+                    </span>
+                    <span class="icon is-small is-left">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </span>
+                </p>
             </div>
         </div>
     </div>
-    <!--
+    <div class="field is-grouped is-desktop">
+
+        <p class="control">
+            <button type="submit" class="button is-success" id="AplicarFiltro" onmouseleave="$('#AplicarFiltro').removeClass('animated pulse')" onmouseover="$('#AplicarFiltro').addClass('animated pulse');" data-balloon="Clique para aplicar os filtros." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-filter" aria-hidden="true"></i>
+                </span>
+                <span class="name">Aplicar Filtro Currículos</span>
+            </button>
+        </p>
 
 
+        <p class="control">
+            <button class="button is-primary modal-button" onclick="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaCurriculo" onmouseleave="$('#AdcionarVagaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-suitcase" aria-hidden="true"></i>
+                </span>
+                <span class="name"> Adicionar Vagas</span>
+            </button>
+        </p>
 
-    MODAL VAGAS
 
-
-
-
-    -->
-
-
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-    </script>
-    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-
-    @using (Html.BeginForm("CadastrarVaga", "Curriculo"))
-    {
-        <form id="Teste" method="post">
-            <div id="ModalVaga" class="modal">
-                <div class="modal-background"></div>
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Adicionar Vagas</p>
-                        <a href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);" class="delete"></a>
-                    </header>
-                    <section class="modal-card-body">
-
-                        <div class="field">
-                            <label class="label">Titulo da Vaga:</label>
-                            <p class="control">
-                                @Html.TextBoxFor(m => m.Titulo, null, new { @class = "input", placeholder = "Ex: Assistente de T.I" })
-                                @Html.ValidationMessageFor(m => m.Titulo, null, new { style = "color:red" })
-                            </p>
-                        </div>
-
-                        <div class="field">
-                            <label class="label">Descrição da vaga:</label>
-                            <p class="control">
-                                @Html.TextBoxFor(m => m.Descricao, null, new { @class = "input", placeholder = "Descrição das atividades" })
-                                @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
-                            </p>
-                        </div>
-
-                        <div class="field">
-                            <label class="label">Requisitos:</label>
-                            <p class="control">
-                                @Html.TextBoxFor(m => m.Requisitos, null, new { @class = "input", placeholder = "Ex: Certificação" })
-                                @Html.ValidationMessageFor(m => m.Requisitos, null, new { style = "color:red" })
-                            </p>
-                        </div>
-
-                        <div class="field is-grouped">
-                            <div class="field control">
-                                <label class="label">Salário:</label>
-                                <p class="control">
-                                    @Html.TextBoxFor(m => m.Salario, null, new { @class = "input", placeholder = "Ex: 1715.00" })
-                                    @Html.ValidationMessageFor(m => m.Salario, null, new { style = "color:red" })
-                                </p>
-
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaCurriculo" onmouseleave="$('#AdcionarAlertaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                </span>
+                <span class="name">Adicionar Alertas</span>
+            </a>
+        </p>
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemCurriculo" onmouseleave="$('#AdcionarMensagemCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </span>
+                <span class="name">Adicionar Mensagem</span>
+            </a>
+        </p>
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaCurriculo" onmouseleave="$('#AdcionarVagaEspecificaCurriculo').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaCurriculo').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </span>
+                <span class="name">Criar Vaga Específica</span>
+            </a>
+        </p>
+    </div>
+}
+<br/>
+<div>
+    <div>
+        <table id="TabelaCurriculo" class="lista-curriculo table is-striped  is-fullwidth">
+            <thead>
+            <th class="has-text-centered">Nome</th>
+            <th class="has-text-centered">Email</th>
+            <th class="has-text-centered">Cidade</th>
+            <th class="has-text-centered">Status</th>
+            <th class="has-text-centered">Area de Interesse</th>
+            </thead>
+            <tbody>
+            @for (var g = 0; g < Convert.ToInt32(TempData["TotalCurriculo"].ToString()); g++)
+            {
+                <tr>
+                    <td class="has-text-centered">
+                        <article class="media">
+                            <div class="media-left grow pic">
+                                <figure class="image is-32x32">
+                                    <img src="@TempData["Imagem" + g]"/>
+                                </figure>
                             </div>
-                            <div class="control field">
-                                <label class="label">Benefício:</label>
-                                <p class="control">
-                                    @Html.TextBoxFor(m => m.Beneficio, null, new { @class = "input", placeholder = "Ex: Ticket, etc" })
-                                    @Html.ValidationMessageFor(m => m.Beneficio, null, new { style = "color:red" })
-                                </p>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <a href="javascript:VerPerfil('@TempData["Cpf" + g]');void(0);">@TempData["Nome" + g].ToString()</a> <strong></strong>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-
-                        <label class="label">Áreas de Interesse:</label>
-                        <span style="color: blue">*Selecione ao menos uma área de interesse.</span>
-                        <div style="align-content: center">
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area1" value="Administrativo" type="checkbox">
-                                        Administrativo
-                                    </label>
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area2" value="Contabilidade" type="checkbox">
-                                        Contabilidade
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area3" value="Recursos Humanos" type="checkbox">
-                                        Recursos Humanos
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area4" value="Gerência" type="checkbox">
-                                        Gerência
-                                    </label>
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area5" value="Atendimento" type="checkbox">
-                                        Atendimento
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area6" value="Departamento Pessoal" type="checkbox">
-                                        Departamento Pessoal
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area7" value="Caixas" type="checkbox">
-                                        Caixas
-                                    </label>
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area8" value="Retaguarda" type="checkbox">
-                                        Retaguarda
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area9" value="Tecnologia da Informação" type="checkbox">
-                                        Tecnologia da Informação
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area10" value="Jurídico" type="checkbox">
-                                        Jurídico
-                                    </label>
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area11" value="Crédito" type="checkbox">
-                                        Crédito
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area12" value="Produtos e Serviços" type="checkbox">
-                                        Produtos e Serviços
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area13" value="Cadastro" type="checkbox">
-                                        Cadastro
-                                    </label>
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area14" value="Marketing" type="checkbox">
-                                        Marketing
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area15" value="Controle Interno" type="checkbox">
-                                        Controle Interno
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area16" value="Tesouraria" type="checkbox">
-                                        Tesouraria
-                                    </label>
-                                    <label class="checkbox">
-                                        <input name="Area17" value="Recuperação de Crédito" type="checkbox">
-                                        Recuperação de Crédito
-                                    </label>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <label class="checkbox" style="display: inline-block; width: 180px;">
-                                        <input name="Area18" value="Aprendiz" type="checkbox">
-                                        Menor Aprendiz/Estagiário
-                                    </label>
-                                </p>
-                            </div>
-                        </div>
-
-                    </section>
-                    <footer class="modal-card-foot">
-                        <button type="submit" class="button is-success">Salvar Vaga</button>
-                        <a class="button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);">Cancelar</a>
-                    </footer>
-                </div>
+                        </article>
+                    </td>
+                    <td class="has-text-centered">@TempData["Email" + g].ToString()</td>
+                    <td class="has-text-centered">@TempData["Cidade" + g].ToString()</td>
+                    <td class="has-text-centered">
+                        <span class="icon">
+                            <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["Status" + g].ToString()"></i>
+                        </span>
+                    </td>
+                    <td class="has-text-centered">@TempData["Area" + g].ToString()</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div id="pager" class="tablewrapper pager" style="position: relative">
+        <form>
+            <div class="field is-grouped">
+                <p class="control">
+                    <button class="first button is-primary is-small">
+                        <span class="icon is-small">
+                            <i class="fas fa-fast-backward"></i>
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="prev button  is-primary is-small">
+                        <span class="icon is-small">
+                            <i class="fas fa-step-backward"></i>
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <input class="pagedisplay input is-small" type="text">
+                </p>
+                <p class="control">
+                    <button class="next button  is-primary is-small">
+                        <span class="icon is-small">
+                            <i class="fas fa-step-forward"></i>
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="last button is-primary is-small">
+                        <span class="icon is-small">
+                            <i class="fas fa-fast-forward"></i>
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <span class="select is-small">
+                        <select class="pagesize">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                        </select>
+                    </span>
+                </p>
             </div>
         </form>
-    }
-
-    <!--
-
-
-
-    MODAL ALERTA
+        <br/>
+        <br/>
+    </div>
+</div>
+</div>
 
 
+<!-- ABA VAGAS-->
 
+<div id="GerenciamentoVaga">
+    <div class="field is-grouped">
 
-
-    -->
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-
-    @using (Html.BeginForm("CadastrarAlerta", "Curriculo"))
-    {
-        <div id="ModalAlerta" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Adicionar Alerta</p>
-                    <a href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal');void(0);" class="delete"></a>
-                </header>
-                <section class="modal-card-body">
-
-                    <div class="field">
-                        <label class="label">Alerta:</label>
-                        <p class="control">
-                            <input class="input" id="TextAlerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="TextAlerta" type="text" placeholder="Ex: Novas vagas lançadas !!!">
-                            <span class="field-validation-valid" data-valmsg-for="TextAlerta" data-valmsg-replace="true" style="color: red"></span>
-                        </p>
-                    </div>
-
-                </section>
-                <footer class="modal-card-foot">
-                    <button type="submit" class="button is-success">Salvar Alerta</button>
-                    <a class="button" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal');void(0);">Cancelar</a>
-                </footer>
-            </div>
+        <div class="field has-addons control">
+            <p class="control">
+                <input class="input is-primary input-search" alt="lista-curriculo" type="text" placeholder="Buscar uma Vaga">
+            </p>
         </div>
-    }
+        <p class="control">
+            <a class="button is-primary modal-button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal is-active');void(0);" data-target="#ModalVaga" data-vivaldi-spatnav-clickable="1" id="AdcionarVagaVaga" onmouseleave="$('#AdcionarVagaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-suitcase" aria-hidden="true"></i>
+                </span>
+                <span class="name"> Adicionar Vagas</span>
+            </a>
+        </p>
 
 
-    <!--
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal is-active');void(0);" id="AdcionarAlertaVaga" onmouseleave="$('#AdcionarAlertaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarAlertaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar um alerta." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                </span>
+                <span class="name">Adicionar Alertas</span>
+            </a>
+        </p>
 
 
-    MOAL MENSAGEM
-
-    -->
-
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-
-    @using (Html.BeginForm("CadastrarMensagem", "Curriculo"))
-    {
-        <div id="ModalMensagem" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Adicionar Mensagem</p>
-                    <a href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal');void(0);" class="delete"></a>
-                </header>
-                <section class="modal-card-body">
-
-                    <div class="field">
-                        <label class="label">Mensagem:</label>
-                        <p class="control">
-                            <input class="input" id="TextMensagem" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo da mensagem !" required name="TextMensagem" type="text" placeholder="Ex: Atualize seu perfil para sair na frente!!!">
-                            <span class="field-validation-valid" data-valmsg-for="TextMensagem" data-valmsg-replace="true" style="color: red"></span>
-                        </p>
-                    </div>
-
-                </section>
-                <footer class="modal-card-foot">
-                    <button type="submit" class="button is-success">Salvar Mensagem</button>
-                    <a class="button" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal');void(0);">Cancelar</a>
-                </footer>
-            </div>
-        </div>
-    }
-
-    <!--
-
-
-    MODAL PERFIL
-
-
-    -->
-
-    <div id="ModalPerfil" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Perfil</p>
-                <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
-                <div id="PerfilCompleto">
-
-                </div>
-
-
-            </section>
-            <footer class="modal-card-foot">
-                <p class="field">
-                    <button onclick="Imprimir()" type="submit" class="button is-success">
-                        <span class="icon">
-                            <i class="fa fa-print"></i>
-                        </span>
-                        <span>Imprimir</span>
-                    </button>
-
-                    <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
-                </p>
-            </footer>
-        </div>
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal is-active');void(0);" id="AdcionarMensagemVaga" onmouseleave="$('#AdcionarMensagemVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarMensagemVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma mensagem." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </span>
+                <span class="name">Adicionar Mensagem</span>
+            </a>
+        </p>
+        <p class="control">
+            <a class="button is-primary" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal is-active');void(0);" id="AdcionarVagaEspecificaVaga" onmouseleave="$('#AdcionarVagaEspecificaVaga').removeClass('animated pulse')" onmouseover="$('#AdcionarVagaEspecificaVaga').addClass('animated pulse');" data-balloon="Clique para adcionar uma vaga específica." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </span>
+                <span class="name">Criar Vaga Específica</span>
+            </a>
+        </p>
     </div>
 
-    @using (Html.BeginForm("AtualizarVaga", "Curriculo"))
-    {
-        <div id="ModalEditarVaga" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Perfil</p>
-                    <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
-                </header>
-
-                <section class="modal-card-body">
-
-                    <div id="VagaCompleta">
-
-                    </div>
-
-                </section>
-                <footer class="modal-card-foot">
-                    <p class="field">
-                        <button type="submit" class="button is-success">
+    <div>
+        <div>
+            <table id="TabelaVagas" class="lista-curriculo table is-striped is-centered is-fullwidth">
+                <thead>
+                <th class="has-text-centered">Titulo Vaga</th>
+                <th class="has-text-centered">Descrição</th>
+                <th class="has-text-centered">Status</th>
+                <th class="has-text-centered">Area de Interesse</th>
+                <th class="has-text-centered">Alterar Vaga</th>
+                </thead>
+                <tbody>
+                @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagas"].ToString()); i++)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("GerenciarVaga", "Curriculo", new {IdVaga = TempData["IdVaga" + i].ToString()})">@TempData["Titulo" + i].ToString()</a> <strong></strong>
+                        </td>
+                        <td>@TempData["Descricao" + i].ToString()</td>
+                        <td>
                             <span class="icon">
-                                <i class="fa fa-floppy-o"></i>
+                                <i class="fa fa-circle" aria-hidden="true" style="color: @TempData["StatusVaga" + i].ToString()"></i>
                             </span>
-                            <span>Salvar Vaga</span>
-                        </button>
-
-                        <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
-                    </p>
-
-                </footer>
-
-
-            </div>
+                        </td>
+                        <td>@TempData["AreaVaga" + i].ToString()</td>
+                        <td>
+                            <a href="javascript:AlterarVaga(@TempData["IdVaga" + i].ToString());void(0);" class="button is-primary">
+                                <span class="icon is-small">
+                                    <i class="fa fa-pencil-alt" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">Editar Vaga</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tbody>
+            </table>
         </div>
-    }
+        <div id="pager2" class="tablewrapper pager" style="position: relative">
+            <form>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button class="first button is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-fast-backward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="prev button  is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-step-backward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <input class="pagedisplay input is-small" type="text">
+                    </p>
+                    <p class="control">
+                        <button class="next button  is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-step-forward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="last button is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-fast-forward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <span class="select is-small">
+                            <select class="pagesize">
+                                <option selected="selected" value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                            </select>
+                        </span>
+                    </p>
+                </div>
+            </form>
+            <br/>
+            <br/>
+        </div>
+    </div>
+</div>
+</div>
+<!--
 
-    @using (Html.BeginForm("CadastrarVagaEspecifica", "Curriculo"))
-    {
-        <div id="ModalVagaEspecifica" class="modal">
+
+
+MODAL VAGAS
+
+
+
+
+-->
+
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+</script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+@using (Html.BeginForm("CadastrarVaga", "Curriculo"))
+{
+    <form id="Teste" method="post">
+        <div id="ModalVaga" class="modal">
             <div class="modal-background"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Adicionar Vagas</p>
-                    <a href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal');void(0);" class="delete"></a>
+                    <a href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);" class="delete"></a>
                 </header>
                 <section class="modal-card-body">
 
                     <div class="field">
                         <label class="label">Titulo da Vaga:</label>
                         <p class="control">
-                            @Html.TextBoxFor(m => m.Titulo, null, new { @class = "input", placeholder = "Ex: Assistente de T.I" })
-                            @Html.ValidationMessageFor(m => m.Titulo, null, new { style = "color:red" })
+                            @Html.TextBoxFor(m => m.Titulo, null, new {@class = "input", placeholder = "Ex: Assistente de T.I"})
+                            @Html.ValidationMessageFor(m => m.Titulo, null, new {style = "color:red"})
                         </p>
                     </div>
 
                     <div class="field">
                         <label class="label">Descrição da vaga:</label>
                         <p class="control">
-                            @Html.TextBoxFor(m => m.Descricao, null, new { @class = "input", placeholder = "Descrição das atividades" })
-                            @Html.ValidationMessageFor(m => m.Descricao, null, new { style = "color:red" })
+                            @Html.TextBoxFor(m => m.Descricao, null, new {@class = "input", placeholder = "Descrição das atividades"})
+                            @Html.ValidationMessageFor(m => m.Descricao, null, new {style = "color:red"})
                         </p>
                     </div>
 
                     <div class="field">
                         <label class="label">Requisitos:</label>
                         <p class="control">
-                            @Html.TextBoxFor(m => m.Requisitos, null, new { @class = "input", placeholder = "Ex: Certificação" })
-                            @Html.ValidationMessageFor(m => m.Requisitos, null, new { style = "color:red" })
+                            @Html.TextBoxFor(m => m.Requisitos, null, new {@class = "input", placeholder = "Ex: Certificação"})
+                            @Html.ValidationMessageFor(m => m.Requisitos, null, new {style = "color:red"})
                         </p>
                     </div>
 
@@ -905,25 +573,347 @@
                         <div class="field control">
                             <label class="label">Salário:</label>
                             <p class="control">
-                                @Html.TextBoxFor(m => m.Salario, null, new { @class = "input", placeholder = "Ex: 1715.00" })
-                                @Html.ValidationMessageFor(m => m.Salario, null, new { style = "color:red" })
+                                @Html.TextBoxFor(m => m.Salario, null, new {@class = "input", placeholder = "Ex: 1715.00"})
+                                @Html.ValidationMessageFor(m => m.Salario, null, new {style = "color:red"})
                             </p>
 
                         </div>
                         <div class="control field">
                             <label class="label">Benefício:</label>
                             <p class="control">
-                                @Html.TextBoxFor(m => m.Beneficio, null, new { @class = "input", placeholder = "Ex: Ticket, etc" })
-                                @Html.ValidationMessageFor(m => m.Beneficio, null, new { style = "color:red" })
+                                @Html.TextBoxFor(m => m.Beneficio, null, new {@class = "input", placeholder = "Ex: Ticket, etc"})
+                                @Html.ValidationMessageFor(m => m.Beneficio, null, new {style = "color:red"})
                             </p>
                         </div>
                     </div>
+
+                    <label class="label">Áreas de Interesse:</label>
+                    <span style="color: blue">*Selecione ao menos uma área de interesse.</span>
+                    <div style="align-content: center">
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area1" value="Administrativo" type="checkbox">
+                                    Administrativo
+                                </label>
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area2" value="Contabilidade" type="checkbox">
+                                    Contabilidade
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area3" value="Recursos Humanos" type="checkbox">
+                                    Recursos Humanos
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area4" value="Gerência" type="checkbox">
+                                    Gerência
+                                </label>
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area5" value="Atendimento" type="checkbox">
+                                    Atendimento
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area6" value="Departamento Pessoal" type="checkbox">
+                                    Departamento Pessoal
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area7" value="Caixas" type="checkbox">
+                                    Caixas
+                                </label>
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area8" value="Retaguarda" type="checkbox">
+                                    Retaguarda
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area9" value="Tecnologia da Informação" type="checkbox">
+                                    Tecnologia da Informação
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area10" value="Jurídico" type="checkbox">
+                                    Jurídico
+                                </label>
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area11" value="Crédito" type="checkbox">
+                                    Crédito
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area12" value="Produtos e Serviços" type="checkbox">
+                                    Produtos e Serviços
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area13" value="Cadastro" type="checkbox">
+                                    Cadastro
+                                </label>
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area14" value="Marketing" type="checkbox">
+                                    Marketing
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area15" value="Controle Interno" type="checkbox">
+                                    Controle Interno
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area16" value="Tesouraria" type="checkbox">
+                                    Tesouraria
+                                </label>
+                                <label class="checkbox">
+                                    <input name="Area17" value="Recuperação de Crédito" type="checkbox">
+                                    Recuperação de Crédito
+                                </label>
+                            </p>
+                        </div>
+                        <div class="field">
+                            <p class="control">
+                                <label class="checkbox" style="display: inline-block; width: 180px;">
+                                    <input name="Area18" value="Aprendiz" type="checkbox">
+                                    Menor Aprendiz/Estagiário
+                                </label>
+                            </p>
+                        </div>
+                    </div>
+
                 </section>
                 <footer class="modal-card-foot">
                     <button type="submit" class="button is-success">Salvar Vaga</button>
-                    <a class="button" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal');void(0);">Cancelar</a>
+                    <a class="button" href="javascript:$('#ModalVaga').removeClass();$('#ModalVaga').addClass('modal');void(0);">Cancelar</a>
                 </footer>
             </div>
         </div>
-    }
+    </form>
+}
+
+<!--
+
+
+
+MODAL ALERTA
+
+
+
+
+
+-->
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+@using (Html.BeginForm("CadastrarAlerta", "Curriculo"))
+{
+    <div id="ModalAlerta" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Adicionar Alerta</p>
+                <a href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label class="label">Alerta:</label>
+                    <p class="control">
+                        <input class="input" id="TextAlerta" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo do alerta !" required name="TextAlerta" type="text" placeholder="Ex: Novas vagas lançadas !!!">
+                        <span class="field-validation-valid" data-valmsg-for="TextAlerta" data-valmsg-replace="true" style="color: red"></span>
+                    </p>
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-success">Salvar Alerta</button>
+                <a class="button" href="javascript:$('#ModalAlerta').removeClass();$('#ModalAlerta').addClass('modal');void(0);">Cancelar</a>
+            </footer>
+        </div>
+    </div>
+}
+
+
+<!--
+
+
+MOAL MENSAGEM
+
+-->
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+@using (Html.BeginForm("CadastrarMensagem", "Curriculo"))
+{
+    <div id="ModalMensagem" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Adicionar Mensagem</p>
+                <a href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label class="label">Mensagem:</label>
+                    <p class="control">
+                        <input class="input" id="TextMensagem" data-val="true" data-validation="required" data-val-required="Favor preencher o conteúdo da mensagem !" required name="TextMensagem" type="text" placeholder="Ex: Atualize seu perfil para sair na frente!!!">
+                        <span class="field-validation-valid" data-valmsg-for="TextMensagem" data-valmsg-replace="true" style="color: red"></span>
+                    </p>
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-success">Salvar Mensagem</button>
+                <a class="button" href="javascript:$('#ModalMensagem').removeClass();$('#ModalMensagem').addClass('modal');void(0);">Cancelar</a>
+            </footer>
+        </div>
+    </div>
+}
+
+<!--
+
+
+MODAL PERFIL
+
+
+-->
+
+<div id="ModalPerfil" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Perfil</p>
+            <a href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);" class="delete"></a>
+        </header>
+        <section class="modal-card-body">
+            <div id="PerfilCompleto">
+
+            </div>
+
+
+        </section>
+        <footer class="modal-card-foot">
+            <p class="field">
+                <button onclick="Imprimir()" type="submit" class="button is-success">
+                    <span class="icon">
+                        <i class="fa fa-print"></i>
+                    </span>
+                    <span>Imprimir</span>
+                </button>
+
+                <a class="button" href="javascript:$('#ModalPerfil').removeClass();$('#ModalPerfil').addClass('modal');void(0);">Cancelar</a>
+            </p>
+        </footer>
+    </div>
+</div>
+
+@using (Html.BeginForm("AtualizarVaga", "Curriculo"))
+{
+    <div id="ModalEditarVaga" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Perfil</p>
+                <a href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);" class="delete"></a>
+            </header>
+
+            <section class="modal-card-body">
+
+                <div id="VagaCompleta">
+
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <p class="field">
+                    <button type="submit" class="button is-success">
+                        <span class="icon">
+                            <i class="fa fa-floppy-o"></i>
+                        </span>
+                        <span>Salvar Vaga</span>
+                    </button>
+
+                    <a class="button" href="javascript:$('#ModalEditarVaga').removeClass();$('#ModalEditarVaga').addClass('modal');void(0);">Cancelar</a>
+                </p>
+
+            </footer>
+
+
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("CadastrarVagaEspecifica", "Curriculo"))
+{
+    <div id="ModalVagaEspecifica" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Adicionar Vagas</p>
+                <a href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+
+                <div class="field">
+                    <label class="label">Titulo da Vaga:</label>
+                    <p class="control">
+                        @Html.TextBoxFor(m => m.Titulo, null, new {@class = "input", placeholder = "Ex: Assistente de T.I"})
+                        @Html.ValidationMessageFor(m => m.Titulo, null, new {style = "color:red"})
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Descrição da vaga:</label>
+                    <p class="control">
+                        @Html.TextBoxFor(m => m.Descricao, null, new {@class = "input", placeholder = "Descrição das atividades"})
+                        @Html.ValidationMessageFor(m => m.Descricao, null, new {style = "color:red"})
+                    </p>
+                </div>
+
+                <div class="field">
+                    <label class="label">Requisitos:</label>
+                    <p class="control">
+                        @Html.TextBoxFor(m => m.Requisitos, null, new {@class = "input", placeholder = "Ex: Certificação"})
+                        @Html.ValidationMessageFor(m => m.Requisitos, null, new {style = "color:red"})
+                    </p>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="field control">
+                        <label class="label">Salário:</label>
+                        <p class="control">
+                            @Html.TextBoxFor(m => m.Salario, null, new {@class = "input", placeholder = "Ex: 1715.00"})
+                            @Html.ValidationMessageFor(m => m.Salario, null, new {style = "color:red"})
+                        </p>
+
+                    </div>
+                    <div class="control field">
+                        <label class="label">Benefício:</label>
+                        <p class="control">
+                            @Html.TextBoxFor(m => m.Beneficio, null, new {@class = "input", placeholder = "Ex: Ticket, etc"})
+                            @Html.ValidationMessageFor(m => m.Beneficio, null, new {style = "color:red"})
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" class="button is-success">Salvar Vaga</button>
+                <a class="button" href="javascript:$('#ModalVagaEspecifica').removeClass();$('#ModalVagaEspecifica').addClass('modal');void(0);">Cancelar</a>
+            </footer>
+        </div>
+    </div>
+}
 </body>

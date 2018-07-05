@@ -319,19 +319,61 @@ namespace PortalSicoobDivicred.Aplicacao
             return Formularios;
         }
 
-        public List<Dictionary<string, string>> RetornaFormularioChamado(string IdSolicitacao)
+        public List<Dictionary<string, string>> RetornaFormularioChamado(string idSolicitacao)
         {
-            var Query = "SELECT * FROM webdeskformularios WHERE idsolicitacao=" + IdSolicitacao + "";
-            var Formularios = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Formularios;
+            var query = "SELECT * FROM webdeskformularios WHERE idsolicitacao=" + idSolicitacao + "";
+            var formularios = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return formularios;
         }
 
-        public void InserirFormulario(string NomeCampos,string DadoFormulario,string IdSolicitacao)
+        public void InserirFormulario(string nomeCampos,string dadoFormulario,string idSolicitacao)
         {
-            var Query = "INSERT INTO webdeskformularios (idsolicitacao,nomecampo,dadoformulario) VALUES(" +
-                        IdSolicitacao + ",'" + NomeCampos + "','" + DadoFormulario + "')";
-            _conexaoMysql.ExecutaComando(Query);
+            var query = "INSERT INTO webdeskformularios (idsolicitacao,nomecampo,dadoformulario) VALUES(" +
+                        idSolicitacao + ",'" + nomeCampos + "','" + dadoFormulario + "')";
+            _conexaoMysql.ExecutaComando(query);
         }
 
+        public void CadastrarCategoria(string descricaoCategoria, string tempoCategoria,string idSetor)
+        {
+            var query = "INSERT INTO webdeskcategorias (descricao,tempo,idsetor) VALUES('" +
+                        descricaoCategoria + "','" + tempoCategoria + "'," + idSetor + ")";
+            _conexaoMysql.ExecutaComando(query);
+        }
+        public bool PermissaoCurriculos(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                Usuario + "' and a.idaplicativo=9";
+
+            var Dados = _conexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public bool PermissaoTesouraria(string Usuario)
+        {
+            var Query =
+                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                Usuario + "' and a.idaplicativo=10";
+
+            var Dados = _conexaoMysql.ExecutaComandoComRetorno(Query);
+            try
+            {
+                if (Dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

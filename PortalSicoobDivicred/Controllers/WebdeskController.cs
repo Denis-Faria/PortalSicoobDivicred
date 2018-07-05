@@ -1211,14 +1211,7 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if (logado)
             {
-                var certificacoes = verificaDados.RetornaCertificacoes();
-                TempData["TotalCertificacao"] = certificacoes.Count;
-                for (var i = 0; i < certificacoes.Count; i++)
-                {
-                    TempData["DescricaoCertificacao" + i] = certificacoes[i]["descricao"];
-                    TempData["IdCertificacao" + i] = certificacoes[i]["id"];
-                }
-
+  
                 return PartialView("ParametrosFuncionario");
             }
 

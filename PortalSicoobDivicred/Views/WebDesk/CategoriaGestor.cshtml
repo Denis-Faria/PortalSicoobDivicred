@@ -1,0 +1,23 @@
+﻿@model PortalSicoobDivicred.Models.Categorias
+
+<div class="field is-grouped is-12">
+    <div class="column is-6">
+        <div class="field ">
+            <div class="control">
+                <label class="label">Descrição Categoria</label>
+                @Html.TextBoxFor(m => m.DescricaoCategoria, null, new {@class = "input"})
+                @Html.ValidationMessageFor(m => m.DescricaoCategoria, null, new {style = "color:red"})
+            </div>
+        </div>
+    </div>
+
+    <div class="column is-6">
+        <div class="field ">
+            <div class="control">
+                <label class="label">Tempo de Atendimento Categoria(Horas)</label>
+                @Html.TextBoxFor(m => m.TempoCategoria, null, new {@class = "input", id = "TempoCategoria"})
+                @Html.ValidationMessageFor(m => m.TempoCategoria, null, new {style = "color:red"})
+            </div>
+        </div>
+    </div>
+</div>

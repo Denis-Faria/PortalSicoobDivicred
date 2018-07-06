@@ -861,3 +861,4 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Nest.dll
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Elasticsearch.Net.xml
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Nest.xml
+C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\SharpRaven.dll

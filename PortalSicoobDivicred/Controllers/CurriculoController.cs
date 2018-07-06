@@ -12,112 +12,125 @@ using PortalSicoobDivicred.Models;
 
 namespace PortalSicoobDivicred.Controllers
 {
+
     public class CurriculoController : Controller
     {
+        private SentryTracking track = new SentryTracking();
         public ActionResult Curriculo(string ordenacao, string mensagem)
         {
+
             var verificaDados = new QueryMysqlCurriculo();
             var queryFuncionario = new QueryMysql();
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-
-                TempData["Mensagem"] = mensagem;
-                var carregaDados = new QueryMysqlCurriculo();
-                List<Dictionary<string, string>> dadosCurriculos = null;
                 try
                 {
-                    if(ordenacao.Length == 0)
+                    TempData["Mensagem"] = mensagem;
+                    var carregaDados = new QueryMysqlCurriculo();
+                    List<Dictionary<string, string>> dadosCurriculos = null;
+                    try
+                    {
+                        if(ordenacao.Length == 0)
+                            dadosCurriculos = carregaDados.RecuperaCurriculos();
+                        if(ordenacao.Equals( "Alfabetico" ))
+                            dadosCurriculos = carregaDados.RecuperaCurriculosAlfabetico();
+                        if(ordenacao.Equals( "Status" ))
+                            dadosCurriculos = carregaDados.RecuperaCurriculosStatus();
+                    }
+                    catch
+                    {
                         dadosCurriculos = carregaDados.RecuperaCurriculos();
-                    if(ordenacao.Equals( "Alfabetico" ))
-                        dadosCurriculos = carregaDados.RecuperaCurriculosAlfabetico();
-                    if(ordenacao.Equals( "Status" ))
-                        dadosCurriculos = carregaDados.RecuperaCurriculosStatus();
-                }
-                catch
-                {
-                    dadosCurriculos = carregaDados.RecuperaCurriculos();
-                }
+                    }
 
-                var dadosVagas = carregaDados.RecuperaVagas();
+                    var dadosVagas = carregaDados.RecuperaVagas();
 
-                TempData["TotalVagas"] = dadosVagas.Count;
-                if(dadosCurriculos != null)
-                {
-                    TempData["TotalCurriculo"] = dadosCurriculos.Count;
-
-                    for(var i = 0; i < dadosCurriculos.Count; i++)
+                    TempData["TotalVagas"] = dadosVagas.Count;
+                    if(dadosCurriculos != null)
                     {
-                        TempData["Nome" + i] = dadosCurriculos[i]["nome"];
-                        TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
-                        TempData["Email" + i] = dadosCurriculos[i]["email"];
-                        TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
-                        TempData["Area" + i] = dadosCurriculos[i]["descricao"].Replace( ";", " " );
-                        if(dadosCurriculos[i]["status"].Equals( "S" ))
-                            TempData["Status" + i] = "green";
-                        if(dadosCurriculos[i]["status"].Equals( "N" ))
-                            TempData["Status" + i] = "red";
-                        if(dadosCurriculos[i]["status"].Equals( "E" ))
-                            TempData["Status" + i] = "blue";
-                        if(dadosCurriculos[i]["status"].Equals( "A" ))
-                            TempData["Status" + i] = "yellow";
+                        TempData["TotalCurriculo"] = dadosCurriculos.Count;
 
-                        if(dadosCurriculos[i]["idarquivogoogle"].Equals( "0" ))
-                            TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        for(var i = 0; i < dadosCurriculos.Count; i++)
+                        {
+                            TempData["Nome" + i] = dadosCurriculos[i]["nome"];
+                            TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
+                            TempData["Email" + i] = dadosCurriculos[i]["email"];
+                            TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
+                            TempData["Area" + i] = dadosCurriculos[i]["descricao"].Replace( ";", " " );
+                            if(dadosCurriculos[i]["status"].Equals( "S" ))
+                                TempData["Status" + i] = "green";
+                            if(dadosCurriculos[i]["status"].Equals( "N" ))
+                                TempData["Status" + i] = "red";
+                            if(dadosCurriculos[i]["status"].Equals( "E" ))
+                                TempData["Status" + i] = "blue";
+                            if(dadosCurriculos[i]["status"].Equals( "A" ))
+                                TempData["Status" + i] = "yellow";
+
+                            if(dadosCurriculos[i]["idarquivogoogle"].Equals( "0" ))
+                                TempData["Imagem" + i] =
+                                    "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                            else
+                                TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                         dadosCurriculos[i]["idarquivogoogle"] + "";
+                        }
+                    }
+
+                    for(var i = 0; i < dadosVagas.Count; i++)
+                    {
+                        TempData["IdVaga" + i] = dadosVagas[i]["id"];
+                        TempData["Titulo" + i] = dadosVagas[i]["titulo"];
+                        TempData["Descricao" + i] = dadosVagas[i]["descricao"];
+                        TempData["AreaVaga" + i] = dadosVagas[i]["areadeinteresse"].Replace( ";", " " );
+                        if(dadosVagas[i]["ativa"].Equals( "S" ))
+                            TempData["StatusVaga" + i] = "green";
                         else
-                            TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                     dadosCurriculos[i]["idarquivogoogle"] + "";
+                            TempData["StatusVaga" + i] = "red";
                     }
-                }
 
-                for(var i = 0; i < dadosVagas.Count; i++)
-                {
-                    TempData["IdVaga" + i] = dadosVagas[i]["id"];
-                    TempData["Titulo" + i] = dadosVagas[i]["titulo"];
-                    TempData["Descricao" + i] = dadosVagas[i]["descricao"];
-                    TempData["AreaVaga" + i] = dadosVagas[i]["areadeinteresse"].Replace( ";", " " );
-                    if(dadosVagas[i]["ativa"].Equals( "S" ))
-                        TempData["StatusVaga" + i] = "green";
-                    else
-                        TempData["StatusVaga" + i] = "red";
-                }
+                    var cookie = Request.Cookies.Get( "CookieFarm" );
 
-                var cookie = Request.Cookies.Get( "CookieFarm" );
-
-                if(cookie != null)
-                {
-                    var login = Criptografa.Descriptografar( cookie.Value );
-                    if(queryFuncionario.PrimeiroLogin( login ))
-                        return RedirectToAction( "FormularioCadastro", "Principal" );
-                    var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios( login );
-
-                    if(queryFuncionario.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoCurriculo"] =
-                            " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
-                    else
-                        TempData["PermissaoCurriculo"] = "";
-                    if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                    if(cookie != null)
                     {
-                        TempData["PermissaoGestor"] = "";
-                        TempData["AreaGestor"] = "";
-                    }
-                    else
-                    {
-                        TempData["PermissaoGestor"] = "hidden";
-                        TempData["AreaGestor"] = "hidden";
-                    }
+                        var login = Criptografa.Descriptografar( cookie.Value );
+                        if(queryFuncionario.PrimeiroLogin( login ))
+                            return RedirectToAction( "FormularioCadastro", "Principal" );
+                        var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios( login );
+
+                        if(queryFuncionario.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
+                            TempData["PermissaoCurriculo"] =
+                                " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                        else
+                            TempData["PermissaoCurriculo"] = "";
+                        if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                        {
+                            TempData["PermissaoGestor"] = "";
+                            TempData["AreaGestor"] = "";
+                        }
+                        else
+                        {
+                            TempData["PermissaoGestor"] = "hidden";
+                            TempData["AreaGestor"] = "hidden";
+                        }
 
 
-                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
-                    TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
-                    if(dadosUsuarioBanco[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
+                        TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                        TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
+                        if(dadosUsuarioBanco[0]["foto"] == null)
+                            TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
+                    }
+
+                    return View( "Curriculo" );
                 }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View( "Curriculo" );
 
-                return View( "Curriculo" );
+                }
             }
+
 
             return RedirectToAction( "Login", "Login" );
         }
@@ -129,111 +142,121 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var carregaDados = new QueryMysqlCurriculo();
-                List<Dictionary<string, string>> dadosCurriculos;
                 try
                 {
-                    if(filtros["FiltroArea"].Contains( "Filtrar Área" ))
+                    var carregaDados = new QueryMysqlCurriculo();
+                    List<Dictionary<string, string>> dadosCurriculos;
+                    try
                     {
-                        if(filtros["FiltroFormacao"].Contains( "Filtrar Formação" ))
-                            dadosCurriculos = carregaDados.RecuperaCurriculosArea( "", filtros["FiltroCidade"],
-                                filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"], "" );
+                        if (filtros["FiltroArea"].Contains("Filtrar Área"))
+                        {
+                            if (filtros["FiltroFormacao"].Contains("Filtrar Formação"))
+                                dadosCurriculos = carregaDados.RecuperaCurriculosArea("", filtros["FiltroCidade"],
+                                    filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"], "");
+                            else
+                                dadosCurriculos = carregaDados.RecuperaCurriculosArea("", filtros["FiltroCidade"],
+                                    filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"],
+                                    filtros["FiltroFormacao"]);
+                        }
+                        else if (filtros["FiltroFormacao"].Contains("Filtrar Formação"))
+                        {
+                            dadosCurriculos = carregaDados.RecuperaCurriculosArea("", filtros["FiltroCidade"],
+                                filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"], "");
+                        }
                         else
-                            dadosCurriculos = carregaDados.RecuperaCurriculosArea( "", filtros["FiltroCidade"],
-                                filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"], filtros["FiltroFormacao"] );
+                        {
+                            dadosCurriculos = carregaDados.RecuperaCurriculosArea(filtros["FiltroArea"],
+                                filtros["FiltroCidade"], filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"],
+                                filtros["FiltroFormacao"]);
+                        }
                     }
-                    else if(filtros["FiltroFormacao"].Contains( "Filtrar Formação" ))
+                    catch
                     {
-                        dadosCurriculos = carregaDados.RecuperaCurriculosArea( "", filtros["FiltroCidade"],
-                            filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"], "" );
+                        dadosCurriculos = carregaDados.RecuperaCurriculos();
                     }
-                    else
+
+                    var dadosVagas = carregaDados.RecuperaVagas();
+
+                    TempData["TotalVagas"] = dadosVagas.Count;
+                    TempData["TotalCurriculo"] = dadosCurriculos.Count;
+
+                    for (var i = 0; i < dadosCurriculos.Count; i++)
                     {
-                        dadosCurriculos = carregaDados.RecuperaCurriculosArea( filtros["FiltroArea"],
-                            filtros["FiltroCidade"], filtros["FiltroCertificacao"], filtros["FiltroOrdenacao"],
-                            filtros["FiltroFormacao"] );
+                        TempData["Nome" + i] = dadosCurriculos[i]["nome"];
+                        TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
+                        TempData["Email" + i] = dadosCurriculos[i]["email"];
+                        TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
+                        TempData["Area" + i] = dadosCurriculos[i]["descricao"].Replace(";", " ");
+                        if (dadosCurriculos[i]["status"].Equals("S"))
+                            TempData["Status" + i] = "green";
+                        if (dadosCurriculos[i]["status"].Equals("N"))
+                            TempData["Status" + i] = "red";
+                        if (dadosCurriculos[i]["status"].Equals("E"))
+                            TempData["Status" + i] = "blue";
+                        if (dadosCurriculos[i]["status"].Equals("A"))
+                            TempData["Status" + i] = "yellow";
+
+                        if (dadosCurriculos[i]["idarquivogoogle"].Equals("0"))
+                            TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                     dadosCurriculos[i]["idarquivogoogle"] + "";
                     }
-                }
-                catch
-                {
-                    dadosCurriculos = carregaDados.RecuperaCurriculos();
-                }
 
-                var dadosVagas = carregaDados.RecuperaVagas();
-
-                TempData["TotalVagas"] = dadosVagas.Count;
-                TempData["TotalCurriculo"] = dadosCurriculos.Count;
-
-                for(var i = 0; i < dadosCurriculos.Count; i++)
-                {
-                    TempData["Nome" + i] = dadosCurriculos[i]["nome"];
-                    TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
-                    TempData["Email" + i] = dadosCurriculos[i]["email"];
-                    TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
-                    TempData["Area" + i] = dadosCurriculos[i]["descricao"].Replace( ";", " " );
-                    if(dadosCurriculos[i]["status"].Equals( "S" ))
-                        TempData["Status" + i] = "green";
-                    if(dadosCurriculos[i]["status"].Equals( "N" ))
-                        TempData["Status" + i] = "red";
-                    if(dadosCurriculos[i]["status"].Equals( "E" ))
-                        TempData["Status" + i] = "blue";
-                    if(dadosCurriculos[i]["status"].Equals( "A" ))
-                        TempData["Status" + i] = "yellow";
-
-                    if(dadosCurriculos[i]["idarquivogoogle"].Equals( "0" ))
-                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                 dadosCurriculos[i]["idarquivogoogle"] + "";
-                }
-
-                for(var i = 0; i < dadosVagas.Count; i++)
-                {
-                    TempData["IdVaga" + i] = dadosVagas[i]["id"];
-                    TempData["Titulo" + i] = dadosVagas[i]["titulo"];
-                    TempData["Descricao" + i] = dadosVagas[i]["descricao"];
-                    TempData["AreaVaga" + i] = dadosVagas[i]["areadeinteresse"].Replace( ";", " " );
-                    if(dadosVagas[i]["ativa"].Equals( "S" ))
-                        TempData["StatusVaga" + i] = "green";
-                    else
-                        TempData["StatusVaga" + i] = "red";
-                }
-
-                var cookie = Request.Cookies.Get( "CookieFarm" );
-
-                if(cookie != null)
-                {
-                    var login = Criptografa.Descriptografar( cookie.Value );
-                    if(queryFuncionario.PrimeiroLogin( login ))
-                        return RedirectToAction( "FormularioCadastro", "Principal" );
-                    var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios( login );
-
-                    if(queryFuncionario.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoCurriculo"] =
-                            " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
-                    else
-                        TempData["PermissaoCurriculo"] = "";
-                    if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                    for (var i = 0; i < dadosVagas.Count; i++)
                     {
-                        TempData["PermissaoGestor"] = "";
-                        TempData["AreaGestor"] = "";
+                        TempData["IdVaga" + i] = dadosVagas[i]["id"];
+                        TempData["Titulo" + i] = dadosVagas[i]["titulo"];
+                        TempData["Descricao" + i] = dadosVagas[i]["descricao"];
+                        TempData["AreaVaga" + i] = dadosVagas[i]["areadeinteresse"].Replace(";", " ");
+                        if (dadosVagas[i]["ativa"].Equals("S"))
+                            TempData["StatusVaga" + i] = "green";
+                        else
+                            TempData["StatusVaga" + i] = "red";
                     }
-                    else
+
+                    var cookie = Request.Cookies.Get("CookieFarm");
+
+                    if (cookie != null)
                     {
-                        TempData["PermissaoGestor"] = "hidden";
-                        TempData["AreaGestor"] = "hidden";
+                        var login = Criptografa.Descriptografar(cookie.Value);
+                        if (queryFuncionario.PrimeiroLogin(login))
+                            return RedirectToAction("FormularioCadastro", "Principal");
+                        var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios(login);
+
+                        if (queryFuncionario.PermissaoCurriculos(dadosUsuarioBanco[0]["login"]))
+                            TempData["PermissaoCurriculo"] =
+                                " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                        else
+                            TempData["PermissaoCurriculo"] = "";
+                        if (dadosUsuarioBanco[0]["gestor"].Equals("S"))
+                        {
+                            TempData["PermissaoGestor"] = "";
+                            TempData["AreaGestor"] = "";
+                        }
+                        else
+                        {
+                            TempData["PermissaoGestor"] = "hidden";
+                            TempData["AreaGestor"] = "hidden";
+                        }
+
+
+                        TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                        TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
+                        if (dadosUsuarioBanco[0]["foto"] == null)
+                            TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
                     }
 
-
-                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
-                    TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
-                    if(dadosUsuarioBanco[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
+                    return View("Curriculo");
                 }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View( "Curriculo" );
 
-                return View( "Curriculo" );
+                }
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -247,97 +270,107 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                TempData["Mensagem"] = mensagem;
-                var recuperaDados = new QueryMysqlCurriculo();
-                var dadosCurriculos = recuperaDados.RecuperaCurriculosHistorico( idVaga );
-                TempData["TotalCurriculo"] = dadosCurriculos.Count;
-                var dadosVagas = recuperaDados.RecuperaVagasId( idVaga );
-                TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + dadosCurriculos.Count;
-                TempData["TituloVaga"] = idVaga + "-" + dadosVagas[0]["titulo"];
-                TempData["DescricaoVaga"] = dadosVagas[0]["descricao"];
-                TempData["IdVaga"] = idVaga;
-                var processoAberto = recuperaDados.VerificaProcesso( idVaga );
-
-                if(processoAberto)
+                try
                 {
-                    TempData["ProcessoAtivo"] = "disabled";
-                    TempData["DicaProcesso"] = "Já existe um processo seletivo aberto";
-                    TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
-                    TempData["EncerraAtivo"] = "";
-                }
-                else
-                {
-                    TempData["ProcessoAtivo"] = "";
-                    TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
-                    TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
-                    TempData["EncerraAtivo"] = "disabled";
-                }
+                    TempData["Mensagem"] = mensagem;
+                    var recuperaDados = new QueryMysqlCurriculo();
+                    var dadosCurriculos = recuperaDados.RecuperaCurriculosHistorico(idVaga);
+                    TempData["TotalCurriculo"] = dadosCurriculos.Count;
+                    var dadosVagas = recuperaDados.RecuperaVagasId(idVaga);
+                    TempData["QuantidadeCurriculo"] =
+                        "N° de candidatos com interesse nesta vaga: " + dadosCurriculos.Count;
+                    TempData["TituloVaga"] = idVaga + "-" + dadosVagas[0]["titulo"];
+                    TempData["DescricaoVaga"] = dadosVagas[0]["descricao"];
+                    TempData["IdVaga"] = idVaga;
+                    var processoAberto = recuperaDados.VerificaProcesso(idVaga);
 
-
-                for(var i = 0; i < dadosCurriculos.Count; i++)
-                {
-                    TempData["Nome" + i] = dadosCurriculos[i]["nome"];
-                    TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
-                    TempData["Email" + i] = dadosCurriculos[i]["email"];
-                    TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
-                    TempData["Certificacao" + i] = dadosCurriculos[i]["certificacao"];
-                    if(dadosCurriculos[i]["idarquivogoogle"].Equals( "0" ))
-                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                 dadosCurriculos[i]["idarquivogoogle"] + "";
-                }
-
-                if(dadosVagas[0]["ativa"].Equals( "S" ))
-                {
-                    TempData["Ativa"] = "";
-                    TempData["Dica"] = "Clique para encerrar esta vaga.";
-                }
-                else
-                {
-                    TempData["ProcessoAtivo"] = "";
-                    TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo.";
-                    TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
-                    TempData["EncerraAtivo"] = "";
-                    TempData["Ativa"] = "disabled";
-                    TempData["Dica"] = "Esta vaga já esta encerrada.";
-                }
-
-                var cookie = Request.Cookies.Get( "CookieFarm" );
-
-                if(cookie != null)
-                {
-                    var login = Criptografa.Descriptografar( cookie.Value );
-                    if(queryFuncionario.PrimeiroLogin( login ))
-                        return RedirectToAction( "FormularioCadastro", "Principal" );
-                    var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios( login );
-
-                    if(queryFuncionario.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoCurriculo"] =
-                            " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
-                    else
-                        TempData["PermissaoCurriculo"] = "";
-                    if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                    if (processoAberto)
                     {
-                        TempData["PermissaoGestor"] = "";
-                        TempData["AreaGestor"] = "";
+                        TempData["ProcessoAtivo"] = "disabled";
+                        TempData["DicaProcesso"] = "Já existe um processo seletivo aberto";
+                        TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
+                        TempData["EncerraAtivo"] = "";
                     }
                     else
                     {
-                        TempData["PermissaoGestor"] = "hidden";
-                        TempData["AreaGestor"] = "hidden";
+                        TempData["ProcessoAtivo"] = "";
+                        TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
+                        TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
+                        TempData["EncerraAtivo"] = "disabled";
                     }
 
 
-                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
-                    TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
-                    if(dadosUsuarioBanco[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
-                }
+                    for (var i = 0; i < dadosCurriculos.Count; i++)
+                    {
+                        TempData["Nome" + i] = dadosCurriculos[i]["nome"];
+                        TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
+                        TempData["Email" + i] = dadosCurriculos[i]["email"];
+                        TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
+                        TempData["Certificacao" + i] = dadosCurriculos[i]["certificacao"];
+                        if (dadosCurriculos[i]["idarquivogoogle"].Equals("0"))
+                            TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                     dadosCurriculos[i]["idarquivogoogle"] + "";
+                    }
 
-                return View( "GerenciarVaga" );
+                    if (dadosVagas[0]["ativa"].Equals("S"))
+                    {
+                        TempData["Ativa"] = "";
+                        TempData["Dica"] = "Clique para encerrar esta vaga.";
+                    }
+                    else
+                    {
+                        TempData["ProcessoAtivo"] = "";
+                        TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo.";
+                        TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
+                        TempData["EncerraAtivo"] = "";
+                        TempData["Ativa"] = "disabled";
+                        TempData["Dica"] = "Esta vaga já esta encerrada.";
+                    }
+
+                    var cookie = Request.Cookies.Get("CookieFarm");
+
+                    if (cookie != null)
+                    {
+                        var login = Criptografa.Descriptografar(cookie.Value);
+                        if (queryFuncionario.PrimeiroLogin(login))
+                            return RedirectToAction("FormularioCadastro", "Principal");
+                        var dadosUsuarioBanco = queryFuncionario.RecuperaDadosUsuarios(login);
+
+                        if (queryFuncionario.PermissaoCurriculos(dadosUsuarioBanco[0]["login"]))
+                            TempData["PermissaoCurriculo"] =
+                                " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
+                        else
+                            TempData["PermissaoCurriculo"] = "";
+                        if (dadosUsuarioBanco[0]["gestor"].Equals("S"))
+                        {
+                            TempData["PermissaoGestor"] = "";
+                            TempData["AreaGestor"] = "";
+                        }
+                        else
+                        {
+                            TempData["PermissaoGestor"] = "hidden";
+                            TempData["AreaGestor"] = "hidden";
+                        }
+
+
+                        TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                        TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
+                        if (dadosUsuarioBanco[0]["foto"] == null)
+                            TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
+                    }
+
+                    return View("GerenciarVaga");
+                }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View( "GerenciarVaga" );
+
+                }
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -350,59 +383,69 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var cadastrarVaga = new QueryMysqlCurriculo();
-
-                if(vagas.Count == 5)
-                    ModelState.AddModelError( "", "Favor selecionar uma área de interesse !" );
-                if(ModelState.IsValid)
+                try
                 {
-                    var areas = "";
-                    for(var i = 6; i < vagas.Count; i++)
-                        areas = areas + vagas[i] + ";";
-                    var todosEmail = "";
+                    var cadastrarVaga = new QueryMysqlCurriculo();
 
-                    var emailCelular = cadastrarVaga.CadastrarVaga( vaga.Descricao, areas,
-                        vaga.Salario.Replace( ",", "." ),
-                        vaga.Requisitos,
-                        vaga.Titulo, vaga.Beneficio );
-                    var envioSms = new string[emailCelular.Count];
-                    for(var j = 0; j < emailCelular.Count; j++)
+                    if (vagas.Count == 5)
+                        ModelState.AddModelError("", "Favor selecionar uma área de interesse !");
+                    if (ModelState.IsValid)
                     {
-                        todosEmail = todosEmail + ";" + emailCelular[j]["email"];
-                        var certo = "55" + emailCelular[j]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
-                                        .Replace( '-', ' ' );
-                        envioSms[j] = certo.Replace( " ", "" );
+                        var areas = "";
+                        for (var i = 6; i < vagas.Count; i++)
+                            areas = areas + vagas[i] + ";";
+                        var todosEmail = "";
+
+                        var emailCelular = cadastrarVaga.CadastrarVaga(vaga.Descricao, areas,
+                            vaga.Salario.Replace(",", "."),
+                            vaga.Requisitos,
+                            vaga.Titulo, vaga.Beneficio);
+                        var envioSms = new string[emailCelular.Count];
+                        for (var j = 0; j < emailCelular.Count; j++)
+                        {
+                            todosEmail = todosEmail + ";" + emailCelular[j]["email"];
+                            var certo = "55" + emailCelular[j]["telefoneprincipal"].Replace(')', ' ').Replace('(', ' ')
+                                            .Replace('-', ' ');
+                            envioSms[j] = certo.Replace(" ", "");
+                        }
+
+                        var configuration = new Configuration("Divicred", "Euder17!");
+                        var smsClient = new SMSClient(configuration);
+                        var smsRequest = new SMSRequest("Portal Sicoob Divicred",
+                            "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", envioSms);
+                        var requestId = smsClient.SmsMessagingClient.SendSMS(smsRequest);
+
+
+                        Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
+                        string[] recipients = {todosEmail};
+                        var subject = "Novas Vagas";
+                        var fromEmail = "correio@divicred.com.br";
+                        var fromName = "Sicoob Divicred";
+                        var bodyText = "";
+                        var bodyHtml = Api.Template.LoadTemplate(5381).BodyHtml;
+                        ApiTypes.EmailSend result = null;
+
+                        try
+                        {
+                            result = Api.Email.Send(subject, fromEmail, fromName, to: recipients,
+                                bodyText: bodyText, bodyHtml: bodyHtml);
+                        }
+                        catch
+                        {
+                        }
+
+                        return RedirectToAction("Curriculo", "Curriculo",
+                            new {Mensagem = "Vaga cadastrada com sucesso !"});
                     }
 
-                    var configuration = new Configuration( "Divicred", "Euder17!" );
-                    var smsClient = new SMSClient( configuration );
-                    var smsRequest = new SMSRequest( "Portal Sicoob Divicred",
-                        "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", envioSms );
-                    var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
-
-
-                    Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                    string[] recipients = { todosEmail };
-                    var subject = "Novas Vagas";
-                    var fromEmail = "correio@divicred.com.br";
-                    var fromName = "Sicoob Divicred";
-                    var bodyText = "";
-                    var bodyHtml = Api.Template.LoadTemplate( 5381 ).BodyHtml;
-                    ApiTypes.EmailSend result = null;
-
-                    try
-                    {
-                        result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
-                            bodyText: bodyText, bodyHtml: bodyHtml );
-                    }
-                    catch
-                    {
-                    }
-
-                    return RedirectToAction( "Curriculo", "Curriculo", new { Mensagem = "Vaga cadastrada com sucesso !" } );
+                    return View("Curriculo", vaga);
                 }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View( "Curriculo",vaga );
 
-                return View( "Curriculo", vaga );
+                }
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -412,207 +455,217 @@ namespace PortalSicoobDivicred.Controllers
         {
             var verificaDados = new QueryMysqlCurriculo();
             var logado = verificaDados.UsuarioLogado();
-            if(logado)
+            if (logado)
             {
-                var vagasEspecificas = verificaDados.RecuperaVagaEspecifica();
-                TempData["TotalVaga"] = vagasEspecificas.Count;
-                for(var f = 0; f < vagasEspecificas.Count; f++)
+                try
                 {
-                    TempData["IdVaga" + f] = vagasEspecificas[f]["id"];
-                    TempData["NomeVaga" + f] = vagasEspecificas[f]["descricao"];
-                }
-
-                var dadosUsuario = new Usuario();
-                var dadosUsuarioBanco = verificaDados.RecuperaDadosCandidato( cpf );
-
-                var dadosProcessosSeletivos = verificaDados.RecuperaProcesso( dadosUsuarioBanco[0]["id"] );
-                var formulario = verificaDados.RecuperaFormulario( dadosUsuarioBanco[0]["id"] );
-
-                if(formulario.Count > 0)
-                {
-                    TempData["ExisteFormulario"] = true;
-                    TempData["IdFormulario"] = formulario[0]["id"];
-                }
-                else
-                {
-                    TempData["ExisteFormulario"] = false;
-                    TempData["IdFormulario"] = 0;
-                }
-
-                if(dadosProcessosSeletivos.Count > 0)
-                {
-                    TempData["ExisteProcesso"] = true;
-                    TempData["TotalProcessos"] = dadosProcessosSeletivos.Count;
-                    for(var i = 0; i < dadosProcessosSeletivos.Count; i++)
+                    var vagasEspecificas = verificaDados.RecuperaVagaEspecifica();
+                    TempData["TotalVaga"] = vagasEspecificas.Count;
+                    for (var f = 0; f < vagasEspecificas.Count; f++)
                     {
-                        TempData["NomeVaga" + i] = dadosProcessosSeletivos[i]["nomevaga"];
-                        TempData["IdVaga" + i] = dadosProcessosSeletivos[i]["idvaga"];
-                        TempData["Escrita" + i] = dadosProcessosSeletivos[i]["prova"];
-                        try
+                        TempData["IdVaga" + f] = vagasEspecificas[f]["id"];
+                        TempData["NomeVaga" + f] = vagasEspecificas[f]["descricao"];
+                    }
+
+                    var dadosUsuario = new Usuario();
+                    var dadosUsuarioBanco = verificaDados.RecuperaDadosCandidato(cpf);
+
+                    var dadosProcessosSeletivos = verificaDados.RecuperaProcesso(dadosUsuarioBanco[0]["id"]);
+                    var formulario = verificaDados.RecuperaFormulario(dadosUsuarioBanco[0]["id"]);
+
+                    if (formulario.Count > 0)
+                    {
+                        TempData["ExisteFormulario"] = true;
+                        TempData["IdFormulario"] = formulario[0]["id"];
+                    }
+                    else
+                    {
+                        TempData["ExisteFormulario"] = false;
+                        TempData["IdFormulario"] = 0;
+                    }
+
+                    if (dadosProcessosSeletivos.Count > 0)
+                    {
+                        TempData["ExisteProcesso"] = true;
+                        TempData["TotalProcessos"] = dadosProcessosSeletivos.Count;
+                        for (var i = 0; i < dadosProcessosSeletivos.Count; i++)
                         {
-                            if(Convert.ToDecimal( dadosProcessosSeletivos[i]["prova"].Replace( ",", "." ) ) >= 60)
+                            TempData["NomeVaga" + i] = dadosProcessosSeletivos[i]["nomevaga"];
+                            TempData["IdVaga" + i] = dadosProcessosSeletivos[i]["idvaga"];
+                            TempData["Escrita" + i] = dadosProcessosSeletivos[i]["prova"];
+                            try
                             {
-                                TempData["CorEscrita" + i] = "green";
+                                if (Convert.ToDecimal(dadosProcessosSeletivos[i]["prova"].Replace(",", ".")) >= 60)
+                                {
+                                    TempData["CorEscrita" + i] = "green";
+                                }
+                                else
+                                {
+                                    TempData["CorEscrita" + i] = "red";
+                                    TempData["Aprovado" + i] = "red";
+                                }
                             }
-                            else
+                            catch
                             {
                                 TempData["CorEscrita" + i] = "red";
                                 TempData["Aprovado" + i] = "red";
                             }
-                        }
-                        catch
-                        {
-                            TempData["CorEscrita" + i] = "red";
-                            TempData["Aprovado" + i] = "red";
-                        }
-                        TempData["Psicologico" + i] = dadosProcessosSeletivos[i]["psicologico"];
-                        try
-                        {
-                            if(dadosProcessosSeletivos[i]["psicologico"].Equals( "Aprovado" ))
+
+                            TempData["Psicologico" + i] = dadosProcessosSeletivos[i]["psicologico"];
+                            try
                             {
-                                TempData["CorPsicologico" + i] = "green";
+                                if (dadosProcessosSeletivos[i]["psicologico"].Equals("Aprovado"))
+                                {
+                                    TempData["CorPsicologico" + i] = "green";
+                                }
+                                else
+                                {
+                                    TempData["CorPsicologico" + i] = "red";
+                                    TempData["Aprovado" + i] = "red";
+                                }
                             }
-                            else
+                            catch
                             {
                                 TempData["CorPsicologico" + i] = "red";
                                 TempData["Aprovado" + i] = "red";
                             }
-                        }
-                        catch
-                        {
-                            TempData["CorPsicologico" + i] = "red";
-                            TempData["Aprovado" + i] = "red";
-                        }
 
-                        try
-                        {
-                            TempData["Gerente" + i] = dadosProcessosSeletivos[i]["gerente"];
-                            if(dadosProcessosSeletivos[i]["gerente"].Equals( "Aprovado" ))
+                            try
                             {
-                                TempData["CorGerente" + i] = "green";
+                                TempData["Gerente" + i] = dadosProcessosSeletivos[i]["gerente"];
+                                if (dadosProcessosSeletivos[i]["gerente"].Equals("Aprovado"))
+                                {
+                                    TempData["CorGerente" + i] = "green";
+                                }
+                                else
+                                {
+                                    TempData["CorGerente" + i] = "red";
+                                    TempData["Aprovado" + i] = "red";
+                                }
                             }
-                            else
+                            catch
                             {
                                 TempData["CorGerente" + i] = "red";
                                 TempData["Aprovado" + i] = "red";
                             }
                         }
-                        catch
-                        {
-                            TempData["CorGerente" + i] = "red";
-                            TempData["Aprovado" + i] = "red";
-                        }
                     }
-                }
-                else
-                {
-                    TempData["ExisteProcesso"] = false;
-                }
-
-                if(!dadosUsuarioBanco[0]["idarquivogoogle"].Equals( "0" ))
-                    TempData["ImagemPerfil"] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                               dadosUsuarioBanco[0]["idarquivogoogle"];
-                else
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                var areasInteresse = verificaDados.RecuperaAreaInteresseUsuarios( dadosUsuarioBanco[0]["id"] );
-
-                dadosUsuario.NomeCompleto = dadosUsuarioBanco[0]["nome"];
-                dadosUsuario.TelefonePrincipal = dadosUsuarioBanco[0]["telefoneprincipal"];
-                dadosUsuario.TelefoneSecundario = dadosUsuarioBanco[0]["telefonesecundario"];
-                dadosUsuario.Cep = dadosUsuarioBanco[0]["cep"];
-                dadosUsuario.Rua = dadosUsuarioBanco[0]["endereco"];
-                dadosUsuario.Numero = dadosUsuarioBanco[0]["numero"];
-                dadosUsuario.Bairro = dadosUsuarioBanco[0]["bairro"];
-                dadosUsuario.Cidade = dadosUsuarioBanco[0]["cidade"];
-                dadosUsuario.Uf = dadosUsuarioBanco[0]["uf"];
-                dadosUsuario.Email = dadosUsuarioBanco[0]["email"];
-                dadosUsuario.TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
-                dadosUsuario.Sexo = dadosUsuarioBanco[0]["sexo"];
-                dadosUsuario.Informatica = dadosUsuarioBanco[0]["informatica"];
-                dadosUsuario.Idade = Convert.ToDateTime( dadosUsuarioBanco[0]["datanascimento"] );
-                dadosUsuario.Cpf = dadosUsuarioBanco[0]["cpf"];
-                dadosUsuario.Identidade = dadosUsuarioBanco[0]["identidade"];
-                dadosUsuario.Complemento = dadosUsuarioBanco[0]["complemento"];
-                dadosUsuario.Resumo = dadosUsuarioBanco[0]["resumo"];
-                dadosUsuario.Certificacao = dadosUsuarioBanco[0]["certificacao"];
-                TempData["Conhecido"] = dadosUsuarioBanco[0]["conhecido"];
-
-
-                if(dadosUsuarioBanco[0]["disponibilidadeviagem"].Equals( "S" ))
-                    TempData["Disponibilidades"] = "SIM";
-                else
-                    TempData["Disponibilidades"] = "NÃO";
-
-                dadosUsuario.QuantidadeFilho = dadosUsuarioBanco[0]["quantidadefilhos"];
-                dadosUsuario.TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
-                dadosUsuario.Cnh = dadosUsuarioBanco[0]["cnh"];
-                dadosUsuario.PrimeiraCnh = dadosUsuarioBanco[0]["dataprimeiracnh"];
-                dadosUsuario.CatCnh = dadosUsuarioBanco[0]["categoriacnh"];
-                TempData["estadocivil"] =
-                    verificaDados.RecuperaEstadoCivilCandidato( dadosUsuarioBanco[0]["estadocivil"] );
-                TempData["Escolaridade"] =
-                    verificaDados.RecuperaEscolaridadeCandidato( dadosUsuarioBanco[0]["idtipoescolaridade"] );
-                var profissional = verificaDados.RecuperaDadosUsuariosProissional( dadosUsuarioBanco[0]["id"] );
-
-                var nomeEmpresa = new List<string>();
-                var nomeCargo = new List<string>();
-                var dataEntrada = new List<string>();
-                var dataSaida = new List<string>();
-                var atividades = new List<string>();
-
-                for(var i = 0; i < profissional.Count; i++)
-                {
-                    nomeEmpresa.Add( profissional[i]["nomeempresa"] );
-                    nomeCargo.Add( profissional[i]["nomecargo"] );
-                    dataEntrada.Add( Convert.ToDateTime( profissional[i]["dataentrada"] ).Date.ToString() );
-                    dataSaida.Add( Convert.ToDateTime( profissional[i]["datasaida"] ).Date.ToString() );
-                    atividades.Add( profissional[i]["atividadedesempenhada"] );
-                    if(profissional[i]["empregoatual"].Equals( "S" ))
-                        TempData["EmpregoAtual" + i] = "SIM";
                     else
-                        TempData["EmpregoAtual" + i] = "NÃO";
+                    {
+                        TempData["ExisteProcesso"] = false;
+                    }
+
+                    if (!dadosUsuarioBanco[0]["idarquivogoogle"].Equals("0"))
+                        TempData["ImagemPerfil"] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                   dadosUsuarioBanco[0]["idarquivogoogle"];
+                    else
+                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    var areasInteresse = verificaDados.RecuperaAreaInteresseUsuarios(dadosUsuarioBanco[0]["id"]);
+
+                    dadosUsuario.NomeCompleto = dadosUsuarioBanco[0]["nome"];
+                    dadosUsuario.TelefonePrincipal = dadosUsuarioBanco[0]["telefoneprincipal"];
+                    dadosUsuario.TelefoneSecundario = dadosUsuarioBanco[0]["telefonesecundario"];
+                    dadosUsuario.Cep = dadosUsuarioBanco[0]["cep"];
+                    dadosUsuario.Rua = dadosUsuarioBanco[0]["endereco"];
+                    dadosUsuario.Numero = dadosUsuarioBanco[0]["numero"];
+                    dadosUsuario.Bairro = dadosUsuarioBanco[0]["bairro"];
+                    dadosUsuario.Cidade = dadosUsuarioBanco[0]["cidade"];
+                    dadosUsuario.Uf = dadosUsuarioBanco[0]["uf"];
+                    dadosUsuario.Email = dadosUsuarioBanco[0]["email"];
+                    dadosUsuario.TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
+                    dadosUsuario.Sexo = dadosUsuarioBanco[0]["sexo"];
+                    dadosUsuario.Informatica = dadosUsuarioBanco[0]["informatica"];
+                    dadosUsuario.Idade = Convert.ToDateTime(dadosUsuarioBanco[0]["datanascimento"]);
+                    dadosUsuario.Cpf = dadosUsuarioBanco[0]["cpf"];
+                    dadosUsuario.Identidade = dadosUsuarioBanco[0]["identidade"];
+                    dadosUsuario.Complemento = dadosUsuarioBanco[0]["complemento"];
+                    dadosUsuario.Resumo = dadosUsuarioBanco[0]["resumo"];
+                    dadosUsuario.Certificacao = dadosUsuarioBanco[0]["certificacao"];
+                    TempData["Conhecido"] = dadosUsuarioBanco[0]["conhecido"];
+
+
+                    if (dadosUsuarioBanco[0]["disponibilidadeviagem"].Equals("S"))
+                        TempData["Disponibilidades"] = "SIM";
+                    else
+                        TempData["Disponibilidades"] = "NÃO";
+
+                    dadosUsuario.QuantidadeFilho = dadosUsuarioBanco[0]["quantidadefilhos"];
+                    dadosUsuario.TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
+                    dadosUsuario.Cnh = dadosUsuarioBanco[0]["cnh"];
+                    dadosUsuario.PrimeiraCnh = dadosUsuarioBanco[0]["dataprimeiracnh"];
+                    dadosUsuario.CatCnh = dadosUsuarioBanco[0]["categoriacnh"];
+                    TempData["estadocivil"] =
+                        verificaDados.RecuperaEstadoCivilCandidato(dadosUsuarioBanco[0]["estadocivil"]);
+                    TempData["Escolaridade"] =
+                        verificaDados.RecuperaEscolaridadeCandidato(dadosUsuarioBanco[0]["idtipoescolaridade"]);
+                    var profissional = verificaDados.RecuperaDadosUsuariosProissional(dadosUsuarioBanco[0]["id"]);
+
+                    var nomeEmpresa = new List<string>();
+                    var nomeCargo = new List<string>();
+                    var dataEntrada = new List<string>();
+                    var dataSaida = new List<string>();
+                    var atividades = new List<string>();
+
+                    for (var i = 0; i < profissional.Count; i++)
+                    {
+                        nomeEmpresa.Add(profissional[i]["nomeempresa"]);
+                        nomeCargo.Add(profissional[i]["nomecargo"]);
+                        dataEntrada.Add(Convert.ToDateTime(profissional[i]["dataentrada"]).Date.ToString());
+                        dataSaida.Add(Convert.ToDateTime(profissional[i]["datasaida"]).Date.ToString());
+                        atividades.Add(profissional[i]["atividadedesempenhada"]);
+                        if (profissional[i]["empregoatual"].Equals("S"))
+                            TempData["EmpregoAtual" + i] = "SIM";
+                        else
+                            TempData["EmpregoAtual" + i] = "NÃO";
+                    }
+
+                    dadosUsuario.NomeEmpresa = nomeEmpresa;
+                    dadosUsuario.NomeCargo = nomeCargo;
+                    dadosUsuario.DataEntrada = dataEntrada;
+                    dadosUsuario.DataSaida = dataSaida;
+                    dadosUsuario.Atividades = atividades;
+
+
+                    var educacional = verificaDados.RecuperaDadosUsuariosEducacional(dadosUsuarioBanco[0]["id"]);
+
+                    var nomeInstituicao = new List<string>();
+                    var tipoFormacao = new List<string>();
+                    var nomeCurso = new List<string>();
+                    var anoInicio = new List<string>();
+                    var anoFim = new List<string>();
+
+
+                    for (var i = 0; i < educacional.Count; i++)
+                    {
+                        nomeInstituicao.Add(educacional[i]["nomeinstituicao"]);
+                        nomeCurso.Add(educacional[i]["nomecurso"]);
+                        anoInicio.Add(educacional[i]["anoinicio"]);
+                        anoFim.Add(educacional[i]["anofim"]);
+                        tipoFormacao.Add(educacional[i]["tipoformacao"]);
+                    }
+
+                    dadosUsuario.NomeInstituicao = nomeInstituicao;
+                    dadosUsuario.NomeCurso = nomeCurso;
+                    dadosUsuario.AnoInicio = anoInicio;
+                    dadosUsuario.AnoTermino = anoFim;
+                    dadosUsuario.TipoFormacao = tipoFormacao;
+
+
+                    for (var i = 1; i <= 17; i++)
+                        TempData["Area" + i] = "";
+
+                    var areas = areasInteresse[0]["descricao"].Split(';');
+
+                    TempData["Area"] = areas;
+
+                    return PartialView("ModalPerfil", dadosUsuario);
                 }
-
-                dadosUsuario.NomeEmpresa = nomeEmpresa;
-                dadosUsuario.NomeCargo = nomeCargo;
-                dadosUsuario.DataEntrada = dataEntrada;
-                dadosUsuario.DataSaida = dataSaida;
-                dadosUsuario.Atividades = atividades;
-
-
-                var educacional = verificaDados.RecuperaDadosUsuariosEducacional( dadosUsuarioBanco[0]["id"] );
-
-                var nomeInstituicao = new List<string>();
-                var tipoFormacao = new List<string>();
-                var nomeCurso = new List<string>();
-                var anoInicio = new List<string>();
-                var anoFim = new List<string>();
-
-
-                for(var i = 0; i < educacional.Count; i++)
+                catch(Exception e)
                 {
-                    nomeInstituicao.Add( educacional[i]["nomeinstituicao"] );
-                    nomeCurso.Add( educacional[i]["nomecurso"] );
-                    anoInicio.Add( educacional[i]["anoinicio"] );
-                    anoFim.Add( educacional[i]["anofim"] );
-                    tipoFormacao.Add( educacional[i]["tipoformacao"] );
+                    track.GeraLog( e );
+                    return View( "ModalPerfil");
+
                 }
-
-                dadosUsuario.NomeInstituicao = nomeInstituicao;
-                dadosUsuario.NomeCurso = nomeCurso;
-                dadosUsuario.AnoInicio = anoInicio;
-                dadosUsuario.AnoTermino = anoFim;
-                dadosUsuario.TipoFormacao = tipoFormacao;
-
-
-                for(var i = 1; i <= 17; i++)
-                    TempData["Area" + i] = "";
-
-                var areas = areasInteresse[0]["descricao"].Split( ';' );
-
-                TempData["Area"] = areas;
-
-                return PartialView( "ModalPerfil", dadosUsuario );
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -625,119 +678,129 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var filtrar = new QueryMysqlCurriculo();
-                var sexo = filtros["FiltroSexo"];
-                var cidade = filtros["FiltroCidade"];
-                var graduacao = filtros["FiltroGraduacao"];
-                var anoFormacao = filtros["FiltroAnoFormacao"];
-                var faixaEtaria = filtros["FiltroFaixaEtaria"];
-                var certificacao = filtros["FiltroCertificacao"];
-                var cursoGraduacao = filtros["FiltroCurso"];
-                var profissional = filtros["FiltroProfissional"];
-                var idVaga = filtros["TituloVaga"].Split( '-' );
-                var query =
-                    "select a.cpf,a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
-                    idVaga[0] + "";
+                try
+                {
+                    var filtrar = new QueryMysqlCurriculo();
+                    var sexo = filtros["FiltroSexo"];
+                    var cidade = filtros["FiltroCidade"];
+                    var graduacao = filtros["FiltroGraduacao"];
+                    var anoFormacao = filtros["FiltroAnoFormacao"];
+                    var faixaEtaria = filtros["FiltroFaixaEtaria"];
+                    var certificacao = filtros["FiltroCertificacao"];
+                    var cursoGraduacao = filtros["FiltroCurso"];
+                    var profissional = filtros["FiltroProfissional"];
+                    var idVaga = filtros["TituloVaga"].Split('-');
+                    var query =
+                        "select a.cpf,a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
+                        idVaga[0] + "";
 
-                if(!sexo.Equals( "Sexo" ))
-                    query = query + " AND a.sexo = '" + sexo + "'";
-                if(cidade.Length > 0)
-                    query = query + " AND a.cidade like'%" + cidade + "%'";
-                if(certificacao.Length > 0)
-                    query = query + " AND a.certificacao like'%" + certificacao + "%'";
-                if(!faixaEtaria.Equals( "Faixa Etária" ))
-                    if(faixaEtaria.Contains( "< 18" ))
-                        query = query + " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento)))<18";
-                    else if(faixaEtaria.Contains( "18 - 25" ))
+                    if (!sexo.Equals("Sexo"))
+                        query = query + " AND a.sexo = '" + sexo + "'";
+                    if (cidade.Length > 0)
+                        query = query + " AND a.cidade like'%" + cidade + "%'";
+                    if (certificacao.Length > 0)
+                        query = query + " AND a.certificacao like'%" + certificacao + "%'";
+                    if (!faixaEtaria.Equals("Faixa Etária"))
+                        if (faixaEtaria.Contains("< 18"))
+                            query = query + " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento)))<18";
+                        else if (faixaEtaria.Contains("18 - 25"))
+                            query = query +
+                                    " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 18 and 25";
+                        else if (faixaEtaria.Contains("25 - 30"))
+                            query = query +
+                                    " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 25 and 30";
+                        else if (faixaEtaria.Contains("30 - 40"))
+                            query = query +
+                                    " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 30 and 40";
+                        else if (faixaEtaria.Contains(" 40 > "))
+                            query = query + " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento)))>40";
+                    if (!graduacao.Equals("Graduação"))
+                    {
+                        var escolaridade = graduacao.Split('|');
+                        var idsEscolaridade = filtrar.RecuperaIdEscolaridade(escolaridade[0]);
+                        var escolaridades = " and (a.idtipoescolaridade=" + idsEscolaridade[0]["id"];
+
+                        for (var i = 1; i < idsEscolaridade.Count; i++)
+                            escolaridades = escolaridades + " or a.idtipoescolaridade=" + idsEscolaridade[i]["id"];
+                        query = query + escolaridades + ")";
+                    }
+
+                    if (anoFormacao.Length > 0)
+                        query = query + " AND (SELECT count(id) FROM dadosescolares where anofim <=" + anoFormacao +
+                                " and idcandidato=a.id)>=1";
+                    if (cursoGraduacao.Length > 0)
+                        query = query + " AND (SELECT count(id) FROM dadosescolares where nomecurso like'%" +
+                                cursoGraduacao +
+                                "%' and idcandidato=a.id)>=1";
+                    if (profissional.Length > 0)
                         query = query +
-                                " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 18 and 25";
-                    else if(faixaEtaria.Contains( "25 - 30" ))
-                        query = query +
-                                " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 25 and 30";
-                    else if(faixaEtaria.Contains( "30 - 40" ))
-                        query = query +
-                                " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento))) BETWEEN 30 and 40";
-                    else if(faixaEtaria.Contains( " 40 > " ))
-                        query = query + " AND  YEAR(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(a.datanascimento)))>40";
-                if(!graduacao.Equals( "Graduação" ))
-                {
-                    var escolaridade = graduacao.Split( '|' );
-                    var idsEscolaridade = filtrar.RecuperaIdEscolaridade( escolaridade[0] );
-                    var escolaridades = " and (a.idtipoescolaridade=" + idsEscolaridade[0]["id"];
+                                " AND (SELECT count(id) FROM dadosprofissionais where atividadedesempenhada like'%" +
+                                profissional + "%' and idcandidato=a.id)>=1";
+                    var dadosCurriculos = filtrar.FiltroVaga(query);
 
-                    for(var i = 1; i < idsEscolaridade.Count; i++)
-                        escolaridades = escolaridades + " or a.idtipoescolaridade=" + idsEscolaridade[i]["id"];
-                    query = query + escolaridades + ")";
-                }
+                    var dadosVagas = filtrar.RecuperaVagasId(idVaga[0]);
+                    TempData["IdVaga"] = idVaga[0];
+                    TempData["TituloVaga"] = idVaga[0] + "-" + dadosVagas[0]["titulo"];
+                    TempData["DescricaoVaga"] = dadosVagas[0]["descricao"];
+                    TempData["TotalCurriculo"] = dadosCurriculos.Count;
+                    TempData["QuantidadeCurriculo"] =
+                        "N° de candidatos com interesse nesta vaga: " + dadosCurriculos.Count;
 
-                if(anoFormacao.Length > 0)
-                    query = query + " AND (SELECT count(id) FROM dadosescolares where anofim <=" + anoFormacao +
-                            " and idcandidato=a.id)>=1";
-                if(cursoGraduacao.Length > 0)
-                    query = query + " AND (SELECT count(id) FROM dadosescolares where nomecurso like'%" +
-                            cursoGraduacao +
-                            "%' and idcandidato=a.id)>=1";
-                if(profissional.Length > 0)
-                    query = query +
-                            " AND (SELECT count(id) FROM dadosprofissionais where atividadedesempenhada like'%" +
-                            profissional + "%' and idcandidato=a.id)>=1";
-                var dadosCurriculos = filtrar.FiltroVaga( query );
+                    var processoAberto = filtrar.VerificaProcesso(idVaga[0]);
 
-                var dadosVagas = filtrar.RecuperaVagasId( idVaga[0] );
-                TempData["IdVaga"] = idVaga[0];
-                TempData["TituloVaga"] = idVaga[0] + "-" + dadosVagas[0]["titulo"];
-                TempData["DescricaoVaga"] = dadosVagas[0]["descricao"];
-                TempData["TotalCurriculo"] = dadosCurriculos.Count;
-                TempData["QuantidadeCurriculo"] = "N° de candidatos com interesse nesta vaga: " + dadosCurriculos.Count;
-
-                var processoAberto = filtrar.VerificaProcesso( idVaga[0] );
-
-                if(processoAberto)
-                {
-                    TempData["ProcessoAtivo"] = "disabled";
-                    TempData["DicaProcesso"] = "Já existe um processo seletivo aberto";
-                    TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
-                    TempData["EncerraAtivo"] = "";
-                }
-                else
-                {
-                    TempData["ProcessoAtivo"] = "";
-                    TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
-                    TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
-                    TempData["EncerraAtivo"] = "disabled";
-                }
-
-
-                for(var i = 0; i < dadosCurriculos.Count; i++)
-                {
-                    TempData["Nome" + i] = dadosCurriculos[i]["nome"];
-                    TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
-                    TempData["Email" + i] = dadosCurriculos[i]["email"];
-                    TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
-                    TempData["Certificacao" + i] = dadosCurriculos[i]["certificacao"];
-                    if(dadosCurriculos[i]["idarquivogoogle"].Equals( "0" ))
-                        TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    if (processoAberto)
+                    {
+                        TempData["ProcessoAtivo"] = "disabled";
+                        TempData["DicaProcesso"] = "Já existe um processo seletivo aberto";
+                        TempData["DicaEncerramento"] = "Clique para encerrar o processo seletivo";
+                        TempData["EncerraAtivo"] = "";
+                    }
                     else
-                        TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                 dadosCurriculos[i]["idarquivogoogle"] + "";
-                }
+                    {
+                        TempData["ProcessoAtivo"] = "";
+                        TempData["DicaProcesso"] = "Clique para iniciar um processo seletivo";
+                        TempData["DicaEncerramento"] = "Ainda não existe processo seletivo em aberto";
+                        TempData["EncerraAtivo"] = "disabled";
+                    }
 
-                if(dadosVagas[0]["ativa"].Equals( "S" ))
-                {
-                    TempData["Ativa"] = "";
-                    TempData["Dica"] = "Clique para encerrar esta vaga.";
-                }
-                else
-                {
-                    TempData["ProcessoAtivo"] = "disabled";
-                    TempData["DicaProcesso"] = "Esta vaga está encerrada.";
-                    TempData["DicaEncerramento"] = "Esta vaga está encerrada";
-                    TempData["EncerraAtivo"] = "disabled";
-                    TempData["Ativa"] = "disabled";
-                    TempData["Dica"] = "Esta vaga já esta encerrada.";
-                }
 
-                return View( "GerenciarVaga" );
+                    for (var i = 0; i < dadosCurriculos.Count; i++)
+                    {
+                        TempData["Nome" + i] = dadosCurriculos[i]["nome"];
+                        TempData["Cpf" + i] = dadosCurriculos[i]["cpf"];
+                        TempData["Email" + i] = dadosCurriculos[i]["email"];
+                        TempData["Cidade" + i] = dadosCurriculos[i]["cidade"];
+                        TempData["Certificacao" + i] = dadosCurriculos[i]["certificacao"];
+                        if (dadosCurriculos[i]["idarquivogoogle"].Equals("0"))
+                            TempData["Imagem" + i] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                        else
+                            TempData["Imagem" + i] = "https://portalsicoobdivicred.com.br/Uploads/" +
+                                                     dadosCurriculos[i]["idarquivogoogle"] + "";
+                    }
+
+                    if (dadosVagas[0]["ativa"].Equals("S"))
+                    {
+                        TempData["Ativa"] = "";
+                        TempData["Dica"] = "Clique para encerrar esta vaga.";
+                    }
+                    else
+                    {
+                        TempData["ProcessoAtivo"] = "disabled";
+                        TempData["DicaProcesso"] = "Esta vaga está encerrada.";
+                        TempData["DicaEncerramento"] = "Esta vaga está encerrada";
+                        TempData["EncerraAtivo"] = "disabled";
+                        TempData["Ativa"] = "disabled";
+                        TempData["Dica"] = "Esta vaga já esta encerrada.";
+                    }
+
+                    return View("GerenciarVaga");
+                }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View( "GerenciarVaga" );
+
+                }
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -749,9 +812,9 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var RecuperaDados = new QueryMysqlCurriculo();
-                var Vaga = idVaga.Split( '-' );
-                RecuperaDados.EncerrarVaga( Vaga[0] );
+                var recuperaDados = new QueryMysqlCurriculo();
+                var vaga = idVaga.Split( '-' );
+                recuperaDados.EncerrarVaga( vaga[0] );
                 return RedirectToAction( "GerenciarVaga", "Curriculo",
                     new { IdVaga = idVaga, Mensagem = "Vaga encerrada com sucesso !" } );
             }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,61 +9,66 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class PrincipalController : Controller
     {
-        public async Task<ActionResult> Principal(string Mensagem)
+        private SentryTracking track = new SentryTracking();
+        public ActionResult Principal(string mensagem)
         {
             var verificaDados = new QueryMysql();
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                TempData["Mensagem"] = Mensagem;
+                TempData["Mensagem"] = mensagem;
                 var cookie = Request.Cookies.Get( "CookieFarm" );
 
-                var login = Criptografa.Descriptografar( cookie.Value );
-
-                if(verificaDados.PrimeiroLogin( login ))
-                    return RedirectToAction( "FormularioCadastro", "Principal" );
-                var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios( login );
-
-                TempData["ValidaBanco"] = dadosUsuarioBanco[0]["validabanco"];
-
-                if(verificaDados.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
-                    TempData["PermissaoCurriculo"] =
-                        " ";
-                else
-                    TempData["PermissaoCurriculo"] = "display: none";
-
-                if(verificaDados.PermissaoTesouraria( dadosUsuarioBanco[0]["login"] ))
-                    TempData["PermissaoTesouraria"] =
-                        " ";
-                else
-                    TempData["PermissaoTesouraria"] = "display: none";
-
-                if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                if(cookie != null)
                 {
-                    TempData["PermissaoGestor"] = "N";
-                    TempData["AreaGestor"] = "S";
-                }
-                else
-                {
-                    TempData["PermissaoGestor"] = "N";
-                    TempData["AreaGestor"] = "N";
+                    var login = Criptografa.Descriptografar( cookie.Value );
+
+                    if(verificaDados.PrimeiroLogin( login ))
+                        return RedirectToAction( "FormularioCadastro", "Principal" );
+                    var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios( login );
+
+                    TempData["ValidaBanco"] = dadosUsuarioBanco[0]["validabanco"];
+
+                    if(verificaDados.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
+                        TempData["PermissaoCurriculo"] =
+                            " ";
+                    else
+                        TempData["PermissaoCurriculo"] = "display: none";
+
+                    if(verificaDados.PermissaoTesouraria( dadosUsuarioBanco[0]["login"] ))
+                        TempData["PermissaoTesouraria"] =
+                            " ";
+                    else
+                        TempData["PermissaoTesouraria"] = "display: none";
+
+                    if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
+                    {
+                        TempData["PermissaoGestor"] = "N";
+                        TempData["AreaGestor"] = "S";
+                    }
+                    else
+                    {
+                        TempData["PermissaoGestor"] = "N";
+                        TempData["AreaGestor"] = "N";
+                    }
+
+                    if(verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
+                        TempData["PermissaoNumerario"] =
+                            " ";
+                    else if(verificaDados.PermissaoControleTesouraria( dadosUsuarioBanco[0]["login"] ))
+                        TempData["PermissaoNumerario"] =
+                            " ";
+                    else
+                        TempData["PermissaoNumerario"] = "display: none";
+
+                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                    TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
+                    if(dadosUsuarioBanco[0]["foto"] == null)
+                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
+                    else
+                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
                 }
 
-                if(verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
-                    TempData["PermissaoNumerario"] =
-                        " ";
-                else if(verificaDados.PermissaoControleTesouraria( dadosUsuarioBanco[0]["login"] ))
-                    TempData["PermissaoNumerario"] =
-                        " ";
-                else
-                    TempData["PermissaoNumerario"] = "display: none";
-
-                TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
-                TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
-                if(dadosUsuarioBanco[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                else
-                    TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
                 return View();
             }
 
@@ -160,69 +164,77 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var cookie = Request.Cookies.Get( "CookieFarm" );
-                if(cookie != null)
+                try
                 {
-                    var login = Criptografa.Descriptografar( cookie.Value );
-
-                    var dadosTabelaFuncionario =
-                        verificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin( login );
-
-                    var dadosFuncionario = new Funcionario();
-                    dadosFuncionario.NomeFuncionario = dadosTabelaFuncionario[0]["nome"];
-                    dadosFuncionario.CpfFuncionario = dadosTabelaFuncionario[0]["cpf"];
-                    dadosFuncionario.RgFuncionario = dadosTabelaFuncionario[0]["rg"];
-                    dadosFuncionario.PisFuncionario = dadosTabelaFuncionario[0]["pis"];
-                    dadosFuncionario.DataNascimentoFuncionario =
-                        Convert.ToDateTime( dadosTabelaFuncionario[0]["datanascimento"] ).ToString( "dd/MM/yyyy" );
-                    dadosFuncionario.FormacaoAcademica = dadosTabelaFuncionario[0]["formacaoacademica"];
-                    dadosFuncionario.UsuarioSistema = dadosTabelaFuncionario[0]["login"];
-                    dadosFuncionario.Email = dadosTabelaFuncionario[0]["email"];
-                    dadosFuncionario.Pa = dadosTabelaFuncionario[0]["idpa"];
-                    dadosFuncionario.Rua = dadosTabelaFuncionario[0]["rua"];
-                    dadosFuncionario.Numero = dadosTabelaFuncionario[0]["numero"];
-                    dadosFuncionario.Bairro = dadosTabelaFuncionario[0]["bairro"];
-                    dadosFuncionario.Cidade = dadosTabelaFuncionario[0]["cidade"];
-                    dadosFuncionario.QuatidadeFilho = dadosTabelaFuncionario[0]["quantidadefilho"];
-                    dadosFuncionario.DataNascimentoFilho = dadosTabelaFuncionario[0]["datanascimentofilho"];
-                    dadosFuncionario.ContatoEmergencia = dadosTabelaFuncionario[0]["contatoemergencia"];
-                    dadosFuncionario.PrincipaisHobbies = dadosTabelaFuncionario[0]["principalhobbie"];
-                    dadosFuncionario.ComidaFavorita = dadosTabelaFuncionario[0]["comidafavorita"];
-                    dadosFuncionario.Viagem = dadosTabelaFuncionario[0]["viagem"];
-
-
-                    var estadoCivil = verificaDados.RetornaEstadoCivil();
-                    var tipoConta = verificaDados.RetornaTipoConta();
-                    var sexo = verificaDados.RetornaSexo();
-                    var etnia = verificaDados.RetornaEtnia();
-                    var formacao = verificaDados.RetornaFormacao();
-                    var setor = verificaDados.RetornaSetor();
-                    var funcao = verificaDados.RetornaFuncao();
-                    var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
-                    var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
-
-                    dadosFuncionario.EstadoCivil = estadoCivil;
-                    dadosFuncionario.Sexo = sexo;
-                    dadosFuncionario.Etnia = etnia;
-                    dadosFuncionario.Formacao = formacao;
-                    dadosFuncionario.Setor = setor;
-                    dadosFuncionario.Funcao = funcao;
-                    dadosFuncionario.Conta = tipoConta;
-                    dadosFuncionario.PaisDivorciados = estadosCivisPais;
-                    dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
-
-                    if(dadosTabelaFuncionario[0]["estagiario"].Equals( "S" ))
+                    var cookie = Request.Cookies.Get("CookieFarm");
+                    if (cookie != null)
                     {
-                        TempData["Estagiario"] = "SIM";
-                        TempData["DataEstagio"] = dadosTabelaFuncionario[0]["contratoestagio"];
-                    }
-                    else
-                    {
-                        TempData["Estagiario"] = "NÃO";
-                        TempData["DataEstagio"] = "-";
-                    }
+                        var login = Criptografa.Descriptografar(cookie.Value);
 
-                    return View( dadosFuncionario );
+                        var dadosTabelaFuncionario =
+                            verificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin(login);
+
+                        var dadosFuncionario = new Funcionario();
+                        dadosFuncionario.NomeFuncionario = dadosTabelaFuncionario[0]["nome"];
+                        dadosFuncionario.CpfFuncionario = dadosTabelaFuncionario[0]["cpf"];
+                        dadosFuncionario.RgFuncionario = dadosTabelaFuncionario[0]["rg"];
+                        dadosFuncionario.PisFuncionario = dadosTabelaFuncionario[0]["pis"];
+                        dadosFuncionario.DataNascimentoFuncionario =
+                            Convert.ToDateTime(dadosTabelaFuncionario[0]["datanascimento"]).ToString("dd/MM/yyyy");
+                        dadosFuncionario.FormacaoAcademica = dadosTabelaFuncionario[0]["formacaoacademica"];
+                        dadosFuncionario.UsuarioSistema = dadosTabelaFuncionario[0]["login"];
+                        dadosFuncionario.Email = dadosTabelaFuncionario[0]["email"];
+                        dadosFuncionario.Pa = dadosTabelaFuncionario[0]["idpa"];
+                        dadosFuncionario.Rua = dadosTabelaFuncionario[0]["rua"];
+                        dadosFuncionario.Numero = dadosTabelaFuncionario[0]["numero"];
+                        dadosFuncionario.Bairro = dadosTabelaFuncionario[0]["bairro"];
+                        dadosFuncionario.Cidade = dadosTabelaFuncionario[0]["cidade"];
+                        dadosFuncionario.QuatidadeFilho = dadosTabelaFuncionario[0]["quantidadefilho"];
+                        dadosFuncionario.DataNascimentoFilho = dadosTabelaFuncionario[0]["datanascimentofilho"];
+                        dadosFuncionario.ContatoEmergencia = dadosTabelaFuncionario[0]["contatoemergencia"];
+                        dadosFuncionario.PrincipaisHobbies = dadosTabelaFuncionario[0]["principalhobbie"];
+                        dadosFuncionario.ComidaFavorita = dadosTabelaFuncionario[0]["comidafavorita"];
+                        dadosFuncionario.Viagem = dadosTabelaFuncionario[0]["viagem"];
+
+
+                        var estadoCivil = verificaDados.RetornaEstadoCivil();
+                        var tipoConta = verificaDados.RetornaTipoConta();
+                        var sexo = verificaDados.RetornaSexo();
+                        var etnia = verificaDados.RetornaEtnia();
+                        var formacao = verificaDados.RetornaFormacao();
+                        var setor = verificaDados.RetornaSetor();
+                        var funcao = verificaDados.RetornaFuncao();
+                        var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
+                        var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
+
+                        dadosFuncionario.EstadoCivil = estadoCivil;
+                        dadosFuncionario.Sexo = sexo;
+                        dadosFuncionario.Etnia = etnia;
+                        dadosFuncionario.Formacao = formacao;
+                        dadosFuncionario.Setor = setor;
+                        dadosFuncionario.Funcao = funcao;
+                        dadosFuncionario.Conta = tipoConta;
+                        dadosFuncionario.PaisDivorciados = estadosCivisPais;
+                        dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
+
+                        if (dadosTabelaFuncionario[0]["estagiario"].Equals("S"))
+                        {
+                            TempData["Estagiario"] = "SIM";
+                            TempData["DataEstagio"] = dadosTabelaFuncionario[0]["contratoestagio"];
+                        }
+                        else
+                        {
+                            TempData["Estagiario"] = "NÃO";
+                            TempData["DataEstagio"] = "-";
+                        }
+
+                        return View(dadosFuncionario);
+                    }
+                }
+                catch(Exception e)
+                {
+                    track.GeraLog( e );
+                    return View();
                 }
             }
 
@@ -236,26 +248,53 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-
-                var tiposDependentes = "";
-
-                for(int i = 0; i < 10; i++)
+                try
                 {
+                    var tiposDependentes = "";
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        try
+                        {
+                            if (formulario["check" + i].Equals("true"))
+                            {
+                                tiposDependentes = tiposDependentes + i + ";";
+                            }
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+
                     try
                     {
-                        if(formulario["check" + i].Equals( "true" ))
+                        if (!formulario["ConfirmacaoDados"].Equals("on"))
                         {
-                            tiposDependentes = tiposDependentes + i + ";";
+
+                            var estadoCivil = verificaDados.RetornaEstadoCivil();
+                            var tipoConta = verificaDados.RetornaTipoConta();
+                            var sexo = verificaDados.RetornaSexo();
+                            var etnia = verificaDados.RetornaEtnia();
+                            var formacao = verificaDados.RetornaFormacao();
+                            var setor = verificaDados.RetornaSetor();
+                            var funcao = verificaDados.RetornaFuncao();
+                            var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
+                            var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
+
+                            dadosFuncionario.EstadoCivil = estadoCivil;
+                            dadosFuncionario.Sexo = sexo;
+                            dadosFuncionario.Etnia = etnia;
+                            dadosFuncionario.Formacao = formacao;
+                            dadosFuncionario.Setor = setor;
+                            dadosFuncionario.Funcao = funcao;
+                            dadosFuncionario.Conta = tipoConta;
+                            dadosFuncionario.PaisDivorciados = estadosCivisPais;
+                            dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
+                            ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                         }
                     }
                     catch
-                    {
-                        // ignored
-                    }
-                }
-                try
-                {
-                    if(!formulario["ConfirmacaoDados"].Equals( "on" ))
                     {
 
                         var estadoCivil = verificaDados.RetornaEstadoCivil();
@@ -277,140 +316,135 @@ namespace PortalSicoobDivicred.Controllers
                         dadosFuncionario.Conta = tipoConta;
                         dadosFuncionario.PaisDivorciados = estadosCivisPais;
                         dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
-                        ModelState.AddModelError( "", "Favor confirmar que suas informações são verdadeiras" );
+                        ModelState.AddModelError("", "Favor confirmar que suas informações são verdadeiras");
                     }
-                }
-                catch
-                {
 
-                    var estadoCivil = verificaDados.RetornaEstadoCivil();
-                    var tipoConta = verificaDados.RetornaTipoConta();
-                    var sexo = verificaDados.RetornaSexo();
-                    var etnia = verificaDados.RetornaEtnia();
-                    var formacao = verificaDados.RetornaFormacao();
-                    var setor = verificaDados.RetornaSetor();
-                    var funcao = verificaDados.RetornaFuncao();
-                    var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
-                    var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
-
-                    dadosFuncionario.EstadoCivil = estadoCivil;
-                    dadosFuncionario.Sexo = sexo;
-                    dadosFuncionario.Etnia = etnia;
-                    dadosFuncionario.Formacao = formacao;
-                    dadosFuncionario.Setor = setor;
-                    dadosFuncionario.Funcao = funcao;
-                    dadosFuncionario.Conta = tipoConta;
-                    dadosFuncionario.PaisDivorciados = estadosCivisPais;
-                    dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
-                    ModelState.AddModelError( "", "Favor confirmar que suas informações são verdadeiras" );
-                }
-                if(ModelState.IsValid)
-                {
-                    var cookie = Request.Cookies.Get( "CookieFarm" );
-                    if(cookie != null)
+                    if (ModelState.IsValid)
                     {
-                        var login = Criptografa.Descriptografar( cookie.Value );
-
-                        var dadosTabelaUsuario = verificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin( login );
-                        var dadosTabelaFuncionario =
-                            verificaDados.RecuperaDadosFuncionariosTabelaFuncionarios( dadosTabelaUsuario[0]["nome"] );
-
-                        string descricaoSexo;
-                        string dataNascimentoFilho;
-                        if(dadosFuncionario.DescricaoSexo == null)
-                            descricaoSexo = "NÃO INFORMOU";
-                        else
-                            descricaoSexo = dadosFuncionario.DescricaoSexo;
-                        if(dadosFuncionario.DataNascimentoFilho == null)
-                            dataNascimentoFilho = "NÂO TEM";
-                        else
-                            dataNascimentoFilho = dadosFuncionario.DataNascimentoFilho;
-                        string confirma;
-                        try
+                        var cookie = Request.Cookies.Get("CookieFarm");
+                        if (cookie != null)
                         {
-                            if(formulario["ConfirmacaoCertificacao"].Equals( "on" ))
-                                confirma = "S";
+                            var login = Criptografa.Descriptografar(cookie.Value);
+
+                            var dadosTabelaUsuario =
+                                verificaDados.RecuperaDadosFuncionariosTabelaFuncionariosLogin(login);
+                            var dadosTabelaFuncionario =
+                                verificaDados.RecuperaDadosFuncionariosTabelaFuncionarios(
+                                    dadosTabelaUsuario[0]["nome"]);
+
+                            string descricaoSexo;
+                            string dataNascimentoFilho;
+                            if (dadosFuncionario.DescricaoSexo == null)
+                                descricaoSexo = "NÃO INFORMOU";
                             else
-                                confirma = "N";
-                        }
-                        catch
-                        {
-                            confirma = "N";
-                        }
-
-                        for(var i = 0; i < formulario.Count; i++)
-                        {
-                            if(formulario.AllKeys[i].Contains( "formacao" ))
+                                descricaoSexo = dadosFuncionario.DescricaoSexo;
+                            if (dadosFuncionario.DataNascimentoFilho == null)
+                                dataNascimentoFilho = "NÂO TEM";
+                            else
+                                dataNascimentoFilho = dadosFuncionario.DataNascimentoFilho;
+                            string confirma;
+                            try
                             {
-                                var tipo = "Tipo " + formulario.GetKey( i ).Split( ' ' )[1];
-                                verificaDados.InserirFormacao( formulario[i], dadosTabelaFuncionario[0]["id"],
-                                    formulario[tipo] );
+                                if (formulario["ConfirmacaoCertificacao"].Equals("on"))
+                                    confirma = "S";
+                                else
+                                    confirma = "N";
+                            }
+                            catch
+                            {
+                                confirma = "N";
+                            }
+
+                            for (var i = 0; i < formulario.Count; i++)
+                            {
+                                if (formulario.AllKeys[i].Contains("formacao"))
+                                {
+                                    var tipo = "Tipo " + formulario.GetKey(i).Split(' ')[1];
+                                    verificaDados.InserirFormacao(formulario[i], dadosTabelaFuncionario[0]["id"],
+                                        formulario[tipo]);
+                                }
+                            }
+
+
+                            verificaDados.AtualizaDadosFuncionarioFormulario(dadosFuncionario.NomeFuncionario,
+                                dadosFuncionario.CpfFuncionario, dadosFuncionario.RgFuncionario,
+                                dadosFuncionario.PisFuncionario, dadosFuncionario.DataNascimentoFuncionario,
+                                dadosFuncionario.IdSexo.ToString(), descricaoSexo, dadosFuncionario.IdEtnia.ToString(),
+                                dadosFuncionario.IdEstadoCivil.ToString(), dadosFuncionario.IdFormacao.ToString(),
+                                dadosFuncionario.FormacaoAcademica,
+                                dadosFuncionario.UsuarioSistema, dadosFuncionario.Email, dadosFuncionario.Pa,
+                                dadosFuncionario.Rua, dadosFuncionario.Numero, dadosFuncionario.Bairro,
+                                dadosFuncionario.Cidade,
+                                dadosFuncionario.IdSetor.ToString(), dadosFuncionario.IdFuncao.ToString(),
+                                dadosFuncionario.QuatidadeFilho,
+                                dataNascimentoFilho, dadosFuncionario.ContatoEmergencia,
+                                dadosFuncionario.PrincipaisHobbies, dadosFuncionario.ComidaFavorita,
+                                dadosFuncionario.Viagem,
+                                confirma, "S", dadosFuncionario.Nacionalidade, dadosFuncionario.NomeMae,
+                                dadosFuncionario.NomePai, dadosFuncionario.LocalNascimento,
+                                dadosFuncionario.UfNascimento,
+                                dadosFuncionario.Complemento, dadosFuncionario.Cep, dadosFuncionario.Pais,
+                                dadosFuncionario.ResidenciaPropria, dadosFuncionario.RecursoFgts,
+                                dadosFuncionario.NumeroCtps,
+                                dadosFuncionario.SerieCtps, dadosFuncionario.UfCtps, dadosFuncionario.TelefoneFixo,
+                                dadosFuncionario.TelefoneCelular,
+                                dadosFuncionario.EmailSecundario, dadosFuncionario.Cnh,
+                                dadosFuncionario.OrgaoEmissorCnh, dadosFuncionario.DataExpedicaoDocumentoCnh
+                                , dadosFuncionario.DataValidadeCnh, dadosFuncionario.Oc,
+                                dadosFuncionario.OrgaoEmissorOc, dadosFuncionario.DataExpedicaoOc,
+                                dadosFuncionario.DataValidadeOc, dadosFuncionario.DeficienteMotor,
+                                dadosFuncionario.DeficienteVisual, dadosFuncionario.DeficienteAuditivo,
+                                dadosFuncionario.Reabilitado, dadosFuncionario.ObservacaoDeficiente,
+                                dadosFuncionario.IdTipoConta, dadosFuncionario.CodigoBanco,
+                                dadosFuncionario.Agencia, dadosFuncionario.ContaCorrente,
+                                dadosFuncionario.DependenteIrrf, dadosFuncionario.DependenteFamilia,
+                                dadosFuncionario.DadosDependentes, tiposDependentes, dadosFuncionario.Matricula,
+                                dadosFuncionario.AnoPrimeiroEmprego, dadosFuncionario.EmissaoCtps,
+                                dadosFuncionario.IdEstadoCivilPais.ToString(), dadosFuncionario.OrgaoEmissorRg,
+                                dadosFuncionario.DataExpedicaoDocumentoRg, dadosFuncionario.CpfIrrf,
+                                dadosFuncionario.NotificacaoEmail, dadosFuncionario.ContribuicaoSindical);
+
+                            if (dadosFuncionario.MultiploNomeEmpresa != null)
+                            {
+                                verificaDados.InserirVinculoEmpregaticio(dadosTabelaFuncionario[0]["id"],
+                                    dadosFuncionario.MultiploNomeEmpresa, dadosFuncionario.MultiploCnpj,
+                                    dadosFuncionario.MultiploRemuneracao, dadosFuncionario.MultiploComentario);
                             }
                         }
 
-
-                        verificaDados.AtualizaDadosFuncionarioFormulario( dadosFuncionario.NomeFuncionario,
-                            dadosFuncionario.CpfFuncionario, dadosFuncionario.RgFuncionario,
-                            dadosFuncionario.PisFuncionario, dadosFuncionario.DataNascimentoFuncionario,
-                            dadosFuncionario.IdSexo.ToString(), descricaoSexo, dadosFuncionario.IdEtnia.ToString(),
-                            dadosFuncionario.IdEstadoCivil.ToString(), dadosFuncionario.IdFormacao.ToString(),
-                            dadosFuncionario.FormacaoAcademica,
-                            dadosFuncionario.UsuarioSistema, dadosFuncionario.Email, dadosFuncionario.Pa,
-                            dadosFuncionario.Rua, dadosFuncionario.Numero, dadosFuncionario.Bairro,
-                            dadosFuncionario.Cidade,
-                            dadosFuncionario.IdSetor.ToString(), dadosFuncionario.IdFuncao.ToString(),
-                            dadosFuncionario.QuatidadeFilho,
-                            dataNascimentoFilho, dadosFuncionario.ContatoEmergencia,
-                            dadosFuncionario.PrincipaisHobbies, dadosFuncionario.ComidaFavorita,
-                            dadosFuncionario.Viagem,
-                            confirma, "S", dadosFuncionario.Nacionalidade, dadosFuncionario.NomeMae,
-                            dadosFuncionario.NomePai, dadosFuncionario.LocalNascimento, dadosFuncionario.UfNascimento,
-                            dadosFuncionario.Complemento, dadosFuncionario.Cep, dadosFuncionario.Pais,
-                            dadosFuncionario.ResidenciaPropria, dadosFuncionario.RecursoFgts, dadosFuncionario.NumeroCtps,
-                            dadosFuncionario.SerieCtps, dadosFuncionario.UfCtps, dadosFuncionario.TelefoneFixo, dadosFuncionario.TelefoneCelular,
-                            dadosFuncionario.EmailSecundario, dadosFuncionario.Cnh, dadosFuncionario.OrgaoEmissorCnh, dadosFuncionario.DataExpedicaoDocumentoCnh
-                            , dadosFuncionario.DataValidadeCnh, dadosFuncionario.Oc, dadosFuncionario.OrgaoEmissorOc, dadosFuncionario.DataExpedicaoOc,
-                            dadosFuncionario.DataValidadeOc, dadosFuncionario.DeficienteMotor, dadosFuncionario.DeficienteVisual, dadosFuncionario.DeficienteAuditivo,
-                            dadosFuncionario.Reabilitado, dadosFuncionario.ObservacaoDeficiente, dadosFuncionario.IdTipoConta, dadosFuncionario.CodigoBanco,
-                            dadosFuncionario.Agencia, dadosFuncionario.ContaCorrente, dadosFuncionario.DependenteIrrf, dadosFuncionario.DependenteFamilia,
-                            dadosFuncionario.DadosDependentes, tiposDependentes, dadosFuncionario.Matricula, dadosFuncionario.AnoPrimeiroEmprego, dadosFuncionario.EmissaoCtps,
-                            dadosFuncionario.IdEstadoCivilPais.ToString(), dadosFuncionario.OrgaoEmissorRg, dadosFuncionario.DataExpedicaoDocumentoRg, dadosFuncionario.CpfIrrf,
-                            dadosFuncionario.NotificacaoEmail, dadosFuncionario.ContribuicaoSindical );
-
-                        if(dadosFuncionario.MultiploNomeEmpresa != null)
-                        {
-                            verificaDados.InserirVinculoEmpregaticio( dadosTabelaFuncionario[0]["id"],
-                                dadosFuncionario.MultiploNomeEmpresa, dadosFuncionario.MultiploCnpj,
-                                dadosFuncionario.MultiploRemuneracao, dadosFuncionario.MultiploComentario );
-                        }
+                        return RedirectToAction("Principal", "Principal");
                     }
+                    else
+                    {
 
-                    return RedirectToAction( "Principal", "Principal" );
+                        var estadoCivil = verificaDados.RetornaEstadoCivil();
+                        var tipoConta = verificaDados.RetornaTipoConta();
+                        var sexo = verificaDados.RetornaSexo();
+                        var etnia = verificaDados.RetornaEtnia();
+                        var formacao = verificaDados.RetornaFormacao();
+                        var setor = verificaDados.RetornaSetor();
+                        var funcao = verificaDados.RetornaFuncao();
+                        var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
+                        var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
+
+                        dadosFuncionario.EstadoCivil = estadoCivil;
+                        dadosFuncionario.Sexo = sexo;
+                        dadosFuncionario.Etnia = etnia;
+                        dadosFuncionario.Formacao = formacao;
+                        dadosFuncionario.Setor = setor;
+                        dadosFuncionario.Funcao = funcao;
+                        dadosFuncionario.Conta = tipoConta;
+                        dadosFuncionario.PaisDivorciados = estadosCivisPais;
+                        dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
+
+                        return View(dadosFuncionario);
+                    }
                 }
-                else
+                catch(Exception e)
                 {
+                    track.GeraLog( e );
+                    return View(dadosFuncionario);
 
-                    var estadoCivil = verificaDados.RetornaEstadoCivil();
-                    var tipoConta = verificaDados.RetornaTipoConta();
-                    var sexo = verificaDados.RetornaSexo();
-                    var etnia = verificaDados.RetornaEtnia();
-                    var formacao = verificaDados.RetornaFormacao();
-                    var setor = verificaDados.RetornaSetor();
-                    var funcao = verificaDados.RetornaFuncao();
-                    var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
-                    var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
-
-                    dadosFuncionario.EstadoCivil = estadoCivil;
-                    dadosFuncionario.Sexo = sexo;
-                    dadosFuncionario.Etnia = etnia;
-                    dadosFuncionario.Formacao = formacao;
-                    dadosFuncionario.Setor = setor;
-                    dadosFuncionario.Funcao = funcao;
-                    dadosFuncionario.Conta = tipoConta;
-                    dadosFuncionario.PaisDivorciados = estadosCivisPais;
-                    dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
-
-                    return View( dadosFuncionario );
                 }
             }
 

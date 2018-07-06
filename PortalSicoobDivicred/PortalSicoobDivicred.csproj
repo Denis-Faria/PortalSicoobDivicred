@@ -253,6 +253,10 @@
     <Reference Include="SgmlReaderDll, Version=1.8.11.0, Culture=neutral, PublicKeyToken=46b2db9ca481831b, processorArchitecture=MSIL">
       <HintPath>..\packages\SgmlReader.1.8.11\lib\4.0\SgmlReaderDll.dll</HintPath>
     </Reference>
+    <Reference Include="SharpRaven, Version=2.4.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\SharpRaven.2.4.1-unstable0012\lib\net471\SharpRaven.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
     </Reference>
@@ -714,6 +718,7 @@
     <Content Include="Uploads\1aa.jpg" />
     <Content Include="Uploads\785720.jpg" />
     <Content Include="Uploads\aa.jpg" />
+    <Content Include="Views\WebDesk\CategoriaGestor.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Principal\Principal.cshtml" />
     <Content Include="Views\Principal\Dashboard.cshtml" />
@@ -730,6 +735,7 @@
     <Compile Include="Aplicacao\QueryFirebird.cs" />
     <Compile Include="Aplicacao\QueryMysqlWebdesk.cs" />
     <Compile Include="Aplicacao\ManipularPlanilha.cs" />
+    <Compile Include="Aplicacao\SentryTracking.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />

@@ -15,6 +15,7 @@ namespace PortalSicoobDivicred.Models
         public string Historico { get; set; }
         public string Extrato { get; set; }
         public string Arquivos { get; set; }
+
         public string Diferenca { get; set; }
         //public string justifica { get; set; }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PortalSicoobDivicred
+﻿namespace PortalSicoobDivicred
 {
     public class Webdesk
     {
@@ -16,6 +10,5 @@ namespace PortalSicoobDivicred
         public string idsetor { get; set; }
         public string idfuncionariointeracao { get; set; }
         public string datahorainteracao { get; set; }
-
     }
 }

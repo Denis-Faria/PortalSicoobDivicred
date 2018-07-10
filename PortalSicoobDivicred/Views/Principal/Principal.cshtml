@@ -3,12 +3,12 @@
 }
 
 <body>
-    @if (TempData["Mensagem"] != null)
-    {
-        @Html.Label("")
+@if (TempData["Mensagem"] != null)
+{
+    @Html.Label("")
 
 
-        <script>
+    <script>
 
         iziToast.success({
             title: 'Sucesso',
@@ -16,9 +16,9 @@
             message: '@TempData["Mensagem"]',
         });
 
-        </script>
-    }
+    </script>
+}
 
 
-    @Html.Action("Dashboard", "Principal")
+@Html.Action("Dashboard", "Principal")
 </body>

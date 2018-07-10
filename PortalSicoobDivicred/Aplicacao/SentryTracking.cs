@@ -13,5 +13,4 @@ namespace PortalSicoobDivicred.Aplicacao
             ravenClient.Capture(new SentryEvent(exception));
         }
     }
-
 }

@@ -8,13 +8,15 @@ namespace PortalSicoobDivicred.Aplicacao
 {
     public class BuscaElasticSearch
     {
-        static Uri Node = new Uri("http://10.11.17.30:9200/");
+        private static readonly Uri Node = new Uri("http://10.11.17.30:9200/");
 
-        static ConnectionSettings Settings = new ConnectionSettings(Node).DefaultMappingFor<Webdesk>(m => m
-            .IndexName("webdesks"));
-        ElasticClient client = new ElasticClient(Settings);
+        private static readonly ConnectionSettings Settings = new ConnectionSettings(Node).DefaultMappingFor<Webdesk>(
+            m => m
+                .IndexName("webdesks"));
 
-        public List<IHit<Webdesk>> PesquisaBasicaWebdesk(string termoPesquisado,string idSetor)
+        private readonly ElasticClient client = new ElasticClient(Settings);
+
+        public List<IHit<Webdesk>> PesquisaBasicaWebdesk(string termoPesquisado, string idSetor)
         {
             var searchResponse = client.Search<Webdesk>(s => s.Query(q => q.Bool(b => b.Must(mu =>
                 mu.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado))
@@ -22,9 +24,11 @@ namespace PortalSicoobDivicred.Aplicacao
             var teste = searchResponse.Hits.ToList();
             return teste;
         }
+
         public List<IHit<Webdesk>> PesquisaTotalWebdesk(string termoPesquisado)
         {
-            var searchResponse = client.Search<Webdesk>(s => s.Query(q => q.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado)))));
+            var searchResponse = client.Search<Webdesk>(s => s.Query(q =>
+                q.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado)))));
             var teste = searchResponse.Hits.ToList();
             return teste;
         }

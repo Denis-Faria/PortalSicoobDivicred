@@ -6,22 +6,22 @@
 <div class="field is-grouped column">
     <div class="control column is-3 is-expanded">
         <label class="label">Nome Empresa</label>
-            @Html.TextBoxFor(m => m.MultiploNomeEmpresa, null, new { @class = "input", placeholder = "Ex: Fulano LTDA" })
-            @Html.ValidationMessageFor(m => m.MultiploNomeEmpresa, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.MultiploNomeEmpresa, null, new {@class = "input", placeholder = "Ex: Fulano LTDA"})
+        @Html.ValidationMessageFor(m => m.MultiploNomeEmpresa, null, new {style = "color:red"})
     </div>
     <div class="control column is-3 is-expanded">
         <label class="label">CNPJ</label>
-        @Html.TextBoxFor(m => m.MultiploCnpj, null, new { @class = "input", placeholder = "Ex: 99.999.999/9999-99" })
-        @Html.ValidationMessageFor(m => m.MultiploCnpj, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.MultiploCnpj, null, new {@class = "input", placeholder = "Ex: 99.999.999/9999-99"})
+        @Html.ValidationMessageFor(m => m.MultiploCnpj, null, new {style = "color:red"})
     </div>
     <div class="control column is-3 is-expanded">
         <label class="label">Remuneração</label>
-        @Html.TextBoxFor(m => m.MultiploRemuneracao, null, new { @class = "input", placeholder = "Ex: R$ 950,00" })
-        @Html.ValidationMessageFor(m => m.MultiploRemuneracao, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.MultiploRemuneracao, null, new {@class = "input", placeholder = "Ex: R$ 950,00"})
+        @Html.ValidationMessageFor(m => m.MultiploRemuneracao, null, new {style = "color:red"})
     </div>
     <div class="control column is-3">
         <label class="label">Cometário</label>
-        @Html.TextBoxFor(m => m.MultiploComentario, null, new { @class = "input", placeholder = "Ex: observação em relação ao vinculo trabalhista" })
-        @Html.ValidationMessageFor(m => m.MultiploRemuneracao, null, new { style = "color:red" })
+        @Html.TextBoxFor(m => m.MultiploComentario, null, new {@class = "input", placeholder = "Ex: observação em relação ao vinculo trabalhista"})
+        @Html.ValidationMessageFor(m => m.MultiploRemuneracao, null, new {style = "color:red"})
     </div>
 </div>

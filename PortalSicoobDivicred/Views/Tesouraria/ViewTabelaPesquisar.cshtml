@@ -1,16 +1,14 @@
-﻿
-
-@model PortalSicoobDivicred.Models.Tesouraria
+﻿@model PortalSicoobDivicred.Models.Tesouraria
 
 <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
 <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
 <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
-<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
-<link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
+<link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet"/>
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         $(".hora").mask('00:00');
 
     });
@@ -25,9 +23,9 @@
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
                 [
-                    '<button>Sim</button>', function (instance, toast) {
+                    '<button>Sim</button>', function(instance, toast) {
 
-                       
+
                         $.ajax(
                             {
                                 type: 'POST',
@@ -35,14 +33,14 @@
                                 cache: true,
                                 async: true,
                                 data: { "data": data },
-                                success: function (data) {
+                                success: function(data) {
                                     instance.hide({
-                                        transitionOut: 'fadeOutUp',
-                                        onClosing: function (instance, toast, closedBy) {
-                                            console.info('closedBy: ' + closedBy); //btn2
+                                            transitionOut: 'fadeOutUp',
+                                            onClosing: function(instance, toast, closedBy) {
+                                                console.info('closedBy: ' + closedBy); //btn2
 
-                                        }
-                                    },
+                                            }
+                                        },
                                         toast,
                                         'close',
                                         'btn1');
@@ -55,13 +53,13 @@
                     }
                 ],
                 [
-                    '<button>Não</button>', function (instance, toast) {
+                    '<button>Não</button>', function(instance, toast) {
                         instance.hide({
-                            transitionOut: 'fadeOutUp',
-                            onClosing: function (instance, toast, closedBy) {
-                                console.info('closedBy: ' + closedBy); //btn2
-                            }
-                        },
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function(instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
                             toast,
                             'close',
                             'btn2');
@@ -75,10 +73,6 @@
 </script>
 
 
-
-
-
-
 <div class="content">
 
 
@@ -86,7 +80,7 @@
     {
         using (Html.BeginForm("Pesquisa", "Tesouraria", FormMethod.Post))
         {
-            <div id="tabelaDados" style="background-color:white">
+            <div id="tabelaDados" style="background-color: white">
                 <table id="Pendencias" name="Pendencias" class="table  is-centered is-narrow is-fullwidth ">
                     <thead>
                     <th class="has-text-centered">Histórico</th>
@@ -248,7 +242,7 @@
                 <div class="column is-12">
                     <label class="label">Justificativa</label>
 
-                    @Html.TextAreaFor(m => m.Justificativa, new { @class = "textarea", type = "string", rows = "6", placeholder = "Max 200 caracteres" })
+                    @Html.TextAreaFor(m => m.Justificativa, new {@class = "textarea", type = "string", rows = "6", placeholder = "Max 200 caracteres"})
 
                 </div>
             </div>
@@ -259,21 +253,18 @@
                         <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
                             <span>Salvar</span>
                         </button>
-                   
 
-                   
-                        <button  type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["dataPesquisa"]);void(0);'" name="AbrirProcesso">
+
+                        <button type="button" class="button is-danger" onclick="location.href = 'javascript:AbrirProcesso(@TempData["dataPesquisa"]);void(0);'" name="AbrirProcesso">
                             Delete
                         </button>
                     </p>
                 </div>
             </div>
         }
-
     }
     else
     {
-
         <nav class="level ">
             <p class="level-item has-text-centered">
                 <img src="/Images/Sem regitro.png" alt="" style="height: 90px;">

@@ -10,7 +10,8 @@ namespace PortalSicoobDivicred.Repositorios
     public class Conexao : IDisposable
     {
         private MySqlConnection _conexao;
-        private  SentryTracking track = new SentryTracking();
+        private readonly SentryTracking track = new SentryTracking();
+
         public void Dispose()
         {
             if (_conexao == null) return;
@@ -21,7 +22,7 @@ namespace PortalSicoobDivicred.Repositorios
 
         public int ExecutaComando(string comandoSql)
         {
-            int resultado = 0;
+            var resultado = 0;
             if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
@@ -29,10 +30,6 @@ namespace PortalSicoobDivicred.Repositorios
                 AbrirConexao();
                 var cmdComando = CriarComando(comandoSql);
                 resultado = cmdComando.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
             }
             finally
             {
@@ -44,7 +41,7 @@ namespace PortalSicoobDivicred.Repositorios
 
         public string ExecutaComandoCandidato(string comandoSql)
         {
-            long id =0;
+            long id = 0;
             if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
@@ -53,10 +50,6 @@ namespace PortalSicoobDivicred.Repositorios
                 var cmdComando = CriarComando(comandoSql);
                 cmdComando.ExecuteNonQuery();
                 id = cmdComando.LastInsertedId;
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
             }
             finally
             {
@@ -69,8 +62,7 @@ namespace PortalSicoobDivicred.Repositorios
 
         public DataTable ComandoArquivo(string Login)
         {
-            try
-            {
+
                 AbrirConexao();
                 var comando =
                     new MySqlCommand(
@@ -81,19 +73,12 @@ namespace PortalSicoobDivicred.Repositorios
                 Dados.Fill(Tabela);
                 FecharConexao();
                 return Tabela;
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
-            }
-
-            return null;
+            
         }
 
         public DataTable ComandoArquivoWebDesk(string IdInteracao)
         {
-            try
-            {
+
                 AbrirConexao();
                 var comando =
                     new MySqlCommand(
@@ -103,13 +88,7 @@ namespace PortalSicoobDivicred.Repositorios
                 Dados.Fill(Tabela);
                 FecharConexao();
                 return Tabela;
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
-            }
 
-            return null;
         }
 
         public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSQL)
@@ -141,10 +120,6 @@ namespace PortalSicoobDivicred.Repositorios
                     }
                 }
             }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
-            }
             finally
             {
                 FecharConexao();
@@ -166,10 +141,6 @@ namespace PortalSicoobDivicred.Repositorios
                 cmdComando.ExecuteNonQuery();
                 Id = cmdComando.LastInsertedId;
             }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
-            }
             finally
             {
                 FecharConexao();
@@ -188,10 +159,6 @@ namespace PortalSicoobDivicred.Repositorios
                 var cmdComando = new MySqlCommand(comandoSQL, _conexao);
                 cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = Imagem;
                 cmdComando.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
             }
             finally
             {
@@ -227,10 +194,6 @@ namespace PortalSicoobDivicred.Repositorios
                         linhas.Add(linha);
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                track.GeraLog(e);
             }
             finally
             {

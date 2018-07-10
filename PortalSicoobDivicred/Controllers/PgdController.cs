@@ -20,7 +20,6 @@ namespace PortalSicoobDivicred.Controllers
                 var DadosUsuario = verificaDadosLogin.RecuperaDadosUsuarios(Login);
 
 
-
                 if (verificaDadosLogin.PermissaoCurriculos(Login))
                     TempData["PermissaoCurriculo"] =
                         " ";
@@ -40,18 +39,18 @@ namespace PortalSicoobDivicred.Controllers
 
 
                 var funcao = verificaDados.RecuperaFuncao(Login);
-                @TempData["meta"]= verificaDados.RecuperaMetaCim(funcao);
-                
-                string idUsuario = verificaDadosLogin.RecuperaUsuario(Login);
+                TempData["meta"] = verificaDados.RecuperaMetaCim(funcao);
+
+                string idUsuario = verificaDadosLogin.Recuperausuario(Login);
                 var saldoAtual = verificaDados.BuscaSaldoAtual(Login);
 
                 var DadosUsuarioBanco = verificaDadosLogin.RecuperaDadosUsuarios(Login);
                 TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
                 TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
 
-                @TempData["saldo"] = saldoAtual;
+                TempData["saldo"] = saldoAtual;
                 var gestor = verificaDados.Gestor(Login);
-                TempData["Gestor"] = gestor.ToString();
+                TempData["Gestor"] = gestor;
                 TempData["Mensagem"] = Mensagem;
                 return View("Pgd");
             }
@@ -62,7 +61,6 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Cadastro()
         {
-
             var consultaDados = new QueryMysqlCim();
             var verificaDadosLogin = new QueryMysql();
             var dadosPGD = new Pgd();
@@ -92,20 +90,22 @@ namespace PortalSicoobDivicred.Controllers
 
             if (valorminimo != "1")
             {
-                double teste = Convert.ToDouble(valor.ToString().Replace(".",","));
-                valorponto = (teste / Convert.ToDouble(valorminimo)) *
-                                 Convert.ToDouble(peso);
+                var teste = Convert.ToDouble(valor.Replace(".", ","));
+                valorponto = teste / Convert.ToDouble(valorminimo) *
+                             Convert.ToDouble(peso);
             }
             else
+            {
                 valorponto = Convert.ToDouble(peso);
+            }
 
-                insereDados.InsereProducao(Dados.Cpf, Dados.IdProduto, Dados.Observacao, Dados.Datacontratacao, Login,
-                valor.ToString(), 
+            insereDados.InsereProducao(Dados.Cpf, Dados.IdProduto, Dados.Observacao, Dados.Datacontratacao, Login,
+                valor,
                 valorponto.ToString("N2"));
 
             insereDados.IncluirPontucao(Login, valorponto);
 
-            string idUsu = verificaDadosLogin.RecuperaUsuario(Login);
+            string idUsu = verificaDadosLogin.Recuperausuario(Login);
             var saldoAtual = insereDados.BuscaSaldoAtual(Login);
 
             TempData["saldo"] = saldoAtual;
@@ -116,7 +116,6 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ExcluirRegistro(int id)
         {
-
             var ExcluiRegistro = new QueryMysqlCim();
             var usuario = ExcluiRegistro.BuscaDadosProducao(id);
             ExcluiRegistro.ExcluirRegistro(id);
@@ -124,7 +123,7 @@ namespace PortalSicoobDivicred.Controllers
 
             var saldoAtual = ExcluiRegistro.BuscaSaldoAtual(usuario[0]["Login"]);
 
-            return RedirectToAction("Pgd", "Pgd", new { Mensagem = "Pontuação excluída com sucesso !" });
+            return RedirectToAction("Pgd", "Pgd", new {Mensagem = "Pontuação excluída com sucesso !"});
         }
 
         public ActionResult Extrato()
@@ -134,8 +133,8 @@ namespace PortalSicoobDivicred.Controllers
             var Validacoes = new ValidacoesPonto();
             var Cookie = Request.Cookies.Get("CookieFarm");
             var Login = Criptografa.Descriptografar(Cookie.Value);
-            
-            
+
+
             var DadosTabelaFuncionario = VerificaDados.RecuperaDadosProducao(Login);
 
             TempData["TotalPonto"] = DadosTabelaFuncionario.Count;
@@ -163,7 +162,7 @@ namespace PortalSicoobDivicred.Controllers
             var Login = Criptografa.Descriptografar(Cookie.Value);
             var VerificaDados = new QueryMysql();
             var dadosSubordinados = VerificaDadosGestor.RecuperaSubordinadosGestor(Login);
-            
+
 
             TempData["TotalFuncionarios"] = dadosSubordinados.Count;
             double pontuacaoTotal = 0;
@@ -171,7 +170,7 @@ namespace PortalSicoobDivicred.Controllers
             var metaindIvidual = 0;
             for (var i = 0; i < dadosSubordinados.Count; i++)
             {
-                TempData["meta" +i] = VerificaDadosGestor.RecuperaMetaCim(dadosSubordinados[i]["funcao"]);
+                TempData["meta" + i] = VerificaDadosGestor.RecuperaMetaCim(dadosSubordinados[i]["funcao"]);
                 TempData["nome" + i] = dadosSubordinados[i]["nome"];
                 TempData["pontuacaoatual" + i] = dadosSubordinados[i]["pontuacaoatual"];
                 pontuacaoTotal = pontuacaoTotal + Convert.ToDouble(dadosSubordinados[i]["pontuacaoatual"]);
@@ -182,7 +181,7 @@ namespace PortalSicoobDivicred.Controllers
             TempData["pontuacaototal"] = pontuacaoTotal.ToString();
             TempData["metatotal"] = metatotal.ToString();
 
-            
+
             return PartialView("ExtratoGestor");
         }
     }

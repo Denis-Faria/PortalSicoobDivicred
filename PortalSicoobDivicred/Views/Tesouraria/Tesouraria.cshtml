@@ -1,12 +1,12 @@
 ﻿<script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
 <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(function () {
+    $(function() {
         $("#Tabopcoes").tabs();
     });
 </script>
@@ -44,12 +44,12 @@
     </script>
 }
 
-<br />
+<br/>
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"/>
     <title>Tesouraria</title>
 </head>
 
@@ -61,47 +61,47 @@
 
 
 <body>
-    <div id="Tabopcoes">
-        <div class="tabs is-centered is-boxed">
-            <ul>
-                <li id="AbaArquivos" class="is-active">
-                    <a href="#Arquivos" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaPesquisar').removeClass();$('#AbaArquivos').addClass('is-active');">
-                        <span class="icon is-small">
-                            <i class="fa fa-edit"></i>
-                        </span>
-                        <span>Inserir Arquivos</span>
-                    </a>
-                </li>
-                <li id='AbaExtrato'>
-                    <a href='#Resultado' onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaPesquisar').removeClass();$('#AbaExtrato').addClass('is-active');">
-                        <span class='icon is-small'>
-                            <i class='fa fa-list'></i>
-                        </span>
-                        <span>Resultados</span>
-                    </a>
-                </li>
-                <li id='AbaPesquisar'>
-                    <a href='#Pesquisar' onclick="javascript: $('#AbaArquivos').removeClass(); $('#AbaExtrato').removeClass();$('#AbaPesquisar').addClass('is-active');">
-                        <span class='icon is-small'>
-                            <i class='fa fa-list'></i>
-                        </span>
-                        <span>Pesquisar/Editar</span>
-                    </a>
-                </li>
+<div id="Tabopcoes">
+    <div class="tabs is-centered is-boxed">
+        <ul>
+            <li id="AbaArquivos" class="is-active">
+                <a href="#Arquivos" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaPesquisar').removeClass();$('#AbaArquivos').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                    <span>Inserir Arquivos</span>
+                </a>
+            </li>
+            <li id="AbaExtrato">
+                <a href="#Resultado" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaPesquisar').removeClass();$('#AbaExtrato').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-list"></i>
+                    </span>
+                    <span>Resultados</span>
+                </a>
+            </li>
+            <li id="AbaPesquisar">
+                <a href="#Pesquisar" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaExtrato').removeClass();$('#AbaPesquisar').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-list"></i>
+                    </span>
+                    <span>Pesquisar/Editar</span>
+                </a>
+            </li>
 
 
-            </ul>
-        </div>
-        <div id="Arquivos">
-            @Html.Action("ProcessaArquivos")
-        </div>
-        <div id="Resultado">
-            @Html.Action("Resultado")
-        </div>
-        <div id="Pesquisar">
-            @Html.Action("Pesquisa")
-        </div>
+        </ul>
     </div>
+    <div id="Arquivos">
+        @Html.Action("ProcessaArquivos")
+    </div>
+    <div id="Resultado">
+        @Html.Action("Resultado")
+    </div>
+    <div id="Pesquisar">
+        @Html.Action("Pesquisa")
+    </div>
+</div>
 
 </body>
 </html>

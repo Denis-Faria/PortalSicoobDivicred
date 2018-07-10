@@ -34,7 +34,7 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoFuncao": $("#BuscaFuncao").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaFuncoes").append(data);
 
                 }
@@ -60,94 +60,94 @@
         <div class="field">
             <label class="label">Nome Funcionario</label>
             <div class="control">
-                @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", placeholder = "Ex:José da Silva" })
-                @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new { style = "color:red" })
+                @Html.TextBoxFor(m => m.NomeFuncionario, null, new {@class = "input", placeholder = "Ex:José da Silva"})
+                @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new {style = "color:red"})
             </div>
         </div>
         <div class="field">
-            <div class="column is-6" style="float:left">
+            <div class="column is-6" style="float: left">
                 <label class="label">P.A</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.Pa, null, new { @class = "input", placeholder = "Ex:8" })
-                    @Html.ValidationMessageFor(m => m.Pa, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.Pa, null, new {@class = "input", placeholder = "Ex:8"})
+                    @Html.ValidationMessageFor(m => m.Pa, null, new {style = "color:red"})
                 </div>
             </div>
-            <div class="column is-6" style="float:right">
+            <div class="column is-6" style="float: right">
                 <label class="label">Admissao</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.dataAdmissao, null, new { @class = "input", type = "date" })
-                    @Html.ValidationMessageFor(m => m.dataAdmissao, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.dataAdmissao, null, new {@class = "input", type = "date"})
+                    @Html.ValidationMessageFor(m => m.dataAdmissao, null, new {style = "color:red"})
                 </div>
             </div>
         </div>
         <div class="field">
-            <div class="column is-6" style="float:left">
+            <div class="column is-6" style="float: left">
                 <label class="label">CPF</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.CpfFuncionario, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new {style = "color:red"})
                 </div>
             </div>
-            <div class="column is-6" style="float:right">
+            <div class="column is-6" style="float: right">
                 <label class="label">RG</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.RgFuncionario, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.RgFuncionario, null, new {style = "color:red"})
                 </div>
             </div>
         </div>
         <div class="field">
-            <div class="column is-6" style="float:left">
+            <div class="column is-6" style="float: left">
                 <label class="label">PIS</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.PisFuncionario, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.PisFuncionario, null, new {style = "color:red"})
                 </div>
             </div>
-            <div class="column is-6" style="float:right">
+            <div class="column is-6" style="float: right">
                 <label class="label">Login</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.LoginFuncionario, null, new { @class = "input", placeholder = "XXXXXXXXXXX4030_0X" })
-                    @Html.ValidationMessageFor(m => m.LoginFuncionario, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.LoginFuncionario, null, new {@class = "input", placeholder = "XXXXXXXXXXX4030_0X"})
+                    @Html.ValidationMessageFor(m => m.LoginFuncionario, null, new {style = "color:red"})
                 </div>
             </div>
         </div>
         <div class="field">
-            <div class="column is-6" style="float:left">
+            <div class="column is-6" style="float: left">
                 <label class="label">E-mail</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.Email, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.Email, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.Email, null, new {style = "color:red"})
                 </div>
             </div>
-            <div class="column is-6" style="float:right">
+            <div class="column is-6" style="float: right">
                 <div class="control column is-expanded">
                     <label class="label">Gestor?</label>
                     <div class="field">
-                        @Html.RadioButtonFor(m => m.Gestor, "Sim", new { @class = "is-checkradio is-small", id = "checkgestorsim" })
+                        @Html.RadioButtonFor(m => m.Gestor, "Sim", new {@class = "is-checkradio is-small", id = "checkgestorsim"})
                         <label for="checkgestorsim">
                             Sim
                         </label>
-                        @Html.RadioButtonFor(m => m.Gestor, "Não", new { @class = "is-checkradio is-small", id = "checkgestornao" })
+                        @Html.RadioButtonFor(m => m.Gestor, "Não", new {@class = "is-checkradio is-small", id = "checkgestornao"})
                         <label for="checkgestornao">
                             Não
                         </label>
-                        @Html.ValidationMessageFor(m => m.Gestor, null, new { style = "color:red" })
+                        @Html.ValidationMessageFor(m => m.Gestor, null, new {style = "color:red"})
                     </div>
                 </div>
-               
+
             </div>
         </div>
 
         <div class="field">
-            <div class="column is-6" style="float:left">
+            <div class="column is-6" style="float: left">
                 <label class="label">E-mail</label>
                 <div class="control">
-                    @Html.TextBoxFor(m => m.Email, null, new { @class = "input" })
-                    @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
+                    @Html.TextBoxFor(m => m.Email, null, new {@class = "input"})
+                    @Html.ValidationMessageFor(m => m.Email, null, new {style = "color:red"})
                 </div>
             </div>
-            <div class="column is-6" style="float:right">
+            <div class="column is-6" style="float: right">
                 <label class="label">Estagiário?</label>
                 <input type="radio" name="estagiario" id="estagiarioSim" value="sim"> Sim
                 <input type="radio" name="estagiario" id="estagiarioNao" value="nao"> Não
@@ -155,11 +155,9 @@
         </div>
 
 
+        <br/>
 
-
-        <br />
-
-        <br />
+        <br/>
         <p class="control">
             <button type="submit" class="button is-success " id="CadastroFuncao" onmouseleave="$('#CadastroFuncao').removeClass('animated pulse')" onmouseover="$('#CadastroFuncao').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down">
                 <span class="icon is-small">
@@ -210,11 +208,11 @@
                             </div>
                         </div>
                     </div>
-                    <br />
+                    <br/>
 
                     <div id="EdicaoFuncao" hidden>
 
-                        <br />
+                        <br/>
                     </div>
                 </section>
                 <footer class="modal-card-foot">

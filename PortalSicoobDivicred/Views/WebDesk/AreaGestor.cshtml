@@ -1,14 +1,12 @@
 ﻿@model PortalSicoobDivicred.Models.Categorias
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ;
 }
 <script>
     $(document).ready(function() {
         $("#TabGestaoWebDesk").tabs();
-        $("#TempoCategoria").mask("99:99")
+        $("#TempoCategoria").mask("99:99");
     });
-
 </script>
 <body>
 @if (TempData["Mensagem"] != null)
@@ -21,7 +19,7 @@
         iziToast.success({
             title: 'Sucesso',
             position: "center",
-            message: '@TempData["Mensagem"]',
+            message: '@TempData["Mensagem"]'
         });
 
     </script>
@@ -194,7 +192,7 @@
             </header>
             <section class="modal-card-body">
                 <div id="EdicaoCategoria">
-                    
+
                 </div>
             </section>
             <footer class="modal-card-foot">

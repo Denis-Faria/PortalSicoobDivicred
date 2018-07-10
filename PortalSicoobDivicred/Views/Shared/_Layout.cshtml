@@ -12,12 +12,12 @@
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
 
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
-    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
-    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
 
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width"/>
 
     <title>Principal</title>
 
@@ -27,9 +27,7 @@
 <style>
     html { height: 100vh; }
 
-    #Lateral {
-        top: 0px;
-    }
+    #Lateral { top: 0px; }
 
     .fixed {
         float: left;
@@ -114,17 +112,17 @@
                 <span class="icon">
 
                 </span>
-                <a href="@Url.Action("Principal", "Principal")" class="item" style="color:#38d5c5;"  data-balloon="Dashboard" data-balloon-pos="right">
+                <a href="@Url.Action("Principal", "Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
                     <span class="icon is-flex">
                         <i class="fas fa-tachometer-alt"></i>
                     </span>
                 </a>
-                <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;"  data-balloon="WebDesk" data-balloon-pos="right">
+                <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fas fa-tasks" aria-hidden="true"></i>
                     </span>
                 </a>
-                <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="C.I.M." data-balloon-pos="right" >
+                <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="C.I.M." data-balloon-pos="right">
                     <span class="icon">
                         <i class="fas fa-trophy" aria-hidden="true"></i>
                     </span>
@@ -134,11 +132,11 @@
                         <i class="fas fa-user-circle"></i>
                     </span>
                 </a>
-                 <a href="@Url.Action("Tesouraria","Tesouraria")" class="item" style="color: #38d5c5;@TempData["PermissaoTesouraria"]" data-balloon="Tesouraria" data-balloon-pos="right">
-                        <span class="icon">
-                            <i class="far fa-money-bill-alt"></i>
-                        </span>
-                    </a>
+                <a href="@Url.Action("Tesouraria", "Tesouraria")" class="item" style="color: #38d5c5; @TempData["PermissaoTesouraria"]" data-balloon="Tesouraria" data-balloon-pos="right">
+                    <span class="icon">
+                        <i class="far fa-money-bill-alt"></i>
+                    </span>
+                </a>
 
                 <a href='@Url.Action("Curriculo", "Curriculo")' class="item" style='color: #38d5c5; @TempData["PermissaoCurriculo"]' data-balloon="Curriculos" data-balloon-pos="right">
                     <span class="icon">
@@ -146,7 +144,7 @@
                     </span><span class="name"></span>
                 </a>
 
-                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]"  data-balloon="Portal do Colaborador" data-balloon-pos="right">
+                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
                     <span class="icon">
                         <i class="fas fa-user-plus"></i>
                     </span>
@@ -154,7 +152,7 @@
             </ul>
         </aside>
         <div class="container">
-            <div  id="Conteudo" name="Conteudo">
+            <div id="Conteudo" name="Conteudo">
                 @RenderBody()
             </div>
         </div>

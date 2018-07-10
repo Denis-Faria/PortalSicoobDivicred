@@ -1,5 +1,5 @@
-﻿$(document).ready(function () {
-    $("#Title, #Message").keyup(function () {
+﻿$(document).ready(function() {
+    $("#Title, #Message").keyup(function() {
         var payloadObject = {
             title: $("#Title").val(),
             message: $("#Message").val()

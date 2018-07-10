@@ -1,7 +1,4 @@
-﻿
-
-
-<br />
+﻿<br/>
 <br/>
 <table id="TabelaFormulariosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
     <thead>
@@ -12,16 +9,14 @@
     </thead>
     <tbody>
 
-        @for (var j = 0; j < Convert.ToInt32(TempData["TotalFormularios"].ToString()); j++)
-        {
-            <tr>
-                <td class="has-text-centered">@TempData["CategoriaFormulario" + j].ToString()</td>
-                <td class="has-text-centered">@TempData["CamposFormulario" + j].ToString()</td>
-                <td class="has-text-centered">@TempData["CamposFormularioObrigatorio" + j].ToString()</td>
-                <td class="has-text-centered"></td>
-            </tr>
-        }
+    @for (var j = 0; j < Convert.ToInt32(TempData["TotalFormularios"].ToString()); j++)
+    {
+        <tr>
+            <td class="has-text-centered">@TempData["CategoriaFormulario" + j].ToString()</td>
+            <td class="has-text-centered">@TempData["CamposFormulario" + j].ToString()</td>
+            <td class="has-text-centered">@TempData["CamposFormularioObrigatorio" + j].ToString()</td>
+            <td class="has-text-centered"></td>
+        </tr>
+    }
     </tbody>
 </table>
-
-

@@ -110,7 +110,6 @@ namespace PortalSicoobDivicred.Models
         public int IdTipoConta { get; set; }
 
 
-
         [Required(ErrorMessage = "Favor informar o número da sua CTPS")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public string NumeroCtps { get; set; }
@@ -222,13 +221,11 @@ namespace PortalSicoobDivicred.Models
         public string DependenteFamilia { get; set; }
 
 
-
         [Required(ErrorMessage = "Favor informar o seu horario de trabalho!")]
         [DisplayName("IdHorario")]
         public int IdHorario { get; set; }
 
         public List<SelectListItem> HorarioTrabalho { get; set; }
-
 
 
         [Required(ErrorMessage = "Favor informar o estado civil de seus pais!")]

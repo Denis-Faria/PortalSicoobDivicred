@@ -23,11 +23,12 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public List<Dictionary<string, string>> BuscaChamadosMeuSetor(string pesquisa, string idUsuario,string idSetor)
+        public List<Dictionary<string, string>> BuscaChamadosMeuSetor(string pesquisa, string idUsuario, string idSetor)
         {
             var query =
                 "SELECT distinct a.id,a.titulochamado,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdeskchamados a LEFT JOIN usuarios u1 on a.idusuariocadastro=u1.id LEFT JOIN usuarios u2 on a.idoperador=u2.id, webdeskinteracoes b where  b.idchamado=a.id and(MATCH (b.textointeracao) AGAINST ('" +
-                pesquisa + "')  or a.id='" + pesquisa + "') and b.idusuariointeracao=" + idUsuario + " and a.idsetor='"+idSetor+"'";
+                pesquisa + "')  or a.id='" + pesquisa + "') and b.idusuariointeracao=" + idUsuario +
+                " and a.idsetor='" + idSetor + "'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return dados;
         }
@@ -37,7 +38,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var query =
                 "SELECT distinct a.id,a.titulochamado,u1.nome CADASTRO,u2.nome AS OPERADOR FROM webdeskchamados a LEFT JOIN usuarios u1 on a.idusuariocadastro=u1.id LEFT JOIN usuarios u2 on a.idoperador=u2.id, webdeskinteracoes b where  b.idchamado=a.id and(MATCH (b.textointeracao) AGAINST ('" +
                 pesquisa + "')  or a.id='" + pesquisa + "')";
-            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return dados;
         }
 
@@ -82,8 +83,8 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var categoria = new List<SelectListItem>();
 
-            var queryRetornaCategoria= "SELECT id,descricao FROM webdeskcategorias WHERE idsetor=" + idSetor +
-                                          " AND excluido='N'";
+            var queryRetornaCategoria = "SELECT id,descricao FROM webdeskcategorias WHERE idsetor=" + idSetor +
+                                        " AND excluido='N'";
 
             var dados = _conexaoMysql.ExecutaComandoComRetorno(queryRetornaCategoria);
             foreach (var row in dados)
@@ -129,7 +130,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             var idInteracao = _conexaoMysql.ExecutaComandoComRetornoId(queryInteracao);
 
-            return idInteracao+";"+idChamado;
+            return idInteracao + ";" + idChamado;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosUsuarios(string login)
@@ -248,12 +249,14 @@ namespace PortalSicoobDivicred.Aplicacao
                 "UPDATE webdesksolicitacoes SET idsituacao=4 WHERE id=" + idChamado + ";";
             _conexaoMysql.ExecutaComando(queryInteracao);
         }
+
         public void SolucionaSolicitacao(string idChamado)
         {
             var queryInteracao =
                 "UPDATE webdesksolicitacoes SET idsituacao=2 WHERE id=" + idChamado + ";";
             _conexaoMysql.ExecutaComando(queryInteracao);
         }
+
         public List<Dictionary<string, string>> RetornaRepasseFuncionarioChamado(string IdFuncionario)
         {
             var Query = "select nome from funcionarios where id=" + IdFuncionario + " ";
@@ -292,22 +295,28 @@ namespace PortalSicoobDivicred.Aplicacao
             var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
+
         public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
         {
-            var Query = "select id,email,idnotificacao,notificacaoemail from funcionarios where id=" + IdFuncionario + " ";
+            var Query = "select id,email,idnotificacao,notificacaoemail from funcionarios where id=" + IdFuncionario +
+                        " ";
             var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
+
         public List<Dictionary<string, string>> RetornaIdSolicitantes(string IdChamado)
         {
-            var Query = "select idfuncionariocadastro,idfuncionarioresponsavel from webdesksolicitacoes where id=" + IdChamado + " ";
+            var Query = "select idfuncionariocadastro,idfuncionarioresponsavel from webdesksolicitacoes where id=" +
+                        IdChamado + " ";
             var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
             return Chamados;
         }
 
         public List<Dictionary<string, string>> RetornaFormulariosSetor(string IdSetor)
         {
-            var Query = "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" + IdSetor + "";
+            var Query =
+                "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" +
+                IdSetor + "";
             var Formularios = _conexaoMysql.ExecutaComandoComRetorno(Query);
             return Formularios;
         }
@@ -326,19 +335,20 @@ namespace PortalSicoobDivicred.Aplicacao
             return formularios;
         }
 
-        public void InserirFormulario(string nomeCampos,string dadoFormulario,string idSolicitacao)
+        public void InserirFormulario(string nomeCampos, string dadoFormulario, string idSolicitacao)
         {
             var query = "INSERT INTO webdeskformularios (idsolicitacao,nomecampo,dadoformulario) VALUES(" +
                         idSolicitacao + ",'" + nomeCampos + "','" + dadoFormulario + "')";
             _conexaoMysql.ExecutaComando(query);
         }
 
-        public void CadastrarCategoria(string descricaoCategoria, string tempoCategoria,string idSetor)
+        public void CadastrarCategoria(string descricaoCategoria, string tempoCategoria, string idSetor)
         {
             var query = "INSERT INTO webdeskcategorias (descricao,tempo,idsetor) VALUES('" +
                         descricaoCategoria + "','" + tempoCategoria + "'," + idSetor + ")";
             _conexaoMysql.ExecutaComando(query);
         }
+
         public bool PermissaoCurriculos(string Usuario)
         {
             var Query =
@@ -357,6 +367,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             }
         }
+
         public bool PermissaoTesouraria(string Usuario)
         {
             var Query =

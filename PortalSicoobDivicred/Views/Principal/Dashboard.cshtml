@@ -1,10 +1,10 @@
-﻿<br />
+﻿<br/>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 
 <script>
 
     var OneSignal = window.OneSignal || [];
-    OneSignal.push(function () {
+    OneSignal.push(function() {
         OneSignal.init({
             appId: "a41d4d09-06f8-4912-9a7a-50d4303637e6",
             autoRegister: false,
@@ -59,11 +59,11 @@
 
        });*/
 
-    OneSignal.push(function () {
+    OneSignal.push(function() {
         OneSignal.on('subscriptionChange',
-            function (isSubscribed) {
+            function(isSubscribed) {
                 if (isSubscribed) {
-                    OneSignal.getUserId(function (userId) {
+                    OneSignal.getUserId(function(userId) {
                         alert(userId);
                         $.ajax(
                             {
@@ -73,7 +73,7 @@
                                 cache: true,
                                 async: true,
                                 data: { "IdNotificacao": userId },
-                                success: function (data) {
+                                success: function(data) {
 
                                 }
                             });
@@ -85,7 +85,7 @@
 </script>
 <script>
 
-    $(function () {
+    $(function() {
         $("#TabBancoHoras").tabs();
     });
 
@@ -111,7 +111,7 @@
                 cache: true,
                 async: true,
                 data: { "Cpf": $("#BuscaCpf").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ResultadoPesquisa").append(data);
 
                 }
@@ -129,6 +129,7 @@
             $("#Show").show();
         }
     }
+
     function EscondeNumerario() {
         if ($("#Numerario").is(":visible")) {
             $("#Numerario").addClass("animated fadeOut");
@@ -140,9 +141,6 @@
             $("#Numerario").show();
         }
     }
-
-
-
 
 
     function Mascara() {
@@ -176,257 +174,256 @@
 </nav>
 <div class="content">
 
-    <div class="columns">
-        <br />
-        <div class="column is-12">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        Gestão de Pessoas
-                    </p>
-                    <a href="javascript: EscondeVagas();void(0);" class="card-header-icon" aria-label="more options">
-                        <span class="icon">
-                            <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                    </a>
-                </header>
+<div class="columns">
+<br/>
+<div class="column is-12">
+<div class="card">
+    <header class="card-header">
+        <p class="card-header-title">
+            Gestão de Pessoas
+        </p>
+        <a href="javascript: EscondeVagas();void(0);" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+                <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+        </a>
+    </header>
 
-                <div id="RecursosHumanos">
+    <div id="RecursosHumanos">
 
-                    <div class="card-content">
-                        <div class="content">
-                            <div id="TabBancoHoras">
-                                <div class="tabs is-centered is-boxed">
-                                    <ul>
-                                        <li id="AbaJustifica" class="is-active">
-                                            <a href="#Justificativa" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
-                                                <span class="icon is-small">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </span>
-                                                <span>Justificativas</span>
-                                            </a>
-                                        </li>
-                                        <li id="AbaJustificaSetor">
-                                            <a href="#JustificativaSetor" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
-                                                <span class="icon is-small">
-                                                    <i class="fa fa-list"></i>
-                                                </span>
-                                                <span>Justificativas do meu setor</span>
-                                            </a>
-                                        </li>
-                                        <li id="AbaBancoHoraUsuario">
-                                            <a href="#BancoDeHora" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaBancoHoraUsuario').addClass('is-active');$('#AbaJustificaSetor').removeClass();$('#AbaVagasInternas').removeClass();">
-                                                <span class="icon is-small">
-                                                    <i class="far fa-clock"></i>
-                                                </span>
-                                                <span>Banco de Horas</span>
-                                            </a>
-                                        </li>
-                                        <li id="AbaVagasInternas">
-                                            <a href="#VagasInternas" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaVagasInternas').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaJustifica').removeClass(); ">
-                                                <span class="icon is-small">
-                                                    <i class="fa fa-suitcase"></i>
-                                                </span>
-                                                <span>Vagas Internas</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div id="Justificativa">
-                                    @if(TempData["ValidaBanco"].Equals( "S" ))
-                                    {
-                                        @Html.Action( "Justificativas", "Principal" )
-                                    }
-                                </div>
-                                <div id="JustificativaSetor">
-                                    @if(TempData["ValidaBanco"].Equals( "S" ))
-                                    {
-                                        if(TempData["AreaGestor"].ToString().Equals( "S" ))
-                                        {
-                                            <label></label>
-                                            @Html.Action( "JustificativasSetor", "Principal" )
-                                            ;
-                                        }
-                                    }
-
-                                </div>
-
-                                <div id="BancoDeHora">
-                                    @if(TempData["ValidaBanco"].Equals( "S" ))
-                                    {
-                                        @Html.Action( "BancoHora", "Principal" )
-
-                                    }
-                                </div>
-                                <div id="VagasInternas">
-                                    <p>
-                                        <strong>Vagas em Aberto</strong>
-                                    </p>
-                                    <ul>
-                                        @for(var i = 0; i < Convert.ToInt32( TempData["TotalVagasInternas"] ); i++)
-                                        {
-                                            try
-                                            {
-                                                if(TempData["Interesse " + i].ToString().Equals( "Ok" ))
-                                                {
-                                                    <p>
-                                                        @TempData["TituloVagaInterna " + i]
-                                                        <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
-                                                            <span class="icon">
-                                                                <i class="fas  fa-info-circle"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down">
-                                                            <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                                <i class="fas fa-check-square"></i>
-                                                            </span>
-                                                        </a>
-                                                    </p>
-                                                }
-                                                else
-                                                {
-                                                    <p>
-                                                        @TempData["TituloVagaInterna " + i]
-                                                        <a data-balloon=" Descriçõa: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
-                                                            <span class="icon">
-                                                                <i class="fa fa-lg fa-info-circle"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
-                                                            <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                                <i class="fa fa-thumbs-up"></i>
-                                                            </span>
-                                                        </a>
-                                                    </p>
-                                                }
-                                            }
-                                            catch
-                                            {
-                                                <p>
-                                                    @TempData["TituloVagaInterna " + i]
-                                                    <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
-                                                        <span class="icon">
-                                                            <i class="fa  fa-info-circle"></i>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
-                                                        <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
-                                                            <i class="fa fa-thumbs-up"></i>
-                                                        </span>
-                                                    </a>
-                                                </p>
-                                            }
-                                        }
-                                    </ul>
-                                    <footer class="card-footer">
-                                        <p class="card-footer-item">
-                                            <strong>Resultado Processo Seletivo</strong>
-                                        </p>
-                                        <ul>
-                                            @for(var j = 0; j < Convert.ToInt32( TempData["TotalProcessos"] ); j++)
-                                            {
-                                                if(Convert.ToBoolean( TempData["Aprovado " + j].ToString() ))
-                                                {
-                                                    <p>
-                                                        @TempData["TituloVagaInternaProcesso " + j]
-                                                        <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down">
-                                                            <span class="icon">
-                                                                <i class="far  fa-smile"></i>
-                                                            </span>
-                                                        </a>
-                                                    </p>
-                                                    <hr />
-                                                }
-                                                else
-                                                {
-                                                    <p>
-                                                        @TempData["TituloVagaInternaProcesso " + j]
-                                                        <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down">
-                                                            <span class="icon">
-                                                                <i class="far  fa-frown" style="color: darkred"></i>
-                                                            </span>
-                                                        </a>
-                                                    </p>
-                                                    <hr />
-                                                }
-                                            }
-
-                                        </ul>
-                                    </footer>
-
-                                </div>
-                            </div>
-                        </div>
+        <div class="card-content">
+            <div class="content">
+                <div id="TabBancoHoras">
+                    <div class="tabs is-centered is-boxed">
+                        <ul>
+                            <li id="AbaJustifica" class="is-active">
+                                <a href="#Justificativa" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaJustifica').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </span>
+                                    <span>Justificativas</span>
+                                </a>
+                            </li>
+                            <li id="AbaJustificaSetor">
+                                <a href="#JustificativaSetor" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaJustificaSetor').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaVagasInternas').removeClass();">
+                                    <span class="icon is-small">
+                                        <i class="fa fa-list"></i>
+                                    </span>
+                                    <span>Justificativas do meu setor</span>
+                                </a>
+                            </li>
+                            <li id="AbaBancoHoraUsuario">
+                                <a href="#BancoDeHora" onclick="javascript:$('#AbaJustifica').removeClass();$('#AbaBancoHoraUsuario').addClass('is-active');$('#AbaJustificaSetor').removeClass();$('#AbaVagasInternas').removeClass();">
+                                    <span class="icon is-small">
+                                        <i class="far fa-clock"></i>
+                                    </span>
+                                    <span>Banco de Horas</span>
+                                </a>
+                            </li>
+                            <li id="AbaVagasInternas">
+                                <a href="#VagasInternas" onclick="javascript:$('#AbaJustificaSetor').removeClass();$('#AbaVagasInternas').addClass('is-active');$('#AbaBancoHoraUsuario').removeClass();$('#AbaJustifica').removeClass(); ">
+                                    <span class="icon is-small">
+                                        <i class="fa fa-suitcase"></i>
+                                    </span>
+                                    <span>Vagas Internas</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <footer class="card-footer"></footer>
+                    <div id="Justificativa">
+                        @if (TempData["ValidaBanco"].Equals("S"))
+                        {
+                            @Html.Action("Justificativas", "Principal")
+                        }
+                    </div>
+                    <div id="JustificativaSetor">
+                        @if (TempData["ValidaBanco"].Equals("S"))
+                        {
+                            if (TempData["AreaGestor"].ToString().Equals("S"))
+                            {
+                                <label></label>
+                                @Html.Action("JustificativasSetor", "Principal")
+                                ;
+                            }
+                        }
+
+                    </div>
+
+                    <div id="BancoDeHora">
+                        @if (TempData["ValidaBanco"].Equals("S"))
+                        {
+                            @Html.Action("BancoHora", "Principal")
+                        }
+                    </div>
+                    <div id="VagasInternas">
+                        <p>
+                            <strong>Vagas em Aberto</strong>
+                        </p>
+                        <ul>
+                            @for (var i = 0; i < Convert.ToInt32(TempData["TotalVagasInternas"]); i++)
+                            {
+                                try
+                                {
+                                    if (TempData["Interesse " + i].ToString().Equals("Ok"))
+                                    {
+                                        <p>
+                                            @TempData["TituloVagaInterna " + i]
+                                            <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                                <span class="icon">
+                                                    <i class="fas  fa-info-circle"></i>
+                                                </span>
+                                            </a>
+                                            <a data-balloon="Você já esta participando do processo seletivo." data-balloon-pos="down">
+                                                <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                    <i class="fas fa-check-square"></i>
+                                                </span>
+                                            </a>
+                                        </p>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            @TempData["TituloVagaInterna " + i]
+                                            <a data-balloon=" Descriçõa: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                                <span class="icon">
+                                                    <i class="fa fa-lg fa-info-circle"></i>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
+                                                <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                    <i class="fa fa-thumbs-up"></i>
+                                                </span>
+                                            </a>
+                                        </p>
+                                    }
+                                }
+                                catch
+                                {
+                                    <p>
+                                        @TempData["TituloVagaInterna " + i]
+                                        <a data-balloon="Descrição: @TempData["Descricao " + i] | Requisitos: @TempData["Requisito " + i]" data-balloon-length="medium" data-balloon-pos="down">
+                                            <span class="icon">
+                                                <i class="fa  fa-info-circle"></i>
+                                            </span>
+                                        </a>
+                                        <a href="@Url.Action("TenhoInteresse", "Principal", new {IdVaga = TempData["IdVaga " + i]})" data-balloon="Clique para participar do processo seletivo." data-balloon-pos="down">
+                                            <span class="icon" id="@i" onmouseleave="$('#@i').removeClass('animated swing')" onmouseover="$('#@i').addClass('animated swing');">
+                                                <i class="fa fa-thumbs-up"></i>
+                                            </span>
+                                        </a>
+                                    </p>
+                                }
+                            }
+                        </ul>
+                        <footer class="card-footer">
+                            <p class="card-footer-item">
+                                <strong>Resultado Processo Seletivo</strong>
+                            </p>
+                            <ul>
+                                @for (var j = 0; j < Convert.ToInt32(TempData["TotalProcessos"]); j++)
+                                {
+                                    if (Convert.ToBoolean(TempData["Aprovado " + j].ToString()))
+                                    {
+                                        <p>
+                                            @TempData["TituloVagaInternaProcesso " + j]
+                                            <a data-balloon="Parabéns você foi aprovado." data-balloon-pos="down">
+                                                <span class="icon">
+                                                    <i class="far  fa-smile"></i>
+                                                </span>
+                                            </a>
+                                        </p>
+                                        <hr/>
+                                    }
+                                    else
+                                    {
+                                        <p>
+                                            @TempData["TituloVagaInternaProcesso " + j]
+                                            <a data-balloon="Infelizmente você não foi aprovado. Mas fique de olho para novas oportunidades." data-balloon-pos="down">
+                                                <span class="icon">
+                                                    <i class="far  fa-frown" style="color: darkred"></i>
+                                                </span>
+                                            </a>
+                                        </p>
+                                        <hr/>
+                                    }
+                                }
+
+                            </ul>
+                        </footer>
+
+                    </div>
                 </div>
             </div>
+        </div>
+        <footer class="card-footer"></footer>
+    </div>
+</div>
 
 
-            <br />
+<br/>
 
-            <div class="columns">
-                <div class="column is-5">
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Novo Show de Prêmios
-                            </p>
-                            <a href="javascript: EscondeShowdePremios();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        <div id="Show">
-                            <div class="card-content">
-                                <div class="content">
-                                    Para consultar números da sorte, realize a pesquisa abaixo.
-                                    <br />
-                                    <br />
-                                    <div class="field has-addons ">
-                                        <div class="control is-expanded">
-                                            <input class="input" id="BuscaCpf" type="text" onfocusout="Mascara()" onfocusin="LimpaMascara()">
-                                        </div>
-                                        <div class="control">
-                                            <button onclick="BuscaNumero()" class="button is-primary">
-                                                Pesquisar
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="ResultadoPesquisa" class="content container">
-
-                                    </div>
-                                </div>
+<div class="columns">
+    <div class="column is-5">
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Novo Show de Prêmios
+                </p>
+                <a href="javascript: EscondeShowdePremios();void(0);" class="card-header-icon" aria-label="more options">
+                    <span class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </header>
+            <div id="Show">
+                <div class="card-content">
+                    <div class="content">
+                        Para consultar números da sorte, realize a pesquisa abaixo.
+                        <br/>
+                        <br/>
+                        <div class="field has-addons ">
+                            <div class="control is-expanded">
+                                <input class="input" id="BuscaCpf" type="text" onfocusout="Mascara()" onfocusin="LimpaMascara()">
+                            </div>
+                            <div class="control">
+                                <button onclick="BuscaNumero()" class="button is-primary">
+                                    Pesquisar
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="column is-7">
-                    <div class="card" style="@TempData["PermissaoNumerario"]">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                Controle de Numerário
-                            </p>
-                            <a href="javascript: EscondeNumerario();void(0);" class="card-header-icon" aria-label="more options">
-                                <span class="icon">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </a>
-                        </header>
-                        <div id="Numerario">
-                            <div class="card-content">
-                                <div class="content">
-                                    @Html.Action( "ControleNumerario" )
-                                </div>
-                            </div>
+                        <div id="ResultadoPesquisa" class="content container">
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    <div class="column is-7">
+        <div class="card" style="@TempData["PermissaoNumerario"]">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Controle de Numerário
+                </p>
+                <a href="javascript: EscondeNumerario();void(0);" class="card-header-icon" aria-label="more options">
+                    <span class="icon">
+                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </header>
+            <div id="Numerario">
+                <div class="card-content">
+                    <div class="content">
+                        @Html.Action("ControleNumerario")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
 
 
 </div>

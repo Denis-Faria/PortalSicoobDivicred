@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 using OneSignal.CSharp.SDK;
 using OneSignal.CSharp.SDK.Resources;
 using OneSignal.CSharp.SDK.Resources.Notifications;
-using MailAddress = System.Net.Mail.MailAddress;
 
 namespace PortalSicoobDivicred.Aplicacao
 {
     public class EnviodeAlertas
     {
-
         public async Task EnviaEmail(string email, string mensagem)
         {
-            SmtpClient client = new SmtpClient();
+            var client = new SmtpClient();
             client.Host = "mail.divicred.com.br";
             client.Port = 587;
             client.EnableSsl = false;
             client.Credentials = new NetworkCredential("correio@divicred.com.br", "DIVICRED@4030");
-            MailMessage mail = new MailMessage();
+            var mail = new MailMessage();
             mail.Sender = new MailAddress("correio@divicred.com.br", "PORTAL SICOOB DIVICRED");
             mail.From = new MailAddress("correio@divicred.com.br", "SICOOB DIVICRED");
             mail.To.Add(new MailAddress(email));
@@ -66,23 +64,19 @@ namespace PortalSicoobDivicred.Aplicacao
 
             options.AppId = new Guid("a41d4d09-06f8-4912-9a7a-50d4303637e6");
             options.Contents.Add(LanguageCodes.English, mensagem);
-            options.IncludePlayerIds = new[] { idAlerta };
+            options.IncludePlayerIds = new[] {idAlerta};
 
             client.Notifications.Create(options);
-
-
-
         }
 
 
-        public async Task EnviaAlertaFuncionario(Dictionary<string, string> funcionarioEnvio, string mensagem, string idAplicativo)
+        public async Task EnviaAlertaFuncionario(Dictionary<string, string> funcionarioEnvio, string mensagem,
+            string idAplicativo)
         {
             var cadastroAlerta = new QueryMysql();
-            
+
             if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
-
-
                 cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
 
 
@@ -91,9 +85,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)
-                    {
                         CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
-                    }
                 }
                 catch
                 {
@@ -106,9 +98,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)
-                    {
                         CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
-                    }
                 }
                 catch
                 {
@@ -117,13 +107,13 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
-        public async Task EnviaAlertaGestor(Dictionary<string, string> funcionarioEnvio, string mensagem, string idAplicativo)
+        public async Task EnviaAlertaGestor(Dictionary<string, string> funcionarioEnvio, string mensagem,
+            string idAplicativo)
         {
             var cadastroAlerta = new QueryMysql();
 
             if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
-
                 cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
 
 
@@ -132,9 +122,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)
-                    {
                         CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
-                    }
                 }
                 catch
                 {
@@ -147,9 +135,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)
-                    {
                         CadastraAlerta(funcionarioEnvio["idnotificacao"], mensagem);
-                    }
                 }
                 catch
                 {

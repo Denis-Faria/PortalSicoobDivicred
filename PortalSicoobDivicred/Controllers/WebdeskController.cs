@@ -72,14 +72,10 @@ namespace PortalSicoobDivicred.Controllers
 
                             double horas;
                             if (Convert.ToInt32(TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes) == 0)
-                            {
                                 horas = 00;
-                            }
                             else
-                            {
                                 horas = sla.TotalMinutes * 100 /
                                         TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes;
-                            }
 
                             if (horas > 100)
                                 TempData["StatusCor" + i] = "is-danger";
@@ -120,13 +116,9 @@ namespace PortalSicoobDivicred.Controllers
 
                         double horas;
                         if (Convert.ToInt32(TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes) == 0)
-                        {
                             horas = 00;
-                        }
                         else
-                        {
                             horas = sla.TotalMinutes * 100 / TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes;
-                        }
 
                         if (horas > 100)
                             TempData["StatusCorOperador" + i] = "is-danger";
@@ -159,13 +151,16 @@ namespace PortalSicoobDivicred.Controllers
 
                         var sla = TimeSpan.Parse(chamadosSetor[i]["sla"]);
                         double horas;
-                        if (Convert.ToInt32(TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes) == 0)
+                        try
                         {
-                            horas = 00;
+                            if (Convert.ToInt32(TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes) == 0)
+                                horas = 00;
+                            else
+                                horas = sla.TotalMinutes * 100 / TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes;
                         }
-                        else
+                        catch
                         {
-                            horas = sla.TotalMinutes * 100 / TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes;
+                            horas = sla.TotalMinutes * 100 / TimeSpan.Parse( chamadosSetor[i]["tempo"] ).TotalMinutes;
                         }
 
                         if (horas > 100)
@@ -217,7 +212,7 @@ namespace PortalSicoobDivicred.Controllers
                     var login = Criptografa.Descriptografar(cookie.Value);
                     var verificaDadosUsuario = new QueryMysql();
 
-                    var dadosUsuarios = verificaDadosUsuario.RecuperaDadosFuncionariosTabelaUsuario(login);
+                    var dadosUsuarios = verificaDadosUsuario.RecuperadadosFuncionariosTabelausuario(login);
                     var dadosFuncionarios = verificaDadosUsuario.RecuperaDadosUsuarios(login);
 
                     var buscaWebdesk = new BuscaElasticSearch();
@@ -330,48 +325,36 @@ namespace PortalSicoobDivicred.Controllers
                     if (dados["IdSetorResponsavel"].Equals("42"))
                     {
                         if (dados["CpfAbertura"] != "")
-                        {
                             idInteracao = verificaDados.CadastraSolicitacao(dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 "0",
                                 dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"]);
-                        }
                         else
-                        {
                             idInteracao = verificaDados.CadastraSolicitacao(dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 "0",
                                 dados["Descricao"], dadosUsuario[0]["id"], "");
-                        }
                     }
                     else
                     {
                         if (dados["CpfAbertura"] != "")
-                        {
                             idInteracao = verificaDados.CadastraSolicitacao(dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 dados["IdFuncionarioResponsavel"],
                                 dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"]);
-                        }
                         else
-                        {
                             idInteracao = verificaDados.CadastraSolicitacao(dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 dados["IdFuncionarioResponsavel"],
                                 dados["Descricao"], dadosUsuario[0]["id"], "");
-                        }
                     }
 
-                    for (int i = 0; i < dados.Count; i++)
-                    {
+                    for (var i = 0; i < dados.Count; i++)
                         if (!dados.GetKey(i).Equals("IdSetorResponsavel") && !dados.GetKey(i).Equals("IdCategoria") &&
                             !dados.GetKey(i).Equals("IdFuncionarioResponsavel") &&
                             !dados.GetKey(i).Equals("CpfAbertura") &&
                             !dados.GetKey(i).Equals("Descricao"))
-                        {
                             verificaDados.InserirFormulario(dados.GetKey(i), dados[i], idInteracao.Split(';')[1]);
-                        }
-                    }
 
                     var lista = postedFiles.ToList();
 
@@ -526,7 +509,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
                         TempData["TotalFormulario"] = formulario.Count;
-                        for (int i = 0; i < formulario.Count; i++)
+                        for (var i = 0; i < formulario.Count; i++)
                         {
                             TempData["NomeUsuarioFormulario"] = dadosChamado[0]["cadastro"];
                             TempData["NomeCampo" + i] = formulario[i]["nomecampo"];
@@ -1149,7 +1132,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["TotalFormularios"] = dadosFormularios.Count;
 
-                    for (int i = 0; i < dadosFormularios.Count; i++)
+                    for (var i = 0; i < dadosFormularios.Count; i++)
                     {
                         TempData["CategoriaFormulario" + i] = dadosFormularios[i]["descricao"];
                         TempData["CamposFormulario" + i] = dadosFormularios[i]["campo"];
@@ -1180,13 +1163,9 @@ namespace PortalSicoobDivicred.Controllers
                     foreach (var campo in formulario)
                     {
                         if (campo["campoobrigatorio"].Equals("S"))
-                        {
                             TempData["Obrigatorio" + count] = "required";
-                        }
                         else
-                        {
                             TempData["Obrigatorio" + count] = "";
-                        }
 
                         if (campo["combo"].Equals("S"))
                         {
@@ -1199,13 +1178,9 @@ namespace PortalSicoobDivicred.Controllers
                             else
                             {
                                 if (campo["campoobrigatorio"].Equals("S"))
-                                {
                                     TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
-                                }
                                 else
-                                {
                                     TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
-                                }
 
                                 arrayCombo.Add(campo["nomecombo"], campo["campo"]);
                             }
@@ -1223,10 +1198,8 @@ namespace PortalSicoobDivicred.Controllers
 
                     return PartialView("FormularioAberturaChamado");
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
 
             return RedirectToAction("Login", "Login");
@@ -1289,21 +1262,17 @@ namespace PortalSicoobDivicred.Controllers
                     if (Convert.ToInt32(categoria.TempoCategoria.Split(':')[0]) > 24)
                     {
                         var controle = true;
-                        int dias = 0 ;
-                        int totalHoras = Convert.ToInt32(categoria.TempoCategoria.Split(':')[0]);
+                        var dias = 0;
+                        var totalHoras = Convert.ToInt32(categoria.TempoCategoria.Split(':')[0]);
                         while (controle)
                         {
                             totalHoras = totalHoras - 24;
                             dias++;
-                            if (totalHoras <= 24)
-                            {
-                                controle = false;
-                            }
-                            
+                            if (totalHoras <= 24) controle = false;
                         }
-                        
+
                         verificaDados.CadastrarCategoria(categoria.DescricaoCategoria,
-                            dias+"."+totalHoras+":"+Convert.ToInt32(categoria.TempoCategoria.Split(':')[1]),
+                            dias + "." + totalHoras + ":" + Convert.ToInt32(categoria.TempoCategoria.Split(':')[1]),
                             dadosFuncionarioBanco[0]["idsetor"]);
                     }
                     else

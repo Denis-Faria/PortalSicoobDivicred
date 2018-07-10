@@ -223,47 +223,69 @@ namespace PortalSicoobDivicred.Aplicacao
             return DadosJustificativas;
         }
 
-        public void AtualizaJustificativaGestor(string IdHistorico)
+        public void AtualizaJustificativaGestor(string idHistorico)
         {
-            var Query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + IdHistorico + ";";
+            var Query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + idHistorico + ";";
             ConexaoMysql.ExecutaComandoComRetorno(Query);
         }
 
-        public void NegaJustificativa(string IdHistorico)
+        public void NegaJustificativa(string idHistorico)
         {
-            var QueryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + IdHistorico +
+            var queryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + idHistorico +
                                   " group by idhistorico;";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryObservacao);
-            if (Dados[0]["observacao"] == null)
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryObservacao);
+            try
             {
-                var Query = "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" +
-                            IdHistorico + ";";
-                ConexaoMysql.ExecutaComandoComRetorno(Query);
+                if (dados[0]["observacao"] == null)
+                {
+                    var query =
+                        "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" +
+                        idHistorico + ";";
+                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                }
+                else
+                {
+                    var query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
+                                idHistorico + ";";
+                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                }
             }
-            else
+            catch
             {
-                var Query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
-                            IdHistorico + ";";
-                ConexaoMysql.ExecutaComandoComRetorno(Query);
+                var query =
+                    "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" +
+                    idHistorico + ";";
+                ConexaoMysql.ExecutaComandoComRetorno(query);
             }
         }
 
-        public void NegaJustificativaGestor(string IdHistorico)
+        public void NegaJustificativaGestor(string idHistorico)
         {
-            var QueryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + IdHistorico +
+            var queryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + idHistorico +
                                   " group by idhistorico;";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(QueryObservacao);
-            if (Dados[0]["observacao"] == null)
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryObservacao);
+            try
             {
-                var Query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" + IdHistorico +
-                            ";";
-                ConexaoMysql.ExecutaComandoComRetorno(Query);
+                if (dados[0]["observacao"] == null)
+                {
+                    var query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" +
+                                idHistorico +
+                                ";";
+                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                }
+                else
+                {
+                    var query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
+                                idHistorico + ";";
+                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                }
             }
-            else
+            catch
             {
-                var Query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
-                            IdHistorico + ";";
-                ConexaoMysql.ExecutaComandoComRetorno(Query);
+                var query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" +
+                            idHistorico +
+                            ";";
+                ConexaoMysql.ExecutaComandoComRetorno(query);
             }
         }
 

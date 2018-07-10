@@ -8,15 +8,15 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         $.validator.addMethod('time',
-            function (value, element, param) {
+            function(value, element, param) {
                 return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
             },
             'Enter a valid time: hh:mm');
 
-        $(function () {
+        $(function() {
             $('#Formulario').validate({
                 rules: {
                     required: true,
@@ -38,7 +38,7 @@
 
 @if (Convert.ToInt32(TempData["TotalPonto"]) == 0)
 {
-    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png" />
+    <img id="Imagem" class="image is-centered" style="alignment: center" src="/Images/Sem pendencias.png"/>
 }
 else
 {
@@ -57,17 +57,17 @@ else
 
         @for (var i = 0; i < Convert.ToInt32(TempData["TotalPonto"]); i++)
         {
-            using (Html.BeginForm("Justificativas", "Principal", FormMethod.Post, new { name = "Formulario", id = "Formulario" }))
+            using (Html.BeginForm("Justificativas", "Principal", FormMethod.Post, new {name = "Formulario", id = "Formulario"}))
             {
                 <tr>
                     <td>
-                        <input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true" />@TempData["IdPendencia" + i]
+                        <input name="Id | @TempData["IdPendencia" + i]" id="Id | @TempData["IdPendencia" + i]" value="@TempData["IdPendencia" + i]" hidden="true"/>@TempData["IdPendencia" + i]
                     </td>
                     <td>
-                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true" />@TempData["NomePendencia" + i]
+                        <input name="Funcionario @TempData["IdPendencia" + i]" id="Funcionario @TempData["IdPendencia" + i]" value="@TempData["IdFuncionario" + i]" hidden="true"/>@TempData["NomePendencia" + i]
                     </td>
                     <td>
-                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true" /> @TempData["DiaPendencia" + i]
+                        <input name="Data @TempData["IdPendencia" + i]" id="Data @TempData["IdPendencia" + i]" value="@TempData["DiaPendencia" + i]" hidden="true"/> @TempData["DiaPendencia" + i]
                     </td>
 
                     @for (var k = 0; k < Convert.ToInt32(TempData["TotalHorarioPendencia" + i]); k++)
@@ -91,7 +91,7 @@ else
                             for (var k = 0; k < Convert.ToInt32(TempData["TotalTextBox" + i]); k++)
                             {
                                 <td>
-                                    <input type="time" class="input" id="Hora @k @TempData["IdPendencia" + i]" name="Hora @k @TempData["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required />
+                                    <input type="time" class="input" id="Hora @k @TempData["IdPendencia" + i]" name="Hora @k @TempData["IdPendencia" + i]" placeholder="Ex: 00:00:00" data-val-required="Favor preencher com uma hora válida." data-val="true" required/>
                                     <span class="field-validation-valid" data-valmsg-for="Hora @k @TempData["IdPendencia" + i]" data-valmsg-replace="true" style="color: red"></span>
                                 </td>
                             }
@@ -123,7 +123,7 @@ else
                         {
                             <div>
 
-                                <input type="Text" class="input is-4" name="Observacao" required placeholder="Justificativa" />
+                                <input type="Text" class="input is-4" name="Observacao" required placeholder="Justificativa"/>
 
                             </div>
                         }

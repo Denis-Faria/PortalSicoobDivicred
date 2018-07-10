@@ -180,7 +180,6 @@
         };
 
 
-
         var isColor = function(color) {
             if (color.substring(0, 1) === "#" || color.substring(0, 3) === "rgb" || color.substring(0, 3) === "hsl") {
                 return true;
@@ -284,7 +283,6 @@
             };
 
         }();
-
 
 
         var moveProgress = function(toast, settings, callback) {

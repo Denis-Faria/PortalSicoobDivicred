@@ -68,7 +68,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public bool PermissaoCurriculos(string usuario)
         {
             var query =
-                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                "select a.valor from permissoesgrupo a, funcionarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
                 usuario + "' and a.idaplicativo=9";
 
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
@@ -106,7 +106,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public bool PermissaoTesouraria(string usuario)
         {
             var query =
-                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                "select a.valor from permissoesgrupo a, funcionarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
                 usuario + "' and a.idaplicativo=10";
 
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
@@ -188,7 +188,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperadadosFuncionariosTabelausuario(string usuario)
         {
             var query =
-                "SELECT * FROM usuarios WHERE login='" + usuario + "'";
+                "SELECT * FROM funcionarios WHERE login='" + usuario + "'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
 
 
@@ -446,7 +446,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public string Recuperausuario(string login)
         {
-            var queryRecuperausuario = "SELECT id from usuarios where login='" + login + "'";
+            var queryRecuperausuario = "SELECT id from funcionarios where login='" + login + "'";
 
             var id = _conexaoMysql.ExecutaComandoComRetorno(queryRecuperausuario);
 
@@ -455,7 +455,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public string RecuperausuarioLogin(string usuario)
         {
-            var queryRecuperausuarioLogin = "SELECT login from usuarios where id='" + usuario + "'";
+            var queryRecuperausuarioLogin = "SELECT login from funcionarios where id='" + usuario + "'";
 
             var id = _conexaoMysql.ExecutaComandoComRetorno(queryRecuperausuarioLogin);
 

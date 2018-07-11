@@ -863,3 +863,5 @@ C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\Po
 C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\Nest.xml
 C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\SharpRaven.dll
 C:\Users\Davic4030_00\Box Sync\Projetos\Solução_Portal\PortalSicoobDivicred\PortalSicoobDivicred\bin\StackifyHttpTracer.dll
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\SharpRaven.dll
+C:\Users\denisj4030_00\source\repos\PortalSicoobDivicred\PortalSicoobDivicred\PortalSicoobDivicred\bin\StackifyHttpTracer.dll

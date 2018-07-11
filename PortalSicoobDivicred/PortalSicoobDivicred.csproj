@@ -730,6 +730,7 @@
     <Compile Include="Aplicacao\BuscaElasticSearch.cs" />
     <Compile Include="Aplicacao\ConexaoExcel.cs" />
     <Compile Include="Aplicacao\EnviodeAlertas.cs" />
+    <Compile Include="Aplicacao\QueryMysqlParametros.cs" />
     <Compile Include="Aplicacao\QueryMysqTesouraria .cs" />
     <Compile Include="Aplicacao\QueryMysql.cs" />
     <Compile Include="Aplicacao\QueryMysqlCurriculo.cs" />
@@ -744,6 +745,7 @@
     <Compile Include="Controllers\FormulariosMigController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PainelColaboradorController.cs" />
+    <Compile Include="Controllers\ParametrosController.cs" />
     <Compile Include="Controllers\PgdController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\TesourariaController.cs" />
@@ -762,6 +764,7 @@
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\JustificativaPonto.cs" />
     <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Parametros.cs" />
     <Compile Include="Models\ParecerProcesso.cs" />
     <Compile Include="Models\Pgd.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />
@@ -930,6 +933,8 @@
     <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
     <Content Include="Views\WebDesk\FormularioAberturaChamado.cshtml" />
     <Content Include="Views\WebDesk\ParametrosFuncionario.cshtml" />
+    <Content Include="Views\Parametros\Parametros.cshtml" />
+    <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,343 @@
+@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    function Funcionario() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelFuncionario").addClass("is-active");
+
+        $("#PanelCertificacao").removeClass();
+        $("#PanelGestor").removeClass();
+        $("#PanelSetor").removeClass();
+        $("#PanelCertificacao").addClass("panel-block");
+        $("#PanelGestor").addClass("panel-block");
+        $("#PanelSetor").addClass("panel-block");
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Parametros/Funcionario',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+                }
+            });
+
+    }
+    function Grupo() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelFuncao").addClass("is-active");
+
+        $("#PanelCertificacao").removeClass();
+        $("#PanelGestor").removeClass();
+        $("#PanelSetor").removeClass();
+        $("#PanelCertificacao").addClass("panel-block");
+        $("#PanelGestor").addClass("panel-block");
+        $("#PanelSetor").addClass("panel-block");
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/PainelColaborador/Funcao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
+
+
+
+
+</script>
+<body>
+
+    @if (TempData["Mensagem"] != null)
+    {
+        @Html.Label("")
+
+
+        <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["Mensagem"]'
+        });
+
+        </script>
+    }
+
+
+    <br />
+    <nav class="level ">
+        <p class="level-item has-text-centered">
+            <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
+        </p>
+    </nav>
+
+
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
+    <script src="//cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
+
+    <script type="text/javascript">
+
+        var multiFiles = [];
+
+        function multiUp(e) {
+            $(e).removeClass("file-input");
+            $(e).hide();
+            $("#formesconde").hide();
+            $("#" + multiFiles.length).hide();
+            this.__fileHolder = document.querySelector("#ArquivosSelecionados");
+
+            this.__fileHolder.innerHTML = '';
+            var i;
+
+            for (i = 0; i < e.files.length; i++) {
+                this.multiFiles.push(e.files[i]);
+
+            }
+            $("#Upload-form").append(
+                " <div id=" +
+                multiFiles.length +
+                " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+            for (i = 0; i < this.multiFiles.length; i++) {
+                addDeleteBtn(i, this, this.multiFiles[i].name);
+            }
+
+        }
+
+        function addDeleteBtn(f, input, nomeArquivo) {
+
+            var Div2 = document.createElement('div');
+            Div2.className = 'control';
+
+            var Div3 = document.createElement('div');
+            Div3.className = 'tags has-addons';
+
+
+            var Nome = document.createElement('span');
+            Nome.className = 'tag is-dark ';
+            Nome.innerHTML = nomeArquivo;
+
+            Div2.append(Div3);
+
+            Div3.append(Nome);
+            var del = document.createElement('a');
+            del.className = 'tag is-delete is-primary';
+            del.title = 'remove this file';
+
+            del.addEventListener('click',
+                function () {
+
+                    $("#" + input.multiFiles.length).remove();
+
+                    input.multiFiles.splice(f, 1);
+
+                    $("#" + input.multiFiles.length).show();
+
+                    input.__fileHolder.innerHTML = "";;
+
+                    var fileLength = input.multiFiles.length;
+
+                    if (fileLength > 0) {
+                        for (var i = 0; i < fileLength; i++) {
+
+                            var Div2 = document.createElement('div');
+                            Div2.className = 'control';
+
+                            var Div3 = document.createElement('div');
+                            Div3.className = 'tags has-addons';
+
+                            var Nome = document.createElement('span');
+                            Nome.className = 'tag is-dark';
+                            Nome.innerHTML = input.multiFiles[i].name;
+
+                            var del = document.createElement('a');
+                            del.className = 'tag is-delete is-primary';
+                            del.title = 'remove this file';
+
+                            input.__fileHolder.appendChild(Div3);
+                            addDeleteBtn(i, input, input.multiFiles[i].name);
+                        }
+                    } else {
+                        $("#formesconde").show();
+                        input.__fileHolder.innerHTML = 'Selecione um arquivo';
+                    }
+                },
+                false);
+            Div3.append(del);
+            input.__fileHolder.appendChild(Div2);
+        }
+
+
+        function ValidaMascara(valor) {
+
+            if (valor.replace(/\D/g, '').length === 11) {
+                $('#CpfAbertura').mask('000.000.000-00');
+            } else {
+                $('#CpfAbertura').mask('00.000.000/0000-00');
+            }
+
+        };
+
+        function RemoveMascara() {
+            $("#CpfAbertura").unmask();
+
+        }
+
+        $(document).ready(function () {
+
+            $("#CpfCadastro").hide();
+            $("#TabWebdesk").tabs();
+            var editor = CKEDITOR.replace('Descricao');
+            try {
+                $("#TabelaChamados")
+                    .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+                    .tablesorterPager({ container: $("#pager") });
+            } catch (e) {
+
+            }
+
+            jQuery(document).ready(function ($) {
+                $(".clickable-row").click(function () {
+                    window.location = $(this).data("href");
+                });
+            });
+
+
+        });
+
+
+        function SetorSelecionado(IdSetor) {
+            $("#CategoriaFuncionario").empty();
+            if (IdSetor.value === "42") {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaCategoriaAberturaChamado',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdSetor": IdSetor.value },
+                        success: function (data) {
+                            $("#CategoriaFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+            } else {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaCategoriaFuncionario',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdSetor": IdSetor.value },
+                        success: function (data) {
+                            $("#CategoriaFuncionario").append(data);
+                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
+                            $("form").removeData("validator");
+                            $("form").removeData("unobtrusiveValidation");
+                            $.validator.unobtrusive.parse("form");
+                        }
+                    });
+            }
+        }
+        function CategoriaSelecionado(IdCategoria) {
+            $("#FormularioCategoria").empty();
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Webdesk/RetornaFormulario',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "IdCategoria": IdCategoria.value },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#ModalFormulario').removeClass();
+                            $('#ModalFormulario').addClass('modal is-active');
+                            $("#FormularioCategoria").append(data);
+                        } else {
+                            $("#Cadastro").submit();
+                        }
+                    }
+                });
+        }
+
+    </script>
+    <style>
+        #add {
+            cursor: pointer;
+            font-size: 2em;
+        }
+
+        #fileHolder {
+            color: rgba(0, 0, 0, .7);
+            display: inline-block;
+            font-size: 70%;
+            max-width: 80%;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .deleteBtn {
+            color: #000;
+            cursor: pointer;
+        }
+    </style>
+    <div class="column is-12">
+
+        <div class="column is-6" id="Parametros" style="float:left">
+
+            <div class="columns">
+                <div class="column -is-6">
+                    <nav class="panel">
+                        <p class="panel-heading">
+                            Parâmetros
+                        </p>
+                        <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Funcionários
+                        </a>
+                        <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Grupos
+                        </a>
+
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="column is-6" id="ParametroSelecionado"  style="float:right">
+        </div>
+
+    </div>
+
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
+    </script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+</body>

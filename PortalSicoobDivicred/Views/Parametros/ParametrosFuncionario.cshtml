@@ -1,0 +1,39 @@
+﻿
+@model PortalSicoobDivicred.Models.Parametros
+<html>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+
+
+<script>
+    $(document).ready(function () {
+        $('#CpfFuncionario').mask('000.000.000-00');
+        $('#DataNascimentoFuncionario').mask('00/00/0000');
+        $('#PisFuncionario').mask('000.00000.00-0');
+
+
+    });
+
+</script>
+
+
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+    <div class="columns content">
+        <div class="column is-6">
+            <div class="control">
+                <label class="label">Grupo</label>
+
+                <div class="select is-1 is-fullwidth">
+                    @Html.DropDownListFor(m =>m.idDescricaoGrupo , new SelectList(Model.DescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
+                    @Html.ValidationMessageFor(m => m.DescricaoGrupo, null, new { style = "color:red" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+   
+
+
+
+</html>

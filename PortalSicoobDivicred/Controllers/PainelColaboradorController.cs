@@ -1006,11 +1006,14 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         await envia.EnviaAlertaFuncionario(dadosOperador[0], "Você tem justificativas pendentes.",
                             "11");
-
-                        var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
-                        if (dadosGestor != null)
-                            await envia.EnviaAlertaFuncionario(dadosGestor[0],
-                                "O funcionário " + dadosOperador[0]["nome"] + " tem justificativas pendentes", "11");
+                        if (dadosOperador[0]["idsetor"] != null && DadosFuncionario[0]["idsetor"].ToString().Length>0)
+                        {
+                            var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
+                            if (dadosGestor != null && dadosGestor.Count > 0)
+                                await envia.EnviaAlertaFuncionario(dadosGestor[0],
+                                    "O funcionário " + dadosOperador[0]["nome"] + " tem justificativas pendentes",
+                                    "11");
+                        }
                     }
                 }
 

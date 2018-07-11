@@ -352,6 +352,7 @@
     <Content Include="Assets\css\animate.css" />
     <Content Include="Assets\css\balloon.css" />
     <Content Include="Assets\css\basic.css" />
+    <Content Include="Assets\css\bulma-badge\dist\css\bulma-badge.min.css" />
     <Content Include="Assets\css\bulma-checkradio\dist\bulma-checkradio.min.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.css" />
     <Content Include="Assets\css\bulma-switch\bulma-switch.min.css" />
@@ -429,6 +430,12 @@
     <Content Include="Assets\css\bulma-checkradio\LICENSE" />
     <Content Include="Assets\css\bulma-checkradio\package.json" />
     <Content Include="Assets\css\bulma-checkradio\README.md" />
+    <Content Include="Assets\css\bulma-badge\CHANGELOG.md" />
+    <Content Include="Assets\css\bulma-badge\dist\css\bulma-badge.sass" />
+    <Content Include="Assets\css\bulma-badge\LICENSE" />
+    <Content Include="Assets\css\bulma-badge\package.json" />
+    <Content Include="Assets\css\bulma-badge\README.md" />
+    <Content Include="Assets\css\bulma-badge\src\sass\index.sass" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -442,6 +449,7 @@
     <Content Include="Images\Sem regitro.png" />
     <Content Include="Images\Tesouraria.png" />
     <Content Include="Images\Webdesk.png" />
+    <Content Include="node_modules\bulma-badge\dist\css\bulma-badge.min.css" />
     <Content Include="node_modules\bulma-checkradio\dist\bulma-checkradio.min.css" />
     <Content Include="node_modules\bulma-steps-component\bulma\css\bulma.css" />
     <Content Include="node_modules\bulma-steps-component\index.html" />
@@ -703,6 +711,12 @@
     <Content Include="node_modules\bulma-checkradio\LICENSE" />
     <Content Include="node_modules\bulma-checkradio\package.json" />
     <Content Include="node_modules\bulma-checkradio\README.md" />
+    <Content Include="node_modules\bulma-badge\CHANGELOG.md" />
+    <Content Include="node_modules\bulma-badge\dist\css\bulma-badge.sass" />
+    <Content Include="node_modules\bulma-badge\LICENSE" />
+    <Content Include="node_modules\bulma-badge\package.json" />
+    <Content Include="node_modules\bulma-badge\README.md" />
+    <Content Include="node_modules\bulma-badge\src\sass\index.sass" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -738,7 +752,6 @@
     <Compile Include="Aplicacao\QueryFirebird.cs" />
     <Compile Include="Aplicacao\QueryMysqlWebdesk.cs" />
     <Compile Include="Aplicacao\ManipularPlanilha.cs" />
-    <Compile Include="Aplicacao\SentryTracking.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />

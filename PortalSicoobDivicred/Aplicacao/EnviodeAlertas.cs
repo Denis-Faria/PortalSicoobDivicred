@@ -77,7 +77,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
-                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+                cadastroAlerta.CadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
 
 
                 await EnviaEmail(funcionarioEnvio["email"], mensagem);
@@ -94,7 +94,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             else
             {
-                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+                cadastroAlerta.CadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)
@@ -114,7 +114,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             if (funcionarioEnvio["notificacaoemail"].Equals("Sim"))
             {
-                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+                cadastroAlerta.CadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
 
 
                 await EnviaEmail(funcionarioEnvio["email"], mensagem);
@@ -131,7 +131,7 @@ namespace PortalSicoobDivicred.Aplicacao
             }
             else
             {
-                cadastroAlerta.cadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
+                cadastroAlerta.CadastrarAlert(funcionarioEnvio["id"], idAplicativo, mensagem);
                 try
                 {
                     if (funcionarioEnvio["idnotificacao"].Length > 0)

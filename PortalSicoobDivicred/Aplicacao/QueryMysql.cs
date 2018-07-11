@@ -760,11 +760,25 @@ namespace PortalSicoobDivicred.Aplicacao
             return dados;
         }
 
-        public void cadastrarAlert(string Idusuario, string IdAplicativo, string Descricao)
+        public void CadastrarAlert(string idusuario, string idAplicativo, string descricao)
         {
-            var query = "INSERT INTO alertas (idusuario,idaplicativo,descricao,data) VALUES(" + Idusuario + "," +
-                        IdAplicativo + ",'" + Descricao + "',NOW())";
+            var query = "INSERT INTO alertas (idusuario,idaplicativo,descricao,data) VALUES(" + idusuario + "," +
+                        idAplicativo + ",'" + descricao + "',NOW())";
             _conexaoMysql.ExecutaComando(query);
+        }
+
+        public void RemoverAlerta(string idAlerta)
+        {
+            var query = "UPDATE alertas SET lido='S' WHERE id='"+idAlerta+"'";
+            _conexaoMysql.ExecutaComando( query );
+        }
+
+        public List<Dictionary<string, string>> BuscaAlerta(string idFuncionario)
+        {
+            var query =
+                "SELECT * FROM alertas WHERE idusuario='" + idFuncionario + "' and lido='N'";
+            var row = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return row;
         }
 
         public List<Dictionary<string, string>> RetornaHoras(string Cracha)

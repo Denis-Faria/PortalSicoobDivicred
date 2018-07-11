@@ -12,159 +12,215 @@
     <script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
 
     <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
-    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet"/>
-    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
+    <link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
 
     <title>Principal</title>
-
+    <script>
+        function RemoverAlerta(idAlerta) {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '/Principal/RemoverAlerta',
+                    dataType: 'html',
+                    cache: true,
+                    async: true,
+                    data: { "idAlerta": idAlerta },
+                    success: function(data) {
+                        $("#" + idAlerta).remove();
+                        var Total = $("#TotalAlertas").prop("data-badge");
+                        alert(Total);
+                        Total = Total - 1;
+                        $("#TotalAlertas").prop(" data-badge", Total);
+                        iziToast.success({
+                            title: 'Sucesso',
+                            position: "center",
+                            message: 'Alerta lido com sucesso !'
+                        });
+                    }
+                });
+        }
+    </script>
 </head>
 
 <body id="CorpoPrincipal">
-<style>
-    html { height: 100vh; }
+    <style>
+        html {
+            height: 100vh;
+        }
 
-    #Lateral { top: 0px; }
+        #Lateral {
+            top: 0px;
+        }
 
-    .fixed {
-        float: left;
-        width: 50px;
-    }
+        .fixed {
+            float: left;
+            width: 50px;
+        }
 
-    .fixed + div {
-        margin-left: 50px;
-        overflow: hidden;
-    }
-        
-       
-</style>
-<nav id="navprin" class="navbar is-transparent" style="background: #083846">
-    <div class="navbar-end is-center">
-        <a class="navbar-item">
-            <img src="/Images/LogoBranca.png" alt="Divicred Logo">
-        </a>
-    </div>
-
-    <div class="navbar-end">
-        <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" style="background: #083846;" aria-haspopup="true">
-                <span class="icon">
-                    <i class="fas fa-bell" style="color: white"></i>
-                </span>
+            .fixed + div {
+                margin-left: 50px;
+                overflow: hidden;
+            }
+    </style>
+    <nav id="navprin" class="navbar is-transparent" style="background: #083846">
+        <div class="navbar-end is-center">
+            <a class="navbar-item">
+                <img src="/Images/LogoBranca.png" alt="Divicred Logo">
             </a>
-            <div class="navbar-dropdown is-boxed" role="menu">
-                <div class="dropdown-item">
-                    <a onclick="alert('Ola');">
-                        <span class="icon">
-                            <i class="fas fa-bell" style="color: white"></i>
-                        </span>
-                        <span>
-                            <strong>Parabéns. </strong>você não possui nenhum alerta.
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable "  >
+                <a class="navbar-link" style="background: #083846;" aria-haspopup="true">
+                    <span class="icon badge" id="TotalAlertas" data-badge="@Convert.ToInt32( TempData["TotalAlertas"] ) ">
+                        <i class="fas fa-bell" style="color: white"></i>
+                    </span>
+                </a>
+                <div class="navbar-dropdown is-boxed" role="menu">
+                    @if(Convert.ToInt32( TempData["TotalAlertas"] ) > 0)
+                    {
+                        for(int i = 0; i < Convert.ToInt32( TempData["TotalAlertas"] ); i++)
+                        {
+
+                            <div id="@TempData["IdAlerta" + i]" class="dropdown-item">
+                                <a onclick="RemoverAlerta('@TempData["IdAlerta" + i]')">
+                                    <span class="icon">
+                                        <i class="fas fa-bell" style="color: white"></i>
+                                    </span>
+                                    <span>
+
+                                        @TempData["Alerta" + i]
+
+                                    </span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="dropdown-item">
+                            <a onclick="alert('Ola');">
+                                <span class="icon">
+                                    <i class="fas fa-bell" style="color: white"></i>
+                                </span>
+                                <span>
+
+                                    <p>
+                                        <strong>Parabéns. </strong>
+                                        você não
+                                        possui nenhum
+                                        alerta.
+                                    </p>
+
+                                </span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" aria-haspopup="true" style="background: #083846;">
+                    <img src="/Uploads/@TempData["ImagemPerfil"]" style="border-radius: 50%;" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip" /> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
+                </a>
+
+                <div class="navbar-dropdown is-boxed" role="menu">
+
+                    <a class="navbar-item" style="color: #20b2aa" href="@Url.Action("Perfil", "PainelColaborador")">
+                        <span class="icon is-small">
+                            <i class="fas fa-user"></i>
+                        </span>Editar Perfil
+                    </a>
+                    <hr class="navbar-divider">
+                    <a style="color: #20b2aa" class="navbar-item" href="@Url.Action("Logoff", "Login")">
+                        <span class="icon is-small">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </span>Sair
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+        <span class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+
+    </nav>
+    <div id-="main">
+        <div class="columns">
+            <aside id="Lateral" class="aside hero is-fullheight
+               is-hidden-mobile " style="background: #083846">
+                <ul class="menu-list is-centered" style="padding: 10px; text-align: justify;">
+                    <p class="item"></p>
+                    <p class="menu-label" style="color: white" id="Geral">
+                    </p>
+                    <span class="icon">
+
+                    </span>
+                    <a href="@Url.Action("Principal", "Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
+                        <span class="icon is-flex">
+                            <i class="fas fa-tachometer-alt"></i>
                         </span>
                     </a>
-                    <div class="dropdown-divider"></div>
+                    <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-tasks" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="C.I.M." data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-trophy" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Perfil", "PainelColaborador")" class="item" style="color: #38d5c5;" data-balloon="Meu Perfil" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-user-circle"></i>
+                        </span>
+                    </a>
+                    <a href="@Url.Action("Tesouraria", "Tesouraria")" class="item" style="color: #38d5c5; @TempData["PermissaoTesouraria"]" data-balloon="Tesouraria" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="far fa-money-bill-alt"></i>
+                        </span>
+                    </a>
+
+                    <a href='@Url.Action("Curriculo", "Curriculo")' class="item" style='color: #38d5c5; @TempData["PermissaoCurriculo"]' data-balloon="Curriculos" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-book"></i>
+                        </span><span class="name"></span>
+                    </a>
+
+                    <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                    </a>
+
+                    <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; " data-balloon="Parametros" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                    </a>
+
+                </ul>
+            </aside>
+            <div class="container">
+                <div id="Conteudo" name="Conteudo">
+                    @RenderBody()
                 </div>
-
             </div>
         </div>
-
-        <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" aria-haspopup="true" style="background: #083846;">
-                <img src="/Uploads/@TempData["ImagemPerfil"]" style="border-radius: 50%;" data-toggle="tooltip" title="Editar perfil" class="avatar-image tooltip"/> <span class="name" style="color: white"> @TempData["NomeLateral"]</span>
-            </a>
-
-            <div class="navbar-dropdown is-boxed" role="menu">
-
-                <a class="navbar-item" style="color: #20b2aa" href="@Url.Action("Perfil", "PainelColaborador")">
-                    <span class="icon is-small">
-                        <i class="fas fa-user"></i>
-                    </span>Editar Perfil
-                </a>
-                <hr class="navbar-divider">
-                <a style="color: #20b2aa" class="navbar-item" href="@Url.Action("Logoff", "Login")">
-                    <span class="icon is-small">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </span>Sair
-                </a>
-            </div>
-        </div>
-
 
     </div>
-    <span class="nav-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-    </span>
-
-</nav>
-<div id-="main">
-    <div class="columns">
-        <aside id="Lateral" class="aside hero is-fullheight
-               is-hidden-mobile " style="background: #083846">
-            <ul class="menu-list is-centered" style="padding: 10px; text-align: justify;">
-                <p class="item"></p>
-                <p class="menu-label" style="color: white" id="Geral">
-                </p>
-                <span class="icon">
-
-                </span>
-                <a href="@Url.Action("Principal", "Principal")" class="item" style="color: #38d5c5;" data-balloon="Dashboard" data-balloon-pos="right">
-                    <span class="icon is-flex">
-                        <i class="fas fa-tachometer-alt"></i>
-                    </span>
-                </a>
-                <a href="@Url.Action("Chamados", "Webdesk")" class="item" style="color: #38d5c5;" data-balloon="WebDesk" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-tasks" aria-hidden="true"></i>
-                    </span>
-                </a>
-                <a href="@Url.Action("Pgd", "Pgd")" class="item" style="color: #38d5c5;" data-balloon="C.I.M." data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-trophy" aria-hidden="true"></i>
-                    </span>
-                </a>
-                <a href="@Url.Action("Perfil", "PainelColaborador")" class="item" style="color: #38d5c5;" data-balloon="Meu Perfil" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-user-circle"></i>
-                    </span>
-                </a>
-                <a href="@Url.Action("Tesouraria", "Tesouraria")" class="item" style="color: #38d5c5; @TempData["PermissaoTesouraria"]" data-balloon="Tesouraria" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="far fa-money-bill-alt"></i>
-                    </span>
-                </a>
-
-                <a href='@Url.Action("Curriculo", "Curriculo")' class="item" style='color: #38d5c5; @TempData["PermissaoCurriculo"]' data-balloon="Curriculos" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-book"></i>
-                    </span><span class="name"></span>
-                </a>
-
-                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; @TempData["PermissaoCurriculo"]" data-balloon="Portal do Colaborador" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-user-plus"></i>
-                    </span>
-                </a>
-
-                <a href="@Url.Action("ColaboradorRh", "PainelColaborador")" class="item" style="color: #38d5c5; " data-balloon="Parametros" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-cog"></i>
-                    </span>
-                </a>
-
-            </ul>
-        </aside>
-        <div class="container">
-            <div id="Conteudo" name="Conteudo">
-                @RenderBody()
-            </div>
-        </div>
-    </div>
-
-</div>
 </body>
 </html>

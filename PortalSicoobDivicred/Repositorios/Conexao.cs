@@ -10,7 +10,7 @@ namespace PortalSicoobDivicred.Repositorios
     public class Conexao : IDisposable
     {
         private MySqlConnection _conexao;
-        private readonly SentryTracking track = new SentryTracking();
+
 
         public void Dispose()
         {

@@ -84,6 +84,26 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
+        public bool PermissaoParametros(string usuario)
+        {
+            var query =
+                "select a.valor from permissoesgrupo a, funcionarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
+                usuario + "' and a.idaplicativo=13";
+
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            try
+            {
+                if (dados[0]["valor"].Equals("S"))
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
         public bool PermissaoPesquisaWebdDesk(string usuario)
         {
             var query =

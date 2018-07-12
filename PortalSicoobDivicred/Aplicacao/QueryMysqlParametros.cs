@@ -41,5 +41,17 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             return true;
         }
+
+        public void InsereUsuario(string nome,string pa, string dataAdmissao,string cpf,string rg,string pis, string login,
+            string email,char gestor,char estagiario)
+        {
+            var queryInsereProducao =
+                "INSERT INTO cimproducao (cpf,sexo,pa,admissao,cpf,rg,pis,vencimentoperiodico,funcao,idescolaridade,) values ('" +
+                cpf + "','" + produtos + "','" + observacao + "','" + Convert.ToDateTime(data).ToString("yyyy-MM-dd") +
+                "','N','" + login + "','" + valor.Replace(",", ".") + "','" +
+                valorponto.Replace(".", "").Replace(",", ".") + "') ";
+            _conexaoMysql.ExecutaComando(queryInsereProducao);
+        }
+
     }
 }

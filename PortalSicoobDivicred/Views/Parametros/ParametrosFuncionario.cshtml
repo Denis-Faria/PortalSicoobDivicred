@@ -1,96 +1,168 @@
 ﻿
 @model PortalSicoobDivicred.Models.Parametros
-<html>
 
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
 
 
 <script>
     $(document).ready(function () {
+
         $('#CpfFuncionario').mask('000.000.000-00');
         $('#DataNascimentoFuncionario').mask('00/00/0000');
+        $('#EmissaoCtps').mask('00/00/0000');
+        $('#DataEmissaoRg').mask('00/00/0000');
         $('#PisFuncionario').mask('000.00000.00-0');
+        $('#CepFuncionario').mask('99999-999');
+
 
 
     });
 
-    function ValidaMascara(valor) {
 
-        if (valor.replace(/\D/g, '').length === 11) {
-            $('#CpfAbertura').mask('000.000.000-00');
-        } else {
-            $('#CpfAbertura').mask('00.000.000/0000-00');
-        }
-
-    };
 
 </script>
 
 
 
 
-
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<div class="card">
 
-<div class="columns content">
+    <header class="card-header">
+        <p class="card-header-title">
+            Cadastro de Funcionários
+        </p>
+    </header>
+    <div class="card-content">
+        <div class="columns content">
+            <div class="column is-5" id="nome">
+                <label class="label">Nome</label>
+                @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", type = "Text", step = "0.01" })
+            </div>
+            <div class="column is-5">
+                <div class="control" id="idPA">
 
-    <div class="column is-6" id="nome">
-        
-        <label class="label">Nome</label>
-        @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", type = "Text", step = "0.01" })
-    </div>
-    <div class="column is-6">
-        <div class="control" id="idPA">
-            
-            <label class="label">P.A.</label>
-            <div class="select is-1 is-fullwidth">
-                <select>
-                    <option>SELECIONE O P.A.</option>
-                    <option value="99">UAD</option>
-                    <option value="00">MATRIZ</option>
-                    <option value="99">UAD</option>
-                    <option value="99">UAD</option>
-                    <option value="99">UAD</option>
-                    <option value="99">UAD</option>
-                    <option value="99">UAD</option>
-                    <option value="99">UAD</option>
-                </select>
+                    <label class="label">P.A.</label>
+                    <div class="select is-1 is-fullwidth">
+                        <select>
+                            <option>SELECIONE O P.A.</option>
+                            <option value="99">UAD</option>
+                            <option value="00">MATRIZ</option>
+                            <option value="99">UAD</option>
+                            <option value="99">UAD</option>
+                            <option value="99">UAD</option>
+                            <option value="99">UAD</option>
+                            <option value="99">UAD</option>
+                            <option value="99">UAD</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="columns content">
 
-    <div class="column is-6">
-        <div class="control" id="grupo">
-            
-            <label class="label">Grupo</label>
-            <div class="select is-1 is-fullwidth">
-                @Html.DropDownListFor(m => m.idDescricaoGrupo, new SelectList(Model.DescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
-                @Html.ValidationMessageFor(m => m.DescricaoGrupo, null, new { style = "color:red" })
+        <div class="columns content">
+            <div class="column is-5">
+                <div class="control" id="grupo">
+                    <label class="label">Grupo</label>
+                    <div class="select is-1 is-fullwidth">
+                        @Html.DropDownListFor(m => m.idDescricaoGrupo, new SelectList(Model.DescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
+                        @Html.ValidationMessageFor(m => m.DescricaoGrupo, null, new { style = "color:red" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-5">
+                <div class="control" id="dataAdmissão">
+                    <label class="label">Data Admissão</label>
+                    @Html.TextBoxFor(m => m.dataAdmissao, null, new { @class = "input", type = "date" })
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="column is-6">
-        <div class="control" id="dataAdmissão">
-            <label class="label">Data Admissão</label>
-            @Html.TextBoxFor(m => m.dataAdmissao, null, new { @class = "input", type = "date" })
+
+        <div class="columns content">
+            <div class="column is-5">
+                <label class="label">CPF</label>
+                @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input", placeholder = "Ex: 999.999.999 - 99", id = "CpfFuncionario" })
+                @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
+            </div>
+
+            <div class="column is-5">
+                <label class="label">RG</label>
+                @Html.TextBoxFor(m => m.RgFuncionario, null, new { @class = "input", id = "RgFuncionario" })
+                @Html.ValidationMessageFor(m => m.RgFuncionario, null, new { style = "color:red" })
+            </div>
         </div>
+
+        <div class="columns content">
+            <div class="column is-5">
+                <label class="label">PIS</label>
+                @Html.TextBoxFor(m => m.PisFuncionario, null, new { @class = "input", id = "PisFuncionario" })
+                @Html.ValidationMessageFor(m => m.PisFuncionario, null, new { style = "color:red" })
+            </div>
+
+            <div class="column is-5">
+                <label class="label">Login</label>
+                @Html.TextBoxFor(m => m.LoginFuncionario, null, new { @class = "input", id = "LoginFuncionario" })
+                @Html.ValidationMessageFor(m => m.LoginFuncionario, null, new { style = "color:red" })
+            </div>
+        </div>
+
+        <div class="columns content">
+            <div class="column is-5">
+                <label class="label">Email</label>
+                @Html.TextBoxFor(m => m.Email, null, new { @class = "input", id = "EmailFuncionario", placeholder = "usuario@divicred.com.br" })
+                @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
+            </div>
+
+            <div class="control column is-expanded">
+                <label class="label">Gestor?</label>
+                <div class="field">
+                    @Html.RadioButtonFor(m => m.Gestor, "Sim", new { @class = "is-checkradio is-small", id = "gestorsim" })
+                    <label for="gestorsim">
+                        Sim
+                    </label>
+                    @Html.RadioButtonFor(m => m.Gestor, "Não", new { @class = "is-checkradio is-small", id = "gestornao" })
+                    <label for="gestornao">
+                        Não
+                    </label>
+                    @Html.ValidationMessageFor(m => m.Gestor, null, new { style = "color:red" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="columns content">
+            <div class="control column is-expanded">
+                <label class="label">Estagiário?</label>
+                <div class="field">
+                    @Html.RadioButtonFor(m => m.Estagiario, "Sim", new { @class = "is-checkradio is-small", id = "estagiariosim" })
+                    <label for="estagiariosim">
+                        Sim
+                    </label>
+                    @Html.RadioButtonFor(m => m.Estagiario, "Não", new { @class = "is-checkradio is-small", id = "estagiarionao" })
+                    <label for="estagiarionao">
+                        Não
+                    </label>
+                    @Html.ValidationMessageFor(m => m.Estagiario, null, new { style = "color:red" })
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
-<div class="columns content">
-    <div class="column is-6">
-
-
-        <label class="label">CPF</label>
-
-        @Html.TextBoxFor(m => m.CpfFuncionario, null, new { @class = "input input-search", type = "text", onfocusout = "javascript:ValidaMascara(this.value)", onfocus = "RemoveMascara()", placeholder = "Ex: 999.999.999 - 99" })
-        @Html.ValidationMessageFor(m => m.CpfFuncionario, null, new { style = "color:red" })
-
+<br>
+@using (Html.BeginForm("SalvarUsuario", "Parametros", FormMethod.Post))
+{
+    <div>
+        <p class="control">
+            <button type="submit" class="button is-success " id="CadastroUsuario"data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                </span>
+                <span class="name">Cadastrar Usuário</span>
+            </button>
+        </p>
     </div>
-
-</div>
-
-
-</html>
+}

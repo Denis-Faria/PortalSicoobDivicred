@@ -45,6 +45,9 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Informe se o funcionário é gestor")]
         public string Gestor { get; set; }
 
+        [Required(ErrorMessage = "Informe se o funcionário é estagiário")]
+        public string Estagiario { get; set; }
+
 
     }
 }

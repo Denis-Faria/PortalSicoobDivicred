@@ -23,9 +23,18 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
 
-                //return RedirectToAction("Login", "Login");
-                //return View("Parametros");
-                //return PartialView("Funcionario");
+                var cookie = Request.Cookies.Get("CookieFarm");
+                if (cookie != null)
+                {
+                    var login = Criptografa.Descriptografar(cookie.Value);
+                    var dadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(login);
+                    var validacoes = new ValidacoesIniciais();
+
+                    validacoes.AlertasUsuario(this, dadosUsuarioBanco[0]["id"]);
+                    validacoes.Permissoes(this, dadosUsuarioBanco);
+                    validacoes.DadosNavBar(this, dadosUsuarioBanco);
+                }
+
                 return View("Parametros");
             }
             else
@@ -88,5 +97,54 @@ namespace PortalSicoobDivicred.Controllers
 
             return PartialView("Cadastro", dadosPGD);
         }
+
+
+        [HttpPost]
+        public ActionResult SalvarUsuario(Parametros dados, FormCollection receberForm)
+        {
+            var insereDados = new QueryMysqlParametros();
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+
+                var login = Criptografa.Descriptografar(cookie.Value);
+                
+                /*
+                var login = Criptografa.Descriptografar(cookie.Value);
+
+                var valor = receberForm["valor"];
+                var dadosProdutos = insereDados.RetornaDadosProdutos(dados.IdProduto);
+                var peso = dadosProdutos[0]["peso"];
+                var valorminimo = dadosProdutos[0]["valorminimo"];
+                double valorponto;
+
+                if (valorminimo != "1")
+                {
+                    var teste = Convert.ToDouble(valor.Replace(".", ","));
+                    valorponto = teste / Convert.ToDouble(valorminimo) *
+                                 Convert.ToDouble(peso);
+                }
+                else
+                {
+                    valorponto = Convert.ToDouble(peso);
+                }
+
+                insereDados.InsereProducao(dados.Cpf, dados.IdProduto, dados.Observacao, dados.Datacontratacao, login,
+                    valor,
+                    valorponto.ToString("N2"));
+
+                insereDados.IncluirPontucao(login, valorponto);
+
+
+                var saldoAtual = insereDados.BuscaSaldoAtual(login);
+
+                TempData["saldo"] = saldoAtual;*/
+            }
+
+
+            return RedirectToAction("Pgd", "Pgd", new { Mensagem = "Produção cadastrada com sucesso !" });
+        }
+
     }
 }

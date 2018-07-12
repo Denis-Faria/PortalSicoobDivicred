@@ -32,10 +32,9 @@
                     data: { "idAlerta": idAlerta },
                     success: function(data) {
                         $("#" + idAlerta).remove();
-                        var Total = $("#TotalAlertas").prop("data-badge");
-                        alert(Total);
-                        Total = Total - 1;
-                        $("#TotalAlertas").prop(" data-badge", Total);
+                        var Total = $("#TotalAlertas").val($("#TotalAlertas").attr("data-badge"));
+                        Total = Total.val() - 1;
+                        $("#TotalAlertas").attr("data-badge", Total);
                         iziToast.success({
                             title: 'Sucesso',
                             position: "center",
@@ -105,7 +104,7 @@
                     else
                     {
                         <div class="dropdown-item">
-                            <a onclick="alert('Ola');">
+                            <a>
                                 <span class="icon">
                                     <i class="fas fa-bell" style="color: white"></i>
                                 </span>

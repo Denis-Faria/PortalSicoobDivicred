@@ -255,34 +255,12 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
 
-                    if (verificaDados.PermissaoCurriculos(login))
-                        TempData["PermissaoCurriculo"] =
-                            " ";
-                    else
-                        TempData["PermissaoCurriculo"] = "display: none";
-                    if (dadosTabelaFuncionario[0]["gestor"].Equals("S"))
-                    {
-                        TempData["PermissaoGestor"] = "";
-                        TempData["AreaGestor"] = "";
-                    }
-                    else
-                    {
-                        TempData["PermissaoGestor"] = "hidden";
-                        TempData["AreaGestor"] = "hidden";
-                    }
+                    var validacoes = new ValidacoesIniciais();
 
-                    if (verificaDados.PermissaoTesouraria(login))
-                        TempData["PermissaoTesouraria"] =
-                            " ";
-                    else
-                        TempData["PermissaoTesouraria"] = "display: none";
+                    validacoes.AlertasUsuario( this, dadosTabelaFuncionario[0]["id"] );
+                    validacoes.Permissoes( this, dadosTabelaFuncionario );
+                    validacoes.DadosNavBar( this, dadosTabelaFuncionario );
 
-                    TempData["NomeLateral"] = dadosTabelaFuncionario[0]["login"];
-                    TempData["EmailLateral"] = dadosTabelaFuncionario[0]["email"];
-                    if (dadosTabelaFuncionario[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["ImagemPerfil"] = dadosTabelaFuncionario[0]["foto"];
                     return View("Perfil", dadosFuncionario);
                 }
             }
@@ -521,31 +499,15 @@ namespace PortalSicoobDivicred.Controllers
                 var Login = Criptografa.Descriptografar(Cookie.Value);
                 if (CarregaDados.PrimeiroLogin(Login))
                     return RedirectToAction("FormularioCadastro", "Principal");
-                var DadosUsuarioBanco = CarregaDados.RecuperaDadosUsuarios(Login);
+
+                var dadosUsuarioBanco = CarregaDados.RecuperaDadosUsuarios(Login);
 
 
-                if (CarregaDados.PermissaoCurriculos(DadosUsuarioBanco[0]["login"]))
-                    TempData["PermissaoCurriculo"] =
-                        " <a  href='javascript: Curriculo(); void(0); ' class='item' style='color: #38d5c5;' data-balloon='Curriculos' data-balloon-pos='right'><span class='icon'><i class='fa fa-book'></i></span><span class='name'></span></a>";
-                else
-                    TempData["PermissaoCurriculo"] = "";
-                if (DadosUsuarioBanco[0]["gestor"].Equals("S"))
-                {
-                    TempData["PermissaoGestor"] = "";
-                    TempData["AreaGestor"] = "";
-                }
-                else
-                {
-                    TempData["PermissaoGestor"] = "hidden";
-                    TempData["AreaGestor"] = "hidden";
-                }
+                var validacoes = new ValidacoesIniciais();
 
-                TempData["NomeLateral"] = DadosUsuarioBanco[0]["login"];
-                TempData["EmailLateral"] = DadosUsuarioBanco[0]["email"];
-                if (DadosUsuarioBanco[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                else
-                    TempData["ImagemPerfil"] = DadosUsuarioBanco[0]["foto"];
+                validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
+                validacoes.Permissoes( this, dadosUsuarioBanco );
+                validacoes.DadosNavBar( this, dadosUsuarioBanco );
 
 
                 var DadosColaborador = CarregaDados.RecuperadadosFuncionariosSetor();

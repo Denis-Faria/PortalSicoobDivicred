@@ -26,29 +26,17 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = insereDados.UsuarioLogado();
             if (Logado)
             {
-                var Cookie = Request.Cookies.Get("CookieFarm");
-                var Login = Criptografa.Descriptografar(Cookie.Value);
-                var DadosUsuario = insereDados.RecuperaDadosUsuarios(Login);
-                if (insereDados.PermissaoTesouraria(DadosUsuario[0]["login"]))
-                    TempData["PermissaoTesouraria"] =
-                        " ";
-                else
-                    TempData["PermissaoTesouraria"] = "display: none";
+                var cookie = Request.Cookies.Get("CookieFarm");
+                if (cookie != null)
+                {
+                    var login = Criptografa.Descriptografar(cookie.Value);
+                    var dadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(login);
+                    var validacoes = new ValidacoesIniciais();
 
-                if (DadosUsuario[0]["foto"] == null)
-                    TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                else
-                    TempData["ImagemPerfil"] = DadosUsuario[0]["foto"];
-
-                if (insereDados.PermissaoCurriculos(Login))
-                    TempData["PermissaoCurriculo"] =
-                        " ";
-                else
-                    TempData["PermissaoCurriculo"] = "display: none";
-
-                string idUsuario = insereDados.Recuperausuario(Login);
-                TempData["NomeLateral"] = DadosUsuario[0]["login"];
-                TempData["EmailLateral"] = DadosUsuario[0]["email"];
+                    validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
+                    validacoes.Permissoes( this, dadosUsuarioBanco );
+                    validacoes.DadosNavBar( this, dadosUsuarioBanco );
+                }
 
                 return View("Tesouraria");
             }

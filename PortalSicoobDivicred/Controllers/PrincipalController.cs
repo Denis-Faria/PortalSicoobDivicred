@@ -13,6 +13,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Principal(string mensagem)
         {
+            var validacoes = new ValidacoesIniciais();
             var verificaDados = new QueryMysql();
             var logado = verificaDados.UsuarioLogado();
             if(logado)
@@ -26,56 +27,15 @@ namespace PortalSicoobDivicred.Controllers
 
                     if(verificaDados.PrimeiroLogin( login ))
                         return RedirectToAction( "FormularioCadastro", "Principal" );
+
                     var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios( login );
 
                     TempData["ValidaBanco"] = dadosUsuarioBanco[0]["validabanco"];
 
-                    if(verificaDados.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoCurriculo"] =
-                            " ";
-                    else
-                        TempData["PermissaoCurriculo"] = "display: none";
+                    validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
+                    validacoes.Permissoes(this,dadosUsuarioBanco);
+                    validacoes.DadosNavBar(this,dadosUsuarioBanco);
 
-                    if(verificaDados.PermissaoTesouraria( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoTesouraria"] =
-                            " ";
-                    else
-                        TempData["PermissaoTesouraria"] = "display: none";
-
-                    if(dadosUsuarioBanco[0]["gestor"].Equals( "S" ))
-                    {
-                        TempData["PermissaoGestor"] = "N";
-                        TempData["AreaGestor"] = "S";
-                    }
-                    else
-                    {
-                        TempData["PermissaoGestor"] = "N";
-                        TempData["AreaGestor"] = "N";
-                    }
-
-                    if(verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoNumerario"] =
-                            " ";
-                    else if(verificaDados.PermissaoControleTesouraria( dadosUsuarioBanco[0]["login"] ))
-                        TempData["PermissaoNumerario"] =
-                            " ";
-                    else
-                        TempData["PermissaoNumerario"] = "display: none";
-
-                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
-                    TempData["EmailLateral"] = dadosUsuarioBanco[0]["email"];
-                    if(dadosUsuarioBanco[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
-
-                   var alertas = verificaDados.BuscaAlerta(dadosUsuarioBanco[0]["id"]);
-                    TempData["TotalAlertas"] = alertas.Count;
-                    for (int i = 0; i < alertas.Count; i++)
-                    {
-                        TempData["Alerta" + i] = alertas[i]["descricao"];
-                        TempData["IdAlerta" + i] = alertas[i]["id"];
-                    }
                 }
 
                 return View();

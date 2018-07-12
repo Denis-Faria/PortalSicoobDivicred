@@ -28,27 +28,11 @@ namespace PortalSicoobDivicred.Controllers
 
                     var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
 
-                    TempData["usuarioTI"] = dadosUsuario[0]["idgrupo"];
+                    var validacoes = new ValidacoesIniciais();
 
-                    var permissao = new QueryMysql();
-                    if (permissao.PermissaoCurriculos(login))
-                        TempData["PermissaoCurriculo"] =
-                            " ";
-                    else
-                        TempData["PermissaoCurriculo"] = "display: none";
-
-                    if (permissao.PermissaoTesouraria(login))
-                        TempData["PermissaoTesouraria"] =
-                            " ";
-                    else
-                        TempData["PermissaoTesouraria"] = "display: none";
-
-                    if (dadosUsuario[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuario[0]["foto"];
-
-                    TempData["NomeLateral"] = dadosUsuario[0]["login"];
+                    validacoes.AlertasUsuario( this, dadosUsuario[0]["id"] );
+                    validacoes.Permissoes( this, dadosUsuario );
+                    validacoes.DadosNavBar( this, dadosUsuario );
 
                     var chamadosEmAberto = verificaDados.RetornaChamadosAbertos(dadosUsuario[0]["id"]);
                     TempData["TotalChamados"] = chamadosEmAberto.Count;
@@ -217,25 +201,11 @@ namespace PortalSicoobDivicred.Controllers
 
                     var buscaWebdesk = new BuscaElasticSearch();
 
-                    if (dadosFuncionarios[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                    else
-                        TempData["ImagemPerfil"] = dadosFuncionarios[0]["foto"];
+                    var validacoes = new ValidacoesIniciais();
 
-                    TempData["NomeLateral"] = dadosFuncionarios[0]["login"];
-
-                    var permissao = new QueryMysql();
-                    if (permissao.PermissaoCurriculos(login))
-                        TempData["PermissaoCurriculo"] =
-                            " ";
-                    else
-                        TempData["PermissaoCurriculo"] = "display: none";
-
-                    if (permissao.PermissaoTesouraria(login))
-                        TempData["PermissaoTesouraria"] =
-                            " ";
-                    else
-                        TempData["PermissaoTesouraria"] = "display: none";
+                    validacoes.AlertasUsuario( this, dadosUsuarios[0]["id"] );
+                    validacoes.Permissoes( this, dadosUsuarios );
+                    validacoes.DadosNavBar( this, dadosUsuarios );
 
                     List<Dictionary<string, string>> resultadoPEsquisa;
                     List<IHit<Webdesk>> dadoResultado;
@@ -485,25 +455,12 @@ namespace PortalSicoobDivicred.Controllers
                         var formulario = verificaDados.RetornaFormularioChamado(idChamado);
 
 
-                        if (dadosUsuario[0]["foto"] == null)
-                            TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                        else
-                            TempData["ImagemPerfil"] = dadosUsuario[0]["foto"];
+                        var validacoes = new ValidacoesIniciais();
 
-                        var permissao = new QueryMysql();
-                        if (permissao.PermissaoCurriculos(login))
-                            TempData["PermissaoCurriculo"] =
-                                " ";
-                        else
-                            TempData["PermissaoCurriculo"] = "display: none";
+                        validacoes.AlertasUsuario( this, dadosUsuario[0]["id"] );
+                        validacoes.Permissoes( this, dadosUsuario );
+                        validacoes.DadosNavBar( this, dadosUsuario );
 
-                        if (permissao.PermissaoTesouraria(login))
-                            TempData["PermissaoTesouraria"] =
-                                " ";
-                        else
-                            TempData["PermissaoTesouraria"] = "display: none";
-
-                        TempData["NomeLateral"] = dadosUsuario[0]["login"];
                         TempData["IdSolicitacao"] = idChamado;
                         var dadosChamado = verificaDados.RetornaDadosChamado(idChamado);
 
@@ -1078,35 +1035,11 @@ namespace PortalSicoobDivicred.Controllers
 
                     var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios(login);
 
-                    if (verificaDados.PermissaoCurriculos(dadosUsuarioBanco[0]["login"]))
-                        TempData["PermissaoCurriculo"] =
-                            " ";
-                    else
-                        TempData["PermissaoCurriculo"] = "display: none";
+                    var validacoes = new ValidacoesIniciais();
 
-                    if (verificaDados.PermissaoTesouraria(dadosUsuarioBanco[0]["login"]))
-                        TempData["PermissaoTesouraria"] =
-                            " ";
-                    else
-                        TempData["PermissaoTesouraria"] = "display: none";
-
-                    if (dadosUsuarioBanco[0]["gestor"].Equals("S"))
-                    {
-                        TempData["PermissaoGestor"] = "N";
-                        TempData["AreaGestor"] = "S";
-                    }
-                    else
-                    {
-                        TempData["PermissaoGestor"] = "N";
-                        TempData["AreaGestor"] = "N";
-                    }
-
-                    if (dadosUsuarioBanco[0]["foto"] == null)
-                        TempData["ImagemPerfil"] = "http://bulma.io/images/placeholders/128x128.png";
-                    else
-                        TempData["ImagemPerfil"] = dadosUsuarioBanco[0]["foto"];
-
-                    TempData["NomeLateral"] = dadosUsuarioBanco[0]["login"];
+                    validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
+                    validacoes.Permissoes( this, dadosUsuarioBanco );
+                    validacoes.DadosNavBar( this, dadosUsuarioBanco );
                 }
 
                 return View("AreaGestor");

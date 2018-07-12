@@ -19,17 +19,17 @@
 }
 <br/>
 <script>
-    function MostrarConteudo(IdConteudo) {
+    function MostrarConteudo(idConteudo) {
 
-        if ($("#" + IdConteudo).is(":visible")) {
+        if ($("#" + idConteudo).is(":visible")) {
 
-            $("#" + IdConteudo).addClass("animated fadeOut");
-            $("#" + IdConteudo).hide();
+            $("#" + idConteudo).addClass("animated fadeOut");
+            $("#" + idConteudo).hide();
 
         } else {
-            $("#" + IdConteudo).removeClass("animated fadeOut");
-            $("#" + IdConteudo).addClass("animated fadeIn");
-            $("#" + IdConteudo).show();
+            $("#" + idConteudo).removeClass("animated fadeOut");
+            $("#" + idConteudo).addClass("animated fadeIn");
+            $("#" + idConteudo).show();
         }
     }
 </script>

@@ -36,6 +36,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
                 catch
                 {
+                    
                     dadosCurriculos = carregaDados.RecuperaCurriculos();
                 }
 
@@ -330,7 +331,7 @@ namespace PortalSicoobDivicred.Controllers
                     var smsClient = new SMSClient( configuration );
                     var smsRequest = new SMSRequest( "Portal Sicoob Divicred",
                         "Portal Sicoob Divicred, Novas vagas cadastradas.Entre e confira. ", envioSms );
-                    var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
+                    smsClient.SmsMessagingClient.SendSMS( smsRequest );
 
 
                     Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
@@ -340,15 +341,15 @@ namespace PortalSicoobDivicred.Controllers
                     var fromName = "Sicoob Divicred";
                     var bodyText = "";
                     var bodyHtml = Api.Template.LoadTemplate( 5381 ).BodyHtml;
-                    ApiTypes.EmailSend result = null;
 
                     try
                     {
-                        result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
+                        Api.Email.Send( subject, fromEmail, fromName, to: recipients,
                             bodyText: bodyText, bodyHtml: bodyHtml );
                     }
                     catch
                     {
+                        // ignored
                     }
 
                     return RedirectToAction( "Curriculo", "Curriculo",
@@ -731,37 +732,37 @@ namespace PortalSicoobDivicred.Controllers
                     if(!curriculos.Keys[i].Contains( "vaga" ) && !curriculos.Keys[i].Equals( "Alerta" ))
                     {
                         iniciarProcesso.IniciarProcessoSeletivo( curriculos.Keys[i], vaga[0] );
-                        var EmailCelular = iniciarProcesso.RecuperaEmail( curriculos.Keys[i] );
-                        var Certo = "";
-                        if(EmailCelular[0]["telefoneprincipal"] != null)
-                            Certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
+                        var emailCelular = iniciarProcesso.RecuperaEmail( curriculos.Keys[i] );
+                        var certo = "";
+                        if(emailCelular[0]["telefoneprincipal"] != null)
+                            certo = "55" + emailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
                                         .Replace( '-', ' ' );
                         var configuration = new Configuration( "Divicred", "Euder17!" );
                         var smsClient = new SMSClient( configuration );
                         var smsRequest = new SMSRequest( "Portal Sicoob Divicred", curriculos["Alerta"],
-                            Certo.Replace( " ", "" ) );
-                        var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
+                            certo.Replace( " ", "" ) );
+                        smsClient.SmsMessagingClient.SendSMS( smsRequest );
 
                         Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                        string[] recipients = { EmailCelular[0]["email"] };
+                        string[] recipients = { emailCelular[0]["email"] };
                         var subject = "Parabéns";
                         var fromEmail = "correio@divicred.com.br";
                         var fromName = "Sicoob Divicred";
                         var bodyText = "";
                         var bodyHtml = Api.Template.LoadTemplate( 5448 ).BodyHtml;
 
-                        ApiTypes.EmailSend result = null;
 
                         try
                         {
-                            result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
+                            Api.Email.Send( subject, fromEmail, fromName, to: recipients,
                                 bodyText: bodyText, bodyHtml: bodyHtml );
                         }
                         catch
                         {
+                            // ignored
                         }
 
-                        iniciarProcesso.CadastrarAlertaEspecifico( curriculos["Alerta"], EmailCelular[0]["id"] );
+                        iniciarProcesso.CadastrarAlertaEspecifico( curriculos["Alerta"], emailCelular[0]["id"] );
                     }
 
                 var dadosCurriculos = iniciarProcesso.RecuperaCurriculosHistorico( vaga[0] );
@@ -772,8 +773,7 @@ namespace PortalSicoobDivicred.Controllers
                     if(!curriculos.AllKeys.Contains( dadosCurriculos[j]["cpf"] ))
                     {
                         emails = emails + ";" + dadosCurriculos[j]["email"];
-                        if(dadosCurriculos[j]["telefoneprincipal"] != null ||
-                            dadosCurriculos[j]["telefoneprincipal"].Length > 0)
+                        if(dadosCurriculos[j]["telefoneprincipal"] != null)
                         {
                             var telefoneCerto = "55" + dadosCurriculos[j]["telefoneprincipal"].Replace( ')', ' ' )
                                                     .Replace( '(', ' ' ).Replace( '-', ' ' );
@@ -814,15 +814,15 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult PerfilCandidatoProcesso(string IdVaga)
+        public ActionResult PerfilCandidatoProcesso(string idVaga)
         {
             var verificaDados = new QueryMysqlCurriculo();
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
                 var recuperaDados = new QueryMysqlCurriculo();
-                var dadosProcesso = recuperaDados.RecuperaCurriculosProcesso( IdVaga );
-                TempData["IdVaga"] = IdVaga;
+                var dadosProcesso = recuperaDados.RecuperaCurriculosProcesso( idVaga );
+                TempData["IdVaga"] = idVaga;
                 TempData["TotalCurriculo"] = dadosProcesso.Count;
 
                 for(var i = 0; i < dadosProcesso.Count; i++)
@@ -895,15 +895,15 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult CadastrarAlerta(FormCollection Alerta)
+        public ActionResult CadastrarAlerta(FormCollection alerta)
         {
             var verificaDados = new QueryMysqlCurriculo();
-            var Logado = verificaDados.UsuarioLogado();
-            if(Logado)
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var CadastrarAlertas = new QueryMysqlCurriculo();
+                var cadastrarAlertas = new QueryMysqlCurriculo();
 
-                CadastrarAlertas.CadastrarAlerta( Alerta["TextAlerta"] );
+                cadastrarAlertas.CadastrarAlerta( alerta["TextAlerta"] );
                 TempData["Opcao"] = "Curriculo";
 
                 return RedirectToAction( "Curriculo", "Curriculo", new { Mensagem = "Alerta cadastrado com sucesso !" } );
@@ -912,15 +912,15 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult CadastrarMensagem(FormCollection Mensagem)
+        public ActionResult CadastrarMensagem(FormCollection mensagem)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var CadastrarMensagens = new QueryMysqlCurriculo();
+                var cadastrarMensagens = new QueryMysqlCurriculo();
 
-                CadastrarMensagens.CadastrarMensagem( Mensagem["TextMensagem"] );
+                cadastrarMensagens.CadastrarMensagem( mensagem["TextMensagem"] );
                 TempData["Opcao"] = "Curriculo";
 
                 return RedirectToAction( "Curriculo", "Curriculo", new { Mensagem = "Mensagem cadastrada com sucesso !" } );
@@ -930,90 +930,87 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
-        public ActionResult EncerraProcesso(FormCollection Resultado)
+        public ActionResult EncerraProcesso(FormCollection resultado)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var Status = new QueryMysqlCurriculo();
-                for(var i = 0; i < Resultado.Count; i++)
+                var status = new QueryMysqlCurriculo();
+                for(var i = 0; i < resultado.Count; i++)
                 {
-                    var Cpf = Resultado.Keys[i].Split( ' ' );
-                    if(Cpf[0].Contains( "Teorica" ))
-                        Status.AtualizaProcessoSeletivoTeorico( Cpf[1], Resultado["Vaga"], Resultado[i] );
-                    if(Cpf[0].Contains( "Gerencial" ))
-                        Status.AtualizarProcessoSeletivoGerente( Cpf[1], Resultado["Vaga"], Resultado[i] );
-                    if(Cpf[0].Contains( "Psicologico" ))
-                        Status.AtualizaProcessoSeletivoPsicologico( Cpf[1], Resultado["Vaga"], Resultado[i] );
-                    if(Cpf[0].Contains( "Status" ))
+                    var cpf = resultado.Keys[i].Split( ' ' );
+                    if(cpf[0].Contains( "Teorica" ))
+                        status.AtualizaProcessoSeletivoTeorico( cpf[1], resultado["Vaga"], resultado[i] );
+                    if(cpf[0].Contains( "Gerencial" ))
+                        status.AtualizarProcessoSeletivoGerente( cpf[1], resultado["Vaga"], resultado[i] );
+                    if(cpf[0].Contains( "Psicologico" ))
+                        status.AtualizaProcessoSeletivoPsicologico( cpf[1], resultado["Vaga"], resultado[i] );
+                    if(cpf[0].Contains( "Status" ))
                     {
-                        Status.AtualizarProcessoSeletivoStatus( Cpf[1], Resultado["Vaga"], Resultado[i],
-                            Resultado["Restricao" + i] );
-                        if(Resultado[i].Equals( "Aprovado" ))
+                        status.AtualizarProcessoSeletivoStatus( cpf[1], resultado["Vaga"], resultado[i],
+                            resultado["Restricao" + i] );
+                        if(resultado[i].Equals( "Aprovado" ))
                         {
-                            var EmailCelular = Status.RecuperaEmail( Cpf[1] );
-                            var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
+                            var emailCelular = status.RecuperaEmail( cpf[1] );
+                            var envioSms = new string[1];
+                            var certo = "55" + emailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
                                             .Replace( '-', ' ' );
-                            EnvioSms[0] = certo.Replace( " ", "" );
+                            envioSms[0] = certo.Replace( " ", "" );
                             var configuration = new Configuration( "Divicred", "Euder17!" );
                             var smsClient = new SMSClient( configuration );
                             var smsRequest = new SMSRequest( "Portal Sicoob Divicred",
-                                "Portal Sicoob Divicred, Parabén você foi aprovado para proxima etapa. ", EnvioSms );
-                            var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
+                                "Portal Sicoob Divicred, Parabén você foi aprovado para proxima etapa. ", envioSms );
+                            smsClient.SmsMessagingClient.SendSMS( smsRequest );
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + ";" };
+                            string[] recipients = { emailCelular[0]["email"] + ";" };
                             var subject = "Parabéns";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
                             var bodyText = "";
                             var bodyHtml = Api.Template.LoadTemplate( 5393 ).BodyHtml;
 
-                            ApiTypes.EmailSend result = null;
-
                             try
                             {
-                                result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
+                                Api.Email.Send( subject, fromEmail, fromName, to: recipients,
                                     bodyText: bodyText, bodyHtml: bodyHtml );
                             }
                             catch
                             {
+                                // ignored
                             }
 
-                            Status.CadastrarAlertaEspecifico( Resultado["Alerta"], EmailCelular[0]["id"] );
+                            status.CadastrarAlertaEspecifico( resultado["Alerta"], emailCelular[0]["id"] );
                         }
-                        else if(Resultado[i].Equals( "Reprovado" ))
+                        else if(resultado[i].Equals( "Reprovado" ))
                         {
-                            var EmailCelular = Status.RecuperaEmail( Cpf[1] );
-                            var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
+                            var emailCelular = status.RecuperaEmail( cpf[1] );
+                            var envioSms = new string[1];
+                            var certo = "55" + emailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
                                             .Replace( '-', ' ' );
-                            EnvioSms[0] = certo.Replace( " ", "" );
+                            envioSms[0] = certo.Replace( " ", "" );
 
                             var configuration = new Configuration( "Divicred", "Euder17!" );
                             var smsClient = new SMSClient( configuration );
                             var smsRequest = new SMSRequest( "Portal Sicoob Divicred",
                                 "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.",
-                                EnvioSms );
-                            var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
+                                envioSms );
+                            smsClient.SmsMessagingClient.SendSMS( smsRequest );
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + ";" };
+                            string[] recipients = { emailCelular[0]["email"] + ";" };
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
                             var bodyText = "";
                             var bodyHtml = Api.Template.LoadTemplate( 5394 ).BodyHtml;
 
-                            ApiTypes.EmailSend result = null;
-
                             try
                             {
-                                result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
+                                Api.Email.Send( subject, fromEmail, fromName, to: recipients,
                                     bodyText: bodyText, bodyHtml: bodyHtml );
                             }
                             catch
@@ -1022,46 +1019,45 @@ namespace PortalSicoobDivicred.Controllers
                         }
                         else
                         {
-                            var EmailCelular = Status.RecuperaEmail( Cpf[1] );
-                            var EnvioSms = new string[1];
-                            var certo = "55" + EmailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
+                            var emailCelular = status.RecuperaEmail( cpf[1] );
+                            var envioSms = new string[1];
+                            var certo = "55" + emailCelular[0]["telefoneprincipal"].Replace( ')', ' ' ).Replace( '(', ' ' )
                                             .Replace( '-', ' ' );
-                            EnvioSms[0] = certo.Replace( " ", "" );
+                            envioSms[0] = certo.Replace( " ", "" );
 
                             var configuration = new Configuration( "Divicred", "Euder17!" );
                             var smsClient = new SMSClient( configuration );
                             var smsRequest = new SMSRequest( "Portal Sicoob Divicred",
                                 "Portal Sicoob Divicred, Infelizmente você não foi aprovado para proxima etapa.Agradecemos sua participacao.",
-                                EnvioSms );
-                            var requestId = smsClient.SmsMessagingClient.SendSMS( smsRequest );
+                                envioSms );
+                            smsClient.SmsMessagingClient.SendSMS( smsRequest );
 
 
                             Api.ApiKey = "0db9e3fa-7f61-40c5-a4ed-bc6c4951fdcd";
-                            string[] recipients = { EmailCelular[0]["email"] + ";" };
+                            string[] recipients = { emailCelular[0]["email"] + ";" };
                             var subject = "Atualização de processo seletivo";
                             var fromEmail = "correio@divicred.com.br";
                             var fromName = "Sicoob Divicred";
                             var bodyText = "";
                             var bodyHtml = Api.Template.LoadTemplate( 5394 ).BodyHtml;
 
-                            ApiTypes.EmailSend result = null;
-
                             try
                             {
-                                result = Api.Email.Send( subject, fromEmail, fromName, to: recipients,
+                                Api.Email.Send( subject, fromEmail, fromName, to: recipients,
                                     bodyText: bodyText, bodyHtml: bodyHtml );
                             }
                             catch
                             {
+                                // ignored
                             }
 
-                            Status.CriaBalao( Cpf[1] );
+                            status.CriaBalao( cpf[1] );
                         }
                     }
                 }
 
                 return RedirectToAction( "GerenciarVaga", "Curriculo",
-                    new { IdVaga = Resultado["Vaga"], Mensagem = "Processo seleivo encerrado com sucesso !" } );
+                    new { IdVaga = resultado["Vaga"], Mensagem = "Processo seleivo encerrado com sucesso !" } );
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -1116,12 +1112,12 @@ namespace PortalSicoobDivicred.Controllers
                                                dadosUsuario[0]["uf"];
                 TempData["NivelFormacao"] = dadosUsuario[0]["escolaridade"];
 
-                var Nascimento = Convert.ToDateTime( dadosUsuario[0]["datanascimento"] );
-                var Hoje = DateTime.Now;
-                var Idade = DateTime.Now.Year - Convert.ToDateTime( dadosUsuario[0]["datanascimento"] ).Year;
-                if(Nascimento > Hoje.AddYears( -Idade )) Idade--;
+                var nascimento = Convert.ToDateTime( dadosUsuario[0]["datanascimento"] );
+                var hoje = DateTime.Now;
+                var idade = DateTime.Now.Year - Convert.ToDateTime( dadosUsuario[0]["datanascimento"] ).Year;
+                if(nascimento > hoje.AddYears( -idade )) idade--;
 
-                TempData["Idade"] = Idade + " Anos";
+                TempData["Idade"] = idade + " Anos";
                 TempData["Naturalidade"] = dadosUsuario[0]["cidade"];
                 TempData["EstadoCivil"] = dadosUsuario[0]["descricaoestadocivil"];
 
@@ -1154,147 +1150,147 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult ImprimirTodos(string IdVaga)
+        public ActionResult ImprimirTodos(string idVaga)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var DadosCurriculos = VerificaDados.RecuperaCurriculosHistorico( IdVaga );
-                var DadosUsuario = new Usuario[DadosCurriculos.Count];
-                TempData["TotalCurriculos"] = DadosCurriculos.Count;
+                var dadosCurriculos = verificaDados.RecuperaCurriculosHistorico( idVaga );
+                var dadosUsuario = new Usuario[dadosCurriculos.Count];
+                TempData["TotalCurriculos"] = dadosCurriculos.Count;
 
 
-                for(var l = 0; l < DadosCurriculos.Count; l++)
+                for(var l = 0; l < dadosCurriculos.Count; l++)
                 {
-                    var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato( DadosCurriculos[l]["cpf"] );
-                    DadosUsuario[l] = new Usuario();
-                    if(!DadosUsuarioBanco[0]["idarquivogoogle"].Equals( "0" ))
+                    var dadosUsuarioBanco = verificaDados.RecuperaDadosCandidato( dadosCurriculos[l]["cpf"] );
+                    dadosUsuario[l] = new Usuario();
+                    if(!dadosUsuarioBanco[0]["idarquivogoogle"].Equals( "0" ))
                         TempData["ImagemPerfil" + l] = "https://portalsicoobdivicred.com.br/Uploads/" +
-                                                       DadosUsuarioBanco[0]["idarquivogoogle"];
+                                                       dadosUsuarioBanco[0]["idarquivogoogle"];
                     else
                         TempData["ImagemPerfil" + l] = "https://docs.google.com/uc?id=0B2CLuTO3N2_obWdkajEzTmpGeU0";
-                    var AreasInteresse = VerificaDados.RecuperaAreaInteresseUsuarios( DadosUsuarioBanco[0]["id"] );
+                    var areasInteresse = verificaDados.RecuperaAreaInteresseUsuarios( dadosUsuarioBanco[0]["id"] );
 
-                    DadosUsuario[l].NomeCompleto = DadosUsuarioBanco[0]["nome"];
-                    DadosUsuario[l].TelefonePrincipal = DadosUsuarioBanco[0]["telefoneprincipal"];
-                    DadosUsuario[l].TelefoneSecundario = DadosUsuarioBanco[0]["telefonesecundario"];
-                    DadosUsuario[l].Cep = DadosUsuarioBanco[0]["cep"];
-                    DadosUsuario[l].Rua = DadosUsuarioBanco[0]["endereco"];
-                    DadosUsuario[l].Numero = DadosUsuarioBanco[0]["numero"];
-                    DadosUsuario[l].Bairro = DadosUsuarioBanco[0]["bairro"];
-                    DadosUsuario[l].Cidade = DadosUsuarioBanco[0]["cidade"];
-                    DadosUsuario[l].Uf = DadosUsuarioBanco[0]["uf"];
-                    DadosUsuario[l].Email = DadosUsuarioBanco[0]["email"];
-                    DadosUsuario[l].TipoDeficiencia = DadosUsuarioBanco[0]["tipodeficiencia"];
-                    DadosUsuario[l].Sexo = DadosUsuarioBanco[0]["sexo"];
-                    DadosUsuario[l].Informatica = DadosUsuarioBanco[0]["informatica"];
-                    DadosUsuario[l].Idade = Convert.ToDateTime( DadosUsuarioBanco[0]["datanascimento"] );
-                    DadosUsuario[l].Cpf = DadosUsuarioBanco[0]["cpf"];
-                    DadosUsuario[l].Identidade = DadosUsuarioBanco[0]["identidade"];
-                    DadosUsuario[l].Complemento = DadosUsuarioBanco[0]["complemento"];
-                    DadosUsuario[l].Resumo = DadosUsuarioBanco[0]["resumo"];
-                    DadosUsuario[l].Certificacao = DadosUsuarioBanco[0]["certificacao"];
-                    TempData["Conhecido" + l] = DadosUsuarioBanco[0]["conhecido"];
+                    dadosUsuario[l].NomeCompleto = dadosUsuarioBanco[0]["nome"];
+                    dadosUsuario[l].TelefonePrincipal = dadosUsuarioBanco[0]["telefoneprincipal"];
+                    dadosUsuario[l].TelefoneSecundario = dadosUsuarioBanco[0]["telefonesecundario"];
+                    dadosUsuario[l].Cep = dadosUsuarioBanco[0]["cep"];
+                    dadosUsuario[l].Rua = dadosUsuarioBanco[0]["endereco"];
+                    dadosUsuario[l].Numero = dadosUsuarioBanco[0]["numero"];
+                    dadosUsuario[l].Bairro = dadosUsuarioBanco[0]["bairro"];
+                    dadosUsuario[l].Cidade = dadosUsuarioBanco[0]["cidade"];
+                    dadosUsuario[l].Uf = dadosUsuarioBanco[0]["uf"];
+                    dadosUsuario[l].Email = dadosUsuarioBanco[0]["email"];
+                    dadosUsuario[l].TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
+                    dadosUsuario[l].Sexo = dadosUsuarioBanco[0]["sexo"];
+                    dadosUsuario[l].Informatica = dadosUsuarioBanco[0]["informatica"];
+                    dadosUsuario[l].Idade = Convert.ToDateTime( dadosUsuarioBanco[0]["datanascimento"] );
+                    dadosUsuario[l].Cpf = dadosUsuarioBanco[0]["cpf"];
+                    dadosUsuario[l].Identidade = dadosUsuarioBanco[0]["identidade"];
+                    dadosUsuario[l].Complemento = dadosUsuarioBanco[0]["complemento"];
+                    dadosUsuario[l].Resumo = dadosUsuarioBanco[0]["resumo"];
+                    dadosUsuario[l].Certificacao = dadosUsuarioBanco[0]["certificacao"];
+                    TempData["Conhecido" + l] = dadosUsuarioBanco[0]["conhecido"];
 
 
-                    if(DadosUsuarioBanco[0]["disponibilidadeviagem"].Equals( "S" ))
+                    if(dadosUsuarioBanco[0]["disponibilidadeviagem"].Equals( "S" ))
                         TempData["Disponibilidades" + l] = "SIM";
                     else
                         TempData["Disponibilidades" + l] = "NÃO";
 
-                    DadosUsuario[l].QuantidadeFilho = DadosUsuarioBanco[0]["quantidadefilhos"];
-                    DadosUsuario[l].TipoDeficiencia = DadosUsuarioBanco[0]["tipodeficiencia"];
-                    DadosUsuario[l].Cnh = DadosUsuarioBanco[0]["cnh"];
-                    DadosUsuario[l].PrimeiraCnh = DadosUsuarioBanco[0]["dataprimeiracnh"];
-                    DadosUsuario[l].CatCnh = DadosUsuarioBanco[0]["categoriacnh"];
+                    dadosUsuario[l].QuantidadeFilho = dadosUsuarioBanco[0]["quantidadefilhos"];
+                    dadosUsuario[l].TipoDeficiencia = dadosUsuarioBanco[0]["tipodeficiencia"];
+                    dadosUsuario[l].Cnh = dadosUsuarioBanco[0]["cnh"];
+                    dadosUsuario[l].PrimeiraCnh = dadosUsuarioBanco[0]["dataprimeiracnh"];
+                    dadosUsuario[l].CatCnh = dadosUsuarioBanco[0]["categoriacnh"];
                     TempData["estadocivil" + l] =
-                        VerificaDados.RecuperaEstadoCivilCandidato( DadosUsuarioBanco[0]["estadocivil"] );
+                        verificaDados.RecuperaEstadoCivilCandidato( dadosUsuarioBanco[0]["estadocivil"] );
                     TempData["Escolaridade" + l] =
-                        VerificaDados.RecuperaEscolaridadeCandidato( DadosUsuarioBanco[0]["idtipoescolaridade"] );
-                    var Profissional = VerificaDados.RecuperaDadosUsuariosProissional( DadosUsuarioBanco[0]["id"] );
+                        verificaDados.RecuperaEscolaridadeCandidato( dadosUsuarioBanco[0]["idtipoescolaridade"] );
+                    var profissional = verificaDados.RecuperaDadosUsuariosProissional( dadosUsuarioBanco[0]["id"] );
 
-                    var NomeEmpresa = new List<string>();
-                    var NomeCargo = new List<string>();
-                    var DataEntrada = new List<string>();
-                    var DataSaida = new List<string>();
-                    var Atividades = new List<string>();
-                    var EmpregoAtual = new List<string>();
+                    var nomeEmpresa = new List<string>();
+                    var nomeCargo = new List<string>();
+                    var dataEntrada = new List<string>();
+                    var dataSaida = new List<string>();
+                    var atividades = new List<string>();
+                    var empregoAtual = new List<string>();
 
-                    for(var i = 0; i < Profissional.Count; i++)
+                    for(var i = 0; i < profissional.Count; i++)
                     {
-                        NomeEmpresa.Add( Profissional[i]["nomeempresa"] );
-                        NomeCargo.Add( Profissional[i]["nomecargo"] );
-                        DataEntrada.Add( Convert.ToDateTime( Profissional[i]["dataentrada"] ).Date.ToString() );
-                        DataSaida.Add( Convert.ToDateTime( Profissional[i]["datasaida"] ).Date.ToString() );
-                        Atividades.Add( Profissional[i]["atividadedesempenhada"] );
-                        if(Profissional[i]["empregoatual"].Equals( "S" ))
-                            EmpregoAtual.Add( "SIM" );
+                        nomeEmpresa.Add( profissional[i]["nomeempresa"] );
+                        nomeCargo.Add( profissional[i]["nomecargo"] );
+                        dataEntrada.Add( Convert.ToDateTime( profissional[i]["dataentrada"] ).Date.ToString() );
+                        dataSaida.Add( Convert.ToDateTime( profissional[i]["datasaida"] ).Date.ToString() );
+                        atividades.Add( profissional[i]["atividadedesempenhada"] );
+                        if(profissional[i]["empregoatual"].Equals( "S" ))
+                            empregoAtual.Add( "SIM" );
                         else
-                            EmpregoAtual.Add( "NÃO" );
+                            empregoAtual.Add( "NÃO" );
                     }
 
-                    DadosUsuario[l].NomeEmpresa = NomeEmpresa;
-                    DadosUsuario[l].NomeCargo = NomeCargo;
-                    DadosUsuario[l].DataEntrada = DataEntrada;
-                    DadosUsuario[l].DataSaida = DataSaida;
-                    DadosUsuario[l].Atividades = Atividades;
-                    DadosUsuario[l].EmpregoAtual = EmpregoAtual;
+                    dadosUsuario[l].NomeEmpresa = nomeEmpresa;
+                    dadosUsuario[l].NomeCargo = nomeCargo;
+                    dadosUsuario[l].DataEntrada = dataEntrada;
+                    dadosUsuario[l].DataSaida = dataSaida;
+                    dadosUsuario[l].Atividades = atividades;
+                    dadosUsuario[l].EmpregoAtual = empregoAtual;
 
 
-                    var Educacional = VerificaDados.RecuperaDadosUsuariosEducacional( DadosUsuarioBanco[0]["id"] );
+                    var educacional = verificaDados.RecuperaDadosUsuariosEducacional( dadosUsuarioBanco[0]["id"] );
 
-                    var NomeInstituicao = new List<string>();
-                    var TipoFormacao = new List<string>();
-                    var NomeCurso = new List<string>();
-                    var AnoInicio = new List<string>();
-                    var AnoFim = new List<string>();
+                    var nomeInstituicao = new List<string>();
+                    var tipoFormacao = new List<string>();
+                    var nomeCurso = new List<string>();
+                    var anoInicio = new List<string>();
+                    var anoFim = new List<string>();
 
 
-                    for(var i = 0; i < Educacional.Count; i++)
+                    for(var i = 0; i < educacional.Count; i++)
                     {
-                        NomeInstituicao.Add( Educacional[i]["nomeinstituicao"] );
-                        NomeCurso.Add( Educacional[i]["nomecurso"] );
-                        AnoInicio.Add( Educacional[i]["anoinicio"] );
-                        AnoFim.Add( Educacional[i]["anofim"] );
-                        TipoFormacao.Add( Educacional[i]["tipoformacao"] );
+                        nomeInstituicao.Add( educacional[i]["nomeinstituicao"] );
+                        nomeCurso.Add( educacional[i]["nomecurso"] );
+                        anoInicio.Add( educacional[i]["anoinicio"] );
+                        anoFim.Add( educacional[i]["anofim"] );
+                        tipoFormacao.Add( educacional[i]["tipoformacao"] );
                     }
 
-                    DadosUsuario[l].NomeInstituicao = NomeInstituicao;
-                    DadosUsuario[l].NomeCurso = NomeCurso;
-                    DadosUsuario[l].AnoInicio = AnoInicio;
-                    DadosUsuario[l].AnoTermino = AnoFim;
-                    DadosUsuario[l].TipoFormacao = TipoFormacao;
+                    dadosUsuario[l].NomeInstituicao = nomeInstituicao;
+                    dadosUsuario[l].NomeCurso = nomeCurso;
+                    dadosUsuario[l].AnoInicio = anoInicio;
+                    dadosUsuario[l].AnoTermino = anoFim;
+                    dadosUsuario[l].TipoFormacao = tipoFormacao;
 
 
                     for(var i = 1; i <= 17; i++)
                         TempData["Area" + i] = "";
 
-                    var Areas = AreasInteresse[0]["descricao"].Split( ';' );
+                    var areas = areasInteresse[0]["descricao"].Split( ';' );
 
-                    TempData["Area" + l] = Areas;
+                    TempData["Area" + l] = areas;
                 }
 
-                return View( "ImprimirTodos", DadosUsuario );
+                return View( "ImprimirTodos", dadosUsuario );
             }
 
             return RedirectToAction( "Login", "Login" );
         }
 
 
-        public ActionResult CadastrarVagaEspecifica(Vagas Vaga)
+        public ActionResult CadastrarVagaEspecifica(Vagas vaga)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var CadastrarVaga = new QueryMysqlCurriculo();
+                var cadastrarVaga = new QueryMysqlCurriculo();
 
                 if(ModelState.IsValid)
                 {
-                    CadastrarVaga.CadastrarVaga( Vaga.Descricao, "Especifica", Vaga.Salario.Replace( ",", "." ),
-                        Vaga.Requisitos,
-                        Vaga.Titulo, Vaga.Beneficio );
+                    cadastrarVaga.CadastrarVaga( vaga.Descricao, "Especifica", vaga.Salario.Replace( ",", "." ),
+                        vaga.Requisitos,
+                        vaga.Titulo, vaga.Beneficio );
 
                     TempData["Opcao"] = "Curriculo";
 
@@ -1308,16 +1304,16 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult AtribuirVagaEspecifica(FormCollection Vaga)
+        public ActionResult AtribuirVagaEspecifica(FormCollection vaga)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var CadastrarVaga = new QueryMysqlCurriculo();
+                var cadastrarVaga = new QueryMysqlCurriculo();
 
 
-                CadastrarVaga.AtribuirVaga( Vaga["CpfAtribui"], Vaga["VagaEspecifica"] );
+                cadastrarVaga.AtribuirVaga( vaga["CpfAtribui"], vaga["VagaEspecifica"] );
 
                 TempData["Opcao"] = "Curriculo";
 
@@ -1327,22 +1323,22 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult AlterarVaga(string IdVaga)
+        public ActionResult AlterarVaga(string idVaga)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var DadosVaga = VerificaDados.RecuperaDadosVaga( IdVaga );
-                var Vaga = new Vagas();
-                Vaga.Titulo = DadosVaga[0]["titulo"];
-                Vaga.Descricao = DadosVaga[0]["descricao"];
-                Vaga.Beneficio = DadosVaga[0]["beneficio"];
-                Vaga.Salario = DadosVaga[0]["salario"];
-                Vaga.Requisitos = DadosVaga[0]["requisito"];
-                TempData["IdVaga"] = IdVaga;
+                var dadosVaga = verificaDados.RecuperaDadosVaga( idVaga );
+                var vaga = new Vagas();
+                vaga.Titulo = dadosVaga[0]["titulo"];
+                vaga.Descricao = dadosVaga[0]["descricao"];
+                vaga.Beneficio = dadosVaga[0]["beneficio"];
+                vaga.Salario = dadosVaga[0]["salario"];
+                vaga.Requisitos = dadosVaga[0]["requisito"];
+                TempData["IdVaga"] = idVaga;
 
-                if(DadosVaga[0]["ativa"].Equals( "S" ))
+                if(dadosVaga[0]["ativa"].Equals( "S" ))
                 {
                     TempData["Ativa"] = "checked";
                     TempData["Status"] = "Ativa";
@@ -1353,10 +1349,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Status"] = "Desativada";
                 }
 
-                var Areas = DadosVaga[0]["areadeinteresse"].Split( ';' );
+                var areas = dadosVaga[0]["areadeinteresse"].Split( ';' );
 
-                for(var j = 0; j < Areas.Length; j++)
-                    switch(Areas[j])
+                for(var j = 0; j < areas.Length; j++)
+                    switch(areas[j])
                     {
                         case "Administrativo":
                             TempData["Area1"] = "checked";
@@ -1415,37 +1411,37 @@ namespace PortalSicoobDivicred.Controllers
                     }
 
 
-                return PartialView( "ModalEditarVaga", Vaga );
+                return PartialView( "ModalEditarVaga", vaga );
             }
 
             return RedirectToAction( "Login", "Login" );
         }
 
         [HttpPost]
-        public ActionResult AtualizarVaga(Vagas DadosVaga, FormCollection Dados)
+        public ActionResult AtualizarVaga(Vagas dadosVaga, FormCollection dados)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var Ativa = "";
-                var Areas = "";
-                for(var i = 6; i < Dados.Count; i++)
-                    Areas = Areas + Dados[i] + ";";
+                var ativa = "";
+                var areas = "";
+                for(var i = 6; i < dados.Count; i++)
+                    areas = areas + dados[i] + ";";
 
                 try
                 {
-                    if(Dados["Ativa"].Equals( "Ativa" ))
-                        Ativa = "S";
+                    if(dados["Ativa"].Equals( "Ativa" ))
+                        ativa = "S";
                 }
                 catch
                 {
-                    Ativa = "N";
+                    ativa = "N";
                 }
 
 
-                VerificaDados.AtualizarVaga( Dados["IdVaga"], DadosVaga.Descricao, DadosVaga.Salario,
-                    DadosVaga.Requisitos, DadosVaga.Titulo, DadosVaga.Beneficio, Ativa, Areas );
+                verificaDados.AtualizarVaga( dados["IdVaga"], dadosVaga.Descricao, dadosVaga.Salario,
+                    dadosVaga.Requisitos, dadosVaga.Titulo, dadosVaga.Beneficio, ativa, areas );
 
                 return RedirectToAction( "Curriculo", "Curriculo", new { Mensagem = "Vaga atualizada com sucesso !" } );
             }
@@ -1454,25 +1450,25 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult CriarUsuario(FormCollection DadosUsuario)
+        public ActionResult CriarUsuario(FormCollection dadosUsuario)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if(Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
             {
-                var DadosUsuarioBanco = VerificaDados.RecuperaDadosCandidato( DadosUsuario["Cpf"] );
+                var dadosUsuarioBanco = verificaDados.RecuperaDadosCandidato( dadosUsuario["Cpf"] );
 
-                var InserirUsuario = new QueryMysqlRh();
+                var inserirUsuario = new QueryMysqlRh();
 
-                InserirUsuario.CadastrarUsuarioPortal( DadosUsuarioBanco[0]["nome"], DadosUsuarioBanco[0]["cpf"],
-                    DadosUsuarioBanco[0]["identidade"],
-                    Convert.ToDateTime( DadosUsuarioBanco[0]["datanascimento"] ).ToString( "yyyy/MM/dd" ),
-                    DadosUsuarioBanco[0]["endereco"], DadosUsuarioBanco[0]["numero"], DadosUsuarioBanco[0]["bairro"],
-                    DadosUsuarioBanco[0]["cidade"], DadosUsuario["LoginUsuario"], DadosUsuario["IdPa"],
-                    Convert.ToDateTime( DadosUsuario["DataAdmissao"] ).ToString( "yyyy/MM/dd" ),
-                    DadosUsuario["VencimentoPeriodico"], DadosUsuario["Pis"],
-                    DadosUsuario["SalarioUsuario"].Replace( ',', '.' ),
-                    DadosUsuario["QuebradeCaixaUsuario"].Replace( ',', '.' ) );
+                inserirUsuario.CadastrarUsuarioPortal( dadosUsuarioBanco[0]["nome"], dadosUsuarioBanco[0]["cpf"],
+                    dadosUsuarioBanco[0]["identidade"],
+                    Convert.ToDateTime( dadosUsuarioBanco[0]["datanascimento"] ).ToString( "yyyy/MM/dd" ),
+                    dadosUsuarioBanco[0]["endereco"], dadosUsuarioBanco[0]["numero"], dadosUsuarioBanco[0]["bairro"],
+                    dadosUsuarioBanco[0]["cidade"], dadosUsuario["LoginUsuario"], dadosUsuario["IdPa"],
+                    Convert.ToDateTime( dadosUsuario["DataAdmissao"] ).ToString( "yyyy/MM/dd" ),
+                    dadosUsuario["VencimentoPeriodico"], dadosUsuario["Pis"],
+                    dadosUsuario["SalarioUsuario"].Replace( ',', '.' ),
+                    dadosUsuario["QuebradeCaixaUsuario"].Replace( ',', '.' ) );
 
                 return RedirectToAction( "Curriculo", "Curriculo", new { Mensagem = "Usuário cadastrado com sucesso !" } );
             }

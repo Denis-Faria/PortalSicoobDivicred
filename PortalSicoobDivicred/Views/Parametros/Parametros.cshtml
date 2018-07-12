@@ -121,20 +121,20 @@
 
         function addDeleteBtn(f, input, nomeArquivo) {
 
-            var Div2 = document.createElement('div');
-            Div2.className = 'control';
+            var div2 = document.createElement('div');
+            div2.className = 'control';
 
-            var Div3 = document.createElement('div');
-            Div3.className = 'tags has-addons';
+            var div3 = document.createElement('div');
+            div3.className = 'tags has-addons';
 
 
-            var Nome = document.createElement('span');
-            Nome.className = 'tag is-dark ';
-            Nome.innerHTML = nomeArquivo;
+            var nome = document.createElement('span');
+            nome.className = 'tag is-dark ';
+            nome.innerHTML = nomeArquivo;
 
-            Div2.append(Div3);
+            div2.append(div3);
 
-            Div3.append(Nome);
+            div3.append(nome);
             var del = document.createElement('a');
             del.className = 'tag is-delete is-primary';
             del.title = 'remove this file';
@@ -155,21 +155,21 @@
                     if (fileLength > 0) {
                         for (var i = 0; i < fileLength; i++) {
 
-                            var Div2 = document.createElement('div');
-                            Div2.className = 'control';
+                            var div2 = document.createElement('div');
+                            div2.className = 'control';
 
-                            var Div3 = document.createElement('div');
-                            Div3.className = 'tags has-addons';
+                            var div3 = document.createElement('div');
+                            div3.className = 'tags has-addons';
 
-                            var Nome = document.createElement('span');
-                            Nome.className = 'tag is-dark';
-                            Nome.innerHTML = input.multiFiles[i].name;
+                            var nome = document.createElement('span');
+                            nome.className = 'tag is-dark';
+                            nome.innerHTML = input.multiFiles[i].name;
 
                             var del = document.createElement('a');
                             del.className = 'tag is-delete is-primary';
                             del.title = 'remove this file';
 
-                            input.__fileHolder.appendChild(Div3);
+                            input.__fileHolder.appendChild(div3);
                             addDeleteBtn(i, input, input.multiFiles[i].name);
                         }
                     } else {
@@ -178,8 +178,8 @@
                     }
                 },
                 false);
-            Div3.append(del);
-            input.__fileHolder.appendChild(Div2);
+            div3.append(del);
+            input.__fileHolder.appendChild(div2);
         }
 
 
@@ -221,9 +221,9 @@
         });
 
 
-        function SetorSelecionado(IdSetor) {
+        function SetorSelecionado(idSetor) {
             $("#CategoriaFuncionario").empty();
-            if (IdSetor.value === "42") {
+            if (idSetor.value === "42") {
                 $.ajax(
                     {
                         type: 'POST',
@@ -231,7 +231,7 @@
                         dataType: 'html',
                         cache: true,
                         async: true,
-                        data: { "IdSetor": IdSetor.value },
+                        data: { "IdSetor": idSetor.value },
                         success: function (data) {
                             $("#CategoriaFuncionario").append(data);
                             $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
@@ -248,7 +248,7 @@
                         dataType: 'html',
                         cache: true,
                         async: true,
-                        data: { "IdSetor": IdSetor.value },
+                        data: { "IdSetor": idSetor.value },
                         success: function (data) {
                             $("#CategoriaFuncionario").append(data);
                             $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
@@ -259,7 +259,7 @@
                     });
             }
         }
-        function CategoriaSelecionado(IdCategoria) {
+        function CategoriaSelecionado(idCategoria) {
             $("#FormularioCategoria").empty();
             $.ajax(
                 {
@@ -268,7 +268,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "IdCategoria": IdCategoria.value },
+                    data: { "IdCategoria": idCategoria.value },
                     success: function (data) {
                         if (data.length > 0) {
                             $('#ModalFormulario').removeClass();

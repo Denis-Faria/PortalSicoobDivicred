@@ -532,231 +532,231 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
         public void AtualizadadosFuncionarioFormulario(string nome, string cpf, string rg, string pis,
-            string dataNascimentoFuncionario, string Sexo, string descricaoSexo, string Etnia, string estadoCivil,
-            string formacao, string FormacaoAcademica, string usuarioSistema, string Email, string PA, string Rua,
-            string numero, string Bairro, string Cidade, string Setor, string Funcao, string QuatidadeFilhos,
-            string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem, string ConfirmacaoCertificacao, string Confirmadados, string Nacionalidade, string NomeMae,
-            string NomePai, string LocalNascimento, string UfNascimento, string Complemento, string Cep, string Pais,
-            string ResidenciaPropria, string RecursoFgts, string NumeroCtps, string SerieCtps, string UfCtps,
-            string TelefoneFixo,
-            string TelefoneCelular, string EmailSecundario, string Cnh, string OrgaoCnh, DateTime DataExpedicaoCnh,
-            DateTime DataValidadeCnh,
-            string Oc, string OrgaoOc, DateTime DataExpedicaoOc, DateTime DataValidadeOc, string DeficienteMotor,
-            string DeficienteVisual,
-            string DeficienteAuditivo, string Reabilitado, string ObservacaoDeficiente, int IdTipoConta,
-            string CodigoBanco, string Agencia,
-            string ContaCorrente, string DependenteIrrf, string DependenteFamilia, string dadosDependentes,
-            string TipoDependentes, string Matricula,
-            string PrimeiroEmprego, string EmissaoCtps, string Divorcio, string OrgaoEmissorRg, DateTime DataEmissaoRg,
-            string CpfIrrf,
+            string dataNascimentoFuncionario, string sexo, string descricaoSexo, string etnia, string estadoCivil,
+            string formacao, string formacaoAcademica, string usuarioSistema, string email, string pa, string rua,
+            string numero, string bairro, string cidade, string setor, string funcao, string quatidadeFilhos,
+            string dataNascimentoFilhos, string emergencia, string principaisHobbies, string comidaFavorita,
+            string viagem, string confirmacaoCertificacao, string confirmadados, string nacionalidade, string nomeMae,
+            string nomePai, string localNascimento, string ufNascimento, string complemento, string cep, string pais,
+            string residenciaPropria, string recursoFgts, string numeroCtps, string serieCtps, string ufCtps,
+            string telefoneFixo,
+            string telefoneCelular, string emailSecundario, string cnh, string orgaoCnh, DateTime dataExpedicaoCnh,
+            DateTime dataValidadeCnh,
+            string oc, string orgaoOc, DateTime dataExpedicaoOc, DateTime dataValidadeOc, string deficienteMotor,
+            string deficienteVisual,
+            string deficienteAuditivo, string reabilitado, string observacaoDeficiente, int idTipoConta,
+            string codigoBanco, string agencia,
+            string contaCorrente, string dependenteIrrf, string dependenteFamilia, string dadosDependentes,
+            string tipoDependentes, string matricula,
+            string primeiroEmprego, string emissaoCtps, string divorcio, string orgaoEmissorRg, DateTime dataEmissaoRg,
+            string cpfIrrf,
             string notificacaoEmail, string contribuicaoSindical)
         {
             var queryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + nome + "', cpf='" + cpf + "',rg='" +
                                            rg + "', pis='" + pis + "',datanascimento='" +
                                            Convert.ToDateTime(dataNascimentoFuncionario).ToString("yyyy/MM/dd") +
-                                           "', sexo=" + Sexo + ",descricaosexo='" + descricaoSexo + "',etnia=" +
-                                           Etnia + ",idestadocivil=" + estadoCivil + ",  idescolaridade=" +
-                                           formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
-                                           usuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
-                                           Rua + "',numero=" + numero + ",bairro='" + Bairro + "',cidade='" +
-                                           Cidade + "', idsetor=" + Setor + ", funcao='" + Funcao +
-                                           "', quantidadefilho='" + QuatidadeFilhos + "',datanascimentofilho='" +
-                                           DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
-                                           "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
-                                           ComidaFavorita + "',viagem='" + Viagem +
-                                           "', perfilcompleto='S',confirmacaodado='" + Confirmadados +
+                                           "', sexo=" + sexo + ",descricaosexo='" + descricaoSexo + "',etnia=" +
+                                           etnia + ",idestadocivil=" + estadoCivil + ",  idescolaridade=" +
+                                           formacao + ", formacaoacademica='" + formacaoAcademica + "', login='" +
+                                           usuarioSistema + "', email='" + email + "', idpa=" + pa + ", rua='" +
+                                           rua + "',numero=" + numero + ",bairro='" + bairro + "',cidade='" +
+                                           cidade + "', idsetor=" + setor + ", funcao='" + funcao +
+                                           "', quantidadefilho='" + quatidadeFilhos + "',datanascimentofilho='" +
+                                           dataNascimentoFilhos + "', contatoemergencia='" + emergencia +
+                                           "', principalhobbie='" + principaisHobbies + "', comidafavorita='" +
+                                           comidaFavorita + "',viagem='" + viagem +
+                                           "', perfilcompleto='S',confirmacaodado='" + confirmadados +
                                            "',confirmacaocertificacao='" +
-                                           ConfirmacaoCertificacao + "',nacionalidade='" + Nacionalidade + "'," +
-                                           "nomemae='" + NomeMae + "',nomepai='" + NomePai + "',localnascimento='" +
-                                           LocalNascimento + "'" +
-                                           ",ufnascimento='" + UfNascimento + "',complemento='" + Complemento +
-                                           "',cep='" + Cep + "'" +
-                                           ",pais='" + Pais + "',residenciapropria='" + ResidenciaPropria +
-                                           "',recursofgts='" + RecursoFgts + "'" +
-                                           ",numeroctps='" + NumeroCtps + "',seriectps='" + SerieCtps + "',ufctps='" +
-                                           UfCtps + "', telefonefixo='" + TelefoneFixo + "'" +
-                                           ",telefonecelular='" + TelefoneCelular + "',emailsecundario='" +
-                                           EmailSecundario + "',cnh='" + Cnh + "',orgaoemissorcnh='" + OrgaoCnh + "'" +
-                                           ",dataexpedicaocnh='" + DataExpedicaoCnh.ToString("yyyy/MM/dd") +
-                                           "',datavalidadecnh='" + DataValidadeCnh.ToString("yyyy/MM/dd") + "'," +
-                                           "oc='" + Oc + "',orgaoemissoroc='" + OrgaoOc + "',dataexpedicaooc='" +
-                                           DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
-                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") +
-                                           "',deficientemotor='" + DeficienteMotor + "',deficientevisual='" +
-                                           DeficienteVisual + "'" +
-                                           ",deficienteauditivo='" + DeficienteAuditivo + "',reabilitado='" +
-                                           Reabilitado + "',observacaodeficiente='" + ObservacaoDeficiente +
-                                           "', idtipoconta=" + IdTipoConta + "," +
-                                           "codigobanco=" + CodigoBanco + ",agencia='" + Agencia + "',contacorrente='" +
-                                           ContaCorrente + "', informacaodependente='" + dadosDependentes +
-                                           "',dependenteirrpf='" + DependenteIrrf + "'," +
-                                           "dependentesalariofamilia='" + DependenteFamilia + "',tipodependente='" +
-                                           TipoDependentes + "',matricula='" + Matricula + "',anoprimeiroemprego='" +
-                                           PrimeiroEmprego + "'," +
+                                           confirmacaoCertificacao + "',nacionalidade='" + nacionalidade + "'," +
+                                           "nomemae='" + nomeMae + "',nomepai='" + nomePai + "',localnascimento='" +
+                                           localNascimento + "'" +
+                                           ",ufnascimento='" + ufNascimento + "',complemento='" + complemento +
+                                           "',cep='" + cep + "'" +
+                                           ",pais='" + pais + "',residenciapropria='" + residenciaPropria +
+                                           "',recursofgts='" + recursoFgts + "'" +
+                                           ",numeroctps='" + numeroCtps + "',seriectps='" + serieCtps + "',ufctps='" +
+                                           ufCtps + "', telefonefixo='" + telefoneFixo + "'" +
+                                           ",telefonecelular='" + telefoneCelular + "',emailsecundario='" +
+                                           emailSecundario + "',cnh='" + cnh + "',orgaoemissorcnh='" + orgaoCnh + "'" +
+                                           ",dataexpedicaocnh='" + dataExpedicaoCnh.ToString("yyyy/MM/dd") +
+                                           "',datavalidadecnh='" + dataValidadeCnh.ToString("yyyy/MM/dd") + "'," +
+                                           "oc='" + oc + "',orgaoemissoroc='" + orgaoOc + "',dataexpedicaooc='" +
+                                           dataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
+                                           ",datavalidadeoc='" + dataValidadeOc.ToString("yyyy/MM/dd") +
+                                           "',deficientemotor='" + deficienteMotor + "',deficientevisual='" +
+                                           deficienteVisual + "'" +
+                                           ",deficienteauditivo='" + deficienteAuditivo + "',reabilitado='" +
+                                           reabilitado + "',observacaodeficiente='" + observacaoDeficiente +
+                                           "', idtipoconta=" + idTipoConta + "," +
+                                           "codigobanco=" + codigoBanco + ",agencia='" + agencia + "',contacorrente='" +
+                                           contaCorrente + "', informacaodependente='" + dadosDependentes +
+                                           "',dependenteirrpf='" + dependenteIrrf + "'," +
+                                           "dependentesalariofamilia='" + dependenteFamilia + "',tipodependente='" +
+                                           tipoDependentes + "',matricula='" + matricula + "',anoprimeiroemprego='" +
+                                           primeiroEmprego + "'," +
                                            "dataemissaoctps='" +
-                                           Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd") +
-                                           "',paisdivorciado='" + Divorcio + "'," +
-                                           " dataemissaorg='" + DataEmissaoRg.Date.ToString("yyyy/MM/dd") +
-                                           "',orgaoemissorrg='" + OrgaoEmissorRg + "', cpfirrf='" + CpfIrrf + "'," +
+                                           Convert.ToDateTime(emissaoCtps).Date.ToString("yyyy/MM/dd") +
+                                           "',paisdivorciado='" + divorcio + "'," +
+                                           " dataemissaorg='" + dataEmissaoRg.Date.ToString("yyyy/MM/dd") +
+                                           "',orgaoemissorrg='" + orgaoEmissorRg + "', cpfirrf='" + cpfIrrf + "'," +
                                            "contribuicaosindical='" + contribuicaoSindical + "',notificacaoemail='" +
                                            notificacaoEmail + "'" +
                                            " WHERE login='" + usuarioSistema + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryAtualizaFuncionario);
         }
 
-        public void InserirVinculoEmpregaticio(string IdFuncionario, string NomeEmpresa, string Cnpj,
-            string Remuneracao, string Comentario)
+        public void InserirVinculoEmpregaticio(string idFuncionario, string nomeEmpresa, string cnpj,
+            string remuneracao, string comentario)
         {
             var queryInserirVinculo =
                 "INSERT INTO vinculosempregaticiosfuncionarios (idfuncionario,nomeempresa,cnpj,remuneracao,comentario) VALUES(" +
-                IdFuncionario + ",'" + NomeEmpresa + "','" + Cnpj + "','" + Remuneracao + "','" + Comentario + "')";
+                idFuncionario + ",'" + nomeEmpresa + "','" + cnpj + "','" + remuneracao + "','" + comentario + "')";
 
             _conexaoMysql.ExecutaComando(queryInserirVinculo);
         }
 
-        public void AtualizaVinculoEmpregaticio(string IdFuncionario, string NomeEmpresa, string Cnpj,
-            string Remuneracao, string Comentario)
+        public void AtualizaVinculoEmpregaticio(string idFuncionario, string nomeEmpresa, string cnpj,
+            string remuneracao, string comentario)
         {
             var queryInserirVinculo =
-                "UPDATE vinculosempregaticiosfuncionarios set nomeempresa='" + NomeEmpresa + "',cnpj='" + Cnpj +
-                "',remuneracao='" + Remuneracao + "',comentario='" + Comentario + "' WHERE idfuncionario=" +
-                IdFuncionario + "";
+                "UPDATE vinculosempregaticiosfuncionarios set nomeempresa='" + nomeEmpresa + "',cnpj='" + cnpj +
+                "',remuneracao='" + remuneracao + "',comentario='" + comentario + "' WHERE idfuncionario=" +
+                idFuncionario + "";
 
             _conexaoMysql.ExecutaComando(queryInserirVinculo);
         }
 
-        public void AtualizadadosFuncionariodadosPessoais(string Nome, string Cpf, string Rg, string Pis,
-            string DataNascimentoFuncionario, string Sexo, string DescricaoSexo, string Etnia, string EstadoCivil,
-            string Formacao, string FormacaoAcademica, string usuarioSistema, string Email, string PA, string Rua,
-            string Numero, string Bairro, string Cidade, string Confirmadados, string Nacionalidade, string NomeMae,
-            string NomePai, string LocalNascimento, string UfNascimento, string Complemento, string Cep, string Pais,
-            string ResidenciaPropria, string RecursoFgts, string TelefoneFixo, string TelefoneCelular,
-            string EmailSecundario,
-            string Cnh, string OrgaoEmissorCnh, DateTime DataExpedicaoDocumentoCnh, DateTime DataValidadeCnh, string Oc,
-            string OrgaoEmissorOc,
-            DateTime DataExpedicaoOc, DateTime DataValidadeOc, string DeficienteMotor, string DeficienteVisual,
-            string DeficienteAuditivo,
-            string Reabilitado, string ObservacaoDeficiente, string PaisDivorciados, string OrgaoEmissorRg,
-            DateTime DataExpedicaoDocumentoRg, int IdHorarioTrabalho)
+        public void AtualizadadosFuncionariodadosPessoais(string nome, string cpf, string rg, string pis,
+            string dataNascimentoFuncionario, string sexo, string descricaoSexo, string etnia, string estadoCivil,
+            string formacao, string formacaoAcademica, string usuarioSistema, string email, string pa, string rua,
+            string numero, string bairro, string cidade, string confirmadados, string nacionalidade, string nomeMae,
+            string nomePai, string localNascimento, string ufNascimento, string complemento, string cep, string pais,
+            string residenciaPropria, string recursoFgts, string telefoneFixo, string telefoneCelular,
+            string emailSecundario,
+            string cnh, string orgaoEmissorCnh, DateTime dataExpedicaoDocumentoCnh, DateTime dataValidadeCnh, string oc,
+            string orgaoEmissorOc,
+            DateTime dataExpedicaoOc, DateTime dataValidadeOc, string deficienteMotor, string deficienteVisual,
+            string deficienteAuditivo,
+            string reabilitado, string observacaoDeficiente, string paisDivorciados, string orgaoEmissorRg,
+            DateTime dataExpedicaoDocumentoRg, int idHorarioTrabalho)
         {
-            var queryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + Nome + "', cpf='" + Cpf + "',rg='" +
-                                           Rg + "', pis='" + Pis + "',datanascimento='" +
-                                           Convert.ToDateTime(DataNascimentoFuncionario).ToString("yyyy/MM/dd") +
-                                           "', sexo=" + Sexo + ",descricaosexo='" + DescricaoSexo + "',etnia=" +
-                                           Etnia + ",idestadocivil=" + EstadoCivil + ",  idescolaridade=" +
-                                           Formacao + ", formacaoacademica='" + FormacaoAcademica + "', login='" +
-                                           usuarioSistema + "', email='" + Email + "', idpa=" + PA + ", rua='" +
-                                           Rua + "',numero=" + Numero + ",bairro='" + Bairro + "',cidade='" +
-                                           Cidade + "', confirmacaodado='" + Confirmadados + "',nacionalidade='" +
-                                           Nacionalidade + "'," +
-                                           "nomemae='" + NomeMae + "',nomepai='" + NomePai + "',localnascimento='" +
-                                           LocalNascimento + "'" +
-                                           ",ufnascimento='" + UfNascimento + "',complemento='" + Complemento +
-                                           "',cep='" + Cep + "'" +
-                                           ",pais='" + Pais + "',residenciapropria='" + ResidenciaPropria +
-                                           "',recursofgts='" + RecursoFgts + "'" +
-                                           ",telefonefixo='" + TelefoneFixo + "'" + ",telefonecelular='" +
-                                           TelefoneCelular + "',emailsecundario='" + EmailSecundario + "'" +
-                                           ",cnh='" + Cnh + "',orgaoemissorcnh='" + OrgaoEmissorCnh + "'" +
-                                           ",dataexpedicaocnh='" + DataExpedicaoDocumentoCnh.ToString("yyyy/MM/dd") +
-                                           "',datavalidadecnh='" + DataValidadeCnh.ToString("yyyy/MM/dd") + "'," +
-                                           "oc='" + Oc + "',orgaoemissoroc='" + OrgaoEmissorOc + "',dataexpedicaooc='" +
-                                           DataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
-                                           ",datavalidadeoc='" + DataValidadeOc.ToString("yyyy/MM/dd") +
-                                           "',deficientemotor='" + DeficienteMotor + "',deficientevisual='" +
-                                           DeficienteVisual + "'" +
-                                           ",deficienteauditivo='" + DeficienteAuditivo + "',reabilitado='" +
-                                           Reabilitado + "',observacaodeficiente='" + ObservacaoDeficiente + "'" +
-                                           ",paisdivorciado='" + PaisDivorciados + "', dataemissaorg='" +
-                                           DataExpedicaoDocumentoRg.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" +
-                                           OrgaoEmissorRg + "'" +
-                                           ", idhorariotrabalho=" + IdHorarioTrabalho + "  WHERE login='" +
+            var queryAtualizaFuncionario = "UPDATE funcionarios SET nome='" + nome + "', cpf='" + cpf + "',rg='" +
+                                           rg + "', pis='" + pis + "',datanascimento='" +
+                                           Convert.ToDateTime(dataNascimentoFuncionario).ToString("yyyy/MM/dd") +
+                                           "', sexo=" + sexo + ",descricaosexo='" + descricaoSexo + "',etnia=" +
+                                           etnia + ",idestadocivil=" + estadoCivil + ",  idescolaridade=" +
+                                           formacao + ", formacaoacademica='" + formacaoAcademica + "', login='" +
+                                           usuarioSistema + "', email='" + email + "', idpa=" + pa + ", rua='" +
+                                           rua + "',numero=" + numero + ",bairro='" + bairro + "',cidade='" +
+                                           cidade + "', confirmacaodado='" + confirmadados + "',nacionalidade='" +
+                                           nacionalidade + "'," +
+                                           "nomemae='" + nomeMae + "',nomepai='" + nomePai + "',localnascimento='" +
+                                           localNascimento + "'" +
+                                           ",ufnascimento='" + ufNascimento + "',complemento='" + complemento +
+                                           "',cep='" + cep + "'" +
+                                           ",pais='" + pais + "',residenciapropria='" + residenciaPropria +
+                                           "',recursofgts='" + recursoFgts + "'" +
+                                           ",telefonefixo='" + telefoneFixo + "'" + ",telefonecelular='" +
+                                           telefoneCelular + "',emailsecundario='" + emailSecundario + "'" +
+                                           ",cnh='" + cnh + "',orgaoemissorcnh='" + orgaoEmissorCnh + "'" +
+                                           ",dataexpedicaocnh='" + dataExpedicaoDocumentoCnh.ToString("yyyy/MM/dd") +
+                                           "',datavalidadecnh='" + dataValidadeCnh.ToString("yyyy/MM/dd") + "'," +
+                                           "oc='" + oc + "',orgaoemissoroc='" + orgaoEmissorOc + "',dataexpedicaooc='" +
+                                           dataExpedicaoOc.ToString("yyyy/MM/dd") + "'" +
+                                           ",datavalidadeoc='" + dataValidadeOc.ToString("yyyy/MM/dd") +
+                                           "',deficientemotor='" + deficienteMotor + "',deficientevisual='" +
+                                           deficienteVisual + "'" +
+                                           ",deficienteauditivo='" + deficienteAuditivo + "',reabilitado='" +
+                                           reabilitado + "',observacaodeficiente='" + observacaoDeficiente + "'" +
+                                           ",paisdivorciado='" + paisDivorciados + "', dataemissaorg='" +
+                                           dataExpedicaoDocumentoRg.ToString("yyyy/MM/dd") + "',orgaoemissorrg='" +
+                                           orgaoEmissorRg + "'" +
+                                           ", idhorariotrabalho=" + idHorarioTrabalho + "  WHERE login='" +
                                            usuarioSistema + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryAtualizaFuncionario);
         }
 
-        public void AtualizadadosFuncionarioProfissional(string Setor, string Funcao, string usuarioSistema,
-            string NumeroCTPS,
-            string SerieCTPS, string UfCTPS, int IdTipoConta, string CodigoBanco,
-            string Agencia, string ContaCorrente, string DependenteIrrf, string DependenteFamilia,
-            string dadosDependentes, string TiposDependentes, string Matricula, string AnoPrimeiroEmprego,
-            string EmissaoCtps,
-            string CpfIrrf, int IdHorariOtrabalho)
+        public void AtualizadadosFuncionarioProfissional(string setor, string funcao, string usuarioSistema,
+            string numeroCtps,
+            string serieCtps, string ufCtps, int idTipoConta, string codigoBanco,
+            string agencia, string contaCorrente, string dependenteIrrf, string dependenteFamilia,
+            string dadosDependentes, string tiposDependentes, string matricula, string anoPrimeiroEmprego,
+            string emissaoCtps,
+            string cpfIrrf, int idHorariOtrabalho)
         {
-            var queryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + Setor + ", funcao='" + Funcao +
-                                           "',numeroctps='" + NumeroCTPS + "',seriectps='" + SerieCTPS + "',ufctps='" +
-                                           UfCTPS + "', idtipoconta=" + IdTipoConta + "," +
-                                           "codigobanco=" + CodigoBanco + ",agencia='" + Agencia + "',contacorrente='" +
-                                           ContaCorrente + "', informacaodependente='" + dadosDependentes +
-                                           "',dependenteirrpf='" + DependenteIrrf + "'," +
-                                           "dependentesalariofamilia='" + DependenteFamilia + "',tipodependente='" +
-                                           TiposDependentes + "',matricula='" + Matricula + "'" +
-                                           ",anoprimeiroemprego='" + AnoPrimeiroEmprego + "', dataemissaoctps='" +
-                                           Convert.ToDateTime(EmissaoCtps).Date.ToString("yyyy/MM/dd") +
-                                           "', cpfirrf='" + CpfIrrf + "',idhorariotrabalho=" + IdHorariOtrabalho +
+            var queryAtualizaFuncionario = "UPDATE funcionarios SET idsetor=" + setor + ", funcao='" + funcao +
+                                           "',numeroctps='" + numeroCtps + "',seriectps='" + serieCtps + "',ufctps='" +
+                                           ufCtps + "', idtipoconta=" + idTipoConta + "," +
+                                           "codigobanco=" + codigoBanco + ",agencia='" + agencia + "',contacorrente='" +
+                                           contaCorrente + "', informacaodependente='" + dadosDependentes +
+                                           "',dependenteirrpf='" + dependenteIrrf + "'," +
+                                           "dependentesalariofamilia='" + dependenteFamilia + "',tipodependente='" +
+                                           tiposDependentes + "',matricula='" + matricula + "'" +
+                                           ",anoprimeiroemprego='" + anoPrimeiroEmprego + "', dataemissaoctps='" +
+                                           Convert.ToDateTime(emissaoCtps).Date.ToString("yyyy/MM/dd") +
+                                           "', cpfirrf='" + cpfIrrf + "',idhorariotrabalho=" + idHorariOtrabalho +
                                            " WHERE login='" + usuarioSistema + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryAtualizaFuncionario);
         }
 
-        public void AtualizaFoto(string Foto, string usuarioSistema)
+        public void AtualizaFoto(string foto, string usuarioSistema)
         {
             var queryAtualizaFuncionario =
-                "UPDATE funcionarios SET foto='" + Foto + "' WHERE login='" + usuarioSistema + "'";
+                "UPDATE funcionarios SET foto='" + foto + "' WHERE login='" + usuarioSistema + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryAtualizaFuncionario);
         }
 
-        public void AtualizadadosFuncionarioPerguntas(string usuarioSistema, string QuatidadeFilhos,
-            string DataNascimentoFilhos, string Emergencia, string PrincipaisHobbies, string ComidaFavorita,
-            string Viagem, string Sindicato, string Email)
+        public void AtualizadadosFuncionarioPerguntas(string usuarioSistema, string quatidadeFilhos,
+            string dataNascimentoFilhos, string emergencia, string principaisHobbies, string comidaFavorita,
+            string viagem, string sindicato, string email)
         {
-            var queryAtualizaFuncionario = "UPDATE funcionarios SET quantidadefilho='" + QuatidadeFilhos +
+            var queryAtualizaFuncionario = "UPDATE funcionarios SET quantidadefilho='" + quatidadeFilhos +
                                            "',datanascimentofilho='" +
-                                           DataNascimentoFilhos + "', contatoemergencia='" + Emergencia +
-                                           "', principalhobbie='" + PrincipaisHobbies + "', comidafavorita='" +
-                                           ComidaFavorita + "',viagem='" + Viagem +
-                                           "', perfilcompleto='S',contribuicaosindical = '" + Sindicato +
-                                           "',notificacaoemail = '" + Email + "' WHERE login='" + usuarioSistema + "'";
+                                           dataNascimentoFilhos + "', contatoemergencia='" + emergencia +
+                                           "', principalhobbie='" + principaisHobbies + "', comidafavorita='" +
+                                           comidaFavorita + "',viagem='" + viagem +
+                                           "', perfilcompleto='S',contribuicaosindical = '" + sindicato +
+                                           "',notificacaoemail = '" + email + "' WHERE login='" + usuarioSistema + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryAtualizaFuncionario);
         }
 
-        public void AtualizarArquivoPessoal(string NomeArquivo, byte[] Foto, string Login)
+        public void AtualizarArquivoPessoal(string nomeArquivo, byte[] foto, string login)
         {
-            var queryIdFuncionario = "SELECT id FROM funcionarios WHERE login='" + Login + "'";
+            var queryIdFuncionario = "SELECT id FROM funcionarios WHERE login='" + login + "'";
             var row = _conexaoMysql.ExecutaComandoComRetorno(queryIdFuncionario);
 
             var queryArquivousuario =
                 "SELECT count(id) as count FROM documentospessoaisfuncionarios WHERE idfuncionario='" + row[0]["id"] +
-                "' and nomearquivo='" + NomeArquivo + "'";
+                "' and nomearquivo='" + nomeArquivo + "'";
             var row2 = _conexaoMysql.ExecutaComandoComRetorno(queryArquivousuario);
 
             if (Convert.ToInt32(row2[0]["count"]) == 0)
             {
                 var queryAtualizaFuncionario =
                     "INSERT INTO documentospessoaisfuncionarios (idfuncionario,nomearquivo,arquivo,dataupload) VALUES(" +
-                    row[0]["id"] + ",'" + NomeArquivo + "',@image ,NOW()) ";
-                _conexaoMysql.ExecutaComandoArquivo(queryAtualizaFuncionario, Foto);
+                    row[0]["id"] + ",'" + nomeArquivo + "',@image ,NOW()) ";
+                _conexaoMysql.ExecutaComandoArquivo(queryAtualizaFuncionario, foto);
             }
             else
             {
                 var queryAtualizaFuncionario =
                     "UPDATE documentospessoaisfuncionarios SET arquivo=@image and dataupload=NOW() WHERE idfuncionario=" +
-                    row[0]["id"] + " AND nomearquivo='" + NomeArquivo + "'";
-                _conexaoMysql.ExecutaComandoArquivo(queryAtualizaFuncionario, Foto);
+                    row[0]["id"] + " AND nomearquivo='" + nomeArquivo + "'";
+                _conexaoMysql.ExecutaComandoArquivo(queryAtualizaFuncionario, foto);
             }
         }
 
-        public List<Dictionary<string, string>> RecuperaTodosArquivos(string Login)
+        public List<Dictionary<string, string>> RecuperaTodosArquivos(string login)
         {
             var query =
-                "SELECT nomearquivo, dataupload FROM documentospessoaisfuncionarios WHERE login='" + Login + "'";
+                "SELECT nomearquivo, dataupload FROM documentospessoaisfuncionarios WHERE login='" + login + "'";
             var row = _conexaoMysql.ExecutaComandoComRetorno(query);
             return row;
         }
 
-        public DataTable RetornaDocumentosFuncionario(string Login)
+        public DataTable RetornaDocumentosFuncionario(string login)
         {
-            var dados = _conexaoMysql.ComandoArquivo(Login);
+            var dados = _conexaoMysql.ComandoArquivo(login);
             return dados;
         }
 
@@ -781,9 +781,9 @@ namespace PortalSicoobDivicred.Aplicacao
             return row;
         }
 
-        public List<Dictionary<string, string>> RetornaHoras(string Cracha)
+        public List<Dictionary<string, string>> RetornaHoras(string cracha)
         {
-            var query = "select hora,datareferencia from horasextrasfuncionarios WHERE crachafirebird=" + Cracha + ";";
+            var query = "select hora,datareferencia from horasextrasfuncionarios WHERE crachafirebird=" + cracha + ";";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return dados;
         }
@@ -798,25 +798,25 @@ namespace PortalSicoobDivicred.Aplicacao
             return sbReturn.ToString();
         }
 
-        public List<Dictionary<string, string>> RetornaFuncionariosSetor(string IdSetor)
+        public List<Dictionary<string, string>> RetornaFuncionariosSetor(string idSetor)
         {
             var query =
-                "SELECT nome,idnotificacao,notificacaoemail,id,email FROM funcionarios WHERE idsetor='" + IdSetor + "'";
+                "SELECT nome,idnotificacao,notificacaoemail,id,email FROM funcionarios WHERE idsetor='" + idSetor + "'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
 
 
             return dados;
         }
 
-        public void AtualizaEmailSenha(string Idusuario)
+        public void AtualizaEmailSenha(string idusuario)
         {
-            var query = "UPDATE funcionarios SET emailtrocasenha='S' WHERE id='" + Idusuario + "'";
+            var query = "UPDATE funcionarios SET emailtrocasenha='S' WHERE id='" + idusuario + "'";
             _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void AtualizaSenha(string usuario, string Senha)
+        public void AtualizaSenha(string usuario, string senha)
         {
-            var query = "UPDATE funcionarios SET senha='" + Senha + "', emailtrocasenha='N' WHERE login='" + usuario +
+            var query = "UPDATE funcionarios SET senha='" + senha + "', emailtrocasenha='N' WHERE login='" + usuario +
                         "'";
             _conexaoMysql.ExecutaComandoComRetorno(query);
         }
@@ -838,25 +838,25 @@ namespace PortalSicoobDivicred.Aplicacao
             return dados;
         }
 
-        public List<Dictionary<string, string>> RetornaExtrato(string Cpf)
+        public List<Dictionary<string, string>> RetornaExtrato(string cpf)
         {
-            var query = "SELECT* FROM showdepremioscupons WHERE  numdoccliente = " + Cpf + "";
+            var query = "SELECT* FROM showdepremioscupons WHERE  numdoccliente = " + cpf + "";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return dados;
         }
 
-        public void CadastraIdNotificacao(string IdNotificacao, string Login)
+        public void CadastraIdNotificacao(string idNotificacao, string login)
         {
-            var query = "UPDATE funcionarios set idnotificacao='" + IdNotificacao + "' WHERE login='" + Login + "'";
+            var query = "UPDATE funcionarios set idnotificacao='" + idNotificacao + "' WHERE login='" + login + "'";
             _conexaoMysql.ExecutaComando(query);
         }
 
-        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string idFuncionario)
         {
             var query = "select id,email,idnotificacao,notificacaoemail,idsetor,nome from funcionarios where id=" +
-                        IdFuncionario + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
-            return Chamados;
+                        idFuncionario + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
         public List<Dictionary<string, string>> RetornaInformacoesGestor(string idSetor)
@@ -867,25 +867,25 @@ namespace PortalSicoobDivicred.Aplicacao
             return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaInformacoesNumerario(string IdAgencia)
+        public List<Dictionary<string, string>> RetornaInformacoesNumerario(string idAgencia)
         {
-            var query = "select * from numerariosagencias WHERE idagencia=" + IdAgencia + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
-            return Chamados;
+            var query = "select * from numerariosagencias WHERE idagencia=" + idAgencia + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public string RetornaNomeFuncionario(string IdFuncionario)
+        public string RetornaNomeFuncionario(string idFuncionario)
         {
-            var query = "select nome from funcionarios WHERE id=" + IdFuncionario + " ";
+            var query = "select nome from funcionarios WHERE id=" + idFuncionario + " ";
             var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return chamados[0]["nome"];
         }
 
-        public void AtualizaNumerario(string Valor, string Observacao, string Agencia, string usuarioAlteracao)
+        public void AtualizaNumerario(string valor, string observacao, string agencia, string usuarioAlteracao)
         {
-            var query = "UPDATE numerariosagencias SET valor='" + Valor + "',idfuncionarioalteracao=" +
-                        usuarioAlteracao + ",observacao='" + Observacao + "',dataalteracao=NOW() WHERE idagencia=" +
-                        Agencia + "";
+            var query = "UPDATE numerariosagencias SET valor='" + valor + "',idfuncionarioalteracao=" +
+                        usuarioAlteracao + ",observacao='" + observacao + "',dataalteracao=NOW() WHERE idagencia=" +
+                        agencia + "";
             _conexaoMysql.ExecutaComando(query);
         }
 

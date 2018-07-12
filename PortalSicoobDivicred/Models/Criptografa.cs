@@ -10,7 +10,7 @@ namespace PortalSicoobDivicred.Models
         private static byte[] _chave = { };
         private static readonly byte[] Iv = {12, 34, 56, 78, 90, 102, 114, 126};
 
-        private static readonly string chaveCriptografia = "fabricio1234567";
+        private static readonly string ChaveCriptografia = "fabricio1234567";
 
         //Criptografa o Cookie
         public static string Criptografar(string valor)
@@ -24,7 +24,7 @@ namespace PortalSicoobDivicred.Models
             ms = new MemoryStream();
 
             input = Encoding.UTF8.GetBytes(valor);
-            _chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
+            _chave = Encoding.UTF8.GetBytes(ChaveCriptografia.Substring(0, 8));
 
             cs = new CryptoStream(ms, des.CreateEncryptor(_chave, Iv), CryptoStreamMode.Write);
             cs.Write(input, 0, input.Length);
@@ -46,7 +46,7 @@ namespace PortalSicoobDivicred.Models
 
             input = Convert.FromBase64String(valor.Replace(" ", "+"));
 
-            _chave = Encoding.UTF8.GetBytes(chaveCriptografia.Substring(0, 8));
+            _chave = Encoding.UTF8.GetBytes(ChaveCriptografia.Substring(0, 8));
 
             cs = new CryptoStream(ms, des.CreateDecryptor(_chave, Iv), CryptoStreamMode.Write);
             cs.Write(input, 0, input.Length);

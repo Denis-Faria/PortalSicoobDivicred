@@ -8,7 +8,7 @@ namespace PortalSicoobDivicred.Models
     public class Parametros
     {
 
-        public int idDescricaoGrupo { get; set; }
+        public int IdDescricaoGrupo { get; set; }
 
         [Required(ErrorMessage = "Favor selecionar o grupo!")]
         public List<SelectListItem> DescricaoGrupo { get; set; }
@@ -23,7 +23,7 @@ namespace PortalSicoobDivicred.Models
         public string Pa { get; set; }
 
         [Required(ErrorMessage = "Favor informar a data de Admissão")]
-        public DateTime dataAdmissao { get; set; }
+        public DateTime DataAdmissao { get; set; }
 
         [Required(ErrorMessage = "Favor informar o seu CPF!")]
         public string CpfFuncionario { get; set; }

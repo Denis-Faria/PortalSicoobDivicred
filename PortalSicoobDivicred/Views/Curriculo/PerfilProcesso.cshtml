@@ -1,19 +1,19 @@
 ﻿<script>
-    function MudaCor(Valor, Numero) {
-        var dados = "Status " + Numero;
-        if (Valor == "Reprovado") {
+    function MudaCor(valor, numero) {
+        var dados = "Status " + numero;
+        if (valor == "Reprovado") {
             document.getElementById(dados).style.color = "red";
         }
-        if (Valor == "Aprovado") {
+        if (valor == "Aprovado") {
             document.getElementById(dados).style.color = "green";
         }
-        if (Valor == "Excedente") {
+        if (valor == "Excedente") {
             document.getElementById(dados).style.color = "blue";
         }
-        if (Valor == "Ausente") {
+        if (valor == "Ausente") {
             document.getElementById(dados).style.color = "yellow";
         }
-        if (Valor == "Restricao") {
+        if (valor == "Restricao") {
             document.getElementById(dados).style.color = "orange";
         }
     }

@@ -246,7 +246,7 @@ namespace PortalSicoobDivicred.Models
         public string Matricula { get; set; }
 
         [Required(ErrorMessage = "Favor informar a data de Admissão")]
-        public DateTime dataAdmissao { get; set; }
+        public DateTime DataAdmissao { get; set; }
 
         [Required(ErrorMessage = "Favor informar a data de expedissão de seu RG!")]
         public DateTime DataExpedicaoDocumentoRg { get; set; }

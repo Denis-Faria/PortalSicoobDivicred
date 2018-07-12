@@ -13,14 +13,14 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class ParametrosController : Controller
     {
-        public ActionResult Parametros(string MensagemValidacao, string Erro)
+        public ActionResult Parametros(string mensagemValidacao, string erro)
         {
 
-            TempData["MensagemValidacao"] = MensagemValidacao;
-            TempData["Erro"] = Erro;
+            TempData["MensagemValidacao"] = mensagemValidacao;
+            TempData["Erro"] = erro;
             var insereDados = new QueryMysql();
-            var Logado = insereDados.UsuarioLogado();
-            if (Logado)
+            var logado = insereDados.UsuarioLogado();
+            if (logado)
             {
 
                 //return RedirectToAction("Login", "Login");
@@ -79,14 +79,14 @@ namespace PortalSicoobDivicred.Controllers
 
             var consultaDados = new QueryMysqlCim();
             var verificaDadosLogin = new QueryMysql();
-            var dadosPGD = new Pgd();
-            var dadosTabelaPGD = consultaDados.RetornaProdutos();
-            dadosPGD.DescricaoProduto = dadosTabelaPGD;
-            dadosTabelaPGD = verificaDadosLogin.RetornaFuncionario();
-            dadosPGD.NomeFuncionario = dadosTabelaPGD;
+            var dadosPgd = new Pgd();
+            var dadosTabelaPgd = consultaDados.RetornaProdutos();
+            dadosPgd.DescricaoProduto = dadosTabelaPgd;
+            dadosTabelaPgd = verificaDadosLogin.RetornaFuncionario();
+            dadosPgd.NomeFuncionario = dadosTabelaPgd;
 
 
-            return PartialView("Cadastro", dadosPGD);
+            return PartialView("Cadastro", dadosPgd);
         }
     }
 }

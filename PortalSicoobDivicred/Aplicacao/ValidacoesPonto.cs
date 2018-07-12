@@ -1,180 +1,179 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using PortalSicoobDivicred.Aplicacao;
 
-namespace PortalSicoobDivicred
+namespace PortalSicoobDivicred.Aplicacao
 {
     public class ValidacoesPonto
     {
-        public List<List<Dictionary<string, string>>> ValidarPonto(DateTime DataConsulta)
+        public List<List<Dictionary<string, string>>> ValidarPonto(DateTime dataConsulta)
         {
-            var Firebird = new QueryFirebird();
-            var Funcionarios = Firebird.RetornaListaFuncionario();
+            var firebird = new QueryFirebird();
+            var funcionarios = firebird.RetornaListaFuncionario();
 
 
-            var Pendentes = new List<Dictionary<string, string>>();
-            var SemPendencias = new List<Dictionary<string, string>>();
-            var DadosRh = new QueryMysqlRh();
+            var pendentes = new List<Dictionary<string, string>>();
+            var semPendencias = new List<Dictionary<string, string>>();
+            var dadosRh = new QueryMysqlRh();
 
 
             #region Tratamento Ponto Firebird
 
-            for (var i = 0; i < Funcionarios.Count; i++)
+            for (var i = 0; i < funcionarios.Count; i++)
             {
-                var Afastamentos =
-                    Firebird.RetornaListaAfastamentoFuncionario(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
-                var id = Funcionarios[i]["ID_FUNCIONARIO"];
-                var Admissao = Firebird.RetornaDataAdmissao(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
+                var afastamentos =
+                    firebird.RetornaListaAfastamentoFuncionario(funcionarios[i]["ID_FUNCIONARIO"], dataConsulta);
+               // var id = funcionarios[i]["ID_FUNCIONARIO"];
+                var admissao = firebird.RetornaDataAdmissao(funcionarios[i]["ID_FUNCIONARIO"], dataConsulta);
 
-                var Marcacao = Firebird.RetornaMarcacao(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
-                var ConfirmaMysql = DadosRh.ValidaFirebirdMysql(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
-                if (!ConfirmaMysql)
-                    if (Admissao.Count > 0)
+                var marcacao = firebird.RetornaMarcacao(funcionarios[i]["ID_FUNCIONARIO"], dataConsulta);
+                var confirmaMysql = dadosRh.ValidaFirebirdMysql(funcionarios[i]["ID_FUNCIONARIO"], dataConsulta);
+                if (!confirmaMysql)
+                    if (admissao.Count > 0)
                     {
-                        var CalendarioFuncionario =
-                            Firebird.VerificaCalendario(Funcionarios[i]["ID_FUNCIONARIO"], DataConsulta);
-                        var Feriados = Firebird.VerificaFeriado(Funcionarios[i]["ID_FUNCIONARIO"],
-                            CalendarioFuncionario[0]["ID_CALENDARIO"], DataConsulta);
+                        var calendarioFuncionario =
+                            firebird.VerificaCalendario(funcionarios[i]["ID_FUNCIONARIO"], dataConsulta);
+                        var feriados = firebird.VerificaFeriado(funcionarios[i]["ID_FUNCIONARIO"],
+                            calendarioFuncionario[0]["ID_CALENDARIO"], dataConsulta);
 
-                        if (Afastamentos.Count == 0)
-                            if (Feriados[0]["TOTAL"].Equals("0"))
+                        if (afastamentos.Count == 0)
+                            if (feriados[0]["TOTAL"].Equals("0"))
                             {
-                                var TabelaJornada = Firebird.BuscaJornada(
-                                    Funcionarios[i]["ID_FUNCIONARIO"],
-                                    DataConsulta.ToString("yyyy/MM/dd"));
+                                var tabelaJornada = firebird.BuscaJornada(
+                                    funcionarios[i]["ID_FUNCIONARIO"],
+                                    dataConsulta.ToString("yyyy/MM/dd"));
 
                                 // Trata Jornada especial
-                                if (TabelaJornada.Count > 0 &&
-                                    TabelaJornada[0]["ID_JORNADA"].Equals("3"))
+                                if (tabelaJornada.Count > 0 &&
+                                    tabelaJornada[0]["ID_JORNADA"].Equals("3"))
                                 {
-                                    if (Marcacao.Count == 0)
+                                    if (marcacao.Count == 0)
                                     {
-                                        var FuncionarioPendente = new Dictionary<string, string>();
-                                        FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                        FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                        FuncionarioPendente.Add("DataPendencia", DataConsulta.ToString("dd/MM/yyyy"));
-                                        FuncionarioPendente.Add("Hora0", "--:--");
-                                        FuncionarioPendente.Add("Hora1", "--:--");
-                                        FuncionarioPendente.Add("Hora2", "--:--");
-                                        FuncionarioPendente.Add("Hora3", "--:--");
-                                        FuncionarioPendente.Add("TotalHorario", "4");
+                                        var funcionarioPendente = new Dictionary<string, string>();
+                                        funcionarioPendente.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                        funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                        funcionarioPendente.Add("DataPendencia", dataConsulta.ToString("dd/MM/yyyy"));
+                                        funcionarioPendente.Add("Hora0", "--:--");
+                                        funcionarioPendente.Add("Hora1", "--:--");
+                                        funcionarioPendente.Add("Hora2", "--:--");
+                                        funcionarioPendente.Add("Hora3", "--:--");
+                                        funcionarioPendente.Add("TotalHorario", "4");
 
-                                        Pendentes.Add(FuncionarioPendente);
+                                        pendentes.Add(funcionarioPendente);
                                     }
-                                    else if ((Marcacao.Count < 2 || Marcacao.Count > 4) && Marcacao.Count != 3)
+                                    else if ((marcacao.Count < 2 || marcacao.Count > 4) && marcacao.Count != 3)
                                     {
                                         #region Tratamento Hora extra, Batida errada aprendiz e estagiario e Irani
 
-                                        if (Marcacao[0]["ID_CARGO"].Equals("2") ||
-                                            Funcionarios[i]["NOME"].Contains("IRANI") && Marcacao.Count == 2)
+                                        if (marcacao[0]["ID_CARGO"].Equals("2") ||
+                                            funcionarios[i]["NOME"].Contains("IRANI") && marcacao.Count == 2)
                                         {
-                                            if (Marcacao.Count == 2)
+                                            if (marcacao.Count == 2)
                                             {
-                                                var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                                var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                                var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var JornadaTrabalhada = Marcacao2.Subtract(Marcacao1);
-                                                var HoraExtra = new TimeSpan();
+                                                var jornadaTrabalhada = marcacao2.Subtract(marcacao1);
+                                                TimeSpan horaExtra;
 
 
-                                                var Total = new TimeSpan(00, 06, 00, 00);
-                                                HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                                var total = new TimeSpan(00, 06, 00, 00);
+                                                horaExtra = jornadaTrabalhada.Subtract(total);
 
-                                                if (HoraExtra.Hours >= 0 && HoraExtra.Minutes > 5)
+                                                if (horaExtra.Hours >= 0 && horaExtra.Minutes > 5)
                                                 {
-                                                    var FuncionarioPendente = new Dictionary<string, string>();
-                                                    FuncionarioPendente.Add("IdFuncionario",
-                                                        Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                    FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                    FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                    FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora2", "");
-                                                    FuncionarioPendente.Add("Hora3", "");
-                                                    FuncionarioPendente.Add("TotalHorario", "4");
+                                                    var funcionarioPendente = new Dictionary<string, string>();
+                                                    funcionarioPendente.Add("IdFuncionario",
+                                                        funcionarios[i]["ID_FUNCIONARIO"]);
+                                                    funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                    funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                    funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                    funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                    funcionarioPendente.Add("Hora2", "");
+                                                    funcionarioPendente.Add("Hora3", "");
+                                                    funcionarioPendente.Add("TotalHorario", "4");
 
-                                                    Pendentes.Add(FuncionarioPendente);
+                                                    pendentes.Add(funcionarioPendente);
                                                 }
                                             }
                                             else
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("TotalHorario", Marcacao.Count.ToString());
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("TotalHorario", marcacao.Count.ToString());
 
-                                                for (var j = 0; j < Marcacao.Count; j++)
-                                                    FuncionarioPendente.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                                for (var j = 0; j < marcacao.Count; j++)
+                                                    funcionarioPendente.Add("Hora" + j, marcacao[j]["HORA"]);
 
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                         }
-                                        else if (Marcacao[0]["ID_CARGO"].Equals("58"))
+                                        else if (marcacao[0]["ID_CARGO"].Equals("58"))
                                         {
-                                            if (Marcacao.Count == 2)
+                                            if (marcacao.Count == 2)
                                             {
-                                                var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                                var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                                var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
 
-                                                var JornadaTrabalhada = Marcacao2.Subtract(Marcacao1);
-                                                var HoraExtra = new TimeSpan();
+                                                var jornadaTrabalhada = marcacao2.Subtract(marcacao1);
+                                                TimeSpan horaExtra;
 
-                                                var Total = new TimeSpan(00, 04, 00, 00);
-                                                HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                                var total = new TimeSpan(00, 04, 00, 00);
+                                                horaExtra = jornadaTrabalhada.Subtract(total);
 
-                                                if (HoraExtra.Hours >= 4 && HoraExtra.Minutes >= 5)
+                                                if (horaExtra.Hours >= 4 && horaExtra.Minutes >= 5)
                                                 {
-                                                    var FuncionarioPendente = new Dictionary<string, string>();
-                                                    FuncionarioPendente.Add("IdFuncionario",
-                                                        Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                    FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                    FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                    FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora2", "");
-                                                    FuncionarioPendente.Add("Hora3", "");
-                                                    FuncionarioPendente.Add("TotalHorario", "4");
+                                                    var funcionarioPendente = new Dictionary<string, string>();
+                                                    funcionarioPendente.Add("IdFuncionario",
+                                                        funcionarios[i]["ID_FUNCIONARIO"]);
+                                                    funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                    funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                    funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                    funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                    funcionarioPendente.Add("Hora2", "");
+                                                    funcionarioPendente.Add("Hora3", "");
+                                                    funcionarioPendente.Add("TotalHorario", "4");
 
-                                                    Pendentes.Add(FuncionarioPendente);
+                                                    pendentes.Add(funcionarioPendente);
                                                 }
                                             }
                                             else
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("TotalHorario", Marcacao.Count.ToString());
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("TotalHorario", marcacao.Count.ToString());
 
-                                                for (var j = 0; j < Marcacao.Count; j++)
-                                                    FuncionarioPendente.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                                for (var j = 0; j < marcacao.Count; j++)
+                                                    funcionarioPendente.Add("Hora" + j, marcacao[j]["HORA"]);
 
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                         }
                                         else
                                         {
                                             #region Tratamento Ponto Errado
 
-                                            var Pendencia = new Dictionary<string, string>();
-                                            Pendencia.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                            Pendencia.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                            Pendencia.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                            Pendencia.Add("TotalHorario", Marcacao.Count.ToString());
+                                            var pendencia = new Dictionary<string, string>();
+                                            pendencia.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                            pendencia.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                            pendencia.Add("DataPendencia", marcacao[0]["DATA"]);
+                                            pendencia.Add("TotalHorario", marcacao.Count.ToString());
 
-                                            for (var j = 0; j < Marcacao.Count; j++)
-                                                Pendencia.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                            for (var j = 0; j < marcacao.Count; j++)
+                                                pendencia.Add("Hora" + j, marcacao[j]["HORA"]);
 
-                                            Pendentes.Add(Pendencia);
+                                            pendentes.Add(pendencia);
 
                                             #endregion
                                         }
@@ -185,233 +184,233 @@ namespace PortalSicoobDivicred
                                     {
                                         try
                                         {
-                                            var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                            var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                            var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao3 = DateTime.ParseExact(Marcacao[2]["HORA"], "HH:mm:ss",
+                                            var marcacao3 = DateTime.ParseExact(marcacao[2]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao4 = DateTime.ParseExact(Marcacao[3]["HORA"], "HH:mm:ss",
+                                            var marcacao4 = DateTime.ParseExact(marcacao[3]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
 
-                                            var Almoco = Marcacao3.Subtract(Marcacao2);
+                                            var almoco = marcacao3.Subtract(marcacao2);
 
-                                            var JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(Almoco);
-                                            var HoraExtra = new TimeSpan();
-                                            var Total = new TimeSpan(00, 06, 00, 00);
-                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                            var jornadaTrabalhada = marcacao4.Subtract(marcacao1).Subtract(almoco);
+                                            TimeSpan horaExtra;
+                                            var total = new TimeSpan(00, 06, 00, 00);
+                                            horaExtra = jornadaTrabalhada.Subtract(total);
 
 
-                                            if (HoraExtra.Hours > 2)
+                                            if (horaExtra.Hours > 2)
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                FuncionarioPendente.Add("Hora2", Marcacao[2]["HORA"]);
-                                                FuncionarioPendente.Add("Hora3", Marcacao[3]["HORA"]);
-                                                FuncionarioPendente.Add("TotalHorario", "4");
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionarioPendente.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionarioPendente.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionarioPendente.Add("TotalHorario", "4");
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                             else
                                             {
-                                                var Funcionario = new Dictionary<string, string>();
-                                                Funcionario.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                Funcionario.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                Funcionario.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                Funcionario.Add("Hora0", Marcacao[0]["HORA"]);
-                                                Funcionario.Add("Hora1", Marcacao[1]["HORA"]);
-                                                Funcionario.Add("Hora2", Marcacao[2]["HORA"]);
-                                                Funcionario.Add("Hora3", Marcacao[3]["HORA"]);
-                                                Funcionario.Add("Jornada", JornadaTrabalhada.ToString());
-                                                Funcionario.Add("HoraExtra", HoraExtra.ToString());
+                                                var funcionario = new Dictionary<string, string>();
+                                                funcionario.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionario.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionario.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionario.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionario.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionario.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionario.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionario.Add("Jornada", jornadaTrabalhada.ToString());
+                                                funcionario.Add("HoraExtra", horaExtra.ToString());
 
 
-                                                SemPendencias.Add(Funcionario);
+                                                semPendencias.Add(funcionario);
                                             }
                                         }
                                         catch
                                         {
-                                            var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                            var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                            var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
 
 
-                                            var JornadaTrabalhada = Marcacao2.Subtract(Marcacao1);
-                                            var HoraExtra = new TimeSpan();
-                                            var Total = new TimeSpan(00, 06, 00, 00);
-                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                            var jornadaTrabalhada = marcacao2.Subtract(marcacao1);
+                                            TimeSpan horaExtra;
+                                            var total = new TimeSpan(00, 06, 00, 00);
+                                            horaExtra = jornadaTrabalhada.Subtract(total);
 
 
-                                            if (HoraExtra.Hours > 2)
+                                            if (horaExtra.Hours > 2)
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                FuncionarioPendente.Add("Hora2", Marcacao[2]["HORA"]);
-                                                FuncionarioPendente.Add("Hora3", Marcacao[3]["HORA"]);
-                                                FuncionarioPendente.Add("TotalHorario", "4");
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionarioPendente.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionarioPendente.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionarioPendente.Add("TotalHorario", "4");
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                             else
                                             {
-                                                var Funcionario = new Dictionary<string, string>();
-                                                Funcionario.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                Funcionario.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                Funcionario.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                Funcionario.Add("Hora0", Marcacao[0]["HORA"]);
-                                                Funcionario.Add("Hora1", Marcacao[1]["HORA"]);
-                                                Funcionario.Add("Jornada", JornadaTrabalhada.ToString());
-                                                Funcionario.Add("HoraExtra", HoraExtra.ToString());
+                                                var funcionario = new Dictionary<string, string>();
+                                                funcionario.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionario.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionario.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionario.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionario.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionario.Add("Jornada", jornadaTrabalhada.ToString());
+                                                funcionario.Add("HoraExtra", horaExtra.ToString());
 
 
-                                                SemPendencias.Add(Funcionario);
+                                                semPendencias.Add(funcionario);
                                             }
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (Marcacao.Count == 0)
+                                    if (marcacao.Count == 0)
                                     {
-                                        var FuncionarioPendente = new Dictionary<string, string>();
-                                        FuncionarioPendente.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                        FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                        FuncionarioPendente.Add("DataPendencia", DataConsulta.ToString("dd/MM/yyyy"));
-                                        FuncionarioPendente.Add("Hora0", "--:--");
-                                        FuncionarioPendente.Add("Hora1", "--:--");
-                                        FuncionarioPendente.Add("Hora2", "--:--");
-                                        FuncionarioPendente.Add("Hora3", "--:--");
-                                        FuncionarioPendente.Add("TotalHorario", "4");
+                                        var funcionarioPendente = new Dictionary<string, string>();
+                                        funcionarioPendente.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                        funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                        funcionarioPendente.Add("DataPendencia", dataConsulta.ToString("dd/MM/yyyy"));
+                                        funcionarioPendente.Add("Hora0", "--:--");
+                                        funcionarioPendente.Add("Hora1", "--:--");
+                                        funcionarioPendente.Add("Hora2", "--:--");
+                                        funcionarioPendente.Add("Hora3", "--:--");
+                                        funcionarioPendente.Add("TotalHorario", "4");
 
-                                        Pendentes.Add(FuncionarioPendente);
+                                        pendentes.Add(funcionarioPendente);
                                     }
 
                                     #endregion
 
-                                    else if (Marcacao.Count < 4 || Marcacao.Count > 4)
+                                    else if (marcacao.Count < 4 || marcacao.Count > 4)
                                     {
                                         #region Tratamento Hora extra, Batida errada aprendiz e estagiario e Irani
 
-                                        if (Marcacao[0]["ID_CARGO"].Equals("2") ||
-                                            Funcionarios[i]["NOME"].Contains("IRANI") && Marcacao.Count == 2)
+                                        if (marcacao[0]["ID_CARGO"].Equals("2") ||
+                                            funcionarios[i]["NOME"].Contains("IRANI") && marcacao.Count == 2)
                                         {
-                                            if (Marcacao.Count == 2)
+                                            if (marcacao.Count == 2)
                                             {
-                                                var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                                var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                                var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var JornadaTrabalhada = Marcacao2.Subtract(Marcacao1);
-                                                var HoraExtra = new TimeSpan();
+                                                var jornadaTrabalhada = marcacao2.Subtract(marcacao1);
+                                                TimeSpan horaExtra;
 
 
-                                                var Total = new TimeSpan(00, 06, 00, 00);
-                                                HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                                var total = new TimeSpan(00, 06, 00, 00);
+                                                horaExtra = jornadaTrabalhada.Subtract(total);
 
-                                                if (HoraExtra.Hours >= 0 && HoraExtra.Minutes > 5)
+                                                if (horaExtra.Hours >= 0 && horaExtra.Minutes > 5)
                                                 {
-                                                    var FuncionarioPendente = new Dictionary<string, string>();
-                                                    FuncionarioPendente.Add("IdFuncionario",
-                                                        Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                    FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                    FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                    FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora2", "");
-                                                    FuncionarioPendente.Add("Hora3", "");
-                                                    FuncionarioPendente.Add("TotalHorario", "4");
+                                                    var funcionarioPendente = new Dictionary<string, string>();
+                                                    funcionarioPendente.Add("IdFuncionario",
+                                                        funcionarios[i]["ID_FUNCIONARIO"]);
+                                                    funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                    funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                    funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                    funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                    funcionarioPendente.Add("Hora2", "");
+                                                    funcionarioPendente.Add("Hora3", "");
+                                                    funcionarioPendente.Add("TotalHorario", "4");
 
-                                                    Pendentes.Add(FuncionarioPendente);
+                                                    pendentes.Add(funcionarioPendente);
                                                 }
                                             }
                                             else
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("TotalHorario", Marcacao.Count.ToString());
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("TotalHorario", marcacao.Count.ToString());
 
-                                                for (var j = 0; j < Marcacao.Count; j++)
-                                                    FuncionarioPendente.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                                for (var j = 0; j < marcacao.Count; j++)
+                                                    funcionarioPendente.Add("Hora" + j, marcacao[j]["HORA"]);
 
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                         }
-                                        else if (Marcacao[0]["ID_CARGO"].Equals("58"))
+                                        else if (marcacao[0]["ID_CARGO"].Equals("58"))
                                         {
-                                            if (Marcacao.Count == 2)
+                                            if (marcacao.Count == 2)
                                             {
-                                                var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                                var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
-                                                var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                                var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                     new DateTimeFormatInfo());
 
-                                                var JornadaTrabalhada = Marcacao2.Subtract(Marcacao1);
-                                                var HoraExtra = new TimeSpan();
+                                                var jornadaTrabalhada = marcacao2.Subtract(marcacao1);
+                                                TimeSpan horaExtra;
 
-                                                var Total = new TimeSpan(00, 04, 00, 00);
-                                                HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                                var total = new TimeSpan(00, 04, 00, 00);
+                                                horaExtra = jornadaTrabalhada.Subtract(total);
 
-                                                if (HoraExtra.Hours >= 4 && HoraExtra.Minutes >= 5)
+                                                if (horaExtra.Hours >= 4 && horaExtra.Minutes >= 5)
                                                 {
-                                                    var FuncionarioPendente = new Dictionary<string, string>();
-                                                    FuncionarioPendente.Add("IdFuncionario",
-                                                        Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                    FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                    FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                    FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                    FuncionarioPendente.Add("Hora2", "");
-                                                    FuncionarioPendente.Add("Hora3", "");
-                                                    FuncionarioPendente.Add("TotalHorario", "4");
+                                                    var funcionarioPendente = new Dictionary<string, string>();
+                                                    funcionarioPendente.Add("IdFuncionario",
+                                                        funcionarios[i]["ID_FUNCIONARIO"]);
+                                                    funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                    funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                    funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                    funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                    funcionarioPendente.Add("Hora2", "");
+                                                    funcionarioPendente.Add("Hora3", "");
+                                                    funcionarioPendente.Add("TotalHorario", "4");
 
-                                                    Pendentes.Add(FuncionarioPendente);
+                                                    pendentes.Add(funcionarioPendente);
                                                 }
                                             }
                                             else
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("TotalHorario", Marcacao.Count.ToString());
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("TotalHorario", marcacao.Count.ToString());
 
-                                                for (var j = 0; j < Marcacao.Count; j++)
-                                                    FuncionarioPendente.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                                for (var j = 0; j < marcacao.Count; j++)
+                                                    funcionarioPendente.Add("Hora" + j, marcacao[j]["HORA"]);
 
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
                                         }
                                         else
                                         {
                                             #region Tratamento Ponto Errado
 
-                                            var Pendencia = new Dictionary<string, string>();
-                                            Pendencia.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                            Pendencia.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                            Pendencia.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                            Pendencia.Add("TotalHorario", Marcacao.Count.ToString());
+                                            var pendencia = new Dictionary<string, string>();
+                                            pendencia.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                            pendencia.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                            pendencia.Add("DataPendencia", marcacao[0]["DATA"]);
+                                            pendencia.Add("TotalHorario", marcacao.Count.ToString());
 
-                                            for (var j = 0; j < Marcacao.Count; j++)
-                                                Pendencia.Add("Hora" + j, Marcacao[j]["HORA"]);
+                                            for (var j = 0; j < marcacao.Count; j++)
+                                                pendencia.Add("Hora" + j, marcacao[j]["HORA"]);
 
-                                            Pendentes.Add(Pendencia);
+                                            pendentes.Add(pendencia);
 
                                             #endregion
                                         }
@@ -423,86 +422,86 @@ namespace PortalSicoobDivicred
                                         #region Calculo Hora Extra e Almoço
 
                                         {
-                                            var Marcacao1 = DateTime.ParseExact(Marcacao[0]["HORA"], "HH:mm:ss",
+                                            var marcacao1 = DateTime.ParseExact(marcacao[0]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao2 = DateTime.ParseExact(Marcacao[1]["HORA"], "HH:mm:ss",
+                                            var marcacao2 = DateTime.ParseExact(marcacao[1]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao3 = DateTime.ParseExact(Marcacao[2]["HORA"], "HH:mm:ss",
+                                            var marcacao3 = DateTime.ParseExact(marcacao[2]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
-                                            var Marcacao4 = DateTime.ParseExact(Marcacao[3]["HORA"], "HH:mm:ss",
+                                            var marcacao4 = DateTime.ParseExact(marcacao[3]["HORA"], "HH:mm:ss",
                                                 new DateTimeFormatInfo());
 
-                                            var Almoco = Marcacao3.Subtract(Marcacao2);
+                                            var almoco = marcacao3.Subtract(marcacao2);
 
-                                            var JornadaTrabalhada = Marcacao4.Subtract(Marcacao1).Subtract(Almoco);
-                                            var HoraExtra = new TimeSpan();
-                                            var Total = new TimeSpan(00, 08, 00, 00);
-                                            HoraExtra = JornadaTrabalhada.Subtract(Total);
+                                            var jornadaTrabalhada = marcacao4.Subtract(marcacao1).Subtract(almoco);
+                                            TimeSpan horaExtra;
+                                            var total = new TimeSpan(00, 08, 00, 00);
+                                            horaExtra = jornadaTrabalhada.Subtract(total);
 
 
-                                            if (HoraExtra.Hours > 2)
+                                            if (horaExtra.Hours > 2)
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                FuncionarioPendente.Add("Hora2", Marcacao[2]["HORA"]);
-                                                FuncionarioPendente.Add("Hora3", Marcacao[3]["HORA"]);
-                                                FuncionarioPendente.Add("TotalHorario", "4");
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionarioPendente.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionarioPendente.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionarioPendente.Add("TotalHorario", "4");
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
-                                            else if (Almoco.Hours >= 2 && Almoco.Minutes > 0)
+                                            else if (almoco.Hours >= 2 && almoco.Minutes > 0)
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                FuncionarioPendente.Add("Hora2", Marcacao[2]["HORA"]);
-                                                FuncionarioPendente.Add("Hora3", Marcacao[3]["HORA"]);
-                                                FuncionarioPendente.Add("TotalHorario", "4");
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionarioPendente.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionarioPendente.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionarioPendente.Add("TotalHorario", "4");
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
-                                            else if (Almoco.Hours < 1 && Almoco.Minutes <= 59)
+                                            else if (almoco.Hours < 1 && almoco.Minutes <= 59)
                                             {
-                                                var FuncionarioPendente = new Dictionary<string, string>();
-                                                FuncionarioPendente.Add("IdFuncionario",
-                                                    Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                FuncionarioPendente.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                FuncionarioPendente.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                FuncionarioPendente.Add("Hora0", Marcacao[0]["HORA"]);
-                                                FuncionarioPendente.Add("Hora1", Marcacao[1]["HORA"]);
-                                                FuncionarioPendente.Add("Hora2", Marcacao[2]["HORA"]);
-                                                FuncionarioPendente.Add("Hora3", Marcacao[3]["HORA"]);
-                                                FuncionarioPendente.Add("TotalHorario", "4");
+                                                var funcionarioPendente = new Dictionary<string, string>();
+                                                funcionarioPendente.Add("IdFuncionario",
+                                                    funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionarioPendente.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionarioPendente.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionarioPendente.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionarioPendente.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionarioPendente.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionarioPendente.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionarioPendente.Add("TotalHorario", "4");
 
-                                                Pendentes.Add(FuncionarioPendente);
+                                                pendentes.Add(funcionarioPendente);
                                             }
 
                                             #region Tratamento sem justificativa
 
                                             else
                                             {
-                                                var Funcionario = new Dictionary<string, string>();
-                                                Funcionario.Add("IdFuncionario", Funcionarios[i]["ID_FUNCIONARIO"]);
-                                                Funcionario.Add("NomeFuncionario", Funcionarios[i]["NOME"]);
-                                                Funcionario.Add("DataPendencia", Marcacao[0]["DATA"]);
-                                                Funcionario.Add("Hora0", Marcacao[0]["HORA"]);
-                                                Funcionario.Add("Hora1", Marcacao[1]["HORA"]);
-                                                Funcionario.Add("Hora2", Marcacao[2]["HORA"]);
-                                                Funcionario.Add("Hora3", Marcacao[3]["HORA"]);
-                                                Funcionario.Add("Jornada", JornadaTrabalhada.ToString());
-                                                Funcionario.Add("HoraExtra", HoraExtra.ToString());
+                                                var funcionario = new Dictionary<string, string>();
+                                                funcionario.Add("IdFuncionario", funcionarios[i]["ID_FUNCIONARIO"]);
+                                                funcionario.Add("NomeFuncionario", funcionarios[i]["NOME"]);
+                                                funcionario.Add("DataPendencia", marcacao[0]["DATA"]);
+                                                funcionario.Add("Hora0", marcacao[0]["HORA"]);
+                                                funcionario.Add("Hora1", marcacao[1]["HORA"]);
+                                                funcionario.Add("Hora2", marcacao[2]["HORA"]);
+                                                funcionario.Add("Hora3", marcacao[3]["HORA"]);
+                                                funcionario.Add("Jornada", jornadaTrabalhada.ToString());
+                                                funcionario.Add("HoraExtra", horaExtra.ToString());
 
 
-                                                SemPendencias.Add(Funcionario);
+                                                semPendencias.Add(funcionario);
                                             }
 
                                             #endregion
@@ -515,284 +514,291 @@ namespace PortalSicoobDivicred
                     }
             }
 
-            var ListaFinal = new List<List<Dictionary<string, string>>>();
-            ListaFinal.Add(Pendentes);
-            ListaFinal.Add(SemPendencias);
+            var listaFinal = new List<List<Dictionary<string, string>>>();
+            listaFinal.Add(pendentes);
+            listaFinal.Add(semPendencias);
 
-            return ListaFinal;
+            return listaFinal;
         }
 
         public List<Dictionary<string, string>> RetornaPendenciasMysql()
         {
-            var FaltaConfirmacao = new List<Dictionary<string, string>>();
-            var DadosRh = new QueryMysqlRh();
-            var Firebird = new QueryFirebird();
+            var faltaConfirmacao = new List<Dictionary<string, string>>();
+            var dadosRh = new QueryMysqlRh();
+            var firebird = new QueryFirebird();
 
-            var TodasPendencias = DadosRh.RetornaPendencias();
+            var todasPendencias = dadosRh.RetornaPendencias();
 
-            for (var i = 0; i < TodasPendencias.Count; i++)
+            for (var i = 0; i < todasPendencias.Count; i++)
             {
-                var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
+                var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
 
-                var Confirmar = new Dictionary<string, string>();
-                if (TodasPendencias[i]["validacaogestor"].Equals("S"))
-                    Confirmar.Add("ConfirmaGestor", "green");
+                var confirmar = new Dictionary<string, string>();
+                if (todasPendencias[i]["validacaogestor"].Equals("S"))
+                    confirmar.Add("ConfirmaGestor", "green");
                 else
-                    Confirmar.Add("ConfirmaGestor", "red");
-                Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
-                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
-                Confirmar.Add("Data", TodasPendencias[i]["data"]);
-                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
-                var Validado = false;
-                for (var j = 0; j < DadosPendencia.Count; j++)
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
-                        DadosPendencia[j]["observacao"] == null)
+                    confirmar.Add("ConfirmaGestor", "red");
+                confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
+                confirmar.Add("Nome", todasPendencias[i]["nome"]);
+                confirmar.Add("Data", todasPendencias[i]["data"]);
+                confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
+                var validado = false;
+                for (var j = 0; j < dadosPendencia.Count; j++)
+                    if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
+                        dadosPendencia[j]["observacao"] == null)
                     {
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
                     else
                     {
                         try
                         {
-                            if (DadosPendencia[j]["observacao"].Length > 0)
+                            if (dadosPendencia[j]["observacao"].Length > 0)
                             {
-                                var Justificativa = DadosPendencia[j]["observacao"];
+                                var justificativa = dadosPendencia[j]["observacao"];
                                 try
                                 {
-                                    Confirmar.Add("Justificativa" + i, Justificativa);
+                                    confirmar.Add("Justificativa" + i, justificativa);
                                 }
                                 catch
                                 {
+                                    // ignored
                                 }
                             }
                             else
                             {
-                                var Justificativa =
-                                    Firebird.RecuperaJustificativasFuncioanrio(
-                                        DadosPendencia[j]["idjustificativafirebird"]);
+                                var justificativa =
+                                    firebird.RecuperaJustificativasFuncioanrio(
+                                        dadosPendencia[j]["idjustificativafirebird"]);
                                 try
                                 {
-                                    Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                    confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
                                 }
                                 catch
                                 {
+                                    // ignored
                                 }
                             }
                         }
                         catch
                         {
-                            var Justificativa =
-                                Firebird.RecuperaJustificativasFuncioanrio(
-                                    DadosPendencia[j]["idjustificativafirebird"]);
+                            var justificativa =
+                                firebird.RecuperaJustificativasFuncioanrio(
+                                    dadosPendencia[j]["idjustificativafirebird"]);
                             try
                             {
-                                Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
                             }
                             catch
                             {
+                                // ignored
                             }
                         }
 
-                        Validado = true;
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        validado = true;
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
 
-                if (Validado)
-                    Confirmar.Add("Justificado", "true");
+                if (validado)
+                    confirmar.Add("Justificado", "true");
                 else
-                    Confirmar.Add("Justificado", "false");
+                    confirmar.Add("Justificado", "false");
 
-                FaltaConfirmacao.Add(Confirmar);
+                faltaConfirmacao.Add(confirmar);
             }
 
-            return FaltaConfirmacao;
+            return faltaConfirmacao;
         }
 
-        public List<Dictionary<string, string>> RetornaPendenciasFuncionario(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaPendenciasFuncionario(string idFuncionario)
         {
-            var FaltaConfirmacao = new List<Dictionary<string, string>>();
+            var faltaConfirmacao = new List<Dictionary<string, string>>();
 
-            var DadosRh = new QueryMysqlRh();
-            var QueryFire = new QueryFirebird();
-            var TodasPendencias = DadosRh.RetornaPendenciasUsuario(IdFuncionario);
+            var dadosRh = new QueryMysqlRh();
+            var queryFire = new QueryFirebird();
+            var todasPendencias = dadosRh.RetornaPendenciasUsuario(idFuncionario);
 
-            for (var i = 0; i < TodasPendencias.Count; i++)
+            for (var i = 0; i < todasPendencias.Count; i++)
             {
-                var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
-                var IdFuncionarioFirebird = QueryFire.RetornaIdFuncionario(TodasPendencias[i]["nome"]);
+                var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
+                var idFuncionarioFirebird = queryFire.RetornaIdFuncionario(todasPendencias[i]["nome"]);
 
-                var Confirmar = new Dictionary<string, string>();
-                if (TodasPendencias[i]["validacaogestor"].Equals("S"))
-                    Confirmar.Add("ConfirmaGestor", "true");
+                var confirmar = new Dictionary<string, string>();
+                if (todasPendencias[i]["validacaogestor"].Equals("S"))
+                    confirmar.Add("ConfirmaGestor", "true");
                 else
-                    Confirmar.Add("ConfirmaGestor", "false");
-                Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
-                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
-                Confirmar.Add("IdFuncionarioFireBird", IdFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
-                Confirmar.Add("Data", TodasPendencias[i]["data"]);
-                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
-                var Validado = false;
-                for (var j = 0; j < DadosPendencia.Count; j++)
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
-                        DadosPendencia[j]["observacao"] == null)
+                    confirmar.Add("ConfirmaGestor", "false");
+                confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
+                confirmar.Add("Nome", todasPendencias[i]["nome"]);
+                confirmar.Add("IdFuncionarioFireBird", idFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
+                confirmar.Add("Data", todasPendencias[i]["data"]);
+                confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
+                var validado = false;
+                for (var j = 0; j < dadosPendencia.Count; j++)
+                    if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
+                        dadosPendencia[j]["observacao"] == null)
                     {
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
                     else
                     {
-                        Validado = true;
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        validado = true;
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
 
-                if (Validado)
-                    Confirmar.Add("Justificado", "true");
+                if (validado)
+                    confirmar.Add("Justificado", "true");
                 else
-                    Confirmar.Add("Justificado", "false");
+                    confirmar.Add("Justificado", "false");
 
-                FaltaConfirmacao.Add(Confirmar);
+                faltaConfirmacao.Add(confirmar);
             }
 
-            return FaltaConfirmacao;
+            return faltaConfirmacao;
         }
 
-        public List<Dictionary<string, string>> RetornaPendenciasSetor(string IdSetor)
+        public List<Dictionary<string, string>> RetornaPendenciasSetor(string idSetor)
         {
-            var FaltaConfirmacao = new List<Dictionary<string, string>>();
+            var faltaConfirmacao = new List<Dictionary<string, string>>();
 
-            var DadosRh = new QueryMysqlRh();
-            var QueryFire = new QueryFirebird();
-            var TodasPendencias = DadosRh.RetornaPendenciasSetor(IdSetor);
+            var dadosRh = new QueryMysqlRh();
+            var queryFire = new QueryFirebird();
+            var todasPendencias = dadosRh.RetornaPendenciasSetor(idSetor);
 
-            for (var i = 0; i < TodasPendencias.Count; i++)
+            for (var i = 0; i < todasPendencias.Count; i++)
             {
-                var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
-                var IdFuncionarioFirebird = QueryFire.RetornaIdFuncionario(TodasPendencias[i]["nome"]);
+                var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
+                var idFuncionarioFirebird = queryFire.RetornaIdFuncionario(todasPendencias[i]["nome"]);
 
-                var Confirmar = new Dictionary<string, string>();
-                if (TodasPendencias[i]["validacaogestor"].Equals("S"))
-                    Confirmar.Add("ConfirmaGestor", "true");
+                var confirmar = new Dictionary<string, string>();
+                if (todasPendencias[i]["validacaogestor"].Equals("S"))
+                    confirmar.Add("ConfirmaGestor", "true");
                 else
-                    Confirmar.Add("ConfirmaGestor", "false");
-                Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
-                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
-                Confirmar.Add("IdFuncionarioFireBird", IdFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
-                Confirmar.Add("Data", TodasPendencias[i]["data"]);
-                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
-                var Validado = false;
+                    confirmar.Add("ConfirmaGestor", "false");
+                confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
+                confirmar.Add("Nome", todasPendencias[i]["nome"]);
+                confirmar.Add("IdFuncionarioFireBird", idFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
+                confirmar.Add("Data", todasPendencias[i]["data"]);
+                confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
+                var validado = false;
 
-                for (var j = 0; j < DadosPendencia.Count; j++)
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
-                        DadosPendencia[j]["observacao"] == null)
+                for (var j = 0; j < dadosPendencia.Count; j++)
+                    if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
+                        dadosPendencia[j]["observacao"] == null)
                     {
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
                     else
                     {
-                        Validado = true;
-                        if (DadosPendencia[j]["observacao"] != null)
+                        validado = true;
+                        if (dadosPendencia[j]["observacao"] != null)
                         {
-                            if (DadosPendencia[j]["observacao"].Length > 0)
+                            if (dadosPendencia[j]["observacao"].Length > 0)
                             {
-                                var Justificativa = DadosPendencia[j]["observacao"];
+                                var justificativa = dadosPendencia[j]["observacao"];
                                 try
                                 {
-                                    Confirmar.Add("Justificativa" + i, Justificativa);
+                                    confirmar.Add("Justificativa" + i, justificativa);
                                 }
                                 catch
                                 {
+                                    // ignored
                                 }
                             }
                             else
                             {
-                                var Justificativa =
-                                    QueryFire.RecuperaJustificativasFuncioanrio(
-                                        DadosPendencia[j]["idjustificativafirebird"]);
+                                var justificativa =
+                                    queryFire.RecuperaJustificativasFuncioanrio(
+                                        dadosPendencia[j]["idjustificativafirebird"]);
                                 try
                                 {
-                                    Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                    confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
                                 }
                                 catch
                                 {
+                                    // ignored
                                 }
                             }
                         }
                         else
                         {
-                            var Justificativa =
-                                QueryFire.RecuperaJustificativasFuncioanrio(
-                                    DadosPendencia[j]["idjustificativafirebird"]);
+                            var justificativa =
+                                queryFire.RecuperaJustificativasFuncioanrio(
+                                    dadosPendencia[j]["idjustificativafirebird"]);
                             try
                             {
-                                Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                                confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
                             }
                             catch
                             {
+                                // ignored
                             }
                         }
 
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
 
-                if (Validado)
-                    Confirmar.Add("Justificado", "true");
+                if (validado)
+                    confirmar.Add("Justificado", "true");
                 else
-                    Confirmar.Add("Justificado", "false");
+                    confirmar.Add("Justificado", "false");
 
-                FaltaConfirmacao.Add(Confirmar);
+                faltaConfirmacao.Add(confirmar);
             }
 
-            return FaltaConfirmacao;
+            return faltaConfirmacao;
         }
 
-        public List<Dictionary<string, string>> RetornaHistoricoPendencias(string DataInicial, string DataFinal)
+        public List<Dictionary<string, string>> RetornaHistoricoPendencias(string dataInicial, string dataFinal)
         {
-            var FaltaConfirmacao = new List<Dictionary<string, string>>();
+            var faltaConfirmacao = new List<Dictionary<string, string>>();
 
-            var DadosRh = new QueryMysqlRh();
-            var Firebird = new QueryFirebird();
-            var TodasPendencias = DadosRh.RetornaHistoricoPendencias(DataInicial, DataFinal);
+            var dadosRh = new QueryMysqlRh();
+            var firebird = new QueryFirebird();
+            var todasPendencias = dadosRh.RetornaHistoricoPendencias(dataInicial, dataFinal);
 
-            for (var i = 0; i < TodasPendencias.Count; i++)
+            for (var i = 0; i < todasPendencias.Count; i++)
             {
-                var DadosPendencia = DadosRh.RetornaDadosPendencias(TodasPendencias[i]["id"]);
+                var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
 
-                var Confirmar = new Dictionary<string, string>();
+                var confirmar = new Dictionary<string, string>();
 
-                Confirmar.Add("IdPendencia", TodasPendencias[i]["id"]);
-                Confirmar.Add("Nome", TodasPendencias[i]["nome"]);
-                Confirmar.Add("Data", TodasPendencias[i]["data"]);
-                Confirmar.Add("TotalHorario", DadosPendencia.Count.ToString());
-                var Validado = false;
-                for (var j = 0; j < DadosPendencia.Count; j++)
-                    if (DadosPendencia[j]["idjustificativafirebird"].Equals("0"))
+                confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
+                confirmar.Add("Nome", todasPendencias[i]["nome"]);
+                confirmar.Add("Data", todasPendencias[i]["data"]);
+                confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
+                var validado = false;
+                for (var j = 0; j < dadosPendencia.Count; j++)
+                    if (dadosPendencia[j]["idjustificativafirebird"].Equals("0"))
                     {
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
                     else
                     {
-                        var Justificativa =
-                            Firebird.RecuperaJustificativasFuncioanrio(DadosPendencia[j]["idjustificativafirebird"]);
+                        var justificativa =
+                            firebird.RecuperaJustificativasFuncioanrio(dadosPendencia[j]["idjustificativafirebird"]);
                         try
                         {
-                            Confirmar.Add("Justificativa" + i, Justificativa[0]["DESCRICAO"]);
+                            confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
                         }
                         catch
                         {
+                            // ignored
                         }
 
-                        Validado = true;
-                        Confirmar.Add("Horario" + j, DadosPendencia[j]["horario"]);
+                        validado = true;
+                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                     }
 
-                if (Validado)
-                    Confirmar.Add("Justificado", "true");
+                if (validado)
+                    confirmar.Add("Justificado", "true");
                 else
-                    Confirmar.Add("Justificado", "false");
+                    confirmar.Add("Justificado", "false");
 
-                FaltaConfirmacao.Add(Confirmar);
+                faltaConfirmacao.Add(confirmar);
             }
 
-            return FaltaConfirmacao;
+            return faltaConfirmacao;
         }
     }
 }

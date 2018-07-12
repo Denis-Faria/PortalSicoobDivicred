@@ -95,7 +95,7 @@
             $("#Mostra").removeAttr("style");
         }
 
-        function BuscaCertificacao(Nome) {
+        function BuscaCertificacao(nome) {
             $("#Conteudo").empty();
             $.ajax(
                 {
@@ -104,7 +104,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "IdFuncao": Nome.value },
+                    data: { "IdFuncao": nome.value },
                     success: function(data) {
                         $("#Conteudo").append(data);
                         $("#Certificacoes").removeAttr("hidden");
@@ -113,13 +113,13 @@
                 });
         }
 
-        function Oculta(Qual) {
-            var QualAcao = Qual;
-            if (QualAcao == "Proximo") {
-                var cusid_ele = document.getElementsByClassName('step-item');
-                for (var i = 0; i < cusid_ele.length; ++i) {
+        function Oculta(qual) {
+            var qualAcao = qual;
+            if (qualAcao == "Proximo") {
+                var cusidEle = document.getElementsByClassName('step-item');
+                for (var i = 0; i < cusidEle.length; ++i) {
 
-                    var item = cusid_ele[i];
+                    var item = cusidEle[i];
                     if (item.className.endsWith(" is-active")) {
                         if (item.id == "Profissionais") {
                             document.getElementById("Pessoais").hidden = true;
@@ -139,10 +139,10 @@
                     }
                 }
             } else {
-                var cusid_ele = document.getElementsByClassName('step-item');
-                for (var i = 0; i < cusid_ele.length; ++i) {
+                var cusidEle = document.getElementsByClassName('step-item');
+                for (var i = 0; i < cusidEle.length; ++i) {
 
-                    var item = cusid_ele[i];
+                    var item = cusidEle[i];
                     if (item.className.endsWith(" is-active")) {
                         if (item.id == "ConteMais") {
                             document.getElementById("Pessoais").hidden = false;

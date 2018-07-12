@@ -66,7 +66,7 @@
             
             <label class="label">Grupo</label>
             <div class="select is-1 is-fullwidth">
-                @Html.DropDownListFor(m => m.idDescricaoGrupo, new SelectList(Model.DescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
+                @Html.DropDownListFor(m => m.IdDescricaoGrupo, new SelectList(Model.DescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
                 @Html.ValidationMessageFor(m => m.DescricaoGrupo, null, new { style = "color:red" })
             </div>
         </div>
@@ -75,7 +75,7 @@
     <div class="column is-6">
         <div class="control" id="dataAdmissão">
             <label class="label">Data Admissão</label>
-            @Html.TextBoxFor(m => m.dataAdmissao, null, new { @class = "input", type = "date" })
+            @Html.TextBoxFor(m => m.DataAdmissao, null, new { @class = "input", type = "date" })
         </div>
     </div>
 </div>

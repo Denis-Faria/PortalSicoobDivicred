@@ -6,12 +6,12 @@ namespace PortalSicoobDivicred.Aplicacao
 {
     public class ValidacoesIniciais
     {
-        QueryMysql verificaDados = new QueryMysql();
+        QueryMysql _verificaDados = new QueryMysql();
 
         public void AlertasUsuario(Controller controller, string idUsuario)
         {
        
-            var alertas = verificaDados.BuscaAlerta( idUsuario );
+            var alertas = _verificaDados.BuscaAlerta( idUsuario );
             controller.TempData["TotalAlertas"] = alertas.Count;
 
             for(int i = 0; i < alertas.Count; i++)
@@ -26,13 +26,13 @@ namespace PortalSicoobDivicred.Aplicacao
         public void Permissoes(Controller controller, List<Dictionary<string,string>> dadosUsuarioBanco)
         {
 
-            if(verificaDados.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
+            if(_verificaDados.PermissaoCurriculos( dadosUsuarioBanco[0]["login"] ))
                 controller.TempData["PermissaoCurriculo"] =
                     " ";
             else
                 controller.TempData["PermissaoCurriculo"] = "display: none";
 
-            if(verificaDados.PermissaoTesouraria( dadosUsuarioBanco[0]["login"] ))
+            if(_verificaDados.PermissaoTesouraria( dadosUsuarioBanco[0]["login"] ))
                 controller.TempData["PermissaoTesouraria"] =
                     " ";
             else
@@ -49,10 +49,10 @@ namespace PortalSicoobDivicred.Aplicacao
                 controller.TempData["AreaGestor"] = "N";
             }
 
-            if(verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
+            if(_verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
                 controller.TempData["PermissaoNumerario"] =
                     " ";
-            else if(verificaDados.PermissaoControleTesouraria( dadosUsuarioBanco[0]["login"] ))
+            else if(_verificaDados.PermissaoControleTesouraria( dadosUsuarioBanco[0]["login"] ))
                 controller.TempData["PermissaoNumerario"] =
                     " ";
             else

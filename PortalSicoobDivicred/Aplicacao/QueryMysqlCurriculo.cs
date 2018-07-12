@@ -6,589 +6,583 @@ namespace PortalSicoobDivicred.Aplicacao
 {
     public class QueryMysqlCurriculo
     {
-        private readonly Conexao ConexaoMysql;
+        private readonly Conexao _conexaoMysql;
 
 
         public QueryMysqlCurriculo()
         {
-            ConexaoMysql = new Conexao();
+            _conexaoMysql = new Conexao();
         }
 
         public bool UsuarioLogado()
         {
-            var Usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
-            if (Usuario == null)
+            var usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
+            if (usuario == null)
                 return false;
             return true;
         }
 
         public List<Dictionary<string, string>> RecuperaCurriculos()
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoVaga(string IdVaga)
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoVaga(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select titulo,DATE_FORMAT(datainicio,'%d/%m/%Y') as datainicio from vagas where id=" + IdVaga + " ;";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "select titulo,DATE_FORMAT(datainicio,'%d/%m/%Y') as datainicio from vagas where id=" + idVaga + " ;";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoHistorico(string IdVaga)
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoHistorico(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select count(id) as count from historicos where idvaga=" + IdVaga + "";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "select count(id) as count from historicos where idvaga=" + idVaga + "";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoProcesso(string IdVaga)
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecaoProcesso(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select count(id) as count from processosseletivos where idvaga=" + IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "select count(id) as count from processosseletivos where idvaga=" + idVaga + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> ExisteFormularioRecrutamentoSelecaoProcesso(string IdVaga)
+        public List<Dictionary<string, string>> ExisteFormularioRecrutamentoSelecaoProcesso(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select count(id) as count from recrutamentoselecao where idvaga=" + IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "select count(id) as count from recrutamentoselecao where idvaga=" + idVaga + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioRecrutamentoSelecao(string IdVaga)
+        public List<Dictionary<string, string>> FormularioRecrutamentoSelecao(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select * from recrutamentoselecao where idvaga=" + IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "select * from recrutamentoselecao where idvaga=" + idVaga + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public void InserirFormularioRecrutamentoSelecao(string IdVaga, string ClasseCargo, string NivelCargo,
-            string NumeroVaga, string ChefiaImediata, string MesAdmissao, string MotivoSelecao,
-            string EmpregadoSubstituido, string PrevisaoOrcamento, string FormaRecrutamento, string DinamicaGrupo,
-            string DinamicaNumero, string DinamicaPreNumero, string ConhecimentoTeste, string ConhecimentoNumero,
-            string ConhecimentoPreNumero, string PsicologicoTeste, string PsicologicoNumero,
-            string PsicologicoPreNumero, string Psicologaentrevistador, string PsicologaNumero,
-            string PsicologaPreNumero, string Setor)
+        public void InserirFormularioRecrutamentoSelecao(string idVaga, string classeCargo, string nivelCargo,
+            string numeroVaga, string chefiaImediata, string mesAdmissao, string motivoSelecao,
+            string empregadoSubstituido, string previsaoOrcamento, string formaRecrutamento, string dinamicaGrupo,
+            string dinamicaNumero, string dinamicaPreNumero, string conhecimentoTeste, string conhecimentoNumero,
+            string conhecimentoPreNumero, string psicologicoTeste, string psicologicoNumero,
+            string psicologicoPreNumero, string psicologaentrevistador, string psicologaNumero,
+            string psicologaPreNumero, string setor)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "INSERT INTO recrutamentoselecao (idvaga,classecargo,nivelcargo,numerovaga,chefiaimediata,mesadmissao,motivoselecao,nomeempregadosubstituido,previsaoorcamento,formarecrutamento,dinamicagrupo,dinamicanumero,dinamicaprenumero,conhecimentoteste,conhecimentonumero,conhecimentoprenumero,psicologicoteste,psicologiconumero,psicologicoprenumero,psicologaentrevistador,psicologanumero,psicologaprenumero,setor) VALUES(" +
-                IdVaga + ",'" + ClasseCargo + "','" + NivelCargo + "'," + NumeroVaga + ",'" + ChefiaImediata + "','" +
-                MesAdmissao + "','" + MotivoSelecao + "','" + EmpregadoSubstituido + "','" + PrevisaoOrcamento + "','" +
-                FormaRecrutamento + "','" + DinamicaGrupo + "'," + DinamicaNumero + "," + DinamicaPreNumero + ",'" +
-                ConhecimentoTeste + "'," + ConhecimentoNumero + "," + ConhecimentoPreNumero + ",'" + PsicologicoTeste +
-                "'," + PsicologicoNumero + "," + PsicologicoPreNumero + ",'" + Psicologaentrevistador + "'," +
-                PsicologaNumero + "," + PsicologaPreNumero + ", '" + Setor + "');";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                idVaga + ",'" + classeCargo + "','" + nivelCargo + "'," + numeroVaga + ",'" + chefiaImediata + "','" +
+                mesAdmissao + "','" + motivoSelecao + "','" + empregadoSubstituido + "','" + previsaoOrcamento + "','" +
+                formaRecrutamento + "','" + dinamicaGrupo + "'," + dinamicaNumero + "," + dinamicaPreNumero + ",'" +
+                conhecimentoTeste + "'," + conhecimentoNumero + "," + conhecimentoPreNumero + ",'" + psicologicoTeste +
+                "'," + psicologicoNumero + "," + psicologicoPreNumero + ",'" + psicologaentrevistador + "'," +
+                psicologaNumero + "," + psicologaPreNumero + ", '" + setor + "');";
+
+          _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public void AtualizarFormularioRecrutamentoSelecao(string IdVaga, string ClasseCargo, string NivelCargo,
-            string NumeroVaga, string ChefiaImediata, string MesAdmissao, string MotivoSelecao,
-            string EmpregadoSubstituido, string PrevisaoOrcamento, string FormaRecrutamento, string DinamicaGrupo,
-            string DinamicaNumero, string DinamicaPreNumero, string ConhecimentoTeste, string ConhecimentoNumero,
-            string ConhecimentoPreNumero, string PsicologicoTeste, string PsicologicoNumero,
-            string PsicologicoPreNumero, string Psicologaentrevistador, string PsicologaNumero,
-            string PsicologaPreNumero, string Setor)
+        public void AtualizarFormularioRecrutamentoSelecao(string idVaga, string classeCargo, string nivelCargo,
+            string numeroVaga, string chefiaImediata, string mesAdmissao, string motivoSelecao,
+            string empregadoSubstituido, string previsaoOrcamento, string formaRecrutamento, string dinamicaGrupo,
+            string dinamicaNumero, string dinamicaPreNumero, string conhecimentoTeste, string conhecimentoNumero,
+            string conhecimentoPreNumero, string psicologicoTeste, string psicologicoNumero,
+            string psicologicoPreNumero, string psicologaentrevistador, string psicologaNumero,
+            string psicologaPreNumero, string setor)
         {
-            var QuerySelecionaCurriculo = "UPDATE recrutamentoselecao set classecargo='" + ClasseCargo +
-                                          "',nivelcargo='" + NivelCargo + "',numerovaga=" + NumeroVaga +
-                                          ",chefiaimediata='" + ChefiaImediata + "',mesadmissao='" + MesAdmissao +
-                                          "',motivoselecao='" + MotivoSelecao + "',nomeempregadosubstituido='" +
-                                          EmpregadoSubstituido + "',previsaoorcamento='" + PrevisaoOrcamento +
-                                          "',formarecrutamento='" + FormaRecrutamento + "',dinamicagrupo='" +
-                                          DinamicaGrupo + "',dinamicanumero=" + DinamicaNumero +
-                                          ",dinamicaprenumero=" + DinamicaPreNumero + ",conhecimentoteste='" +
-                                          ConhecimentoTeste + "',conhecimentonumero=" + ConhecimentoNumero +
-                                          ",conhecimentoprenumero=" + ConhecimentoPreNumero + ",psicologicoteste='" +
-                                          PsicologicoTeste + "',psicologiconumero=" + PsicologicoNumero +
-                                          ",psicologicoprenumero=" + PsicologicoPreNumero +
-                                          ",psicologaentrevistador='" + Psicologaentrevistador + "',psicologanumero=" +
-                                          PsicologaNumero + ",psicologaprenumero=" + PsicologaPreNumero + ",setor='" +
-                                          Setor + "' WHERE idvaga=" + IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            var querySelecionaCurriculo = "UPDATE recrutamentoselecao set classecargo='" + classeCargo +
+                                          "',nivelcargo='" + nivelCargo + "',numerovaga=" + numeroVaga +
+                                          ",chefiaimediata='" + chefiaImediata + "',mesadmissao='" + mesAdmissao +
+                                          "',motivoselecao='" + motivoSelecao + "',nomeempregadosubstituido='" +
+                                          empregadoSubstituido + "',previsaoorcamento='" + previsaoOrcamento +
+                                          "',formarecrutamento='" + formaRecrutamento + "',dinamicagrupo='" +
+                                          dinamicaGrupo + "',dinamicanumero=" + dinamicaNumero +
+                                          ",dinamicaprenumero=" + dinamicaPreNumero + ",conhecimentoteste='" +
+                                          conhecimentoTeste + "',conhecimentonumero=" + conhecimentoNumero +
+                                          ",conhecimentoprenumero=" + conhecimentoPreNumero + ",psicologicoteste='" +
+                                          psicologicoTeste + "',psicologiconumero=" + psicologicoNumero +
+                                          ",psicologicoprenumero=" + psicologicoPreNumero +
+                                          ",psicologaentrevistador='" + psicologaentrevistador + "',psicologanumero=" +
+                                          psicologaNumero + ",psicologaprenumero=" + psicologaPreNumero + ",setor='" +
+                                          setor + "' WHERE idvaga=" + idVaga + ";";
+
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
 
-        public List<Dictionary<string, string>> FormularioParecerProcessoDadosPessoais(string Cpf, string IdVaga)
+        public List<Dictionary<string, string>> FormularioParecerProcessoDadosPessoais(string cpf, string idVaga)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.nome,DATE_FORMAT(a.datanascimento,'%d/%m/%Y') as nascimento, b.descricao as escolaridade, c.titulo,c.salario from candidatos a, tiposescolaridades b,vagas c, processosseletivos d where a.idtipoescolaridade=b.id and a.id=d.idcandidato and c.id=d.idvaga and a.cpf='" +
-                Cpf + "' and d.idvaga=" + IdVaga + "";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+                cpf + "' and d.idvaga=" + idVaga + "";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioParecerProcessoDadosEscolares(string Cpf)
+        public List<Dictionary<string, string>> FormularioParecerProcessoDadosEscolares(string cpf)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select b.nomecurso, b.anofim from candidatos a, dadosescolares b where a.cpf='" +
-                Cpf + "' and b.idcandidato=a.id";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+                cpf + "' and b.idcandidato=a.id";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> FormularioParecerProcessoDadosProfissionais(string Cpf)
+        public List<Dictionary<string, string>> FormularioParecerProcessoDadosProfissionais(string cpf)
         {
-            var QuerySelecionaCurriculo =
-                "select b.nomeempresa, b.nomecargo from candidatos a, dadosprofissionais b where a.cpf='" + Cpf +
+            var querySelecionaCurriculo =
+                "select b.nomeempresa, b.nomecargo from candidatos a, dadosprofissionais b where a.cpf='" + cpf +
                 "' and b.idcandidato=a.id";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public void InserirFormularioParecerProcesso(string Solicitante, string metodologiaprocesso,
-            string demandaparecer, string TipoRecrutamento, string PerfilTecnico, string Conclusao, string Cpf,
-            string IdVaga)
+        public void InserirFormularioParecerProcesso(string solicitante, string metodologiaprocesso,
+            string demandaparecer, string tipoRecrutamento, string perfilTecnico, string conclusao, string cpf,
+            string idVaga)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
 
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "INSERT INTO parecerprocessoseletivo (idcandidato,solicitante,idvaga,metodologiaprocesso,demandaparecer,tiporecrutamento,perfiltecnico,conclusao) VALUES(" +
-                DadosCandidatos[0]["id"] + ",'" + Solicitante + "'," + IdVaga + ",'" + metodologiaprocesso + "','" +
-                demandaparecer + "','" + TipoRecrutamento + "','" + PerfilTecnico + "','" + Conclusao + "')";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                dadosCandidatos[0]["id"] + ",'" + solicitante + "'," + idVaga + ",'" + metodologiaprocesso + "','" +
+                demandaparecer + "','" + tipoRecrutamento + "','" + perfilTecnico + "','" + conclusao + "')";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public void AtualizarFormularioParecerProcesso(string Solicitante, string metodologiaprocesso,
-            string demandaparecer, string TipoRecrutamento, string PerfilTecnico, string Conclusao, string Cpf,
-            string IdVaga)
+        public void AtualizarFormularioParecerProcesso(string solicitante, string metodologiaprocesso,
+            string demandaparecer, string tipoRecrutamento, string perfilTecnico, string conclusao, string cpf,
+            string idVaga)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
 
-            var QuerySelecionaCurriculo = "UPDATE parecerprocessoseletivo SET solicitante='" + Solicitante +
+            var querySelecionaCurriculo = "UPDATE parecerprocessoseletivo SET solicitante='" + solicitante +
                                           "',metodologiaprocesso='" + metodologiaprocesso + "',demandaparecer='" +
-                                          demandaparecer + "',tiporecrutamento='" + TipoRecrutamento +
-                                          "',perfiltecnico='" + PerfilTecnico + "',conclusao='" + Conclusao +
-                                          "' WHERE idcandidato=" + DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga +
+                                          demandaparecer + "',tiporecrutamento='" + tipoRecrutamento +
+                                          "',perfiltecnico='" + perfilTecnico + "',conclusao='" + conclusao +
+                                          "' WHERE idcandidato=" + dadosCandidatos[0]["id"] + " AND idvaga=" + idVaga +
                                           ";";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaFormularioParecerProcesso(string Cpf, string IdVaga)
+        public List<Dictionary<string, string>> RecuperaFormularioParecerProcesso(string cpf, string idVaga)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
 
-            var QuerySelecionaCurriculo = "select * from  parecerprocessoseletivo WHERE idcandidato=" +
-                                          DadosCandidatos[0]["id"] + " AND idvaga=" + IdVaga + ";";
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return Dados;
+            var querySelecionaCurriculo = "select * from  parecerprocessoseletivo WHERE idcandidato=" +
+                                          dadosCandidatos[0]["id"] + " AND idvaga=" + idVaga + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dados;
         }
 
         public List<Dictionary<string, string>> RecuperaVagaEspecifica()
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select id,descricao from vagas where areadeinteresse='Especifica' AND ativa='S' ";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public void AtribuirVaga(string Cpf, string IdVaga)
+        public void AtribuirVaga(string cpf, string idVaga)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
-            var QuerySelecionaCurriculo =
-                "INSERT INTO historicos (idvaga,idcandidato,feedback) VALUES(" + IdVaga + "," +
-                DadosCandidatos[0]["id"] + ",'Obrigado pelo interesse entraremos em contato em breve') ";
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
+            var querySelecionaCurriculo =
+                "INSERT INTO historicos (idvaga,idcandidato,feedback) VALUES(" + idVaga + "," +
+                dadosCandidatos[0]["id"] + ",'Obrigado pelo interesse entraremos em contato em breve') ";
 
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaCurriculosArea(string Area, string Cidade, string Certificacao,
-            string Ordenacao, string Formacao)
+        public List<Dictionary<string, string>> RecuperaCurriculosArea(string area, string cidade, string certificacao,
+            string ordenacao, string formacao)
         {
-            if (Ordenacao.Equals("Alfabetico"))
+            if (ordenacao.Equals("Alfabetico"))
             {
-                var QuerySelecionaCurriculo =
+                var querySelecionaCurriculo =
                     "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
-                    Formacao + " AND b.descricao like'%" +
-                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
-                    Certificacao + "%' ORDER BY nome ASC";
-                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-                return DadosCurriculos;
+                    formacao + " AND b.descricao like'%" +
+                    area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + cidade + "%' AND a.certificacao like'%" +
+                    certificacao + "%' ORDER BY nome ASC";
+                var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+                return dadosCurriculos;
             }
 
-            if (Ordenacao.Equals("Status"))
+            if (ordenacao.Equals("Status"))
             {
-                var QuerySelecionaCurriculo =
+                var querySelecionaCurriculo =
                     "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
-                    Formacao + " and b.descricao like'%" +
-                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
-                    Certificacao + "%' ORDER BY status asc ";
-                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-                return DadosCurriculos;
+                    formacao + " and b.descricao like'%" +
+                    area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + cidade + "%' AND a.certificacao like'%" +
+                    certificacao + "%' ORDER BY status asc ";
+                var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+                return dadosCurriculos;
             }
             else
             {
-                var QuerySelecionaCurriculo =
+                var querySelecionaCurriculo =
                     "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.idtipoescolaridade=" +
-                    Formacao + " and b.descricao like'%" +
-                    Area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + Cidade + "%' AND a.certificacao like'%" +
-                    Certificacao + "%'";
-                var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-                return DadosCurriculos;
+                    formacao + " and b.descricao like'%" +
+                    area + "%' AND a.id=b.idcandidato AND a.cidade like'%" + cidade + "%' AND a.certificacao like'%" +
+                    certificacao + "%'";
+                var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+                return dadosCurriculos;
             }
         }
 
 
-        public List<Dictionary<string, string>> RecuperaCurriculosProcesso(string IdVaga)
+        public List<Dictionary<string, string>> RecuperaCurriculosProcesso(string idVaga)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.nome,a.cpf,a.email,b.* from candidatos a, processosseletivos b where a.id=b.idcandidato and b.idvaga=" +
-                IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+                idVaga + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public bool VerificaProcesso(string IdVaga)
+        public bool VerificaProcesso(string idVaga)
         {
-            var QuerySelecionaCurriculo =
-                "select * from processosseletivos where idvaga=" + IdVaga + "";
-            var DadosVaga = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            if (DadosVaga.Count > 0)
+            var querySelecionaCurriculo =
+                "select * from processosseletivos where idvaga=" + idVaga + "";
+            var dadosVaga = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            if (dadosVaga.Count > 0)
                 return true;
             return false;
         }
 
-        public void AtualizarVaga(string IdVaga, string Descricao, string Salario, string Requisito, string Titulo,
-            string Beneficio, string Ativa, string Areas)
+        public void AtualizarVaga(string idVaga, string descricao, string salario, string requisito, string titulo,
+            string beneficio, string ativa, string areas)
         {
-            var QuerySelecionaCurriculo = "UPDATE vagas SET descricao='" + Descricao + "',salario='" +
-                                          Salario.Replace(",", ".") + "',requisito='" + Requisito + "',titulo='" +
-                                          Titulo + "', beneficio='" + Beneficio + "', ativa='" + Ativa +
-                                          "', areadeinteresse='" + Areas + "' where id=" + IdVaga + ";";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            var querySelecionaCurriculo = "UPDATE vagas SET descricao='" + descricao + "',salario='" +
+                                          salario.Replace(",", ".") + "',requisito='" + requisito + "',titulo='" +
+                                          titulo + "', beneficio='" + beneficio + "', ativa='" + ativa +
+                                          "', areadeinteresse='" + areas + "' where id=" + idVaga + ";";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosVaga(string IdVaga)
+        public List<Dictionary<string, string>> RecuperaDadosVaga(string idVaga)
         {
-            var QuerySelecionaCurriculo = "SELECT * from vagas where id=" + IdVaga + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo = "SELECT * from vagas where id=" + idVaga + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> RecuperaProcesso(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaProcesso(string idCandidato)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "SELECT a.*,b.titulo as nomevaga from processosseletivos a , vagas b where a.idvaga=b.id and idcandidato=" +
-                IdCandidato + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+                idCandidato + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
-        public List<Dictionary<string, string>> RecuperaFormulario(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaFormulario(string idCandidato)
         {
-            var QuerySelecionaCurriculo =
-                "SELECT * from formulariosiniciais where  idcandidato=" + IdCandidato + ";";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var querySelecionaCurriculo =
+                "SELECT * from formulariosiniciais where  idcandidato=" + idCandidato + ";";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
         public List<Dictionary<string, string>> RecuperaCurriculosAlfabetico()
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato  order by a.nome asc  ";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
         public List<Dictionary<string, string>> RecuperaCurriculosStatus()
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.nome,a.email,b.descricao,if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Reprovado')>0,'N',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Ausente')>0,'A',if((select count(id) from processosseletivos where idcandidato=a.id AND aprovado='Excedente')>0,'E','S'))) as status, a.idarquivogoogle,a.cpf,a.cidade from candidatos a , areasinteresses b where a.id=b.idcandidato order by status asc ";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
 
-        public List<Dictionary<string, string>> RecuperaCurriculosHistorico(string IdVaga)
+        public List<Dictionary<string, string>> RecuperaCurriculosHistorico(string idVaga)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "select a.cpf, a.nome,a.email, a.idarquivogoogle,a.cidade,a.certificacao,a.telefoneprincipal from historicos c LEFT JOIN candidatos a on c.idcandidato=a.id INNER JOIN candidatos u2 on (c.idcandidato=u2.id) where c.idvaga=" +
-                IdVaga + "";
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            return DadosCurriculos;
+                idVaga + "";
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            return dadosCurriculos;
         }
 
 
         public List<Dictionary<string, string>> RecuperaVagas()
         {
-            var QuerySelecionaVagas =
+            var querySelecionaVagas =
                 "select id,titulo,descricao,areadeinteresse,ativa FROM vagas ORDER BY ativa DESC";
-            var DadosVagas = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaVagas);
-            return DadosVagas;
+            var dadosVagas = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaVagas);
+            return dadosVagas;
         }
 
-        public void CriaBalao(string Cpf)
+        public void CriaBalao(string cpf)
         {
-            var QueryAdcionaBalao =
-                "UPDATE candidatos SET balao='S' WHERE cpf='" + Cpf + "';";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryAdcionaBalao);
+            var queryAdcionaBalao =
+                "UPDATE candidatos SET balao='S' WHERE cpf='" + cpf + "';";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryAdcionaBalao);
         }
 
-        public List<Dictionary<string, string>> RecuperaVagasId(string Id)
+        public List<Dictionary<string, string>> RecuperaVagasId(string id)
         {
-            var QuerySelecionaVagas =
-                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas where id=" + Id + "";
-            var DadosVagas = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaVagas);
-            return DadosVagas;
+            var querySelecionaVagas =
+                "select id,titulo,descricao,areadeinteresse,ativa FROM vagas where id=" + id + "";
+            var dadosVagas = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaVagas);
+            return dadosVagas;
         }
 
-        public List<Dictionary<string, string>> CadastrarVaga(string Descricao, string AreaInteresse, string Salario,
-            string Requisito,
-            string Titulo, string Beneficio)
+        public List<Dictionary<string, string>> CadastrarVaga(string descricao, string areaInteresse, string salario,
+            string requisito,
+            string titulo, string beneficio)
         {
-            var QuerySelecionaCurriculo =
+            var querySelecionaCurriculo =
                 "INSERT INTO vagas (descricao,areadeinteresse,salario,requisito,titulo,beneficio,datainicio) VALUES('" +
-                Descricao + "','" + AreaInteresse + "','" + Salario + "','" + Requisito + "','" + Titulo + "','" +
-                Beneficio + "',now())";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
-            var QuerySelecionaEmailVagas =
+                descricao + "','" + areaInteresse + "','" + salario + "','" + requisito + "','" + titulo + "','" +
+                beneficio + "',now())";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
+            var querySelecionaEmailVagas =
                 "select a.email,a.telefoneprincipal from candidatos a, areasinteresses b WHERE a.id=b.idcandidato AND a.balao='N' AND MATCH(b.descricao) AGAINST('" +
-                AreaInteresse + "' )";
-            var Email = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaEmailVagas);
-            return Email;
+                areaInteresse + "' )";
+            var email = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaEmailVagas);
+            return email;
         }
 
-        public void IniciarProcessoSeletivo(string Cpf, string IdVaga)
+        public void IniciarProcessoSeletivo(string cpf, string idVaga)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
-            var QueryIniciaProcesso = "INSERT INTO processosseletivos (idvaga,idcandidato) VALUES(" + IdVaga + "," +
-                                      DadosCandidatos[0]["id"] + ")";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
+            var queryIniciaProcesso = "INSERT INTO processosseletivos (idvaga,idcandidato) VALUES(" + idVaga + "," +
+                                      dadosCandidatos[0]["id"] + ")";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
         }
 
-        public void AtualizarProcessoSeletivoStatus(string Cpf, string IdVaga, string Resultado, string Restricao)
+        public void AtualizarProcessoSeletivoStatus(string cpf, string idVaga, string resultado, string restricao)
         {
-            var QuerySelecionaIdCandidato = "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
+            var querySelecionaIdCandidato = "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
             try
             {
-                if (Restricao.Length > 0 || Restricao != null)
-                {
-                    var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado +
-                                              "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
-                                              DadosCandidatos[0]["id"] + ", restricao='" + Restricao + "';";
-                    ;
-                    ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
-                }
-                else
-                {
-                    var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado +
-                                              "' WHERE idvaga=" + IdVaga + " AND idcandidato=" +
-                                              DadosCandidatos[0]["id"] + ";";
-                    ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
-                }
+                
+                    var queryIniciaProcesso = "Update processosseletivos set aprovado='" + resultado +
+                                              "' WHERE idvaga=" + idVaga + " AND idcandidato=" +
+                                              dadosCandidatos[0]["id"] + ", restricao='" + restricao + "';";
+                    
+                    _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
+                
             }
             catch
             {
-                var QueryIniciaProcesso = "Update processosseletivos set aprovado='" + Resultado + "' WHERE idvaga=" +
-                                          IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
-                ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
+                var queryIniciaProcesso = "Update processosseletivos set aprovado='" + resultado + "' WHERE idvaga=" +
+                                          idVaga + " AND idcandidato=" + dadosCandidatos[0]["id"] + ";";
+                _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
             }
 
-            var QueryMudaDataFim = "UPDATE vagas SET datafim=NOW() WHERE id=" + IdVaga + "";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryMudaDataFim);
+            var queryMudaDataFim = "UPDATE vagas SET datafim=NOW() WHERE id=" + idVaga + "";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryMudaDataFim);
         }
 
-        public void AtualizarProcessoSeletivoGerente(string Cpf, string IdVaga, string Resultado)
+        public void AtualizarProcessoSeletivoGerente(string cpf, string idVaga, string resultado)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
-            var QueryIniciaProcesso = "Update processosseletivos set gerente= '" + Resultado + "' WHERE idvaga = " +
-                                      IdVaga + " AND idcandidato = " + DadosCandidatos[0]["id"] + "; ";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
+            var queryIniciaProcesso = "Update processosseletivos set gerente= '" + resultado + "' WHERE idvaga = " +
+                                      idVaga + " AND idcandidato = " + dadosCandidatos[0]["id"] + "; ";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
         }
 
-        public void AtualizaProcessoSeletivoPsicologico(string Cpf, string IdVaga, string Resultado)
+        public void AtualizaProcessoSeletivoPsicologico(string cpf, string idVaga, string resultado)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
-            var QueryIniciaProcesso = "Update processosseletivos set psicologico='" + Resultado + "' WHERE idvaga=" +
-                                      IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
+            var queryIniciaProcesso = "Update processosseletivos set psicologico='" + resultado + "' WHERE idvaga=" +
+                                      idVaga + " AND idcandidato=" + dadosCandidatos[0]["id"] + ";";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
         }
 
-        public void AtualizaProcessoSeletivoTeorico(string Cpf, string IdVaga, string Resultado)
+        public void AtualizaProcessoSeletivoTeorico(string cpf, string idVaga, string resultado)
         {
-            var QuerySelecionaIdCandidato =
-                "select id FROM candidatos where cpf='" + Cpf + "';";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaIdCandidato);
-            var QueryIniciaProcesso = "Update processosseletivos set prova='" + Resultado + "' WHERE idvaga=" +
-                                      IdVaga + " AND idcandidato=" + DadosCandidatos[0]["id"] + ";";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QueryIniciaProcesso);
+            var querySelecionaIdCandidato =
+                "select id FROM candidatos where cpf='" + cpf + "';";
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaIdCandidato);
+            var queryIniciaProcesso = "Update processosseletivos set prova='" + resultado + "' WHERE idvaga=" +
+                                      idVaga + " AND idcandidato=" + dadosCandidatos[0]["id"] + ";";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(queryIniciaProcesso);
         }
 
-        public void CadastrarAlerta(string Alerta)
+        public void CadastrarAlerta(string alerta)
         {
-            var QuerySelecionaVagas =
+            var querySelecionaVagas =
                 "select id FROM candidatos";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaVagas);
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaVagas);
 
-            for (var i = 0; i < DadosCandidatos.Count; i++)
+            for (var i = 0; i < dadosCandidatos.Count; i++)
             {
-                var QuerySelecionaCurriculo =
-                    "INSERT INTO alertas (alerta,idcandidato) VALUES('" + Alerta + "'," + DadosCandidatos[i]["id"] +
+                var querySelecionaCurriculo =
+                    "INSERT INTO alertas (alerta,idcandidato) VALUES('" + alerta + "'," + dadosCandidatos[i]["id"] +
                     ")";
-                ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
             }
         }
 
-        public void CadastrarAlertaEspecifico(string Alerta, string IdCandidato)
+        public void CadastrarAlertaEspecifico(string alerta, string idCandidato)
         {
-            var QuerySelecionaCurriculo =
-                "INSERT INTO alertas (alerta,idcandidato) VALUES('" + Alerta + "'," + IdCandidato +
+            var querySelecionaCurriculo =
+                "INSERT INTO alertas (alerta,idcandidato) VALUES('" + alerta + "'," + idCandidato +
                 ")";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public void CadastrarMensagem(string Mensagem)
+        public void CadastrarMensagem(string mensagem)
         {
-            var QuerySelecionaVagas =
+            var querySelecionaVagas =
                 "select id FROM candidatos";
-            var DadosCandidatos = ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaVagas);
+            var dadosCandidatos = _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaVagas);
 
-            for (var i = 0; i < DadosCandidatos.Count; i++)
+            for (var i = 0; i < dadosCandidatos.Count; i++)
             {
-                var QuerySelecionaCurriculo =
-                    "INSERT INTO mensagens (mensagem,idcandidato) VALUES('" + Mensagem + "'," +
-                    DadosCandidatos[i]["id"] + ")";
-                ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+                var querySelecionaCurriculo =
+                    "INSERT INTO mensagens (mensagem,idcandidato) VALUES('" + mensagem + "'," +
+                    dadosCandidatos[i]["id"] + ")";
+                _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
             }
         }
 
-        public void EncerrarVaga(string IdVaga)
+        public void EncerrarVaga(string idVaga)
         {
-            var QuerySelecionaCurriculo = "UPDATE vagas SET ativa='N' WHERE id=" + IdVaga + "";
-            ConexaoMysql.ExecutaComandoComRetornoPortal(QuerySelecionaCurriculo);
+            var querySelecionaCurriculo = "UPDATE vagas SET ativa='N' WHERE id=" + idVaga + "";
+            _conexaoMysql.ExecutaComandoComRetornoPortal(querySelecionaCurriculo);
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosCandidato(string Cpf)
+        public List<Dictionary<string, string>> RecuperaDadosCandidato(string cpf)
         {
-            var QueryRecuperaUsuario =
+            var queryRecuperaUsuario =
                 "SELECT a.*,b.descricao as descricaoestadocivil, c.descricao as escolaridade FROM candidatos a, tiposestadoscivis b, tiposescolaridades c WHERE b.id = a.estadocivil AND c.id = a.idtipoescolaridade AND a.cpf = '" +
-                Cpf + "'";
+                cpf + "'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaUsuario);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaUsuario);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaQuestionario(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaQuestionario(string idCandidato)
         {
-            var QueryRecuperaUsuario =
+            var queryRecuperaUsuario =
                 "SELECT * FROM formulariosiniciais WHERE idcandidato='" +
-                IdCandidato + "'";
+                idCandidato + "'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaUsuario);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaUsuario);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosUsuariosProissional(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaDadosUsuariosProissional(string idCandidato)
         {
-            var QueryRecuperaProfissional = "SELECT * FROM dadosprofissionais WHERE idcandidato='" + IdCandidato + "'";
+            var queryRecuperaProfissional = "SELECT * FROM dadosprofissionais WHERE idcandidato='" + idCandidato + "'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaProfissional);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaProfissional);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosUsuariosEducacional(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaDadosUsuariosEducacional(string idCandidato)
         {
-            var QueryRecuperaEducacional = "SELECT * FROM dadosescolares WHERE idcandidato='" + IdCandidato + "'";
+            var queryRecuperaEducacional = "SELECT * FROM dadosescolares WHERE idcandidato='" + idCandidato + "'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaEducacional);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaEducacional);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaEmail(string Cpf)
+        public List<Dictionary<string, string>> RecuperaEmail(string cpf)
         {
-            var QueryRecuperaEducacional = "SELECT id,email,telefoneprincipal FROM candidatos WHERE cpf='" + Cpf + "'";
+            var queryRecuperaEducacional = "SELECT id,email,telefoneprincipal FROM candidatos WHERE cpf='" + cpf + "'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaEducacional);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaEducacional);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaAreaInteresseUsuarios(string IdCandidato)
+        public List<Dictionary<string, string>> RecuperaAreaInteresseUsuarios(string idCandidato)
         {
-            var QueryRecuperaAreasInteresse = "SELECT * FROM areasinteresses WHERE idcandidato=" + IdCandidato + "";
+            var queryRecuperaAreasInteresse = "SELECT * FROM areasinteresses WHERE idcandidato=" + idCandidato + "";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaAreasInteresse);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaAreasInteresse);
 
 
-            return Dados;
+            return dados;
         }
 
-        public string RecuperaEstadoCivilCandidato(string Id)
+        public string RecuperaEstadoCivilCandidato(string id)
         {
-            var QueryRecuperaAreasInteresse = "SELECT * FROM tiposestadoscivis WHERE id=" + Id + "";
+            var queryRecuperaAreasInteresse = "SELECT * FROM tiposestadoscivis WHERE id=" + id + "";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaAreasInteresse);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaAreasInteresse);
 
 
-            return Dados[0]["descricao"];
+            return dados[0]["descricao"];
         }
 
-        public string RecuperaEscolaridadeCandidato(string Id)
+        public string RecuperaEscolaridadeCandidato(string id)
         {
-            var QueryRecuperaAreasInteresse = "SELECT * FROM tiposescolaridades WHERE id=" + Id + "";
+            var queryRecuperaAreasInteresse = "SELECT * FROM tiposescolaridades WHERE id=" + id + "";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaAreasInteresse);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaAreasInteresse);
 
 
-            return Dados[0]["descricao"];
+            return dados[0]["descricao"];
         }
 
 
-        public List<Dictionary<string, string>> RecuperaIdEscolaridade(string Descricao)
+        public List<Dictionary<string, string>> RecuperaIdEscolaridade(string descricao)
         {
-            var QueryRecuperaAreasInteresse =
-                "SELECT * FROM tiposescolaridades WHERE descricao like'%" + Descricao + "%'";
+            var queryRecuperaAreasInteresse =
+                "SELECT * FROM tiposescolaridades WHERE descricao like'%" + descricao + "%'";
 
 
-            var Dados = ConexaoMysql.ExecutaComandoComRetornoPortal(QueryRecuperaAreasInteresse);
+            var dados = _conexaoMysql.ExecutaComandoComRetornoPortal(queryRecuperaAreasInteresse);
 
 
-            return Dados;
+            return dados;
         }
 
-        public List<Dictionary<string, string>> FiltroVaga(string Query)
+        public List<Dictionary<string, string>> FiltroVaga(string query)
         {
-            var DadosCurriculos = ConexaoMysql.ExecutaComandoComRetornoPortal(Query);
-            return DadosCurriculos;
+            var dadosCurriculos = _conexaoMysql.ExecutaComandoComRetornoPortal(query);
+            return dadosCurriculos;
         }
     }
 }

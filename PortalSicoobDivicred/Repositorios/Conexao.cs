@@ -60,47 +60,47 @@ namespace PortalSicoobDivicred.Repositorios
         }
 
 
-        public DataTable ComandoArquivo(string Login)
+        public DataTable ComandoArquivo(string login)
         {
 
                 AbrirConexao();
                 var comando =
                     new MySqlCommand(
                         "SELECT * FROM documentospessoaisfuncionarios WHERE idfuncionario=(SELECT id FROM funcionarios where login='" +
-                        Login + "'); ", _conexao);
-                var Dados = new MySqlDataAdapter(comando);
-                var Tabela = new DataTable();
-                Dados.Fill(Tabela);
+                        login + "'); ", _conexao);
+                var dados = new MySqlDataAdapter(comando);
+                var tabela = new DataTable();
+                dados.Fill(tabela);
                 FecharConexao();
-                return Tabela;
+                return tabela;
             
         }
 
-        public DataTable ComandoArquivoWebDesk(string IdInteracao)
+        public DataTable ComandoArquivoWebDesk(string idInteracao)
         {
 
                 AbrirConexao();
                 var comando =
                     new MySqlCommand(
-                        "SELECT * FROM webdeskanexos WHERE idinteracao='" + IdInteracao + "'; ", _conexao);
-                var Dados = new MySqlDataAdapter(comando);
-                var Tabela = new DataTable();
-                Dados.Fill(Tabela);
+                        "SELECT * FROM webdeskanexos WHERE idinteracao='" + idInteracao + "'; ", _conexao);
+                var dados = new MySqlDataAdapter(comando);
+                var tabela = new DataTable();
+                dados.Fill(tabela);
                 FecharConexao();
-                return Tabela;
+                return tabela;
 
         }
 
-        public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSQL)
+        public List<Dictionary<string, string>> ExecutaComandoComRetorno(string comandoSql)
         {
             List<Dictionary<string, string>> linhas = null;
 
-            if (string.IsNullOrEmpty(comandoSQL))
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = CriarComando(comandoSQL);
+                var cmdComando = CriarComando(comandoSql);
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -128,36 +128,36 @@ namespace PortalSicoobDivicred.Repositorios
             return linhas;
         }
 
-        public string ExecutaComandoComRetornoId(string comandoSQL)
+        public string ExecutaComandoComRetornoId(string comandoSql)
         {
-            long Id = 0;
+            long id = 0;
 
-            if (string.IsNullOrEmpty(comandoSQL))
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = CriarComando(comandoSQL);
+                var cmdComando = CriarComando(comandoSql);
                 cmdComando.ExecuteNonQuery();
-                Id = cmdComando.LastInsertedId;
+                id = cmdComando.LastInsertedId;
             }
             finally
             {
                 FecharConexao();
             }
 
-            return Id.ToString();
+            return id.ToString();
         }
 
-        public void ExecutaComandoArquivo(string comandoSQL, byte[] Imagem)
+        public void ExecutaComandoArquivo(string comandoSql, byte[] imagem)
         {
-            if (string.IsNullOrEmpty(comandoSQL))
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexao();
-                var cmdComando = new MySqlCommand(comandoSQL, _conexao);
-                cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = Imagem;
+                var cmdComando = new MySqlCommand(comandoSql, _conexao);
+                cmdComando.Parameters.Add("@image", MySqlDbType.Blob).Value = imagem;
                 cmdComando.ExecuteNonQuery();
             }
             finally
@@ -166,16 +166,16 @@ namespace PortalSicoobDivicred.Repositorios
             }
         }
 
-        public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSQL)
+        public List<Dictionary<string, string>> ExecutaComandoComRetornoPortal(string comandoSql)
         {
             List<Dictionary<string, string>> linhas = null;
 
-            if (string.IsNullOrEmpty(comandoSQL))
+            if (string.IsNullOrEmpty(comandoSql))
                 throw new ArgumentException("O comandoSQL não pode ser nulo ou vazio");
             try
             {
                 AbrirConexaoPortal();
-                var cmdComando = CriarComando(comandoSQL);
+                var cmdComando = CriarComando(comandoSql);
 
                 using (var reader = cmdComando.ExecuteReader())
                 {
@@ -203,10 +203,10 @@ namespace PortalSicoobDivicred.Repositorios
             return linhas;
         }
 
-        private MySqlCommand CriarComando(string comandoSQL)
+        private MySqlCommand CriarComando(string comandoSql)
         {
             var cmdComando = _conexao.CreateCommand();
-            cmdComando.CommandText = comandoSQL;
+            cmdComando.CommandText = comandoSql;
             return cmdComando;
         }
 

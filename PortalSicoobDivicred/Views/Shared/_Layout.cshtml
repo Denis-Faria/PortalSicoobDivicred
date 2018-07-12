@@ -30,11 +30,11 @@
                     cache: true,
                     async: true,
                     data: { "idAlerta": idAlerta },
-                    success: function(data) {
+                    success: function (data) {
                         $("#" + idAlerta).remove();
-                        var Total = $("#TotalAlertas").val($("#TotalAlertas").attr("data-badge"));
-                        Total = Total.val() - 1;
-                        $("#TotalAlertas").attr("data-badge", Total);
+                        var total = $("#TotalAlertas").val($("#TotalAlertas").attr("data-badge"));
+                        total = total.val() - 1;
+                        $("#TotalAlertas").attr("data-badge", total);
                         iziToast.success({
                             title: 'Sucesso',
                             position: "center",
@@ -43,29 +43,51 @@
                     }
                 });
         }
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+
+
     </script>
 </head>
 
 <body id="CorpoPrincipal">
     <style>
-        html {
-            height: 100vh;
+        #myBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            cursor: pointer;
         }
 
-        #Lateral {
-            top: 0px;
-        }
-
-        .fixed {
-            float: left;
-            width: 50px;
-        }
-
-            .fixed + div {
-                margin-left: 50px;
-                overflow: hidden;
+            #myBtn:hover {
+                background-color: #555; /* Add a dark-grey background on hover */
             }
+        #Lateral {
+            position: fixed;
+            top: 0;
+        }
+
     </style>
+    <button onclick="topFunction()" id="myBtn" class="button is-primary is-rounded" data-balloon="Voltar ao Topo" data-balloon-pos="left">
+        <span class="icon is-small">
+            <i class="fas fa-angle-double-up"></i>
+        </span>
+    </button>
+
     <nav id="navprin" class="navbar is-transparent" style="background: #083846">
         <div class="navbar-end is-center">
             <a class="navbar-item">
@@ -74,7 +96,7 @@
         </div>
 
         <div class="navbar-end">
-            <div class="navbar-item has-dropdown is-hoverable "  >
+            <div class="navbar-item has-dropdown is-hoverable ">
                 <a class="navbar-link" style="background: #083846;" aria-haspopup="true">
                     <span class="icon badge" id="TotalAlertas" data-badge="@Convert.ToInt32( TempData["TotalAlertas"] ) ">
                         <i class="fas fa-bell" style="color: white"></i>
@@ -205,11 +227,11 @@
                         </span>
                     </a>
 
-                <a href="@Url.Action("Parametros", "Parametros")" class="item" style="color: #38d5c5; " data-balloon="Parametros" data-balloon-pos="right">
-                    <span class="icon">
-                        <i class="fas fa-cog"></i>
-                    </span>
-                </a>
+                    <a href="@Url.Action("Parametros", "Parametros")" class="item" style="color: #38d5c5; " data-balloon="Parametros" data-balloon-pos="right">
+                        <span class="icon">
+                            <i class="fas fa-cog"></i>
+                        </span>
+                    </a>
 
                 </ul>
             </aside>

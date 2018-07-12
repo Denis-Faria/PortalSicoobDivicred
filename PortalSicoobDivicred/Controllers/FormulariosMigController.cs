@@ -7,88 +7,88 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class FormulariosMigController : Controller
     {
-        public ActionResult ParecerProcesso(string Cpf, string IdVaga)
+        public ActionResult ParecerProcesso(string cpf, string idVaga)
         {
-            var RecuperaDados = new QueryMysqlCurriculo();
+            var recuperaDados = new QueryMysqlCurriculo();
 
 
-            var Formulario = RecuperaDados.RecuperaFormularioParecerProcesso(Cpf, IdVaga);
-            if (Formulario.Count > 0)
+            var formulario = recuperaDados.RecuperaFormularioParecerProcesso(cpf, idVaga);
+            if (formulario.Count > 0)
             {
-                var DadosPessoais = RecuperaDados.FormularioParecerProcessoDadosPessoais(Cpf, IdVaga);
-                var DadosProfissionais = RecuperaDados.FormularioParecerProcessoDadosProfissionais(Cpf);
+                var dadosPessoais = recuperaDados.FormularioParecerProcessoDadosPessoais(cpf, idVaga);
+                var dadosProfissionais = recuperaDados.FormularioParecerProcessoDadosProfissionais(cpf);
 
-                var Resultado = new ParecerProcesso();
+                var resultado = new ParecerProcesso();
 
-                Resultado.Conclusao = Formulario[0]["conclusao"];
-                Resultado.DemandaParecer = Formulario[0]["demandaparecer"];
-                Resultado.MetodologiaProcesso = Formulario[0]["metodologiaprocesso"];
-                Resultado.PerfilTecnico = Formulario[0]["perfiltecnico"];
-                Resultado.Solicitante = Formulario[0]["solicitante"];
-                TempData["ValorTipo"] = Formulario[0]["tiporecrutamento"];
+                resultado.Conclusao = formulario[0]["conclusao"];
+                resultado.DemandaParecer = formulario[0]["demandaparecer"];
+                resultado.MetodologiaProcesso = formulario[0]["metodologiaprocesso"];
+                resultado.PerfilTecnico = formulario[0]["perfiltecnico"];
+                resultado.Solicitante = formulario[0]["solicitante"];
+                TempData["ValorTipo"] = formulario[0]["tiporecrutamento"];
 
 
-                TempData["Cpf"] = Cpf;
-                TempData["IdVaga"] = IdVaga;
+                TempData["Cpf"] = cpf;
+                TempData["IdVaga"] = idVaga;
                 TempData["Atualiza"] = "Atualizar";
-                TempData["Remuneracao"] = DadosPessoais[0]["salario"];
-                TempData["Vaga"] = DadosPessoais[0]["titulo"];
-                TempData["Nome"] = DadosPessoais[0]["nome"];
-                TempData["Nascimento"] = DadosPessoais[0]["nascimento"];
-                TempData["Escolaridade"] = DadosPessoais[0]["escolaridade"];
-                var Nascimento = Convert.ToDateTime(DadosPessoais[0]["nascimento"]);
-                var Hoje = DateTime.Now;
-                var Idade = DateTime.Now.Year - Convert.ToDateTime(DadosPessoais[0]["nascimento"]).Year;
-                if (Nascimento > Hoje.AddYears(-Idade)) Idade--;
-                TempData["Idade"] = Idade + " Anos";
+                TempData["Remuneracao"] = dadosPessoais[0]["salario"];
+                TempData["Vaga"] = dadosPessoais[0]["titulo"];
+                TempData["Nome"] = dadosPessoais[0]["nome"];
+                TempData["Nascimento"] = dadosPessoais[0]["nascimento"];
+                TempData["Escolaridade"] = dadosPessoais[0]["escolaridade"];
+                var nascimento = Convert.ToDateTime(dadosPessoais[0]["nascimento"]);
+                var hoje = DateTime.Now;
+                var idade = DateTime.Now.Year - Convert.ToDateTime(dadosPessoais[0]["nascimento"]).Year;
+                if (nascimento > hoje.AddYears(-idade)) idade--;
+                TempData["Idade"] = idade + " Anos";
 
 
-                var DadosEscolares = RecuperaDados.FormularioParecerProcessoDadosEscolares(Cpf);
-                TempData["TotalEscolares"] = DadosEscolares.Count;
-                for (var i = 0; i < DadosEscolares.Count; i++)
+                var dadosEscolares = recuperaDados.FormularioParecerProcessoDadosEscolares(cpf);
+                TempData["TotalEscolares"] = dadosEscolares.Count;
+                for (var i = 0; i < dadosEscolares.Count; i++)
                     TempData["DadosEscolares" + i] =
-                        DadosEscolares[i]["nomecurso"] + " - Conclusão:  " + DadosEscolares[i]["anofim"];
+                        dadosEscolares[i]["nomecurso"] + " - Conclusão:  " + dadosEscolares[i]["anofim"];
 
 
-                TempData["TotalDadosProfissionais"] = DadosProfissionais.Count;
-                for (var j = 0; j < DadosProfissionais.Count; j++)
+                TempData["TotalDadosProfissionais"] = dadosProfissionais.Count;
+                for (var j = 0; j < dadosProfissionais.Count; j++)
                     TempData["DadosProfissionais" + j] =
-                        DadosProfissionais[j]["nomeempresa"] + " - " + DadosProfissionais[j]["nomecargo"];
+                        dadosProfissionais[j]["nomeempresa"] + " - " + dadosProfissionais[j]["nomecargo"];
 
 
-                return View(Resultado);
+                return View(resultado);
             }
             else
             {
-                var DadosPessoais = RecuperaDados.FormularioParecerProcessoDadosPessoais(Cpf, IdVaga);
-                var DadosProfissionais = RecuperaDados.FormularioParecerProcessoDadosProfissionais(Cpf);
+                var dadosPessoais = recuperaDados.FormularioParecerProcessoDadosPessoais(cpf, idVaga);
+                var dadosProfissionais = recuperaDados.FormularioParecerProcessoDadosProfissionais(cpf);
                 TempData["Atualiza"] = "Novo";
                 TempData["ValorTipo"] = "Interno";
-                TempData["Cpf"] = Cpf;
-                TempData["Remuneracao"] = DadosPessoais[0]["salario"];
-                TempData["IdVaga"] = IdVaga;
-                TempData["Vaga"] = DadosPessoais[0]["titulo"];
-                TempData["Nome"] = DadosPessoais[0]["nome"];
-                TempData["Nascimento"] = DadosPessoais[0]["nascimento"];
-                TempData["Escolaridade"] = DadosPessoais[0]["escolaridade"];
-                var Nascimento = Convert.ToDateTime(DadosPessoais[0]["nascimento"]);
-                var Hoje = DateTime.Now;
-                var Idade = DateTime.Now.Year - Convert.ToDateTime(DadosPessoais[0]["nascimento"]).Year;
-                if (Nascimento > Hoje.AddYears(-Idade)) Idade--;
-                TempData["Idade"] = Idade + " Anos";
+                TempData["Cpf"] = cpf;
+                TempData["Remuneracao"] = dadosPessoais[0]["salario"];
+                TempData["IdVaga"] = idVaga;
+                TempData["Vaga"] = dadosPessoais[0]["titulo"];
+                TempData["Nome"] = dadosPessoais[0]["nome"];
+                TempData["Nascimento"] = dadosPessoais[0]["nascimento"];
+                TempData["Escolaridade"] = dadosPessoais[0]["escolaridade"];
+                var nascimento = Convert.ToDateTime(dadosPessoais[0]["nascimento"]);
+                var hoje = DateTime.Now;
+                var idade = DateTime.Now.Year - Convert.ToDateTime(dadosPessoais[0]["nascimento"]).Year;
+                if (nascimento > hoje.AddYears(-idade)) idade--;
+                TempData["Idade"] = idade + " Anos";
 
 
-                var DadosEscolares = RecuperaDados.FormularioParecerProcessoDadosEscolares(Cpf);
-                TempData["TotalEscolares"] = DadosEscolares.Count;
-                for (var i = 0; i < DadosEscolares.Count; i++)
+                var dadosEscolares = recuperaDados.FormularioParecerProcessoDadosEscolares(cpf);
+                TempData["TotalEscolares"] = dadosEscolares.Count;
+                for (var i = 0; i < dadosEscolares.Count; i++)
                     TempData["DadosEscolares" + i] =
-                        DadosEscolares[i]["nomecurso"] + " - Conclusão:  " + DadosEscolares[i]["anofim"];
+                        dadosEscolares[i]["nomecurso"] + " - Conclusão:  " + dadosEscolares[i]["anofim"];
 
 
-                TempData["TotalDadosProfissionais"] = DadosProfissionais.Count;
-                for (var j = 0; j < DadosProfissionais.Count; j++)
+                TempData["TotalDadosProfissionais"] = dadosProfissionais.Count;
+                for (var j = 0; j < dadosProfissionais.Count; j++)
                     TempData["DadosProfissionais" + j] =
-                        DadosProfissionais[j]["nomeempresa"] + " - " + DadosProfissionais[j]["nomecargo"];
+                        dadosProfissionais[j]["nomeempresa"] + " - " + dadosProfissionais[j]["nomecargo"];
 
 
                 return View();
@@ -96,92 +96,92 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult ParecerProcesso(ParecerProcesso DadosFormulario, FormCollection Formulario)
+        public ActionResult ParecerProcesso(ParecerProcesso dadosFormulario, FormCollection formulario)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
                 if (ModelState.IsValid)
-                    if (!Formulario["Atualiza"].Equals("Atualizar"))
+                    if (!formulario["Atualiza"].Equals("Atualizar"))
                     {
-                        VerificaDados.InserirFormularioParecerProcesso(DadosFormulario.Solicitante,
-                            DadosFormulario.MetodologiaProcesso, DadosFormulario.DemandaParecer,
-                            Formulario["TipoRecrutamento"], DadosFormulario.PerfilTecnico, DadosFormulario.Conclusao,
-                            Formulario["Cpf"], Formulario["IdVaga"]);
+                        verificaDados.InserirFormularioParecerProcesso(dadosFormulario.Solicitante,
+                            dadosFormulario.MetodologiaProcesso, dadosFormulario.DemandaParecer,
+                            formulario["TipoRecrutamento"], dadosFormulario.PerfilTecnico, dadosFormulario.Conclusao,
+                            formulario["Cpf"], formulario["IdVaga"]);
                         return RedirectToAction("ParecerProcesso",
-                            new {Cpf = Formulario["Cpf"], IdVaga = Formulario["IdVaga"]});
+                            new {Cpf = formulario["Cpf"], IdVaga = formulario["IdVaga"]});
                     }
                     else
                     {
-                        VerificaDados.AtualizarFormularioParecerProcesso(DadosFormulario.Solicitante,
-                            DadosFormulario.MetodologiaProcesso, DadosFormulario.DemandaParecer,
-                            Formulario["TipoRecrutamento"], DadosFormulario.PerfilTecnico,
-                            DadosFormulario.Conclusao, Formulario["Cpf"], Formulario["IdVaga"]);
+                        verificaDados.AtualizarFormularioParecerProcesso(dadosFormulario.Solicitante,
+                            dadosFormulario.MetodologiaProcesso, dadosFormulario.DemandaParecer,
+                            formulario["TipoRecrutamento"], dadosFormulario.PerfilTecnico,
+                            dadosFormulario.Conclusao, formulario["Cpf"], formulario["IdVaga"]);
                         return RedirectToAction("ParecerProcesso",
-                            new {Cpf = Formulario["Cpf"], IdVaga = Formulario["IdVaga"]});
+                            new {Cpf = formulario["Cpf"], IdVaga = formulario["IdVaga"]});
                     }
 
             return RedirectToAction("Login", "Login");
         }
 
-        public ActionResult RecrutamentoSelecao(string IdVaga)
+        public ActionResult RecrutamentoSelecao(string idVaga)
         {
-            var Formulario = new QueryMysqlCurriculo();
+            var formulario = new QueryMysqlCurriculo();
 
-            var Logado = Formulario.UsuarioLogado();
-            if (Logado)
+            var logado = formulario.UsuarioLogado();
+            if (logado)
             {
-                var Existe = Formulario.ExisteFormularioRecrutamentoSelecaoProcesso(IdVaga);
-                if (Existe[0]["count"].Equals("1"))
+                var existe = formulario.ExisteFormularioRecrutamentoSelecaoProcesso(idVaga);
+                if (existe[0]["count"].Equals("1"))
                 {
-                    var Dados = new RecrutamentoSelecao();
-                    var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
-                    var DadosHistorico = Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
-                    var DadosProcesso = Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
-                    var FormularioCompleto = Formulario.FormularioRecrutamentoSelecao(IdVaga);
+                    var dados = new RecrutamentoSelecao();
+                    var dadosVaga = formulario.FormularioRecrutamentoSelecaoVaga(idVaga);
+                    var dadosHistorico = formulario.FormularioRecrutamentoSelecaoHistorico(idVaga);
+                    var dadosProcesso = formulario.FormularioRecrutamentoSelecaoProcesso(idVaga);
+                    var formularioCompleto = formulario.FormularioRecrutamentoSelecao(idVaga);
 
-                    Dados.ClasseCargo = FormularioCompleto[0]["classecargo"];
-                    Dados.NivelCargo = FormularioCompleto[0]["nivelcargo"];
-                    Dados.NumeroVaga = FormularioCompleto[0]["numerovaga"];
-                    Dados.ChefiaImediata = FormularioCompleto[0]["chefiaimediata"];
-                    Dados.MesAdmissao = FormularioCompleto[0]["mesadmissao"];
-                    Dados.DinamicaNumero = FormularioCompleto[0]["dinamicanumero"];
-                    Dados.DinamicaNumeroPreSelecionado = FormularioCompleto[0]["dinamicaprenumero"];
-                    Dados.ConhecimentoTeste = FormularioCompleto[0]["conhecimentoteste"];
-                    Dados.ConhecimentoNumero = FormularioCompleto[0]["conhecimentonumero"];
-                    Dados.ConhecimentoNumeroPreSelecionado = FormularioCompleto[0]["conhecimentoprenumero"];
-                    Dados.PsicologicaTeste = FormularioCompleto[0]["psicologicoteste"];
-                    Dados.PsicologicaNumero = FormularioCompleto[0]["psicologiconumero"];
-                    Dados.PsicologicaNumeroPreSelecionado = FormularioCompleto[0]["psicologicoprenumero"];
-                    Dados.NomeEntrevistador = FormularioCompleto[0]["psicologaentrevistador"];
-                    Dados.EntrevistaNumero = FormularioCompleto[0]["psicologanumero"];
-                    Dados.EntrevistaNumeroPreSelecionado = FormularioCompleto[0]["psicologaprenumero"];
-                    Dados.Setor = FormularioCompleto[0]["setor"];
+                    dados.ClasseCargo = formularioCompleto[0]["classecargo"];
+                    dados.NivelCargo = formularioCompleto[0]["nivelcargo"];
+                    dados.NumeroVaga = formularioCompleto[0]["numerovaga"];
+                    dados.ChefiaImediata = formularioCompleto[0]["chefiaimediata"];
+                    dados.MesAdmissao = formularioCompleto[0]["mesadmissao"];
+                    dados.DinamicaNumero = formularioCompleto[0]["dinamicanumero"];
+                    dados.DinamicaNumeroPreSelecionado = formularioCompleto[0]["dinamicaprenumero"];
+                    dados.ConhecimentoTeste = formularioCompleto[0]["conhecimentoteste"];
+                    dados.ConhecimentoNumero = formularioCompleto[0]["conhecimentonumero"];
+                    dados.ConhecimentoNumeroPreSelecionado = formularioCompleto[0]["conhecimentoprenumero"];
+                    dados.PsicologicaTeste = formularioCompleto[0]["psicologicoteste"];
+                    dados.PsicologicaNumero = formularioCompleto[0]["psicologiconumero"];
+                    dados.PsicologicaNumeroPreSelecionado = formularioCompleto[0]["psicologicoprenumero"];
+                    dados.NomeEntrevistador = formularioCompleto[0]["psicologaentrevistador"];
+                    dados.EntrevistaNumero = formularioCompleto[0]["psicologanumero"];
+                    dados.EntrevistaNumeroPreSelecionado = formularioCompleto[0]["psicologaprenumero"];
+                    dados.Setor = formularioCompleto[0]["setor"];
 
-                    TempData["NomeEmpregado"] = FormularioCompleto[0]["nomeempregadosubstituido"];
-                    TempData["Dinamica"] = FormularioCompleto[0]["dinamicagrupo"];
-                    TempData["TipoSelecao"] = FormularioCompleto[0]["motivoselecao"];
-                    TempData["FormaRecrutamento"] = FormularioCompleto[0]["formarecrutamento"];
-                    TempData["PrevisaoOrcamento"] = FormularioCompleto[0]["previsaoorcamento"];
+                    TempData["NomeEmpregado"] = formularioCompleto[0]["nomeempregadosubstituido"];
+                    TempData["Dinamica"] = formularioCompleto[0]["dinamicagrupo"];
+                    TempData["TipoSelecao"] = formularioCompleto[0]["motivoselecao"];
+                    TempData["FormaRecrutamento"] = formularioCompleto[0]["formarecrutamento"];
+                    TempData["PrevisaoOrcamento"] = formularioCompleto[0]["previsaoorcamento"];
 
-                    TempData["IdVaga"] = IdVaga;
-                    TempData["Vaga"] = DadosVaga[0]["titulo"];
-                    TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
-                    TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
-                    TempData["ProcessoSeletivo"] = DadosProcesso[0]["count"];
+                    TempData["IdVaga"] = idVaga;
+                    TempData["Vaga"] = dadosVaga[0]["titulo"];
+                    TempData["Solicitacao"] = dadosVaga[0]["datainicio"];
+                    TempData["TenhoInteresse"] = dadosHistorico[0]["count"];
+                    TempData["ProcessoSeletivo"] = dadosProcesso[0]["count"];
                     TempData["Atualiza"] = "Atualizar";
-                    return View(Dados);
+                    return View(dados);
                 }
                 else
                 {
-                    var DadosVaga = Formulario.FormularioRecrutamentoSelecaoVaga(IdVaga);
-                    var DadosHistorico = Formulario.FormularioRecrutamentoSelecaoHistorico(IdVaga);
-                    var DadosProcesso = Formulario.FormularioRecrutamentoSelecaoProcesso(IdVaga);
-                    TempData["IdVaga"] = IdVaga;
-                    TempData["Vaga"] = DadosVaga[0]["titulo"];
-                    TempData["Solicitacao"] = DadosVaga[0]["datainicio"];
-                    TempData["TenhoInteresse"] = DadosHistorico[0]["count"];
-                    TempData["ProcessoSeletivo"] = DadosProcesso[0]["count"];
+                    var dadosVaga = formulario.FormularioRecrutamentoSelecaoVaga(idVaga);
+                    var dadosHistorico = formulario.FormularioRecrutamentoSelecaoHistorico(idVaga);
+                    var dadosProcesso = formulario.FormularioRecrutamentoSelecaoProcesso(idVaga);
+                    TempData["IdVaga"] = idVaga;
+                    TempData["Vaga"] = dadosVaga[0]["titulo"];
+                    TempData["Solicitacao"] = dadosVaga[0]["datainicio"];
+                    TempData["TenhoInteresse"] = dadosHistorico[0]["count"];
+                    TempData["ProcessoSeletivo"] = dadosProcesso[0]["count"];
                     TempData["Atualiza"] = "";
                     return View();
                 }
@@ -191,43 +191,43 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao DadosFormulario, FormCollection Formulario)
+        public ActionResult RecrutamentoSelecao(RecrutamentoSelecao dadosFormulario, FormCollection formulario)
         {
-            var VerificaDados = new QueryMysqlCurriculo();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
+            var verificaDados = new QueryMysqlCurriculo();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
                 if (ModelState.IsValid)
-                    if (!Formulario["Atualiza"].Equals("Atualizar"))
+                    if (!formulario["Atualiza"].Equals("Atualizar"))
                     {
-                        VerificaDados.InserirFormularioRecrutamentoSelecao(Formulario["IdVaga"],
-                            DadosFormulario.ClasseCargo, DadosFormulario.NivelCargo, DadosFormulario.NumeroVaga,
-                            DadosFormulario.ChefiaImediata, DadosFormulario.MesAdmissao, Formulario["MotivoSelecao"],
-                            Formulario["EmpregadoSubstituido"], Formulario["PrevisaoOrcamento"],
-                            Formulario["TipoRecrutamento"], Formulario["Dinamica"],
-                            DadosFormulario.DinamicaNumero, DadosFormulario.DinamicaNumeroPreSelecionado,
-                            DadosFormulario.ConhecimentoTeste, DadosFormulario.ConhecimentoNumero,
-                            DadosFormulario.ConhecimentoNumeroPreSelecionado, DadosFormulario.PsicologicaTeste,
-                            DadosFormulario.PsicologicaNumero, DadosFormulario.PsicologicaNumeroPreSelecionado,
-                            DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
-                            DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
+                        verificaDados.InserirFormularioRecrutamentoSelecao(formulario["IdVaga"],
+                            dadosFormulario.ClasseCargo, dadosFormulario.NivelCargo, dadosFormulario.NumeroVaga,
+                            dadosFormulario.ChefiaImediata, dadosFormulario.MesAdmissao, formulario["MotivoSelecao"],
+                            formulario["EmpregadoSubstituido"], formulario["PrevisaoOrcamento"],
+                            formulario["TipoRecrutamento"], formulario["Dinamica"],
+                            dadosFormulario.DinamicaNumero, dadosFormulario.DinamicaNumeroPreSelecionado,
+                            dadosFormulario.ConhecimentoTeste, dadosFormulario.ConhecimentoNumero,
+                            dadosFormulario.ConhecimentoNumeroPreSelecionado, dadosFormulario.PsicologicaTeste,
+                            dadosFormulario.PsicologicaNumero, dadosFormulario.PsicologicaNumeroPreSelecionado,
+                            dadosFormulario.NomeEntrevistador, dadosFormulario.EntrevistaNumero,
+                            dadosFormulario.EntrevistaNumeroPreSelecionado, dadosFormulario.Setor);
                         return RedirectToAction("RecrutamentoSelecao",
-                            new {IdVaga = Formulario["IdVaga"]});
+                            new {IdVaga = formulario["IdVaga"]});
                     }
                     else
                     {
-                        VerificaDados.AtualizarFormularioRecrutamentoSelecao(Formulario["IdVaga"],
-                            DadosFormulario.ClasseCargo, DadosFormulario.NivelCargo, DadosFormulario.NumeroVaga,
-                            DadosFormulario.ChefiaImediata, DadosFormulario.MesAdmissao, Formulario["MotivoSelecao"],
-                            Formulario["EmpregadoSubstituido"], Formulario["PrevisaoOrcamento"],
-                            Formulario["TipoRecrutamento"], Formulario["Dinamica"],
-                            DadosFormulario.DinamicaNumero, DadosFormulario.DinamicaNumeroPreSelecionado,
-                            DadosFormulario.ConhecimentoTeste, DadosFormulario.ConhecimentoNumero,
-                            DadosFormulario.ConhecimentoNumeroPreSelecionado, DadosFormulario.PsicologicaTeste,
-                            DadosFormulario.PsicologicaNumero, DadosFormulario.PsicologicaNumeroPreSelecionado,
-                            DadosFormulario.NomeEntrevistador, DadosFormulario.EntrevistaNumero,
-                            DadosFormulario.EntrevistaNumeroPreSelecionado, DadosFormulario.Setor);
+                        verificaDados.AtualizarFormularioRecrutamentoSelecao(formulario["IdVaga"],
+                            dadosFormulario.ClasseCargo, dadosFormulario.NivelCargo, dadosFormulario.NumeroVaga,
+                            dadosFormulario.ChefiaImediata, dadosFormulario.MesAdmissao, formulario["MotivoSelecao"],
+                            formulario["EmpregadoSubstituido"], formulario["PrevisaoOrcamento"],
+                            formulario["TipoRecrutamento"], formulario["Dinamica"],
+                            dadosFormulario.DinamicaNumero, dadosFormulario.DinamicaNumeroPreSelecionado,
+                            dadosFormulario.ConhecimentoTeste, dadosFormulario.ConhecimentoNumero,
+                            dadosFormulario.ConhecimentoNumeroPreSelecionado, dadosFormulario.PsicologicaTeste,
+                            dadosFormulario.PsicologicaNumero, dadosFormulario.PsicologicaNumeroPreSelecionado,
+                            dadosFormulario.NomeEntrevistador, dadosFormulario.EntrevistaNumero,
+                            dadosFormulario.EntrevistaNumeroPreSelecionado, dadosFormulario.Setor);
                         return RedirectToAction("RecrutamentoSelecao",
-                            new {IdVaga = Formulario["IdVaga"]});
+                            new {IdVaga = formulario["IdVaga"]});
                     }
 
             return RedirectToAction("Login", "Login");

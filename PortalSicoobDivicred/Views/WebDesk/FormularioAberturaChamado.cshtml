@@ -8,15 +8,15 @@
     </div>
 }
 @{
-    foreach (var Combo in (Dictionary<string, string>) TempData["Combos"])
+    foreach (var combo in (Dictionary<string, string>) TempData["Combos"])
     {
         <div>
-            <label class="label">@Combo.Key</label>
+            <label class="label">@combo.Key</label>
             <div class="select is-fullwidth">
-                <select name="@Combo.Key" @TempData["Obnrigatorio" + Combo.Key]>
-                    <option> SELECIONE O @Combo.Key</option>
+                <select name="@combo.Key" @TempData["Obnrigatorio" + combo.Key]>
+                    <option> SELECIONE O @combo.Key</option>
                     @{
-                        var total = Combo.Value.Split(';');
+                        var total = combo.Value.Split(';');
                         for (var i = 0; i < total.Length; i++)
                         {
                             <option value="@total[i]">@total[i]</option>

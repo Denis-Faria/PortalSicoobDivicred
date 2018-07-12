@@ -226,9 +226,9 @@
     });
 
 
-    function SetorSelecionado(IdSetor) {
+    function SetorSelecionado(idSetor) {
         $("#CategoriaFuncionario").empty();
-        if (IdSetor.value === "42") {
+        if (idSetor.value === "42") {
             $.ajax(
                 {
                     type: 'POST',
@@ -236,7 +236,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "IdSetor": IdSetor.value },
+                    data: { "IdSetor": idSetor.value },
                     success: function(data) {
                         $("#CategoriaFuncionario").append(data);
                         $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
@@ -253,7 +253,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "IdSetor": IdSetor.value },
+                    data: { "IdSetor": idSetor.value },
                     success: function(data) {
                         $("#CategoriaFuncionario").append(data);
                         $.validator.unobtrusive.parse($("#CategoriaFuncionario"));

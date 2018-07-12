@@ -89,7 +89,7 @@
         $("#MostraDocumento").removeAttr("style");
     }
 
-    function BuscaCertificacao(Nome) {
+    function BuscaCertificacao(nome) {
         $("#ConteudoCertificacao").empty();
         $.ajax(
             {
@@ -98,7 +98,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdFuncao": Nome.value },
+                data: { "IdFuncao": nome.value },
                 success: function(data) {
                     $("#ConteudoCertificaco").append(data);
                     $("#Certificacoes").removeAttr("hidden");
@@ -193,14 +193,14 @@
         });
     }
 
-    function UloadArquivoPessoal(NomeArquivo) {
+    function UloadArquivoPessoal(nomeArquivo) {
         document.body.style.cursor = "wait";
         var formData = new FormData();
-        var totalFiles = document.getElementById(NomeArquivo).files.length;
+        var totalFiles = document.getElementById(nomeArquivo).files.length;
         for (var i = 0; i < totalFiles; i++) {
-            var file = document.getElementById(NomeArquivo).files[i];
+            var file = document.getElementById(nomeArquivo).files[i];
 
-            formData.append(NomeArquivo, file, NomeArquivo);
+            formData.append(nomeArquivo, file, nomeArquivo);
         }
         $.ajax({
             type: "POST",

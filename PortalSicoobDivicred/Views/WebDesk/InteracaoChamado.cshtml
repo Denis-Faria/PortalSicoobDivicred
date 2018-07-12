@@ -93,20 +93,20 @@
 
             if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
                 var conteudo = document.getElementById('Interacoes').innerHTML,
-                    tela_impressao = window.open('about:blank');
-                tela_impressao.document.write(conteudo);
-                tela_impressao.window.print();
-                tela_impressao.window.close();
+                    telaImpressao = window.open('about:blank');
+                telaImpressao.document.write(conteudo);
+                telaImpressao.window.print();
+                telaImpressao.window.close();
             } else {
                 window.print();
             }
 
         }
 
-        function debugBase64(base64URL) {
+        function debugBase64(base64Url) {
             var win = window.open();
             win.document.write('<iframe src="' +
-                base64URL +
+                base64Url +
                 '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>');
         }
 
@@ -123,7 +123,7 @@
                 $("#SetorFuncionario").empty();
                 $("#Funcionario").empty();
 
-                var Cadastro = $("#IdFuncionarioCadastro").val();
+                var cadastro = $("#IdFuncionarioCadastro").val();
                 $.ajax(
                     {
                         type: 'POST',
@@ -131,7 +131,7 @@
                         dataType: 'html',
                         cache: true,
                         async: true,
-                        data: { "IdCadastro": Cadastro },
+                        data: { "IdCadastro": cadastro },
                         success: function (data) {
                             $("#SetorFuncionario").append(data);
                             $.validator.unobtrusive.parse($("#SetorFuncionario"));
@@ -147,7 +147,7 @@
 
                 $("#SetorFuncionario").empty();
                 $("#Funcionario").empty();
-                var Cadastro = $("#IdFuncionarioCadastro").val();
+                var cadastro = $("#IdFuncionarioCadastro").val();
                 $.ajax(
                     {
                         type: 'POST',
@@ -155,7 +155,7 @@
                         dataType: 'html',
                         cache: true,
                         async: true,
-                        data: { "IdCadastro": Cadastro },
+                        data: { "IdCadastro": cadastro },
                         success: function (data) {
                             $("#SetorFuncionario").append(data);
                             $.validator.unobtrusive.parse($("#SetorFuncionario"));
@@ -172,7 +172,7 @@
             }
         }
 
-        function SetorSelecionado(IdSetor) {
+        function SetorSelecionado(idSetor) {
             $("#Funcionario").empty();
             $.ajax(
                 {
@@ -181,7 +181,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "IdSetor": IdSetor.value },
+                    data: { "IdSetor": idSetor.value },
                     success: function (data) {
                         $("#Funcionario").append(data);
                         $.validator.unobtrusive.parse($("#Funcionario"));
@@ -220,22 +220,22 @@
 
         }
 
-        function addDeleteBtn(f, input, NomeArquivo) {
+        function addDeleteBtn(f, input, nomeArquivo) {
 
-            var Div2 = document.createElement('div');
-            Div2.className = 'control';
+            var div2 = document.createElement('div');
+            div2.className = 'control';
 
-            var Div3 = document.createElement('div');
-            Div3.className = 'tags has-addons';
+            var div3 = document.createElement('div');
+            div3.className = 'tags has-addons';
 
 
-            var Nome = document.createElement('span');
-            Nome.className = 'tag is-dark ';
-            Nome.innerHTML = NomeArquivo;
+            var nome = document.createElement('span');
+            nome.className = 'tag is-dark ';
+            nome.innerHTML = nomeArquivo;
 
-            Div2.append(Div3);
+            div2.append(div3);
 
-            Div3.append(Nome);
+            div3.append(nome);
 
             var del = document.createElement('a');
             del.className = 'tag is-delete is-primary';
@@ -260,21 +260,21 @@
                         for (var i = 0; i < fileLength; i++) {
 
 
-                            var Div2 = document.createElement('div');
-                            Div2.className = 'control';
+                            var div2 = document.createElement('div');
+                            div2.className = 'control';
 
-                            var Div3 = document.createElement('div');
-                            Div3.className = 'tags has-addons';
+                            var div3 = document.createElement('div');
+                            div3.className = 'tags has-addons';
 
-                            var Nome = document.createElement('span');
-                            Nome.className = 'tag is-dark';
-                            Nome.innerHTML = input.multiFiles[i].name;
+                            var nome = document.createElement('span');
+                            nome.className = 'tag is-dark';
+                            nome.innerHTML = input.multiFiles[i].name;
 
                             var del = document.createElement('a');
                             del.className = 'tag is-delete is-primary';
                             del.title = 'remove this file';
 
-                            input.__fileHolder.appendChild(Div3);
+                            input.__fileHolder.appendChild(div3);
                             addDeleteBtn(i, input, input.multiFiles[i].name);
                         }
                     } else {
@@ -283,8 +283,8 @@
                     }
                 },
                 false);
-            Div3.append(del);
-            input.__fileHolder.appendChild(Div2);
+            div3.append(del);
+            input.__fileHolder.appendChild(div2);
         }
 
 

@@ -13,31 +13,31 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class LoginController : Controller
     {
-        public ActionResult Login(string Mensagem)
+        public ActionResult Login(string mensagem)
         {
-            TempData["Mensagem"] = Mensagem;
+            TempData["Mensagem"] = mensagem;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Login Dados)
+        public ActionResult Login(Login dados)
         {
-            var Confere = new QueryMysql();
+            var confere = new QueryMysql();
 
             if (ModelState.IsValid)
             {
-                var Confirma = Confere.ConfirmaLogin(Dados.Usuario, Dados.Senha);
-                var TrocaSenha = Confere.TrocaSenha(Dados.Usuario);
-                if (TrocaSenha)
+                var confirma = confere.ConfirmaLogin(dados.Usuario, dados.Senha);
+                var trocaSenha = confere.TrocaSenha(dados.Usuario);
+                if (trocaSenha)
                 {
-                    if (Confirma)
+                    if (confirma)
                     {
-                        Session["Usuario"] = Dados.Usuario;
+                        Session["Usuario"] = dados.Usuario;
                         return RedirectToAction("Principal", "Principal");
                     }
 
                     TempData["Erro"] = "Usuário ou senha informados incorretos.";
-                    return View(Dados);
+                    return View(dados);
                 }
 
                 return RedirectToAction("EsqueciMinhaSenha");
@@ -57,9 +57,9 @@ namespace PortalSicoobDivicred.Controllers
         {
             if (Request.Cookies["CookieFarm"] != null)
             {
-                var Cookie = new HttpCookie("CookieFarm");
-                Cookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(Cookie);
+                var cookie = new HttpCookie("CookieFarm");
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(cookie);
             }
 
             return RedirectToAction("Login");
@@ -71,14 +71,14 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
-        public ActionResult EsqueciMinhaSenha(FormCollection DadosLogin)
+        public ActionResult EsqueciMinhaSenha(FormCollection dadosLogin)
         {
             if (ModelState.IsValid)
             {
-                var VerificaDados = new QueryMysql();
+                var verificaDados = new QueryMysql();
 
-                var password = DadosLogin["Senha"];
-                var DadosUsuario = VerificaDados.RecuperaDadosUsuarios(DadosLogin["Usuario"]);
+                var password = dadosLogin["Senha"];
+                var dadosUsuario = verificaDados.RecuperaDadosUsuarios(dadosLogin["Usuario"]);
 
                 var md5Hash = MD5.Create();
                 var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
@@ -87,11 +87,11 @@ namespace PortalSicoobDivicred.Controllers
 
                 var builder = new MailBuilder();
                 builder.From.Add(new MailBox("correio@divicred.com.br", "Portal Sicoob Divicred - Troca de Senha"));
-                builder.To.Add(new MailBox(DadosUsuario[0]["email"]));
+                builder.To.Add(new MailBox(dadosUsuario[0]["email"]));
                 builder.Subject = "Troca de senha";
                 builder.Html =
                     "<b>Você solicitou uma troca de sneha para confirmar esta alteração clique no link abaixo.</b> <br/>  http://10.11.17.30:9090/Login/AlterarSenha?Senha=" +
-                    sBuilder + "&Usuario=" + DadosLogin["Usuario"] + "";
+                    sBuilder + "&Usuario=" + dadosLogin["Usuario"] + "";
 
                 var email = builder.Create();
 
@@ -108,7 +108,7 @@ namespace PortalSicoobDivicred.Controllers
                     smtp.Close();
                 }
 
-                VerificaDados.AtualizaEmailSenha(DadosUsuario[0]["id"]);
+                verificaDados.AtualizaEmailSenha(dadosUsuario[0]["id"]);
 
                 return RedirectToAction("Login", "Login",
                     new {Mensagem = "Um e-mail foi enviado para você com maiores informações! "});
@@ -118,14 +118,14 @@ namespace PortalSicoobDivicred.Controllers
             return View("Login");
         }
 
-        public ActionResult AlterarSenha(string Senha, string Usuario)
+        public ActionResult AlterarSenha(string senha, string usuario)
         {
-            var VerificaDados = new QueryMysql();
-            var Dados = VerificaDados.RetornaEmailSenha(Usuario);
+            var verificaDados = new QueryMysql();
+            var dados = verificaDados.RetornaEmailSenha(usuario);
 
-            if (Dados[0]["emailtrocasenha"].Equals("S"))
+            if (dados[0]["emailtrocasenha"].Equals("S"))
             {
-                VerificaDados.AtualizaSenha(Usuario, Senha);
+                verificaDados.AtualizaSenha(usuario, senha);
                 return RedirectToAction("Login", "Login", new {Mensagem = "Senha alterada com sucesso !"});
             }
 

@@ -1084,14 +1084,14 @@ namespace ElasticEmailClient
             /// <param name="enablePrivateIPRequest">True, if account can request for private IP on its own. Otherwise, false</param>
             /// <param name="maxContacts">Maximum number of contacts the account can havelkd</param>
             /// <param name="subAccountEmail">Email address of sub-account</param>
-            /// <param name="publicAccountID">Public key of sub-account to update. Use subAccountEmail or publicAccountID not both.</param>
+            /// <param name="publicAccountId">Public key of sub-account to update. Use subAccountEmail or publicAccountID not both.</param>
             /// <param name="sendingPermission">Sending permission setting for account</param>
             /// <param name="enableContactFeatures">True, if you want to use Advanced Tools.  Otherwise, false</param>
             /// <param name="poolName">Name of your custom IP Pool to be used in the sending process</param>
             public static void UpdateSubAccountSettings(bool requiresEmailCredits = false, int monthlyRefillCredits = 0,
                 bool requiresLitmusCredits = false, bool enableLitmusTest = false, int dailySendLimit = 50,
                 int emailSizeLimit = 10, bool enablePrivateIPRequest = false, int maxContacts = 0,
-                string subAccountEmail = null, string publicAccountID = null,
+                string subAccountEmail = null, string publicAccountId = null,
                 ApiTypes.SendingPermission? sendingPermission = null, bool? enableContactFeatures = null,
                 string poolName = null)
             {
@@ -1107,7 +1107,7 @@ namespace ElasticEmailClient
                 if (enablePrivateIPRequest) values.Add("enablePrivateIPRequest", enablePrivateIPRequest.ToString());
                 if (maxContacts != 0) values.Add("maxContacts", maxContacts.ToString());
                 if (subAccountEmail != null) values.Add("subAccountEmail", subAccountEmail);
-                if (publicAccountID != null) values.Add("publicAccountID", publicAccountID);
+                if (publicAccountId != null) values.Add("publicAccountID", publicAccountId);
                 if (sendingPermission != null)
                     values.Add("sendingPermission", JsonConvert.SerializeObject(sendingPermission));
                 if (enableContactFeatures != null)
@@ -1557,7 +1557,7 @@ namespace ElasticEmailClient
             ///     safely on public websites.
             /// </param>
             /// <param name="email">Proper email address.</param>
-            /// <param name="publicListID">ID code of list</param>
+            /// <param name="publicListId">ID code of list</param>
             /// <param name="listName">Name of your list.</param>
             /// <param name="title">Title</param>
             /// <param name="firstName">First name.</param>
@@ -1586,7 +1586,7 @@ namespace ElasticEmailClient
             ///     Date of consent to send this contact(s) your email. If not provided current date is used for
             ///     consent.
             /// </param>
-            /// <param name="consentIP">
+            /// <param name="consentIp">
             ///     IP address of consent to send this contact(s) your email. If not provided your current public
             ///     IP address is used for consent.
             /// </param>
@@ -1599,7 +1599,7 @@ namespace ElasticEmailClient
             ///     sent to
             /// </param>
             /// <returns>string</returns>
-            public static string Add(string publicAccountID, string email, string[] publicListID = null,
+            public static string Add(string publicAccountID, string email, string[] publicListId = null,
                 string[] listName = null, string title = null, string firstName = null, string lastName = null,
                 string phone = null, string mobileNumber = null, string notes = null, string gender = null,
                 DateTime? birthDate = null, string city = null, string state = null, string postalCode = null,
@@ -1607,7 +1607,7 @@ namespace ElasticEmailClient
                 string industry = null, int? numberOfEmployees = 0,
                 ApiTypes.ContactSource source = ApiTypes.ContactSource.ContactApi, string returnUrl = null,
                 string sourceUrl = null, string activationReturnUrl = null, string activationTemplate = null,
-                bool sendActivation = true, DateTime? consentDate = null, string consentIP = null,
+                bool sendActivation = true, DateTime? consentDate = null, string consentIp = null,
                 Dictionary<string, string> field = null, string notifyEmail = null)
             {
                 WebClient client = new CustomWebClient();
@@ -1615,8 +1615,8 @@ namespace ElasticEmailClient
                 values.Add("apikey", ApiKey);
                 values.Add("publicAccountID", publicAccountID);
                 values.Add("email", email);
-                if (publicListID != null)
-                    foreach (var _item in publicListID)
+                if (publicListId != null)
+                    foreach (var _item in publicListId)
                         values.Add("publicListID", _item);
                 if (listName != null)
                     foreach (var _item in listName)
@@ -1645,7 +1645,7 @@ namespace ElasticEmailClient
                 if (activationTemplate != null) values.Add("activationTemplate", activationTemplate);
                 if (sendActivation != true) values.Add("sendActivation", sendActivation.ToString());
                 if (consentDate != null) values.Add("consentDate", consentDate.Value.ToString("M/d/yyyy h:mm:ss tt"));
-                if (consentIP != null) values.Add("consentIP", consentIP);
+                if (consentIp != null) values.Add("consentIP", consentIp);
                 if (field != null)
                     foreach (var _item in field)
                         values.Add("field_" + _item.Key, _item.Value);
@@ -1989,7 +1989,7 @@ namespace ElasticEmailClient
             ///     Date of consent to send this contact(s) your email. If not provided current date is used for
             ///     consent.
             /// </param>
-            /// <param name="consentIP">
+            /// <param name="consentIp">
             ///     IP address of consent to send this contact(s) your email. If not provided your current public
             ///     IP address is used for consent.
             /// </param>
@@ -2001,7 +2001,7 @@ namespace ElasticEmailClient
                 string title = null, string organization = null, string industry = null, string city = null,
                 string country = null, string state = null, string zip = null, string publicListID = null,
                 string listName = null, ApiTypes.ContactStatus status = ApiTypes.ContactStatus.Active,
-                string notes = null, DateTime? consentDate = null, string consentIP = null, string notifyEmail = null)
+                string notes = null, DateTime? consentDate = null, string consentIp = null, string notifyEmail = null)
             {
                 WebClient client = new CustomWebClient();
                 var values = new NameValueCollection();
@@ -2021,7 +2021,7 @@ namespace ElasticEmailClient
                 if (status != ApiTypes.ContactStatus.Active) values.Add("status", status.ToString());
                 if (notes != null) values.Add("notes", notes);
                 if (consentDate != null) values.Add("consentDate", consentDate.Value.ToString("M/d/yyyy h:mm:ss tt"));
-                if (consentIP != null) values.Add("consentIP", consentIP);
+                if (consentIp != null) values.Add("consentIP", consentIp);
                 if (notifyEmail != null) values.Add("notifyEmail", notifyEmail);
                 var apiResponse = client.UploadValues(ApiUri + "/contact/quickadd", values);
                 var apiRet =
@@ -2140,21 +2140,21 @@ namespace ElasticEmailClient
             ///     Date of consent to send this contact(s) your email. If not provided current date is used for
             ///     consent.
             /// </param>
-            /// <param name="consentIP">
+            /// <param name="consentIp">
             ///     IP address of consent to send this contact(s) your email. If not provided your current public
             ///     IP address is used for consent.
             /// </param>
             /// <returns>int</returns>
             public static int Upload(int listID, ApiTypes.FileData contactFile,
                 ApiTypes.ContactStatus status = ApiTypes.ContactStatus.Active, DateTime? consentDate = null,
-                string consentIP = null)
+                string consentIp = null)
             {
                 var values = new NameValueCollection();
                 values.Add("apikey", ApiKey);
                 values.Add("listID", listID.ToString());
                 if (status != ApiTypes.ContactStatus.Active) values.Add("status", status.ToString());
                 if (consentDate != null) values.Add("consentDate", consentDate.Value.ToString("M/d/yyyy h:mm:ss tt"));
-                if (consentIP != null) values.Add("consentIP", consentIP);
+                if (consentIp != null) values.Add("consentIP", consentIp);
                 var apiResponse = ApiUtilities.HttpPostFile(ApiUri + "/contact/upload",
                     new List<ApiTypes.FileData> {contactFile}, values);
                 var apiRet = JsonConvert.DeserializeObject<ApiResponse<int>>(Encoding.UTF8.GetString(apiResponse));

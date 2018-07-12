@@ -6,8 +6,8 @@
     });
 
 
-    function CriarUsuario(Cpf) {
-        alert(Cpf);
+    function CriarUsuario(cpf) {
+        alert(cpf);
         $.ajax(
             {
                 type: 'POST',
@@ -15,7 +15,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "Cpf": Cpf },
+                data: { "Cpf": cpf },
                 success: function(data) {
 
                 }

@@ -14,21 +14,21 @@ namespace PortalSicoobDivicred.Aplicacao
             m => m
                 .IndexName("webdesks"));
 
-        private readonly ElasticClient client = new ElasticClient(Settings);
+        private readonly ElasticClient _client = new ElasticClient(Settings);
 
         public List<IHit<Webdesk>> PesquisaBasicaWebdesk(string termoPesquisado, string idSetor)
         {
-            var searchResponse = client.Search<Webdesk>(s => s.Query(q => q.Bool(b => b.Must(mu =>
-                mu.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado))
-                ), mu => mu.Match(m => m.Field(f => f.idsetor).Query(idSetor))))));
+            var searchResponse = _client.Search<Webdesk>(s => s.Query(q => q.Bool(b => b.Must(mu =>
+                mu.Match(m => m.Field(f => f.Textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado))
+                ), mu => mu.Match(m => m.Field(f => f.Idsetor).Query(idSetor))))));
             var teste = searchResponse.Hits.ToList();
             return teste;
         }
 
         public List<IHit<Webdesk>> PesquisaTotalWebdesk(string termoPesquisado)
         {
-            var searchResponse = client.Search<Webdesk>(s => s.Query(q =>
-                q.Match(m => m.Field(f => f.textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado)))));
+            var searchResponse = _client.Search<Webdesk>(s => s.Query(q =>
+                q.Match(m => m.Field(f => f.Textointeracao).Query(HttpUtility.HtmlEncode(termoPesquisado)))));
             var teste = searchResponse.Hits.ToList();
             return teste;
         }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using PortalSicoobDivicred.Aplicacao;
 
-namespace PortalSicoobDivicred.Controllers
+namespace PortalSicoobDivicred.Aplicacao
 {
     public class ManipularPlanilha
     {
@@ -58,28 +57,29 @@ namespace PortalSicoobDivicred.Controllers
                     if (output.Tables[0].Rows[j][nomeColuna].ToString().Length > 0)
                         if (output.Tables[0].Rows[j][nomeColuna].ToString().Contains(palavraInicio))
                         {
-                            var nome = output.Tables[0].Rows[j][nomeColuna].ToString();
+                            //var nome = output.Tables[0].Rows[j][nomeColuna].ToString();
                             inicio = j + 1;
                             break;
                         }
                 }
                 catch
                 {
+                    // ignored
                 }
             }
 
             return inicio;
         }
 
-        public string validaDataRelatorio(string posicao, int i, string caminho)
+        public string ValidaDataRelatorio(string posicao, int i, string caminho)
         {
-            var resposta = 0;
+           // var resposta = 0;
             var conectaPlanilha = new ConexaoExcel();
             var output = new DataSet();
             output.Tables.Add(conectaPlanilha.ImportarExcel(caminho, i.ToString()));
             int m;
-            var data1 = "";
-            var data2 = "";
+            string data1;
+            string data2;
             var auxVerificaDataMaior = "";
 
             if (i == 1)
@@ -206,7 +206,7 @@ namespace PortalSicoobDivicred.Controllers
             double valorArq13;
             int j;
 
-            var numeros = new double[716];
+            //var numeros = new double[716];
             switch (count)
             {
                 case "1":
@@ -397,13 +397,14 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             if (output.Tables[0].Rows[j]["F23"].ToString().Length > 0)
                             {
-                                var teste = Convert.ToDouble(output.Tables[0].Rows[j]["F28"]);
+                               // var teste = Convert.ToDouble(output.Tables[0].Rows[j]["F28"]);
                                 valorArq12 = Math.Round(valorArq12 + Convert.ToDouble(output.Tables[0].Rows[j]["F28"]),
                                     2);
                             }
                         }
                         catch
                         {
+                            // ignored
                         }
 
                     somatorio.Add("Arquivo4", valorArq12);

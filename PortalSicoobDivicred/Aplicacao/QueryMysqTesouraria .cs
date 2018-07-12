@@ -44,18 +44,18 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public void InsereConferencia(string data, string historico, string extrato, string arquivos, string diferenca)
         {
-            var QueryInsereConferencia =
+            var queryInsereConferencia =
                 "INSERT INTO dadosextrato (data,historico,extrato,arquivos,diferenca,excluido) values ('" + data +
                 "','" + historico + "','" + extrato + "','" + arquivos + "','" +
                 Math.Round(Convert.ToDouble(diferenca), 2) + "','N') ";
-            _conexaoMysql.ExecutaComando(QueryInsereConferencia);
+            _conexaoMysql.ExecutaComando(queryInsereConferencia);
         }
 
         public void InsereJustificativa(string data, string justificativa)
         {
-            var QueryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" +
+            var queryInsereJustificativa = "INSERT INTO justificativaextrato (data,justificativa,excluido) values ('" +
                                            data + "','" + justificativa + "','N') ";
-            _conexaoMysql.ExecutaComando(QueryInsereJustificativa);
+            _conexaoMysql.ExecutaComando(queryInsereJustificativa);
         }
 
         public List<Dictionary<string, string>> RecuperaDadosTabela(string data)

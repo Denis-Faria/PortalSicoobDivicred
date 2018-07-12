@@ -7,233 +7,233 @@ namespace PortalSicoobDivicred.Aplicacao
 {
     public class QueryMysqlRh
     {
-        private readonly Conexao ConexaoMysql;
+        private readonly Conexao _conexaoMysql;
 
 
         public QueryMysqlRh()
         {
-            ConexaoMysql = new Conexao();
+            _conexaoMysql = new Conexao();
         }
 
         public bool UsuarioLogado()
         {
-            var Usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
-            if (Usuario == null)
+            var usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
+            if (usuario == null)
                 return false;
             return true;
         }
 
-        public void CadastraVagaInterna(string Titulo, string Descricao, string Requisitos)
+        public void CadastraVagaInterna(string titulo, string descricao, string requisitos)
         {
-            var Query = "INSERT INTO vagasinternas (titulo,descricao,requisito) VALUES('" + Titulo + "','" +
-                        Descricao + "','" + Requisitos + "')";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "INSERT INTO vagasinternas (titulo,descricao,requisito) VALUES('" + titulo + "','" +
+                        descricao + "','" + requisitos + "')";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void AtualizaVagaInterna(string Titulo, string Descricao, string Requisitos, string IdVaga)
+        public void AtualizaVagaInterna(string titulo, string descricao, string requisitos, string idVaga)
         {
-            var Query = "UPDATE vagasinternas SET titulo='" + Titulo + "', descricao='" + Descricao + "',requisito='" +
-                        Requisitos + "' WHERE id=" + IdVaga + "";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE vagasinternas SET titulo='" + titulo + "', descricao='" + descricao + "',requisito='" +
+                        requisitos + "' WHERE id=" + idVaga + "";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
         public List<Dictionary<string, string>> RetornaVagaInterna()
         {
-            var Query = "SELECT * FROM vagasinternas WHERE encerrada='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "SELECT * FROM vagasinternas WHERE encerrada='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
         public List<Dictionary<string, string>> RetornaVagaInternaTotal()
         {
-            var Query = "SELECT * FROM vagasinternas";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "SELECT * FROM vagasinternas";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RetornaVaga(string IdVaga)
+        public List<Dictionary<string, string>> RetornaVaga(string idVaga)
         {
-            var Query = "SELECT * FROM vagasinternas WHERE id=" + IdVaga + "";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "SELECT * FROM vagasinternas WHERE id=" + idVaga + "";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RetornaInteresseVagaInterna(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaInteresseVagaInterna(string idFuncionario)
         {
-            var Query =
+            var query =
                 "SELECT a.*,b.titulo FROM processosseletivos a, vagasinternas b WHERE a.idvaga=b.id and idfuncionario=" +
-                IdFuncionario + "";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+                idFuncionario + "";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void CadastraInteresse(string IdVaga, string IdFuncionario)
+        public void CadastraInteresse(string idVaga, string idFuncionario)
         {
-            var Query = "INSERT INTO processosseletivos (idvaga,idfuncionario) VALUES(" + IdVaga + "," +
-                        IdFuncionario + ")";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "INSERT INTO processosseletivos (idvaga,idfuncionario) VALUES(" + idVaga + "," +
+                        idFuncionario + ")";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public List<Dictionary<string, string>> RecuperaFuncionariosVaga(string IdVaga)
+        public List<Dictionary<string, string>> RecuperaFuncionariosVaga(string idVaga)
         {
-            var Query =
+            var query =
                 "select a.id,b.id as idvaga, a.login, a.nome,a.foto,a.idpa, b.titulo,b.descricao,b.encerrada,d.descricao as setorfuncionario, c.aprovado,c.observacao from funcionarios a,vagasinternas b, processosseletivos c, setores d where a.idsetor=d.id AND a.id=c.idfuncionario and b.id=c.idvaga and c.idvaga=" +
-                IdVaga + "";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+                idVaga + "";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void AtualizaStatus(string IdVaga, string IdFuncionario, bool Aprovado, string Observacao)
+        public void AtualizaStatus(string idVaga, string idFuncionario, bool aprovado, string observacao)
         {
-            var Query = "UPDATE processosseletivos set aprovado=" + Aprovado + ", observacao='" + Observacao +
-                        "' WHERE idvaga=" + IdVaga +
-                        " AND idfuncionario=" + IdFuncionario + "";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE processosseletivos set aprovado=" + aprovado + ", observacao='" + observacao +
+                        "' WHERE idvaga=" + idVaga +
+                        " AND idfuncionario=" + idFuncionario + "";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void EncerraVaga(string IdVaga)
+        public void EncerraVaga(string idVaga)
         {
-            var Query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + IdVaga + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE vagasinternas SET encerrada='S' WHERE id=" + idVaga + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public string InserirHistoricoJustificativa(string IdFuncionario, DateTime DataPendencia)
+        public string InserirHistoricoJustificativa(string idFuncionario, DateTime dataPendencia)
         {
-            var Query =
+            var query =
                 "INSERT INTO historicosjustificativaspontos (validacaogestor,validacaorh,idfuncionario,data) VALUES('N','N'," +
-                IdFuncionario + ",'" + DataPendencia.ToString("yyyy/MM/dd") + "')";
-            var IdHistorico = ConexaoMysql.ExecutaComandoComRetornoId(Query);
-            return IdHistorico;
+                idFuncionario + ",'" + dataPendencia.ToString("yyyy/MM/dd") + "')";
+            var idHistorico = _conexaoMysql.ExecutaComandoComRetornoId(query);
+            return idHistorico;
         }
 
-        public void InserirHistoricoHorario(string IdHistorico, TimeSpan Horario, string IdFuncionario,
-            string IdJustificativa)
+        public void InserirHistoricoHorario(string idHistorico, TimeSpan horario, string idFuncionario,
+            string idJustificativa)
         {
-            var Query =
+            var query =
                 "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird) VALUES(" +
-                IdHistorico + ",'" + Horario + "'," + IdFuncionario + "," + IdJustificativa + ")";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+                idHistorico + ",'" + horario + "'," + idFuncionario + "," + idJustificativa + ")";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public List<Dictionary<string, string>> RetornaIdPendenciasNaoJustificada(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaIdPendenciasNaoJustificada(string idFuncionario)
         {
-            var Query = "select id,validacaogestor from historicosjustificativaspontos where idfuncionario=" +
-                        IdFuncionario + " and validacaorh='N';";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+            var query = "select id,validacaogestor from historicosjustificativaspontos where idfuncionario=" +
+                        idFuncionario + " and validacaorh='N';";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
 
-        public List<Dictionary<string, string>> RetornaPendenciasNaoJustificada(string IdHistorico)
+        public List<Dictionary<string, string>> RetornaPendenciasNaoJustificada(string idHistorico)
         {
-            var Query =
+            var query =
                 "select idhistorico,horario,data,idjustificativafirebird,idfuncionariofirebird from historicoshorariosponto  where idhistorico=" +
-                IdHistorico + " order by horario asc;";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+                idHistorico + " order by horario asc;";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
-        public bool VerificaPendencia(string IdFuncionarioFireBird)
+        public bool VerificaPendencia(string idFuncionarioFireBird)
         {
-            var Query =
+            var query =
                 "select count(a.id) from historicosjustificativaspontos a, historicoshorariosponto b where b.idhistorico=a.id and b.idfuncionariofirebird=" +
-                IdFuncionarioFireBird + " and a.validacaorh='N'";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
+                idFuncionarioFireBird + " and a.validacaorh='N'";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
 
-            if (DadosJustificativas.Count > 0)
+            if (dadosJustificativas.Count > 0)
                 return false;
             return true;
         }
 
-        public void InseriJustificativa(string IdHistorico, TimeSpan Horario, string Idfuncionariofirebird,
-            string Idjustificativafirebird)
+        public void InseriJustificativa(string idHistorico, TimeSpan horario, string idfuncionariofirebird,
+            string idjustificativafirebird)
         {
-            var Query =
+            var query =
                 "INSERT INTO historicoshorariosponto (idhistorico,horario,idfuncionariofirebird,idjustificativafirebird) VALUES(" +
-                IdHistorico + ",'" + Horario + "'," + Idfuncionariofirebird + ", " + Idjustificativafirebird + ")";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+                idHistorico + ",'" + horario + "'," + idfuncionariofirebird + ", " + idjustificativafirebird + ")";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
         public List<Dictionary<string, string>> RetornaPendencias()
         {
-            var Query =
+            var query =
                 "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N' AND a.idfuncionario=b.id;";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
-        public List<Dictionary<string, string>> RetornaDadosPendencias(string IdHistorico)
+        public List<Dictionary<string, string>> RetornaDadosPendencias(string idHistorico)
         {
-            var Query = "select * from historicoshorariosponto where idhistorico=" + IdHistorico +
+            var query = "select * from historicoshorariosponto where idhistorico=" + idHistorico +
                         " order by horario asc;";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
-        public List<Dictionary<string, string>> RetornaHistoricoPendencias(string DataInicial, string DataFinal)
+        public List<Dictionary<string, string>> RetornaHistoricoPendencias(string dataInicial, string dataFinal)
         {
-            var Query =
+            var query =
                 "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.idfuncionario=b.id and data between '" +
-                DataInicial + "' AND '" + DataFinal + "' ;";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+                dataInicial + "' AND '" + dataFinal + "' ;";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
-        public List<Dictionary<string, string>> RetornaPendenciasUsuario(string IdUsuario)
+        public List<Dictionary<string, string>> RetornaPendenciasUsuario(string idUsuario)
         {
-            var Query =
+            var query =
                 "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.id=" +
-                IdUsuario + ";";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+                idUsuario + ";";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
-        public void AtualizaJustificativa(string IdHistorico, string IdJustificativa)
+        public void AtualizaJustificativa(string idHistorico, string idJustificativa)
         {
-            var Query = "UPDATE historicoshorariosponto  SET idjustificativafirebird=" + IdJustificativa +
-                        " WHERE idhistorico=" + IdHistorico + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE historicoshorariosponto  SET idjustificativafirebird=" + idJustificativa +
+                        " WHERE idhistorico=" + idHistorico + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void AtualizaJustificativaSemFireBird(string IdHistorico, string Observacao)
+        public void AtualizaJustificativaSemFireBird(string idHistorico, string observacao)
         {
-            var Query = "UPDATE historicoshorariosponto  SET observacao='" + Observacao + "' WHERE idhistorico=" +
-                        IdHistorico + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE historicoshorariosponto  SET observacao='" + observacao + "' WHERE idhistorico=" +
+                        idHistorico + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public bool ValidaFirebirdMysql(string IdFuncionarioFirebird, DateTime DiaValidar)
+        public bool ValidaFirebirdMysql(string idFuncionarioFirebird, DateTime diaValidar)
         {
-            var Query =
+            var query =
                 "select count(a.id) as Total FROM historicoshorariosponto a, historicosjustificativaspontos b WHERE a.idhistorico=b.id AND b.data='" +
-                DiaValidar.ToString("yyyy/MM/dd") + "' AND a.idfuncionariofirebird=" + IdFuncionarioFirebird +
+                diaValidar.ToString("yyyy/MM/dd") + "' AND a.idfuncionariofirebird=" + idFuncionarioFirebird +
                 " and b.validacaorh='N';";
-            var Retorno = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            if (Convert.ToInt32(Retorno[0]["Total"]) > 0)
+            var retorno = _conexaoMysql.ExecutaComandoComRetorno(query);
+            if (Convert.ToInt32(retorno[0]["Total"]) > 0)
                 return true;
             return false;
         }
 
-        public List<Dictionary<string, string>> RetornaPendenciasSetor(string IdSetor)
+        public List<Dictionary<string, string>> RetornaPendenciasSetor(string idSetor)
         {
-            var Query =
+            var query =
                 "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaogestor='N' and a.validacaorh='N' AND a.idfuncionario=b.id AND b.idsetor=" +
-                IdSetor + ";";
-            var DadosJustificativas = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return DadosJustificativas;
+                idSetor + ";";
+            var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dadosJustificativas;
         }
 
         public void AtualizaJustificativaGestor(string idHistorico)
         {
-            var Query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + idHistorico + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE historicosjustificativaspontos  SET validacaogestor='S' WHERE id=" + idHistorico + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
         public void NegaJustificativa(string idHistorico)
         {
             var queryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + idHistorico +
                                   " group by idhistorico;";
-            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryObservacao);
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(queryObservacao);
             try
             {
                 if (dados[0]["observacao"] == null)
@@ -241,13 +241,13 @@ namespace PortalSicoobDivicred.Aplicacao
                     var query =
                         "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" +
                         idHistorico + ";";
-                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                    _conexaoMysql.ExecutaComandoComRetorno(query);
                 }
                 else
                 {
                     var query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
                                 idHistorico + ";";
-                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                    _conexaoMysql.ExecutaComandoComRetorno(query);
                 }
             }
             catch
@@ -255,7 +255,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 var query =
                     "DELETE from historicoshorariosponto  WHERE idjustificativafirebird!=0 AND idhistorico=" +
                     idHistorico + ";";
-                ConexaoMysql.ExecutaComandoComRetorno(query);
+                _conexaoMysql.ExecutaComandoComRetorno(query);
             }
         }
 
@@ -263,7 +263,7 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var queryObservacao = "SELECT * from historicoshorariosponto  WHERE idhistorico=" + idHistorico +
                                   " group by idhistorico;";
-            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryObservacao);
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(queryObservacao);
             try
             {
                 if (dados[0]["observacao"] == null)
@@ -271,13 +271,13 @@ namespace PortalSicoobDivicred.Aplicacao
                     var query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" +
                                 idHistorico +
                                 ";";
-                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                    _conexaoMysql.ExecutaComandoComRetorno(query);
                 }
                 else
                 {
                     var query = "UPDATE historicoshorariosponto SET observacao=null  WHERE idhistorico=" +
                                 idHistorico + ";";
-                    ConexaoMysql.ExecutaComandoComRetorno(query);
+                    _conexaoMysql.ExecutaComandoComRetorno(query);
                 }
             }
             catch
@@ -285,237 +285,237 @@ namespace PortalSicoobDivicred.Aplicacao
                 var query = "UPDATE historicosjustificativaspontos set validacaogestor='N'  WHERE id=" +
                             idHistorico +
                             ";";
-                ConexaoMysql.ExecutaComandoComRetorno(query);
+                _conexaoMysql.ExecutaComandoComRetorno(query);
             }
         }
 
         public List<Dictionary<string, string>> RetornaPendenciaAlerta()
         {
-            var Query = "SELECT idfuncionario FROM historicosjustificativaspontos WHERE validacaogestor='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "SELECT idfuncionario FROM historicosjustificativaspontos WHERE validacaogestor='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void CadastraAlertaJustificativa(string IdFuncionario, string Descricao)
+        public void CadastraAlertaJustificativa(string idFuncionario, string descricao)
         {
-            var Query = "INSERT INTO alertas(idusuario,idaplicativo,data,descricao) VALUES(" + IdFuncionario +
-                        ",9,NOW(),'" + Descricao + "')";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "INSERT INTO alertas(idusuario,idaplicativo,data,descricao) VALUES(" + idFuncionario +
+                        ",9,NOW(),'" + descricao + "')";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public List<Dictionary<string, string>> RetornaReincidentes(string DataInicial, string DataFinal)
+        public List<Dictionary<string, string>> RetornaReincidentes(string dataInicial, string dataFinal)
         {
-            var Query =
+            var query =
                 "select a.id, a.nome,if(count(b.idfuncionario)>=3,'S','N') as confirma from funcionarios a, historicosjustificativaspontos b,historicoshorariosponto c where a.id=b.idfuncionario and b.data between '" +
-                DataInicial + "' and '" + DataFinal +
+                dataInicial + "' and '" + dataFinal +
                 "' and b.id=c.idhistorico and c.idjustificativafirebird=6 group by b.idfuncionario; ";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public string RetornaDataReincidentes(string IdFuncionario, string DataInicial, string DataFinal)
+        public string RetornaDataReincidentes(string idFuncionario, string dataInicial, string dataFinal)
         {
-            var Query =
+            var query =
                 "select a.data from  historicosjustificativaspontos a, historicoshorariosponto b  where a.id=b.idhistorico and b.idjustificativafirebird=6 and  a.data between '" +
-                DataInicial + "' and '" + DataFinal + "' and a.idfuncionario=" + IdFuncionario + "; ";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            var Dias = "";
-            for (var i = 0; i < Dados.Count; i++)
-                Dias = Dias + Convert.ToDateTime(Dados[i]["data"]).Date.ToString("dd/MM/yyyy") + " || ";
-            return Dias;
+                dataInicial + "' and '" + dataFinal + "' and a.idfuncionario=" + idFuncionario + "; ";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            var dias = "";
+            for (var i = 0; i < dados.Count; i++)
+                dias = dias + Convert.ToDateTime(dados[i]["data"]).Date.ToString("dd/MM/yyyy") + " || ";
+            return dias;
         }
 
         public List<Dictionary<string, string>> RetornaCertificacoes()
         {
-            var Query = "Select id,descricao FROM certificacoesfuncionarios WHERE excluido='N'";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao FROM certificacoesfuncionarios WHERE excluido='N'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void CadastrarFuncao(string Nome, string Certificacao)
+        public void CadastrarFuncao(string nome, string certificacao)
         {
-            var Query = "INSERT INTO funcoes (descricao,idcertificacao) VALUES('" + Nome + "','" + Certificacao + "');";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "INSERT INTO funcoes (descricao,idcertificacao) VALUES('" + nome + "','" + certificacao + "');";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public void EditarFuncao(string IdFuncao, string Nome, string Certificacao)
+        public void EditarFuncao(string idFuncao, string nome, string certificacao)
         {
-            var Query = "UPDATE funcoes SET descricao='" + Nome + "', idcertificacao='" + Certificacao + "' WHERE id=" +
-                        IdFuncao + ";";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "UPDATE funcoes SET descricao='" + nome + "', idcertificacao='" + certificacao + "' WHERE id=" +
+                        idFuncao + ";";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public List<Dictionary<string, string>> BuscaFuncao(string Nome)
+        public List<Dictionary<string, string>> BuscaFuncao(string nome)
         {
-            var Query = "Select id,descricao from funcoes where descricao like'%" + Nome + "%' AND excluido='N';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao from funcoes where descricao like'%" + nome + "%' AND excluido='N';";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosFuncao(string IdFuncao)
+        public List<Dictionary<string, string>> RecuperaDadosFuncao(string idFuncao)
         {
-            var Query = "Select id,descricao,idcertificacao from funcoes where id=" + IdFuncao + ";";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao,idcertificacao from funcoes where id=" + idFuncao + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void ExcluirFuncao(string IdFuncao)
+        public void ExcluirFuncao(string idFuncao)
         {
-            var Query = "UPDATE funcoes SET excluido='S' where id=" + IdFuncao + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
-            var Query2 = "UPDATE funcionarios SET funcao=1 WHERE funcao=" + IdFuncao + "";
-            ConexaoMysql.ExecutaComando(Query2);
+            var query = "UPDATE funcoes SET excluido='S' where id=" + idFuncao + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
+            var query2 = "UPDATE funcionarios SET funcao=1 WHERE funcao=" + idFuncao + "";
+            _conexaoMysql.ExecutaComando(query2);
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosPendenciaConfirmacao(string IdPendencia)
+        public List<Dictionary<string, string>> RecuperaDadosPendenciaConfirmacao(string idPendencia)
         {
-            var Query =
+            var query =
                 "Select a.*,b.data,b.idfuncionario from historicoshorariosponto a, historicosjustificativaspontos b where b.id=a.idhistorico and a.idhistorico=" +
-                IdPendencia + " ORDER BY a.horario DESC;";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+                idPendencia + " ORDER BY a.horario DESC;";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void AtualizaJustificativaRh(string IdHistorico)
+        public void AtualizaJustificativaRh(string idHistorico)
         {
-            var Query = "UPDATE historicosjustificativaspontos  SET validacaorh='S' WHERE id=" + IdHistorico + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE historicosjustificativaspontos  SET validacaorh='S' WHERE id=" + idHistorico + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void CadastrarCertificacao(string NomeCertificacao)
+        public void CadastrarCertificacao(string nomeCertificacao)
         {
-            var Query = "INSERT INTO certificacoesfuncionarios (descricao) VALUES('" + NomeCertificacao + "');";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "INSERT INTO certificacoesfuncionarios (descricao) VALUES('" + nomeCertificacao + "');";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public List<Dictionary<string, string>> BuscaCertificacao(string DescricaoCertificacao)
+        public List<Dictionary<string, string>> BuscaCertificacao(string descricaoCertificacao)
         {
-            var Query = "Select id,descricao from certificacoesfuncionarios where descricao like'%" +
-                        DescricaoCertificacao + "%' AND excluido='N';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao from certificacoesfuncionarios where descricao like'%" +
+                        descricaoCertificacao + "%' AND excluido='N';";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosCertificacao(string IdCertificacao)
+        public List<Dictionary<string, string>> RecuperaDadosCertificacao(string idCertificacao)
         {
-            var Query = "Select id,descricao from certificacoesfuncionarios where id=" + IdCertificacao + ";";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao from certificacoesfuncionarios where id=" + idCertificacao + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void ExcluirCertificacao(string IdCertificacao)
+        public void ExcluirCertificacao(string idCertificacao)
         {
-            var Query = "UPDATE certificacoesfuncionarios SET excluido='S' where id=" + IdCertificacao + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "UPDATE certificacoesfuncionarios SET excluido='S' where id=" + idCertificacao + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void EditarCertificacao(string IdCertificacao, string Nome)
+        public void EditarCertificacao(string idCertificacao, string nome)
         {
-            var Query = "UPDATE certificacoesfuncionarios SET descricao='" + Nome + "' WHERE id=" + IdCertificacao +
+            var query = "UPDATE certificacoesfuncionarios SET descricao='" + nome + "' WHERE id=" + idCertificacao +
                         ";";
-            ConexaoMysql.ExecutaComando(Query);
+            _conexaoMysql.ExecutaComando(query);
         }
 
         public List<Dictionary<string, string>> RetornaSetores()
         {
-            var Query = "select id,descricao from setores WHERE excluido='N';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "select id,descricao from setores WHERE excluido='N';";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
         public List<Dictionary<string, string>> RetornaFuncionarios()
         {
-            var Query = "select id,nome from funcionarios WHERE ativo='S';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "select id,nome from funcionarios WHERE ativo='S';";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void CadastrarGestor(string Funcionario, string Setor)
+        public void CadastrarGestor(string funcionario, string setor)
         {
-            var Query = "UPDATE funcionarios SET gestor='S' , idsetor=" + Setor + " WHERE id=" + Funcionario + ";";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "UPDATE funcionarios SET gestor='S' , idsetor=" + setor + " WHERE id=" + funcionario + ";";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public List<Dictionary<string, string>> BuscaGestor(string DescricaoGestor)
+        public List<Dictionary<string, string>> BuscaGestor(string descricaoGestor)
         {
-            var Query = "Select id,nome from funcionarios where nome like'%" + DescricaoGestor +
+            var query = "Select id,nome from funcionarios where nome like'%" + descricaoGestor +
                         "%' AND gestor='S' AND ativo='S';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosGestor(string IdGestor)
+        public List<Dictionary<string, string>> RecuperaDadosGestor(string idGestor)
         {
-            var Query = "Select id,nome,idsetor from funcionarios where id=" + IdGestor + ";";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,nome,idsetor from funcionarios where id=" + idGestor + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void ExcluirGestor(string IdGestor)
+        public void ExcluirGestor(string idGestor)
         {
-            var Query = "UPDATE funcionarios SET gestor='N' WHERE id=" + IdGestor + ";";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "UPDATE funcionarios SET gestor='N' WHERE id=" + idGestor + ";";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public void EditarGestor(string Funcionario, string Setor)
+        public void EditarGestor(string funcionario, string setor)
         {
-            var Query = "UPDATE funcionarios SET gestor='S' , idsetor=" + Setor + " WHERE id=" + Funcionario + ";";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "UPDATE funcionarios SET gestor='S' , idsetor=" + setor + " WHERE id=" + funcionario + ";";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public void CadastrarSetor(string NomeSetor)
+        public void CadastrarSetor(string nomeSetor)
         {
-            var Query = "INSERT INTO setores (descricao) VALUES('" + NomeSetor + "');";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            var query = "INSERT INTO setores (descricao) VALUES('" + nomeSetor + "');";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
 
-        public void EditarSetor(string IdSetor, string Nome)
+        public void EditarSetor(string idSetor, string nome)
         {
-            var Query = "UPDATE setores SET descricao='" + Nome + "' WHERE id=" + IdSetor + ";";
-            ConexaoMysql.ExecutaComando(Query);
+            var query = "UPDATE setores SET descricao='" + nome + "' WHERE id=" + idSetor + ";";
+            _conexaoMysql.ExecutaComando(query);
         }
 
-        public List<Dictionary<string, string>> BuscaSetor(string DescricaoSetor)
+        public List<Dictionary<string, string>> BuscaSetor(string descricaoSetor)
         {
-            var Query = "Select id,descricao from setores where descricao like'%" + DescricaoSetor +
+            var query = "Select id,descricao from setores where descricao like'%" + descricaoSetor +
                         "%' AND excluido='N';";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public List<Dictionary<string, string>> RecuperaDadosSetor(string IdSetor)
+        public List<Dictionary<string, string>> RecuperaDadosSetor(string idSetor)
         {
-            var Query = "Select id,descricao from setores where id=" + IdSetor + ";";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select id,descricao from setores where id=" + idSetor + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void ExcluirSetor(string IdSetor)
+        public void ExcluirSetor(string idSetor)
         {
-            var Query = "UPDATE setores SET excluido='S' where id=" + IdSetor + ";";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
-            var Query2 = "UPDATE funcionarios SET IDSETOR=0 WHERE idsetor=" + IdSetor + "";
-            ConexaoMysql.ExecutaComando(Query2);
+            var query = "UPDATE setores SET excluido='S' where id=" + idSetor + ";";
+            _conexaoMysql.ExecutaComandoComRetorno(query);
+            var query2 = "UPDATE funcionarios SET IDSETOR=0 WHERE idsetor=" + idSetor + "";
+            _conexaoMysql.ExecutaComando(query2);
         }
 
         public List<Dictionary<string, string>> RetornaBancoHoras()
         {
-            var Query = "Select * from horasextrasfuncionarios;";
-            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
-            return Dados;
+            var query = "Select * from horasextrasfuncionarios;";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return dados;
         }
 
-        public void CadastrarUsuarioPortal(string Nome, string Cpf, string Rg, string DataNascimento, string Rua,
-            string Numero, string Bairro, string Cidade, string Usuario, string Pa, string DataAdmissao,
-            string VencimentoPeriodico, string Pis, string SalarioUsuario, string QuebraCaixa)
+        public void CadastrarUsuarioPortal(string nome, string cpf, string rg, string dataNascimento, string rua,
+            string numero, string bairro, string cidade, string usuario, string pa, string dataAdmissao,
+            string vencimentoPeriodico, string pis, string salarioUsuario, string quebraCaixa)
         {
-            var Query =
+            var query =
                 "INSERT INTO funcionarios (nome,sexo,idpa,admissao,cpf,rg,pis,formacaoacademica,salariobase,quebradecaixa,anuenio,ticket,datanascimento,ativo,rua,numero,bairro,cidade,login,senha,trocasenha) VALUES('" +
-                Nome + "',0,'" + Pa + "','" + DataAdmissao + "','" + Cpf + "','" + Rg + "','" + Pis +
-                "','NÃO INFORMADO','" + SalarioUsuario + "','" + QuebraCaixa + "','0.00','827.64','" + DataNascimento +
-                "','S','" + Rua + "','" + Numero + "','" + Bairro + "','" + Cidade + "','" + Usuario +
+                nome + "',0,'" + pa + "','" + dataAdmissao + "','" + cpf + "','" + rg + "','" + pis +
+                "','NÃO INFORMADO','" + salarioUsuario + "','" + quebraCaixa + "','0.00','827.64','" + dataNascimento +
+                "','S','" + rua + "','" + numero + "','" + bairro + "','" + cidade + "','" + usuario +
                 "',MD5('123'),'S')";
-            ConexaoMysql.ExecutaComandoComRetorno(Query);
+            _conexaoMysql.ExecutaComandoComRetorno(query);
         }
     }
 }

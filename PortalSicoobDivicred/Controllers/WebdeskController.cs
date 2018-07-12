@@ -246,24 +246,24 @@ namespace PortalSicoobDivicred.Controllers
 
                     for (var i = 0; i < dadoResultado.Count; i++)
                     {
-                        TempData["NumeroChamadoNovo" + i] = dadoResultado[i].Source.idsolicitacao;
-                        var dadosChamado = verificaDados.RetornaDadosChamado(dadoResultado[i].Source.idsolicitacao);
+                        TempData["NumeroChamadoNovo" + i] = dadoResultado[i].Source.Idsolicitacao;
+                        var dadosChamado = verificaDados.RetornaDadosChamado(dadoResultado[i].Source.Idsolicitacao);
                         TempData["TituloChamadoNovo" + i] = dadosChamado[0]["titulo"];
                         TempData["UsuarioCadastroNovo" + i] = dadosChamado[0]["cadastro"];
                         TempData["OperadorNovo" + i] = dadosChamado[0]["operador"];
 
                         var interacoes =
-                            verificaDados.BuscaInteracaoChamadosNovo(dadoResultado[i].Source.idsolicitacao);
+                            verificaDados.BuscaInteracaoChamadosNovo(dadoResultado[i].Source.Idsolicitacao);
 
-                        TempData["TotalInteracaoNovo" + dadoResultado[i].Source.idsolicitacao] = interacoes.Count;
+                        TempData["TotalInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao] = interacoes.Count;
 
                         for (var j = 0; j < interacoes.Count; j++)
                         {
-                            TempData["UsuarioInteracaoNovo" + dadoResultado[i].Source.idsolicitacao + j] =
+                            TempData["UsuarioInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao + j] =
                                 interacoes[j]["nome"];
-                            TempData["TextoInteracaoNovo" + dadoResultado[i].Source.idsolicitacao + j] =
+                            TempData["TextoInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao + j] =
                                 interacoes[j]["textointeracao"];
-                            TempData["DataInteracaoNovo" + dadoResultado[i].Source.idsolicitacao + j] =
+                            TempData["DataInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao + j] =
                                 interacoes[j]["data"];
                         }
                     }

@@ -228,12 +228,12 @@ namespace PortalSicoobDivicred.Aplicacao
             _conexaoMysql.ExecutaComando(queryInteracao);
         }
 
-        public void AlterarResponsavelSolicitacao(string IdChamado, string IdSetor, string IdFuncionario)
+        public void AlterarResponsavelSolicitacao(string idChamado, string idSetor, string idFuncionario)
         {
-            var QueryInteracao =
-                "UPDATE webdesksolicitacoes SET idsetor=" + IdSetor + ", idfuncionarioresponsavel=" + IdFuncionario +
-                " WHERE id=" + IdChamado + ";";
-            _conexaoMysql.ExecutaComando(QueryInteracao);
+            var queryInteracao =
+                "UPDATE webdesksolicitacoes SET idsetor=" + idSetor + ", idfuncionarioresponsavel=" + idFuncionario +
+                " WHERE id=" + idChamado + ";";
+            _conexaoMysql.ExecutaComando(queryInteracao);
         }
 
         public void ReabrirSolicitacao(string idChamado)
@@ -257,75 +257,75 @@ namespace PortalSicoobDivicred.Aplicacao
             _conexaoMysql.ExecutaComando(queryInteracao);
         }
 
-        public List<Dictionary<string, string>> RetornaRepasseFuncionarioChamado(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaRepasseFuncionarioChamado(string idFuncionario)
         {
-            var Query = "select nome from funcionarios where id=" + IdFuncionario + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+            var query = "select nome from funcionarios where id=" + idFuncionario + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaRepasseCategoriaChamado(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaRepasseCategoriaChamado(string idFuncionario)
         {
-            var Query = "select descricao from webdeskcategorias where id=" + IdFuncionario + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+            var query = "select descricao from webdeskcategorias where id=" + idFuncionario + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public void IniciarAtendimentoSolicitacao(string IdChamado)
+        public void IniciarAtendimentoSolicitacao(string idChamado)
         {
-            var QueryInteracao =
-                "UPDATE webdesksolicitacoes SET inicioatendimento=NOW(), idsituacao=2 WHERE id=" + IdChamado + ";";
-            _conexaoMysql.ExecutaComando(QueryInteracao);
+            var queryInteracao =
+                "UPDATE webdesksolicitacoes SET inicioatendimento=NOW(), idsituacao=2 WHERE id=" + idChamado + ";";
+            _conexaoMysql.ExecutaComando(queryInteracao);
         }
 
-        public List<Dictionary<string, string>> RetornaDadosChamadoAntigo(string IdSolicitacao)
+        public List<Dictionary<string, string>> RetornaDadosChamadoAntigo(string idSolicitacao)
         {
-            var Query =
+            var query =
                 "SELECT a.id,b.descricao as titulo,u1.id as idcadastro,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,e.descricao as setor,a.confirmacaoleitura,a.dataconclusaochamado FROM webdeskchamados a LEFT JOIN usuarios u1 on a.idusuariocadastro=u1.id INNER JOIN usuarios u2 on (a.idoperador=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id INNER JOIN setores e on a.idsetor=e.id and a.id=" +
-                IdSolicitacao + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+                idSolicitacao + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaInteracoesChamadoAntigo(string IdSolicitacao)
+        public List<Dictionary<string, string>> RetornaInteracoesChamadoAntigo(string idSolicitacao)
         {
-            var Query =
+            var query =
                 "select b.id,a.nome as nome, b.textointeracao,b.datahorainteracao,b.idarquivogoogle,b.idpastaarquivogoogle from usuarios a, webdeskinteracoes b where a.id=b.idusuariointeracao and b.idchamado=" +
-                IdSolicitacao + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+                idSolicitacao + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string IdFuncionario)
+        public List<Dictionary<string, string>> RetornaInformacoesNotificacao(string idFuncionario)
         {
-            var Query = "select id,email,idnotificacao,notificacaoemail from funcionarios where id=" + IdFuncionario +
+            var query = "select id,email,idnotificacao,notificacaoemail from funcionarios where id=" + idFuncionario +
                         " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaIdSolicitantes(string IdChamado)
+        public List<Dictionary<string, string>> RetornaIdSolicitantes(string idChamado)
         {
-            var Query = "select idfuncionariocadastro,idfuncionarioresponsavel from webdesksolicitacoes where id=" +
-                        IdChamado + " ";
-            var Chamados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Chamados;
+            var query = "select idfuncionariocadastro,idfuncionarioresponsavel from webdesksolicitacoes where id=" +
+                        idChamado + " ";
+            var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return chamados;
         }
 
-        public List<Dictionary<string, string>> RetornaFormulariosSetor(string IdSetor)
+        public List<Dictionary<string, string>> RetornaFormulariosSetor(string idSetor)
         {
-            var Query =
+            var query =
                 "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" +
-                IdSetor + "";
-            var Formularios = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Formularios;
+                idSetor + "";
+            var formularios = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return formularios;
         }
 
-        public List<Dictionary<string, string>> RetornaFormularioCategoria(string IdCategoria)
+        public List<Dictionary<string, string>> RetornaFormularioCategoria(string idCategoria)
         {
-            var Query = "SELECT * FROM webdeskformularioscategorias WHERE idcategoria=" + IdCategoria + "";
-            var Formularios = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            return Formularios;
+            var query = "SELECT * FROM webdeskformularioscategorias WHERE idcategoria=" + idCategoria + "";
+            var formularios = _conexaoMysql.ExecutaComandoComRetorno(query);
+            return formularios;
         }
 
         public List<Dictionary<string, string>> RetornaFormularioChamado(string idSolicitacao)
@@ -349,42 +349,6 @@ namespace PortalSicoobDivicred.Aplicacao
             _conexaoMysql.ExecutaComando(query);
         }
 
-        public bool PermissaoCurriculos(string Usuario)
-        {
-            var Query =
-                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
-                Usuario + "' and a.idaplicativo=9";
-
-            var Dados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            try
-            {
-                if (Dados[0]["valor"].Equals("S"))
-                    return true;
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool PermissaoTesouraria(string Usuario)
-        {
-            var Query =
-                "select a.valor from permissoesgrupo a, usuarios b, grupos c where a.idgrupo = c.id and b.idgrupo = c.id and b.login='" +
-                Usuario + "' and a.idaplicativo=10";
-
-            var Dados = _conexaoMysql.ExecutaComandoComRetorno(Query);
-            try
-            {
-                if (Dados[0]["valor"].Equals("S"))
-                    return true;
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+       
     }
 }

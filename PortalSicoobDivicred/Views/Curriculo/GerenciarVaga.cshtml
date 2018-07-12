@@ -20,7 +20,7 @@
 
     }
 
-    function VerPerfil(Cpf) {
+    function VerPerfil(cpf) {
         $("#PerfilCompleto").empty();
         $.ajax(
             {
@@ -29,7 +29,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "Cpf": Cpf },
+                data: { "Cpf": cpf },
                 success: function(data) {
                     $("#PerfilCompleto").append(data);
                     $('#ModalPerfil').removeClass();
@@ -40,8 +40,8 @@
             });
     }
 
-    function EncerrarProcesso(IdVaga) {
-        var id = IdVaga;
+    function EncerrarProcesso(idVaga) {
+        var id = idVaga;
         $("#ProcessoCompleto").empty();
         $.ajax(
             {
@@ -61,7 +61,7 @@
             });
     }
 
-    function ResultadoProcesso(IdVaga) {
+    function ResultadoProcesso(idVaga) {
         $("#ResultadoCompleto").empty();
         $.ajax(
             {
@@ -70,7 +70,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdVaga": IdVaga },
+                data: { "IdVaga": idVaga },
                 success: function(data) {
                     $("#ResultadoCompleto").append(data);
                     $('#ModalResultado').removeClass();
@@ -100,10 +100,10 @@
         $("#TabelaCurriculo").tablesorter();
     });
 
-    function AbrirProcesso(Id) {
+    function AbrirProcesso(id) {
         if ($("#AbrirProcesso").is(":disabled")) {
         } else {
-            var IdVaga = Id;
+            var idVaga = id;
             var form = $("#Curriculos").serialize();
             iziToast.show({
                 title: 'Processo seletivo.',
@@ -168,10 +168,10 @@
     function Imprimir() {
 
         var conteudo = document.getElementById('PerfilCompleto').innerHTML,
-            tela_impressao = window.open('about:blank');
-        tela_impressao.document.write(conteudo);
-        tela_impressao.window.print();
-        tela_impressao.window.close();
+            telaImpressao = window.open('about:blank');
+        telaImpressao.document.write(conteudo);
+        telaImpressao.window.print();
+        telaImpressao.window.close();
     }
 
 </script>

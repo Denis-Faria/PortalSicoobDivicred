@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using PortalSicoobDivicred.Repositorios;
 using System.Web.Mvc;
@@ -36,8 +35,8 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public bool UsuarioLogado()
         {
-            var Usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
-            if (Usuario == null)
+            var usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
+            if (usuario == null)
                 return false;
             return true;
         }

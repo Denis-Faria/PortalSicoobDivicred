@@ -35,7 +35,7 @@
             .tablesorterPager({ container: $("#pager") });
     });
 
-    function VerPerfil(Login) {
+    function VerPerfil(login) {
         $("#PerfilCompleto").empty();
         $.ajax(
             {
@@ -44,7 +44,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "Login": Login },
+                data: { "Login": login },
                 success: function(data) {
                     $("#PerfilCompleto").append(data);
                     $('#ModalPerfil').removeClass();
@@ -71,7 +71,7 @@
             });
     }
 
-    function AlterarVaga(IdVaga) {
+    function AlterarVaga(idVaga) {
         $("#VagaCompleta").empty();
         $.ajax(
             {
@@ -80,7 +80,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdVaga": IdVaga },
+                data: { "IdVaga": idVaga },
                 success: function(data) {
                     $("#VagaCompleta").append(data);
                     $('#ModalEditarVaga').removeClass();
@@ -102,7 +102,7 @@
         //get cell values, instead of the header text.
         $("#Pendencias tr:not(:first)").each(function() {
             var tdlist = $(this).find("td");
-            var Item = {
+            var item = {
                 Id: $.trim($(tdlist[0]).html()),
                 Nome: $.trim($(tdlist[1]).html()),
                 Dia: $.trim($(tdlist[2]).html()),
@@ -114,7 +114,7 @@
                 Horario6: $.trim($(tdlist[8]).html())
             };
 
-            itemlist.push(Item);
+            itemlist.push(item);
         });
 
         $.ajax({
@@ -144,10 +144,10 @@
 
     }
 
-    function ApontarPendencia(NumeroLinha) {
+    function ApontarPendencia(numeroLinha) {
         var itemlist = [];
-        var tdlist = $("#SemPendencia").find("tbody tr").eq(NumeroLinha).find("td");
-        var Item = {
+        var tdlist = $("#SemPendencia").find("tbody tr").eq(numeroLinha).find("td");
+        var item = {
             Id: $.trim($(tdlist[0]).html()),
             Nome: $.trim($(tdlist[1]).html()),
             Dia: $.trim($(tdlist[2]).html()),
@@ -157,7 +157,7 @@
             Horario4: $.trim($(tdlist[6]).html())
 
         };
-        itemlist.push(Item);
+        itemlist.push(item);
         $.ajax({
             url: '@Url.Action("ApontarPendencia", "PainelColaborador")', //
             dataType: "json",

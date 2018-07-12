@@ -1,21 +1,21 @@
 ﻿<script type="text/javascript">
 
-    function EditarValor(Agencia) {
+    function EditarValor(agencia) {
 
-        $("#Observacao" + Agencia).removeAttr("style");
-        $("#LabelObservacao" + Agencia).attr("style", "display:none");
-        $("#Valor" + Agencia).removeAttr("style");
-        $("#LabelValor" + Agencia).attr("style", "display:none");
-        $("#Salva" + Agencia).removeAttr("style");
-        $("#Editar" + Agencia).attr("style", "display:none");
+        $("#Observacao" + agencia).removeAttr("style");
+        $("#LabelObservacao" + agencia).attr("style", "display:none");
+        $("#Valor" + agencia).removeAttr("style");
+        $("#LabelValor" + agencia).attr("style", "display:none");
+        $("#Salva" + agencia).removeAttr("style");
+        $("#Editar" + agencia).attr("style", "display:none");
 
     }
 
-    function SalvarValor(Agencia) {
+    function SalvarValor(agencia) {
 
 
-        valor = $("#Valor" + Agencia).val();
-        observacao = $("#Observacao" + Agencia).val();
+        valor = $("#Valor" + agencia).val();
+        observacao = $("#Observacao" + agencia).val();
         if (valor.length === 0) {
             iziToast.error({
                 title: 'Erro',
@@ -38,7 +38,7 @@
                     dataType: 'html',
                     cache: true,
                     async: true,
-                    data: { "Valor": valor, "Observacao": observacao, "Agencia": Agencia },
+                    data: { "Valor": valor, "Observacao": observacao, "Agencia": agencia },
                     success: function(data) {
                         window.location.href =
                             "http://10.11.17.30:9090/Principal/Principal?Mensagem=Numerário salvos com sucesso'";

@@ -1,5 +1,5 @@
 ﻿<script>
-    function Seleciona(Id) {
+    function Seleciona(id) {
         $("#EdicaoCertificacao").removeAttr("hidden");
         $("#SalvaCertificacao").removeAttr("disabled ");
         $("#ExcluirCertificacao").removeAttr("disabled ");
@@ -11,7 +11,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdCertificacao": Id },
+                data: { "IdCertificacao": id },
                 success: function(data) {
 
                     $("#EdicaoCertificacao").append(data);

@@ -42,15 +42,15 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public void InsereUsuario(string nome,string pa, string dataAdmissao,string cpf,string rg,string pis, string login,
-            string email,char gestor,char estagiario)
+        public void InsereUsuario(string nome,int pa, DateTime dataAdmissao,string cpf,string rg,string pis,
+            string estagiario,string login,string senha,string email,int idgrupo,string gestor,string matricula)
         {
-            var queryInsereProducao =
-                "INSERT INTO cimproducao (cpf,sexo,pa,admissao,cpf,rg,pis,vencimentoperiodico,funcao,idescolaridade,) values ('" +
-                cpf + "','" + produtos + "','" + observacao + "','" + Convert.ToDateTime(data).ToString("yyyy-MM-dd") +
-                "','N','" + login + "','" + valor.Replace(",", ".") + "','" +
-                valorponto.Replace(".", "").Replace(",", ".") + "') ";
-            _conexaoMysql.ExecutaComando(queryInsereProducao);
+            var queryInsereFuncionario =
+                "INSERT INTO funcionarios (nome,idpa,admissao,cpf,rg,pis,estagiario,login,senha,email,idgrupo,gestor,matricula) values ('" +
+                nome + "','" + pa + "','" + dataAdmissao.ToString("yyyy-MM-dd") +
+                "','"+cpf+"','" + rg + "','" + pis+ "','" +
+                estagiario+ "','"+login+"','"+senha+"','"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
+            _conexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
 
     }

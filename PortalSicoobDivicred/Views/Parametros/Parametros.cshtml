@@ -119,69 +119,6 @@
 
         }
 
-        function addDeleteBtn(f, input, nomeArquivo) {
-
-            var Div2 = document.createElement('div');
-            Div2.className = 'control';
-
-            var Div3 = document.createElement('div');
-            Div3.className = 'tags has-addons';
-
-
-            var Nome = document.createElement('span');
-            Nome.className = 'tag is-dark ';
-            Nome.innerHTML = nomeArquivo;
-
-            Div2.append(Div3);
-
-            Div3.append(Nome);
-            var del = document.createElement('a');
-            del.className = 'tag is-delete is-primary';
-            del.title = 'remove this file';
-
-            del.addEventListener('click',
-                function () {
-
-                    $("#" + input.multiFiles.length).remove();
-
-                    input.multiFiles.splice(f, 1);
-
-                    $("#" + input.multiFiles.length).show();
-
-                    input.__fileHolder.innerHTML = "";;
-
-                    var fileLength = input.multiFiles.length;
-
-                    if (fileLength > 0) {
-                        for (var i = 0; i < fileLength; i++) {
-
-                            var Div2 = document.createElement('div');
-                            Div2.className = 'control';
-
-                            var Div3 = document.createElement('div');
-                            Div3.className = 'tags has-addons';
-
-                            var Nome = document.createElement('span');
-                            Nome.className = 'tag is-dark';
-                            Nome.innerHTML = input.multiFiles[i].name;
-
-                            var del = document.createElement('a');
-                            del.className = 'tag is-delete is-primary';
-                            del.title = 'remove this file';
-
-                            input.__fileHolder.appendChild(Div3);
-                            addDeleteBtn(i, input, input.multiFiles[i].name);
-                        }
-                    } else {
-                        $("#formesconde").show();
-                        input.__fileHolder.innerHTML = 'Selecione um arquivo';
-                    }
-                },
-                false);
-            Div3.append(del);
-            input.__fileHolder.appendChild(Div2);
-        }
-
 
         function ValidaMascara(valor) {
 
@@ -221,65 +158,8 @@
         });
 
 
-        function SetorSelecionado(IdSetor) {
-            $("#CategoriaFuncionario").empty();
-            if (IdSetor.value === "42") {
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '/Webdesk/RetornaCategoriaAberturaChamado',
-                        dataType: 'html',
-                        cache: true,
-                        async: true,
-                        data: { "IdSetor": IdSetor.value },
-                        success: function (data) {
-                            $("#CategoriaFuncionario").append(data);
-                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                            $("form").removeData("validator");
-                            $("form").removeData("unobtrusiveValidation");
-                            $.validator.unobtrusive.parse("form");
-                        }
-                    });
-            } else {
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '/Webdesk/RetornaCategoriaFuncionario',
-                        dataType: 'html',
-                        cache: true,
-                        async: true,
-                        data: { "IdSetor": IdSetor.value },
-                        success: function (data) {
-                            $("#CategoriaFuncionario").append(data);
-                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                            $("form").removeData("validator");
-                            $("form").removeData("unobtrusiveValidation");
-                            $.validator.unobtrusive.parse("form");
-                        }
-                    });
-            }
-        }
-        function CategoriaSelecionado(IdCategoria) {
-            $("#FormularioCategoria").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Webdesk/RetornaFormulario',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdCategoria": IdCategoria.value },
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $('#ModalFormulario').removeClass();
-                            $('#ModalFormulario').addClass('modal is-active');
-                            $("#FormularioCategoria").append(data);
-                        } else {
-                            $("#Cadastro").submit();
-                        }
-                    }
-                });
-        }
+
+       
 
     </script>
     <style>

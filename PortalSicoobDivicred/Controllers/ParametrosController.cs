@@ -108,7 +108,9 @@ namespace PortalSicoobDivicred.Controllers
             if (cookie != null)
             {
 
-                var login = Criptografa.Descriptografar(cookie.Value);
+                //var login = Criptografa.Descriptografar(cookie.Value);
+                insereDados.InsereUsuario(dados.NomeFuncionario,dados.Pa,dados.dataAdmissao,dados.CpfFuncionario,dados.RgFuncionario,
+                    dados.PisFuncionario,dados.Estagiario,dados.LoginFuncionario,"123",dados.Email,dados.idDescricaoGrupo,dados.Gestor, dados.Matricula);
                 
                 /*
                 var login = Criptografa.Descriptografar(cookie.Value);
@@ -143,7 +145,29 @@ namespace PortalSicoobDivicred.Controllers
             }
 
 
-            return RedirectToAction("Pgd", "Pgd", new { Mensagem = "Produção cadastrada com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
+        }
+
+        [HttpPost]
+        public ActionResult BuscarFuncionario(string DescricaoFuncao)
+        {
+            var VerificaDados = new QueryMysqlRh();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Funcoes = VerificaDados.BuscaFuncao(DescricaoFuncao);
+                for (var i = 0; i < Funcoes.Count; i++)
+                {
+                    TempData["Id" + i] = Funcoes[i]["id"];
+                    TempData["Descricao" + i] = Funcoes[i]["descricao"];
+                }
+
+                TempData["TotalResultado"] = Funcoes.Count;
+                TempData["Editar"] = "EditarFuncao";
+                return PartialView("ResultadoPesquisa");
+            }
+
+            return RedirectToAction("Login", "Login");
         }
 
     }

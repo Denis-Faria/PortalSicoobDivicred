@@ -515,7 +515,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca1"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto1"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(),
+                                        "1 - Cheques 4030", arqext1.ToString(), TempData["3/4/5"].ToString(),
                                         TempData["Diferenca1"].ToString());
 
                                     TempData["5761"] = Convert.ToDouble(dados1["5761"]);
@@ -524,7 +524,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca8"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto8"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(),
+                                        "7 - Cotas Partes", arqext8.ToString(), TempData["5761"].ToString(),
                                         TempData["Diferenca8"].ToString());
 
                                     TempData["820"] = Convert.ToDouble(dados1["820"]);
@@ -532,7 +532,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca9"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto9"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(),
+                                        "8 - Docs Recebidos", arqext9.ToString(), TempData["820"].ToString(),
                                         TempData["Diferenca9"].ToString());
 
                                     TempData["257/258"] = Convert.ToDouble(dados1["257/258"]);
@@ -541,7 +541,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca10"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto10"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(),
+                                        "9 - Docs Enviados", arqext10.ToString(), TempData["257/258"].ToString(),
                                         TempData["Diferenca10"].ToString());
 
                                     TempData["5472/5473/5474/232/233/234/235"] =
@@ -561,7 +561,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca4"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto4"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "TED´s Recebidas", arqext4.ToString(),
+                                        "3 - TED´s Recebidas", arqext4.ToString(),
                                         TempData["821/2/7286/7336/847"].ToString(), TempData["Diferenca4"].ToString());
                                     TempData["6/192"] = Convert.ToDouble(dados1["6/192"]) - Convert.ToDouble(valor6192);
 
@@ -571,11 +571,11 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca6"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto6"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(),
+                                        "5 - Boletos Rejeitados", arqext5.ToString(), TempData["7027"].ToString(),
                                         TempData["Diferenca6"].ToString());
 
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(),
+                                        "6 - Cheques Compensados", arqext6.ToString(), TempData["valorTotalNr"].ToString(),
                                         TempData["Diferenca7"].ToString());
 
                                     break;
@@ -598,7 +598,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["DiferencaTexto3"] = Maior.Split(';')[0];
 
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "TED´s Enviadas", arqext3.ToString(),
+                                        "2 - TED´s Enviadas", arqext3.ToString(),
                                         TempData["5472/5473/5474/232/233/234/235-FINAL"].ToString(),
                                         TempData["Diferenca3"].ToString());
                                     break;
@@ -625,7 +625,7 @@ namespace PortalSicoobDivicred.Controllers
                                         dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Cheques Dep./TD Devolvidos", arqext2.ToString(),
+                                        "4 - Cheques Dep./TD Devolvidos", arqext2.ToString(),
                                         TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
 
                                     break;
@@ -635,7 +635,7 @@ namespace PortalSicoobDivicred.Controllers
                                     inicioPlanilha3 = inicio.InicioPlanilha(caminho04, i.ToString());
                                     dados4 = inicio.Calculo1(caminho04, i.ToString(), inicioPlanilha3);
                                     TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
-
+                                    
                                     break;
 
                                 case 5:
@@ -649,7 +649,7 @@ namespace PortalSicoobDivicred.Controllers
                                     TempData["Diferenca11"] = Maior.Split(';')[1];
                                     TempData["DiferencaTexto11"] = Maior.Split(';')[0];
                                     insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
-                                        "Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(),
+                                        "10 - Cheques Devolvidos 4030", TempData["NRDEVELETRONICA-FINAL"].ToString(),
                                         TempData["CHEQUEDEVOLVIDO"].ToString(), TempData["Diferenca11"].ToString());
                                     break;
                             }

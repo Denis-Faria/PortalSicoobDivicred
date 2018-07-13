@@ -10,9 +10,10 @@ namespace PortalSicoobDivicred.Models
 
         public int idDescricaoGrupo { get; set; }
 
-        [Required(ErrorMessage = "Favor selecionar o grupo!")]
+        
         public List<SelectListItem> DescricaoGrupo { get; set; }
 
+        
        
 
         [Required(ErrorMessage = "Favor informar o seu nome!")]
@@ -20,7 +21,7 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
-        public string Pa { get; set; }
+        public int Pa { get; set; }
 
         [Required(ErrorMessage = "Favor informar a data de Admissão")]
         public DateTime dataAdmissao { get; set; }
@@ -42,11 +43,14 @@ namespace PortalSicoobDivicred.Models
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "Informe se o funcionário é gestor")]
+     //   [Required(ErrorMessage = "Informe se o funcionário é gestor")]
         public string Gestor { get; set; }
 
         [Required(ErrorMessage = "Informe se o funcionário é estagiário")]
         public string Estagiario { get; set; }
+
+        [Required(ErrorMessage = "Informe se o número da matrícula")]
+        public string Matricula { get; set; }
 
 
     }

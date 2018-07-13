@@ -17,15 +17,40 @@
 
     });
 
+    function Buscar() {
+        $("#ListaFuncionarios").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Parametros/BuscarFuncionario',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoFuncao": $("#BuscaFuncionario").val() },
+                success: function (data) {
+                    $("#ListaFuncionarios").append(data);
 
+                }
+            });
+
+    }
 
 </script>
 
-
-
-
 <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+<div class="field is-grouped is-desktop">
+
+    <p class="control">
+        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalFuncao').removeClass();$('#ModalFuncao').addClass('modal is-active');void(0);">
+            <span class="icon is-small">
+                <i class="fas fa-edit" aria-hidden="true"></i>
+            </span>
+            <span class="name">Editar Usuário</span>
+        </button>
+    </p>
+</div>
 <div class="card">
 
     <header class="card-header">
@@ -41,21 +66,8 @@
             </div>
             <div class="column is-5">
                 <div class="control" id="idPA">
-
                     <label class="label">P.A.</label>
-                    <div class="select is-1 is-fullwidth">
-                        <select>
-                            <option>SELECIONE O P.A.</option>
-                            <option value="99">UAD</option>
-                            <option value="00">MATRIZ</option>
-                            <option value="99">UAD</option>
-                            <option value="99">UAD</option>
-                            <option value="99">UAD</option>
-                            <option value="99">UAD</option>
-                            <option value="99">UAD</option>
-                            <option value="99">UAD</option>
-                        </select>
-                    </div>
+                    @Html.TextBoxFor(m => m.Pa, null, new { @class = "input", type = "Text", step = "0.01" })
                 </div>
             </div>
         </div>
@@ -114,55 +126,109 @@
                 @Html.TextBoxFor(m => m.Email, null, new { @class = "input", id = "EmailFuncionario", placeholder = "usuario@divicred.com.br" })
                 @Html.ValidationMessageFor(m => m.Email, null, new { style = "color:red" })
             </div>
-
-            <div class="control column is-expanded">
-                <label class="label">Gestor?</label>
-                <div class="field">
-                    @Html.RadioButtonFor(m => m.Gestor, "Sim", new { @class = "is-checkradio is-small", id = "gestorsim" })
-                    <label for="gestorsim">
-                        Sim
-                    </label>
-                    @Html.RadioButtonFor(m => m.Gestor, "Não", new { @class = "is-checkradio is-small", id = "gestornao" })
-                    <label for="gestornao">
-                        Não
-                    </label>
-                    @Html.ValidationMessageFor(m => m.Gestor, null, new { style = "color:red" })
+            <div class="column is-5">
+                <div class="control column is-expanded">
+                    <label class="label">Gestor?</label>
+                    <div class="field">
+                        @Html.RadioButtonFor(m => m.Gestor, "S", new { @class = "is-checkradio is-small", id = "gestorsim" })
+                        <label for="gestorsim">
+                            Sim
+                        </label>
+                        @Html.RadioButtonFor(m => m.Gestor, "N", new { @class = "is-checkradio is-small", id = "gestornao" })
+                        <label for="gestornao">
+                            Não
+                        </label>
+                        @Html.ValidationMessageFor(m => m.Gestor, null, new { style = "color:red" })
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <div class="columns content">
-            <div class="control column is-expanded">
-                <label class="label">Estagiário?</label>
-                <div class="field">
-                    @Html.RadioButtonFor(m => m.Estagiario, "Sim", new { @class = "is-checkradio is-small", id = "estagiariosim" })
-                    <label for="estagiariosim">
-                        Sim
-                    </label>
-                    @Html.RadioButtonFor(m => m.Estagiario, "Não", new { @class = "is-checkradio is-small", id = "estagiarionao" })
-                    <label for="estagiarionao">
-                        Não
-                    </label>
-                    @Html.ValidationMessageFor(m => m.Estagiario, null, new { style = "color:red" })
+            <div class="column is-5">
+                <div class="control column is-expanded">
+                    <label class="label">Estagiário?</label>
+                    <div class="field">
+                        @Html.RadioButtonFor(m => m.Estagiario, "S", new { @class = "is-checkradio is-small", id = "estagiariosim" })
+                        <label for="estagiariosim">
+                            Sim
+                        </label>
+                        @Html.RadioButtonFor(m => m.Estagiario, "N", new { @class = "is-checkradio is-small", id = "estagiarionao" })
+                        <label for="estagiarionao">
+                            Não
+                        </label>
+                        @Html.ValidationMessageFor(m => m.Estagiario, null, new { style = "color:red" })
+                    </div>
                 </div>
             </div>
+            <div class="column is-5">
+                <label class="label">Matrícula</label>
+                @Html.TextBoxFor(m => m.Matricula, null, new { @class = "input", id = "MatriculaFuncionario" })
+                @Html.ValidationMessageFor(m => m.Matricula, null, new { style = "color:red" })
+            </div>
         </div>
-
-
     </div>
 </div>
 <br>
-@using (Html.BeginForm("SalvarUsuario", "Parametros", FormMethod.Post))
+
+<div>
+    <p class="control">
+        <button type="submit" class="button is-success " id="CadastroUsuario" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
+            <span class="icon is-small">
+                <i class="fas fa-save" aria-hidden="true"></i>
+            </span>
+            <span class="name">Cadastrar Usuário</span>
+        </button>
+    </p>
+
+
+</div>
+}
+
+@using (Html.BeginForm("BuscarFuncionario", "Parametros"))
 {
-    <div>
-        <p class="control">
-            <button type="submit" class="button is-success " id="CadastroUsuario"data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fas fa-save" aria-hidden="true"></i>
-                </span>
-                <span class="name">Cadastrar Usuário</span>
-            </button>
-        </p>
+    <div id="ModalFuncao" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Editar Funcionario</p>
+                <a href="javascript:$('#ModalFuncao').removeClass();$('#ModalFuncao').addClass('modal');void(0);" class="delete">aaaa</a>
+            </header>
+            <section class="modal-card-body">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Funcionários
+                        </p>
+
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="BuscaFuncao" class="input is-fullwidth" type="text" placeholder="Busque uma função.">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                        Procurar
+                                    </a>
+                                </div>
+                            </div>
+                            <ul id="ListaFuncionarios">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+      
+
+               
+            </section>
+            
+        </div>
     </div>
 }

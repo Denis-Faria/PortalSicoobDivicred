@@ -40,5 +40,17 @@ namespace PortalSicoobDivicred.Aplicacao
                 return false;
             return true;
         }
+
+        public void InsereUsuario(string nome,int pa, DateTime dataAdmissao,string cpf,string rg,string pis,
+            string estagiario,string login,string senha,string email,int idgrupo,string gestor,string matricula)
+        {
+            var queryInsereFuncionario =
+                "INSERT INTO funcionarios (nome,idpa,admissao,cpf,rg,pis,estagiario,login,senha,email,idgrupo,gestor,matricula) values ('" +
+                nome + "','" + pa + "','" + dataAdmissao.ToString("yyyy-MM-dd") +
+                "','"+cpf+"','" + rg + "','" + pis+ "','" +
+                estagiario+ "','"+login+"','"+senha+"','"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
+            _conexaoMysql.ExecutaComando(queryInsereFuncionario);
+        }
+
     }
 }

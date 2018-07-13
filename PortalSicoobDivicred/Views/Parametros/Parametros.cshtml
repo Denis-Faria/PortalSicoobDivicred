@@ -119,69 +119,6 @@
 
         }
 
-        function addDeleteBtn(f, input, nomeArquivo) {
-
-            var div2 = document.createElement('div');
-            div2.className = 'control';
-
-            var div3 = document.createElement('div');
-            div3.className = 'tags has-addons';
-
-
-            var nome = document.createElement('span');
-            nome.className = 'tag is-dark ';
-            nome.innerHTML = nomeArquivo;
-
-            div2.append(div3);
-
-            div3.append(nome);
-            var del = document.createElement('a');
-            del.className = 'tag is-delete is-primary';
-            del.title = 'remove this file';
-
-            del.addEventListener('click',
-                function () {
-
-                    $("#" + input.multiFiles.length).remove();
-
-                    input.multiFiles.splice(f, 1);
-
-                    $("#" + input.multiFiles.length).show();
-
-                    input.__fileHolder.innerHTML = "";;
-
-                    var fileLength = input.multiFiles.length;
-
-                    if (fileLength > 0) {
-                        for (var i = 0; i < fileLength; i++) {
-
-                            var div2 = document.createElement('div');
-                            div2.className = 'control';
-
-                            var div3 = document.createElement('div');
-                            div3.className = 'tags has-addons';
-
-                            var nome = document.createElement('span');
-                            nome.className = 'tag is-dark';
-                            nome.innerHTML = input.multiFiles[i].name;
-
-                            var del = document.createElement('a');
-                            del.className = 'tag is-delete is-primary';
-                            del.title = 'remove this file';
-
-                            input.__fileHolder.appendChild(div3);
-                            addDeleteBtn(i, input, input.multiFiles[i].name);
-                        }
-                    } else {
-                        $("#formesconde").show();
-                        input.__fileHolder.innerHTML = 'Selecione um arquivo';
-                    }
-                },
-                false);
-            div3.append(del);
-            input.__fileHolder.appendChild(div2);
-        }
-
 
         function ValidaMascara(valor) {
 
@@ -221,65 +158,8 @@
         });
 
 
-        function SetorSelecionado(idSetor) {
-            $("#CategoriaFuncionario").empty();
-            if (idSetor.value === "42") {
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '/Webdesk/RetornaCategoriaAberturaChamado',
-                        dataType: 'html',
-                        cache: true,
-                        async: true,
-                        data: { "IdSetor": idSetor.value },
-                        success: function (data) {
-                            $("#CategoriaFuncionario").append(data);
-                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                            $("form").removeData("validator");
-                            $("form").removeData("unobtrusiveValidation");
-                            $.validator.unobtrusive.parse("form");
-                        }
-                    });
-            } else {
-                $.ajax(
-                    {
-                        type: 'POST',
-                        url: '/Webdesk/RetornaCategoriaFuncionario',
-                        dataType: 'html',
-                        cache: true,
-                        async: true,
-                        data: { "IdSetor": idSetor.value },
-                        success: function (data) {
-                            $("#CategoriaFuncionario").append(data);
-                            $.validator.unobtrusive.parse($("#CategoriaFuncionario"));
-                            $("form").removeData("validator");
-                            $("form").removeData("unobtrusiveValidation");
-                            $.validator.unobtrusive.parse("form");
-                        }
-                    });
-            }
-        }
-        function CategoriaSelecionado(idCategoria) {
-            $("#FormularioCategoria").empty();
-            $.ajax(
-                {
-                    type: 'POST',
-                    url: '/Webdesk/RetornaFormulario',
-                    dataType: 'html',
-                    cache: true,
-                    async: true,
-                    data: { "IdCategoria": idCategoria.value },
-                    success: function (data) {
-                        if (data.length > 0) {
-                            $('#ModalFormulario').removeClass();
-                            $('#ModalFormulario').addClass('modal is-active');
-                            $("#FormularioCategoria").append(data);
-                        } else {
-                            $("#Cadastro").submit();
-                        }
-                    }
-                });
-        }
+
+       
 
     </script>
     <style>
@@ -304,19 +184,19 @@
     </style>
     <div class="column is-12">
 
-        <div class="column is-6" id="Parametros" style="float:left">
+        <div class="column is-4" id="Parametros" style="float:left">
 
             <div class="columns">
                 <div class="column -is-6">
                     <nav class="panel">
                         <p class="panel-heading">
-                            Parâmetros
+                            Parï¿½metros
                         </p>
                         <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
                             <span class="panel-icon">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            Funcionários
+                            Funcionï¿½rios
                         </a>
                         <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
                             <span class="panel-icon">
@@ -324,14 +204,12 @@
                             </span>
                             Grupos
                         </a>
-
-
                     </nav>
                 </div>
             </div>
         </div>
 
-        <div class="column is-6" id="ParametroSelecionado"  style="float:right">
+        <div class="column is-8" id="ParametroSelecionado"  style="float:right">
         </div>
 
     </div>

@@ -38,7 +38,7 @@ namespace PortalSicoobDivicred.Aplicacao
             else
                 controller.TempData["PermissaoTesouraria"] = "display: none";
 
-            if (verificaDados.PermissaoParametros(dadosUsuarioBanco[0]["login"]))
+            if (_verificaDados.PermissaoParametros(dadosUsuarioBanco[0]["login"]))
                 controller.TempData["PermissaoParametros"] =
                     " ";
             else

@@ -76,7 +76,8 @@ namespace PortalSicoobDivicred.Controllers
             if (logado)
             {
                 var dadosGrupos = verificaDados.RetornaGrupos();
-                return PartialView("ParametrosFuncionario", dadosGrupos);
+
+                return PartialView("ParametrosFuncionario");
             }
 
             return RedirectToAction("Login", "Login");
@@ -109,8 +110,8 @@ namespace PortalSicoobDivicred.Controllers
             {
 
                 //var login = Criptografa.Descriptografar(cookie.Value);
-                insereDados.InsereUsuario(dados.NomeFuncionario,dados.Pa,dados.dataAdmissao,dados.CpfFuncionario,dados.RgFuncionario,
-                    dados.PisFuncionario,dados.Estagiario,dados.LoginFuncionario,"123",dados.Email,dados.idDescricaoGrupo,dados.Gestor, dados.Matricula);
+                insereDados.InsereUsuario(dados.NomeFuncionario,dados.Pa,dados.DataAdmissao,dados.CpfFuncionario,dados.RgFuncionario,
+                    dados.PisFuncionario,dados.Estagiario,dados.LoginFuncionario,"123",dados.Email,dados.IdDescricaoGrupo,dados.Gestor, dados.Matricula);
                 
                 /*
                 var login = Criptografa.Descriptografar(cookie.Value);

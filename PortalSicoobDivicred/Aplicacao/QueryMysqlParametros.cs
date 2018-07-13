@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using PortalSicoobDivicred.Repositorios;
 using System.Web.Mvc;
 using System.Web;
-
+using System;
 
 
 
@@ -41,7 +41,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public void InsereUsuario(string nome,int pa, DateTime dataAdmissao,string cpf,string rg,string pis,
+        public void InsereUsuario(string nome,int pa,DateTime dataAdmissao,string cpf,string rg,string pis,
             string estagiario,string login,string senha,string email,int idgrupo,string gestor,string matricula)
         {
             var queryInsereFuncionario =

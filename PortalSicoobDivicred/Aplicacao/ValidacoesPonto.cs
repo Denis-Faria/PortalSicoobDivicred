@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -657,52 +658,70 @@ namespace PortalSicoobDivicred.Aplicacao
             return faltaConfirmacao;
         }
 
-        public List<Dictionary<string, string>> RetornaPendenciasSetor(string idSetor)
+        public List<Dictionary<string, string>> RetornaPendenciasSetor(ArrayList idSetor)
         {
             var faltaConfirmacao = new List<Dictionary<string, string>>();
 
             var dadosRh = new QueryMysqlRh();
             var queryFire = new QueryFirebird();
-            var todasPendencias = dadosRh.RetornaPendenciasSetor(idSetor);
 
-            for (var i = 0; i < todasPendencias.Count; i++)
+            for (int k = 0; k < idSetor.Count; k++)
             {
-                var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
-                var idFuncionarioFirebird = queryFire.RetornaIdFuncionario(todasPendencias[i]["nome"]);
+                var todasPendencias = dadosRh.RetornaPendenciasSetor(idSetor[k].ToString());
 
-                var confirmar = new Dictionary<string, string>();
-                if (todasPendencias[i]["validacaogestor"].Equals("S"))
-                    confirmar.Add("ConfirmaGestor", "true");
-                else
-                    confirmar.Add("ConfirmaGestor", "false");
-                confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
-                confirmar.Add("Nome", todasPendencias[i]["nome"]);
-                confirmar.Add("IdFuncionarioFireBird", idFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
-                confirmar.Add("Data", todasPendencias[i]["data"]);
-                confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
-                var validado = false;
+                for (var i = 0; i < todasPendencias.Count; i++)
+                {
+                    var dadosPendencia = dadosRh.RetornaDadosPendencias(todasPendencias[i]["id"]);
+                    var idFuncionarioFirebird = queryFire.RetornaIdFuncionario(todasPendencias[i]["nome"]);
 
-                for (var j = 0; j < dadosPendencia.Count; j++)
-                    if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
-                        dadosPendencia[j]["observacao"] == null)
-                    {
-                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
-                    }
+                    var confirmar = new Dictionary<string, string>();
+                    if (todasPendencias[i]["validacaogestor"].Equals("S"))
+                        confirmar.Add("ConfirmaGestor", "true");
                     else
-                    {
-                        validado = true;
-                        if (dadosPendencia[j]["observacao"] != null)
+                        confirmar.Add("ConfirmaGestor", "false");
+                    confirmar.Add("IdPendencia", todasPendencias[i]["id"]);
+                    confirmar.Add("Nome", todasPendencias[i]["nome"]);
+                    confirmar.Add("IdFuncionarioFireBird", idFuncionarioFirebird[0]["ID_FUNCIONARIO"]);
+                    confirmar.Add("Data", todasPendencias[i]["data"]);
+                    confirmar.Add("TotalHorario", dadosPendencia.Count.ToString());
+                    var validado = false;
+
+                    for (var j = 0; j < dadosPendencia.Count; j++)
+                        if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
+                            dadosPendencia[j]["observacao"] == null)
                         {
-                            if (dadosPendencia[j]["observacao"].Length > 0)
+                            confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
+                        }
+                        else
+                        {
+                            validado = true;
+                            if (dadosPendencia[j]["observacao"] != null)
                             {
-                                var justificativa = dadosPendencia[j]["observacao"];
-                                try
+                                if (dadosPendencia[j]["observacao"].Length > 0)
                                 {
-                                    confirmar.Add("Justificativa" + i, justificativa);
+                                    var justificativa = dadosPendencia[j]["observacao"];
+                                    try
+                                    {
+                                        confirmar.Add("Justificativa" + i, justificativa);
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
                                 }
-                                catch
+                                else
                                 {
-                                    // ignored
+                                    var justificativa =
+                                        queryFire.RecuperaJustificativasFuncioanrio(
+                                            dadosPendencia[j]["idjustificativafirebird"]);
+                                    try
+                                    {
+                                        confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
                                 }
                             }
                             else
@@ -719,31 +738,113 @@ namespace PortalSicoobDivicred.Aplicacao
                                     // ignored
                                 }
                             }
+
+                            confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
+                        }
+
+                    if (validado)
+                        confirmar.Add("Justificado", "true");
+                    else
+                        confirmar.Add("Justificado", "false");
+
+                    faltaConfirmacao.Add(confirmar);
+                }
+            }
+
+            return faltaConfirmacao;
+        }
+
+        public List<Dictionary<string, string>> RetornaPendenciasFuncionarioValidar(ArrayList idFuncionario)
+        {
+            var faltaConfirmacao = new List<Dictionary<string, string>>();
+
+            var dadosRh = new QueryMysqlRh();
+            var queryFire = new QueryFirebird();
+
+            for(int k = 0; k < idFuncionario.Count; k++)
+            {
+                var todasPendencias = dadosRh.RetornaPendenciasUsuario(  idFuncionario[k].ToString() );
+
+                for(var i = 0; i < todasPendencias.Count; i++)
+                {
+                    var dadosPendencia = dadosRh.RetornaDadosPendencias( todasPendencias[i]["id"] );
+                    var idFuncionarioFirebird = queryFire.RetornaIdFuncionario( todasPendencias[i]["nome"] );
+
+                    var confirmar = new Dictionary<string, string>();
+                    if(todasPendencias[i]["validacaogestor"].Equals( "S" ))
+                        confirmar.Add( "ConfirmaGestor", "true" );
+                    else
+                        confirmar.Add( "ConfirmaGestor", "false" );
+                    confirmar.Add( "IdPendencia", todasPendencias[i]["id"] );
+                    confirmar.Add( "Nome", todasPendencias[i]["nome"] );
+                    confirmar.Add( "IdFuncionarioFireBird", idFuncionarioFirebird[0]["ID_FUNCIONARIO"] );
+                    confirmar.Add( "Data", todasPendencias[i]["data"] );
+                    confirmar.Add( "TotalHorario", dadosPendencia.Count.ToString() );
+                    var validado = false;
+
+                    for(var j = 0; j < dadosPendencia.Count; j++)
+                        if(dadosPendencia[j]["idjustificativafirebird"].Equals( "0" ) &&
+                            dadosPendencia[j]["observacao"] == null)
+                        {
+                            confirmar.Add( "Horario" + j, dadosPendencia[j]["horario"] );
                         }
                         else
                         {
-                            var justificativa =
-                                queryFire.RecuperaJustificativasFuncioanrio(
-                                    dadosPendencia[j]["idjustificativafirebird"]);
-                            try
+                            validado = true;
+                            if(dadosPendencia[j]["observacao"] != null)
                             {
-                                confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
+                                if(dadosPendencia[j]["observacao"].Length > 0)
+                                {
+                                    var justificativa = dadosPendencia[j]["observacao"];
+                                    try
+                                    {
+                                        confirmar.Add( "Justificativa" + i, justificativa );
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
+                                }
+                                else
+                                {
+                                    var justificativa =
+                                        queryFire.RecuperaJustificativasFuncioanrio(
+                                            dadosPendencia[j]["idjustificativafirebird"] );
+                                    try
+                                    {
+                                        confirmar.Add( "Justificativa" + i, justificativa[0]["DESCRICAO"] );
+                                    }
+                                    catch
+                                    {
+                                        // ignored
+                                    }
+                                }
                             }
-                            catch
+                            else
                             {
-                                // ignored
+                                var justificativa =
+                                    queryFire.RecuperaJustificativasFuncioanrio(
+                                        dadosPendencia[j]["idjustificativafirebird"] );
+                                try
+                                {
+                                    confirmar.Add( "Justificativa" + i, justificativa[0]["DESCRICAO"] );
+                                }
+                                catch
+                                {
+                                    // ignored
+                                }
                             }
+
+                            confirmar.Add( "Horario" + j, dadosPendencia[j]["horario"] );
                         }
 
-                        confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
-                    }
+                    if(validado)
+                        confirmar.Add( "Justificado", "true" );
+                    else
+                        confirmar.Add( "Justificado", "false" );
 
-                if (validado)
-                    confirmar.Add("Justificado", "true");
-                else
-                    confirmar.Add("Justificado", "false");
-
-                faltaConfirmacao.Add(confirmar);
+                    faltaConfirmacao.Add( confirmar );
+                }
             }
 
             return faltaConfirmacao;

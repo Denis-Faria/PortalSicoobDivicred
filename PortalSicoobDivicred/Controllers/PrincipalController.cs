@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Nest;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
 
@@ -271,6 +274,14 @@ namespace PortalSicoobDivicred.Controllers
                     ModelState.AddModelError( "", "Favor confirmar que suas informações são verdadeiras" );
                 }
 
+                var erros = new ArrayList();
+                foreach(ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach(ModelError error in modelState.Errors)
+                    {
+                        erros.Add( error );
+                    }
+                }
                 if(ModelState.IsValid)
                 {
                     var cookie = Request.Cookies.Get( "CookieFarm" );
@@ -611,57 +622,146 @@ namespace PortalSicoobDivicred.Controllers
                 var verificaDados = new QueryMysql();
 
                 var dadosTabelaFuncionario = verificaDados.RecuperadadosFuncionariosTabelaFuncionariosPerfil( login );
-                var dadosPendencias = validacoes.RetornaPendenciasSetor( dadosTabelaFuncionario[0]["idsetor"] );
+                var setoresValidacoes = verificaDados.RetornaTodosSetoresJustificativa(dadosTabelaFuncionario[0]["id"]);
+                var idSetores = new ArrayList();
+                var idFuncionarios = new ArrayList();
 
-                TempData["TotalPonto"] = dadosPendencias.Count;
+                for (int i= 0; i < setoresValidacoes.Count; i++)
+                {
+                    if (setoresValidacoes[i]["idfuncionario"].Equals("0"))
+                    {
+                        idSetores.Add(setoresValidacoes[i]["idsetor"]);
+                    }
+                    else
+                    {
+                        idFuncionarios.Add(setoresValidacoes[i]["idfuncionario"]);
+                    }
+                }
+                var dadosPendencias = new List<Dictionary<string, string>>();
+                var dadosPendenciasFuncionarios = new List<Dictionary<string, string>>();
 
+                if (setoresValidacoes.Count > 0)
+                {
+                     dadosPendencias = validacoes.RetornaPendenciasSetor(idSetores);
+                    dadosPendenciasFuncionarios = validacoes.RetornaPendenciasFuncionarioValidar( idFuncionarios );
+                }
+                else
+                {
+                    idSetores.Add(dadosTabelaFuncionario[0]["idsetor"]);
+                   dadosPendencias = validacoes.RetornaPendenciasSetor( idSetores);
+                    
+                }
+
+                
+
+                int count = 0; 
 
                 TempData["Extra1"] = "hidden";
                 TempData["Extra2"] = "hidden";
-                for(var i = 0; i < dadosPendencias.Count; i++)
-                    if(!Convert.ToBoolean( dadosPendencias[i]["ConfirmaGestor"] ))
+                for (var i = 0; i < dadosPendencias.Count; i++)
+                {
+                    if (!Convert.ToBoolean(dadosPendencias[i]["ConfirmaGestor"]))
                     {
-                        TempData["IdPendencia" + i] = dadosPendencias[i]["IdPendencia"];
-                        TempData["DiaPendencia" + i] =
-                            Convert.ToDateTime( dadosPendencias[i]["Data"] ).ToString( "dd/MM/yyyy" );
-                        TempData["NomePendencia" + i] = dadosPendencias[i]["Nome"];
-                        TempData["IdFuncionario" + i] = dadosPendencias[0]["IdFuncionarioFireBird"];
-                        TempData["TotalHorarioPendencia" + i] = dadosPendencias[i]["TotalHorario"];
+                        TempData["IdPendencia" + count] = dadosPendencias[i]["IdPendencia"];
+                        TempData["DiaPendencia" + count] =
+                            Convert.ToDateTime(dadosPendencias[i]["Data"]).ToString("dd/MM/yyyy");
+                        TempData["NomePendencia" + count] = dadosPendencias[i]["Nome"];
+                        TempData["IdFuncionario" + count] = dadosPendencias[0]["IdFuncionarioFireBird"];
+                        TempData["TotalHorarioPendencia" + count] = dadosPendencias[i]["TotalHorario"];
 
-                        if(4 - Convert.ToInt32( dadosPendencias[i]["TotalHorario"] ) > 0)
+                        if (4 - Convert.ToInt32(dadosPendencias[i]["TotalHorario"]) > 0)
                         {
-                            TempData["TotalTextBox" + i] = 4 - Convert.ToInt32( dadosPendencias[i]["TotalHorario"] );
+                            TempData["TotalTextBox" + count] = 4 - Convert.ToInt32(dadosPendencias[i]["TotalHorario"]);
                         }
                         else
                         {
-                            if(Convert.ToInt32( dadosPendencias[i]["TotalHorario"] ) == 5)
+                            if (Convert.ToInt32(dadosPendencias[i]["TotalHorario"]) == 5)
                             {
                                 TempData["Extra1"] = "";
                             }
-                            else if(Convert.ToInt32( dadosPendencias[i]["TotalHorario"] ) == 6)
+                            else if (Convert.ToInt32(dadosPendencias[i]["TotalHorario"]) == 6)
                             {
                                 TempData["Extra1"] = "";
                                 TempData["Extra2"] = "";
                             }
 
-                            TempData["TotalTextBox" + i] = 0;
+                            TempData["TotalTextBox" + count] = 0;
                         }
 
-                        for(var j = 0; j < Convert.ToInt32( dadosPendencias[i]["TotalHorario"] ); j++)
-                            TempData["Hora" + j + "Pendencia" + i] = dadosPendencias[i]["Horario" + j];
-                        if(Convert.ToBoolean( dadosPendencias[i]["Justificado"] ))
+
+
+                        for (var j = 0; j < Convert.ToInt32(dadosPendencias[i]["TotalHorario"]); j++)
+                            TempData["Hora" + j + "Pendencia" + count] = dadosPendencias[i]["Horario" + j];
+                        if (Convert.ToBoolean(dadosPendencias[i]["Justificado"]))
                         {
-                            TempData["StatusJustificativa" + i] = "green";
-                            TempData["Justificativa" + i] = dadosPendencias[i]["Justificativa" + i];
-                            TempData["Esconde" + i] = "";
+                            TempData["StatusJustificativa" + count] = "green";
+                            TempData["Justificativa" + count] = dadosPendencias[i]["Justificativa" + i];
+                            TempData["Esconde" + count] = "";
                         }
                         else
                         {
-                            TempData["Justificativa" + i] = "NÃO JUSTIFICADO";
-                            TempData["StatusJustificativa" + i] = "red";
-                            TempData["Esconde" + i] = "hidden";
+                            TempData["Justificativa" + count] = "NÃO JUSTIFICADO";
+                            TempData["StatusJustificativa" + count] = "red";
+                            TempData["Esconde" + count] = "hidden";
                         }
+
+                        count++;
                     }
+                }
+
+                for (var i = 0; i < dadosPendenciasFuncionarios.Count; i++)
+                {
+                    if (!Convert.ToBoolean(dadosPendenciasFuncionarios[i]["ConfirmaGestor"]))
+                    {
+                        TempData["IdPendencia" + count] = dadosPendenciasFuncionarios[i]["IdPendencia"];
+                        TempData["DiaPendencia" + count] =
+                            Convert.ToDateTime(dadosPendenciasFuncionarios[i]["Data"]).ToString("dd/MM/yyyy");
+                        TempData["NomePendencia" + count] = dadosPendenciasFuncionarios[i]["Nome"];
+                        TempData["IdFuncionario" + count] = dadosPendenciasFuncionarios[0]["IdFuncionarioFireBird"];
+                        TempData["TotalHorarioPendencia" + count] = dadosPendenciasFuncionarios[i]["TotalHorario"];
+
+                        if (4 - Convert.ToInt32(dadosPendenciasFuncionarios[i]["TotalHorario"]) > 0)
+                        {
+                            TempData["TotalTextBox" + count] =
+                                4 - Convert.ToInt32(dadosPendenciasFuncionarios[i]["TotalHorario"]);
+                        }
+                        else
+                        {
+                            if (Convert.ToInt32(dadosPendenciasFuncionarios[i]["TotalHorario"]) == 5)
+                            {
+                                TempData["Extra1"] = "";
+                            }
+                            else if (Convert.ToInt32(dadosPendenciasFuncionarios[i]["TotalHorario"]) == 6)
+                            {
+                                TempData["Extra1"] = "";
+                                TempData["Extra2"] = "";
+                            }
+
+                            TempData["TotalTextBox" + count] = 0;
+                        }
+
+                        for (var j = 0; j < Convert.ToInt32( dadosPendenciasFuncionarios[i]["TotalHorario"]); j++)
+                            TempData["Hora" + j + "Pendencia" + count] = dadosPendenciasFuncionarios[i]["Horario" + j];
+                        if (Convert.ToBoolean( dadosPendenciasFuncionarios[i]["Justificado"]))
+                        {
+                            TempData["StatusJustificativa" + count] = "green";
+                            TempData["Justificativa" + count] = dadosPendenciasFuncionarios[i]["Justificativa" + i];
+                            TempData["Esconde" + count] = "";
+                        }
+                        else
+                        {
+                            TempData["Justificativa" + count] = "NÃO JUSTIFICADO";
+                            TempData["StatusJustificativa" + count] = "red";
+                            TempData["Esconde" + count] = "hidden";
+                        }
+
+                        count++;
+                    }
+
+                }
+
+
+                TempData["TotalPonto"] = count;
             }
 
             return PartialView( "JustificativaSetor" );

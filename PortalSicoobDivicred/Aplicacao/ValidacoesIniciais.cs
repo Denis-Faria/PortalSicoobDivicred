@@ -49,6 +49,17 @@ namespace PortalSicoobDivicred.Aplicacao
                 controller.TempData["AreaGestor"] = "N";
             }
 
+            if (_verificaDados.PermissaoJustificativaSetor(dadosUsuarioBanco[0]["id"]))
+            {
+                controller.TempData["PermissaoGestor"] = "N";
+                controller.TempData["AreaGestor"] = "S";
+            }
+            else
+            {
+                controller.TempData["PermissaoGestor"] = "N";
+                controller.TempData["AreaGestor"] = "N";
+            }
+
             if(_verificaDados.PermissaoControleFuncionario( dadosUsuarioBanco[0]["login"] ))
                 controller.TempData["PermissaoNumerario"] =
                     " ";

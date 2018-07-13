@@ -84,6 +84,25 @@ namespace PortalSicoobDivicred.Aplicacao
             }
         }
 
+        public bool PermissaoJustificativaSetor(string idUsuario)
+        {
+            var query =
+                "select * from gestoresjustificativaspontos where idgestor='" +
+                idUsuario + "'";
+
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            try
+            {
+                if(dados.Count>0)
+                    return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool PermissaoPesquisaWebdDesk(string usuario)
         {
             var query =
@@ -220,6 +239,16 @@ namespace PortalSicoobDivicred.Aplicacao
             var query =
                 "SELECT * FROM funcionarios WHERE login='" + usuarioSistema + "'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+
+
+            return dados;
+        }
+
+        public List<Dictionary<string, string>> RetornaTodosSetoresJustificativa(string idUsuario)
+        {
+            var query =
+                "SELECT idsetor,idfuncionario FROM gestoresjustificativaspontos WHERE idgestor='" + idUsuario + "'";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
 
 
             return dados;

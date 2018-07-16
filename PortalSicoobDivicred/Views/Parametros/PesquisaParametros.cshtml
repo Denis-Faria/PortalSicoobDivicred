@@ -1,0 +1,35 @@
+﻿<script>
+    function Seleciona(Id) {
+        $("#EdicaoFuncionario").removeAttr("hidden");
+        $("#SalvaFuncao").removeAttr("disabled ");
+        $("#ExcluirFuncao").removeAttr("disabled ");
+        $("#EdicaoFuncionario").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Parametros/RecuperaFuncionarios',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdFuncionario": Id },
+                success: function(data) {
+
+                    $("#EdicaoFuncionario").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div>
+    <ul>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
+        {
+            <li>
+                <a href="Javascript:Seleciona('@TempData["Id" + i]')">
+                    @TempData["Nome" + i]
+                </a>
+            </li>
+        }
+    </ul>
+</div>

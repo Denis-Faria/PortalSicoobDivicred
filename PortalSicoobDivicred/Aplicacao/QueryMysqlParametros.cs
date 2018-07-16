@@ -11,11 +11,12 @@ namespace PortalSicoobDivicred.Aplicacao
 {
     public class QueryMysqlParametros
     {
-        private readonly Conexao _conexaoMysql;
+        private readonly Conexao ConexaoMysql;
+        
 
         public QueryMysqlParametros()
         {
-            _conexaoMysql = new Conexao();
+            ConexaoMysql = new Conexao();
         }
         public List<SelectListItem> RetornaGrupos()
         {
@@ -23,7 +24,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             const string queryRetornaGrupos = "SELECT id,descricao FROM grupos descricao where excluido='N' ";
 
-            var dados = _conexaoMysql.ExecutaComandoComRetorno(queryRetornaGrupos);
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaGrupos);
             foreach (var row in dados)
                 grupos.Add(new SelectListItem
                 {
@@ -42,16 +43,32 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public void InsereUsuario(string nome,int pa, DateTime dataAdmissao,string cpf,string rg,string pis,
+        public void InsereUsuario(string nome,int pa, string dataAdmissao,string cpf,string rg,string pis,
             string estagiario,string login,string senha,string email,int idgrupo,string gestor,string matricula)
         {
             var queryInsereFuncionario =
                 "INSERT INTO funcionarios (nome,idpa,admissao,cpf,rg,pis,estagiario,login,senha,email,idgrupo,gestor,matricula) values ('" +
-                nome + "','" + pa + "','" + dataAdmissao.ToString("yyyy-MM-dd") +
+                nome + "','" + pa + "','" + Convert.ToDateTime(dataAdmissao).ToString("yyyy-MM-dd") +
                 "','"+cpf+"','" + rg + "','" + pis+ "','" +
                 estagiario+ "','"+login+"','"+senha+"','"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
-            _conexaoMysql.ExecutaComando(queryInsereFuncionario);
+            ConexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
+
+        public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
+        {
+            var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' order by nome";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosFuncionario(string IdFuncionario)
+        {
+            var Query = "Select * from funcionarios where id='" + IdFuncionario + "'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        
 
     }
 }

@@ -83,20 +83,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
-        public ActionResult Cadastro()
-        {
-
-            var consultaDados = new QueryMysqlCim();
-            var verificaDadosLogin = new QueryMysql();
-            var dadosPGD = new Pgd();
-            var dadosTabelaPGD = consultaDados.RetornaProdutos();
-            dadosPGD.DescricaoProduto = dadosTabelaPGD;
-            dadosTabelaPGD = verificaDadosLogin.RetornaFuncionario();
-            dadosPGD.NomeFuncionario = dadosTabelaPGD;
-
-
-            return PartialView("Cadastro", dadosPGD);
-        }
+        
 
 
         [HttpPost]
@@ -147,28 +134,58 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
         }
-
+        
         [HttpPost]
         public ActionResult BuscarFuncionario(string DescricaoFuncao)
         {
-            var VerificaDados = new QueryMysqlRh();
+            var VerificaDados = new QueryMysqlParametros();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var Funcoes = VerificaDados.BuscaFuncao(DescricaoFuncao);
-                for (var i = 0; i < Funcoes.Count; i++)
+                var Funcionarios = VerificaDados.BuscaFuncionario(DescricaoFuncao);
+                for (var i = 0; i < Funcionarios.Count; i++)
                 {
-                    TempData["Id" + i] = Funcoes[i]["id"];
-                    TempData["Descricao" + i] = Funcoes[i]["descricao"];
+                    TempData["Id" + i] = Funcionarios[i]["id"];
+                    TempData["Nome" + i] = Funcionarios[i]["nome"];
                 }
 
-                TempData["TotalResultado"] = Funcoes.Count;
+                TempData["TotalResultado"] = Funcionarios.Count;
                 TempData["Editar"] = "EditarFuncao";
-                return PartialView("ResultadoPesquisa");
+                return PartialView("PesquisaParametros");
             }
 
             return RedirectToAction("Login", "Login");
         }
 
+        [HttpPost]
+        public ActionResult RecuperaFuncionarios(string IdFuncionario)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                //var Certificacoes = VerificaDados.RetornaCertificacoes();
+                var DadosFuncionario = VerificaDados.RecuperaDadosFuncionario(IdFuncionario);
+                var FuncionarioRecupera = new Parametros();
+                
+                var dadosTablelaGrupo = VerificaDados.RetornaGrupos();
+                FuncionarioRecupera.DescricaoGrupo = dadosTablelaGrupo;
+                FuncionarioRecupera.idDescricaoGrupo = Convert.ToInt32(DadosFuncionario[0]["idgrupo"]);
+                FuncionarioRecupera.dataAdmissao = Convert.ToDateTime(DadosFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
+                FuncionarioRecupera.NomeFuncionario = DadosFuncionario[0]["nome"];
+                FuncionarioRecupera.Pa = Convert.ToInt32(DadosFuncionario[0]["idpa"]);
+                FuncionarioRecupera.CpfFuncionario = DadosFuncionario[0]["cpf"];
+                FuncionarioRecupera.RgFuncionario = DadosFuncionario[0]["rg"];
+                FuncionarioRecupera.PisFuncionario = DadosFuncionario[0]["pis"];
+                FuncionarioRecupera.LoginFuncionario = DadosFuncionario[0]["login"];
+
+
+                return PartialView("EditarFuncionario", FuncionarioRecupera);
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        
     }
 }

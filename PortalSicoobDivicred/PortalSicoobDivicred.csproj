@@ -949,6 +949,8 @@
     <Content Include="Views\WebDesk\ParametrosFuncionario.cshtml" />
     <Content Include="Views\Parametros\Parametros.cshtml" />
     <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
+    <Content Include="Views\Parametros\PesquisaParametros.cshtml" />
+    <Content Include="Views\Parametros\EditarFuncionario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

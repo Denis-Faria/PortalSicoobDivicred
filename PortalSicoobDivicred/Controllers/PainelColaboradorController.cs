@@ -979,25 +979,29 @@ namespace PortalSicoobDivicred.Controllers
                         // ignored
                     }
 
-
-                    var envia = new EnviodeAlertas();
-                    var cadastroAlerta = new QueryMysql();
-
-                    var dadosOperador =
-                        cadastroAlerta.RetornaInformacoesNotificacao( dadosFuncionario[0]["id"]);
-                    if(dadosOperador != null)
+                    try
                     {
-                        await envia.EnviaAlertaFuncionario( dadosOperador[0], "Você tem justificativas pendentes.",
-                            "11" );
-                        if(dadosOperador[0]["idsetor"] != null && dadosFuncionario[0]["idsetor"].ToString().Length > 0)
+                        var envia = new EnviodeAlertas();
+                        var cadastroAlerta = new QueryMysql();
+
+                        var dadosOperador =
+                            cadastroAlerta.RetornaInformacoesNotificacao(dadosFuncionario[0]["id"]);
+                        if (dadosOperador != null)
                         {
-                            var dadosGestor = cadastroAlerta.RetornaInformacoesGestor( dadosOperador[0]["idsetor"] );
-                            if(dadosGestor != null && dadosGestor.Count > 0)
-                                await envia.EnviaAlertaFuncionario( dadosGestor[0],
-                                    "O funcionário " + dadosOperador[0]["nome"] + " tem justificativas pendentes",
-                                    "11" );
+                            await envia.EnviaAlertaFuncionario(dadosOperador[0], "Você tem justificativas pendentes.",
+                                "11");
+                            if (dadosOperador[0]["idsetor"] != null &&
+                                dadosFuncionario[0]["idsetor"].ToString().Length > 0)
+                            {
+                                var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
+                                if (dadosGestor != null && dadosGestor.Count > 0)
+                                    await envia.EnviaAlertaFuncionario(dadosGestor[0],
+                                        "O funcionário " + dadosOperador[0]["nome"] + " tem justificativas pendentes",
+                                        "11");
+                            }
                         }
                     }
+                    catch { }
                 }
 
                 return Json( "Ok" );
@@ -1022,27 +1026,34 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
-                var funcionarioPendentes = verificaDados.RetornaPendenciaAlerta();
-                for(var i = 0; i < funcionarioPendentes.Count; i++)
+                try
                 {
-                    verificaDados.CadastraAlertaJustificativa( funcionarioPendentes[i]["idfuncionario"],
-                        dados["TextAlerta"] );
-
-                    var envia = new EnviodeAlertas();
-                    var cadastroAlerta = new QueryMysql();
-
-                    var dadosOperador =
-                        cadastroAlerta.RetornaInformacoesNotificacao( funcionarioPendentes[i]["idfuncionario"] );
-                    if(dadosOperador != null)
+                    var funcionarioPendentes = verificaDados.RetornaPendenciaAlerta();
+                    for (var i = 0; i < funcionarioPendentes.Count; i++)
                     {
-                        await envia.EnviaAlertaFuncionario( dadosOperador[0], dados["TextAlerta"],
-                            "11" );
+                        verificaDados.CadastraAlertaJustificativa(funcionarioPendentes[i]["idfuncionario"],
+                            dados["TextAlerta"]);
 
-                        var dadosGestor = cadastroAlerta.RetornaInformacoesGestor( dadosOperador[0]["idsetor"] );
-                        if(dadosGestor.Count > 0)
-                            await envia.EnviaAlertaFuncionario( dadosGestor[0], dados["TextAlerta"],
-                                "11" );
+                        var envia = new EnviodeAlertas();
+                        var cadastroAlerta = new QueryMysql();
+
+                        var dadosOperador =
+                            cadastroAlerta.RetornaInformacoesNotificacao(funcionarioPendentes[i]["idfuncionario"]);
+                        if (dadosOperador != null)
+                        {
+                            await envia.EnviaAlertaFuncionario(dadosOperador[0], dados["TextAlerta"],
+                                "11");
+
+                            var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
+                            if (dadosGestor.Count > 0)
+                                await envia.EnviaAlertaFuncionario(dadosGestor[0], dados["TextAlerta"],
+                                    "11");
+                        }
                     }
+                }
+                catch(Exception e)
+                {
+
                 }
 
                 return RedirectToAction( "ColaboradorRh", "PainelColaborador",

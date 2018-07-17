@@ -50,7 +50,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 "INSERT INTO funcionarios (nome,idpa,admissao,cpf,rg,pis,estagiario,login,senha,email,idgrupo,gestor,matricula) values ('" +
                 nome + "','" + pa + "','" + Convert.ToDateTime(dataAdmissao).ToString("yyyy-MM-dd") +
                 "','"+cpf+"','" + rg + "','" + pis+ "','" +
-                estagiario+ "','"+login+"','"+senha+"','"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
+                estagiario+ "','"+login+"',md5('"+senha+"'),'"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
             ConexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
 
@@ -68,7 +68,18 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
-        
+        public void AtualizaUsuario(int id,string nome, int pa, string dataAdmissao, string cpf, string rg, string pis,
+            string estagiario, string login,string email, int idgrupo, string gestor, string matricula)
+        {
+            var queryAlteraFuncionario = "UPDATE FUNCIONARIOS SET nome='" + nome + "',pa='" + pa + "',admissao='" +
+                                         cpf + "',rg='" + rg + "',pis='" + pis + "',estagiario='" + estagiario + "'" +
+                                         " login='" + login + "',email='" + email + "',idgrupo='" + idgrupo +
+                                         "',gestor='" + gestor + "',matricula='" + matricula + "' where id='"+id+"'";            
+            var Dados = ConexaoMysql.ExecutaComando(queryAlteraFuncionario);
+            
+        }
+
+
 
     }
 }

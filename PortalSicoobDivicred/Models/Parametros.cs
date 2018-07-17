@@ -16,8 +16,9 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o seu nome!")]
         public List<SelectListItem> DescricaoGrupo { get; set; }
 
-        
-       
+
+
+        public int id { get; set;}
 
         [Required(ErrorMessage = "Favor informar o seu nome!")]
         public string NomeFuncionario { get; set; }

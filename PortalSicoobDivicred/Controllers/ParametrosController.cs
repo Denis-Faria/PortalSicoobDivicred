@@ -49,13 +49,13 @@ namespace PortalSicoobDivicred.Controllers
             var logado = verificaDados.UsuarioLogado();
             if (logado)
             {
-               
+
                 var dadosGrupos = new Parametros();
                 var dadosTablelaGrupo = verificaDados.RetornaGrupos();
                 dadosGrupos.DescricaoGrupo = dadosTablelaGrupo;
-                
 
-                return PartialView("ParametrosFuncionario",dadosGrupos);
+
+                return PartialView("ParametrosFuncionario", dadosGrupos);
             }
             return RedirectToAction("Login", "Login");
         }
@@ -83,7 +83,7 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
-        
+
 
 
         [HttpPost]
@@ -96,9 +96,9 @@ namespace PortalSicoobDivicred.Controllers
             {
 
                 //var login = Criptografa.Descriptografar(cookie.Value);
-                insereDados.InsereUsuario(dados.NomeFuncionario,dados.Pa,dados.dataAdmissao,dados.CpfFuncionario,dados.RgFuncionario,
-                    dados.PisFuncionario,dados.Estagiario,dados.LoginFuncionario,"123",dados.Email,dados.idDescricaoGrupo,dados.Gestor, dados.Matricula);
-                
+                insereDados.InsereUsuario(dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
+                    dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, "123", dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
+
                 /*
                 var login = Criptografa.Descriptografar(cookie.Value);
 
@@ -134,15 +134,15 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
         }
-        
+
         [HttpPost]
-        public ActionResult BuscarFuncionario(string DescricaoFuncao)
+        public ActionResult BuscarFuncionario(string NomeFuncionario)
         {
             var VerificaDados = new QueryMysqlParametros();
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
-                var Funcionarios = VerificaDados.BuscaFuncionario(DescricaoFuncao);
+                var Funcionarios = VerificaDados.BuscaFuncionario(NomeFuncionario);
                 for (var i = 0; i < Funcionarios.Count; i++)
                 {
                     TempData["Id" + i] = Funcionarios[i]["id"];
@@ -167,7 +167,7 @@ namespace PortalSicoobDivicred.Controllers
                 //var Certificacoes = VerificaDados.RetornaCertificacoes();
                 var DadosFuncionario = VerificaDados.RecuperaDadosFuncionario(IdFuncionario);
                 var FuncionarioRecupera = new Parametros();
-                
+
                 var dadosTablelaGrupo = VerificaDados.RetornaGrupos();
                 FuncionarioRecupera.DescricaoGrupo = dadosTablelaGrupo;
                 FuncionarioRecupera.idDescricaoGrupo = Convert.ToInt32(DadosFuncionario[0]["idgrupo"]);
@@ -178,6 +178,10 @@ namespace PortalSicoobDivicred.Controllers
                 FuncionarioRecupera.RgFuncionario = DadosFuncionario[0]["rg"];
                 FuncionarioRecupera.PisFuncionario = DadosFuncionario[0]["pis"];
                 FuncionarioRecupera.LoginFuncionario = DadosFuncionario[0]["login"];
+                FuncionarioRecupera.Email = DadosFuncionario[0]["email"];
+                FuncionarioRecupera.Gestor = DadosFuncionario[0]["gestor"];
+                FuncionarioRecupera.Estagiario = DadosFuncionario[0]["estagiario"];
+                FuncionarioRecupera.Matricula = DadosFuncionario[0]["matricula"];
 
 
                 return PartialView("EditarFuncionario", FuncionarioRecupera);
@@ -186,6 +190,20 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
-        
+        public ActionResult AtualizaDadosFuncionario()
+        {
+            return PartialView("EditarFuncionario");
+        }
+
+        [HttpPost]
+        public ActionResult AtualizaDadosFuncionario(Parametros dados, FormCollection receberForm)
+        {
+            var atualizaFuncionario = new QueryMysqlParametros();
+            atualizaFuncionario.AtualizaUsuario(dados.id, dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
+                dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
+            return RedirectToAction("Parametros", new { MensagemValidacao = "Registro alterado com sucesso!!" });
+        }
+
+
     }
 }

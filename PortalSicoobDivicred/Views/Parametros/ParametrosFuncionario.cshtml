@@ -18,16 +18,20 @@
     });
 
     function Buscar() {
+        
+
         $("#ListaFuncionarios").empty();
         $.ajax(
-            {
+            { 
+                    
                 type: 'Post',
                 url: '/Parametros/BuscarFuncionario',
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "nome": $("#BuscaFuncionario").val() },
+                data: { "NomeFuncionario": $("#BuscaFuncionario").val() },
                 success: function (data) {
+                    
                     $("#ListaFuncionarios").append(data);
 
                 }
@@ -209,7 +213,7 @@
 
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
-                                    <input id="BuscaFuncao" class="input is-fullwidth" type="text" placeholder="Busque uma função.">
+                                    <input id="BuscaFuncionario" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-search"></i>
                                     </span>
@@ -225,14 +229,9 @@
                     </div>
                 </div>
                 <div id="EdicaoFuncionario" hidden>
-
                     <br/>
                 </div>
-
-
-
             </section>
-
         </div>
     </div>
 }

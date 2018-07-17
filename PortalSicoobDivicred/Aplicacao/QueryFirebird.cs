@@ -341,7 +341,7 @@ namespace PortalSicoobDivicred.Aplicacao
                 var cmdComando = CriarComandoSql(
                     "SELECT   b.ID_CARGO, a.HORA,a.DATA from MARCACAO a, FUNCIONARIO b WHERE a.DATA='" +
                     diaValidar.ToString("yyyy/MM/dd") + "' AND a.ID_FUNCIONARIO=" + idFuncionario +
-                    " AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO ORDER BY HORA ASC");
+                    " AND a.ID_FUNCIONARIO=b.ID_FUNCIONARIO  AND a.TIPO_MARCACAO!='D' ORDER BY HORA ASC" );
 
                 using (var reader = cmdComando.ExecuteReader())
                 {

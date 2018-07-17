@@ -745,7 +745,7 @@ namespace PortalSicoobDivicred.Controllers
                         if (Convert.ToBoolean( dadosPendenciasFuncionarios[i]["Justificado"]))
                         {
                             TempData["StatusJustificativa" + count] = "green";
-                            TempData["Justificativa" + count] = dadosPendenciasFuncionarios[i]["Justificativa" + i];
+                            TempData["Justificativa" + count] = dadosPendenciasFuncionarios[i]["Justificativa" + count];
                             TempData["Esconde" + count] = "";
                         }
                         else

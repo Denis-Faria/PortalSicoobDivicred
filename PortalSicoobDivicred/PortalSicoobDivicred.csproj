@@ -373,6 +373,7 @@
     <Content Include="Assets\js\iziToast.js" />
     <Content Include="Assets\js\iziToast.min.js" />
     <Content Include="Assets\js\jPages.min.js" />
+    <Content Include="Assets\js\jquery-time-duration-picker.js" />
     <Content Include="Assets\js\jquery-ui.min.js" />
     <Content Include="Assets\js\jquery.mask.js" />
     <Content Include="Assets\js\jquery.mask.min.js" />
@@ -759,13 +760,14 @@
     <Compile Include="Controllers\WebdeskController.cs" />
     <Compile Include="Aplicacao\ElasticEmailClient.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Models\Categorias.cs" />
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Certificacao.cs" />
     <Compile Include="Models\Criptografa.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Devices.cs" />
+    <Compile Include="Models\Formulario.cs" />
     <Compile Include="Models\Funcao.cs" />
     <Compile Include="Models\Funcionario.cs" />
     <Compile Include="Models\Item.cs" />

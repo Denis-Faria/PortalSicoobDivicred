@@ -1,22 +1,131 @@
-﻿<br/>
-<br/>
-<table id="TabelaFormulariosSetor" class="table is-hoverable is-centered is-fullwidth" style="text-align: center;">
-    <thead>
-    <th class="has-text-centered">Categoria</th>
-    <th class="has-text-centered">Campos do Formulário</th>
-    <th class="has-text-centered">Obrigatorio</th>
-    <th class="has-text-centered">Ações</th>
-    </thead>
-    <tbody>
+﻿@model PortalSicoobDivicred.Models.Formulario
 
-    @for (var j = 0; j < Convert.ToInt32(TempData["TotalFormularios"].ToString()); j++)
-    {
-        <tr>
-            <td class="has-text-centered">@TempData["CategoriaFormulario" + j].ToString()</td>
-            <td class="has-text-centered">@TempData["CamposFormulario" + j].ToString()</td>
-            <td class="has-text-centered">@TempData["CamposFormularioObrigatorio" + j].ToString()</td>
-            <td class="has-text-centered"></td>
-        </tr>
+
+
+
+
+<script>
+    $(function () {
+        $("#EscondeCombo").hide();
+        $('input[type=radio][name=Combo]').change(function () {
+
+            if (this.value === 'S') {
+                $("#EscondeCombo").show();
+                $("#EscondeCombo").removeAttr("hidden");
+            } else if (this.value === 'N') {
+                $("#EscondeCombo").hide();
+
+            }
+        });
+    });
+
+    function AdicionaCampo() {
+        $("#TabelaCampo tbody").append(
+            "<tr>" +
+            "<td>" +
+            $("#NomeCampo").val() +
+            "</td>" +
+            "<td>" + $('input[type=radio][name=CampoObrigatorio]').val() + "</td>" +
+            "<td>" + $('input[type=radio][name=Combo]').val() + "</td>" +
+            "<td>" +
+            $("#NomeCombo").val() +
+            "</td>" +
+            "<td> <div class='field'>" +
+            "<a class='button is-rounded is-danger excluir is-small' data-balloon='Remover Campo' data-balloon-pos='right' >" +
+            "<span class='icon is-small'><i class='fa fa-times' aria-hidden='true'></i></span></a></div></td>" +
+            "</tr>");
+        $(".excluir").bind("click", Excluir);
     }
-    </tbody>
-</table>
+
+    function Excluir(){
+        $(this).parents('tr').remove();
+    }
+
+  
+</script>
+
+
+
+<div>
+    <div class="field">
+        <div class="control">
+            <label class="label">Categoria Vinculada</label>
+            <div class="select is-fullwidth">
+                @Html.DropDownListFor( m => m.IdCategoria, new SelectList( Model.DescricaoCategoria, "Value", "Text" ), "SELECIONE A CATEGORIA", new { id = "Sexo" } )
+                @Html.ValidationMessageFor( m => m.IdCategoria, null, new { style = "color:red" } )
+            </div>
+        </div>
+    </div>
+    <div class="field is-grouped">
+
+        <p class="control column is-12 is-expanded">
+            <label class="label">Nome do Campo</label>
+            @Html.TextBoxFor( m => m.NomeCampo, null, new { @class = "input", placeholder = "Ex:CPF do cooperado", id = "NomeCampo" } )
+            @Html.ValidationMessageFor( m => m.NomeCampo, null, new { style = "color:red" } )
+        </p>
+    </div>
+    <div class="field is-grouped">
+        <div class="control column is-5">
+            <label class="label">O Campo é obrigatório ?</label>
+            <div class="field">
+                @Html.RadioButtonFor( m => m.CampoObrigatorio, "S", new { @class = "is-checkradio is-small", id = "checkobrigatoriosim" } )
+                <label for="checkobrigatoriosim">
+                    Sim
+                </label>
+                @Html.RadioButtonFor( m => m.CampoObrigatorio, "N", new { @class = "is-checkradio is-small", id = "checkobrigatorionao" } )
+                <label for="checkobrigatorionao">
+                    Não
+                </label>
+                @Html.ValidationMessageFor( m => m.CampoObrigatorio, null, new { style = "color:red" } )
+            </div>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control column is-12">
+            <label class="label">O campo é uma opção ?</label>
+            <div class="field">
+                @Html.RadioButtonFor( m => m.Combo, "S", new { @class = "is-checkradio is-small", id = "checkcombosim" } )
+                <label for="checkcombosim">
+                    Sim
+                </label>
+                @Html.RadioButtonFor( m => m.Combo, "N", new { @class = "is-checkradio is-small", id = "checkcombonao" } )
+                <label for="checkcombonao">
+                    Não
+                </label>
+                @Html.ValidationMessageFor( m => m.Combo, null, new { style = "color:red" } )
+            </div>
+        </div>
+    </div>
+    <div id="EscondeCombo" class="column is-12 is-expanded" hidden="true">
+        <div class="control ">
+            <label class="label">Nome da Opção</label>
+            @Html.TextBoxFor( m => m.NomeCombo, null, new { @class = "input", placeholder = "Ex: TIPO DE GENÊRO", id = "NomeCombo" } )
+            @Html.ValidationMessageFor( m => m.NomeCombo, null, new { style = "color:red" } )
+        </div>
+    </div>
+    <br />
+
+    <div class="column is-12">
+        <div class="field">
+            <p class="control">
+                <button class="button is-primary" onclick="AdicionaCampo()">
+                    <span class="icon is-small">
+                        <i class="fas fas fa-plus"></i>
+                    </span><span>Adicionar Campo ao Formulário</span>
+                </button>
+            </p>
+        </div>
+    </div>
+    <hr />
+    <h2 class="title is-4">Campos do Formulário</h2>
+    <table id="TabelaCampo" class="table">
+        <thead>
+        <td>Nome do Campo</td>
+        <td>Obrigatório</td>
+        <td>É uma Opção</td>
+        <td>Nome da Opção</td>
+        <td>Remover</td>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

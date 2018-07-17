@@ -126,7 +126,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     try
                     {
-                        dadosFuncionario.IdHorario = Convert.ToInt32( dadosTabelaFuncionario[0]["idhorariotrabalho"] );
+                        dadosFuncionario.IdHorario = Convert.ToInt32(dadosTabelaFuncionario[0]["idhorariotrabalho"] );
                     }
                     catch
                     {

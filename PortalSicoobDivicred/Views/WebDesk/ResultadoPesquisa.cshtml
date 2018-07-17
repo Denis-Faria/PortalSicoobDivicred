@@ -1,158 +1,52 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<body>
-@if (TempData["Mensagem"] != null)
-{
-    @Html.Label("")
+﻿<script>
+    function Seleciona(id) {
+        $("#EdicaoCategoria").removeAttr("hidden");
+        $("#SalvaCategoria").removeAttr("disabled ");
+        $("#ExcluirCategoria").removeAttr("disabled ");
+        $("#EdicaoCategoria").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Webdesk/RecuperaCategoria',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdCategoria": id },
+                success: function(data) {
 
+                    $("#EdicaoCategoria").append(data);
 
-    <script>
+                }
+            });
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["Mensagem"]',
-        });
-
-    </script>
-}
-<br/>
-<script>
-    function MostrarConteudo(idConteudo) {
-
-        if ($("#" + idConteudo).is(":visible")) {
-
-            $("#" + idConteudo).addClass("animated fadeOut");
-            $("#" + idConteudo).hide();
-
-        } else {
-            $("#" + idConteudo).removeClass("animated fadeOut");
-            $("#" + idConteudo).addClass("animated fadeIn");
-            $("#" + idConteudo).show();
-        }
     }
+
 </script>
-<nav class="level ">
-    <p class="level-item has-text-centered">
-        <img src="/Images/Webdesk.png" alt="" style="height: 30px;">
-    </p>
-</nav>
-<nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
-    <ul>
-        <li>
-            <a href="@Url.Action("Principal", "Principal")">
-                <span class="icon is-small">
-                    <i class="fa fa-home"></i>
-                </span><span>DashBoard</span>
-            </a>
-        </li>
-        <li>
-            <a href="@Url.Action("Chamados")">
-                <span class="icon is-small">
-                    <i class="fas fa-tasks"></i>
-                </span><span>WebDesk</span>
-            </a>
-        </li>
-        <li class="is-active">
-            <a href="#" aria-current="page">
-                <span class="icon is-small">
-                    <i class="fa fa-suitcase" aria-hidden="true"></i>
-                </span><span>Resultado pesquisa</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-
-@for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
-{
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamado" + i].ToString(), TipoChamado = "Antigo"})" class="card-footer-item">N°: @TempData["NumeroChamado" + i]</a>
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamado" + i].ToString(), TipoChamado = "Antigo"})" class="card-footer-item">Título: @TempData["TituloChamado" + i]</a>
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamado" + i].ToString(), TipoChamado = "Antigo"})" class="card-footer-item">Usuario de cadastro: @TempData["UsuarioCadastro" + i]</a>
-            </p>
-            <a onclick="javascript:MostrarConteudo(@TempData["NumeroChamado" + i]);" class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-            </a>
-        </header>
-        <div id="@TempData["NumeroChamado" + i]" hidden class="card-content">
-            <div class="content">
-                <blockquote>
-                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalInteracao" + TempData["NumeroChamado" + i]]); j++)
-                    {
-                        <p>
-                            @TempData["UsuarioInteracao" + TempData["NumeroChamado" + i] + j] - @TempData["DataInteracao" + TempData["NumeroChamado" + i] + j] | @(new HtmlString(TempData["TextoInteracao" + TempData["NumeroChamado" + i] + j].ToString()))
-
-
-
-                        </p>
-                        <hr/>
-                    }
-                </blockquote>
+<div>
+    @if (Convert.ToInt32(TempData["TotalResultado"]) == 0)
+    {
+        <article class="message is-success">
+            <div class="message-body">
+                Infelizmente não foi encontrado nenhuma categoria com está descrição!
             </div>
-        </div>
-        <footer class="card-footer"></footer>
-    </div>
-    <br/>
-    <br/>
-}
-
-@for (var i = 0; i < Convert.ToInt32(TempData["TotalResultadoNovo"]); i++)
-{
-    <div class="card">
-        <header class="card-header">
-            <p class="card-header-title">
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamadoNovo" + i].ToString(), TipoChamado = "Novo"})" class="card-footer-item">N°: @TempData["NumeroChamadoNovo" + i]</a>
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamadoNovo" + i].ToString(), TipoChamado = "Novo"})" class="card-footer-item">Título: @TempData["TituloChamadoNovo" + i]</a>
-                <a href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroChamadoNovo" + i].ToString(), TipoChamado = "Novo"})" class="card-footer-item">Usuario de cadastro: @TempData["UsuarioCadastroNovo" + i]</a>
-            </p>
-            <a onclick="javascript:MostrarConteudo(@TempData["NumeroChamadoNovo" + i]);" class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-            </a>
-        </header>
-        <div id="@TempData["NumeroChamadoNovo" + i]" hidden class="card-content">
-            <div class="content">
-                <blockquote>
-                    @for (var j = 0; j < Convert.ToInt32(TempData["TotalInteracaoNovo" + TempData["NumeroChamadoNovo" + i]]); j++)
-                    {
-                        <p>
-                            @TempData["UsuarioInteracaoNovo" + TempData["NumeroChamadoNovo" + i] + j] - @TempData["DataInteracaoNovo" + TempData["NumeroChamadoNovo" + i] + j] | @(new HtmlString(TempData["TextoInteracaoNovo" + TempData["NumeroChamadoNovo" + i] + j].ToString()))
-
-
-
-                        </p>
-                        <hr/>
-                    }
-                </blockquote>
-            </div>
-        </div>
-        <footer class="card-footer"></footer>
-    </div>
-    <br/>
-    <br/>
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</body>
+        </article>
+        <script>
+       
+                $("#EdicaoCategoria").empty();
+            
+        </script>
+    }
+    else
+    {
+        <ul>
+            @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
+            {
+                <li>
+                    <a href="Javascript:Seleciona('@TempData["Id" + i]')">
+                        @TempData["Descricao" + i]
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>

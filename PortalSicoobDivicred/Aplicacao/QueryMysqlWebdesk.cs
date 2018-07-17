@@ -348,7 +348,34 @@ namespace PortalSicoobDivicred.Aplicacao
                         descricaoCategoria + "','" + tempoCategoria + "'," + idSetor + ")";
             _conexaoMysql.ExecutaComando(query);
         }
+        public List<Dictionary<string, string>> BuscaCategoria(string descricao,string idSetor)
+        {
+            var query = "Select id,descricao from webdeskcategorias where descricao like'%" +descricao + "%' AND excluido='N' and idsetor="+idSetor+";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
 
-       
+
+        public List<Dictionary<string, string>> RecuperaCategoria(string idCategoria)
+        {
+            var query = "Select * from webdeskcategorias where id=" + idCategoria + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+        public List<Dictionary<string, string>> AtualizaCategoria(string idCategoria,string descricao,string tempoCategoria)
+        {
+            var query = "UPDATE webdeskcategorias SET descricao='"+descricao+"', tempo='"+tempoCategoria+"' where id=" + idCategoria + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+        public List<Dictionary<string, string>> ExcluiCategoria(string idCategoria)
+        {
+            var query = "UPDATE webdeskcategorias SET excluido='S' where id=" + idCategoria + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
+
+
     }
 }

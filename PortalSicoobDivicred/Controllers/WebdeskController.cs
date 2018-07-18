@@ -1020,10 +1020,12 @@ namespace PortalSicoobDivicred.Controllers
                 new { IdChamado = idSolicitacao, Mensagem = "Interação adicionada com sucesso !", TipoChamado = "Novo" } );
         }
 
-        public ActionResult AreaGestor(string mensagem)
+        public ActionResult AreaGestor(string mensagem, string abaAtiva, string divAtiva)
         {
             TempData["Mensagem"] = mensagem;
-            var verificaDados = new QueryMysql();
+            TempData["AbaAtiva"] = abaAtiva;
+            TempData["DivAtiva"] = divAtiva;
+            var verificaDados = new QueryMysqlWebdesk();
             var logado = verificaDados.UsuarioLogado();
             if(logado)
             {
@@ -1031,15 +1033,37 @@ namespace PortalSicoobDivicred.Controllers
                 if(cookie != null)
                 {
                     var login = Criptografa.Descriptografar( cookie.Value );
-
-
                     var dadosUsuarioBanco = verificaDados.RecuperaDadosUsuarios( login );
 
                     var validacoes = new ValidacoesIniciais();
-
                     validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
                     validacoes.Permissoes( this, dadosUsuarioBanco );
                     validacoes.DadosNavBar( this, dadosUsuarioBanco );
+
+                    var formularioSetor = verificaDados.RetornaFormulariosSetor( dadosUsuarioBanco[0]["idsetor"] );
+                    TempData["TotalFormulario"] = formularioSetor.Count();
+                    int count = 0;
+
+                    foreach(var formulario in formularioSetor)
+                    {
+                        TempData["Categoria" + count] = formulario["descricao"];
+                        TempData["QuantidadeCampo" + count] = formulario["totalcampos"];
+                        TempData["IdCategoria" + count] = formulario["idcategoria"];
+
+                        var dadosFormularioCategoria =
+                            verificaDados.RetornaFormularioCategoria( formulario["idcategoria"] );
+                        int totalCampo = 0;
+                        TempData["TotalCampo"] = dadosFormularioCategoria.Count;
+                        foreach(var camposCategoria in dadosFormularioCategoria)
+                        {
+                            TempData["NomeCampo" + totalCampo] = camposCategoria["campo"];
+                            TempData["IdCampo" + totalCampo] = camposCategoria["id"];
+                            totalCampo++;
+                        }
+
+                        count++;
+
+                    }
                 }
 
                 return View( "AreaGestor" );
@@ -1055,20 +1079,20 @@ namespace PortalSicoobDivicred.Controllers
             if(logado)
             {
                 var cookie = Request.Cookies.Get( "CookieFarm" );
-                if (cookie != null)
+                if(cookie != null)
                 {
-                    var login = Criptografa.Descriptografar(cookie.Value);
+                    var login = Criptografa.Descriptografar( cookie.Value );
 
-                    var dadosUsuario = verificaDados.RecuperaDadosUsuarios(login);
+                    var dadosUsuario = verificaDados.RecuperaDadosUsuarios( login );
 
-                    var dadosFormularios = verificaDados.RetornaCategoria(dadosUsuario[0]["idsetor"]);
+                    var dadosFormularios = verificaDados.RetornaCategoria( dadosUsuario[0]["idsetor"] );
 
                     var formulario = new Formulario();
                     formulario.DescricaoCategoria = dadosFormularios;
                     formulario.Combo = "N";
                     formulario.CampoObrigatorio = "S";
 
-                    return PartialView("FormularioSetor",formulario);
+                    return PartialView( "FormularioSetor", formulario );
                 }
             }
 
@@ -1134,11 +1158,6 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-        public ActionResult CadastrarFormulario()
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpPost]
         public ActionResult CadastrarCategoria(Categoria categoria, FormCollection formularioCategoria)
         {
@@ -1177,15 +1196,15 @@ namespace PortalSicoobDivicred.Controllers
             if(logado)
             {
                 var cookie = Request.Cookies.Get( "CookieFarm" );
-                if (cookie != null)
+                if(cookie != null)
                 {
-                    var login = Criptografa.Descriptografar(cookie.Value);
+                    var login = Criptografa.Descriptografar( cookie.Value );
 
 
-                    var dadosFuncionarioBanco = verificaDados.RecuperaDadosUsuarios(login);
+                    var dadosFuncionarioBanco = verificaDados.RecuperaDadosUsuarios( login );
 
-                    var funcoes = verificaDados.BuscaCategoria(descricaoCategoria,dadosFuncionarioBanco[0]["idsetor"]);
-                    for (var i = 0; i < funcoes.Count; i++)
+                    var funcoes = verificaDados.BuscaCategoria( descricaoCategoria, dadosFuncionarioBanco[0]["idsetor"] );
+                    for(var i = 0; i < funcoes.Count; i++)
                     {
                         TempData["Id" + i] = funcoes[i]["id"];
                         TempData["Descricao" + i] = funcoes[i]["descricao"];
@@ -1193,7 +1212,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     TempData["TotalResultado"] = funcoes.Count;
                     TempData["Editar"] = "EditarFuncao";
-                    return PartialView("ResultadoPesquisa");
+                    return PartialView( "ResultadoPesquisa" );
                 }
             }
 
@@ -1204,7 +1223,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult RecuperaCategoria(string idCategoria)
         {
             var verificaDados = new QueryMysqlWebdesk();
-            var dadoCategoria = verificaDados.RecuperaCategoria(idCategoria);
+            var dadoCategoria = verificaDados.RecuperaCategoria( idCategoria );
 
             var categoria = new Categoria();
 
@@ -1213,14 +1232,14 @@ namespace PortalSicoobDivicred.Controllers
             categoria.TempoCategoria = sla.ToString();
             TempData["IdCategoria"] = idCategoria;
 
-            return PartialView("CategoriaGestor",categoria);
+            return PartialView( "CategoriaGestor", categoria );
         }
 
 
         public ActionResult EditarCategoria(FormCollection categoria)
         {
             var verificaDados = new QueryMysqlWebdesk();
-            verificaDados.AtualizaCategoria( categoria["idCategoria"], categoria["DescricaoCategoria"], TimeSpan.FromSeconds( Convert.ToDouble(categoria["secondsEdicao"] ) ).ToString());
+            verificaDados.AtualizaCategoria( categoria["idCategoria"], categoria["DescricaoCategoria"], TimeSpan.FromSeconds( Convert.ToDouble( categoria["secondsEdicao"] ) ).ToString() );
             return RedirectToAction( "AreaGestor", "Webdesk",
                 new { mensagem = "Categoria alterada com sucesso !" } );
         }
@@ -1228,9 +1247,114 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult ExcluirCategoria(string idCategoria)
         {
             var verificaDados = new QueryMysqlWebdesk();
-            verificaDados.ExcluiCategoria(idCategoria);
+            verificaDados.ExcluiCategoria( idCategoria );
+
             return RedirectToAction( "AreaGestor", "Webdesk",
                 new { mensagem = "Categoria excluida com sucesso !" } );
+        }
+
+        [HttpPost]
+        public ActionResult CadastrarFormulario(Formulario[] formularios)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            var cookie = Request.Cookies.Get( "CookieFarm" );
+
+            if(cookie != null)
+            {
+                var login = Criptografa.Descriptografar( cookie.Value );
+
+                var dadosUsuario = verificaDados.RecuperaDadosUsuarios( login );
+
+                foreach(var formulario in formularios)
+                {
+                    verificaDados.CadastraFormulario( formulario.IdCategoria.ToString(), formulario.NomeCampo,
+                        formulario.CampoObrigatorio, dadosUsuario[0]["idsetor"], formulario.Combo,
+                        formulario.NomeCombo );
+                }
+            }
+            return Json( "Ok" );
+
+
+        }
+
+        public ActionResult ExcluirFormulario(string idCategoria)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            verificaDados.ExcluiFormulario( idCategoria );
+
+            return RedirectToAction( "AreaGestor", "Webdesk",
+                new { mensagem = "Formulario excluido com sucesso !", abaAtiva = "AbaFormularios", divAtiva = "Formularios" } );
+        }
+
+        public ActionResult ExcluiCampo(string idCampo)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            verificaDados.ExcluiCampoFormulario( idCampo );
+
+            return RedirectToAction( "AreaGestor", "Webdesk",
+                new { mensagem = "Campo excluido com sucesso !", abaAtiva = "AbaFormularios", divAtiva = "Formularios" } );
+        }
+
+        public ActionResult EditarFormulario(string idCategoria)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+
+            var dadosFormularioCategoria =
+                verificaDados.RetornaFormularioCategoria( idCategoria );
+            int totalCampo = 0;
+
+            TempData["TotalCamposEdicao"] = dadosFormularioCategoria.Count;
+
+
+
+            var formulario = new Formulario();
+            formulario.ComboEdicao = "N";
+            formulario.CampoObrigatorioEdicao = "S";
+            formulario.IdCategoria = Convert.ToInt32( idCategoria );
+            TempData["Categoria"] = dadosFormularioCategoria[0]["descricao"];
+            TempData["IdCategoria"] = dadosFormularioCategoria[0]["idcategoria"];
+            foreach(var camposCategoria in dadosFormularioCategoria)
+            {
+                TempData["IdCampo" + totalCampo] = camposCategoria["id"];
+                TempData["NomeCampo" + totalCampo] = camposCategoria["campo"];
+                TempData["Obrigatorio" + totalCampo] = camposCategoria["campoobrigatorio"];
+                TempData["Combo" + totalCampo] = camposCategoria["combo"];
+                TempData["NomeCombo" + totalCampo] = camposCategoria["nomecombo"];
+                totalCampo++;
+            }
+
+            return PartialView( "FormularioSetorEdicao", formulario );
+
+
+
+
+        }
+        [HttpPost]
+        public ActionResult SalvaAlteracaoFormulario(Formulario[] formularios)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            var cookie = Request.Cookies.Get( "CookieFarm" );
+
+            if(cookie != null)
+            {
+                var login = Criptografa.Descriptografar( cookie.Value );
+
+                var dadosUsuario = verificaDados.RecuperaDadosUsuarios( login );
+                foreach(var formulario in formularios)
+                {
+                    if(formulario.IdCampo.Equals( "0" ))
+                    {
+                        verificaDados.CadastraFormulario( formulario.IdCategoria.ToString(), formulario.NomeCampo,
+                            formulario.CampoObrigatorioEdicao, dadosUsuario[0]["idsetor"], formulario.ComboEdicao,
+                            formulario.NomeCombo );
+                    }
+                }
+                
+
+            }
+
+            return Json( "Ok" );
+
         }
     }
 }

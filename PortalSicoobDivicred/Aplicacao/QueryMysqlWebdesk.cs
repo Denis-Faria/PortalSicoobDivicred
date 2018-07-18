@@ -315,15 +315,15 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaFormulariosSetor(string idSetor)
         {
             var query =
-                "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" +
-                idSetor + "";
+                "SELECT a.idcategoria,count(campo) as totalcampos,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and a.idsetor=" +
+                idSetor + " and a.excluido='N' group by idcategoria";
             var formularios = _conexaoMysql.ExecutaComandoComRetorno(query);
             return formularios;
         }
 
         public List<Dictionary<string, string>> RetornaFormularioCategoria(string idCategoria)
         {
-            var query = "SELECT * FROM webdeskformularioscategorias WHERE idcategoria=" + idCategoria + "";
+            var query = "SELECT a.*,b.descricao FROM webdeskformularioscategorias a,webdeskcategorias b WHERE a.idcategoria=b.id and idcategoria=" + idCategoria + " AND a.excluido='N'";
             var formularios = _conexaoMysql.ExecutaComandoComRetorno(query);
             return formularios;
         }
@@ -362,12 +362,14 @@ namespace PortalSicoobDivicred.Aplicacao
             var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dados;
         }
+
         public List<Dictionary<string, string>> AtualizaCategoria(string idCategoria,string descricao,string tempoCategoria)
         {
             var query = "UPDATE webdeskcategorias SET descricao='"+descricao+"', tempo='"+tempoCategoria+"' where id=" + idCategoria + ";";
             var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dados;
         }
+
         public List<Dictionary<string, string>> ExcluiCategoria(string idCategoria)
         {
             var query = "UPDATE webdeskcategorias SET excluido='S' where id=" + idCategoria + ";";
@@ -375,7 +377,34 @@ namespace PortalSicoobDivicred.Aplicacao
             return dados;
         }
 
+        public void CadastraFormulario(string idCategoria,string nomeCampo,string campoObrigatorio,string idsetor,string combo,string nomeCombo)
+        {
+            var query =
+                "INSERT INTO webdeskformularioscategorias (idcategoria, campo,campoobrigatorio,idtipodado,idsetor,combo,nomecombo) VALUES(" +
+                idCategoria + ",'" + nomeCampo + "','" + campoObrigatorio + "',2," + idsetor + ",'" + combo + "','" +
+                nomeCampo + "')";
+            _conexaoMysql.ExecutaComando(query);
+        }
 
+        public List<Dictionary<string, string>> ExcluiFormulario(string idCategoria)
+        {
+            var query = "UPDATE webdeskformularioscategorias SET excluido='S' where idcategoria=" + idCategoria + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+        public List<Dictionary<string, string>> ExcluiCampoFormulario(string idCampo)
+        {
+            var query = "UPDATE webdeskformularioscategorias SET excluido='S' where id=" + idCampo + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
+        public List<Dictionary<string, string>> RecuperaCategoriaCampo(string idCampo)
+        {
+            var query = "Select idcategoria from webdeskformularioscategorias where id=" + idCampo + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
 
     }
 }

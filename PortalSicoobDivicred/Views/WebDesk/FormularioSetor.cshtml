@@ -1,14 +1,10 @@
 ﻿@model PortalSicoobDivicred.Models.Formulario
 
 
-
-
-
 <script>
     $(function () {
         $("#EscondeCombo").hide();
         $('input[type=radio][name=Combo]').change(function () {
-
             if (this.value === 'S') {
                 $("#EscondeCombo").show();
                 $("#EscondeCombo").removeAttr("hidden");
@@ -20,28 +16,66 @@
     });
 
     function AdicionaCampo() {
-        $("#TabelaCampo tbody").append(
-            "<tr>" +
-            "<td>" +
-            $("#NomeCampo").val() +
-            "</td>" +
-            "<td>" + $('input[type=radio][name=CampoObrigatorio]').val() + "</td>" +
-            "<td>" + $('input[type=radio][name=Combo]').val() + "</td>" +
-            "<td>" +
-            $("#NomeCombo").val() +
-            "</td>" +
-            "<td> <div class='field'>" +
-            "<a class='button is-rounded is-danger excluir is-small' data-balloon='Remover Campo' data-balloon-pos='right' >" +
-            "<span class='icon is-small'><i class='fa fa-times' aria-hidden='true'></i></span></a></div></td>" +
-            "</tr>");
-        $(".excluir").bind("click", Excluir);
+
+        if ($("#NomeCampo").val() === "") {
+            iziToast.error({
+                title: 'Erro',
+                message: 'Favor preencher o nome do campo !',
+                position: 'center'
+            });
+        } else if ($("#NomeCombo").val() !== "" && $('input[type=radio][name=Combo]:checked').val() === 'S') {
+            iziToast.error({
+                title: 'Erro',
+                message: 'Favor preencher o nome da opção pai!',
+                position: 'center'
+            });
+        }
+        else {
+            if ($("#NomeCombo").val() !== "") {
+                $("#TabelaCampo tbody").append(
+                    "<tr>" +
+                    "<td class='has-text-centered'>" +
+                    $("#NomeCampo").val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'>" +
+                    $('input[type=radio][name=CampoObrigatorio]:checked').val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'>" +
+                    $('input[type=radio][name=Combo]:checked').val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'> " +
+                    $("#NomeCombo").val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'><a class='button is-rounded is-danger excluir is-small' data-balloon='Remover Campo' data-balloon-pos='left' ><span class='icon is-small'><i class='fa fa-times' aria-hidden='true'></i></span></a></td>" +
+                    "</tr>");
+                $(".excluir").bind("click", Excluir);
+            } else {
+                $("#TabelaCampo tbody").append(
+
+                    "<tr>" +
+                    "<td class='has-text-centered'>" +
+                    $("#NomeCampo").val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'>" +
+                    $('input[type=radio][name=CampoObrigatorio]:checked').val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'>" +
+                    $('input[type=radio][name=Combo]:checked').val() +
+                    "</td>" +
+                    "<td  class='has-text-centered'>NENHUM</td>" +
+                    "<td  class='has-text-centered'><a class='button is-rounded is-danger excluir is-small' data-balloon='Remover Campo' data-balloon-pos='left' ><span class='icon is-small'><i class='fa fa-times' aria-hidden='true'></i></span></a></td>" +
+                    "</tr>");
+
+                $(".excluir").bind("click", Excluir);
+            }
+        }
     }
 
-    function Excluir(){
+    function Excluir() {
         $(this).parents('tr').remove();
     }
 
-  
+
 </script>
 
 
@@ -51,7 +85,7 @@
         <div class="control">
             <label class="label">Categoria Vinculada</label>
             <div class="select is-fullwidth">
-                @Html.DropDownListFor( m => m.IdCategoria, new SelectList( Model.DescricaoCategoria, "Value", "Text" ), "SELECIONE A CATEGORIA", new { id = "Sexo" } )
+                @Html.DropDownListFor( m => m.IdCategoria, new SelectList( Model.DescricaoCategoria, "Value", "Text" ), "SELECIONE A CATEGORIA", new { id = "IdCategoria" } )
                 @Html.ValidationMessageFor( m => m.IdCategoria, null, new { style = "color:red" } )
             </div>
         </div>
@@ -66,7 +100,7 @@
     </div>
     <div class="field is-grouped">
         <div class="control column is-5">
-            <label class="label">O Campo é obrigatório ?</label>
+            <label class="label">O campo é obrigatório ?</label>
             <div class="field">
                 @Html.RadioButtonFor( m => m.CampoObrigatorio, "S", new { @class = "is-checkradio is-small", id = "checkobrigatoriosim" } )
                 <label for="checkobrigatoriosim">
@@ -82,7 +116,7 @@
     </div>
     <div class="field is-grouped">
         <div class="control column is-12">
-            <label class="label">O campo é uma opção ?</label>
+            <label class="label">O campo é um item de uma lista ?</label>
             <div class="field">
                 @Html.RadioButtonFor( m => m.Combo, "S", new { @class = "is-checkradio is-small", id = "checkcombosim" } )
                 <label for="checkcombosim">
@@ -98,7 +132,7 @@
     </div>
     <div id="EscondeCombo" class="column is-12 is-expanded" hidden="true">
         <div class="control ">
-            <label class="label">Nome da Opção</label>
+            <label class="label">Nome da Lista</label>
             @Html.TextBoxFor( m => m.NomeCombo, null, new { @class = "input", placeholder = "Ex: TIPO DE GENÊRO", id = "NomeCombo" } )
             @Html.ValidationMessageFor( m => m.NomeCombo, null, new { style = "color:red" } )
         </div>
@@ -118,13 +152,13 @@
     </div>
     <hr />
     <h2 class="title is-4">Campos do Formulário</h2>
-    <table id="TabelaCampo" class="table">
+    <table id="TabelaCampo" class="table is-striped is-centered is-desktop is-fullwidth">
         <thead>
-        <td>Nome do Campo</td>
-        <td>Obrigatório</td>
-        <td>É uma Opção</td>
-        <td>Nome da Opção</td>
-        <td>Remover</td>
+        <th class="has-text-centered">Nome do Campo</th>
+        <th class="has-text-centered">Obrigatório</th>
+        <th class="has-text-centered">É uma Opção</th>
+        <th class="has-text-centered">Nome da Opção</th>
+        <th class="has-text-centered">Remover</th>
         </thead>
         <tbody></tbody>
     </table>

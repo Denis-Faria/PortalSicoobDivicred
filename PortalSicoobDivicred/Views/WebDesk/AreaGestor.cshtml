@@ -4,21 +4,22 @@
 }
 <script type="text/javascript" src="@Url.Content("~/Assets/js/jquery-time-duration-picker.js")"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $("#TabGestaoWebDesk").tabs();
     });
 
-    $(function () {
+    $(function() {
         $('#TempoCategoria').timeDurationPicker({
-            defaultValue: function () {
+            defaultValue: function() {
                 return $('#seconds').val();
             },
-            onSelect: function (element, seconds, duration) {
+            onSelect: function(element, seconds, duration) {
                 $('#seconds').val(seconds);
                 $('#TempoCategoria').val(duration);
             }
         });
     });
+
     function Buscar() {
         $("#ListaCategorias").empty();
         $.ajax(
@@ -29,14 +30,238 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoCategoria": $("#BuscaCategoria").val() },
-                success: function (data) {
+                success: function(data) {
                     $("#ListaCategorias").append(data);
 
                 }
             });
 
     }
+    function ExcluiFormulario(idCategoria) {
+        iziToast.show({
+            title: 'WebDesk.',
+            message: 'Você deseja excluir este formulário ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function(instance, toast) {
+                        instance.hide({
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function(instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
+                            toast,
+                            'close',
+                            'btn2');
 
+                        var link = '@Url.Action("ExcluirFormulario","Webdesk",new{idCategoria ="categoria"})';
+                        link = link.replace("categoria",idCategoria);
+                        window.location = link;
+                    }
+                ],
+                [
+                    '<button>Não</button>', function(instance, toast) {
+                        instance.hide({
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function(instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ],
+            onOpening: function(instance, toast) {
+                console.info('callback abriu!');
+            },
+            onClosing: function(instance, toast, closedBy) {
+                console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+            }
+        });
+    }
+
+    function ExcluiCampoFormulario(idCampo) {
+        iziToast.show({
+            title: 'WebDesk.',
+            message: 'Você deseja excluir este campo ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function(instance, toast) {
+                        instance.hide({
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function(instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
+                            toast,
+                            'close',
+                            'btn2');
+
+                        var link = '@Url.Action("ExcluiCampo","Webdesk",new{idCampo ="categoria"})';
+                        link = link.replace("categoria",idCampo);
+                        window.location = link;
+                    }
+                ],
+                [
+                    '<button>Não</button>', function(instance, toast) {
+                        instance.hide({
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function(instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ],
+            onOpening: function(instance, toast) {
+                console.info('callback abriu!');
+            },
+            onClosing: function(instance, toast, closedBy) {
+                console.info('closedBy: ' + closedBy); // tells if it was closed by 'drag' or 'button'
+            }
+        });
+    }
+
+
+
+
+    function myTrim(x) {
+        return x.replace(/^\s+|\s+$/gm, '');
+    }
+
+    function CadastraFormulario() {
+        if ($("#IdCategoria").val() !== "") {
+            var itemlist = [];
+
+            $("#TabelaCampo tr:not(:first)").each(function() {
+                var tdlist = $(this).find("td");
+                var formulario = {
+                    NomeCampo: $.trim($(tdlist[0]).html()),
+                    CampoObrigatorio: $.trim($(tdlist[1]).html()),
+                    Combo: $.trim($(tdlist[2]).html()),
+                    NomeCombo: $.trim($(tdlist[3]).html()),
+                    IdCategoria: $("#IdCategoria").val()
+                };
+
+                itemlist.push(formulario);
+            });
+            if (itemlist.length === 0) {
+                iziToast.error({
+                    title: 'Erro',
+                    position: "center",
+                    message: 'Favor adicionar ao menos um campo ao formulário !'
+                });
+            } else {
+                $.ajax({
+                    url: '@Url.Action("CadastrarFormulario", "Webdesk")', //
+                    dataType: "json",
+                    data: JSON.stringify({ formularios: itemlist }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        iziToast.success({
+                            title: 'Sucesso',
+                            position: "center",
+                            message: 'Formulário cadastrado com sucesso !'
+                        });
+
+                    },
+                    error: function(xhr) {
+                        iziToast.error({
+                            title: 'Erro',
+                            position: "center",
+                            message: 'Erro ao salvar formulário'
+                        });
+
+                    }
+                });
+            }
+        } else {
+            iziToast.error({
+                title: 'Erro',
+                position: "center",
+                message: 'Favor selecionar a categoria do formulário !'
+            });
+        }
+    }
+
+
+    function SalvaFormulario() {
+            var itemlist = [];
+
+            $("#TabelaCampoEdicao tr:not(:first)").each(function() {
+                var tdlist = $(this).find("td");
+                var formulario = {
+                    IdCampo: $.trim($(tdlist[0]).html()),
+                    NomeCampo: $.trim($(tdlist[1]).html()),
+                    CampoObrigatorioEdicao: $.trim($(tdlist[2]).html()),
+                    ComboEdicao: $.trim($(tdlist[3]).html()),
+                    NomeCombo: $.trim($(tdlist[4]).html()),
+                    IdCategoria: $.trim($(tdlist[6]).html())
+                };
+
+                itemlist.push(formulario);
+            });
+            if (itemlist.length === 0) {
+                iziToast.error({
+                    title: 'Erro',
+                    position: "center",
+                    message: 'Favor adicionar ao menos um campo ao formulário !'
+                });
+            } else {
+                $.ajax({
+                    url: '@Url.Action("SalvaAlteracaoFormulario", "Webdesk")', //
+                    dataType: "json",
+                    data: JSON.stringify({ formularios: itemlist }),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        iziToast.success({
+                            title: 'Sucesso',
+                            position: "center",
+                            message: 'Formulário alterado com sucesso !'
+                        });
+
+                    },
+                    error: function(xhr) {
+                        iziToast.error({
+                            title: 'Erro',
+                            position: "center",
+                            message: 'Erro ao salvar formulário'
+                        });
+
+                    }
+                });
+            }
+    }
+
+
+    function EditaFormulario(idCategoria) {
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Webdesk/EditarFormulario',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "idCategoria": idCategoria },
+                success: function (data) {
+                    $('#ModalFormularioEdicao').removeClass();
+                    $('#ModalFormularioEdicao').addClass('modal is-active');
+                    $("#ConteudoFormulario").append(data);
+
+                }
+            });
+    }
 
 </script>
 <body>
@@ -45,14 +270,15 @@
         @Html.Label( "" )
         <script>
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["Mensagem"]'
-        });
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]'
+            });
 
         </script>
     }
+
     <br />
     <div id="Bread">
         <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
@@ -113,7 +339,6 @@
             </ul>
         </div>
         <div id="Categorias">
-
             <div class="column is-12">
                 <div class="field">
                     <p class="control">
@@ -182,7 +407,58 @@
                 </div>
             </div>
             <div>
+                <table id="TabelaFormulario" class="table is-striped is-centered is-desktop is-fullwidth">
+                    <thead>
+                    <th class="has-text-centered">Categoria</th>
+                    <th class="has-text-centered">Quantidade de Campos</th>
+                    <th class="has-text-centered">Campos Formulario</th>
+                    <th class="has-text-centered">Editar</th>
+                    <th class="has-text-centered">Excluir</th>
+                    </thead>
+                    <tbody>
+                        @for(int i = 0; i < Convert.ToInt32( TempData["TotalFormulario"] ); i++)
+                        {
+                            <tr>
+                                <td class="has-text-centered">
+                                    @TempData["Categoria" + i]
+                                </td>
+                                <td class="has-text-centered">
+                                    @TempData["QuantidadeCampo" + i]
+                                </td>
+                                <td class="has-text-centered">
+                                    <div class="field is-grouped is-grouped-multiline">
+                                        @for(int j = 0; j < Convert.ToInt32( TempData["TotalCampo"] ); j++)
+                                        {
+                                            <div class="control">
+                                                <div class="tags has-addons">
+                                                    <span class="tag is-primary">@TempData["NomeCampo" + j]</span>
+                                                    <a class="tag is-delete" onclick="ExcluiCampoFormulario('@TempData["IdCampo"+j]')"></a>
+                                                </div>
 
+                                            </div>
+                                        }
+                                    </div>
+                                </td>
+                                <td class="has-text-centered">
+                                    <button class="button is-primary modal-button" id="EditarFormulario" onclick="EditaFormulario('@TempData["IdCategoria" + i]')" data-balloon="Clique para editar este formulário." data-balloon-pos="right">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-edit" aria-hidden="true"></i>
+                                        </span>
+                                        <span>Editar Formulário</span>
+                                    </button>
+                                </td>
+                                <td class="has-text-centered">
+                                    <button class="button is-danger modal-button" id="ExcluirFormulario" onclick="ExcluiFormulario('@TempData["IdCategoria" + i]')" data-balloon="Clique para excluir este formulário." data-balloon-pos="right">
+                                        <span class="icon is-small">
+                                            <i class="fas fa fa-times" aria-hidden="true"></i>
+                                        </span>
+                                        <span>Excluir Formulário</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
         <div id="Indicadores">
@@ -194,25 +470,43 @@
     </script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
-        <div id="ModalFormulario" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Cadastrar Formulário</p>
-                    <a href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);" class="delete"></a>
-                </header>
-                <section class="modal-card-body">
-                    <div class="content">
-                        @Html.Action( "FormularioSetor" )
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button type="submit" id="SalvaFormulario" class="button is-success">Cadastrar Formulário</button>
-                    <a class="button" href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);">Cancelar</a>
-                </footer>
-            </div>
+    <div id="ModalFormulario" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Cadastrar Formulário</p>
+                <a href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+                <div class="content">
+                    @Html.Action( "FormularioSetor" )
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button type="submit" id="CadastraFormulario" class="button is-success" onclick="CadastraFormulario()">Cadastrar Formulário</button>
+                <a class="button" href="javascript:$('#ModalFormulario').removeClass();$('#ModalFormulario').addClass('modal');void(0);">Cancelar</a>
+            </footer>
         </div>
+    </div>
 
+<div id="ModalFormularioEdicao" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Editar Formulário</p>
+            <a href="javascript:$('#ModalFormularioEdicao').removeClass();$('#ModalFormularioEdicao').addClass('modal');void(0);" class="delete"></a>
+        </header>
+        <section class="modal-card-body">
+            <div id="ConteudoFormulario" class="content">
+
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button type="submit" id="SalvaFormulario" class="button is-success" onclick="SalvaFormulario()">Salvar Formulário</button>
+            <a class="button" href="javascript:$('#ModalFormularioEdicao').removeClass();$('#ModalFormularioEdicao').addClass('modal');void(0);">Cancelar</a>
+        </footer>
+    </div>
+</div>
 
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
     </script>
@@ -256,6 +550,22 @@
                 </footer>
             </div>
         </div>
+    }
+    @if(TempData["AbaAtiva"] != null && TempData["DivAtiva"] != null)
+    {
+        @Html.Label( "" )
+        <script>
+            $(document).ready(function() {
+                $('#AbaCategorias').removeClass();
+                $('#AbaFormularios').removeClass();
+                $('#AbaIndicadores').removeClass();
+                $('#Formularios').attr("style", "display: none");
+                $('#Categorias').attr("style", "display: none");
+                $('#Indicadores').attr("style", "display: none");
+                $('#@TempData["AbaAtiva"]').addClass('is-active');
+                $('#@TempData["DivAtiva"]').removeAttr("style");
+            });
+        </script>
     }
 </body>
 

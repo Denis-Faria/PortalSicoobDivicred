@@ -21,8 +21,16 @@ namespace PortalSicoobDivicred.Models
         [Required( ErrorMessage = "Favor informar se o campo faz parte de um combo !" )]
         public string Combo { get; set; }
 
+        [Required( ErrorMessage = "Favor informar se o campo é obrigatório !" )]
+        public string CampoObrigatorioEdicao { get; set; }
+
+        [Required( ErrorMessage = "Favor informar se o campo faz parte de um combo !" )]
+        public string ComboEdicao { get; set; }
+
         [Required( ErrorMessage = "Favor inserir o nome do combo!" )]
         public string NomeCombo { get; set; }
+
+        public string IdCampo { get; set; }
 
     }
 }

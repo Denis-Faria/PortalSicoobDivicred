@@ -1,0 +1,190 @@
+﻿@model PortalSicoobDivicred.Models.Tarefa
+<script>
+    var multiFilesTarefa = [];
+
+    function multiUpTarefa(e) {
+
+        $(e).removeClass("file-input");
+        $(e).hide();
+        $("#formescondeTarefa").hide();
+        $("#" + multiFilesTarefa.length).hide();
+        this.__fileHolder = document.querySelector("#ArquivosSelecionadosTarefa");
+
+        this.__fileHolder.innerHTML = '';
+        var i;
+
+        for (i = 0; i < e.files.length; i++) {
+            this.multiFilesTarefa.push(e.files[i]);
+
+        }
+        $("#Upload-formTarefa").append(
+            " <div id=" +
+            multiFilesTarefa.length +
+            " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+        for (i = 0; i < this.multiFilesTarefa.length; i++) {
+            addDeleteBtnTarefa(i, this, this.multiFilesTarefa[i].name);
+        }
+
+    }
+
+    function addDeleteBtnTarefa(f, input, nomeArquivo) {
+
+        var div4 = document.createElement('div');
+        div4.className = 'control';
+
+        var div5 = document.createElement('div');
+        div5.className = 'tags has-addons';
+
+
+        var nome = document.createElement('span');
+        nome.className = 'tag is-dark ';
+        nome.innerHTML = nomeArquivo;
+
+        div4.append(div5);
+
+        div5.append(nome);
+
+        var del = document.createElement('a');
+        del.className = 'tag is-delete is-primary';
+        del.title = 'remove this file';
+
+        del.addEventListener('click',
+            function () {
+
+
+                $("#" + input.multiFilesTarefa.length).remove();
+
+                input.multiFilesTarefa.splice(f, 1);
+
+                $("#" + input.multiFilesTarefa.length).show();
+
+
+                input.__fileHolder.innerHTML = "";
+
+                var fileLength = input.multiFilesTarefa.length;
+
+                if (fileLength > 0) {
+                    for (var i = 0; i < fileLength; i++) {
+
+                        var div4 = document.createElement('div');
+                        div4.className = 'control';
+
+                        var div5 = document.createElement('div');
+                        div5.className = 'tags has-addons';
+
+                        var nome = document.createElement('span');
+                        nome.className = 'tag is-dark';
+                        nome.innerHTML = input.multiFilesTarefa[i].name;
+
+                        var del = document.createElement('a');
+                        del.className = 'tag is-delete is-primary';
+                        del.title = 'remove this file';
+
+                        input.__fileHolder.appendChild(div4);
+                        addDeleteBtnTarefa(i, input, input.multiFilesTarefa[i].name);
+                    }
+                } else {
+                    $("#formescondeTarefa").show();
+                    input.__fileHolder.innerHTML = 'Selecione um arquivo';
+                }
+            },
+            false);
+        div5.append(del);
+        input.__fileHolder.appendChild(div4);
+    }
+
+
+    function TarefaSelecionada(idTarefa) {
+        $("#SubTarefa").empty();
+
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Webdesk/RetornaSubTarefa',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdTarefa": idTarefa.value },
+                success: function (data) {
+                    $("#SubTarefa").append(data);
+                    $.validator.unobtrusive.parse($("#SubTarefa"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+</script>
+<style>
+    #add {
+        cursor: pointer;
+        font-size: 2em;
+    }
+
+    #fileHolder {
+        color: rgba(0, 0, 0, .7);
+        display: inline-block;
+        font-size: 70%;
+        max-width: 80%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .deleteBtn {
+        color: #000;
+        cursor: pointer;
+    }
+</style>
+<div>
+    <div class="field">
+        <label class="label">Tarefa:</label>
+        <p class="select is-fullwidth">
+            @Html.DropDownListFor( m => m.IdTarefa, new SelectList( Model.DescricaoTarefa, "Value", "Text" ), "SELECIONE A TAREFA", new { id = "Tarefa", onchange = "TarefaSelecionada(this)" } )
+            @Html.ValidationMessageFor( m => m.IdTarefa, null, new { style = "color:red" } )
+        </p>
+    </div>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+    <div id="SubTarefa">
+
+    </div>
+    <br />
+    <div id="anexos" class="AreaAnexoTarefa">
+        <div id="formescondeTarefa">
+            <div div="PrimeiroTarefa" class="field is-fullwidth">
+                <div class="file is-primary">
+                    <label class="file-label">
+                        <input class="file-input" type="file" onchange="multiUpTarefa(this)" name="postedFilesTarefa">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Anexar Arquivos
+                            </span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="Upload-formTarefa">
+        </div>
+    </div>
+    <br />
+    <p>Arquivos </p>
+    <div id="ArquivosSelecionadosTarefa" class="field is-grouped is-grouped-multiline">
+        Nenhum anexo selecionado.
+    </div>
+    <br />
+    <div class="field is-grouped">
+        <div class="field control">
+            <label class="label">Informações Complementares:</label>
+            <p class="control is-fullwidth">
+                @Html.TextAreaFor( m => m.InformacoesComplementares, new { @class = "textarea", id = "InformacaoComplementar", required = true } )
+                @Html.ValidationMessageFor( m => m.InformacoesComplementares, null, new { style = "color:red" } )
+                <span class="field-validation-valid" data-valmsg-for="Descricao" id="Erro" data-valmsg-replace="true" style="color: red"></span>
+            </p>
+
+        </div>
+    </div>
+</div>

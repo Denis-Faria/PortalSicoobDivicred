@@ -403,7 +403,6 @@ namespace PortalSicoobDivicred.Controllers
             return View( "CategoriaInteracao", solicitacao );
         }
 
-
         public ActionResult RetornaSetor(string idCadastro)
         {
             var solicitacao = new SolicitacaoWebDesk();
@@ -1099,7 +1098,6 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
 
-
         [HttpPost]
         public ActionResult RetornaFormulario(string idCategoria)
         {
@@ -1329,6 +1327,7 @@ namespace PortalSicoobDivicred.Controllers
 
 
         }
+
         [HttpPost]
         public ActionResult SalvaAlteracaoFormulario(Formulario[] formularios)
         {
@@ -1354,6 +1353,28 @@ namespace PortalSicoobDivicred.Controllers
             }
 
             return Json( "Ok" );
+
+        }
+
+        public ActionResult TarefaNova()
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            var todasTarefas = verificaDados.RetornaTarefa();
+            var tarefas = new Tarefa();
+            tarefas.DescricaoTarefa = todasTarefas;
+
+            return PartialView("NovaTarefa",tarefas);
+        }
+
+        public ActionResult RetornaSubTarefa(string idTarefa)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            var todasTarefas = verificaDados.RetornaSubTarefa();
+
+            var tarefas = new Tarefa();
+            tarefas.DescricaoSubTarefa = todasTarefas;
+
+            return PartialView("Subtarefas",tarefas);
 
         }
     }

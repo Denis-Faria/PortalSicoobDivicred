@@ -779,6 +779,7 @@
     <Compile Include="Models\RecrutamentoSelecao.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Models\SolicitacaoWebDesk.cs" />
+    <Compile Include="Models\Tarefa.cs" />
     <Compile Include="Models\Tesouraria.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Vagas.cs" />
@@ -945,6 +946,8 @@
     <Content Include="Views\Parametros\Parametros.cshtml" />
     <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
     <Content Include="Views\WebDesk\FormularioSetorEdicao.cshtml" />
+    <Content Include="Views\WebDesk\NovaTarefa.cshtml" />
+    <Content Include="Views\WebDesk\Subtarefas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

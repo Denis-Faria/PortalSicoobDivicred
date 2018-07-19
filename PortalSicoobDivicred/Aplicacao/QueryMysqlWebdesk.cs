@@ -405,6 +405,40 @@ namespace PortalSicoobDivicred.Aplicacao
             var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dados;
         }
+        public List<SelectListItem> RetornaTarefa()
+        {
+            var tarefa = new List<SelectListItem>();
+
+            const string queryRetornaTarefa =
+                "SELECT id,descricao FROM webdesktarefas WHERE excluido='N' ORDER BY descricao  ASC";
+
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( queryRetornaTarefa );
+            foreach(var row in dados)
+                tarefa.Add( new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                } );
+
+            return tarefa;
+        }
+        public List<SelectListItem> RetornaSubTarefa()
+        {
+            var subtarefa = new List<SelectListItem>();
+
+            const string queryRetornaSubTarefa =
+                "SELECT id,descricao FROM webdesksubtarefas WHERE excluido='N' ORDER BY descricao  ASC";
+
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( queryRetornaSubTarefa );
+            foreach(var row in dados)
+                subtarefa.Add( new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                } );
+
+            return subtarefa;
+        }
 
     }
 }

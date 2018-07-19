@@ -1017,13 +1017,13 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="bin/PortalSicoobDivicred.dll">
       <publishTime>05/21/2018 14:47:25</publishTime>
-      <publishTime>07/17/2018 15:22:58</publishTime>
+      <publishTime>07/19/2018 10:47:54</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.dll.config">
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/PortalSicoobDivicred.pdb">
-      <publishTime>07/17/2018 15:22:58</publishTime>
+      <publishTime>07/19/2018 10:47:54</publishTime>
     </File>
     <File Include="bin/pt-br/System.Web.Helpers.resources.dll">
       <publishTime>05/10/2018 22:43:02</publishTime>
@@ -2229,7 +2229,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
     </File>
     <File Include="Views/Curriculo/GerenciarVaga.cshtml">
       <publishTime>05/16/2018 10:07:29</publishTime>
-      <publishTime>07/13/2018 17:07:09</publishTime>
+      <publishTime>07/18/2018 10:47:23</publishTime>
     </File>
     <File Include="Views/Curriculo/ImprimirTodos.cshtml">
       <publishTime>02/01/2018 15:24:19</publishTime>
@@ -2529,7 +2529,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>09/01/2018 14:05:07</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/13/2018 17:13:15</publishTime>
+      <publishTime>07/19/2018 10:07:08</publishTime>
     </File>
     <File Include="Views/Tesouraria/Tesouraria.cshtml">
       <publishTime>07/10/2018 08:44:41</publishTime>
@@ -2550,10 +2550,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>07/10/2018 08:44:42</publishTime>
     </File>
     <File Include="Views/WebDesk/AreaGestor.cshtml">
-      <publishTime>07/17/2018 14:40:38</publishTime>
+      <publishTime>07/18/2018 17:59:47</publishTime>
     </File>
     <File Include="Views/WebDesk/CategoriaGestor.cshtml">
-      <publishTime>07/17/2018 14:13:29</publishTime>
+      <publishTime>07/18/2018 17:12:57</publishTime>
     </File>
     <File Include="Views/WebDesk/CategoriaInteracao.cshtml">
       <publishTime>07/10/2018 08:44:42</publishTime>
@@ -2562,7 +2562,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>07/10/2018 08:44:42</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>07/13/2018 17:07:09</publishTime>
+      <publishTime>07/19/2018 10:10:02</publishTime>
     </File>
     <File Include="Views/WebDesk/faltapermissao.cshtml">
       <publishTime>05/28/2018 12:03:17</publishTime>
@@ -2571,7 +2571,10 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>07/13/2018 17:07:09</publishTime>
     </File>
     <File Include="Views/WebDesk/FormularioSetor.cshtml">
-      <publishTime>07/10/2018 08:44:42</publishTime>
+      <publishTime>07/19/2018 10:03:53</publishTime>
+    </File>
+    <File Include="Views/WebDesk/FormularioSetorEdicao.cshtml">
+      <publishTime>07/18/2018 18:01:11</publishTime>
     </File>
     <File Include="Views/WebDesk/FuncionarioInteracao.cshtml">
       <publishTime>07/10/2018 08:44:42</publishTime>
@@ -2605,7 +2608,7 @@ ao editar este arquivo MSBuild. Para saber mais sobre isso, visite https://go.mi
       <publishTime>07/10/2018 08:44:42</publishTime>
     </File>
     <File Include="Views/WebDesk/Chamados.cshtml">
-      <publishTime>07/13/2018 17:07:09</publishTime>
+      <publishTime>07/19/2018 10:10:02</publishTime>
     </File>
     <File Include="Views/WebDesk/ResultadoPesquisa.cshtml">
       <publishTime>07/17/2018 14:12:08</publishTime>

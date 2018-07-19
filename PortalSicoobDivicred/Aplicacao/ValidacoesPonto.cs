@@ -779,7 +779,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
             var dadosRh = new QueryMysqlRh();
             var queryFire = new QueryFirebird();
-
+            var count = 0;
             for (int k = 0; k < idSetor.Count; k++)
             {
                 var todasPendencias = dadosRh.RetornaPendenciasSetor(idSetor[k].ToString());
@@ -803,7 +803,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
                     for (var j = 0; j < dadosPendencia.Count; j++)
                         if (dadosPendencia[j]["idjustificativafirebird"].Equals("0") &&
-                            dadosPendencia[j]["observacao"] == null)
+                            (dadosPendencia[j]["observacao"] == null || dadosPendencia[j]["observacao"].Length == 0))
                         {
                             confirmar.Add("Horario" + j, dadosPendencia[j]["horario"]);
                         }
@@ -817,7 +817,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                     var justificativa = dadosPendencia[j]["observacao"];
                                     try
                                     {
-                                        confirmar.Add("Justificativa" + i, justificativa);
+                                        confirmar.Add("Justificativa" + count, justificativa);
                                     }
                                     catch
                                     {
@@ -831,7 +831,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                             dadosPendencia[j]["idjustificativafirebird"]);
                                     try
                                     {
-                                        confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
+                                        confirmar.Add("Justificativa" + count, justificativa[0]["DESCRICAO"]);
                                     }
                                     catch
                                     {
@@ -846,7 +846,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                         dadosPendencia[j]["idjustificativafirebird"]);
                                 try
                                 {
-                                    confirmar.Add("Justificativa" + i, justificativa[0]["DESCRICAO"]);
+                                    confirmar.Add("Justificativa" + count, justificativa[0]["DESCRICAO"]);
                                 }
                                 catch
                                 {
@@ -863,6 +863,7 @@ namespace PortalSicoobDivicred.Aplicacao
                         confirmar.Add("Justificado", "false");
 
                     faltaConfirmacao.Add(confirmar);
+                    count++;
                 }
             }
 

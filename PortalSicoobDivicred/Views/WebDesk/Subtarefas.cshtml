@@ -1,0 +1,10 @@
+﻿@model PortalSicoobDivicred.Models.Tarefa
+
+<div class="field">
+    <label class="label">Subtarefa:</label>
+    <p class="select is-fullwidth">
+        @Html.DropDownListFor( m => m.IdSubTarefa, new SelectList( Model.DescricaoSubTarefa, "Value", "Text" ), "SELECIONE A CATEGORIA PARA SUA SOLICITAÇÃO", new { @class = "white-text", id = "Categoria", required = true } )
+        @Html.ValidationMessageFor(m => m.DescricaoTarefa, null, new {style = "color:red"})
+    </p>
+</div>
+<br />

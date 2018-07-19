@@ -95,40 +95,10 @@ namespace PortalSicoobDivicred.Controllers
             if (cookie != null)
             {
 
-                //var login = Criptografa.Descriptografar(cookie.Value);
+                
                 insereDados.InsereUsuario(dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
                     dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, "123", dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
 
-                /*
-                var login = Criptografa.Descriptografar(cookie.Value);
-
-                var valor = receberForm["valor"];
-                var dadosProdutos = insereDados.RetornaDadosProdutos(dados.IdProduto);
-                var peso = dadosProdutos[0]["peso"];
-                var valorminimo = dadosProdutos[0]["valorminimo"];
-                double valorponto;
-
-                if (valorminimo != "1")
-                {
-                    var teste = Convert.ToDouble(valor.Replace(".", ","));
-                    valorponto = teste / Convert.ToDouble(valorminimo) *
-                                 Convert.ToDouble(peso);
-                }
-                else
-                {
-                    valorponto = Convert.ToDouble(peso);
-                }
-
-                insereDados.InsereProducao(dados.Cpf, dados.IdProduto, dados.Observacao, dados.Datacontratacao, login,
-                    valor,
-                    valorponto.ToString("N2"));
-
-                insereDados.IncluirPontucao(login, valorponto);
-
-
-                var saldoAtual = insereDados.BuscaSaldoAtual(login);
-
-                TempData["saldo"] = saldoAtual;*/
             }
 
 
@@ -149,8 +119,10 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["Nome" + i] = Funcionarios[i]["nome"];
                 }
 
+                
                 TempData["TotalResultado"] = Funcionarios.Count;
                 TempData["Editar"] = "EditarFuncao";
+ //               TempData["id"]=Funcionarios[0]["id"];
                 return PartialView("PesquisaParametros");
             }
 
@@ -170,6 +142,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var dadosTablelaGrupo = VerificaDados.RetornaGrupos();
                 FuncionarioRecupera.DescricaoGrupo = dadosTablelaGrupo;
+                FuncionarioRecupera.id = Convert.ToInt32(DadosFuncionario[0]["id"]);
                 FuncionarioRecupera.idDescricaoGrupo = Convert.ToInt32(DadosFuncionario[0]["idgrupo"]);
                 FuncionarioRecupera.dataAdmissao = Convert.ToDateTime(DadosFuncionario[0]["admissao"]).ToString("dd/MM/yyyy");
                 FuncionarioRecupera.NomeFuncionario = DadosFuncionario[0]["nome"];

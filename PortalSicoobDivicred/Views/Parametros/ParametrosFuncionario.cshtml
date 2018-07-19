@@ -191,13 +191,12 @@
     </div>
 }
 
-@using (Html.BeginForm("BuscarFuncionario", "Parametros"))
-{
+
     <div id="ModalFuncionario" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Editar Funcionario</p>
+                <p class="modal-card-title">Editar Funcionário</p>
                 <a href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);" class="delete"></a>
             </header>
             <section class="modal-card-body">
@@ -229,10 +228,15 @@
                     </div>
                 </div>
                 <div id="EdicaoFuncionario" hidden>
-                    <br/>
+                    <br />
                 </div>
+               
+                
+                <footer class="modal-card-foot">
+                    <a class="button" href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);">Cancelar</a>
+                </footer>
             </section>
         </div>
     </div>
-}
+
 

@@ -71,8 +71,8 @@ namespace PortalSicoobDivicred.Aplicacao
         public void AtualizaUsuario(int id,string nome, int pa, string dataAdmissao, string cpf, string rg, string pis,
             string estagiario, string login,string email, int idgrupo, string gestor, string matricula)
         {
-            var queryAlteraFuncionario = "UPDATE FUNCIONARIOS SET nome='" + nome + "',pa='" + pa + "',admissao='" +
-                                         cpf + "',rg='" + rg + "',pis='" + pis + "',estagiario='" + estagiario + "'" +
+            var queryAlteraFuncionario = "UPDATE FUNCIONARIOS SET nome='" + nome + "',idpa='" + pa + "',admissao='" +
+                                         Convert.ToDateTime(dataAdmissao).ToString("yyyy-MM-dd") + "',cpf='"+cpf+"',rg='" + rg + "',pis='" + pis + "',estagiario='" + estagiario + "'," +
                                          " login='" + login + "',email='" + email + "',idgrupo='" + idgrupo +
                                          "',gestor='" + gestor + "',matricula='" + matricula + "' where id='"+id+"'";            
             var Dados = ConexaoMysql.ExecutaComando(queryAlteraFuncionario);

@@ -748,6 +748,7 @@
     <Compile Include="Aplicacao\QueryMysqlWebdesk.cs" />
     <Compile Include="Aplicacao\ManipularPlanilha.cs" />
     <Compile Include="Aplicacao\ValidacoesIniciais.cs" />
+    <Compile Include="Aplicacao\ValidaImagem.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CurriculoController.cs" />
     <Compile Include="Controllers\FormulariosMigController.cs" />

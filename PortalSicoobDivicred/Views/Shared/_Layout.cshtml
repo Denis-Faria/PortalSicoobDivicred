@@ -62,7 +62,7 @@
     </script>
 </head>
 
-<body id="CorpoPrincipal">
+<body id="CorpoPrincipal" >
     <style>
         #myBtn {
             display: none;
@@ -79,6 +79,7 @@
         #Lateral {
             position: fixed;
             top: 0;
+            z-index: 1000;
         }
 
     </style>
@@ -236,7 +237,7 @@
                 </ul>
             </aside>
             <div class="container">
-                <div id="Conteudo" name="Conteudo">
+                <div id="Conteudo" name="Conteudo"  >
                     @RenderBody()
                 </div>
             </div>

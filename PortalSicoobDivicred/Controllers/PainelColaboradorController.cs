@@ -658,12 +658,44 @@ namespace PortalSicoobDivicred.Controllers
 
                     var bytes = (byte[])documentosUpados.Rows[i]["arquivo"];
                     var img64 = Convert.ToBase64String( bytes );
-                    var img64Url = string.Format( "data:image/;base64,{0}", img64 );
-                    TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                    ValidaImagem image = new ValidaImagem();
+                    if (!image.IsValidImage(bytes))
+                    {
+                        var img64Url = string.Format("data:application/pdf;base64,{0}", img64);
+                        TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                        TempData["ValidaTipo" + documentosUpados.Rows[i]["nomearquivo"]] = "pdf";
+                    }
+                    else
+                    {
+                        var img64Url = string.Format( "data:image/;base64,{0}", img64 );
+                        TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                        TempData["ValidaTipo" + documentosUpados.Rows[i]["nomearquivo"]] = "imagem";
+                    }
                 }
 
-                var dadosFuncionario = new Funcionario();
+                var vinculoExtra = verificaDados.RecuperaVinculoExtra( dadosTabelaFuncionario[0]["id"] );
 
+                var tipos = dadosTabelaFuncionario[0]["tipodependente"].ToString().Split( ';' );
+                for(var i = 0; i < 10; i++)
+                    if(tipos.Contains( i.ToString() ))
+                        TempData["Check" + i] = "checked";
+                    else
+                        TempData["Check" + i] = "";
+
+
+                var dadosFuncionario = new Funcionario();
+                if(vinculoExtra.Count > 0)
+                {
+                    TempData["MostraVinculo"] = "";
+                    dadosFuncionario.MultiploCnpj = vinculoExtra[0]["cnpj"];
+                    dadosFuncionario.MultiploNomeEmpresa = vinculoExtra[0]["nomeempresa"];
+                    dadosFuncionario.MultiploRemuneracao = vinculoExtra[0]["remuneracao"];
+                    dadosFuncionario.MultiploComentario = vinculoExtra[0]["comentario"];
+                }
+                else
+                {
+                    TempData["MostraVinculo"] = "style=display:none;";
+                }
 
                 dadosFuncionario.NomeFuncionario = dadosTabelaFuncionario[0]["nome"];
                 dadosFuncionario.CpfFuncionario = dadosTabelaFuncionario[0]["cpf"];
@@ -686,35 +718,172 @@ namespace PortalSicoobDivicred.Controllers
                 dadosFuncionario.ComidaFavorita = dadosTabelaFuncionario[0]["comidafavorita"];
                 dadosFuncionario.Viagem = dadosTabelaFuncionario[0]["viagem"];
                 dadosFuncionario.DescricaoSexo = dadosTabelaFuncionario[0]["descricaosexo"];
+                dadosFuncionario.Matricula = dadosTabelaFuncionario[0]["matricula"];
+                dadosFuncionario.NumeroCtps = dadosTabelaFuncionario[0]["numeroctps"];
+                dadosFuncionario.SerieCtps = dadosTabelaFuncionario[0]["seriectps"];
+                dadosFuncionario.UfCtps = dadosTabelaFuncionario[0]["ufctps"];
+                dadosFuncionario.EmissaoCtps = Convert.ToDateTime( dadosTabelaFuncionario[0]["dataemissaoctps"] ).Date
+                    .ToString( "dd/MM/yyyy" );
+                dadosFuncionario.AnoPrimeiroEmprego = dadosTabelaFuncionario[0]["anoprimeiroemprego"];
+                dadosFuncionario.IdTipoConta = Convert.ToInt32( dadosTabelaFuncionario[0]["idtipoconta"] );
+                dadosFuncionario.CodigoBanco = dadosTabelaFuncionario[0]["codigobanco"];
+                dadosFuncionario.Agencia = dadosTabelaFuncionario[0]["agencia"];
+                dadosFuncionario.ContaCorrente = dadosTabelaFuncionario[0]["contacorrente"];
+                dadosFuncionario.DadosDependentes = dadosTabelaFuncionario[0]["informacaodependente"];
+                dadosFuncionario.DependenteIrrf = dadosTabelaFuncionario[0]["dependenteirrpf"];
+                dadosFuncionario.CpfIrrf = dadosTabelaFuncionario[0]["cpfirrf"];
+                dadosFuncionario.DependenteFamilia = dadosTabelaFuncionario[0]["dependentesalariofamilia"];
+                dadosFuncionario.OrgaoEmissorRg = dadosTabelaFuncionario[0]["orgaoemissorrg"];
+                dadosFuncionario.Nacionalidade = dadosTabelaFuncionario[0]["nacionalidade"];
+                dadosFuncionario.LocalNascimento = dadosTabelaFuncionario[0]["localnascimento"];
+                dadosFuncionario.UfNascimento = dadosTabelaFuncionario[0]["ufnascimento"];
+                dadosFuncionario.TelefoneFixo = dadosTabelaFuncionario[0]["telefonefixo"];
+                dadosFuncionario.TelefoneCelular = dadosTabelaFuncionario[0]["telefonecelular"];
+                dadosFuncionario.NomeMae = dadosTabelaFuncionario[0]["nomemae"];
+                dadosFuncionario.NomePai = dadosTabelaFuncionario[0]["nomepai"];
 
+                dadosFuncionario.EmailSecundario = dadosTabelaFuncionario[0]["emailsecundario"];
+                dadosFuncionario.Cep = dadosTabelaFuncionario[0]["cep"];
+                dadosFuncionario.Complemento = dadosTabelaFuncionario[0]["complemento"];
+                dadosFuncionario.Pais = dadosTabelaFuncionario[0]["pais"];
+                dadosFuncionario.ResidenciaPropria = dadosTabelaFuncionario[0]["residenciapropria"];
+                dadosFuncionario.RecursoFgts = dadosTabelaFuncionario[0]["recursofgts"];
+                dadosFuncionario.DeficienteMotor = dadosTabelaFuncionario[0]["deficientemotor"];
+                dadosFuncionario.DeficienteVisual = dadosTabelaFuncionario[0]["deficientevisual"];
+                dadosFuncionario.DeficienteAuditivo = dadosTabelaFuncionario[0]["deficienteauditivo"];
+                dadosFuncionario.Reabilitado = dadosTabelaFuncionario[0]["reabilitado"];
+                dadosFuncionario.ObservacaoDeficiente = dadosTabelaFuncionario[0]["observacaodeficiente"];
+                dadosFuncionario.DataExpedicaoDocumentoRg =
+                    Convert.ToDateTime( dadosTabelaFuncionario[0]["dataemissaorg"] ).Date;
+                dadosFuncionario.IdEstadoCivil = Convert.ToInt32( dadosTabelaFuncionario[0]["idestadocivil"] );
+                try
+                {
+                    dadosFuncionario.IdEstadoCivilPais =
+                        Convert.ToInt32( dadosTabelaFuncionario[0]["paisdivorciado"] );
+                }
+                catch
+                {
+                    dadosFuncionario.IdEstadoCivilPais = 0;
+                }
+
+                try
+                {
+                    dadosFuncionario.IdHorario = Convert.ToInt32( dadosTabelaFuncionario[0]["idhorariotrabalho"] );
+                }
+                catch
+                {
+                    dadosFuncionario.IdHorario = 0;
+                }
+
+                dadosFuncionario.IdSexo = Convert.ToInt32( dadosTabelaFuncionario[0]["sexo"] );
+                dadosFuncionario.IdEtnia = Convert.ToInt32( dadosTabelaFuncionario[0]["etnia"] );
+                dadosFuncionario.IdFormacao = Convert.ToInt32( dadosTabelaFuncionario[0]["idescolaridade"] );
+                dadosFuncionario.IdSetor = Convert.ToInt32( dadosTabelaFuncionario[0]["idsetor"] );
+                dadosFuncionario.IdFuncao = Convert.ToInt32( dadosTabelaFuncionario[0]["funcao"] );
+                dadosFuncionario.NotificacaoEmail = dadosTabelaFuncionario[0]["notificacaoemail"];
+                dadosFuncionario.ContribuicaoSindical = dadosTabelaFuncionario[0]["contribuicaosindical"];
+
+                var formacoes = verificaDados.RetornaFormacaoFuncionario( dadosTabelaFuncionario[0]["id"] );
+
+                if(dadosTabelaFuncionario[0]["cnh"].Equals( "" ))
+                {
+                    if(dadosTabelaFuncionario[0]["oc"].Equals( "" ))
+                    {
+                        TempData["ExibeDocumentoExtra"] = "style=display:none;";
+                    }
+                    else
+                    {
+                        TempData["ExibeDocumentoExtra"] = "";
+                        dadosFuncionario.Cnh = dadosTabelaFuncionario[0]["cnh"];
+                        dadosFuncionario.DataExpedicaoDocumentoCnh =
+                            Convert.ToDateTime( dadosTabelaFuncionario[0]["dataexpedicaocnh"] ).Date;
+                        dadosFuncionario.OrgaoEmissorCnh = dadosTabelaFuncionario[0]["orgaoemissorcnh"];
+                        dadosFuncionario.DataValidadeCnh =
+                            Convert.ToDateTime( dadosTabelaFuncionario[0]["datavalidadecnh"] );
+
+                        dadosFuncionario.Oc = dadosTabelaFuncionario[0]["oc"];
+                        dadosFuncionario.DataExpedicaoOc =
+                            Convert.ToDateTime( dadosTabelaFuncionario[0]["dataexpedicaooc"] ).Date;
+                        dadosFuncionario.OrgaoEmissorOc = dadosTabelaFuncionario[0]["orgaoemissoroc"];
+                        dadosFuncionario.DataValidadeOc =
+                            Convert.ToDateTime( dadosTabelaFuncionario[0]["datavalidadeoc"] );
+                    }
+                }
+                else
+                {
+                    TempData["ExibeDocumentoExtra"] = "";
+                    dadosFuncionario.Cnh = dadosTabelaFuncionario[0]["cnh"];
+                    dadosFuncionario.DataExpedicaoDocumentoCnh =
+                        Convert.ToDateTime( dadosTabelaFuncionario[0]["dataexpedicaocnh"] ).Date;
+                    dadosFuncionario.OrgaoEmissorCnh = dadosTabelaFuncionario[0]["orgaoemissorcnh"];
+                    dadosFuncionario.DataValidadeCnh =
+                        Convert.ToDateTime( dadosTabelaFuncionario[0]["datavalidadecnh"] );
+
+                    dadosFuncionario.Oc = dadosTabelaFuncionario[0]["oc"];
+                    dadosFuncionario.DataExpedicaoOc =
+                        Convert.ToDateTime( dadosTabelaFuncionario[0]["dataexpedicaooc"] ).Date;
+                    dadosFuncionario.OrgaoEmissorOc = dadosTabelaFuncionario[0]["orgaoemissoroc"];
+                    dadosFuncionario.DataValidadeOc =
+                        Convert.ToDateTime( dadosTabelaFuncionario[0]["datavalidadeoc"] );
+                }
+
+                TempData["TotalFormacao"] = formacoes.Count;
+                for(var j = 0; j < formacoes.Count; j++)
+                {
+                    TempData["IdFormacaoExtra" + j] = "Extra|" + formacoes[j]["id"];
+                    TempData["IdTipoFormacao" + j] = "Tipo|" + formacoes[j]["id"];
+                    TempData["FormacaoExtra" + j] = formacoes[j]["descricao"];
+                    TempData["TipoFormacaoExtra" + j] = formacoes[j]["tipoformacao"];
+                }
+
+
+                var certificacoesFuncao =
+                    verificaDados.RetornaCertificacaoFuncao( dadosTabelaFuncionario[0]["funcao"] );
+                var idCertificacoes = certificacoesFuncao[0]["idcertificacao"].Split( ';' );
+
+                TempData["TotalCertificacao"] = idCertificacoes.Length;
+
+                for(var j = 0; j < idCertificacoes.Length; j++)
+                    if(idCertificacoes[j].Length > 0)
+                    {
+                        var certificacoes = verificaDados.RetornaCertificacao( idCertificacoes[j] );
+                        TempData["Certificacao" + j] = certificacoes[0]["descricao"];
+                    }
+
+
+                if(dadosTabelaFuncionario[0]["confirmacaocertificacao"].Equals( "S" ))
+                    TempData["ConfirmaCertificacao"] = "Checked";
+                else
+                    TempData["ConfirmaCertificacao"] = "";
                 if(dadosTabelaFuncionario[0]["foto"] == null)
                     TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                 else
                     TempData["Foto"] = "/Uploads/" + dadosTabelaFuncionario[0]["foto"];
-
+                var funcaoFuncionario = verificaDados.RetornaFuncaoFuncionario( dadosTabelaFuncionario[0]["funcao"] );
+                TempData["NomeFuncionario"] = dadosTabelaFuncionario[0]["nome"];
+                TempData["Funcao"] = funcaoFuncionario;
                 TempData["DataAdmissao"] =
                     Convert.ToDateTime( dadosTabelaFuncionario[0]["admissao"] ).ToString( "dd/MM/yyyy" );
 
-                TempData["Genero"] = verificaDados.RetornaGeneroFuncionario( dadosTabelaFuncionario[0]["sexo"] );
-                TempData["Setor"] = verificaDados.RetornaSetorFuncionario( dadosTabelaFuncionario[0]["idsetor"] );
-                TempData["Funcao"] = verificaDados.RetornaFuncaoFuncionario( dadosTabelaFuncionario[0]["funcao"] );
-                TempData["Educacional"] =
-                    verificaDados.RetornaEscolaridadeFuncionario( dadosTabelaFuncionario[0]["idescolaridade"] );
-                TempData["EstadoCivil"] =
-                    verificaDados.RetornaEstadoCivilFuncionario( dadosTabelaFuncionario[0]["idestadocivil"] );
-                TempData["Etinia"] = verificaDados.RetornaEtiniaFuncionario( dadosTabelaFuncionario[0]["etnia"] );
+                var estadoCivil = verificaDados.RetornaEstadoCivil();
+                var tipoConta = verificaDados.RetornaTipoConta();
+                var sexo = verificaDados.RetornaSexo();
+                var etnia = verificaDados.RetornaEtnia();
+                var formacao = verificaDados.RetornaFormacao();
+                var setor = verificaDados.RetornaSetor();
+                var funcao = verificaDados.RetornaFuncao();
+                var estadosCivisPais = verificaDados.RetornaEstadoCivilPais();
+                var horariosTrabalhos = verificaDados.RetornaHorarioTrabalho();
 
-                TempData["NomeFuncionario"] = dadosTabelaFuncionario[0]["nome"];
-
-                var formacao = verificaDados.RetornaFormacaoFuncionario( dadosTabelaFuncionario[0]["id"] );
-                TempData["TotalFormacao"] = formacao.Count;
-                for(var i = 0; i < formacao.Count; i++)
-                    TempData["Formacao " + i] = formacao[0]["descricao"];
-
-                TempData["Salario"] = dadosTabelaFuncionario[0]["salariobase"];
-                TempData["QuebraCaixa"] = dadosTabelaFuncionario[0]["quebradecaixa"];
-                TempData["Anuenio"] = dadosTabelaFuncionario[0]["anuenio"];
-                TempData["Ticket"] = dadosTabelaFuncionario[0]["ticket"];
+                dadosFuncionario.EstadoCivil = estadoCivil;
+                dadosFuncionario.Sexo = sexo;
+                dadosFuncionario.Etnia = etnia;
+                dadosFuncionario.Formacao = formacao;
+                dadosFuncionario.Setor = setor;
+                dadosFuncionario.Funcao = funcao;
+                dadosFuncionario.Conta = tipoConta;
+                dadosFuncionario.PaisDivorciados = estadosCivisPais;
+                dadosFuncionario.HorarioTrabalho = horariosTrabalhos;
 
                 if(dadosTabelaFuncionario[0]["estagiario"].Equals( "S" ))
                 {

@@ -2,6 +2,64 @@
 @model PortalSicoobDivicred.Models.Parametros
 
 
+<script>
+    function ExcluirFuncionario(id) {
+        alert("--->" + id);
+
+        iziToast.show({
+            message: 'Confirma a exclusão do Registro ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function (instance, toast) {
+
+                        $("#PerfilCompleto").empty();
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/Parametros/ExcluirFuncionario',
+                                cache: true,
+                                async: true,
+                                data: { "idFuncionario": id },
+                                success: function (data) {
+                                    instance.hide({
+                                        transitionOut: 'fadeOutUp',
+                                        onClosing: function (instance, toast, closedBy) {
+                                            console.info('closedBy: ' + closedBy); //btn2
+
+                                        }
+                                    },
+                                        toast,
+                                        'close',
+                                        'btn1');
+
+                                    location.href = "/Parametros/Parametros?Mensagem=Funcionário excluído com sucesso";
+
+                                }
+                            });
+
+                    }
+                ],
+                [
+                    '<button>Não</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function (instance, toast, closedBy) {
+                                console.info('closedBy: ' + closedBy); //btn2
+                            }
+                        },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ]
+
+        });
+    }
+
+</script>
 
 <script>
     $(document).ready(function () {
@@ -18,12 +76,12 @@
     });
 
     function Buscar() {
-        
+
 
         $("#ListaFuncionarios").empty();
         $.ajax(
-            { 
-                    
+            {
+
                 type: 'Post',
                 url: '/Parametros/BuscarFuncionario',
                 dataType: 'html',
@@ -31,7 +89,7 @@
                 async: true,
                 data: { "NomeFuncionario": $("#BuscaFuncionario").val() },
                 success: function (data) {
-                    
+
                     $("#ListaFuncionarios").append(data);
 
                 }
@@ -45,7 +103,6 @@
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
 <div class="field is-grouped is-desktop">
-
     <p class="control">
         <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal is-active');void(0);">
             <span class="icon is-small">
@@ -192,51 +249,62 @@
 }
 
 
-    <div id="ModalFuncionario" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Editar Funcionário</p>
-                <a href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Funcionários
-                        </p>
+<div id="ModalFuncionario" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Editar Funcionário</p>
 
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
+        </header>
+        <section class="modal-card-body">
+            <div class="card">
+                <header class="card-header">
+                    <p class="card-header-title">
+                        Funcionários
+                    </p>
 
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="BuscaFuncionario" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </div>
-                                <div class="control">
-                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
-                                        Procurar
-                                    </a>
-                                </div>
+                </header>
+                <div class="card-content">
+                    <div class="content">
+
+                        <div class="field has-addons">
+                            <div class="control has-icons-left is-expanded">
+                                <input id="BuscaFuncionario" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-search"></i>
+                                </span>
                             </div>
-                            <ul id="ListaFuncionarios"></ul>
+                            <div class="control">
+                                <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                    Procurar
+                                </a>
+                            </div>
                         </div>
+                        <ul id="ListaFuncionarios"></ul>
                     </div>
                 </div>
-                <div id="EdicaoFuncionario" hidden>
-                    <br />
-                </div>
-               
-                
-                <footer class="modal-card-foot">
-                    <a class="button" href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);">Cancelar</a>
-                </footer>
-            </section>
-        </div>
+            </div>
+            <div id="EdicaoFuncionario" hidden>
+                <br />
+            </div>
+        </section>
+
+        <footer class="modal-card-foot">
+            <a class="button" href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);">Cancelar</a>
+            <div id="ExcluirRegistro" hidden="true">
+                <button style="display: block; margin-left: auto; margin-right: auto" type="button" class="button is-danger" onclick="location.href = 'javascript:ExcluirFuncionario(@TempData["id"]);void(0);'" name="ExcluirFuncionario" id="IdFuncionario" onmouseleave="$('#'+ @TempData["id"]).removeClass('animated pulse')" onmouseover="$('#' + @TempData["id"]).addClass('animated pulse');">
+                    <span class="icon is-small">
+                        <i class="far fa-trash-alt">
+
+                        </i>
+                    </span>
+                    <span> Excluir Registro</span>
+                </button>
+            </div>
+
+        </footer>
+
     </div>
+</div>
 
 

@@ -56,14 +56,14 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
         {
-            var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' order by nome";
+            var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' and ativo='S' order by nome";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
 
         public List<Dictionary<string, string>> RecuperaDadosFuncionario(string IdFuncionario)
         {
-            var Query = "Select * from funcionarios where id='" + IdFuncionario + "'";
+            var Query = "Select * from funcionarios where id='" + IdFuncionario + "' and ativo='S'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -77,6 +77,12 @@ namespace PortalSicoobDivicred.Aplicacao
                                          "',gestor='" + gestor + "',matricula='" + matricula + "' where id='"+id+"'";            
             var Dados = ConexaoMysql.ExecutaComando(queryAlteraFuncionario);
             
+        }
+
+        public void ExcluirFuncionario(string IdFuncionario)
+        {
+            var Query2 = "UPDATE funcionarios SET ativo='N' WHERE id=" + IdFuncionario + "";
+            ConexaoMysql.ExecutaComando(Query2);
         }
 
 

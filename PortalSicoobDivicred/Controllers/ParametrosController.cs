@@ -13,10 +13,10 @@ namespace PortalSicoobDivicred.Controllers
 {
     public class ParametrosController : Controller
     {
-        public ActionResult Parametros(string MensagemValidacao, string Erro)
+        public ActionResult Parametros(string Mensagem, string Erro)
         {
-
-            TempData["MensagemValidacao"] = MensagemValidacao;
+            
+            TempData["Mensagem"] = Mensagem;
             TempData["Erro"] = Erro;
             var insereDados = new QueryMysql();
             var Logado = insereDados.UsuarioLogado();
@@ -26,15 +26,17 @@ namespace PortalSicoobDivicred.Controllers
                 var cookie = Request.Cookies.Get("CookieFarm");
                 if (cookie != null)
                 {
+                    
                     var login = Criptografa.Descriptografar(cookie.Value);
                     var dadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(login);
+                    
                     var validacoes = new ValidacoesIniciais();
 
                     validacoes.AlertasUsuario(this, dadosUsuarioBanco[0]["id"]);
                     validacoes.Permissoes(this, dadosUsuarioBanco);
                     validacoes.DadosNavBar(this, dadosUsuarioBanco);
                 }
-
+                TempData["Mensagem"] = Mensagem;
                 return View("Parametros");
             }
             else
@@ -113,17 +115,24 @@ namespace PortalSicoobDivicred.Controllers
             if (Logado)
             {
                 var Funcionarios = VerificaDados.BuscaFuncionario(NomeFuncionario);
-                for (var i = 0; i < Funcionarios.Count; i++)
+                if (Funcionarios.Count != 0)
                 {
-                    TempData["Id" + i] = Funcionarios[i]["id"];
-                    TempData["Nome" + i] = Funcionarios[i]["nome"];
-                }
+                    for (var i = 0; i < Funcionarios.Count; i++)
+                    {
+                        TempData["Id" + i] = Funcionarios[i]["id"];
+                        TempData["Nome" + i] = Funcionarios[i]["nome"];
+                    }
 
-                
-                TempData["TotalResultado"] = Funcionarios.Count;
-                TempData["Editar"] = "EditarFuncao";
- //               TempData["id"]=Funcionarios[0]["id"];
-                return PartialView("PesquisaParametros");
+
+                    TempData["TotalResultado"] = Funcionarios.Count;
+                    TempData["Editar"] = "EditarFuncao";
+                    TempData["id"] = Funcionarios[0]["id"];
+                    return PartialView("PesquisaParametros");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
             }
 
             return RedirectToAction("Login", "Login");
@@ -136,11 +145,14 @@ namespace PortalSicoobDivicred.Controllers
             var Logado = VerificaDados.UsuarioLogado();
             if (Logado)
             {
+                
                 //var Certificacoes = VerificaDados.RetornaCertificacoes();
                 var DadosFuncionario = VerificaDados.RecuperaDadosFuncionario(IdFuncionario);
                 var FuncionarioRecupera = new Parametros();
 
+
                 var dadosTablelaGrupo = VerificaDados.RetornaGrupos();
+                TempData["id"] = Convert.ToInt32(DadosFuncionario[0]["id"]);
                 FuncionarioRecupera.DescricaoGrupo = dadosTablelaGrupo;
                 FuncionarioRecupera.id = Convert.ToInt32(DadosFuncionario[0]["id"]);
                 FuncionarioRecupera.idDescricaoGrupo = Convert.ToInt32(DadosFuncionario[0]["idgrupo"]);
@@ -171,10 +183,25 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizaDadosFuncionario(Parametros dados, FormCollection receberForm)
         {
+            TempData["id"] = dados.id;
             var atualizaFuncionario = new QueryMysqlParametros();
             atualizaFuncionario.AtualizaUsuario(dados.id, dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
                 dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
             return RedirectToAction("Parametros", new { MensagemValidacao = "Registro alterado com sucesso!!" });
+        }
+
+        public ActionResult ExcluirFuncionario(string IdFuncionario)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                VerificaDados.ExcluirFuncionario(IdFuncionario);
+                return RedirectToAction("Parametros", "Parametros",
+                    new { Mensagem = "Funcionário excluido com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
         }
 
 

@@ -4,6 +4,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["MensagemValidacao"] != null)
+{
+    @Html.Label("")
+
+
+    <script>
+
+        iziToast.success({
+            title: 'Sucesso',
+            position: "center",
+            message: '@TempData["MensagemValidacao"]'
+        });
+
+    </script>
+}
+
+@if (TempData["Erro"] != null)
+{
+    @Html.Label("")
+
+
+    <script>
+
+        iziToast.error({
+            title: 'Erro',
+            position: "center",
+            message: '@TempData["Erro"]'
+        });
+
+    </script>
+}
 
 <script>
     function Funcionario() {
@@ -119,7 +150,6 @@
 
         }
 
-
         function ValidaMascara(valor) {
 
             if (valor.replace(/\D/g, '').length === 11) {
@@ -159,7 +189,7 @@
 
 
 
-       
+
 
     </script>
     <style>
@@ -209,7 +239,7 @@
             </div>
         </div>
 
-        <div class="column is-8" id="ParametroSelecionado"  style="float:right">
+        <div class="column is-8" id="ParametroSelecionado" style="float:right">
         </div>
 
     </div>

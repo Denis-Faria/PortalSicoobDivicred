@@ -24,7 +24,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function(data) {
+                success: function (data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
@@ -50,7 +50,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                success: function(data) {
+                success: function (data) {
                     $("#ParametroSelecionado").append(data);
 
                 }
@@ -580,7 +580,7 @@
     <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
     </script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
-    @using(Html.BeginForm( "CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" } ))
+    @using(Html.BeginForm( "CadastrarTarefa", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "CadastroTarefa" } ))
     {
         <div id="ModalTarefa" class="modal">
             <div class="modal-background"></div>
@@ -591,7 +591,7 @@
                 </header>
                 <section class="modal-card-body">
                     <div id="DadosTarefa">
-                       @Html.Action("TarefaNova","Webdesk")
+                        @Html.Action( "TarefaNova", "Webdesk" )
                     </div>
                 </section>
                 <footer class="modal-card-foot">
@@ -600,15 +600,14 @@
                 </footer>
             </div>
         </div>
-       
     }
 
 
 
 
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-    </script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
     @using(Html.BeginForm( "CadastrarSolicitacao", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "Cadastro" } ))
     {
         <div id="ModalSolicitacao" class="modal">

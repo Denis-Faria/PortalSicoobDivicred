@@ -14,6 +14,24 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o seu CPF!")]
         public string CpfFuncionario { get; set; }
 
+
+        public DateTime DataAdmissaoFuncionario { get; set; }
+
+        public string VencimentoPeriodico{ get; set; }
+
+        public string Salario { get; set; }
+
+        public string QuebraDeCaixa { get; set; }
+
+
+        public string Anuenio { get; set; }
+
+        public string Ticket { get; set; }
+
+        public string Estagiario { get; set; }
+
+        public DateTime DataEstagiario { get; set; }
+
         [Required(ErrorMessage = "Favor informar a sua identidade!")]
         public string RgFuncionario { get; set; }
 

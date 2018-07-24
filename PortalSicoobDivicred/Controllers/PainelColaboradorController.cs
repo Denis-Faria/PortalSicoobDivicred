@@ -126,7 +126,7 @@ namespace PortalSicoobDivicred.Controllers
 
                     try
                     {
-                        dadosFuncionario.IdHorario = Convert.ToInt32(dadosTabelaFuncionario[0]["idhorariotrabalho"] );
+                        dadosFuncionario.IdHorario = Convert.ToInt32( dadosTabelaFuncionario[0]["idhorariotrabalho"] );
                     }
                     catch
                     {
@@ -407,7 +407,7 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     var nomeArquivo = Path.GetFileName( arquivo.FileName );
 
-                    if (nomeArquivo != null)
+                    if(nomeArquivo != null)
                     {
                         var caminho = Path.Combine( Server.MapPath( "~/Uploads/" ), nomeArquivo );
 
@@ -426,7 +426,7 @@ namespace PortalSicoobDivicred.Controllers
                             arquivo.SaveAs( caminho );
 
                             var cookie = Request.Cookies.Get( "CookieFarm" );
-                            if (cookie != null)
+                            if(cookie != null)
                             {
                                 var login = Criptografa.Descriptografar( cookie.Value );
                                 inserirFoto.AtualizaFoto( tempfileName, login );
@@ -438,7 +438,7 @@ namespace PortalSicoobDivicred.Controllers
                         {
                             arquivo.SaveAs( caminho );
                             var cookie = Request.Cookies.Get( "CookieFarm" );
-                            if (cookie != null)
+                            if(cookie != null)
                             {
                                 var login = Criptografa.Descriptografar( cookie.Value );
                                 inserirFoto.AtualizaFoto( nomeArquivo, login );
@@ -514,7 +514,7 @@ namespace PortalSicoobDivicred.Controllers
 
                 var cookie = Request.Cookies.Get( "CookieFarm" );
 
-                if (cookie != null)
+                if(cookie != null)
                 {
                     var login = Criptografa.Descriptografar( cookie.Value );
                     if(carregaDados.PrimeiroLogin( login ))
@@ -659,9 +659,9 @@ namespace PortalSicoobDivicred.Controllers
                     var bytes = (byte[])documentosUpados.Rows[i]["arquivo"];
                     var img64 = Convert.ToBase64String( bytes );
                     ValidaImagem image = new ValidaImagem();
-                    if (!image.IsValidImage(bytes))
+                    if(!image.IsValidImage( bytes ))
                     {
-                        var img64Url = string.Format("data:application/pdf;base64,{0}", img64);
+                        var img64Url = string.Format( "data:application/pdf;base64,{0}", img64 );
                         TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
                         TempData["ValidaTipo" + documentosUpados.Rows[i]["nomearquivo"]] = "pdf";
                     }
@@ -696,6 +696,16 @@ namespace PortalSicoobDivicred.Controllers
                 {
                     TempData["MostraVinculo"] = "style=display:none;";
                 }
+
+                dadosFuncionario.Salario = Convert.ToDouble( dadosTabelaFuncionario[0]["salariobase"] ).ToString();
+                dadosFuncionario.Anuenio = Convert.ToDouble( dadosTabelaFuncionario[0]["anuenio"] ).ToString();
+                dadosFuncionario.QuebraDeCaixa = Convert.ToDouble( dadosTabelaFuncionario[0]["quebradecaixa"] ).ToString();
+                dadosFuncionario.Ticket = Convert.ToDouble( dadosTabelaFuncionario[0]["ticket"] ).ToString();
+                dadosFuncionario.Estagiario = dadosTabelaFuncionario[0]["estagiario"];
+                dadosFuncionario.DataEstagiario = Convert.ToDateTime( dadosTabelaFuncionario[0]["contratoestagio"] ).Date;
+                dadosFuncionario.DataAdmissaoFuncionario = Convert.ToDateTime( dadosTabelaFuncionario[0]["admissao"] ).Date;
+                dadosFuncionario.VencimentoPeriodico = dadosTabelaFuncionario[0]["vencimentoperiodico"];
+
 
                 dadosFuncionario.NomeFuncionario = dadosTabelaFuncionario[0]["nome"];
                 dadosFuncionario.CpfFuncionario = dadosTabelaFuncionario[0]["cpf"];
@@ -1154,19 +1164,19 @@ namespace PortalSicoobDivicred.Controllers
                         var cadastroAlerta = new QueryMysql();
 
                         var dadosOperador =
-                            cadastroAlerta.RetornaInformacoesNotificacao(dadosFuncionario[0]["id"]);
-                        if (dadosOperador != null)
+                            cadastroAlerta.RetornaInformacoesNotificacao( dadosFuncionario[0]["id"] );
+                        if(dadosOperador != null)
                         {
-                            await envia.EnviaAlertaFuncionario(dadosOperador[0], "Você tem justificativas pendentes.",
-                                "11");
-                            if (dadosOperador[0]["idsetor"] != null &&
+                            await envia.EnviaAlertaFuncionario( dadosOperador[0], "Você tem justificativas pendentes.",
+                                "11" );
+                            if(dadosOperador[0]["idsetor"] != null &&
                                 dadosFuncionario[0]["idsetor"].ToString().Length > 0)
                             {
-                                var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
-                                if (dadosGestor != null && dadosGestor.Count > 0)
-                                    await envia.EnviaAlertaFuncionario(dadosGestor[0],
+                                var dadosGestor = cadastroAlerta.RetornaInformacoesGestor( dadosOperador[0]["idsetor"] );
+                                if(dadosGestor != null && dadosGestor.Count > 0)
+                                    await envia.EnviaAlertaFuncionario( dadosGestor[0],
                                         "O funcionário " + dadosOperador[0]["nome"] + " tem justificativas pendentes",
-                                        "11");
+                                        "11" );
                             }
                         }
                     }
@@ -1198,25 +1208,25 @@ namespace PortalSicoobDivicred.Controllers
                 try
                 {
                     var funcionarioPendentes = verificaDados.RetornaPendenciaAlerta();
-                    for (var i = 0; i < funcionarioPendentes.Count; i++)
+                    for(var i = 0; i < funcionarioPendentes.Count; i++)
                     {
-                        verificaDados.CadastraAlertaJustificativa(funcionarioPendentes[i]["idfuncionario"],
-                            dados["TextAlerta"]);
+                        verificaDados.CadastraAlertaJustificativa( funcionarioPendentes[i]["idfuncionario"],
+                            dados["TextAlerta"] );
 
                         var envia = new EnviodeAlertas();
                         var cadastroAlerta = new QueryMysql();
 
                         var dadosOperador =
-                            cadastroAlerta.RetornaInformacoesNotificacao(funcionarioPendentes[i]["idfuncionario"]);
-                        if (dadosOperador != null)
+                            cadastroAlerta.RetornaInformacoesNotificacao( funcionarioPendentes[i]["idfuncionario"] );
+                        if(dadosOperador != null)
                         {
-                            await envia.EnviaAlertaFuncionario(dadosOperador[0], dados["TextAlerta"],
-                                "11");
+                            await envia.EnviaAlertaFuncionario( dadosOperador[0], dados["TextAlerta"],
+                                "11" );
 
-                            var dadosGestor = cadastroAlerta.RetornaInformacoesGestor(dadosOperador[0]["idsetor"]);
-                            if (dadosGestor.Count > 0)
-                                await envia.EnviaAlertaFuncionario(dadosGestor[0], dados["TextAlerta"],
-                                    "11");
+                            var dadosGestor = cadastroAlerta.RetornaInformacoesGestor( dadosOperador[0]["idsetor"] );
+                            if(dadosGestor.Count > 0)
+                                await envia.EnviaAlertaFuncionario( dadosGestor[0], dados["TextAlerta"],
+                                    "11" );
                         }
                     }
                 }
@@ -1660,7 +1670,7 @@ namespace PortalSicoobDivicred.Controllers
                                     existe = true;
                                     break;
                                 }
-                               
+
                             if(!existe)
                             {
                                 firebird.InserirMarcacao( dadosPendencia[i]["idfuncionariofirebird"],
@@ -2155,6 +2165,43 @@ namespace PortalSicoobDivicred.Controllers
                 return PartialView( "IndicadorOitoHoras" );
             }
 
+            return RedirectToAction( "Login", "Login" );
+        }
+        [HttpPost]
+        public ActionResult AtualizarDadosRh(Funcionario dadosFuncionario)
+        {
+            var verificaDados = new QueryMysqlRh();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
+            {
+                var cookie = Request.Cookies.Get( "CookieFarm" );
+                if(cookie != null)
+                {
+                    var login = Criptografa.Descriptografar( cookie.Value );
+                    try
+                    {
+                        verificaDados.AtualizaDadosPerfilRh( dadosFuncionario.DataAdmissaoFuncionario,
+                            dadosFuncionario.VencimentoPeriodico, dadosFuncionario.IdFuncao,
+                            Convert.ToDouble( dadosFuncionario.Salario ),
+                            Convert.ToDouble( dadosFuncionario.QuebraDeCaixa ),
+                            Convert.ToDouble( dadosFuncionario.Anuenio ), Convert.ToDouble( dadosFuncionario.Ticket ),
+                            dadosFuncionario.Estagiario, dadosFuncionario.DataEstagiario, dadosFuncionario.IdSetor,
+                            login );
+                    }
+                    catch
+                    {
+                        verificaDados.AtualizaDadosPerfilRh( dadosFuncionario.DataAdmissaoFuncionario,
+                            dadosFuncionario.VencimentoPeriodico, dadosFuncionario.IdFuncao,0,0,0, 0,
+                            dadosFuncionario.Estagiario, dadosFuncionario.DataEstagiario, dadosFuncionario.IdSetor,
+                            login );
+                    }
+
+                }
+
+                return RedirectToAction( "ColaboradorRh", "PainelColaborador",
+                    new { Mensagem = "Dados atualizados com sucesso !" } );
+
+            }
             return RedirectToAction( "Login", "Login" );
         }
     }

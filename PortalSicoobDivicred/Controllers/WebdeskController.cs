@@ -38,125 +38,251 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["TotalChamados"] = chamadosEmAberto.Count;
                     for(var i = 0; i < chamadosEmAberto.Count; i++)
                     {
-                        if(chamadosEmAberto[i]["cpf"] != "")
-                            TempData["Titulo" + i] =
-                                chamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + chamadosEmAberto[i]["cpf"];
-                        else
-                            TempData["Titulo" + i] =
-                                chamadosEmAberto[i]["titulo"];
-
-                        TempData["Numero" + i] = chamadosEmAberto[i]["id"];
-                        TempData["Operador" + i] = chamadosEmAberto[i]["operador"];
-                        TempData["Situacao" + i] = chamadosEmAberto[i]["situacao"];
-                        TempData["DataHoraCadastro" + i] = chamadosEmAberto[i]["datahoracadastro"];
-
-                        if(chamadosEmAberto[i]["fimatendimento"] == null)
+                        if (chamadosEmAberto[i]["tarefa"].Equals("S"))
                         {
-                            var sla = TimeSpan.Parse( chamadosEmAberto[i]["sla"] );
+                            var dadosSubTarefa =
+                                verificaDados.RetornaDadosSubTarefa(chamadosEmAberto[i]["idcategoria"]);
+                            TempData["Titulo" + i] ="TAREFA: "+ dadosSubTarefa[0]["descricao"];
 
-                            double horas;
-                            if(Convert.ToInt32( TimeSpan.Parse( chamadosEmAberto[i]["tempo"] ).TotalMinutes ) == 0)
-                                horas = 00;
+                           TempData["CorTarefa" +i] = "background-color: #c3fdd3;";
+                            TempData["Numero" + i] = chamadosEmAberto[i]["id"];
+                            TempData["Operador" + i] = chamadosEmAberto[i]["operador"];
+                            TempData["Situacao" + i] = chamadosEmAberto[i]["situacao"];
+                            TempData["DataHoraCadastro" + i] = chamadosEmAberto[i]["datahoracadastro"];
+
+                            if(chamadosEmAberto[i]["fimatendimento"] == null)
+                            {
+                                var sla = TimeSpan.Parse( chamadosEmAberto[i]["sla"] );
+
+                                double horas;
+                                if(Convert.ToInt32( TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes ) == 0)
+                                    horas = 00;
+                                else
+                                    horas = sla.TotalMinutes * 100 /
+                                            TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes;
+
+                                if(horas > 100)
+                                    TempData["StatusCor" + i] = "is-danger";
+                                else
+                                    TempData["StatusCor" + i] = "is-primary";
+
+                                TempData["InformacaoSLA" + i] =
+                                    "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
+                                    sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
+                                    dadosSubTarefa[0]["tempo"];
+                                TempData["Sla" + i] = Convert.ToInt32( horas );
+                            }
                             else
-                                horas = sla.TotalMinutes * 100 /
-                                        TimeSpan.Parse( chamadosEmAberto[i]["tempo"] ).TotalMinutes;
-
-                            if(horas > 100)
-                                TempData["StatusCor" + i] = "is-danger";
-                            else
-                                TempData["StatusCor" + i] = "is-primary";
-
-                            TempData["InformacaoSLA" + i] =
-                                "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
-                                sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
-                                chamadosEmAberto[i]["tempo"];
-                            TempData["Sla" + i] = Convert.ToInt32( horas );
+                            {
+                                TempData["InformacaoSLA" + i] = "SOLICITAÇÃO ENCERRADA";
+                                TempData["Sla" + i] = 100;
+                            }
                         }
                         else
                         {
-                            TempData["InformacaoSLA" + i] = "SOLICITAÇÃO ENCERRADA";
-                            TempData["Sla" + i] = 100;
+                            TempData["CorTarefa"+i] = "";
+                            if (chamadosEmAberto[i]["cpf"] != "")
+                                TempData["Titulo" + i] =
+                                    chamadosEmAberto[i]["titulo"] + " CPF/CNPJ: " + chamadosEmAberto[i]["cpf"];
+                            else
+                                TempData["Titulo" + i] =
+                                    chamadosEmAberto[i]["titulo"];
+
+                            TempData["Numero" + i] = chamadosEmAberto[i]["id"];
+                            TempData["Operador" + i] = chamadosEmAberto[i]["operador"];
+                            TempData["Situacao" + i] = chamadosEmAberto[i]["situacao"];
+                            TempData["DataHoraCadastro" + i] = chamadosEmAberto[i]["datahoracadastro"];
+
+                            if (chamadosEmAberto[i]["fimatendimento"] == null)
+                            {
+                                var sla = TimeSpan.Parse(chamadosEmAberto[i]["sla"]);
+
+                                double horas;
+                                if (Convert.ToInt32(TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes) == 0)
+                                    horas = 00;
+                                else
+                                    horas = sla.TotalMinutes * 100 /
+                                            TimeSpan.Parse(chamadosEmAberto[i]["tempo"]).TotalMinutes;
+
+                                if (horas > 100)
+                                    TempData["StatusCor" + i] = "is-danger";
+                                else
+                                    TempData["StatusCor" + i] = "is-primary";
+
+                                TempData["InformacaoSLA" + i] =
+                                    "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
+                                    sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
+                                    chamadosEmAberto[i]["tempo"];
+                                TempData["Sla" + i] = Convert.ToInt32(horas);
+                            }
+                            else
+                            {
+                                TempData["InformacaoSLA" + i] = "SOLICITAÇÃO ENCERRADA";
+                                TempData["Sla" + i] = 100;
+                            }
                         }
                     }
 
                     var chamadosOperador = verificaDados.RetornaChamadosResponsavel( dadosUsuario[0]["id"] );
 
                     TempData["TotalChamadosOperador"] = chamadosOperador.Count;
-                    for(var i = 0; i < chamadosOperador.Count; i++)
+                    for (var i = 0; i < chamadosOperador.Count; i++)
                     {
-                        if(chamadosOperador[i]["cpf"] != "")
-                            TempData["TituloOperador" + i] =
-                                chamadosOperador[i]["titulo"] + " CPF/CNPJ: " + chamadosOperador[i]["cpf"];
+                        if (chamadosOperador[i]["tarefa"].Equals("S"))
+                        {
+                            var dadosSubTarefa =
+                                verificaDados.RetornaDadosSubTarefa(chamadosOperador[i]["idcategoria"]);
+                            TempData["TituloOperador" + i] = "TAREFA: " + dadosSubTarefa[0]["descricao"];
+
+                            TempData["CorTarefaOperador" + i] = "background-color: #c3fdd3;";
+                            TempData["NumeroOperador" + i] = chamadosOperador[i]["id"];
+                            TempData["OperadorOperador" + i] = chamadosOperador[i]["operador"];
+                            TempData["SituacaoOperador" + i] = chamadosOperador[i]["situacao"];
+                            TempData["CadastroOperador" + i] = chamadosOperador[i]["cadastro"];
+                            TempData["DataHoraCadastroOperador" + i] = chamadosOperador[i]["datahoracadastro"];
+
+                            var sla = TimeSpan.Parse( chamadosOperador[i]["sla"] );
+
+                            double horas;
+                            if(Convert.ToInt32( TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes ) == 0)
+                                horas = 00;
+                            else
+                                horas = sla.TotalMinutes * 100 /
+                                        TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes;
+
+                            if(horas > 100)
+                                TempData["StatusCorOperador" + i] = "is-danger";
+                            else
+                                TempData["StatusCorOperador" + i] = "is-primary";
+
+                            TempData["InformacaoSLAOperador" + i] =
+                                "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" + sla.Minutes + ":00" +
+                                " || TEMPO ESTIMADO: " + dadosSubTarefa[0]["tempo"];
+                            TempData["SlaOperador" + i] = Convert.ToInt32( horas );
+                        }
                         else
-                            TempData["TituloOperador" + i] =
-                                chamadosOperador[i]["titulo"];
-                        TempData["NumeroOperador" + i] = chamadosOperador[i]["id"];
-                        TempData["OperadorOperador" + i] = chamadosOperador[i]["operador"];
-                        TempData["SituacaoOperador" + i] = chamadosOperador[i]["situacao"];
-                        TempData["CadastroOperador" + i] = chamadosOperador[i]["cadastro"];
-                        TempData["DataHoraCadastroOperador" + i] = chamadosOperador[i]["datahoracadastro"];
+                        {
+                            TempData["CorTarefaOperador"+i] = "";
+                            if (chamadosOperador[i]["cpf"] != "")
+                                TempData["TituloOperador" + i] =
+                                    chamadosOperador[i]["titulo"] + " CPF/CNPJ: " + chamadosOperador[i]["cpf"];
+                            else
+                                TempData["TituloOperador" + i] =
+                                    chamadosOperador[i]["titulo"];
+                            TempData["NumeroOperador" + i] = chamadosOperador[i]["id"];
+                            TempData["OperadorOperador" + i] = chamadosOperador[i]["operador"];
+                            TempData["SituacaoOperador" + i] = chamadosOperador[i]["situacao"];
+                            TempData["CadastroOperador" + i] = chamadosOperador[i]["cadastro"];
+                            TempData["DataHoraCadastroOperador" + i] = chamadosOperador[i]["datahoracadastro"];
 
-                        var sla = TimeSpan.Parse( chamadosOperador[i]["sla"] );
+                            var sla = TimeSpan.Parse(chamadosOperador[i]["sla"]);
 
-                        double horas;
-                        if(Convert.ToInt32( TimeSpan.Parse( chamadosOperador[i]["tempo"] ).TotalMinutes ) == 0)
-                            horas = 00;
-                        else
-                            horas = sla.TotalMinutes * 100 / TimeSpan.Parse( chamadosOperador[i]["tempo"] ).TotalMinutes;
+                            double horas;
+                            if (Convert.ToInt32(TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes) == 0)
+                                horas = 00;
+                            else
+                                horas = sla.TotalMinutes * 100 /
+                                        TimeSpan.Parse(chamadosOperador[i]["tempo"]).TotalMinutes;
 
-                        if(horas > 100)
-                            TempData["StatusCorOperador" + i] = "is-danger";
-                        else
-                            TempData["StatusCorOperador" + i] = "is-primary";
+                            if (horas > 100)
+                                TempData["StatusCorOperador" + i] = "is-danger";
+                            else
+                                TempData["StatusCorOperador" + i] = "is-primary";
 
-                        TempData["InformacaoSLAOperador" + i] =
-                            "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" + sla.Minutes + ":00" +
-                            " || TEMPO ESTIMADO: " + chamadosOperador[i]["tempo"];
-                        TempData["SlaOperador" + i] = Convert.ToInt32( horas );
+                            TempData["InformacaoSLAOperador" + i] =
+                                "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" + sla.Minutes + ":00" +
+                                " || TEMPO ESTIMADO: " + chamadosOperador[i]["tempo"];
+                            TempData["SlaOperador" + i] = Convert.ToInt32(horas);
+                        }
                     }
 
 
                     var chamadosSetor = verificaDados.RetornaChamadosSetor( dadosUsuario[0]["idsetor"] );
 
                     TempData["TotalChamadosSetor"] = chamadosSetor.Count;
-                    for(var i = 0; i < chamadosSetor.Count; i++)
+                    for (var i = 0; i < chamadosSetor.Count; i++)
                     {
-                        if(chamadosSetor[i]["cpf"] != "")
-                            TempData["TituloSetor" + i] =
-                                chamadosSetor[i]["titulo"] + " CPF/CNPJ: " + chamadosSetor[i]["cpf"];
-                        else
-                            TempData["TituloSetor" + i] =
-                                chamadosSetor[i]["titulo"];
-                        TempData["NumeroSetor" + i] = chamadosSetor[i]["id"];
-                        TempData["OperadorSetor" + i] = chamadosSetor[i]["operador"];
-                        TempData["SituacaoSetor" + i] = chamadosSetor[i]["situacao"];
-                        TempData["CadastroSetor" + i] = chamadosSetor[i]["cadastro"];
-                        TempData["DataHoraSetor" + i] = chamadosSetor[i]["datahoracadastro"];
-
-                        var sla = TimeSpan.Parse( chamadosSetor[i]["sla"] );
-                        double horas;
-                        try
+                        if (chamadosSetor[i]["tarefa"].Equals("S"))
                         {
-                            if(Convert.ToInt32( TimeSpan.Parse( chamadosSetor[i]["tempo"] ).TotalMinutes ) == 0)
-                                horas = 00;
+                            TempData["CorTarefaSetor" + i] = "background-color: #c3fdd3;";
+                            var dadosSubTarefa =
+                                verificaDados.RetornaDadosSubTarefa(chamadosSetor[i]["idcategoria"]);
+                            TempData["TituloSetor" + i] = "TAREFA: " + dadosSubTarefa[0]["descricao"];
+
+                            TempData["NumeroSetor" + i] = chamadosSetor[i]["id"];
+                            TempData["OperadorSetor" + i] = chamadosSetor[i]["operador"];
+                            TempData["SituacaoSetor" + i] = chamadosSetor[i]["situacao"];
+                            TempData["CadastroSetor" + i] = chamadosSetor[i]["cadastro"];
+                            TempData["DataHoraSetor" + i] = chamadosSetor[i]["datahoracadastro"];
+
+                            var sla = TimeSpan.Parse( chamadosSetor[i]["sla"] );
+                            double horas;
+                            try
+                            {
+                                if(Convert.ToInt32( TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes ) == 0)
+                                    horas = 00;
+                                else
+                                    horas = sla.TotalMinutes * 100 /
+                                            TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes;
+                            }
+                            catch
+                            {
+                                horas = sla.TotalMinutes * 100 / TimeSpan.Parse( dadosSubTarefa[0]["tempo"] ).TotalMinutes;
+                            }
+
+                            if(horas > 100)
+                                TempData["StatusCorSetor" + i] = "is-danger";
                             else
-                                horas = sla.TotalMinutes * 100 / TimeSpan.Parse( chamadosSetor[i]["tempo"] ).TotalMinutes;
-                        }
-                        catch
-                        {
-                            horas = sla.TotalMinutes * 100 / TimeSpan.Parse( chamadosSetor[i]["tempo"] ).TotalMinutes;
-                        }
+                                TempData["StatusCorSetor" + i] = "is-primary";
 
-                        if(horas > 100)
-                            TempData["StatusCorSetor" + i] = "is-danger";
+                            TempData["InformacaoSLASetor" + i] =
+                                "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
+                                sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
+                                dadosSubTarefa[0]["tempo"];
+                            TempData["SlaSetor" + i] = Convert.ToInt32( horas );
+
+                        }
                         else
-                            TempData["StatusCorSetor" + i] = "is-primary";
+                        {
+                            TempData["CorTarefaSetor"+i] = "";
+                            if (chamadosSetor[i]["cpf"] != "")
+                                TempData["TituloSetor" + i] =
+                                    chamadosSetor[i]["titulo"] + " CPF/CNPJ: " + chamadosSetor[i]["cpf"];
+                            else
+                                TempData["TituloSetor" + i] =
+                                    chamadosSetor[i]["titulo"];
+                            TempData["NumeroSetor" + i] = chamadosSetor[i]["id"];
+                            TempData["OperadorSetor" + i] = chamadosSetor[i]["operador"];
+                            TempData["SituacaoSetor" + i] = chamadosSetor[i]["situacao"];
+                            TempData["CadastroSetor" + i] = chamadosSetor[i]["cadastro"];
+                            TempData["DataHoraSetor" + i] = chamadosSetor[i]["datahoracadastro"];
 
-                        TempData["InformacaoSLASetor" + i] =
-                            "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
-                            sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
-                            chamadosSetor[i]["tempo"];
-                        TempData["SlaSetor" + i] = Convert.ToInt32( horas );
+                            var sla = TimeSpan.Parse(chamadosSetor[i]["sla"]);
+                            double horas;
+                            try
+                            {
+                                if (Convert.ToInt32(TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes) == 0)
+                                    horas = 00;
+                                else
+                                    horas = sla.TotalMinutes * 100 /
+                                            TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes;
+                            }
+                            catch
+                            {
+                                horas = sla.TotalMinutes * 100 / TimeSpan.Parse(chamadosSetor[i]["tempo"]).TotalMinutes;
+                            }
+
+                            if (horas > 100)
+                                TempData["StatusCorSetor" + i] = "is-danger";
+                            else
+                                TempData["StatusCorSetor" + i] = "is-primary";
+
+                            TempData["InformacaoSLASetor" + i] =
+                                "TEMPO DECORRIDO:" + sla.Days + " DIAS, " + sla.Hours + ":" +
+                                sla.Minutes + ":00" + " || TEMPO ESTIMADO: " +
+                                chamadosSetor[i]["tempo"];
+                            TempData["SlaSetor" + i] = Convert.ToInt32(horas);
+                        }
                     }
 
 
@@ -247,7 +373,7 @@ namespace PortalSicoobDivicred.Controllers
                     for(var i = 0; i < dadoResultado.Count; i++)
                     {
                         var dadosChamado = verificaDados.RetornaDadosChamado( dadoResultado[i].Source.Idsolicitacao );
-                        if (dadosChamado.Count > 0)
+                        if(dadosChamado.Count > 0)
                         {
                             TempData["NumeroChamadoNovo" + i] = dadoResultado[i].Source.Idsolicitacao;
 
@@ -257,11 +383,11 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["OperadorNovo" + i] = dadosChamado[0]["operador"];
 
                             var interacoes =
-                                verificaDados.BuscaInteracaoChamadosNovo(dadoResultado[i].Source.Idsolicitacao);
+                                verificaDados.BuscaInteracaoChamadosNovo( dadoResultado[i].Source.Idsolicitacao );
 
                             TempData["TotalInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao] = interacoes.Count;
 
-                            for (var j = 0; j < interacoes.Count; j++)
+                            for(var j = 0; j < interacoes.Count; j++)
                             {
                                 TempData["UsuarioInteracaoNovo" + dadoResultado[i].Source.Idsolicitacao + j] =
                                     interacoes[j]["nome"];
@@ -275,7 +401,7 @@ namespace PortalSicoobDivicred.Controllers
                 }
 
 
-                return View( "ResultadoPesquisaWebdesk");
+                return View( "ResultadoPesquisaWebdesk" );
             }
 
             return RedirectToAction( "Login", "Login" );
@@ -303,12 +429,12 @@ namespace PortalSicoobDivicred.Controllers
                             idInteracao = verificaDados.CadastraSolicitacao( dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 "0",
-                                dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"] );
+                                dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"],"N" );
                         else
                             idInteracao = verificaDados.CadastraSolicitacao( dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 "0",
-                                dados["Descricao"], dadosUsuario[0]["id"], "" );
+                                dados["Descricao"], dadosUsuario[0]["id"], "", "N" );
                     }
                     else
                     {
@@ -316,12 +442,12 @@ namespace PortalSicoobDivicred.Controllers
                             idInteracao = verificaDados.CadastraSolicitacao( dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 dados["IdFuncionarioResponsavel"],
-                                dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"] );
+                                dados["Descricao"], dadosUsuario[0]["id"], dados["CpfAbertura"], "N" );
                         else
                             idInteracao = verificaDados.CadastraSolicitacao( dados["IdSetorResponsavel"],
                                 dados["IdCategoria"],
                                 dados["IdFuncionarioResponsavel"],
-                                dados["Descricao"], dadosUsuario[0]["id"], "" );
+                                dados["Descricao"], dadosUsuario[0]["id"], "", "N" );
                     }
 
                     for(var i = 0; i < dados.Count; i++)
@@ -1162,6 +1288,64 @@ namespace PortalSicoobDivicred.Controllers
         }
 
         [HttpPost]
+        public ActionResult RetornaFormularioTarefa(string idSubTarefa)
+        {
+            var verificaDados = new QueryMysqlWebdesk();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
+            {
+                var formulario = verificaDados.RetornaFormularioTarefa( idSubTarefa );
+                if(formulario.Count > 0)
+                {
+                    var count = 0;
+                    var arrayCombo = new Dictionary<string, string>();
+
+                    foreach(var campo in formulario)
+                    {
+                        if(campo["campoobrigatorio"].Equals( "S" ))
+                            TempData["Obrigatorio" + count] = "required";
+                        else
+                            TempData["Obrigatorio" + count] = "";
+
+                        if(campo["combo"].Equals( "S" ))
+                        {
+                            if(arrayCombo.ContainsKey( campo["nomecombo"] ))
+                            {
+                                var camposCombo = arrayCombo[campo["nomecombo"]];
+                                camposCombo = camposCombo + ";" + campo["campo"];
+                                arrayCombo[campo["nomecombo"]] = camposCombo;
+                            }
+                            else
+                            {
+                                if(campo["campoobrigatorio"].Equals( "S" ))
+                                    TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
+                                else
+                                    TempData["Obnrigatorio" + campo["nomecombo"]] = "required";
+
+                                arrayCombo.Add( campo["nomecombo"], campo["campo"] );
+                            }
+                        }
+                        else
+                        {
+                            TempData["NomeCampo" + count] = campo["campo"];
+                            count++;
+                        }
+                    }
+
+                    TempData["TotalCampos"] = count;
+                    TempData["Combos"] = arrayCombo;
+
+
+                    return PartialView( "FormularioAberturaChamado" );
+                }
+
+                return null;
+            }
+
+            return RedirectToAction( "Login", "Login" );
+        }
+
+        [HttpPost]
         public ActionResult CadastrarCategoria(Categoria categoria, FormCollection formularioCategoria)
         {
             var verificaDados = new QueryMysqlWebdesk();
@@ -1353,7 +1537,7 @@ namespace PortalSicoobDivicred.Controllers
                             formulario.NomeCombo );
                     }
                 }
-                
+
 
             }
 
@@ -1368,7 +1552,7 @@ namespace PortalSicoobDivicred.Controllers
             var tarefas = new Tarefa();
             tarefas.DescricaoTarefa = todasTarefas;
 
-            return PartialView("NovaTarefa",tarefas);
+            return PartialView( "NovaTarefa", tarefas );
         }
 
         public ActionResult RetornaSubTarefa(string idTarefa)
@@ -1379,13 +1563,150 @@ namespace PortalSicoobDivicred.Controllers
             var tarefas = new Tarefa();
             tarefas.DescricaoSubTarefa = todasTarefas;
 
-            return PartialView("Subtarefas",tarefas);
+            return PartialView( "Subtarefas", tarefas );
 
         }
 
-        public ActionResult CadastrarTarefa()
+        [HttpPost]
+        [ValidateInput( false )]
+        public async Task<ActionResult> CadastrarTarefa(FormCollection dados,
+           IEnumerable<HttpPostedFileBase> postedFiles)
         {
-            throw new NotImplementedException();
+            var verificaDados = new QueryMysqlWebdesk();
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
+            {
+                var cookie = Request.Cookies.Get( "CookieFarm" );
+                if(cookie != null)
+                {
+                    var login = Criptografa.Descriptografar( cookie.Value );
+
+                    var dadosUsuario = verificaDados.RecuperaDadosUsuarios( login );
+                    string idInteracao;
+                    var dadosSubTarefa = verificaDados.RetornaDadosSubTarefa(dados["IdSubTarefa"]);
+
+                    if (dadosSubTarefa[0]["multiploatendente"].Equals("N"))
+                    {
+                        if (dados["CpfAbertura"] != "")
+                            idInteracao = verificaDados.CadastraSolicitacao(dadosSubTarefa[0]["idsetor"],
+                                dados["IdSubTarefa"],
+                                dadosSubTarefa[0]["idfuncionarioresponsavel"],
+                                dados["InformacoesComplementares"], dadosUsuario[0]["id"], dados["CpfAbertura"], "S");
+                        else
+                            idInteracao = verificaDados.CadastraSolicitacao(dadosSubTarefa[0]["idsetor"],
+                                dados["IdSubTarefa"],
+                                dadosSubTarefa[0]["idfuncionarioresponsavel"],
+                                dados["InformacoesComplementares"], dadosUsuario[0]["id"], "", "S");
+
+
+                        for (var i = 0; i < dados.Count; i++)
+                            if (!dados.GetKey(i).Equals("IdSubTarefa") && !dados.GetKey(i).Equals("IdTarefa") &&
+                                !dados.GetKey(i).Equals("InformacoesComplementares") &&
+                                !dados.GetKey(i).Equals("CpfAbertura"))
+                                verificaDados.InserirFormulario(dados.GetKey(i), dados[i], idInteracao.Split(';')[1]);
+                        List<HttpPostedFileBase> lista = null;
+                        try
+                        {
+                            lista = postedFiles.ToList();
+
+                            for (var i = 0; i < lista.Count; i++)
+                                if (lista[i] != null)
+                                {
+                                    var nomeArquivo = Path.GetFileName(lista[i].FileName);
+                                    byte[] fileData;
+                                    using (var binaryReader = new BinaryReader(lista[i].InputStream))
+                                    {
+                                        fileData = binaryReader.ReadBytes(lista[i].ContentLength);
+                                    }
+
+                                    verificaDados.InserirAnexo(idInteracao.Split(';')[0], fileData,
+                                        lista[i].ContentType,
+                                        nomeArquivo);
+                                }
+                        }
+                        catch
+                        {
+                            //ignored
+                        }
+                        var envia = new EnviodeAlertas();
+                        var idSolicitante = verificaDados.RetornaIdSolicitantes( idInteracao.Split( ';' )[1] );
+
+                        var dadosOperador =
+                            verificaDados.RetornaInformacoesNotificacao( idSolicitante[0]["idfuncionarioresponsavel"] );
+
+                        await envia.EnviaAlertaFuncionario( dadosOperador[0],
+                            "Foi Aberto uma tarefa para você.", "6" );
+
+                    }
+                    else
+                    {
+                        
+
+                        var atendentesTarefa = verificaDados.RetornaAtendentesSubTarefa(dados["IdSubTarefa"]);
+
+                        foreach (var atendente in atendentesTarefa)
+                        {
+                            if(dados["CpfAbertura"] != "")
+                                idInteracao = verificaDados.CadastraSolicitacao( atendente["idsetor"],
+                                    dados["IdSubTarefa"],
+                                    atendente["idfuncionarioresponsavel"],
+                                    dados["InformacoesComplementares"], dadosUsuario[0]["id"], dados["CpfAbertura"], "S" );
+                            else
+                                idInteracao = verificaDados.CadastraSolicitacao( atendente["idsetor"],
+                                    dados["IdSubTarefa"],
+                                    atendente["idfuncionarioresponsavel"],
+                                    dados["InformacoesComplementares"], dadosUsuario[0]["id"], "", "S" );
+
+
+                            for(var i = 0; i < dados.Count; i++)
+                                if(!dados.GetKey( i ).Equals( "IdSubTarefa" ) && !dados.GetKey( i ).Equals( "IdTarefa" ) &&
+                                    !dados.GetKey( i ).Equals( "InformacoesComplementares" ) &&
+                                    !dados.GetKey( i ).Equals( "CpfAbertura" ))
+                                    verificaDados.InserirFormulario( dados.GetKey( i ), dados[i], idInteracao.Split( ';' )[1] );
+                            List<HttpPostedFileBase> lista = null;
+                            try
+                            {
+                                lista = postedFiles.ToList();
+
+                                for(var i = 0; i < lista.Count; i++)
+                                    if(lista[i] != null)
+                                    {
+                                        var nomeArquivo = Path.GetFileName( lista[i].FileName );
+                                        byte[] fileData;
+                                        using(var binaryReader = new BinaryReader( lista[i].InputStream ))
+                                        {
+                                            fileData = binaryReader.ReadBytes( lista[i].ContentLength );
+                                        }
+
+                                        verificaDados.InserirAnexo( idInteracao.Split( ';' )[0], fileData,
+                                            lista[i].ContentType,
+                                            nomeArquivo );
+                                    }
+                            }
+                            catch
+                            {
+                                //ignored
+                            }
+                            var envia = new EnviodeAlertas();
+                            var idSolicitante = verificaDados.RetornaIdSolicitantes( idInteracao.Split( ';' )[1] );
+
+                            var dadosOperador =
+                                verificaDados.RetornaInformacoesNotificacao( idSolicitante[0]["idfuncionarioresponsavel"] );
+
+                            await envia.EnviaAlertaFuncionario( dadosOperador[0],
+                                "Foi Aberto uma tarefa para você.", "6" );
+                        }
+
+                    }
+
+                  
+
+                    return RedirectToAction( "Chamados", "Webdesk",
+                        new { Mensagem = "Tarefa cadastrada com sucesso!" } );
+                }
+            }
+
+            return RedirectToAction( "Login", "Login" );
         }
     }
 }

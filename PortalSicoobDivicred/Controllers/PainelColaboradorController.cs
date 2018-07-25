@@ -24,14 +24,33 @@ namespace PortalSicoobDivicred.Controllers
 
 
                     var dadosTabelaFuncionario = verificaDados.RecuperadadosFuncionariosTabelaFuncionariosPerfil( login );
-                    var documentosUpados = verificaDados.RecuperaDocumentosFuncionario( login );
                     var vinculoExtra = verificaDados.RecuperaVinculoExtra( dadosTabelaFuncionario[0]["id"] );
+                    var documentosUpados = verificaDados.RetornaDocumentosFuncionario( login );
 
-                    for(var i = 0; i < documentosUpados.Count; i++)
+                    for(var i = 0; i < documentosUpados.Rows.Count; i++)
                     {
-                        TempData["Status" + documentosUpados[i]["nomearquivo"]] = "is-primary";
-                        TempData["Nome" + documentosUpados[i]["nomearquivo"]] = "Arquivo Enviado";
+                        TempData["Status" + documentosUpados.Rows[i]["nomearquivo"]] = "is-primary";
+                        TempData["Nome" + documentosUpados.Rows[i]["nomearquivo"]] = "Arquivo Enviado";
+
+                        var bytes = (byte[])documentosUpados.Rows[i]["arquivo"];
+                        var img64 = Convert.ToBase64String( bytes );
+                        ValidaImagem image = new ValidaImagem();
+                        if(!image.IsValidImage( bytes ))
+                        {
+                            var img64Url = string.Format( "data:application/pdf;base64,{0}", img64 );
+                            TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                            TempData["ValidaTipo" + documentosUpados.Rows[i]["nomearquivo"]] = "pdf";
+                        }
+                        else
+                        {
+                            var img64Url = string.Format( "data:image/;base64,{0}", img64 );
+                            TempData["Imagem" + documentosUpados.Rows[i]["nomearquivo"]] = img64Url;
+                            TempData["ValidaTipo" + documentosUpados.Rows[i]["nomearquivo"]] = "imagem";
+                        }
                     }
+
+
+
 
                     var tipos = dadosTabelaFuncionario[0]["tipodependente"].ToString().Split( ';' );
                     for(var i = 0; i < 10; i++)

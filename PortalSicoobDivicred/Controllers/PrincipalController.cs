@@ -525,11 +525,11 @@ namespace PortalSicoobDivicred.Controllers
                             TempData["Esconde" + i] = "hidden";
                         else
                             TempData["Esconde" + i] = "";
-
+                        /*
                         if(dadosTabelaFuncionario[0]["estagiario"].Equals( "S" ))
                             TempData["MostraCampoLivre"] = true;
                         else
-                            TempData["MostraCampoLivre"] = false;
+                            TempData["MostraCampoLivre"] = false;*/
                     }
             }
 

@@ -107,7 +107,7 @@ else
                         }
                     }
                     <td @TempData["Esconde" + i]>
-                        @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) < 4 && !Convert.ToBoolean(TempData["MostraCampoLivre"]))
+                        @if (Convert.ToInt32(TempData["TotalHorarioPendencia" + i]) < 4)
                         {
                             <div class="select">
                                 <select id="JustificativaFire @TempData["IdPendencia"]" name="JustificativaFire @TempData["IdPendencia" + i]">

@@ -20,7 +20,7 @@
         $("#Upload-formTarefa").append(
             " <div id=" +
             multiFilesTarefa.length +
-            " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUp(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
+            " class='field is-fullwidth'><div class='file is-primary'><label class='file-label'><input class='file-input' multiple type='file' onchange='multiUpTarefa(this)' name='postedFiles'><span class='file-cta'><span class='file-icon'><i class='fas fa-upload'></i></span><span class='file-label'>Anexar Arquivos</span></span></label></div></div>");
         for (i = 0; i < this.multiFilesTarefa.length; i++) {
             addDeleteBtnTarefa(i, this, this.multiFilesTarefa[i].name);
         }
@@ -149,12 +149,12 @@
 
     </div>
     <br />
-    <div id="anexos" class="AreaAnexoTarefa">
+    <div id="anexosTarefas" class="AreaAnexoTarefa">
         <div id="formescondeTarefa">
             <div div="PrimeiroTarefa" class="field is-fullwidth">
                 <div class="file is-primary">
                     <label class="file-label">
-                        <input class="file-input" type="file" onchange="multiUpTarefa(this)" name="postedFilesTarefa">
+                        <input class="file-input" type="file" onchange="multiUpTarefa(this)" name="postedFiles">
                         <span class="file-cta">
                             <span class="file-icon">
                                 <i class="fas fa-upload"></i>

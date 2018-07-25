@@ -116,11 +116,11 @@ namespace PortalSicoobDivicred.Aplicacao
         }
 
         public string CadastraSolicitacao(string idSetor, string idCategoria, string idOperador, string descricao,
-            string idUsuario, string cpf)
+            string idUsuario, string cpf,string tarefa)
         {
             var query =
-                "INSERT INTO webdesksolicitacoes (idfuncionariocadastro,idfuncionarioresponsavel,idcategoria,idsetor,idsituacao,datahoracadastro,cpf) VALUES(" +
-                idUsuario + "," + idOperador + "," + idCategoria + "," + idSetor + ",1,NOW(),'" + cpf + "')";
+                "INSERT INTO webdesksolicitacoes (idfuncionariocadastro,idfuncionarioresponsavel,idcategoria,idsetor,idsituacao,datahoracadastro,cpf,tarefa) VALUES(" +
+                idUsuario + "," + idOperador + "," + idCategoria + "," + idSetor + ",1,NOW(),'" + cpf + "','"+tarefa+"')";
 
             var idChamado = _conexaoMysql.ExecutaComandoComRetornoId(query);
 
@@ -156,7 +156,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosAbertos(string idUsuario)
         {
             var query =
-                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.fimatendimento,a.cpf from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" +
+                "SELECT a.id,b.descricao as titulo,c.nome as operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.fimatendimento,a.cpf,a.tarefa,a.idcategoria from webdesksolicitacoes a, webdeskcategorias b,funcionarios c,webdesksituacoes d WHERE a.idfuncionarioresponsavel = c.id AND a.idcategoria=b.id AND a.idsituacao=d.id and a.idfuncionariocadastro=" +
                 idUsuario + " ";
             var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return chamados;
@@ -165,7 +165,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosResponsavel(string idUsuario)
         {
             var query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro ,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id=" +
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro ,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf,a.tarefa,a.idcategoria FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id AND u2.id=" +
                 idUsuario +
                 ") LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1 or a.idsituacao=4 or a.idsituacao=5)  ORDER BY a.id";
             var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
@@ -175,7 +175,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaChamadosSetor(string idSetor)
         {
             var query =
-                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1 or a.idsituacao=4 or a.idsituacao=5) and a.idsetor=" +
+                "SELECT a.id,b.descricao as titulo,u1.nome cadastro,u2.nome AS operador,d.descricao as situacao,b.tempo,a.datahoracadastro,TIMEDIFF(Now() ,a.datahoracadastro) as sla,a.cpf,a.tarefa,a.idcategoria FROM webdesksolicitacoes a LEFT JOIN funcionarios u1 on a.idfuncionariocadastro=u1.id INNER JOIN funcionarios u2 on (a.idfuncionarioresponsavel=u2.id) LEFT JOIN  webdeskcategorias b on a.idcategoria=b.id INNER JOIN webdesksituacoes d on a.idsituacao =d.id AND (a.idsituacao=2 or a.idsituacao=1 or a.idsituacao=4 or a.idsituacao=5) and a.idsetor=" +
                 idSetor + "  ORDER BY a.id";
             var chamados = _conexaoMysql.ExecutaComandoComRetorno(query);
             return chamados;
@@ -328,6 +328,13 @@ namespace PortalSicoobDivicred.Aplicacao
             return formularios;
         }
 
+        public List<Dictionary<string, string>> RetornaFormularioTarefa(string idSubTarefa)
+        {
+            var query = "SELECT a.*,b.descricao FROM webdeskformulariostarefas a,webdesksubtarefas b WHERE a.idsubtarefa=b.id and idsubtarefa=" + idSubTarefa + " AND a.excluido='N'";
+            var formularios = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return formularios;
+        }
+
         public List<Dictionary<string, string>> RetornaFormularioChamado(string idSolicitacao)
         {
             var query = "SELECT * FROM webdeskformularios WHERE idsolicitacao=" + idSolicitacao + "";
@@ -440,5 +447,17 @@ namespace PortalSicoobDivicred.Aplicacao
             return subtarefa;
         }
 
+        public List<Dictionary<string,string>> RetornaDadosSubTarefa(string idSubTarefa)
+        {
+            var query = "Select a.*,b.idsetor from webdesksubtarefas a, funcionarios b where a.idfuncionarioresponsavel=b.id and a.id=" + idSubTarefa + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+        public List<Dictionary<string, string>> RetornaAtendentesSubTarefa(string idSubTarefa)
+        {
+            var query = "Select a.*,b.idsetor from webdeskatendentesextrassubtarefas a, funcionarios b where a.idfuncionarioresponsavel=b.id and a.idsubtarefa=" + idSubTarefa + ";";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
     }
 }

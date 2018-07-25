@@ -6,6 +6,7 @@
 
 
 <script>
+
     function Funcionario() {
         $("#ParametroSelecionado").empty();
         $("#PanelFuncionario").addClass("is-active");
@@ -69,11 +70,11 @@
 
         <script>
 
-        iziToast.success({
-            title: 'Sucesso',
-            position: "center",
-            message: '@TempData["Mensagem"]'
-        });
+            iziToast.success({
+                title: 'Sucesso',
+                position: "center",
+                message: '@TempData["Mensagem"]'
+            });
 
         </script>
     }
@@ -266,6 +267,7 @@
         }
 
         function CategoriaSelecionado(idCategoria) {
+            $("#FormularioCategoria").empty();
             if ($("#Cadastro").valid()) {
                 $.ajax(
                     {
@@ -289,6 +291,30 @@
             }
         }
 
+        function SubTarefaSelecionado(idSubTarefa) {
+            $("#FormularioTarefa").empty();
+            if ($("#CadastroTarefa").valid()) {
+                $.ajax(
+                    {
+                        type: 'POST',
+                        url: '/Webdesk/RetornaFormularioTarefa',
+                        dataType: 'html',
+                        cache: true,
+                        async: true,
+                        data: { "IdSubTarefa": idSubTarefa.value },
+                        success: function (data) {
+                            if (data.length > 0) {
+                                $('#ModalFormularioTarefa').removeClass();
+                                $('#ModalFormularioTarefa').addClass('modal is-active');
+                                $("#FormularioTarefa").append(data);
+                            } else {
+                                $("#CadastraTarefa").prop("disabled", true);
+                                $("#CadastroTarefa").submit();
+                            }
+                        }
+                    });
+            }
+        }
 
     </script>
     <style>
@@ -408,7 +434,7 @@
 
                     @for(var j = 0; j < Convert.ToInt32( TempData["TotalChamadosOperador"].ToString() ); j++)
                     {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo"})">
+                        <tr class="clickable-row " style="@TempData["CorTarefaOperador" +j]" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroOperador" + j].ToString(), TipoChamado = "Novo"})">
                             <td class="has-text-centered">@TempData["NumeroOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["TituloOperador" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["CadastroOperador" + j].ToString()</td>
@@ -478,7 +504,7 @@
 
                     @for(var j = 0; j < Convert.ToInt32( TempData["TotalChamadosSetor"].ToString() ); j++)
                     {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroSetor" + j].ToString(), TipoChamado = "Novo"})">
+                        <tr class="clickable-row" style=" @TempData["CorTarefaSetor" +j]" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["NumeroSetor" + j].ToString(), TipoChamado = "Novo"})">
                             <td class="has-text-centered">@TempData["NumeroSetor" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["TituloSetor" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["CadastroSetor" + j].ToString()</td>
@@ -507,10 +533,9 @@
                 <th class="has-text-centered">SLA</th>
                 </thead>
                 <tbody>
-
                     @for(var j = 0; j < Convert.ToInt32( TempData["TotalChamados"].ToString() ); j++)
                     {
-                        <tr class="clickable-row" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})" onclick="location.href = '@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})'">
+                        <tr class="clickable-row "  style="@TempData["CorTarefa" +j]" data-href="@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})" onclick="location.href = '@Url.Action("InteracaoChamado", "Webdesk", new {IdChamado = TempData["Numero" + j].ToString(), TipoChamado = "Novo"})'">
                             <td class="has-text-centered">@TempData["Numero" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Titulo" + j].ToString()</td>
                             <td class="has-text-centered">@TempData["Operador" + j].ToString()</td>
@@ -577,9 +602,9 @@
         </div>
     </div>
 
-    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript">
-    </script>
-    <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
     @using(Html.BeginForm( "CadastrarTarefa", "Webdesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "CadastroTarefa" } ))
     {
         <div id="ModalTarefa" class="modal">
@@ -595,8 +620,27 @@
                     </div>
                 </section>
                 <footer class="modal-card-foot">
-                    <button type="submit" id="CadastraTarefa" class="button is-success">Cadastrar Tarefa</button>
+                    <button  type="button" id="CadastraTarefa" class="button is-success" onclick="javascript: SubTarefaSelecionado(document.getElementById('SubTarefaSelecionada'));">Cadastrar Tarefa</button>
                     <a class="button" href="javascript:$('#ModalTarefa').removeClass();$('#ModalTarefa').addClass('modal');void(0);">Cancelar</a>
+                </footer>
+            </div>
+        </div>
+        <div id="ModalFormularioTarefa" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Formulário Webdesk</p>
+                    <a href="javascript:$('#ModalFormularioTarefa').removeClass();$('#ModalFormularioTarefa').addClass('modal');void(0);" class="delete"></a>
+                </header>
+                <section class="modal-card-body">
+                    <div id="FormularioTarefa">
+
+                    </div>
+
+                </section>
+                <footer class="modal-card-foot">
+                    <button type="submit" id="CadastraTarefa" class="button is-success" onsubmit="this.disabled = 'disabled'">Cadastrar Formulário</button>
+                    <a class="button" href="javascript:$('#ModalFormularioTarefa').removeClass();$('#ModalFormularioTarefa').addClass('modal');void(0);">Cancelar</a>
                 </footer>
             </div>
         </div>

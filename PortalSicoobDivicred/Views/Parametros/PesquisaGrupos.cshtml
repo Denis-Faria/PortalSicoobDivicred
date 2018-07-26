@@ -1,0 +1,36 @@
+﻿<script>
+    function Seleciona(Id) {
+        $("#EdicaoGrupos").removeAttr("hidden");
+        $("#ExcluirRegistro").removeAttr("hidden");
+        $("#SalvaFuncao").removeAttr("disabled ");
+        $("#ExcluirFuncao").removeAttr("disabled ");
+        $("#EdicaoGrupos").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Parametros/RecuperaGrupos',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdGrupo": Id },
+                success: function(data) {
+
+                    $("#EdicaoGrupos").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div>
+    <ul>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
+        {
+            <li>
+                <a href="Javascript:Seleciona('@TempData["Id" + i]')">
+                    @TempData["Descricao" + i]
+                </a>
+            </li>
+        }
+    </ul>
+</div>

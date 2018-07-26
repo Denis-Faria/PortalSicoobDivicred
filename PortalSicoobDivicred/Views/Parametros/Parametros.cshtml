@@ -39,14 +39,7 @@
 <script>
     function Funcionario() {
         $("#ParametroSelecionado").empty();
-        $("#PanelFuncionario").addClass("is-active");
-
-        $("#PanelCertificacao").removeClass();
-        $("#PanelGestor").removeClass();
-        $("#PanelSetor").removeClass();
-        $("#PanelCertificacao").addClass("panel-block");
-        $("#PanelGestor").addClass("panel-block");
-        $("#PanelSetor").addClass("panel-block");
+        $("#PanelGrupo").addClass("panel-block");
 
         $.ajax(
             {
@@ -63,19 +56,13 @@
     }
     function Grupo() {
         $("#ParametroSelecionado").empty();
-        $("#PanelFuncao").addClass("is-active");
-
-        $("#PanelCertificacao").removeClass();
-        $("#PanelGestor").removeClass();
-        $("#PanelSetor").removeClass();
-        $("#PanelCertificacao").addClass("panel-block");
-        $("#PanelGestor").addClass("panel-block");
-        $("#PanelSetor").addClass("panel-block");
+        $("#PanelFuncionario").addClass("panel-block");
+       
 
         $.ajax(
             {
                 type: 'GET',
-                url: '/PainelColaborador/Funcao',
+                url: '/Parametros/Grupo',
                 dataType: 'html',
                 cache: true,
                 async: true,

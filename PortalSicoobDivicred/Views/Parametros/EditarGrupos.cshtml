@@ -1,0 +1,98 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+
+<script>
+    function ExcluirFuncionario(id) {
+        alert("ENTROU:" + id);
+
+        iziToast.show({
+            message: 'Confirma a exclusão do Registro ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function (instance, toast) {
+
+                        $("#PerfilCompleto").empty();
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/Parametros/ExcluirFuncionario',
+                                cache: true,
+                                async: true,
+                                data: { "idFuncionario": id },
+                                success: function (data) {
+                                    instance.hide({
+                                        transitionOut: 'fadeOutUp',
+                                        onClosing: function (instance, toast, closedBy) {
+                                            console.info('closedBy: ' + closedBy); //btn2
+
+                                        }
+                                    },
+                                        toast,
+                                        'close',
+                                        'btn1');
+
+                                    location.href = "/Parametros/Parametros?Mensagem=Funcionário excluído com sucesso";
+
+                                }
+                            });
+
+                    }
+                ],
+                [
+                    '<button>Não</button>', function (instance, toast) {
+                        instance.hide({
+                            transitionOut: 'fadeOutUp',
+                            onClosing: function (instance, toast, closedBy) {
+                                console.info('closedBy: ' + closedBy); //btn2
+                            }
+                        },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ]
+
+        });
+    }
+
+</script>
+
+
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<button style="display: block; margin-left: auto; margin-right: auto" type="button" class="button is-danger" onclick="location.href = 'javascript:ExcluirFuncionario(@TempData["id"]);void(0);'" name="ExcluirFuncionario" id="IdFuncionario" onmouseleave="$('#'+ @TempData["id"]).removeClass('animated pulse')" onmouseover="$('#' + @TempData["id"]).addClass('animated pulse');">
+    <span class="icon is-small">
+        <i class="far fa-trash-alt">
+        </i>
+    </span>
+    <span> Excluir Registro</span>
+</button>
+
+
+
+    <input name="IdFuncionario" value="@TempData["id"]" hidden />
+    <div hidden>
+        <label class="label">id</label>
+        @Html.TextBoxFor(m => m.id, null, new { @class = "input", type = "Text", step = "0.01", id = "id" })
+    </div>
+    <br>
+    <div class="field">
+        <div class="card-content">
+            <div class="columns content">
+                
+                <div class="column is-6">
+                    <label class="label">Descrição</label>
+                    @Html.TextBoxFor(m => m.DescricaoGrupos, null, new { @class = "input", type = "Text", step = "0.01", id = "DescricaoGrupos" })
+                </div>
+                
+            </div>
+        </div>
+
+       
+    </div>
+    <br />
+

@@ -57,6 +57,11 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Informe se o número da matrícula")]
         public string Matricula { get; set; }
 
+        
+
+        [Required(ErrorMessage = "Favor informar a descrição do Grupo!")]
+        public string DescricaoGrupos{ get; set; }
+
 
     }
 }

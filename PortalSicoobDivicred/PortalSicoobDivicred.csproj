@@ -951,6 +951,9 @@
     <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
     <Content Include="Views\Parametros\PesquisaParametros.cshtml" />
     <Content Include="Views\Parametros\EditarFuncionario.cshtml" />
+    <Content Include="Views\Parametros\ParametrosGrupos.cshtml" />
+    <Content Include="Views\Parametros\PesquisaGrupos.cshtml" />
+    <Content Include="Views\Parametros\EditarGrupos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

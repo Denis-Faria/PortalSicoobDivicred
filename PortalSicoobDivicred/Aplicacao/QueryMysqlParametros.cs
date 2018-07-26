@@ -54,6 +54,15 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
 
+        public void InsereGrupos(string descricao)
+        {
+            var queryInsereGrupos =
+                "INSERT INTO grupos (descricao,excluido) values ('" +
+                descricao + "','N')"; 
+            ConexaoMysql.ExecutaComando(queryInsereGrupos);
+        }
+
+
         public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
         {
             var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' and ativo='S' order by nome";
@@ -61,9 +70,23 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+        public List<Dictionary<string, string>> BuscaGrupo(string DescricaoGrupo)
+        {
+            var Query = "Select id,descricao from grupos where descricao like'%" + DescricaoGrupo + "%' and excluido='N' order by descricao";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
         public List<Dictionary<string, string>> RecuperaDadosFuncionario(string IdFuncionario)
         {
             var Query = "Select * from funcionarios where id='" + IdFuncionario + "' and ativo='S'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosGrupo(string IdGrupos)
+        {
+            var Query = "Select * from grupos where id='" + IdGrupos + "' and excluido='N'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -79,9 +102,23 @@ namespace PortalSicoobDivicred.Aplicacao
             
         }
 
+        public void AtualizaGrupos(int id, string descricao)
+        {
+            var queryAlteraGrupos = "UPDATE grupos SET descricao='" + descricao + "' where id='" + id + "'";
+            var Dados = ConexaoMysql.ExecutaComando(queryAlteraGrupos);
+
+        }
+
+
         public void ExcluirFuncionario(string IdFuncionario)
         {
             var Query2 = "UPDATE funcionarios SET ativo='N' WHERE id=" + IdFuncionario + "";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
+        public void ExcluirGrupo(string IdGrupo)
+        {
+            var Query2 = "UPDATE grupos SET excluido='S' WHERE id=" + IdGrupo + "";
             ConexaoMysql.ExecutaComando(Query2);
         }
 

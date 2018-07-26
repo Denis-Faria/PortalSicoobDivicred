@@ -62,6 +62,40 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        public ActionResult Grupos()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosGrupos = new Parametros();
+                var dadosTablelaGrupo = verificaDados.RetornaGrupos();
+                dadosGrupos.DescricaoGrupo = dadosTablelaGrupo;
+
+
+                return PartialView("ParametrosFuncionario", dadosGrupos);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Grupo()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosGrupos = new Parametros();
+                var dadosTablelaGrupo = verificaDados.RetornaGrupos();
+                dadosGrupos.DescricaoGrupo = dadosTablelaGrupo;
+
+
+                return PartialView("ParametrosGrupos", dadosGrupos);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+        /*
         [HttpPost]
         public ActionResult Funcionario(Funcao dadosCadastro, FormCollection dados)
         {
@@ -73,17 +107,17 @@ namespace PortalSicoobDivicred.Controllers
             if (cookie != null)
             {
                 var login = Criptografa.Descriptografar(cookie.Value);
-            }*/
+            }
 
             if (logado)
             {
                 var dadosGrupos = verificaDados.RetornaGrupos();
-                return PartialView("ParametrosFuncionario", dadosGrupos);
+                return PartialView("ParametrosGrupos", dadosGrupos);
             }
 
             return RedirectToAction("Login", "Login");
         }
-
+        */
 
 
 
@@ -106,6 +140,21 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
         }
+
+        [HttpPost]
+        public ActionResult SalvarGrupos(Parametros dados, FormCollection receberForm)
+        {
+            var insereDados = new QueryMysqlParametros();
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                insereDados.InsereGrupos(dados.DescricaoGrupos);
+            }
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Grupo cadastrado com sucesso !" });
+        }
+
+
 
         [HttpPost]
         public ActionResult BuscarFuncionario(string NomeFuncionario)
@@ -137,6 +186,40 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Login", "Login");
         }
+
+        [HttpPost]
+        public ActionResult BuscaGrupo(string DescricaoGrupo)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Grupos = VerificaDados.BuscaGrupo(DescricaoGrupo);
+                if (Grupos.Count != 0)
+                {
+                    for (var i = 0; i < Grupos.Count; i++)
+                    {
+                        TempData["Id" + i] = Grupos[i]["id"];
+                        TempData["Descricao" + i] = Grupos[i]["descricao"];
+                    }
+
+
+                    TempData["TotalResultado"] = Grupos.Count;
+                    
+                    TempData["id"] = Grupos[0]["id"];
+                    return PartialView("PesquisaGrupos");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
 
         [HttpPost]
         public ActionResult RecuperaFuncionarios(string IdFuncionario)
@@ -175,6 +258,34 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        [HttpPost]
+        public ActionResult RecuperaGrupos(string IdGrupo)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                //var Certificacoes = VerificaDados.RetornaCertificacoes();
+                var DadosGrupo = VerificaDados.RecuperaDadosGrupo(IdGrupo);
+                var GrupoRecupera = new Parametros();
+
+
+                var dadosTablelaGrupo = VerificaDados.RetornaGrupos();
+                TempData["id"] = Convert.ToInt32(DadosGrupo[0]["id"]);
+               
+                GrupoRecupera.id = Convert.ToInt32(DadosGrupo[0]["id"]);
+                GrupoRecupera.DescricaoGrupos = (DadosGrupo[0]["descricao"]).ToString();
+
+
+                return PartialView("EditarGrupos", GrupoRecupera);
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
         public ActionResult AtualizaDadosFuncionario()
         {
             return PartialView("EditarFuncionario");
@@ -183,14 +294,44 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizaDadosFuncionario(Parametros dados, FormCollection receberForm)
         {
-            TempData["id"] = dados.id;
+           // TempData["id"] = dados.id;
             var atualizaFuncionario = new QueryMysqlParametros();
             atualizaFuncionario.AtualizaUsuario(dados.id, dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
                 dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
-            return RedirectToAction("Parametros", new { MensagemValidacao = "Registro alterado com sucesso!!" });
+            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
         }
 
+        public ActionResult AtualizaDadosGrupo()
+        {
+            return PartialView("EditarGrupos");
+        }
+
+        [HttpPost]
+        public ActionResult AtualizaDadosGrupo(Parametros dados, FormCollection receberForm)
+        {
+            //TempData["id"] = dados.id;
+            var atualizaFuncionario = new QueryMysqlParametros();
+            atualizaFuncionario.AtualizaGrupos(dados.id, dados.DescricaoGrupos);
+            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
+        }
+
+
+
         public ActionResult ExcluirFuncionario(string IdFuncionario)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                VerificaDados.ExcluirFuncionario(IdFuncionario);
+                return RedirectToAction("Parametros", "Parametros",
+                    new { Mensagem = "Funcionário excluido com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ExcluirGrupo(string IdFuncionario)
         {
             var VerificaDados = new QueryMysqlParametros();
             var Logado = VerificaDados.UsuarioLogado();

@@ -935,10 +935,10 @@
     <Content Include="Views\WebDesk\faltapermissao.cshtml" />
     <Content Include="Views\Principal\ShowdePremios.cshtml" />
     <Content Include="Views\Principal\VagasInternas.cshtml" />
-    <Content Include="Views\Tesouraria\ViewArquivos.cshtml" />
-    <Content Include="Views\Tesouraria\ViewResultado.cshtml" />
-    <Content Include="Views\Tesouraria\ViewPesquisar.cshtml" />
-    <Content Include="Views\Tesouraria\ViewTabelaPesquisar.cshtml" />
+    <Content Include="Views\Tesouraria\Arquivos.cshtml" />
+    <Content Include="Views\Tesouraria\Resultado.cshtml" />
+    <Content Include="Views\Tesouraria\Pesquisar.cshtml" />
+    <Content Include="Views\Tesouraria\TabelaPesquisar.cshtml" />
     <Content Include="Views\Principal\multiplosvinculos.cshtml" />
     <Content Include="Views\Principal\ControleNumerario.cshtml" />
     <Content Include="Views\WebDesk\AreaGestor.cshtml" />
@@ -951,6 +951,8 @@
     <Content Include="Views\WebDesk\NovaTarefa.cshtml" />
     <Content Include="Views\WebDesk\Subtarefas.cshtml" />
     <Content Include="Views\WebDesk\ResultadoPesquisaWebdesk.cshtml" />
+    <Content Include="Views\Tesouraria\ResultadoTaloes.cshtml" />
+    <Content Include="Views\Tesouraria\ResultadoHistoricoTaloes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -45,7 +45,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult ProcessaArquivos()
         {
-            return PartialView("ViewArquivos");
+            return PartialView("Arquivos");
         }
 
         [HttpPost]
@@ -668,7 +668,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult Resultado()
         {
-            return PartialView("ViewResultado");
+            return PartialView("Resultado");
         }
 
 
@@ -692,7 +692,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Pesquisa()
         {
             TempData["RetornaValor"] = 1;
-            return View("ViewPesquisar");
+            return View("Pesquisar");
         }
 
         [HttpPost]
@@ -762,17 +762,17 @@ namespace PortalSicoobDivicred.Controllers
                 modelTesouraria.Justificativa = dadosJustificativa[0]["justificativa"];
                 TempData["dataPesquisa"] = data;
 
-                return PartialView("ViewTabelaPesquisar", modelTesouraria);
+                return PartialView("TabelaPesquisar", modelTesouraria);
             }
 
             TempData["RetornaValor"] = 1;
-            return PartialView("ViewTabelaPesquisar");
+            return PartialView("TabelaPesquisar");
         }
 
 
         public ActionResult AtualizaJustificativa()
         {
-            return PartialView("ViewPesquisar");
+            return PartialView("Pesquisar");
         }
 
         [HttpPost]
@@ -787,7 +787,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult VerificaData()
         {
-            return PartialView("ViewPesquisar");
+            return PartialView("Pesquisar");
         }
 
         [HttpPost]
@@ -804,7 +804,7 @@ namespace PortalSicoobDivicred.Controllers
 
         public ActionResult DeletaProducao()
         {
-            return PartialView("ViewPesquisar");
+            return PartialView("Pesquisar");
         }
 
         [HttpPost]
@@ -814,6 +814,61 @@ namespace PortalSicoobDivicred.Controllers
 
             deletarProducao.DeletaProducao(TempData["data"].ToString());
             return RedirectToAction("Tesouraria", new {MensagemValidacao = "Registro  com sucesso!!"});
+        }
+
+        [HttpPost]
+        public ActionResult BuscaTaloes(string contaCorrente)
+        {
+            var verificaDados = new QueryMysqlTesouraria();
+
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+                var cheques = verificaDados.RetornaCheques(contaCorrente);
+                TempData["TotalResultado"] = cheques.Count;
+                var count = 0;
+                foreach (var cheque in cheques)
+                {
+                    TempData["NumConta" + count] = cheque["numcontacorrente"];
+                    TempData["Nome" + count] = cheque["nome"];
+                    TempData["QuantidadeCheque" + count] = cheque["total"];
+                    TempData["DataBloqueio"] = cheque["databloqueio"];
+                    TempData["Datadesbloqueio"] = cheque["datadesbloqueio"];
+                    count++;
+                }
+                return PartialView("ResultadoTaloes");
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+        [HttpPost]
+        public ActionResult BuscaHistoricoCheque(string contaCorrente)
+        {
+            var verificaDados = new QueryMysqlTesouraria();
+
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
+            {
+                var cheques = verificaDados.RetornaHistoricoCheques( contaCorrente );
+                TempData["TotalResultado"] = cheques.Count;
+                var count = 0;
+                TempData["NomeCooperado"] = cheques[0]["nome"];
+
+                foreach(var cheque in cheques)
+                {
+                    TempData["NumConta" + count] = cheque["numcontacorrente"];
+                    TempData["Nome" + count] = cheque["nome"];
+                    TempData["ValorCheque" + count] = cheque["valorcheque"];
+                    TempData["DataDevolucao" +count] = Convert.ToDateTime(cheque["datadevolucao"]).ToString("dd/MM/yyyy");
+                    TempData["Historico" + count] = cheque["historico"];
+                    TempData["DataBloqueio"] = cheque["databloqueio"];
+                    TempData["Datadesbloqueio"] = cheque["datadesbloqueio"];
+                    count++;
+                }
+                return PartialView( "ResultadoHistoricoTaloes" );
+            }
+
+            return RedirectToAction( "Login", "Login" );
         }
     }
 }

@@ -1,0 +1,76 @@
+﻿<article class="message is-primary">
+    <div class="message-body">
+        <p>
+            <strong>Nome do Cooperado:</strong> @TempData["NomeCooperado"] 
+        </p>
+        <p>
+            <strong>Data do Último Bloqueio:</strong> @TempData["UltimoBloqueio"] 
+        </p>
+    <p>
+        <strong>Data do Último Desbloqueio:</strong> @TempData["UltimoDesbloqueio"]
+    </p>
+    </div>
+</article>
+<div class="field is-grouped is-grouped-right">
+    <p class="control">
+        <button onclick="Imprimir()" type="submit" class="button is-success">
+            <span class="icon">
+                <i class="fas fa-lock"></i>
+            </span>
+            <span>Bloquear Talão</span>
+        </button>
+    </p>
+    <p class="control">
+
+        <button type="submit" class="button is-success" id="CadastraInteracao" onsubmit="this.disabled = 'disabled'">
+            <span class="icon is-small is-left">
+                <i class="fas fa-unlock"></i>
+            </span>
+            <span>Desbloquear Talão</span>
+        </button>
+    </p>
+
+
+</div>
+<div class="column is-12">
+    <table class="table is-striped is-centered">
+        <thead>
+        <th class="has-text-centered">N° Conta Corrente</th>
+        <th class="has-text-centered">Nome</th>
+        <th class="has-text-centered">Valor do Cheque</th>
+        <th class="has-text-centered">Data da Devolução</th>
+        <th class="has-text-centered">Histórico</th>
+        <th class="has-text-centered">Data Bloqueio</th>
+        <th class="has-text-centered">Data Desbloqueio</th>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
+            {
+                <tr>
+                    <td class="has-text-centered">
+                        @TempData["NumConta" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Nome" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["ValorCheque" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataDevolucao" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Historico" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataBloqueio" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataDesbloqueio" + i]
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

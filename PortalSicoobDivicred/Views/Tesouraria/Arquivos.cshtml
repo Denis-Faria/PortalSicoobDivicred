@@ -1,0 +1,667 @@
+﻿@model PortalSicoobDivicred.Models.Tesouraria
+<br />
+
+<script>
+    function verificarData(mostrar) {
+
+        $("#telaTabela").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Tesouraria/VerificaData',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "data": mostrar },
+                success: function (data) {
+                    $("#telaTabela").append(data);
+                }
+            });
+    }
+
+
+</script>
+
+
+<script>
+    var campos = [];
+    var aux = 0;
+    var Forma = 0;
+    var countArquivos = 0;
+    var numeroArquivos = 5;
+    var totalArquivos = 0;
+
+    function AlternarBotoes(ocultar) {
+
+        var esconde = "#" + ocultar;
+
+
+        if (ocultar === "1" ||
+            ocultar === "2" ||
+            ocultar === "3" ||
+            ocultar === "4" ||
+            ocultar === "5" ||
+            ocultar === "6") {
+            countArquivos = countArquivos - 1;
+
+            switch (ocultar) {
+                case "1":
+                    $(Extrato).show();
+                    $(lancamentoContaCorrente).hide();
+                    $(enviadaRecebida).hide();
+                    $(valorJudicial).hide();
+                    $(iconeExtrato).hide();
+                    $(botaoProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    document.getElementById("file1").value = "";
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
+                    $(chequesDevolvidos).hide();
+                    break;
+
+                case "2":
+
+                    $(lancamentoContaCorrente).show();
+                    $(Extrato).hide();
+                    $(enviadaRecebida).hide();
+                    $(valorJudicial).hide();
+                    $(iconelancamentoContaCorrente).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(botaoProcessar).hide();
+                    $(devolucaoCheques).hide();
+                    document.getElementById("file2").value = "";
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
+                    $(chequesDevolvidos).hide();
+                    break;
+
+                case "3":
+
+                    $(Extrato).hide();
+                    $(enviadaRecebida).show();
+                    $(valorJudicial).show();
+                    $(lancamentoContaCorrente).hide();
+                    $(iconeEnviadaseRecebidas).hide();
+                    $(botaoProcessar).hide();
+                    document.getElementById("file3").value = "";
+                    $(imgProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(camposNr).hide();
+                    $(operacaoCaixa).hide();
+                    $(chequesDevolvidos).hide();
+                    break;
+
+                case "4":
+
+                    $(Extrato).hide();
+                    $(lancamentoContaCorrente).hide();
+                    $(iconeDevolucaoCheques).hide();
+                    $(valorJudicial).hide();
+                    $(botaoProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorDevolucaoCheques).show();
+                    $(devolucaoCheques).show();
+                    document.getElementById("file4").value = "";
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+                    $(operacaoCaixa).hide();
+                    $(chequesDevolvidos).hide();
+                    break;
+
+                case "5":
+
+                    $(Extrato).hide();
+                    $(lancamentoContaCorrente).hide();
+                    $(iconeOperacaodeCaixa).hide();
+                    $(valorJudicial).hide();
+                    $(botaoProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(operacaoCaixa).show();
+                    $(chequesDevolvidos).hide();
+                    document.getElementById("file5").value = "";
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+                    $(chequesDevolvidos).hide();
+
+                    break;
+
+                case "6":
+
+                    $(Extrato).hide();
+                    $(lancamentoContaCorrente).hide();
+
+                    $(valorJudicial).hide();
+                    $(botaoProcessar).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(operacaoCaixa).hide();
+                    $(iconeChequesDevolvidos).hide();
+                    $(chequesDevolvidos).show();
+                    document.getElementById("file6").value = "";
+                    $(camposNr).hide();
+                    $(imgProcessar).hide();
+
+
+                    break;
+
+
+            }
+
+        } else {
+
+            countArquivos = countArquivos + 1;
+            switch (ocultar) {
+                case "Extrato":
+                    $(iconeExtrato).show();
+                    $(operacaoCaixa).hide();
+                    $(Extrato).hide();
+                    if (document.getElementById("file2").value === "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file3").value === "") {
+
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+
+                    } else if (document.getElementById("file4").value === "") {
+
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+
+                    } else if (document.getElementById("file5").value === "") {
+                        $(operacaoCaixa).show();
+
+
+                    }
+
+                    break;
+
+                case "lancamentoContaCorrente":
+                    $(iconelancamentoContaCorrente).show();
+                    $(lancamentoContaCorrente).hide();
+                    $(operacaoCaixa).hide();
+
+                    if (document.getElementById("file1").value === "") {
+
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file3").value === "") {
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+
+                    } else if (document.getElementById("file4").value === "") {
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+
+                    } else if (document.getElementById("file5").value === "") {
+                        $(operacaoCaixa).show();
+
+
+                    }
+
+
+                    break;
+
+                case "enviadaRecebida":
+
+                    $(iconeEnviadaseRecebidas).show();
+                    $(valorJudicial).hide();
+                    $(enviadaRecebida).hide();
+                    $(operacaoCaixa).hide();
+
+                    if (document.getElementById("file1").value === "") {
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file2").value === "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file4").value === "") {
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+
+                    } else if (document.getElementById("file5").value === "") {
+                        $(operacaoCaixa).show();
+
+
+                    }
+                    break;
+
+                case "devolucaoCheques":
+
+                    $(valorDevolucaoCheques).hide();
+                    $(devolucaoCheques).hide();
+                    $(iconeDevolucaoCheques).show();
+                    $(operacaoCaixa).hide();
+
+
+                    if (document.getElementById("file1").value === "") {
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file2").value === "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file3").value === "") {
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+                    } else if (document.getElementById("file5").value === "") {
+                        $(operacaoCaixa).show();
+                    }
+
+                    break;
+
+                case "operacaoCaixa":
+
+                    $(iconeOperacaodeCaixa).show();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorJudicial).hide();
+                    $(enviadaRecebida).hide();
+                    $(operacaoCaixa).hide();
+                    $(chequesDevolvidos).show();
+                    $(camposNr).hide();
+
+
+                    if (document.getElementById("file1").value === "") {
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file2").value === "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file3").value === "") {
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+
+                    } else if (document.getElementById("file4").value === "") {
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+
+                    }
+
+                    break;
+
+                case "chequesDevolvidos":
+
+                    $(iconeChequesDevolvidos).show();
+                    $(valorDevolucaoCheques).hide();
+                    $(valorJudicial).hide();
+                    $(enviadaRecebida).hide();
+                    $(chequesDevolvidos).hide();
+                    $(camposNr).show();
+
+
+                    if (document.getElementById("file1").value === "") {
+                        $(Extrato).show();
+
+                    } else if (document.getElementById("file2").value === "") {
+                        $(lancamentoContaCorrente).show();
+
+                    } else if (document.getElementById("file3").value === "") {
+                        $(valorJudicial).show();
+                        $(enviadaRecebida).show();
+
+                    } else if (document.getElementById("file4").value === "") {
+                        $(valorDevolucaoCheques).show();
+                        $(devolucaoCheques).show();
+
+                    } else if (document.getElementById("file5").value === "") {
+                        $(operacaoCaixa).show();
+                    }
+
+                    break;
+
+            }
+
+            if (countArquivos === 6) {
+                $(window.botaoProcessar).show();
+                $(operacaoCaixa).hide();
+                $(enviadaRecebida).hide();
+                $(lancamentoContaCorrente).hide();
+                $(enviadaRecebida).hide();
+                $(valorJudicial).hide();
+                $(devolucaoCheques).hide();
+                $(valorDevolucaoCheques).hide();
+                $(Extrato).hide();
+                $(operacaoCaixa).hide();
+                $(chequesDevolvidos).hide();
+                $(camposNr).show();
+                $(teste).attr('desabled', true);
+
+
+            } else {
+                $(imgProcessar).hide();
+            }
+        }
+
+
+    }
+
+    function alteracor() {
+        $("#cor").removeClass();
+        $("#cor").addClass("file is-primary");
+    }
+
+</script>
+
+<script language="javascript">
+    function tirarPonto(obj, e) {
+        var tecla = (window.event) ? e.keyCode : e.which;
+        if (tecla === 8 || tecla === 0)
+            return true;
+        if (tecla !== 44 && tecla < 48 || tecla > 57)
+            return false;
+
+    }
+
+</script>
+
+<body>
+
+    @using(Html.BeginForm( "ProcessaArquivos", "Tesouraria", FormMethod.Post, new { enctype = "multipart/form-data" } ))
+
+    {
+        <div class="content">
+            <div class="column is-12">
+                <nav class="panel">
+
+                    <div class="panel-heading">
+                        Arquivos
+                    </div>
+
+                    <div style="background-color: white">
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 130%">
+                                    <div style="width: 160px">
+                                        @Html.TextBoxFor( m => m.Data, null, new { @class = "input", onchange = "javascript:verificarData(this.value)", type = "date" } )
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Extrato
+                                </div>
+                                <div id="iconeExtrato" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('1');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Códigos
+                                </div>
+                                <div id="iconelancamentoContaCorrente" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('2');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Rel.Teds Enviadas
+                                </div>
+                                <div id="iconeEnviadaseRecebidas" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('3');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Rel. Ch. Dev 6/192
+                                </div>
+                                <div id="iconeDevolucaoCheques" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('4');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Operação de Caixa 9222(dia ant.)
+                                </div>
+                                <div id="iconeOperacaodeCaixa" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('5');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                    <span class="panel-icon ">
+                                        <i class="fas fa-book" aria-hidden="true"></i>
+                                    </span>
+                                    Cheques Devolvidos 6/192(dia ant.)
+                                </div>
+                                <div id="iconeChequesDevolvidos" hidden>
+                                    <span>
+                                        <a href="#" onclick="javascript:AlternarBotoes('6');">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="panel-block">
+                                <div style="width: 99%">
+                                        <div class="column is-6" style="text-align: center">
+
+
+                                            <div id="Extrato" class="field">
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('Extrato')" name="file" id="file1">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>EXTRATO</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div id="lancamentoContaCorrente" class="field" hidden>
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('lancamentoContaCorrente')" name="file" id="file2">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Códigos</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="field" hidden id="valorJudicial">
+                                                <div class="control">
+                                                    <label>Valor Judicial rel enviadas e recebidas</label>
+                                                    @Html.TextBoxFor( m => m.ValorJudicial, null, new { @class = "input", type = "number", step = "0.01", onkeypress = "return tirarPonto( this , event )" } )
+                                                </div>
+                                            </div>
+
+                                            <div id="enviadaRecebida" class="field" hidden>
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('enviadaRecebida')" name="file" id="file3">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Rel. Teds Enviadas</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="field" hidden id="valorDevolucaoCheques">
+                                                <div class="control">
+                                                    <label>Valor Devolucao de Cheques</label>
+                                                    @Html.TextBoxFor( m => m.Valor6192, null, new { @class = "input", type = "number", step = "0.01", onkeypress = "return tirarPonto( this , event )" } )
+                                                </div>
+                                            </div>
+
+                                            <div id="devolucaoCheques" class="field" hidden>
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('devolucaoCheques')" name="file" id="file4">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Rel. Ch. Dev 6/192</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div id="operacaoCaixa" class="field" hidden>
+
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+
+                                                        <input class="file-input  is-fullwidth" type="file" multiple="multiple" onchange="AlternarBotoes('operacaoCaixa')" name="file" id="file5">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Operação de caixa 9222(dia ant.)</label>
+                                                        </span>
+                                                    </label>
+                                                    <input type="checkbox" id="validaCampoOperacao" value="true" name="check9" onchange="AlternarBotoes('operacaoCaixa')" class="is-checkradio is-small  has-background-color">
+                                                    <label for="validaCampoOperacao">
+                                                        Não houve movimentação
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div id="chequesDevolvidos" class="field" hidden>
+                                                <div class="file is-primary " style="display: block; width: 100%">
+                                                    <label class="file-label">
+                                                        <input class="file-input" type="file" multiple="multiple" onchange="AlternarBotoes('chequesDevolvidos')" name="file" id="file6">
+                                                        <span class="file-cta" style="display: block; width: 100%;">
+                                                            <i class="fas fa-upload"></i>
+                                                            <label>Dev 3/4(Data Ant.)</label>
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="field" id="camposNr" hidden>
+                                                <div class="control" id="NR1">
+                                                    <label>NR1</label>
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr1, null, new
+                                                    {
+                                                        @class = "input",
+                                                        type = "number",
+                                                        step = "0.01",
+                                                        focusout = "javascript:if(this.value==''){this.value=0}",
+                                                        onkeypress = "return tirarPonto( this , event )"
+                                                    })
+                                                </div>
+
+                                                <div class="control" id="NR2">
+                                                    <label>NR2</label>
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr2, null, new
+                                                    {
+                                                        @class = "input",
+                                                        type = "number",
+                                                        step = "0.01",
+                                                        focusout = "javascript:if(this.value==''){this.value=0}",
+                                                        onkeypress = "return tirarPonto( this , event )"
+                                                    })
+                                                </div>
+
+                                                <div class="control" id="NR3">
+                                                    <label>NR3</label>
+                                                    @Html.TextBoxFor(m => m.ValorCampoNr3, null, new
+                                                    {
+                                                        @class = "input",
+                                                        type = "number",
+                                                        step = "0.01",
+                                                        focusout = "javascript:if(this.value==''){this.value=0}",
+                                                        onkeypress = "return tirarPonto( this , event )"
+                                                    })
+                                                </div>
+                                            </div>
+
+                                            <div id="imgProcessar" class="field" hidden>
+                                                <nav class="level ">
+                                                    <p class="level-item has-text-centered">
+                                                        <img src="/Images/imgProcessar.png" alt="" style="height: 30px;">
+                                                    </p>
+                                                </nav>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="botaoProcessar" hidden>
+                            <p class="control" style="left: 40%">
+                                <button class="button is-success" type="submit" data-balloon="Clique para processar dados" data-balloon-pos="down">
+                                    <span>Salvar</span>
+                                </button>
+                            </p>
+                        </div>
+
+
+                </nav>
+
+            </div>
+
+
+        </div>
+    }
+</body>

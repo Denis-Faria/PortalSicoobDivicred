@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using PortalSicoobDivicred.Repositorios;
 
 namespace PortalSicoobDivicred.Aplicacao
@@ -11,6 +12,13 @@ namespace PortalSicoobDivicred.Aplicacao
         public QueryMysqlTesouraria()
         {
             _conexaoMysql = new Conexao();
+        }
+        public bool UsuarioLogado()
+        {
+            var usuario = HttpContext.Current.Request.Cookies["CookieFarm"];
+            if(usuario == null)
+                return false;
+            return true;
         }
 
         public string ConsultaValorNr()
@@ -133,5 +141,20 @@ namespace PortalSicoobDivicred.Aplicacao
                                      "' WHERE data='" + data + "'";
             _conexaoMysql.ExecutaComandoComRetorno(queryJustificativa);
         }
+
+        public List<Dictionary<string, string>> RetornaCheques(string numContaCorrente)
+        {
+            var query = "select a.numcontacorrente, count(a.id) as total, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id and  a.numcontacorrente="+numContaCorrente;
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
+        public List<Dictionary<string, string>> RetornaHistoricoCheques(string numContaCorrente)
+        {
+            var query = "select  a.*, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id and  a.numcontacorrente=" + numContaCorrente;
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
     }
 }

@@ -1640,8 +1640,6 @@ namespace PortalSicoobDivicred.Controllers
                     }
                     else
                     {
-                        
-
                         var atendentesTarefa = verificaDados.RetornaAtendentesSubTarefa(dados["IdSubTarefa"]);
 
                         foreach (var atendente in atendentesTarefa)

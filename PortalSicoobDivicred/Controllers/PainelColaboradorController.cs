@@ -232,6 +232,13 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["ConfirmaCertificacao"] = "Checked";
                     else
                         TempData["ConfirmaCertificacao"] = "";
+
+                    if(dadosTabelaFuncionario[0]["confirmacaodado"].Equals( "S" ))
+                        TempData["ConfirmaDados"] = "Checked";
+                    else
+                        TempData["ConfirmaDados"] = "";
+
+
                     if(dadosTabelaFuncionario[0]["foto"] == null)
                         TempData["Foto"] = "http://bulma.io/images/placeholders/128x128.png";
                     else
@@ -879,6 +886,10 @@ namespace PortalSicoobDivicred.Controllers
                         TempData["Certificacao" + j] = certificacoes[0]["descricao"];
                     }
 
+                if(dadosTabelaFuncionario[0]["confirmacaodado"].Equals( "S" ))
+                    TempData["ConfirmaDados"] = "Checked";
+                else
+                    TempData["ConfirmaDados"] = "";
 
                 if(dadosTabelaFuncionario[0]["confirmacaocertificacao"].Equals( "S" ))
                     TempData["ConfirmaCertificacao"] = "Checked";

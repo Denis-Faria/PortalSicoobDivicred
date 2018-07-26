@@ -1,20 +1,44 @@
 ﻿<script type="text/javascript" src="@Url.Content("https://code.jquery.com/jquery-2.1.1.min.js")"></script>
 <script src='@Url.Content("~/Assets/js/jquery-ui.min.js")' type="text/javascript"></script>
-<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet"/>
+<link href="@Url.Content("~/Assets/css/animate.css")" rel="stylesheet" />
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    $(function() {
+    $(function () {
         $("#Tabopcoes").tabs();
     });
+
+    function MudaModulo(nomeModulo, nomeModuloOcultar) {
+        $("#" + nomeModuloOcultar).hide();
+        $("#" + nomeModulo).show();
+        $("#Menu" + nomeModuloOcultar).removeClass();
+        $("#Menu" + nomeModulo).addClass("is-active");
+    }
+
+    function BuscaTalao() {
+        $("#ResultadoPesquisa").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Tesouraria/BuscaTaloes',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "ContaCorrente": $("#BuscaConta").val() },
+                success: function (data) {
+                    $("#ResultadoPesquisa").append(data);
+
+                }
+            });
+    }
 </script>
 
 
-@if (TempData["MensagemValidacao"] != null)
+@if(TempData["MensagemValidacao"] != null)
 {
-    @Html.Label("")
+    @Html.Label( "" )
 
 
     <script>
@@ -28,9 +52,9 @@
     </script>
 }
 
-@if (TempData["Erro"] != null)
+@if(TempData["Erro"] != null)
 {
-    @Html.Label("")
+    @Html.Label( "" )
 
 
     <script>
@@ -44,12 +68,12 @@
     </script>
 }
 
-<br/>
+<br />
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
     <title>Tesouraria</title>
 </head>
 
@@ -61,47 +85,81 @@
 
 
 <body>
-<div id="Tabopcoes">
-    <div class="tabs is-centered is-boxed">
-        <ul>
-            <li id="AbaArquivos" class="is-active">
-                <a href="#Arquivos" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaPesquisar').removeClass();$('#AbaArquivos').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-edit"></i>
-                    </span>
-                    <span>Inserir Arquivos</span>
-                </a>
-            </li>
-            <li id="AbaExtrato">
-                <a href="#Resultado" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaPesquisar').removeClass();$('#AbaExtrato').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-list"></i>
-                    </span>
-                    <span>Resultados</span>
-                </a>
-            </li>
-            <li id="AbaPesquisar">
-                <a href="#Pesquisar" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaExtrato').removeClass();$('#AbaPesquisar').addClass('is-active');">
-                    <span class="icon is-small">
-                        <i class="fa fa-list"></i>
-                    </span>
-                    <span>Pesquisar/Editar</span>
-                </a>
-            </li>
+
+    <div class="columns">
+        <aside class="menu column is-3-fullhd">
+            <p class="menu-label">
+                Modulos
+            </p>
+            <ul class="menu-list">
+                <li><a class="is-active" href="javascript: MudaModulo('Tabopcoes','Taloes');void(0);" id="MenuTabopcoes">Consiliação Extrato Bancoob</a></li>
+                <li><a href="javascript: MudaModulo('Taloes','Tabopcoes');void(0);" id="MenuTaloes">Controle de Talões</a></li>
+            </ul>
+        </aside>
+        <div class=" column is-9">
+            <div id="Tabopcoes">
+                <div class="column is-12">
+                <div class="tabs is-centered is-boxed">
+                    <ul>
+                        <li id="AbaArquivos" class="is-active">
+                            <a href="#Arquivos" onclick="javascript:$('#AbaExtrato').removeClass();$('#AbaPesquisar').removeClass();$('#AbaArquivos').addClass('is-active');">
+                                <span class="icon is-small">
+                                    <i class="fa fa-edit"></i>
+                                </span>
+                                <span>Inserir Arquivos</span>
+                            </a>
+                        </li>
+                        <li id="AbaExtrato">
+                            <a href="#Resultado" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaPesquisar').removeClass();$('#AbaExtrato').addClass('is-active');">
+                                <span class="icon is-small">
+                                    <i class="fa fa-list"></i>
+                                </span>
+                                <span>Resultados</span>
+                            </a>
+                        </li>
+                        <li id="AbaPesquisar">
+                            <a href="#Pesquisar" onclick="javascript: $('#AbaArquivos').removeClass();$('#AbaExtrato').removeClass();$('#AbaPesquisar').addClass('is-active');">
+                                <span class="icon is-small">
+                                    <i class="fa fa-list"></i>
+                                </span>
+                                <span>Pesquisar/Editar</span>
+                            </a>
+                        </li>
 
 
-        </ul>
-    </div>
-    <div id="Arquivos">
-        @Html.Action("ProcessaArquivos")
-    </div>
-    <div id="Resultado">
-        @Html.Action("Resultado")
-    </div>
-    <div id="Pesquisar">
-        @Html.Action("Pesquisa")
-    </div>
-</div>
+                    </ul>
+                </div>
+                <div id="Arquivos">
+                    @Html.Action("ProcessaArquivos")
+                </div>
+                <div id="Resultado">
+                    @Html.Action("Resultado")
+                </div>
+                <div id="Pesquisar">
+                    @Html.Action("Pesquisa")
+                </div>
+            </div>
+            </div>
+            <div id="Taloes" hidden="" >
+                <div class="column is-12">
+                    <div class="field has-addons ">
+                        <div class="control is-expanded">
+                            <input class="input" id="BuscaConta" type="text" placeholder="N° Conta Corrente">
+                        </div>
+                        <div class="control">
+                            <button onclick="BuscaTalao()" class="button is-primary">
+                                Pesquisar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="ResultadoPesquisa" class="column is-12">
 
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

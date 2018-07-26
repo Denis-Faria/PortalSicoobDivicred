@@ -1,0 +1,100 @@
+﻿@model PortalSicoobDivicred.Models.Tesouraria
+
+<script type="text/javascript" src="@Url.Content("~/Assets/js/jquery.mask.js")"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("~/Assets/js/iziToast.min.js")"></script>
+<link href="@Url.Content("~/Assets/css/iziToast.min.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Assets/css/balloon.css")" rel="stylesheet" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".hora").mask('00:00');
+
+    });
+</script>
+<script>
+    function habilitarbotao(valorBotao) {
+
+        if (valorBotao !== "") {
+            $(BotaoPesquisar).attr('disabled', false);
+        }
+    }
+
+</script>
+<script>
+
+    function acrescentarLinhas(mostrar) {
+
+        $("#telaTabela").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Tesouraria/Pesquisa',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "data": dataPesquisa.value },
+                success: function (data) {
+                    $("#telaTabela").append(data);
+
+                }
+            });
+    }
+
+
+</script>
+
+<script>
+
+    function AlterarVaga(dataPesquisa) {
+        alert(dataPesquisa);
+
+
+    }
+
+</script>
+
+
+<html>
+<div class="content">
+
+    <div class="column is-12">
+        <nav class="panel">
+
+            <div class="panel-heading">
+                Pesquisar
+            </div>
+
+            <div style="background-color: white">
+                <div>
+                    <div class="panel-block">
+                        <p class="control">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input class="input" type="date" id="dataPesquisa" onchange="javascript:habilitarbotao(document.getElementById('dataPesquisa'));" placeholder="Pesquise a data">
+                                </div>
+                                <div class="control">
+                                    <a class="button is-primary" id="BotaoPesquisar" disabled="true" onclick="javascript: acrescentarLinhas(document.getElementById('dataPesquisa'));">
+                                        Pesquisar
+                                    </a>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+   
+
+            <div class="panel-block">
+                <p class="control">
+                    <div class="column is-12" id="telaTabela">
+
+                    </div>
+                </p>
+            </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+</html>

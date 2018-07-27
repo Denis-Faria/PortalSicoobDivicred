@@ -18,6 +18,8 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             ConexaoMysql = new Conexao();
         }
+
+
         public List<SelectListItem> RetornaGrupos()
         {
             var grupos = new List<SelectListItem>();
@@ -34,6 +36,27 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return grupos;
         }
+
+
+        public List<SelectListItem> RetornaPermissoes()
+        {
+            var permissoes = new List<SelectListItem>();
+
+            const string queryRetornaPermissoes = "SELECT idpermissao,idgrupo FROM permissoesgrupo";
+
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaPermissoes);
+            foreach (var row in dados)
+                permissoes.Add(new SelectListItem
+                {
+                    Value = row["idpermissao"],
+                    Text = row["idpermissao"]
+                });
+
+            return permissoes;
+        }
+
+
+
 
         public bool UsuarioLogado()
         {
@@ -66,6 +89,13 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
         {
             var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' and ativo='S' order by nome";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public List<Dictionary<string, string>> BuscaPermissao(string Permissao)
+        {
+            var Query = "Select idpermissao,idgrupo,valor from permissoesgrupo where nome like'%" + Permissao + " order by idpermissao";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }

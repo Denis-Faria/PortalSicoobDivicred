@@ -45,6 +45,8 @@ namespace PortalSicoobDivicred.Controllers
             }
 
         }
+
+
         public ActionResult Funcionario()
         {
             var verificaDados = new QueryMysqlParametros();
@@ -79,6 +81,42 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        public ActionResult PermissaoGrupos()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosPermissaoGrupos = new Parametros();
+                var dadosTablelaPermissaoGrupo = verificaDados.RetornaGrupos();
+                
+                dadosPermissaoGrupos.PermissaoDescricaoGrupo = dadosTablelaPermissaoGrupo;
+
+
+                return PartialView("ParametrosPermissao", dadosPermissaoGrupos);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Permissao()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosPermissoes = new Parametros();
+                var dadosTablelaPermissoes = verificaDados.RetornaPermissoes();
+                var dadosTablelaGrupo = verificaDados.RetornaGrupos();
+
+                dadosPermissoes.IdPermissaoDescricao  = dadosTablelaPermissoes;
+                dadosPermissoes.PermissaoDescricaoGrupo = dadosTablelaGrupo;
+                return PartialView("ParametrosPermissao", dadosPermissoes);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
         public ActionResult Grupo()
         {
             var verificaDados = new QueryMysqlParametros();
@@ -87,8 +125,7 @@ namespace PortalSicoobDivicred.Controllers
             {
 
                 var dadosGrupos = new Parametros();
-                var dadosTablelaGrupo = verificaDados.RetornaGrupos();
-                dadosGrupos.DescricaoGrupo = dadosTablelaGrupo;
+               
 
 
                 return PartialView("ParametrosGrupos", dadosGrupos);
@@ -186,6 +223,41 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Login", "Login");
         }
+
+        [HttpPost]
+        public ActionResult BuscarPermissoes(string IdPermissao)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Funcionarios = VerificaDados.BuscaPermissao(IdPermissao);
+                if (Funcionarios.Count != 0)
+                {
+                    for (var i = 0; i < Funcionarios.Count; i++)
+                    {
+                        TempData["IdPermissao" + i] = Funcionarios[i]["idpermissao"];
+                        TempData["IdGrupo" + i] = Funcionarios[i]["idgrupo"];
+                        TempData["Valor" + i] = Funcionarios[i]["valor"];
+                    }
+
+
+                    TempData["TotalResultado"] = Funcionarios.Count;
+                    //TempData["Editar"] = "EditarFuncao";
+                    TempData["idpermissao"] = Funcionarios[0]["idpermissao"];
+                    return PartialView("PesquisaParametros");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
 
         [HttpPost]
         public ActionResult BuscaGrupo(string DescricaoGrupo)

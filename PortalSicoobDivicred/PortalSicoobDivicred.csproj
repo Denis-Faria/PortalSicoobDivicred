@@ -954,6 +954,7 @@
     <Content Include="Views\Parametros\ParametrosGrupos.cshtml" />
     <Content Include="Views\Parametros\PesquisaGrupos.cshtml" />
     <Content Include="Views\Parametros\EditarGrupos.cshtml" />
+    <Content Include="Views\Parametros\ParametrosPermissao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -40,6 +40,7 @@
     function Funcionario() {
         $("#ParametroSelecionado").empty();
         $("#PanelGrupo").addClass("panel-block");
+        $("#PanelPermissao").addClass("panel-block");
 
         $.ajax(
             {
@@ -57,6 +58,7 @@
     function Grupo() {
         $("#ParametroSelecionado").empty();
         $("#PanelFuncionario").addClass("panel-block");
+        $("#PanelPermissao").addClass("panel-block");
        
 
         $.ajax(
@@ -68,6 +70,29 @@
                 async: true,
                 success: function (data) {
                     $("#ParametroSelecionado").append(data);
+
+                }
+            });
+
+    }
+
+    function Permissao() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelGrupo").addClass("panel-block");
+        $("#PanelFuncionario").addClass("panel-block");
+        
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Parametros/Permissao',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+                    
+                   
 
                 }
             });
@@ -221,6 +246,13 @@
                             </span>
                             Grupos
                         </a>
+                        <a id="PanelPermissao" style="background-color: white" class="panel-block" href="Javascript:Permissao();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Permissão
+                        </a>
+
                     </nav>
                 </div>
             </div>

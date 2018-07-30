@@ -400,23 +400,6 @@
                         <span>Minhas solicitações</span>
                     </a>
                 </li>
-                @try
-                {
-                    if(TempData["usuarioTI"].ToString() == "2")
-                    {
-                        <li id="AbaParametros">
-                            <a href="#Parametros" onclick="javascript: $('#AbaChamadosdoMeuSetor').removeClass();$('#AbaMeusChamados').removeClass();$('#AbaMeusChamadosAbertos').removeClass();$('#AbaParametros').addClass('is-active');">
-                                <span class="icon is-small">
-                                    <i class="fa fa-inbox"></i>
-                                </span>
-                                <span>Parâmetros</span>
-                            </a>
-                        </li>
-                    }
-                }
-                catch
-                {
-                }
             </ul>
         </div>
         <div id="MeusChamados">

@@ -473,7 +473,7 @@ namespace PortalSicoobDivicred.Controllers
                 var dadosPendencias = validacoes.RetornaPendenciasFuncionario( dadosTabelaFuncionario[0]["id"] );
 
 
-                var justificativasFirebird = queryFire.RecuperaJustificativas();
+                var justificativasFirebird = verificaDados.RecuperaJustificativas();
 
 
                 TempData["TotalJustificativas"] = justificativasFirebird.Count;
@@ -481,8 +481,8 @@ namespace PortalSicoobDivicred.Controllers
 
                 for(var j = 0; j < justificativasFirebird.Count; j++)
                 {
-                    TempData["Justificativa" + j] = justificativasFirebird[j]["DESCRICAO"];
-                    TempData["IdJustificativa" + j] = justificativasFirebird[j]["ID_JUSTIFICATIVA"];
+                    TempData["Justificativa" + j] = justificativasFirebird[j]["descricao"];
+                    TempData["IdJustificativa" + j] = justificativasFirebird[j]["id"];
                 }
 
 

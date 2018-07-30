@@ -832,8 +832,19 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["NumConta" + count] = cheque["numcontacorrente"];
                     TempData["Nome" + count] = cheque["nome"];
                     TempData["QuantidadeCheque" + count] = cheque["total"];
-                    TempData["DataBloqueio"] = cheque["databloqueio"];
-                    TempData["Datadesbloqueio"] = cheque["datadesbloqueio"];
+                    if (cheque["databloqueio"] != null)
+                    {
+                        TempData["DataBloqueio" + count] =
+                            Convert.ToDateTime(cheque["databloqueio"]).ToString("dd/MM/yyyy");
+                        TempData["Datadesbloqueio" + count] =
+                            Convert.ToDateTime(cheque["datadesbloqueio"]).ToString("dd/MM/yyyy");
+                    }
+                    else
+                    {
+                        TempData["DataBloqueio" + count] = "";
+                        TempData["Datadesbloqueio" + count] = "";
+                    }
+
                     count++;
                 }
                 return PartialView("ResultadoTaloes");
@@ -853,21 +864,79 @@ namespace PortalSicoobDivicred.Controllers
                 TempData["TotalResultado"] = cheques.Count;
                 var count = 0;
                 TempData["NomeCooperado"] = cheques[0]["nome"];
+                var bloqueios = verificaDados.RetornaBloqueiosCheques( contaCorrente );
+                try
+                {
+                    TempData["UltimoBloqueio"] =
+                        Convert.ToDateTime(bloqueios[0]["databloqueio"]).ToString("dd/MM/yyyy");
+                    TempData["Ultimodesbloqueio"] =
+                        Convert.ToDateTime(bloqueios[0]["datadesbloqueio"]).ToString("dd/MM/yyyy");
+                }
+                catch
+                {
+                    TempData["UltimoBloqueio"] = "NÃO HOUVE BLOQUEIO";
+                    TempData["Ultimodesbloqueio"] = "NÃO HOUVE BLOQUEIO";
+                }
 
                 foreach(var cheque in cheques)
                 {
                     TempData["NumConta" + count] = cheque["numcontacorrente"];
                     TempData["Nome" + count] = cheque["nome"];
                     TempData["ValorCheque" + count] = cheque["valorcheque"];
+                    TempData["Bloqueado"+count] = cheque["bloqueado"];
                     TempData["DataDevolucao" +count] = Convert.ToDateTime(cheque["datadevolucao"]).ToString("dd/MM/yyyy");
                     TempData["Historico" + count] = cheque["historico"];
-                    TempData["DataBloqueio"] = cheque["databloqueio"];
-                    TempData["Datadesbloqueio"] = cheque["datadesbloqueio"];
+
                     count++;
                 }
+
+                var count2 = 0;
+                foreach (var bloqueio in bloqueios)
+                {
+                    TempData["NumContaBloqueio" + count2] = bloqueio["numcontacorrente"];
+                    TempData["NomeBloqueio" + count2] = bloqueio["nome"];
+                    TempData["DataBloqueio" + count2] = Convert.ToDateTime( bloqueio["databloqueio"] ).ToString( "dd/MM/yyyy" ); ;
+                    TempData["DataDesbloqueio" + count2] = Convert.ToDateTime( bloqueio["datadesbloqueio"] ).ToString( "dd/MM/yyyy" ); ;
+                    count2++;
+                }
+
                 return PartialView( "ResultadoHistoricoTaloes" );
             }
 
+            return RedirectToAction( "Login", "Login" );
+        }
+
+        public ActionResult BloquearTalao(string contaCorrente)
+        {
+            var verificaDados = new QueryMysqlTesouraria();
+
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+                verificaDados.BloqueiaCheques(contaCorrente);
+
+                return RedirectToAction( "Tesouraria", new { MensagemValidacao = "Talão bloqueado com sucesso!" } );
+
+            }
+            return RedirectToAction( "Login", "Login" );
+        }
+
+        public ActionResult DesbloquearTalao(string contaCorrente)
+        {
+            var verificaDados = new QueryMysqlTesouraria();
+
+            var logado = verificaDados.UsuarioLogado();
+            if(logado)
+            {
+                var bloqueios = verificaDados.RetornaBloqueiosCheques( contaCorrente );
+
+                if(bloqueios.Count > 0)
+                {
+                    verificaDados.DesbloqueiaCheques( contaCorrente,bloqueios[0]["id"] );
+                    return RedirectToAction( "Tesouraria", new { MensagemValidacao = "Talão desbloqueado com sucesso!" } );
+                }
+                
+            }
             return RedirectToAction( "Login", "Login" );
         }
     }

@@ -237,8 +237,8 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperadadosFuncionariosTabelaFuncionarios(string nomeFuncionario)
         {
             var query =
-                "SELECT * FROM funcionarios where (soundex(nome)like concat('%',soundex('" + nomeFuncionario +
-                "'),'%')) ";
+                "SELECT * FROM funcionarios where nome like '%" + nomeFuncionario +
+                "%'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
 
             return dados;
@@ -974,6 +974,13 @@ namespace PortalSicoobDivicred.Aplicacao
             {
                 return false;
             }
+        }
+
+        public List<Dictionary<string,string>> RecuperaJustificativas()
+        {
+            var query = "select * from justificativasponto";
+            var justificativas = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return justificativas;
         }
     }
 }

@@ -144,16 +144,58 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RetornaCheques(string numContaCorrente)
         {
-            var query = "select a.numcontacorrente, count(a.id) as total, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id and  a.numcontacorrente="+numContaCorrente;
-            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
-            return dados;
+            if (numContaCorrente.Length > 0)
+            {
+                var query =
+                    "select a.numcontacorrente,(select count(id) from chequesbloqueados where bloqueado='N') as total, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente  and b.idcliente=d.id and a.numcontacorrente=" +
+                    numContaCorrente+ "  group by a.numcontacorrente";
+                var dados = _conexaoMysql.ExecutaComandoComRetorno(query);
+                return dados;
+            }
+            else
+            {
+                var query =
+                    "select a.numcontacorrente,(select count(id) from chequesbloqueados where bloqueado='N') as total, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente  and b.idcliente=d.id group by a.numcontacorrente";
+                var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+                return dados;
+            }
         }
 
         public List<Dictionary<string, string>> RetornaHistoricoCheques(string numContaCorrente)
         {
-            var query = "select  a.*, c.databloqueio,c.datadesbloqueio, d.nome from chequesbloqueados a left join taloesbloqueados c on a.numcontacorrente=c.numcontacorrente,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id and  a.numcontacorrente=" + numContaCorrente;
+            var query = "select  a.*, d.nome from chequesbloqueados a , contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id  and  a.numcontacorrente=" + numContaCorrente+"";
             var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dados;
+        }
+        public List<Dictionary<string, string>> RetornaBloqueiosCheques(string numContaCorrente)
+        {
+            var query = "select  a.*, d.nome from taloesbloqueados a,contasclientes b,pessoas d where a.numcontacorrente=b.numcontacorrente and b.idcliente=d.id  and a.numcontacorrente=" + numContaCorrente+" order by a.databloqueio desc";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
+        public List<Dictionary<string, string>> RetornaDataBloqueiosCheques(DateTime dataDevolucao)
+        {
+            var query = "select  * from taloesbloqueados where ";
+            var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
+            return dados;
+        }
+
+        public void BloqueiaCheques(string numContaCorrente)
+        {
+            var query = "INSERT INTO taloesbloqueados (numcontacorrente,databloqueio) VALUES("+numContaCorrente+",NOW())";
+            _conexaoMysql.ExecutaComandoComRetorno( query );
+
+            var query2 = "UPDATE chequesbloqueados SET bloqueado='S' where numcontacorrente=" + numContaCorrente + ";";
+            _conexaoMysql.ExecutaComandoComRetorno( query2 );
+
+        }
+
+
+        public void DesbloqueiaCheques(string numContaCorrente, string id)
+        {
+            var query = "UPDATE taloesbloqueados SET numcontacorrente="+numContaCorrente+", datadesbloqueio=NOW() WHERE id="+id+";";
+            _conexaoMysql.ExecutaComandoComRetorno( query );
         }
 
     }

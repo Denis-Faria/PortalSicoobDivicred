@@ -62,7 +62,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
                                         pendentes.Add(funcionarioPendente);
                                     }
-                                    else if ((marcacao.Count < 2 || marcacao.Count > 4) && marcacao.Count != 3)
+                                    else if ((marcacao.Count <= 2 || marcacao.Count > 4) && marcacao.Count != 3)
                                     {
                                         #region Tratamento Hora extra, Batida errada aprendiz e estagiario e Irani
 

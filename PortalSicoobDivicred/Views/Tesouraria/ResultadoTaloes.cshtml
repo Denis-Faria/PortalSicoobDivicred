@@ -20,7 +20,7 @@
 </script>
 
 
-@if (Convert.ToInt32(TempData["TotalResultado"]) > 0)
+@if(Convert.ToInt32( TempData["TotalResultado"] ) > 0)
 {
     <table class="table is-striped is-centered is-desktop is-fullwidth">
         <thead>
@@ -29,37 +29,79 @@
         <th class="has-text-centered">Quantida de Cheques</th>
         <th class="has-text-centered">Data Bloqueio</th>
         <th class="has-text-centered">Data Desbloqueio</th>
-        <th class="has-text-centered">Ações</th>
+        <th class="has-text-centered">Histórico</th>
+        <th class="has-text-centered">Bloquear</th>
+        <th class="has-text-centered">Desbloquear</th>
         </thead>
         <tbody>
-        @for (int i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
-        {
-            <tr>
-                <td class="has-text-centered">
-                    @TempData["NumConta" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["Nome" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["QuantidadeCheque" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["DataBloqueio" + i]
-                </td>
-                <td class="has-text-centered">
-                    @TempData["DataDesbloqueio" + i]
-                </td>
-                <td class="has-text-centered">
-                    <button class="button is-primary" id="Historico" onclick="BuscaHistorico('@TempData["NumConta" + i]');void(0);" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para visualizar o histórico de cheques." data-balloon-pos="right">
-                        <span class="icon is-small">
-                            <i class="fas fa-history" aria-hidden="true"></i>
-                        </span>
-                        <span class="name">Visualizar Histórico</span>
-                    </button>
-                </td>
-            </tr>
-        }
+            @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
+            {
+                <tr>
+                    <td class="has-text-centered">
+                        @TempData["NumConta" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Nome" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["QuantidadeCheque" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataBloqueio" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataDesbloqueio" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <button class="button is-primary" id="Historico" onclick="BuscaHistorico('@TempData["NumConta" + i]');void(0);" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para visualizar o histórico de cheques." data-balloon-pos="down">
+                            <span class="icon is-small">
+                                <i class="fas fa-history" aria-hidden="true"></i>
+                            </span>
+                            <span class="name">Visualizar Histórico</span>
+                        </button>
+                    </td>
+                    <td class="has-text-centered">
+                        @if(@TempData["Datadesbloqueio" + i] != null)
+                        {
+                            <a class="button is-success" id="Historico" href="@Url.Action("BloquearTalao", "Tesouraria", new {contaCorrente = @TempData["NumConta" + i]})" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para bloquear os talões deste cooperado." data-balloon-pos="down">
+                                <span class="icon is-small">
+                                    <i class="fas fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">Bloquear Talões</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="button is-success" id="Historico"  onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Efetue o desbloqueio para que possa bloquear os talões deste cooperado." data-balloon-pos="down" disabled="true">
+                                <span class="icon is-small">
+                                    <i class="fas fa-lock" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">Bloquear Talões</span>
+                            </a>
+                        }
+                    </td>
+                    <td class="has-text-centered">
+                        @if(@TempData["DataBloqueio" + i] == null)
+                        {
+                            <button class="button is-success" id="Historico"  onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Efetue o bloqueio do talão para liberar o desbloqueio." data-balloon-pos="down" disabled="true">
+                                <span class="icon is-small">
+                                    <i class="fas fa-unlock" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">Desbloquear Talões</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <a class="button is-success" id="Historico" href="@Url.Action("DesbloquearTalao", "Tesouraria", new {contaCorrente = @TempData["NumConta" + i]})" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para desbloquear os talões deste cooperado." data-balloon-pos="down">
+                                <span class="icon is-small">
+                                    <i class="fas fa-unlock" aria-hidden="true"></i>
+                                </span>
+                                <span class="name">Desbloquear Talões</span>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
     <div id="ModalHistorico" class="modal">

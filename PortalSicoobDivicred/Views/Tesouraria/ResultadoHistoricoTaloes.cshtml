@@ -1,76 +1,110 @@
-﻿<article class="message is-primary">
+﻿<script>
+    $(document).ready(function () {
+        $("#TabTaloes").tabs();
+    });
+</script>
+
+<article class="message is-primary">
     <div class="message-body">
         <p>
-            <strong>Nome do Cooperado:</strong> @TempData["NomeCooperado"] 
+            <strong>Nome do Cooperado:</strong> @TempData["NomeCooperado"]
         </p>
         <p>
-            <strong>Data do Último Bloqueio:</strong> @TempData["UltimoBloqueio"] 
+            <strong>Data do Último Bloqueio:</strong> @TempData["UltimoBloqueio"]
         </p>
-    <p>
-        <strong>Data do Último Desbloqueio:</strong> @TempData["UltimoDesbloqueio"]
-    </p>
+        <p>
+            <strong>Data do Último Desbloqueio:</strong> @TempData["UltimoDesbloqueio"]
+        </p>
     </div>
 </article>
-<div class="field is-grouped is-grouped-right">
-    <p class="control">
-        <button onclick="Imprimir()" type="submit" class="button is-success">
-            <span class="icon">
-                <i class="fas fa-lock"></i>
-            </span>
-            <span>Bloquear Talão</span>
-        </button>
-    </p>
-    <p class="control">
+<div id="TabTaloes">
+    <div class="tabs is-boxed is-centered">
+        <ul>
+            <li id="AbaCheques" class="is-active">
+                <a href="#Cheques" onclick="javascript:$('#AbaBloqueios').removeClass();$('#AbaCheques').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fas fa-sticky-note" aria-hidden="true"></i>
+                    </span>
+                    <span>Cheques Estornados</span>
+                </a>
+            </li>
+            <li id="AbaBloqueios">
+                <a href="#bloqueio" onclick="javascript:$('#AbaCheques').removeClass();$('#AbaBloqueio').addClass('is-active');">
+                    <span class="icon is-small">
+                        <i class="fa fa-tag"></i>
+                    </span>
+                    <span>Bloqueios de Talões</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-        <button type="submit" class="button is-success" id="CadastraInteracao" onsubmit="this.disabled = 'disabled'">
-            <span class="icon is-small is-left">
-                <i class="fas fa-unlock"></i>
-            </span>
-            <span>Desbloquear Talão</span>
-        </button>
-    </p>
-    
+    <div id="Cheques" class="column is-6">
+        <table class="table is-striped is-centered is-fullwidth">
+            <thead>
+            <th class="has-text-centered">N° Conta Corrente</th>
+            <th class="has-text-centered">Nome</th>
+            <th class="has-text-centered">Valor do Cheque</th>
+            <th class="has-text-centered">Data da Devolução</th>
+            <th class="has-text-centered">Histórico</th>
+            <th class="has-text-centered">Bloqueado</th>
+            </thead>
+            <tbody>
+                @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
+                {
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["NumConta" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["Nome" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["ValorCheque" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["DataDevolucao" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["Historico" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["Bloqueado" + i]
+                        </td>
 
-</div>
-<div class="column is-6">
-    <table class="table is-striped is-centered">
-        <thead>
-        <th class="has-text-centered">N° Conta Corrente</th>
-        <th class="has-text-centered">Nome</th>
-        <th class="has-text-centered">Valor do Cheque</th>
-        <th class="has-text-centered">Data da Devolução</th>
-        <th class="has-text-centered">Histórico</th>
-        <th class="has-text-centered">Data Bloqueio</th>
-        <th class="has-text-centered">Data Desbloqueio</th>
-        </thead>
-        <tbody>
-            @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
-            {
-                <tr>
-                    <td class="has-text-centered">
-                        @TempData["NumConta" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["Nome" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["ValorCheque" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["DataDevolucao" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["Historico" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["DataBloqueio" + i]
-                    </td>
-                    <td class="has-text-centered">
-                        @TempData["DataDesbloqueio" + i]
-                    </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="bloqueio">
+        <table class="table is-striped is-centered is-fullwidth">
+            <thead>
+            <th class="has-text-centered">N° Conta Corrente</th>
+            <th class="has-text-centered">Nome</th>
+            <th class="has-text-centered">Data Bloqueio</th>
+            <th class="has-text-centered">Data Desbloqueio</th>
+            </thead>
+            <tbody>
+                @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
+                {
+                    <tr>
+                        <td class="has-text-centered">
+                            @TempData["NumContaBloqueio" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["NomeBloqueio" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["DataBloqueio" + i]
+                        </td>
+                        <td class="has-text-centered">
+                            @TempData["DataDesbloqueio" + i]
+                        </td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

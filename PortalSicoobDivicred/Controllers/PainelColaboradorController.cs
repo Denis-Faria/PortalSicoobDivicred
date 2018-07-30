@@ -595,15 +595,32 @@ namespace PortalSicoobDivicred.Controllers
                     if(Convert.ToBoolean( tabelasPonto[i]["Justificado"] ))
                     {
                         TempData["StatusJustificativa" + i] = "green";
-                        try
+                        if (tabelasPonto[i]["ConfirmaGestor"].Equals("green"))
                         {
-                            TempData["Justificativa" + i] = tabelasPonto[i]["Justificativa" + i];
-                            TempData["Esconde" + i] = "";
+                            try
+                            {
+                                TempData["Justificativa" + i] = tabelasPonto[i]["Justificativa" + i];
+                                TempData["Esconde" + i] = "";
+                            }
+                            catch
+                            {
+                                TempData["Justificativa" + i] = "NÃO INFORMADO";
+                                TempData["Esconde" + i] = "";
+                            }
                         }
-                        catch
+                        else
                         {
-                            TempData["Justificativa" + i] = "NÃO INFORMADO";
-                            TempData["Esconde" + i] = "";
+
+                            try
+                            {
+                                TempData["Justificativa" + i] = tabelasPonto[i]["Justificativa" + i];
+                                TempData["Esconde" + i] = "hidden";
+                            }
+                            catch
+                            {
+                                TempData["Justificativa" + i] = "NÃO INFORMADO";
+                                TempData["Esconde" + i] = "";
+                            }
                         }
                     }
                     else
@@ -2216,14 +2233,14 @@ namespace PortalSicoobDivicred.Controllers
                             Convert.ToDouble( dadosFuncionario.QuebraDeCaixa ),
                             Convert.ToDouble( dadosFuncionario.Anuenio ), Convert.ToDouble( dadosFuncionario.Ticket ),
                             dadosFuncionario.Estagiario, dadosFuncionario.DataEstagiario, dadosFuncionario.IdSetor,
-                            login );
+                            dadosFuncionario.UsuarioSistema );
                     }
                     catch
                     {
                         verificaDados.AtualizaDadosPerfilRh( dadosFuncionario.DataAdmissaoFuncionario,
                             dadosFuncionario.VencimentoPeriodico, dadosFuncionario.IdFuncao,0,0,0, 0,
                             dadosFuncionario.Estagiario, dadosFuncionario.DataEstagiario, dadosFuncionario.IdSetor,
-                            login );
+                            dadosFuncionario.UsuarioSistema );
                     }
 
                 }

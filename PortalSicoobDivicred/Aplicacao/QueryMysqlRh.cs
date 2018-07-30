@@ -157,7 +157,7 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RetornaPendencias()
         {
             var query =
-                "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N'and a.validacaogestor='S' AND a.idfuncionario=b.id;";
+                "select a.id,a.validacaogestor,b.nome,a.data from historicosjustificativaspontos a,funcionarios b where a.validacaorh='N' AND a.idfuncionario=b.id;";
             var dadosJustificativas = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dadosJustificativas;
         }
@@ -291,7 +291,7 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public List<Dictionary<string, string>> RetornaPendenciaAlerta()
         {
-            var query = "SELECT idfuncionario FROM historicosjustificativaspontos WHERE validacaogestor='N'";
+            var query = "SELECT idfuncionario FROM historicosjustificativaspontos WHERE validacaogestor='N' and validacaorh='N'";
             var dados = _conexaoMysql.ExecutaComandoComRetorno( query );
             return dados;
         }

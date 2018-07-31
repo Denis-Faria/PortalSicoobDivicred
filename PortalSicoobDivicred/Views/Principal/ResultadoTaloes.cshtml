@@ -1,0 +1,95 @@
+﻿
+<script>
+    function BuscaHistorico(contaCorrente) {
+        $("#HistoricoChequeDash").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Principal/BuscaHistoricoCheque',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "ContaCorrente": contaCorrente },
+                success: function (data) {
+                    $('#ModalHistoricoDash').removeClass();
+                    $('#ModalHistoricoDash').addClass('modal is-active');
+                    $("#HistoricoChequeDash").append(data);
+
+                }
+            });
+    }
+</script>
+
+
+@if(Convert.ToInt32( TempData["TotalResultado"] ) > 0)
+{
+<div class="column is-6">
+    <table class="table is-striped is-centered is-desktop is-fullwidth ">
+        <thead>
+        <th class="has-text-centered">N° Conta Corrente</th>
+        <th class="has-text-centered">Nome</th>
+        <th class="has-text-centered">Quantida de Cheques</th>
+        <th class="has-text-centered">Data Bloqueio</th>
+        <th class="has-text-centered">Data Desbloqueio</th>
+        <th class="has-text-centered">Histórico</th>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
+            {
+                <tr>
+                    <td class="has-text-centered">
+                        @TempData["NumConta" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Nome" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["QuantidadeCheque" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataBloqueio" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataDesbloqueio" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        <button class="button is-primary" id="Historico" onclick="BuscaHistorico('@TempData["NumConta" + i]');void(0);" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para visualizar o histórico de cheques." data-balloon-pos="down">
+                            <span class="icon is-small">
+                                <i class="fas fa-history" aria-hidden="true"></i>
+                            </span>
+                            <span class="name">Visualizar Histórico</span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    <div id="ModalHistoricoDash" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Histórico de Cheques</p>
+                <a href="javascript:$('#ModalHistoricoDash').removeClass();$('#ModalHistoricoDash').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+                <div id="HistoricoChequeDash">
+
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+                <a class="button" href="javascript:$('#ModalHistoricoDash').removeClass();$('#ModalHistoricoDash').addClass('modal');void(0);">Cancelar</a>
+            </footer>
+        </div>
+    </div>
+}
+else
+{
+    <article class="message is-success">
+        <div class="message-body">
+            Infelizmente não foi encontrado nenhum cheque para esta conta!
+        </div>
+    </article>
+
+}

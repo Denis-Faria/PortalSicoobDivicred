@@ -1,7 +1,56 @@
-﻿<script>
+﻿<script src='@Url.Content("~/Assets/js/jquery.tablesorter.min.js")' type="text/javascript"></script>
+<script src='@Url.Content("~/Assets/js/jquery.tablesorter.pager.js")' type="text/javascript"></script>
+
+<script>
     $(document).ready(function () {
         $("#TabTaloes").tabs();
+        $("#TabelaCheques")
+            .tablesorter({ widthFixed: true, widgets: ['zebra'] })
+            .tablesorterPager({ container: $("#pager") });
     });
+    function ImprimirCheques() {
+
+
+        var conteudo = document.getElementById('Cheques').innerHTML,
+            telaImpressao = window.open('about:blank');
+        telaImpressao.document.write('<link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />');
+        telaImpressao.document.write(conteudo);
+
+
+    }
+    function ImprimirBloqueio() {
+
+
+        var conteudo = document.getElementById('bloqueio').innerHTML,
+            telaImpressao = window.open('about:blank');
+        telaImpressao.document.write('<link href="@Url.Content("~/Assets/css/StyleSheet1.css")" rel="stylesheet" />');
+        telaImpressao.document.write(conteudo);
+
+
+    }
+    $(function() {
+        $(".input-search").keyup(function() {
+            var tabela = document.getElementById($(this).attr('alt'));
+            tr = tabela.getElementsByTagName("tr");
+
+
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[2];
+                    td2 = tr[i].getElementsByTagName("td")[3];
+                    if (td || td2) {
+                        if (td.innerHTML.toUpperCase().indexOf($(this).val()) > -1 || td2.innerHTML.toUpperCase().indexOf($(this).val()) > -1 ) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                   
+                }
+            
+        });
+    });
+    
+
 </script>
 
 <article class="message is-primary">
@@ -17,21 +66,39 @@
         </p>
     </div>
 </article>
+<div class="field is-grouped is-grouped-right">
+    <p class="control">
+        <button onclick="ImprimirCheques()" type="submit" class="button is-success">
+            <span class="icon">
+                <i class="fas fa-print"></i>
+            </span>
+            <span>Imprimir Cheques Devolvidos</span>
+        </button>
+    </p>
+    <p class="control">
+        <button onclick="ImprimirBloqueio()" type="submit" class="button is-success">
+            <span class="icon">
+                <i class="fas fa-print"></i>
+            </span>
+            <span>Imprimir Histórico de Bloqueios</span>
+        </button>
+    </p>
+</div>
 <div id="TabTaloes">
     <div class="tabs is-boxed is-centered">
         <ul>
             <li id="AbaCheques" class="is-active">
                 <a href="#Cheques" onclick="javascript:$('#AbaBloqueios').removeClass();$('#AbaCheques').addClass('is-active');">
                     <span class="icon is-small">
-                        <i class="fas fa-sticky-note" aria-hidden="true"></i>
+                        <i class="fas fa-file-invoice-dollar" aria-hidden="true"></i>
                     </span>
-                    <span>Cheques Estornados</span>
+                    <span>Cheques Devolvidos</span>
                 </a>
             </li>
             <li id="AbaBloqueios">
                 <a href="#bloqueio" onclick="javascript:$('#AbaCheques').removeClass();$('#AbaBloqueio').addClass('is-active');">
                     <span class="icon is-small">
-                        <i class="fa fa-tag"></i>
+                        <i class="fas fa-money-check-alt"></i>
                     </span>
                     <span>Bloqueios de Talões</span>
                 </a>
@@ -40,7 +107,13 @@
     </div>
 
     <div id="Cheques" class="column is-6">
-        <table class="table is-striped is-centered is-fullwidth">
+        <div class="field has-addons ">
+            <div class="control is-expanded">
+                <input class="input is-primary input-search " alt="TabelaCheques" type="text" placeholder="Buscar cheque">
+            </div>
+        </div>
+        
+        <table id="TabelaCheques" class="table is-striped is-centered is-fullwidth">
             <thead>
             <th class="has-text-centered">N° Conta Corrente</th>
             <th class="has-text-centered">Nome</th>
@@ -50,32 +123,81 @@
             <th class="has-text-centered">Bloqueado</th>
             </thead>
             <tbody>
-                @for(int i = 0; i < Convert.ToInt32( TempData["TotalResultado"] ); i++)
-                {
-                    <tr>
-                        <td class="has-text-centered">
-                            @TempData["NumConta" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["Nome" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["ValorCheque" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["DataDevolucao" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["Historico" + i]
-                        </td>
-                        <td class="has-text-centered">
-                            @TempData["Bloqueado" + i]
-                        </td>
+            @for (int i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
+            {
+                <tr>
+                    <td class="has-text-centered">
+                        @TempData["NumConta" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Nome" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["ValorCheque" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["DataDevolucao" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Historico" + i]
+                    </td>
+                    <td class="has-text-centered">
+                        @TempData["Bloqueado" + i]
+                    </td>
 
-                    </tr>
-                }
+                </tr>
+            }
             </tbody>
         </table>
+        <div id="pager" class="tablewrapper pager" style="position: relative">
+            <form>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button class="first button is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-fast-backward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="prev button  is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-step-backward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <input class="pagedisplay input is-small" type="text">
+                    </p>
+                    <p class="control">
+                        <button class="next button  is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-step-forward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button class="last button is-primary is-small">
+                            <span class="icon is-small">
+                                <i class="fas fa-fast-forward"></i>
+                            </span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <span class="select is-small">
+                            <select class="pagesize">
+                                <option selected="selected" value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                            </select>
+                        </span>
+                    </p>
+                </div>
+            </form>
+            <br/>
+            <br/>
+        </div>
     </div>
     <div id="bloqueio">
         <table class="table is-striped is-centered is-fullwidth">

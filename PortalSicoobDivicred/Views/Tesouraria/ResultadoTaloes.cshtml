@@ -61,7 +61,7 @@
                         </button>
                     </td>
                     <td class="has-text-centered">
-                        @if(@TempData["Datadesbloqueio" + i] != null)
+                        @if(!@TempData["Datadesbloqueio" + i].Equals(" "))
                         {
                             <a class="button is-success" id="Historico" href="@Url.Action("BloquearTalao", "Tesouraria", new {contaCorrente = @TempData["NumConta" + i]})" onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Clique para bloquear os talões deste cooperado." data-balloon-pos="down">
                                 <span class="icon is-small">
@@ -81,7 +81,7 @@
                         }
                     </td>
                     <td class="has-text-centered">
-                        @if(@TempData["DataBloqueio" + i] == null)
+                        @if(@TempData["DataBloqueio" + i].Equals(""))
                         {
                             <button class="button is-success" id="Historico"  onmouseleave="$('#Historico').removeClass('animated pulse')" onmouseover="$('#Historico').addClass('animated pulse');" data-balloon="Efetue o bloqueio do talão para liberar o desbloqueio." data-balloon-pos="down" disabled="true">
                                 <span class="icon is-small">

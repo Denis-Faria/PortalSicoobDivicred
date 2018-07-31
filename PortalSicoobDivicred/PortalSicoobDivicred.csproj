@@ -953,6 +953,8 @@
     <Content Include="Views\WebDesk\ResultadoPesquisaWebdesk.cshtml" />
     <Content Include="Views\Tesouraria\ResultadoTaloes.cshtml" />
     <Content Include="Views\Tesouraria\ResultadoHistoricoTaloes.cshtml" />
+    <Content Include="Views\Principal\ResultadoTaloes.cshtml" />
+    <Content Include="Views\Principal\ResultadoHistoricoTalao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

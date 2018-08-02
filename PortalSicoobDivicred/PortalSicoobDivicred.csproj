@@ -366,6 +366,7 @@
     <Content Include="Assets\css\iziToast.css" />
     <Content Include="Assets\css\iziToast.min.css" />
     <Content Include="Assets\css\Login.css" />
+    <Content Include="Assets\css\multi-select.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\StyleSheet1.css">
       <DependentUpon>StyleSheet1.scss</DependentUpon>
@@ -728,6 +729,7 @@
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Assets\js\jquery.multi-select.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -955,6 +957,10 @@
     <Content Include="Views\Parametros\PesquisaGrupos.cshtml" />
     <Content Include="Views\Parametros\EditarGrupos.cshtml" />
     <Content Include="Views\Parametros\ParametrosPermissao.cshtml" />
+    <Content Include="Views\Parametros\PermissaoInteracao.cshtml" />
+    <Content Include="Views\Parametros\PermissaoDefinicaoInteracao.cshtml" />
+    <Content Include="Views\Parametros\ParametrosPermissoesFuncionario.cshtml" />
+    <Content Include="Views\Parametros\PesquisaPermissoes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

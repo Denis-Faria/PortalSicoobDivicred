@@ -117,6 +117,73 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        public ActionResult PermissaoFuncionario()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosPermissoes = new Parametros();
+
+                
+                return PartialView("ParametrosPermissoesFuncionario", dadosPermissoes);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ListaPermissoesFuncionario(string IdFuncionario)
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+                var dadosPermissoes = new Parametros();
+                var permissoes =  verificaDados.BuscaPermissoesFuncionario(IdFuncionario);
+                dadosPermissoes.PermissaoFuncionario = permissoes;
+
+                TempData["TotalResultadoPermissoes"] = permissoes.Count;
+                return PartialView("ParametrosPermissoesFuncionario", dadosPermissoes);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+
+        /*
+        [HttpPost]
+        public ActionResult BuscarFuncionarioPermissao(string NomeFuncionario)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Permissoes = VerificaDados.BuscaPermissoesFuncionario(NomeFuncionario);
+                if (Permissoes.Count != 0)
+                {
+                    for (var i = 0; i < Permissoes.Count; i++)
+                    {
+                        TempData["Id" + i] = Permissoes[i]["id"];
+                        TempData["Permissoes" + i] = Permissoes[i]["nome"];
+                    }
+
+
+                   // TempData["TotalResultado"] = Funcionarios.Count;
+                   // TempData["Editar"] = "EditarFuncao";
+                   // TempData["id"] = Funcionarios[0]["id"];
+                    return PartialView("PesquisaParametros");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+        */
+
+        // RetonarPermissoesFuncionario
+
         public ActionResult Grupo()
         {
             var verificaDados = new QueryMysqlParametros();
@@ -132,6 +199,42 @@ namespace PortalSicoobDivicred.Controllers
             }
             return RedirectToAction("Login", "Login");
         }
+
+        public ActionResult RetornarPermissoesGrupo(string idGrupo)
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+                var dadosGrupos = new Parametros();
+                
+                var dadosTablelaGrupo = verificaDados.RetornaPermissoesGrupo(idGrupo);
+                dadosGrupos.DescricaoGrupo = dadosTablelaGrupo;
+                dadosGrupos.Permissao = dadosTablelaGrupo;
+                TempData["Grupo"] = idGrupo;
+                return PartialView("PermissaoInteracao", dadosGrupos);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult RetornarPermissoesDefinicaoGrupo(string idGrupo,string idPermissao)
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+                var dadosGrupos = new Parametros();
+                dadosGrupos.Permitido = verificaDados.RetornaPermissoesDefinicaoGrupo(idGrupo, idPermissao);
+                dadosGrupos.idPermissaoDescricaoGrupo = Convert.ToInt32(idGrupo);
+                dadosGrupos.descricaoPermissao = idPermissao;
+                
+                
+                return PartialView("PermissaoDefinicaoInteracao", dadosGrupos);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+
         /*
         [HttpPost]
         public ActionResult Funcionario(Funcao dadosCadastro, FormCollection dados)
@@ -171,6 +274,26 @@ namespace PortalSicoobDivicred.Controllers
                 
                 insereDados.InsereUsuario(dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
                     dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, "123", dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
+
+            }
+
+
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
+        }
+
+        [HttpPost]
+        public ActionResult SalvarPermissao(Parametros dados, FormCollection receberForm)
+        {
+            var insereDados = new QueryMysqlParametros();
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                insereDados.AtualizaPermissao(dados.idPermissaoDescricaoGrupo,
+                    dados.descricaoPermissao, dados.Permitido);
+
+                // insereDados.InsereUsuario(dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
+                //     dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, "123", dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
 
             }
 
@@ -223,6 +346,41 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Login", "Login");
         }
+
+        [HttpPost]
+        public ActionResult BuscarFuncionarioPermissoes(string NomeFuncionario)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Funcionarios = VerificaDados.BuscaFuncionario(NomeFuncionario);
+                if (Funcionarios.Count != 0)
+                {
+                    for (var i = 0; i < Funcionarios.Count; i++)
+                    {
+                        TempData["Id" + i] = Funcionarios[i]["id"];
+                        TempData["Nome" + i] = Funcionarios[i]["nome"];
+                    }
+
+
+                    TempData["TotalResultado"] = Funcionarios.Count;
+                   // TempData["Editar"] = "EditarFuncao";
+                    TempData["id"] = Funcionarios[0]["id"];
+                    return PartialView("PesquisaPermissoes");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionarioPermissoes", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
+
 
         [HttpPost]
         public ActionResult BuscarPermissoes(string IdPermissao)

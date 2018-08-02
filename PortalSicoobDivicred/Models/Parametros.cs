@@ -20,6 +20,8 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o Grupo!")]
         public List<SelectListItem> PermissaoDescricaoGrupo { get; set; }
 
+        public string descricaoPermissao { get; set; }
+
 
         public int idPermissao { get; set; }
         [Required(ErrorMessage = "Favor informar a Permissão!")]
@@ -70,6 +72,16 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar a descrição do Grupo!")]
         public string DescricaoGrupos{ get; set; }
+
+
+        public int IdPermissaoPermissao { get; set; }
+        public List<SelectListItem> Permissao { get; set; }
+        
+        public string Permitido { get; set; }
+
+        public int idPermissaoFuncionario { get; set; }
+        public List<SelectListItem> PermissaoFuncionario { get; set; }
+
 
 
     }

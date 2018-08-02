@@ -41,6 +41,9 @@
         $("#ParametroSelecionado").empty();
         $("#PanelGrupo").addClass("panel-block");
         $("#PanelPermissao").addClass("panel-block");
+        $("#PanelPermissaoFuncionario").addClass("panel-block");
+        
+
 
         $.ajax(
             {
@@ -59,6 +62,7 @@
         $("#ParametroSelecionado").empty();
         $("#PanelFuncionario").addClass("panel-block");
         $("#PanelPermissao").addClass("panel-block");
+        $("#PanelPermissaoFuncionario").addClass("panel-block");
        
 
         $.ajax(
@@ -80,6 +84,7 @@
         $("#ParametroSelecionado").empty();
         $("#PanelGrupo").addClass("panel-block");
         $("#PanelFuncionario").addClass("panel-block");
+        $("#PanelPermissaoFuncionario").addClass("panel-block");
         
 
         $.ajax(
@@ -98,6 +103,30 @@
             });
 
     }
+
+    function PermissaoFuncionario() {
+        $("#ParametroSelecionado").empty();
+        $("#PanelGrupo").addClass("panel-block");
+        $("#PanelFuncionario").addClass("panel-block");
+        
+
+        $.ajax(
+            {
+                type: 'GET',
+                url: '/Parametros/PermissaoFuncionario',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                success: function (data) {
+                    $("#ParametroSelecionado").append(data);
+                    
+                   
+
+                }
+            });
+
+    }
+
 
 
 
@@ -199,10 +228,6 @@
 
         });
 
-
-
-
-
     </script>
     <style>
         #add {
@@ -250,8 +275,15 @@
                             <span class="panel-icon">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            Permissão
+                            Permissões(Grupos)
                         </a>
+                        <a id="PanelPermissaoFuncionario" style="background-color: white" class="panel-block" href="Javascript:PermissaoFuncionario();void(0);">
+                            <span class="panel-icon">
+                                <i class="fas fa-address-card"></i>
+                            </span>
+                            Permissões(Funcionários)
+                        </a>
+
 
                     </nav>
                 </div>

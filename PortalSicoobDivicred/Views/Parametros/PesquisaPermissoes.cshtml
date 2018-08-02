@@ -1,21 +1,24 @@
 ﻿<script>
     function Seleciona(Id) {
-        $("#EdicaoFuncionario").removeAttr("hidden");
-        $("#ExcluirRegistro").removeAttr("hidden");
-        $("#SalvaFuncao").removeAttr("disabled ");
-        $("#ExcluirFuncao").removeAttr("disabled ");
-        $("#EdicaoFuncionario").empty();
+        alert("--->" + Id);
+        $("#EdicaoPermissoes").removeAttr("hidden");
+
+        $('#ModalPermissoesFuncionario').removeClass();
+        $('#ModalPermissoesFuncionario').addClass('modal is-active');
+        void (0);
+        
+        $("#EdicaoPermissoes").empty();
         $.ajax(
             {
                 type: 'Post',
-                url: '/Parametros/RecuperaFuncionarios',
+                url: '/Parametros/ListaPermissoesFuncionario',
                 dataType: 'html',
                 cache: true,
                 async: true,
                 data: { "IdFuncionario": Id },
                 success: function(data) {
 
-                    $("#EdicaoFuncionario").append(data);
+                    $("#EdicaoPermissoes").append(data);
 
                 }
             });
@@ -32,7 +35,5 @@
                 </a>
             </li>
         }
-        
-
     </ul>
 </div>

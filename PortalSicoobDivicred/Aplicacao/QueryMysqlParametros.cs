@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using PortalSicoobDivicred.Repositorios;
 using System.Web.Mvc;
 using System.Web;
-
-
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 
 namespace PortalSicoobDivicred.Aplicacao
@@ -36,6 +35,26 @@ namespace PortalSicoobDivicred.Aplicacao
 
             return grupos;
         }
+
+        public List<SelectListItem> RetornaPermissoesGrupo(string grupo)
+        {
+            var grupos = new List<SelectListItem>();
+
+            string queryRetornaPermissoesGrupo = "SELECT idpermissao FROM permissoesgrupo where idgrupo='" + grupo+"' ";
+
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaPermissoesGrupo);
+            foreach (var row in dados)
+                grupos.Add(new SelectListItem
+                {
+                    Value = row["idpermissao"],
+                    Text = row["idpermissao"]
+                });
+
+            return grupos;
+        }
+
+
+
 
 
         public List<SelectListItem> RetornaPermissoes()
@@ -85,13 +104,38 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(queryInsereGrupos);
         }
 
-
+        
         public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
         {
             var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' and ativo='S' order by nome";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
+        
+        public List<SelectListItem> BuscaPermissoesFuncionario(string id)
+        {
+            var permissoes = new List<SelectListItem>();
+            //  var Query = " select idpermissao from permissoesfuncionarios where idfuncionario = (select id from funcionarios where nome like '%"+NomeFruncionario+"%' )";
+            var Query =
+                "select descricao from permissoes where descricao not in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
+                id + "')";
+            
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+
+            foreach(var row in Dados)
+                permissoes.Add(new SelectListItem
+                {
+                    Value = row["descricao"],
+                    Text = row["descricao"]
+
+                });
+            return permissoes;
+        }
+
+
+        
+
+
 
         public List<Dictionary<string, string>> BuscaPermissao(string Permissao)
         {
@@ -152,6 +196,21 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(Query2);
         }
 
+        public void AtualizaPermissao(int idGrupo,string permissao,string definicaoPermissao)
+        {
+            var Query2 = "UPDATE permissoesgrupo SET valor='"+definicaoPermissao+"' WHERE idpermissao='" + permissao + "' and idgrupo='"+idGrupo+"'";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
+        public string RetornaPermissoesDefinicaoGrupo(string idGrupo, string idpermissao)
+        {
+            var queryPermissaoDefinicao =
+                "select valor from permissoesgrupo where idpermissao='"+idpermissao+"' and idgrupo='"+idGrupo+"'";
+
+            var consultaValor = ConexaoMysql.ExecutaComandoComRetorno(queryPermissaoDefinicao);
+
+            return consultaValor[0]["valor"];
+        }
 
 
     }

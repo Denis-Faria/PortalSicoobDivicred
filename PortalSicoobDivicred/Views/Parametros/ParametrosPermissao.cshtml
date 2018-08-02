@@ -1,17 +1,66 @@
-﻿
-@model PortalSicoobDivicred.Models.Parametros
-
+﻿@model PortalSicoobDivicred.Models.Parametros
 
 
 <script>
 
+    function GrupoSelecionado(IdGrupo) {
+
+
+        $("#permissao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Parametros/RetornarPermissoesGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "idGrupo": IdGrupo.value },
+                success: function (data) {
+                    $("#permissao").append(data);
+                    $.validator.unobtrusive.parse($("#permissao"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+
+    function GrupoPermissaoSelecionado(IdPermissao, IdGrupo) {
+
+
+        $("#permissaoDefinicao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Parametros/RetornarPermissoesDefinicaoGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: {
+                    "idGrupo": IdGrupo.value,
+                    "idPermissao": idPermissao.value
+                },
+                success: function (data) {
+                    $("#permissaoDefinicao").append(data);
+                    $.validator.unobtrusive.parse($("#permissaoDefinicao"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+</script>
+<script>
+
     function AlternarBotoes(ocultar) {
-        alert("oii");
+        alert('OII');
+
         switch (ocultar) {
-            case "grupo":
-                $(Permissao).show();
+            case "Grupo":
+                $(permissao).show();
                 break;
         }
+    }
 </script>
 
 
@@ -57,18 +106,8 @@
 <script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
-<div class="field is-grouped is-desktop">
-    <p class="control">
-        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal is-active');void(0);">
-            <span class="icon is-small">
-                <i class="fas fa-edit" aria-hidden="true"></i>
-            </span>
-            <span class="name">Editar Usuário</span>
-        </button>
-    </p>
-</div>
-@using (Html.BeginForm("SalvarUsuario", "Parametros"))
-{
+
+
     <div class="card">
 
         <header class="card-header">
@@ -79,91 +118,29 @@
         <div class="card-content">
             <div class="columns content">
                 <div class="column is-5">
-                    <div class="control" id="grupo"  onclick="AlternarBotoes('Grupo');">
+                    <div class="control" id="grupo">
                         <label class="label">Grupo</label>
                         <div class="select is-1 is-fullwidth">
-                            @Html.DropDownListFor(m => m.idPermissaoDescricaoGrupo, new SelectList(Model.PermissaoDescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = " descricao" })
+                            @Html.DropDownListFor(m => m.idPermissaoDescricaoGrupo, new SelectList(Model.PermissaoDescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = "PermissaoGrupo", onchange = "GrupoSelecionado(this)" })
                             @Html.ValidationMessageFor(m => m.PermissaoDescricaoGrupo, null, new { style = "color:red" })
                         </div>
                     </div>
                 </div>
 
-                <div class="column is-5">
-                    <div class="control" id="permissao" hidden onclick="AlternarBotoes('Permissao');">
-                        <label class="label">Permissão</label>
-                        <div class="select is-1 is-fullwidth">
-                            @Html.DropDownListFor(m => m.idPermissao, new SelectList(Model.IdPermissaoDescricao, "Value", "Text"), "SELECIONE A PERMISSÃO", new { id = " idpermissao" })
-                            @Html.ValidationMessageFor(m => m.IdPermissaoDescricao, null, new { style = "color:red" })
-                        </div>
-                    </div>
+                <div class="column is-5" id="permissao">
+
                 </div>
+
             </div>
         </div>
     </div>
     <br>
 
-    <div>
-        <p class="control">
-            <button type="submit" class="button is-success " id="CadastroUsuario" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
-                <span class="icon is-small">
-                    <i class="fas fa-save" aria-hidden="true"></i>
-                </span>
-                <span class="name">Cadastrar Permissão</span>
-            </button>
-        </p>
-    </div>
-}
-@using (Html.BeginForm("AtualizaDadosFuncionario", "Parametros"))
-{
+    
 
-    <div id="ModalFuncionario" class="modal">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Editar Funcionário</p>
-                <a href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);" class="delete"></a>
-            </header>
-            <section class="modal-card-body">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Funcionários
-                        </p>
 
-                    </header>
-                    <div class="card-content">
-                        <div class="content">
 
-                            <div class="field has-addons">
-                                <div class="control has-icons-left is-expanded">
-                                    <input id="BuscaFuncionario" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
-                                    <span class="icon is-small is-left">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </div>
-                                <div class="control">
-                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
-                                        Procurar
-                                    </a>
-                                </div>
-                            </div>
-                            <ul id="ListaFuncionarios"></ul>
-                        </div>
-                    </div>
-                </div>
-                <div id="EdicaoFuncionario" hidden>
-                    <br />
-                </div>
-            </section>
 
-            <footer class="modal-card-foot">
-                <a class="button" href="javascript:$('#ModalFuncionario').removeClass();$('#ModalFuncionario').addClass('modal');void(0);">Cancelar</a>
-                <div class="control">
-                    <button type="submit" id="SalvaFuncao" disabled class="button is-success">Salvar Funcionário</button>
-                </div>
-            </footer>
 
-        </div>
-    </div>
 
-}
+

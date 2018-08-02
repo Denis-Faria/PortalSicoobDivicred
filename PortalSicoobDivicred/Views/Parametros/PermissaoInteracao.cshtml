@@ -1,0 +1,50 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+<script>
+    function GrupoPermissaoSelecionado(Permissao, IdGrupo) {
+
+
+
+
+
+        $("#permissaoDefinicao").empty();
+        $.ajax(
+            {
+
+                type: 'POST',
+                url: '/Parametros/RetornarPermissoesDefinicaoGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: {
+                    "idGrupo": IdGrupo,
+                    "idPermissao": Permissao.value
+                },
+                success: function (data) {
+                    $("#permissaoDefinicao").append(data);
+                    $.validator.unobtrusive.parse($("#permissaoDefinicao"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+</script>
+
+    <div class="field">
+        <label class="label">Permissão:</label>
+
+        <p class="select is-fullwidth">
+
+
+            @Html.DropDownListFor(m => m.IdPermissaoPermissao, new SelectList(Model.Permissao, "Value", "Text"), "SELECIONE A PERMISSÃO", new {id = "PermissaoGrupo", onchange = "GrupoPermissaoSelecionado(this,'" + TempData["Grupo"] + "')"})
+            @Html.ValidationMessageFor(m => m.Permissao, null, new {style = "color:red"})
+
+        </p>
+    </div>
+
+    <div id="permissaoDefinicao">
+
+    </div>
+    <br/>
+

@@ -961,6 +961,7 @@
     <Content Include="Views\Parametros\PermissaoDefinicaoInteracao.cshtml" />
     <Content Include="Views\Parametros\ParametrosPermissoesFuncionario.cshtml" />
     <Content Include="Views\Parametros\PesquisaPermissoes.cshtml" />
+    <Content Include="Views\Parametros\ExibirPermissoes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

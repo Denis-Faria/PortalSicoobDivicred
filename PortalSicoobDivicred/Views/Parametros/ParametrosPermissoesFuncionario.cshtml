@@ -9,7 +9,6 @@
 
 <script>
 
-    $('#my-select').multiSelect();
 
     $(document).ready(function () {
 
@@ -85,9 +84,7 @@
             </div>
         </div>
     </div>
-    <div id="EdicaoPermissoes" hidden>
-        <br />
-    </div>
+    
 </div>
 <br>
 
@@ -101,25 +98,9 @@
                 <p class="modal-card-title">Permissões Funcionários</p>
             </header>
             <section class="modal-card-body">
-                <body>
-                
-                
-                   
-                <select multiple="multiple" id="my-select" name="my-select[]">
-                    @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultadoPermissoes"]); i++)
-                    {
-                        <option value='elem_1'>@Model.PermissaoFuncionario[i].Text </option>
-                        
-                    } );
-                </select>
-
-
-                </body>
-                
-                <div class="ms-selection">
-                    <ul tabindex="-1" class="ms-list">
-
-                    </ul>
+                <div id="EdicaoPermissoes" hidden>
+                    
+                  <br />
                 </div>
             </section>
 

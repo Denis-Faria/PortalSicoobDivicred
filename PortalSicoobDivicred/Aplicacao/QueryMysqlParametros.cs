@@ -111,7 +111,17 @@ namespace PortalSicoobDivicred.Aplicacao
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
-        
+
+        public List<Dictionary<string, string>> BuscaPermissoesFuncionario(string id)
+        {
+            var Query =
+                "select descricao from permissoes where descricao not in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
+                id + "')";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+
+        }
+        /*
         public List<SelectListItem> BuscaPermissoesFuncionario(string id)
         {
             var permissoes = new List<SelectListItem>();
@@ -130,10 +140,10 @@ namespace PortalSicoobDivicred.Aplicacao
 
                 });
             return permissoes;
-        }
+        }*/
 
 
-        
+
 
 
 

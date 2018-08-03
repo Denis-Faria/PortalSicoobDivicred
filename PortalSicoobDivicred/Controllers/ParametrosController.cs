@@ -140,10 +140,19 @@ namespace PortalSicoobDivicred.Controllers
             {
                 var dadosPermissoes = new Parametros();
                 var permissoes =  verificaDados.BuscaPermissoesFuncionario(IdFuncionario);
-                dadosPermissoes.PermissaoFuncionario = permissoes;
+                if (permissoes.Count != 0)
+                {
+                    for (var i = 0; i < permissoes.Count; i++)
+                    {
+                        TempData["id" + i] = permissoes[i]["descricao"];
+
+                    }
+
+                }
+               // dadosPermissoes.PermissaoFuncionario = permissoes;
 
                 TempData["TotalResultadoPermissoes"] = permissoes.Count;
-                return PartialView("ParametrosPermissoesFuncionario", dadosPermissoes);
+                return PartialView("ExibirPermissoes", dadosPermissoes);
             }
             return RedirectToAction("Login", "Login");
         }

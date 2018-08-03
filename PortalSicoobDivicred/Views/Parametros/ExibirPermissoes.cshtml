@@ -1,0 +1,36 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+<body>
+
+<select multiple="multiple" id="my-select" name="my-select[]">
+
+    @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultadoPermissoes"]); i++)
+    {
+        <option>@TempData["id" + i].ToString() </option>
+
+    }
+</select>
+
+
+
+
+
+
+</body>
+
+<div class="ms-selection">
+    <ul tabindex="-1" class="ms-list">
+
+   
+
+
+              @TempData["id"].ToString() 
+
+    
+    </ul>
+</div>
+
+<script>
+
+    $('#my-select').multiSelect();
+</script>

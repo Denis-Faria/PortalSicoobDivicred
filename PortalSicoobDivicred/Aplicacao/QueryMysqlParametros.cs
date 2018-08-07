@@ -115,8 +115,19 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> BuscaPermissoesFuncionario(string id)
         {
             var Query =
-                "select descricao from permissoes where descricao not in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
-                id + "')";
+                "select id,descricao from permissoes where descricao not in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
+                id + "' and valor='S')";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+
+        }
+
+
+        public List<Dictionary<string, string>> BuscaPermissoesAtivasFuncionario(string id)
+        {
+            var Query =
+                "select id,descricao from permissoes where descricao in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
+                id + "' and valor='S')";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
 

@@ -136,22 +136,43 @@ namespace PortalSicoobDivicred.Controllers
         {
             var verificaDados = new QueryMysqlParametros();
             var logado = verificaDados.UsuarioLogado();
+            
             if (logado)
             {
                 var dadosPermissoes = new Parametros();
                 var permissoes =  verificaDados.BuscaPermissoesFuncionario(IdFuncionario);
+                var permissoesAtivas = verificaDados.BuscaPermissoesAtivasFuncionario(IdFuncionario);
                 if (permissoes.Count != 0)
                 {
                     for (var i = 0; i < permissoes.Count; i++)
                     {
-                        TempData["id" + i] = permissoes[i]["descricao"];
-
+                        TempData["descricao" + i] = permissoes[i]["descricao"];
                     }
-
                 }
-               // dadosPermissoes.PermissaoFuncionario = permissoes;
 
-                TempData["TotalResultadoPermissoes"] = permissoes.Count;
+                if (permissoesAtivas.Count != 0)
+                {
+                    for (var i = 0; i < permissoesAtivas.Count; i++)
+                    {
+                        TempData["descricaoAtivas" + i] = permissoesAtivas[i]["descricao"];
+                    }
+                }
+
+                // dadosPermissoes.PermissaoFuncionario = permissoes;
+                if (permissoes.Count > permissoesAtivas.Count)
+                {
+                    TempData["TotalResultados"] = permissoes.Count;
+                    TempData["Maior"] ="Permissoes";
+                    TempData["TotalMenor"]= permissoesAtivas.Count;
+                }
+                else
+                {
+                    TempData["TotalResultados"] = permissoesAtivas.Count;
+                    TempData["Maior"] = "PermissoesAtivas";
+                    TempData["TotalMenor"] = permissoes.Count;
+                }
+
+              //  TempData["TotalResultadoPermissoes"] = permissoes.Count + permissoesAtivas.Count;
                 return PartialView("ExibirPermissoes", dadosPermissoes);
             }
             return RedirectToAction("Login", "Login");
@@ -584,6 +605,12 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        [HttpPost]
+        public ActionResult EnviarDadosArrayPermissoes(Item[] TabelaPendencias)
+        {
+
+            return PartialView("ExibirPermissoes");
+        }
 
     }
 }

@@ -2,35 +2,93 @@
 
 <body>
 
-<select multiple="multiple" id="my-select" name="my-select[]">
+    <select multiple="multiple" id="my-select" name="my-select[]">
 
-    @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultadoPermissoes"]); i++)
-    {
-        <option>@TempData["id" + i].ToString() </option>
+        @if (TempData["Maior"].ToString() == "Permissoes")
+        {
+            for (var i = 0; i < Convert.ToInt32(TempData["TotalResultados"]); i++)
+            {
+        
+                    <option> @TempData["descricao" + i].ToString() </option>
+           
+                if (i < Convert.ToInt32(TempData["TotalMenor"]))
+                {
+                    <option selected> @TempData["descricaoAtivas" + i].ToString() </option>
+                }
 
-    }
-</select>
+            }
+        }
 
+        @if (TempData["Maior"].ToString() == "PermissoesAtivas")
+        {
+            for (var i = 0; i < Convert.ToInt32(TempData["TotalResultados"]); i++)
+            {
+                    <option selected> @TempData["descricaoAtivas" + i].ToString() </option>
+                
+                if (i < Convert.ToInt32(TempData["TotalMenor"]))
+                {
+                    <option> @TempData["descricao" + i].ToString() </option>
+                    
+                }
 
+            }
+        }
 
-
-
+    </select>
 
 </body>
 
 <div class="ms-selection">
     <ul tabindex="-1" class="ms-list">
-
-   
-
-
-              @TempData["id"].ToString() 
-
-    
+              
     </ul>
 </div>
+<div class="control">
+    <a href="Javascript:Buscar();void(0);" class="button is-success">
+        Procurar
+    </a>
+</div>
 
-<script>
 
-    $('#my-select').multiSelect();
+<script type="text/javascript">
+    multiFiles = [];
+
+
+    
+
+        $('#my-select').multiSelect({
+            afterSelect: function(values) {
+                alert("Select value: " + values);
+                this.multiFiles.push(values);
+            },
+            afterDeselect: function(values) {
+                alert("Deselect value: " + values);
+            }
+    });
+    function Buscar() {
+
+        $.ajax({
+            url: '/Parametros/EnviarDadosArrayPermissoes", "Parametros',
+            dataType: 'html',
+            data: multiFiles,
+            type: "POST",
+
+            success: function(data) {
+                iziToast.success({
+                    title: 'Sucesso',
+                    position: "center",
+                    message: 'Pendências Apontada com sucesso !'
+                });
+
+            },
+            error: function(xhr) {
+                iziToast.error({
+                    title: 'Erro',
+                    position: "center",
+                    message: 'Erro ao confirmar pendencias'
+                });
+
+            }
+        });
+    }
 </script>

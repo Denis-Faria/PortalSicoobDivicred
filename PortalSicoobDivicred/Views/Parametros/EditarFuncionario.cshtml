@@ -3,7 +3,7 @@
 
 <script>
     function ExcluirFuncionario(id) {
-        alert("ENTROU:" + id);
+        
 
         iziToast.show({
             message: 'Confirma a exclusão do Registro ?',
@@ -63,9 +63,7 @@
 
 <script>
     function AtualizarUsuario() {
-        alert("OII Nome Fun-->" + $("#NomeFuncionario").val());
-        alert("OII Nome1 -->" + $("#nome1").val());
-        alert("OII Nome2 -->" + $("#nome2").val());
+ 
         $.ajax(
             {
                 type: 'Post',

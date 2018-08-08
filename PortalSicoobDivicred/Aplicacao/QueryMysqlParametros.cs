@@ -36,6 +36,41 @@ namespace PortalSicoobDivicred.Aplicacao
             return grupos;
         }
 
+        public List<SelectListItem> RetornaTarefas()
+        {
+            var tarefas = new List<SelectListItem>();
+
+            const string queryRetornaTarefas = "SELECT id,descricao FROM webdesktarefas descricao where excluido='N' ";
+
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaTarefas);
+            foreach (var row in dados)
+                tarefas.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["descricao"]
+                });
+
+            return tarefas;
+        }
+
+        public List<SelectListItem> RetornaFuncionarios()
+        {
+            var funcionarios = new List<SelectListItem>();
+
+            const string queryRetornaFuncionarios = "SELECT id,nome FROM funcionarios descricao where ativo='S' ";
+
+            var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaFuncionarios);
+            foreach (var row in dados)
+                funcionarios.Add(new SelectListItem
+                {
+                    Value = row["id"],
+                    Text = row["nome"]
+                });
+
+            return funcionarios;
+        }
+
+
         public List<SelectListItem> RetornaPermissoesGrupo(string grupo)
         {
             var grupos = new List<SelectListItem>();
@@ -104,7 +139,15 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(queryInsereGrupos);
         }
 
-        
+        public void InsereTarefas(string descricao)
+        {
+            var queryInsereTarefas =
+                "INSERT INTO webdesktarefas (descricao,excluido) values ('" +
+                descricao + "','N')";
+            ConexaoMysql.ExecutaComando(queryInsereTarefas);
+        }
+
+
         public List<Dictionary<string, string>> BuscaFuncionario(string Nome)
         {
             var Query = "Select id,nome from funcionarios where nome like'%" + Nome + "%' and ativo='S' order by nome";
@@ -172,6 +215,13 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+        public List<Dictionary<string, string>> BuscaTarefa(string DescricaoTarefa)
+        {
+            var Query = "Select id,descricao from webdesktarefas where descricao like'%" + DescricaoTarefa + "%' and excluido='N' order by descricao";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
         public List<Dictionary<string, string>> RecuperaDadosFuncionario(string IdFuncionario)
         {
             var Query = "Select * from funcionarios where id='" + IdFuncionario + "' and ativo='S'";
@@ -207,7 +257,19 @@ namespace PortalSicoobDivicred.Aplicacao
 
         public void ExcluirFuncionario(string IdFuncionario)
         {
-            var Query2 = "UPDATE funcionarios SET ativo='N' WHERE id=" + IdFuncionario + "";
+            var Query2 = "UPDATE funcionarios SET ativo='N' WHERE id='" + IdFuncionario + "'";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
+        public void ExcluirTarefa(string IdTarefa)
+        {
+            var Query2 = "UPDATE webdesktarefas SET excluido='S' WHERE id='" + IdTarefa + "'";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
+        public void AtualizarTarefa(string IdTarefa,string descricao)
+        {
+            var Query2 = "UPDATE webdesktarefas SET descricao='"+descricao+"' WHERE id='" + IdTarefa + "'";
             ConexaoMysql.ExecutaComando(Query2);
         }
 
@@ -231,6 +293,13 @@ namespace PortalSicoobDivicred.Aplicacao
             var consultaValor = ConexaoMysql.ExecutaComandoComRetorno(queryPermissaoDefinicao);
 
             return consultaValor[0]["valor"];
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosTarefa(string IdTarefa)
+        {
+            var Query = "Select * from webdesktarefas where id='" + IdTarefa + "' and excluido='N'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
         }
 
 

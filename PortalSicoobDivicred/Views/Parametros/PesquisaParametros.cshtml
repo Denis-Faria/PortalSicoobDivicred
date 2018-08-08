@@ -1,5 +1,6 @@
 ﻿<script>
-    function Seleciona(Id) {
+    function Seleciona(id) {
+        
         $("#EdicaoFuncionario").removeAttr("hidden");
         $("#ExcluirRegistro").removeAttr("hidden");
         $("#SalvaFuncao").removeAttr("disabled ");
@@ -12,7 +13,7 @@
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "IdFuncionario": Id },
+                data: { "IdFuncionario": id },
                 success: function(data) {
 
                     $("#EdicaoFuncionario").append(data);

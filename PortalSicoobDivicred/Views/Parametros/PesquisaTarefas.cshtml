@@ -1,0 +1,38 @@
+﻿<script>
+    function SelecionaTarefa(id) {
+        alert("OII");
+     
+        $("#EdicaoTarefas").removeAttr("hidden");
+        
+        $("#SalvaTarefa").removeAttr("disabled ");
+        
+        $("#EdicaoTarefas").empty();
+        $.ajax(
+            {
+                type: 'Post',
+                url: '/Parametros/RecuperaTarefa',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "IdTarefa": id },
+                success: function(data) {
+
+                    $("#EdicaoTarefas").append(data);
+
+                }
+            });
+
+    }
+</script>
+<div>
+    <ul>
+        @for (var i = 0; i < Convert.ToInt32(TempData["TotalResultado"]); i++)
+        {
+            <li>
+                <a href="Javascript:SelecionaTarefa('@TempData["id" + i]')">
+                    @TempData["Descricao" + i]
+                </a>
+            </li>
+        }
+    </ul>
+</div>

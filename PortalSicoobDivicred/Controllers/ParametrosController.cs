@@ -344,6 +344,19 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Grupo cadastrado com sucesso !" });
         }
 
+        [HttpPost]
+        public ActionResult SalvarTarefa(Parametros dados)
+        {
+            var insereDados = new QueryMysqlParametros();
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                insereDados.InsereTarefas(dados.DescricaoTarefa);
+            }
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Tarefa cadastrado com sucesso !" });
+        }
+
 
 
         [HttpPost]
@@ -561,6 +574,22 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
         }
 
+        public ActionResult AtualizaDadosTarefa()
+        {
+            return PartialView("EditarFuncionario");
+        }
+
+        [HttpPost]
+        public ActionResult AtualizaDadosTarefa(Parametros dados, FormCollection receberForm)
+        {
+            // TempData["id"] = dados.id;
+            var atualizaTarefa = new QueryMysqlParametros();
+            atualizaTarefa.AtualizarTarefa(dados.idTarefa.ToString(),dados.DescricaoTarefa);
+            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
+        }
+
+
+
         public ActionResult AtualizaDadosGrupo()
         {
             return PartialView("EditarGrupos");
@@ -605,12 +634,123 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+
+        public ActionResult Tarefas()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosTarefas = new Parametros();
+
+
+                return PartialView("ParametrosTarefas", dadosTarefas);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult Subtarefas()
+        {
+            var verificaDados = new QueryMysqlParametros();
+            var logado = verificaDados.UsuarioLogado();
+            if (logado)
+            {
+
+                var dadosSubtarefas = new Parametros();
+
+                var dadosTabelaFuncionarios = verificaDados.RetornaFuncionarios();
+                var dadosTablelaTarefas = verificaDados.RetornaTarefas();
+                dadosSubtarefas.DescricaoTarefas = dadosTablelaTarefas;
+                dadosSubtarefas.FuncionariosNome = dadosTabelaFuncionarios;
+              
+
+
+                return PartialView("ParametrosSubtarefas", dadosSubtarefas);
+            }
+            return RedirectToAction("Login", "Login");
+        }
+
+
+
         [HttpPost]
-        public ActionResult EnviarDadosArrayPermissoes(Item[] TabelaPendencias)
+        public ActionResult EnviarDadosArrayPermissoes(Item[] TabelaPermissoes)
         {
 
             return PartialView("ExibirPermissoes");
         }
+
+        [HttpPost]
+        public ActionResult BuscaTarefa(string DescricaoTarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Grupos = VerificaDados.BuscaTarefa(DescricaoTarefa);
+                if (Grupos.Count != 0)
+                {
+                    for (var i = 0; i < Grupos.Count; i++)
+                    {
+                        TempData["Id" + i] = Grupos[i]["id"];
+                        TempData["Descricao" + i] = Grupos[i]["descricao"];
+                    }
+
+
+                    TempData["TotalResultado"] = Grupos.Count;
+
+                    TempData["id"] = Grupos[0]["id"];
+                    return PartialView("PesquisaTarefas");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        [HttpPost]
+        public ActionResult RecuperaTarefa(string IdTarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+                //var Certificacoes = VerificaDados.RetornaCertificacoes();
+                var DadosTarefa = VerificaDados.RecuperaDadosTarefa(IdTarefa);
+                var TarefaRecupera = new Parametros();
+
+
+              
+                TempData["id"] = Convert.ToInt32(DadosTarefa[0]["id"]);
+
+                TarefaRecupera.idTarefa = Convert.ToInt32(DadosTarefa[0]["id"]);
+                TarefaRecupera.DescricaoTarefa = (DadosTarefa[0]["descricao"]).ToString();
+
+
+                return PartialView("EditarTarefa", TarefaRecupera);
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ExcluirTarefa(string IdTarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                VerificaDados.ExcluirTarefa(IdTarefa);
+                return RedirectToAction("Parametros", "Parametros",
+                    new { Mensagem = "Tarefa excluida com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
 
     }
 }

@@ -33,6 +33,8 @@ namespace PortalSicoobDivicred.Models
 
         [Required(ErrorMessage = "Favor informar o seu nome!")]
         public string NomeFuncionario { get; set; }
+        public List<SelectListItem> FuncionariosNome { get; set; }
+
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
@@ -82,7 +84,28 @@ namespace PortalSicoobDivicred.Models
         public int idPermissaoFuncionario { get; set; }
         public List<SelectListItem> PermissaoFuncionario { get; set; }
 
+        public int idTarefa { get; set; }
+        [Required(ErrorMessage = "Favor informar a Tarefa!")]
+        public List<SelectListItem> DescricaoTarefas { get; set; }
+        public string DescricaoTarefa { get; set; }
 
+
+        public int idSubtarefas { get; set; }
+
+        public string SubtarefasDescricao { get; set; }
+
+        public int idTarefaSubtarefas { get; set; }
+        public int idTarefaDescricaoSubtarefas { get; set; }
+       // public List<SelectListItem> DescricaoSubtarefas { get; set; }
+
+        public int idFunRespSubtarefas { get; set; }
+
+        public DateTime tempoSubtarefas { get; set; }
+
+        public string multiploatendenteSubtarefas { get; set; }
+
+        [Required(ErrorMessage = "Favor inserir um tempo da subtarefa")]
+        public string TempoSubTarefa { get; set; }
 
     }
 }

@@ -1,0 +1,151 @@
+﻿
+@model PortalSicoobDivicred.Models.Parametros
+
+
+
+<script>
+
+    function Buscar() {
+
+        $("#ListaTarefas").empty();
+        $.ajax(
+            {
+
+                type: 'Post',
+                url: '/Parametros/BuscaTarefa',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoTarefa": $("#BuscaGrupos").val() },
+                success: function (data) {
+
+                    $("#ListaTarefas").append(data);
+                }
+            });
+    }
+
+
+</script>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+<div class="field is-grouped is-desktop">
+    <p class="control">
+        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma subtarefa existente." data-balloon-pos="down" onclick="javascript:$('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal is-active');void(0);">
+            <span class="icon is-small">
+                <i class="fas fa-edit" aria-hidden="true"></i>
+            </span>
+            <span class="name">Editar Subtarefas</span>
+
+        </button>
+    </p>
+</div>
+@using (Html.BeginForm("SalvarTarefa", "Parametros"))
+{
+    <div class="card">
+
+        <header class="card-header">
+            <p class="card-header-title">
+                Cadastro de Subtarefas
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="columns content">
+                <div class="column is-5" id="descricaoSubtarefas">
+                    <label class="label">Descrição Subtarefas</label>
+                    @Html.TextBoxFor(m => m.SubtarefasDescricao, null, new { @class = "input", type = "Text", step = "0.01" })
+                </div>
+
+
+                <div class="column is-5">
+                    <div class="control" id="tarefaVinculada">
+                        <label class="label">Tarefa Vinculada</label>
+                        <div class="select is-1 is-fullwidth">
+                            @Html.DropDownListFor(m => m.idTarefaSubtarefas, new SelectList(Model.DescricaoTarefas, "Value", "Text"), "SELECIONE A TAREFA VINCULADA", new { id = " descricao" })
+                            @Html.ValidationMessageFor(m => m.DescricaoTarefas, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns content">
+                <div class="column is-5">
+                    <div class="control" id="tarefaVinculada">
+                        <label class="label">Funcionário Responsável</label>
+                        <div class="select is-1 is-fullwidth">
+                            @Html.DropDownListFor(m => m.id, new SelectList(Model.FuncionariosNome, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSÁVEL", new { id = " descricao" })
+                            @Html.ValidationMessageFor(m => m.FuncionariosNome, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+        </div>
+    <br>
+    <div>
+        <p class="control">
+            <button type="submit" class="button is-success " id="CadastroUsuario" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                </span>
+                <span class="name">Cadastrar Tarefa</span>
+            </button>
+        </p>
+    </div>
+}
+
+@using (Html.BeginForm("AtualizaDadosTarefa", "Parametros"))
+{
+    <div id="ModalTarefa" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Editar Tarefa</p>
+                <a href="javascript:$('#ModalTarefa').removeClass();$('#ModalTarefa').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Tarefas
+                        </p>
+
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="BuscaGrupos" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                        Procurar
+                                    </a>
+                                </div>
+                            </div>
+                            <ul id="ListaTarefas"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="EdicaoTarefas" hidden>
+                    <br />
+                </div>
+            </section>
+
+            <footer class="modal-card-foot">
+                <a class="button" href="javascript:$('#ModalGrupo').removeClass();$('#ModalGrupo').addClass('modal');void(0);">Cancelar</a>
+                <div class="control">
+                    <button type="submit" id="SalvaTarefa" disabled class="button is-success">Salvar Tarefa</button>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+
+}

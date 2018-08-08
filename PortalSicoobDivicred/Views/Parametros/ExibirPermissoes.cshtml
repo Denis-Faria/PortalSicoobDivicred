@@ -43,37 +43,29 @@
               
     </ul>
 </div>
-<div class="control">
-    <a href="Javascript:Buscar();void(0);" class="button is-success">
-        Procurar
-    </a>
-</div>
-
-
 <script type="text/javascript">
     multiFiles = [];
 
+    $('#my-select').multiSelect({
+        afterSelect: function (values) {
+            this.multiFiles.push(values);
+        },
+        afterDeselect: function (values) {
 
-    
-
-        $('#my-select').multiSelect({
-            afterSelect: function(values) {
-                alert("Select value: " + values);
-                this.multiFiles.push(values);
-            },
-            afterDeselect: function(values) {
-                alert("Deselect value: " + values);
-            }
+        }
     });
-    function Buscar() {
 
+    function EnviarPermissoes() {
+        alert("teste" + multiFiles[0]);
         $.ajax({
-            url: '/Parametros/EnviarDadosArrayPermissoes", "Parametros',
+            url: '/Parametros/EnviarDadosArrayPermissoes',
             dataType: 'html',
-            data: multiFiles,
+            cache: true,
+            async: true,
+            data: {"TabelaPermissoes":multiFiles},
             type: "POST",
-
-            success: function(data) {
+            success: function (data) {
+                alert("-->");
                 iziToast.success({
                     title: 'Sucesso',
                     position: "center",
@@ -81,7 +73,8 @@
                 });
 
             },
-            error: function(xhr) {
+            error: function (data) {
+                alert(data.message);
                 iziToast.error({
                     title: 'Erro',
                     position: "center",
@@ -91,4 +84,18 @@
             }
         });
     }
+
+</script>
+<div class="control">
+    <div class="control">
+        <a href="Javascript:EnviarPermissoes();void(0);" class="button is-success">
+            Procurar
+        </a>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+  
 </script>

@@ -962,6 +962,10 @@
     <Content Include="Views\Parametros\ParametrosPermissoesFuncionario.cshtml" />
     <Content Include="Views\Parametros\PesquisaPermissoes.cshtml" />
     <Content Include="Views\Parametros\ExibirPermissoes.cshtml" />
+    <Content Include="Views\Parametros\ParametrosTarefas.cshtml" />
+    <Content Include="Views\Parametros\PesquisaTarefas.cshtml" />
+    <Content Include="Views\Parametros\EditarTarefa.cshtml" />
+    <Content Include="Views\Parametros\ParametrosSubtarefas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

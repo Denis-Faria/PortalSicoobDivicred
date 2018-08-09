@@ -78,10 +78,15 @@
                         </div>
                     </div>
                 </div>
-                </div>
 
+                <div class="column is-5" id="descricaoSubtarefas">
+                    <label class="label">Tempo Subtarefa</label>
+                    @Html.TextBoxFor(m => m.TempoSubTarefa, null, new { @class = "input", type = "Text", step = "0.01" })
+                </div>
             </div>
+
         </div>
+    </div>
     <br>
     <div>
         <p class="control">

@@ -107,5 +107,8 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor inserir um tempo da subtarefa")]
         public string TempoSubTarefa { get; set; }
 
+        [Required(ErrorMessage = "Favor inserir um tempo de solução para está categoria!")]
+        public string TempoSubtarefa { get; set; }
+
     }
 }

@@ -130,6 +130,14 @@ namespace PortalSicoobDivicred.Aplicacao
                 estagiario+ "','"+login+"',md5('"+senha+"'),'"+email+"','"+idgrupo+"','"+gestor+"','"+matricula+"') ";
             ConexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
+       
+        public void InsereSubtarefa(string subtarefasDescricao, int idTarefaSubtarefas, int id, string TempoSubTarefa)
+        {
+            var queryInsereSubtarefa =
+                "INSERT INTO webdesksubtarefas (descricao,idtarefa,idfuncionarioresponsavel,excluido,tempo,multiploatendente) values ('" +
+                subtarefasDescricao + "','" + idTarefaSubtarefas + "','" + id + "','N','" +TempoSubTarefa + "') ";
+            ConexaoMysql.ExecutaComando(queryInsereSubtarefa);
+        }
 
         public void InsereGrupos(string descricao)
         {

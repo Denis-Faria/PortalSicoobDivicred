@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace PortalSicoobDivicred.Models
 {
@@ -100,15 +101,14 @@ namespace PortalSicoobDivicred.Models
 
         public int idFunRespSubtarefas { get; set; }
 
-        public DateTime tempoSubtarefas { get; set; }
+        
 
         public string multiploatendenteSubtarefas { get; set; }
 
         [Required(ErrorMessage = "Favor inserir um tempo da subtarefa")]
         public string TempoSubTarefa { get; set; }
 
-        [Required(ErrorMessage = "Favor inserir um tempo de solu��o para est� categoria!")]
-        public string TempoSubtarefa { get; set; }
+
 
     }
 }

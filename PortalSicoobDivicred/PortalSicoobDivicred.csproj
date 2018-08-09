@@ -378,6 +378,7 @@
     <Content Include="Assets\js\jquery-ui.min.js" />
     <Content Include="Assets\js\jquery.mask.js" />
     <Content Include="Assets\js\jquery.mask.min.js" />
+    <Content Include="Assets\js\jquery.multi-select.js" />
     <Content Include="Assets\js\jquery.tablesorter.min.js" />
     <Content Include="Assets\js\jquery.tablesorter.pager.js" />
     <Content Include="Assets\js\jquery.validate.min.js" />
@@ -955,6 +956,21 @@
     <Content Include="Views\Tesouraria\ResultadoHistoricoTaloes.cshtml" />
     <Content Include="Views\Principal\ResultadoTaloes.cshtml" />
     <Content Include="Views\Principal\ResultadoHistoricoTalao.cshtml" />
+    <Content Include="Views\Parametros\EditarFuncionario.cshtml" />
+    <Content Include="Views\Parametros\EditarGrupos.cshtml" />
+    <Content Include="Views\Parametros\EditarTarefa.cshtml" />
+    <Content Include="Views\Parametros\ExibirPermissoes.cshtml" />
+    <Content Include="Views\Parametros\ParametrosGrupos.cshtml" />
+    <Content Include="Views\Parametros\ParametrosPermissao.cshtml" />
+    <Content Include="Views\Parametros\ParametrosPermissoesFuncionario.cshtml" />
+    <Content Include="Views\Parametros\ParametrosSubtarefas.cshtml" />
+    <Content Include="Views\Parametros\ParametrosTarefas.cshtml" />
+    <Content Include="Views\Parametros\PermissaoDefinicaoInteracao.cshtml" />
+    <Content Include="Views\Parametros\PermissaoInteracao.cshtml" />
+    <Content Include="Views\Parametros\PesquisaGrupos.cshtml" />
+    <Content Include="Views\Parametros\PesquisaParametros.cshtml" />
+    <Content Include="Views\Parametros\PesquisaPermissoes.cshtml" />
+    <Content Include="Views\Parametros\PesquisaTarefas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

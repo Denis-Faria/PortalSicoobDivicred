@@ -309,8 +309,26 @@ namespace PortalSicoobDivicred.Controllers
             }
 
 
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usu�rio cadastrada com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
         }
+
+        [HttpPost]
+        public ActionResult SalvarSubtarefa(Parametros dados, FormCollection formularioSubtarefa)
+        {
+            var insereDados = new QueryMysqlParametros();
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                TimeSpan sla = TimeSpan.FromSeconds(Convert.ToDouble(formularioSubtarefa["seconds"]));
+                insereDados.InsereSubtarefa(dados.SubtarefasDescricao, dados.idTarefaSubtarefas, dados.id,sla.ToString() );
+
+            }
+
+
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "SubTarefa cadastrada com sucesso !" });
+        }
+
 
         [HttpPost]
         public ActionResult SalvarPermissao(Parametros dados, FormCollection receberForm)

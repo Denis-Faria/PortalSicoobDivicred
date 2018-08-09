@@ -14,14 +14,11 @@ namespace PortalSicoobDivicred.Controllers
     public class ParametrosController : Controller
     {
         public ActionResult Parametros(string mensagemValidacao, string erro)
-        public ActionResult Parametros(string Mensagem, string Erro)
         {
 
             TempData["MensagemValidacao"] = mensagemValidacao;
             TempData["Erro"] = erro;
             
-            TempData["Mensagem"] = Mensagem;
-            TempData["Erro"] = Erro;
             var insereDados = new QueryMysql();
             var logado = insereDados.UsuarioLogado();
             if (logado)
@@ -40,7 +37,7 @@ namespace PortalSicoobDivicred.Controllers
                     validacoes.Permissoes(this, dadosUsuarioBanco);
                     validacoes.DadosNavBar(this, dadosUsuarioBanco);
                 }
-                TempData["Mensagem"] = Mensagem;
+                TempData["Mensagem"] = mensagemValidacao;
                 return View("Parametros");
             }
             else

@@ -120,7 +120,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return true;
         }
 
-        public void InsereUsuario(string nome,int pa,DateTime dataAdmissao,string cpf,string rg,string pis,
+        public void InsereUsuario(string nome,int pa,string dataAdmissao,string cpf,string rg,string pis,
             string estagiario,string login,string senha,string email,int idgrupo,string gestor,string matricula)
         {
             var queryInsereFuncionario =

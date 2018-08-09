@@ -282,8 +282,6 @@ namespace PortalSicoobDivicred.Controllers
                         var arquivosAux = file.ToList();
                         for (k = 0; k < arquivosAux.Count; k++)
                         {
-                            if (fourisnull == 0)
-                                nomeArquivo1 = Path.GetFileName(arquivosAUX[k].FileName);
 
                             if (k == 1)
                             {
@@ -345,7 +343,7 @@ namespace PortalSicoobDivicred.Controllers
                                 if (k == 4)
                                 {
                                     var posicao = "F15";
-                                    var valeData = inicio.validaDataRelatorio(posicao, k, caminho04);
+                                    var valeData = inicio.ValidaDataRelatorio(posicao, k, caminho04);
                                     if (valeData == "0")
                                     {
                                         dataValida = 1;
@@ -638,7 +636,7 @@ namespace PortalSicoobDivicred.Controllers
                                         dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
 
-                                    insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
+                                    insereConferencia1.InsereConferencia(dados.Data.ToString("yyyy/MM/dd"),
                                         "4 - Cheques Dep./TD Devolvidos", arqext2.ToString(),
                                         TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
 

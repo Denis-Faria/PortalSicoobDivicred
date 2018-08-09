@@ -1,0 +1,146 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+
+<script>
+
+    function GrupoSelecionado(IdGrupo) {
+
+
+        $("#permissao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Parametros/RetornarPermissoesGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "idGrupo": IdGrupo.value },
+                success: function (data) {
+                    $("#permissao").append(data);
+                    $.validator.unobtrusive.parse($("#permissao"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+
+    function GrupoPermissaoSelecionado(IdPermissao, IdGrupo) {
+
+
+        $("#permissaoDefinicao").empty();
+        $.ajax(
+            {
+                type: 'POST',
+                url: '/Parametros/RetornarPermissoesDefinicaoGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: {
+                    "idGrupo": IdGrupo.value,
+                    "idPermissao": idPermissao.value
+                },
+                success: function (data) {
+                    $("#permissaoDefinicao").append(data);
+                    $.validator.unobtrusive.parse($("#permissaoDefinicao"));
+                    $("form").removeData("validator");
+                    $("form").removeData("unobtrusiveValidation");
+                    $.validator.unobtrusive.parse("form");
+                }
+            });
+    }
+</script>
+<script>
+
+    function AlternarBotoes(ocultar) {
+        alert('OII');
+
+        switch (ocultar) {
+            case "Grupo":
+                $(permissao).show();
+                break;
+        }
+    }
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#CpfFuncionario').mask('000.000.000-00');
+        $('#DataNascimentoFuncionario').mask('00/00/0000');
+        $('#EmissaoCtps').mask('00/00/0000');
+        $('#DataEmissaoRg').mask('00/00/0000');
+        $('#PisFuncionario').mask('000.00000.00-0');
+        $('#CepFuncionario').mask('99999-999');
+
+
+
+    });
+
+    function Buscar() {
+
+
+        $("#ListaFuncionarios").empty();
+        $.ajax(
+            {
+
+                type: 'Post',
+                url: '/Parametros/BuscarPermissoes',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "NomeFuncionario": $("#BuscaFuncionario").val() },
+                success: function (data) {
+
+                    $("#ListaFuncionarios").append(data);
+
+                }
+            });
+
+    }
+
+</script>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+
+
+    <div class="card">
+
+        <header class="card-header">
+            <p class="card-header-title">
+                Cadastro de Funcionários
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="columns content">
+                <div class="column is-5">
+                    <div class="control" id="grupo">
+                        <label class="label">Grupo</label>
+                        <div class="select is-1 is-fullwidth">
+                            @Html.DropDownListFor(m => m.idPermissaoDescricaoGrupo, new SelectList(Model.PermissaoDescricaoGrupo, "Value", "Text"), "SELECIONE O GRUPO", new { id = "PermissaoGrupo", onchange = "GrupoSelecionado(this)" })
+                            @Html.ValidationMessageFor(m => m.PermissaoDescricaoGrupo, null, new { style = "color:red" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column is-5" id="permissao">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+
+    
+
+
+
+
+
+
+

@@ -31,9 +31,9 @@ namespace PortalSicoobDivicred.Controllers
                     var dadosUsuarioBanco = insereDados.RecuperaDadosUsuarios(login);
                     var validacoes = new ValidacoesIniciais();
 
-                    validacoes.AlertasUsuario( this, dadosUsuarioBanco[0]["id"] );
-                    validacoes.Permissoes( this, dadosUsuarioBanco );
-                    validacoes.DadosNavBar( this, dadosUsuarioBanco );
+                    validacoes.AlertasUsuario(this, dadosUsuarioBanco[0]["id"]);
+                    validacoes.Permissoes(this, dadosUsuarioBanco);
+                    validacoes.DadosNavBar(this, dadosUsuarioBanco);
                 }
 
                 return View("Tesouraria");
@@ -113,6 +113,7 @@ namespace PortalSicoobDivicred.Controllers
             var inicioPlanilha4 = 0;
 
             var aux = 0;
+            var dataExtratoDiaValidar = new DateTime();
 
             if (arquivos.Count > 3)
             {
@@ -127,7 +128,7 @@ namespace PortalSicoobDivicred.Controllers
                 var dados5 = new Dictionary<string, double>();
                 var i = 0;
                 var dataSelecionadaValidar = new DateTime();
-                var dataExtratoDiaValidar = new DateTime();
+                //var dataExtratoDiaValidar = new DateTime();
                 var uploadrealizado = 0;
 
                 var caminho01 = "";
@@ -145,6 +146,7 @@ namespace PortalSicoobDivicred.Controllers
                 var aux03 = 0;
                 var aux04 = 0;
                 var aux05 = 0;
+                var fourisnull = 0;
 
                 var inicioMes = 0;
 
@@ -154,18 +156,24 @@ namespace PortalSicoobDivicred.Controllers
 
                 while (i < arquivos.Count)
                 {
-                    if (i == 4)
+                    //  if (i == 4)
+                    //  {
+                    if (arquivos[4] == null)
                     {
-                        if (arquivos[i] == null)
+                        if (i == 4)
                         {
                             auxNr = 1;
                             i = 5;
                         }
-                        else
-                        {
-                            i = 4;
-                        }
+
+                        fourisnull = 1;
                     }
+                    else if (arquivos[4] != null && i == 4)
+                    {
+
+                        i = 4;
+                    }
+                    //   }
 
                     nomeArquivo = Path.GetFileName(arquivos[i].FileName);
                     caminho = Path.Combine(Server.MapPath("~/Uploads/"), nomeArquivo);
@@ -189,10 +197,13 @@ namespace PortalSicoobDivicred.Controllers
                             DateTime.Now.Hour + DateTime.Now.Minute.ToString() + nomeArquivo03);
                         arquivos[3].SaveAs(caminho03);
 
-                        nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
-                        caminho04 = Path.Combine(Server.MapPath("~/Uploads/"),
-                            DateTime.Now.Hour + DateTime.Now.Minute.ToString() + nomeArquivo04);
-                        arquivos[4].SaveAs(caminho04);
+                        if (fourisnull == 0)
+                        {
+                            nomeArquivo04 = Path.GetFileName(arquivos[4].FileName);
+                            caminho04 = Path.Combine(Server.MapPath("~/Uploads/"),
+                                DateTime.Now.Hour + DateTime.Now.Minute.ToString() + nomeArquivo04);
+                            arquivos[4].SaveAs(caminho04);
+                        }
 
                         nomeArquivo05 = Path.GetFileName(arquivos[5].FileName);
                         caminho05 = Path.Combine(Server.MapPath("~/Uploads/"),
@@ -230,11 +241,14 @@ namespace PortalSicoobDivicred.Controllers
                             aux05 = 1;
                         }
 
-                        //dataSelecionada = DateTime.Now;
+                        dataSelecionadaValidar = Convert.ToDateTime(TempData["data"]);
+                        dataSelecionada = Convert.ToDateTime(TempData["data"]);
                         //dataExtratoDia = DateTime.Now;
+
                     }
                     else
                     {
+
                         var ofxdocument = parser.Import(new FileStream(caminho, FileMode.Open));
                         var transacoes = ofxdocument.Transactions;
                         dataSelecionada = Convert.ToDateTime(TempData["data"]);
@@ -268,6 +282,9 @@ namespace PortalSicoobDivicred.Controllers
                         var arquivosAux = file.ToList();
                         for (k = 0; k < arquivosAux.Count; k++)
                         {
+                            if (fourisnull == 0)
+                                nomeArquivo1 = Path.GetFileName(arquivosAUX[k].FileName);
+
                             if (k == 1)
                             {
                                 var posicao = "F4";
@@ -280,7 +297,7 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     dataValida = 1;
                                     return RedirectToAction("Tesouraria",
-                                        new {Erro = "Data Invalida do Relatório Lançamento"});
+                                        new { Erro = "Data Invalida do Relatório Lançamento" });
                                 }
                             }
 
@@ -293,7 +310,7 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     dataValida = 1;
                                     return RedirectToAction("Tesouraria",
-                                        new {Erro = "Período do Relatório Enviadas e Recebidas são diferentes"});
+                                        new { Erro = "Período do Relatório Enviadas e Recebidas são diferentes" });
                                 }
 
                                 if (dataSelecionadaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
@@ -303,7 +320,7 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     dataValida = 1;
                                     return RedirectToAction("Tesouraria",
-                                        new {Erro = "Data Invalida do Relatório Enviadas e Recebidas"});
+                                        new { Erro = "Data Invalida do Relatório Enviadas e Recebidas" });
                                 }
                             }
 
@@ -319,33 +336,36 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     dataValida = 1;
                                     return RedirectToAction("Tesouraria",
-                                        new {Erro = "Data Invalida no Relatório de Devolução de Cheques"});
+                                        new { Erro = "Data Invalida no Relatório de Devolução de Cheques" });
                                 }
                             }
 
-                            if (k == 4)
+                            if (fourisnull == 0)
                             {
-                                var posicao = "F15";
-                                var valeData = inicio.ValidaDataRelatorio(posicao, k, caminho04);
-                                if (valeData == "0")
+                                if (k == 4)
                                 {
-                                    dataValida = 1;
-                                    return RedirectToAction("Tesouraria",
-                                        new
-                                        {
-                                            Erro =
-                                                "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes!!!!"
-                                        });
-                                }
+                                    var posicao = "F15";
+                                    var valeData = inicio.validaDataRelatorio(posicao, k, caminho04);
+                                    if (valeData == "0")
+                                    {
+                                        dataValida = 1;
+                                        return RedirectToAction("Tesouraria",
+                                            new
+                                            {
+                                                Erro =
+                                                    "Período do Relatório Operação de Caixa(Dia Anterior) são diferentes!!!!"
+                                            });
+                                    }
 
-                                if (dataExtratoDiaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
-                                {
-                                }
-                                else
-                                {
-                                    dataValida = 1;
-                                    return RedirectToAction("Tesouraria",
-                                        new {Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)"});
+                                    if (dataExtratoDiaValidar == Convert.ToDateTime(valeData) || inicioMes == 1)
+                                    {
+                                    }
+                                    else
+                                    {
+                                        dataValida = 1;
+                                        return RedirectToAction("Tesouraria",
+                                            new { Erro = "Data Invalida do Relatório Operação de Caixa(Dia Anterior)" });
+                                    }
                                 }
                             }
                             //Lembrar de deletar o que for para o banco de dados
@@ -372,7 +392,7 @@ namespace PortalSicoobDivicred.Controllers
                                 {
                                     dataValida = 1;
                                     return RedirectToAction("Tesouraria",
-                                        new {Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)"});
+                                        new { Erro = "Data Invalida do Relatório Cheques Devolvidos(Dia Anterior)" });
                                 }
                             }
 
@@ -617,7 +637,8 @@ namespace PortalSicoobDivicred.Controllers
                                     atualizaValorNr.InsereValorNr(dados3["Arquivo3"].ToString(),
                                         dataSelecionada.ToString("yyyy-MM-dd 00:00:00"));
 
-                                    insereConferencia1.InsereConferencia(dados.Data.ToString("yyyy/MM/dd"),
+
+                                    insereConferencia1.InsereConferencia(Dados.Data.ToString("yyyy/MM/dd"),
                                         "4 - Cheques Dep./TD Devolvidos", arqext2.ToString(),
                                         TempData["6/192-FINAL"].ToString(), TempData["Diferenca5"].ToString());
 
@@ -628,7 +649,7 @@ namespace PortalSicoobDivicred.Controllers
                                     inicioPlanilha3 = inicio.InicioPlanilha(caminho04, i.ToString());
                                     dados4 = inicio.Calculo1(caminho04, i.ToString(), inicioPlanilha3);
                                     TempData["NRDEVELETRONICA-FINAL"] = arqext11 + Convert.ToDouble(dados4["Arquivo4"]);
-                                    
+
                                     break;
 
                                 case 5:
@@ -653,16 +674,18 @@ namespace PortalSicoobDivicred.Controllers
                             break;
                         }
 
-                        i++;
-                        if (i == 6) break;
+                        //i++;
+                        //if (i == 6) break;
                     }
+                    i++;
+                    if (i == 6) break;
                 }
             }
 
             if (aux == 0)
-                return RedirectToAction("Tesouraria", new {MensagemValidacao = "Registro salvo com sucesso!!"});
+                return RedirectToAction("Tesouraria", new { MensagemValidacao = "Registro salvo com sucesso!!" });
             return RedirectToAction("Tesouraria",
-                new {Erro = "Data selecionada não e a mesma do extrato.Refaça o processo."});
+                new { Erro = "Data selecionada não e a mesma do extrato.Refaça o processo." });
         }
 
 
@@ -781,7 +804,7 @@ namespace PortalSicoobDivicred.Controllers
             var atualizaJustificativa = new QueryMysqlTesouraria();
 
             atualizaJustificativa.AtualizaJustificativa(TempData["data"].ToString(), receberForm["justificativa"]);
-            return RedirectToAction("Tesouraria", new {MensagemValidacao = "Registro alterado com sucesso!!"});
+            return RedirectToAction("Tesouraria", new { MensagemValidacao = "Registro alterado com sucesso!!" });
         }
 
 
@@ -797,7 +820,7 @@ namespace PortalSicoobDivicred.Controllers
 
             var retornaData = Convert.ToInt32(verificarData.VerificaData(data));
             if (retornaData != 0)
-                return RedirectToAction("Tesouraria", new {Erro = "Já existe conferência para essa data."});
+                return RedirectToAction("Tesouraria", new { Erro = "Já existe conferência para essa data." });
             return RedirectToAction("Tesouraria");
         }
 
@@ -813,7 +836,7 @@ namespace PortalSicoobDivicred.Controllers
             var deletarProducao = new QueryMysqlTesouraria();
 
             deletarProducao.DeletaProducao(TempData["data"].ToString());
-            return RedirectToAction("Tesouraria", new {MensagemValidacao = "Registro  com sucesso!!"});
+            return RedirectToAction("Tesouraria", new { MensagemValidacao = "Registro  com sucesso!!" });
         }
 
         [HttpPost]
@@ -940,4 +963,4 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction( "Login", "Login" );
         }
     }
-}
+    }

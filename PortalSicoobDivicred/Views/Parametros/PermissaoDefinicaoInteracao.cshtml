@@ -1,0 +1,40 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+
+
+@using (Html.BeginForm("SalvarPermissao", "Parametros"))
+{
+    <div class="field">
+
+
+        <div class="field" hidden >
+            <div class="control">
+
+                @Html.TextBoxFor(m => m.idPermissaoDescricaoGrupo, null, new { @class = "input", id = "idPermissaoDescricaoGrupo" })
+                @Html.ValidationMessageFor(m => m.idPermissaoDescricaoGrupo, null, new { style = "color:red" })
+
+
+                @Html.TextBoxFor(m => m.descricaoPermissao, null, new { @class = "input", id = "descricaoPermissao" })
+                @Html.ValidationMessageFor(m => m.descricaoPermissao, null, new { style = "color:red" })
+
+            </div>
+        </div>
+        <div class="control column">
+            <div class="field">
+                @Html.RadioButtonFor(m => m.Permitido, "S", new { @class = "is-checkradio is-small", id = "Permitidosim" })
+                <label for="Permitidosim">
+                    Sim
+                </label>
+                @Html.RadioButtonFor(m => m.Permitido, "N", new { @class = "is-checkradio is-small", id = "Permitidonao" })
+                <label for="Permitidonao">
+                    Não
+                </label>
+                @Html.ValidationMessageFor(m => m.Permitido, null, new { style = "color:red" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="control">
+        <button type="submit" id="SalvaPermissao" class="button is-success">Salvar Permissão</button>
+    </div>
+}

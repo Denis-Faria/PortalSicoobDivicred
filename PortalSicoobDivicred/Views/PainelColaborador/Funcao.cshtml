@@ -34,7 +34,9 @@
                 cache: true,
                 async: true,
                 data: { "DescricaoFuncao": $("#BuscaFuncao").val() },
-                success: function(data) {
+                success: function (data) {
+                   
+                    
                     $("#ListaFuncoes").append(data);
 
                 }
@@ -152,7 +154,6 @@
                     <br/>
 
                     <div id="EdicaoFuncao" hidden>
-
                         <br/>
                     </div>
                 </section>

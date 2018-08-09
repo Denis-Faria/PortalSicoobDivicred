@@ -1,0 +1,128 @@
+﻿
+@model PortalSicoobDivicred.Models.Parametros
+
+
+
+<script>
+
+    function Buscar() {
+
+        $("#ListaGrupos").empty();
+        $.ajax(
+            {
+
+                type: 'Post',
+                url: '/Parametros/BuscaGrupo',
+                dataType: 'html',
+                cache: true,
+                async: true,
+                data: { "DescricaoGrupo": $("#BuscaGrupos").val() },
+                success: function (data) {
+
+                    $("#ListaGrupos").append(data);
+                }
+            });
+    }
+
+
+</script>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+
+<div class="field is-grouped is-desktop">
+    <p class="control">
+        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma função existente." data-balloon-pos="down" onclick="javascript:$('#ModalGrupo').removeClass();$('#ModalGrupo').addClass('modal is-active');void(0);">
+            <span class="icon is-small">
+                <i class="fas fa-edit" aria-hidden="true"></i>
+            </span>
+            <span class="name">Editar Grupo</span>
+
+        </button>
+    </p>
+</div>
+@using (Html.BeginForm("SalvarGrupos", "Parametros"))
+{
+    <div class="card">
+
+        <header class="card-header">
+            <p class="card-header-title">
+                Cadastro de Grupos
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="columns content">
+                <div class="column is-5" id="nome">
+                    <label class="label">Descrição Grupo</label>
+                    @Html.TextBoxFor(m => m.DescricaoGrupos, null, new { @class = "input", type = "Text", step = "0.01" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div>
+        <p class="control">
+            <button type="submit" class="button is-success " id="CadastroUsuario" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
+                <span class="icon is-small">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                </span>
+                <span class="name">Cadastrar Grupo</span>
+            </button>
+        </p>
+    </div>
+}
+
+@using (Html.BeginForm("AtualizaDadosGrupo", "Parametros"))
+{
+    <div id="ModalGrupo" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Editar Grupo</p>
+                <a href="javascript:$('#ModalGrupo').removeClass();$('#ModalGrupo').addClass('modal');void(0);" class="delete"></a>
+            </header>
+            <section class="modal-card-body">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Grupos
+                        </p>
+
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+
+                            <div class="field has-addons">
+                                <div class="control has-icons-left is-expanded">
+                                    <input id="BuscaGrupos" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <a href="Javascript:Buscar();void(0);" class="button is-success">
+                                        Procurar
+                                    </a>
+                                </div>
+                            </div>
+                            <ul id="ListaGrupos"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="EdicaoGrupos" hidden>
+                    <br/>
+                </div>
+            </section>
+
+            <footer class="modal-card-foot">
+                <a class="button" href="javascript:$('#ModalGrupo').removeClass();$('#ModalGrupo').addClass('modal');void(0);">Cancelar</a>
+                <div class="control">
+                    <button type="submit" id="SalvaFuncao" disabled class="button is-success">Salvar Grupo</button>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+
+}

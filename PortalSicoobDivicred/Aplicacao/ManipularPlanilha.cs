@@ -83,6 +83,7 @@ namespace PortalSicoobDivicred.Aplicacao
             var auxVerificaDataMaior = "";
 
             if (i == 1)
+            {
                 for (m = 0; m < output.Tables[0].Rows.Count; m++)
                     if (output.Tables[0].Rows[m]["F4"].ToString().Contains("Período:"))
                     {
@@ -99,6 +100,7 @@ namespace PortalSicoobDivicred.Aplicacao
                                 break;
                             }
                     }
+            }
 
             if (i == 2)
                 for (m = 0; m < output.Tables[0].Rows.Count; m++)

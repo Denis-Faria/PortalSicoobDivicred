@@ -57,7 +57,7 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var funcionarios = new List<SelectListItem>();
 
-            const string queryRetornaFuncionarios = "SELECT id,nome FROM funcionarios descricao where ativo='S' ";
+            const string queryRetornaFuncionarios = "SELECT id,nome FROM funcionarios descricao where ativo='S' order by nome";
 
             var dados = ConexaoMysql.ExecutaComandoComRetorno(queryRetornaFuncionarios);
             foreach (var row in dados)
@@ -131,11 +131,11 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(queryInsereFuncionario);
         }
        
-        public void InsereSubtarefa(string subtarefasDescricao, int idTarefaSubtarefas, int id, string TempoSubTarefa)
+        public void InsereSubtarefa(string subtarefasDescricao, int idTarefaSubtarefas, int id, string TempoSubTarefa,string MultipliAtendente)
         {
             var queryInsereSubtarefa =
                 "INSERT INTO webdesksubtarefas (descricao,idtarefa,idfuncionarioresponsavel,excluido,tempo,multiploatendente) values ('" +
-                subtarefasDescricao + "','" + idTarefaSubtarefas + "','" + id + "','N','" +TempoSubTarefa + "') ";
+                subtarefasDescricao + "','" + idTarefaSubtarefas + "','" + id + "','N','" +TempoSubTarefa + "','"+MultipliAtendente+"') ";
             ConexaoMysql.ExecutaComando(queryInsereSubtarefa);
         }
 
@@ -230,9 +230,16 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
+        public List<Dictionary<string, string>> BuscaSubtarefa(string DescricaoTarefa)
+        {
+            var Query = "Select id,descricao from webdesksubtarefas where descricao like'%" + DescricaoTarefa + "%' and excluido='N' order by descricao";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
         public List<Dictionary<string, string>> RecuperaDadosFuncionario(string IdFuncionario)
         {
-            var Query = "Select * from funcionarios where id='" + IdFuncionario + "' and ativo='S'";
+            var Query = "Select * from funcionarios where id='" + IdFuncionario + "' and ativo='S' order by nome";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }
@@ -244,7 +251,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
         }
 
-        public void AtualizaUsuario(int id,string nome, int pa, string dataAdmissao, string cpf, string rg, string pis,
+        public void AtualizaFuncionario(int id,string nome, int pa, string dataAdmissao, string cpf, string rg, string pis,
             string estagiario, string login,string email, int idgrupo, string gestor, string matricula)
         {
             var queryAlteraFuncionario = "UPDATE FUNCIONARIOS SET nome='" + nome + "',idpa='" + pa + "',admissao='" +
@@ -275,11 +282,25 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(Query2);
         }
 
+        public void ExcluirSubtarefa(string IdSubtarefa)
+        {
+            var Query2 = "UPDATE webdesksubtarefas SET excluido='S' WHERE id='" + IdSubtarefa + "'";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
         public void AtualizarTarefa(string IdTarefa,string descricao)
         {
             var Query2 = "UPDATE webdesktarefas SET descricao='"+descricao+"' WHERE id='" + IdTarefa + "'";
             ConexaoMysql.ExecutaComando(Query2);
         }
+
+        public void AtualizarSubtarefa(int IdSubtarefa, string descricaoSubTarefa,int idTarefa,int idFuncionarioResponsavel,string tempoSubTarefa,string multiploAtendente)
+        {
+            var Query2 = "UPDATE webdesksubtarefas SET descricao='" + descricaoSubTarefa + "'," +
+                         " idtarefa='"+idTarefa+"', idfuncionarioresponsavel='"+idFuncionarioResponsavel+"' ,tempo='"+tempoSubTarefa+"' WHERE id='" + IdSubtarefa + "'";
+            ConexaoMysql.ExecutaComando(Query2);
+        }
+
 
         public void ExcluirGrupo(string IdGrupo)
         {
@@ -306,6 +327,13 @@ namespace PortalSicoobDivicred.Aplicacao
         public List<Dictionary<string, string>> RecuperaDadosTarefa(string IdTarefa)
         {
             var Query = "Select * from webdesktarefas where id='" + IdTarefa + "' and excluido='N'";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+        }
+
+        public List<Dictionary<string, string>> RecuperaDadosSubtarefa(string IdSubtarefa)
+        {
+            var Query = "Select * from webdesksubtarefas where id='" + IdSubtarefa + "' and excluido='N'";
             var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
             return Dados;
         }

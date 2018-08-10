@@ -19,20 +19,20 @@
     });
 
     function Buscar() {
-
-        $("#ListaTarefas").empty();
+        
+        $("#ListaSubtarefas").empty();
         $.ajax(
             {
 
                 type: 'Post',
-                url: '/Parametros/BuscaTarefa',
+                url: '/Parametros/BuscaSubtarefa',
                 dataType: 'html',
                 cache: true,
                 async: true,
-                data: { "DescricaoTarefa": $("#BuscaGrupos").val() },
+                data: { "DescricaoSubtarefa": $("#BuscaSubtarefa").val() },
                 success: function (data) {
 
-                    $("#ListaTarefas").append(data);
+                    $("#ListaSubtarefas").append(data);
                 }
             });
     }
@@ -56,7 +56,7 @@
         </button>
     </p>
 </div>
-@using (Html.BeginForm("SalvarSubtarefa", "Parametros"))
+@using (Html.BeginForm("SalvarSubtarefa", "Parametros", FormMethod.Post))
 {
     <div class="card">
 
@@ -102,7 +102,24 @@
                     </p>
                 </div>
             </div>
+            <div class="columns content">
+                <div class="control column">
 
+                    <div class="field">
+                        <label class="label">Múltiplo Atendente?</label>
+                        @Html.RadioButtonFor(m => m.MultiploAtendente, "S", new { @class = "is-checkradio is-small", id = "MultiploAtendentesim",@checked="checked" })
+                        <label for="MultiploAtendentesim">
+                            Sim
+                        </label>
+                        @Html.RadioButtonFor(m => m.MultiploAtendente, "N", new { @class = "is-checkradio is-small", id = "MultiploAtendentenao" })
+                        <label for="MultiploAtendentenao">
+                            Não
+                        </label>
+                        @Html.ValidationMessageFor(m => m.MultiploAtendente, null, new { style = "color:red" })
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
     <br>
@@ -118,20 +135,20 @@
     </div>
 }
 
-@using (Html.BeginForm("AtualizaDadosTarefa", "Parametros"))
+@using (Html.BeginForm("AtualizaDadosSubtarefa", "Parametros", FormMethod.Post))
 {
-    <div id="ModalTarefa" class="modal">
+    <div id="ModalSubtarefa" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
-                <p class="modal-card-title">Editar Tarefa</p>
-                <a href="javascript:$('#ModalTarefa').removeClass();$('#ModalTarefa').addClass('modal');void(0);" class="delete"></a>
+                <p class="modal-card-title">Editar Subtarefa</p>
+                <a href="javascript:$('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal');void(0);" class="delete"></a>
             </header>
             <section class="modal-card-body">
                 <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">
-                            Tarefas
+                            Subtarefas
                         </p>
 
                     </header>
@@ -140,7 +157,7 @@
 
                             <div class="field has-addons">
                                 <div class="control has-icons-left is-expanded">
-                                    <input id="BuscaGrupos" class="input is-fullwidth" type="text" placeholder="Busque um funcionário.">
+                                    <input id="BuscaSubtarefa" class="input is-fullwidth" type="text" placeholder="Busque uma subtarefa.">
                                     <span class="icon is-small is-left">
                                         <i class="fas fa-search"></i>
                                     </span>
@@ -151,19 +168,19 @@
                                     </a>
                                 </div>
                             </div>
-                            <ul id="ListaTarefas"></ul>
+                            <ul id="ListaSubtarefas"></ul>
                         </div>
                     </div>
                 </div>
-                <div id="EdicaoTarefas" hidden>
+                <div id="EdicaoSubtarefas" hidden>
                     <br />
                 </div>
             </section>
 
             <footer class="modal-card-foot">
-                <a class="button" href="javascript:$('#ModalGrupo').removeClass();$('#ModalGrupo').addClass('modal');void(0);">Cancelar</a>
+                <a class="button" href="javascript:$('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal');void(0);">Cancelar</a>
                 <div class="control">
-                    <button type="submit" id="SalvaTarefa" disabled class="button is-success">Salvar Tarefa</button>
+                    <button type="submit" id="SalvaSubtarefa" disabled class="button is-success">Salvar Subtarefa</button>
                 </div>
             </footer>
 

@@ -135,7 +135,7 @@
                     <div class="control column is-expanded">
                         <label class="label">Gestor?</label>
                         <div class="field">
-                            @Html.RadioButtonFor(m => m.Gestor, "S", new { @class = "is-checkradio is-small", id = "gestorsim" })
+                            @Html.RadioButtonFor(m => m.Gestor, "S", new { @class = "is-checkradio is-small", id = "gestorsim", @checked = "checked" })
                             <label for="gestorsim">
                                 Sim
                             </label>
@@ -154,7 +154,7 @@
                     <div class="control column is-expanded">
                         <label class="label">Estagiário?</label>
                         <div class="field">
-                            @Html.RadioButtonFor(m => m.Estagiario, "S", new { @class = "is-checkradio is-small", id = "estagiariosim" })
+                            @Html.RadioButtonFor(m => m.Estagiario, "S", new { @class = "is-checkradio is-small", id = "estagiariosim", @checked = "checked" })
                             <label for="estagiariosim">
                                 Sim
                             </label>

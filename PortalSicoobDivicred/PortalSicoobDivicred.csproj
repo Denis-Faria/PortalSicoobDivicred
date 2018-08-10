@@ -971,6 +971,8 @@
     <Content Include="Views\Parametros\PesquisaParametros.cshtml" />
     <Content Include="Views\Parametros\PesquisaPermissoes.cshtml" />
     <Content Include="Views\Parametros\PesquisaTarefas.cshtml" />
+    <Content Include="Views\Parametros\PesquisaSubtarefas.cshtml" />
+    <Content Include="Views\Parametros\EditarSubtarefa.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

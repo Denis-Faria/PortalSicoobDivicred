@@ -1,0 +1,162 @@
+﻿@model PortalSicoobDivicred.Models.Parametros
+
+
+<script>
+
+    $(function () {
+        $('#EditarTempoSubTarefa').timeDurationPicker({
+            defaultValue: function () {
+                return $('#Editarseconds').val();
+            },
+            onSelect: function (element, seconds, duration) {
+                $('#Editarseconds').val(seconds);
+                $('#EditarTempoSubTarefa').val(duration);
+            }
+        });
+    });
+
+
+    function ExcluirSubtarefa(id) {
+
+
+        iziToast.show({
+            message: 'Confirma a exclusão do Registro ?',
+            position: 'center',
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Sim</button>', function (instance, toast) {
+
+                        $("#PerfilCompleto").empty();
+                        $.ajax(
+                            {
+                                type: 'GET',
+                                url: '/Parametros/ExcluirSubtarefa',
+                                cache: true,
+                                async: true,
+                                data: { "idSubtarefa": id },
+                                success: function (data) {
+                                    instance.hide({
+                                            transitionOut: 'fadeOutUp',
+                                            onClosing: function (instance, toast, closedBy) {
+                                                console.info('closedBy: ' + closedBy); //btn2
+
+                                            }
+                                        },
+                                        toast,
+                                        'close',
+                                        'btn1');
+
+                                    location.href = "/Parametros/Parametros?Mensagem=Subtarefa excluída com sucesso";
+
+                                }
+                            });
+
+                    }
+                ],
+                [
+                    '<button>Não</button>', function (instance, toast) {
+                        instance.hide({
+                                transitionOut: 'fadeOutUp',
+                                onClosing: function (instance, toast, closedBy) {
+                                    console.info('closedBy: ' + closedBy); //btn2
+                                }
+                            },
+                            toast,
+                            'close',
+                            'btn2');
+                    }
+                ]
+            ]
+
+        });
+    }
+
+</script>
+
+
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
+<button style="display: block; margin-left: auto; margin-right: auto" type="button" class="button is-danger" onclick="location.href = 'javascript:ExcluirSubtarefa(@TempData["id"]);void(0);'" name="ExcluirSubtarefa" id="IdTarefa" onmouseleave="$('#'+ @TempData["id"]).removeClass('animated pulse')" onmouseover="$('#' + @TempData["id"]).addClass('animated pulse');">
+    <span class="icon is-small">
+        <i class="far fa-trash-alt">
+        </i>
+    </span>
+    <span> Excluir Registro</span>
+</button>
+
+
+
+<input name="IdSubtarefa" value="@TempData["idSubtarefa"]" hidden />
+<div hidden>
+    <label class="label">id</label>
+    @Html.TextBoxFor(m => m.idSubtarefas, null, new { @class = "input", type = "Text", step = "0.01", id = "id" })
+</div>
+<br>
+<div class="card">
+
+    <header class="card-header">
+        <p class="card-header-title">
+            Cadastro de Subtarefas
+        </p>
+    </header>
+    <div class="card-content">
+        <div class="columns content">
+            <div class="column is-5" id="descricaoSubtarefas">
+                <label class="label">Descrição Subtarefas</label>
+                @Html.TextBoxFor(m => m.SubtarefasDescricao, null, new { @class = "input", type = "Text", step = "0.01" })
+            </div>
+
+
+            <div class="column is-5">
+                <div class="control" id="tarefaVinculada">
+                    <label class="label">Tarefa Vinculada</label>
+                    <div class="select is-1 is-fullwidth">
+                        @Html.DropDownListFor(m => m.idTarefaSubtarefas, new SelectList(Model.DescricaoTarefas, "Value", "Text"), "SELECIONE A TAREFA VINCULADA", new { id = " descricao" })
+                        @Html.ValidationMessageFor(m => m.DescricaoTarefas, null, new { style = "color:red" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns content">
+            <div class="column is-5">
+                <div class="control" id="tarefaVinculada">
+                    <label class="label">Funcionário Responsável</label>
+                    <div class="select is-1 is-fullwidth">
+                        @Html.DropDownListFor(m => m.id, new SelectList(Model.FuncionariosNome, "Value", "Text"), "SELECIONE O FUNCIONÁRIO RESPONSÁVEL", new { id = " descricao" })
+                        @Html.ValidationMessageFor(m => m.FuncionariosNome, null, new { style = "color:red" })
+                    </div>
+                </div>
+            </div>
+            <div class="column is-5">
+                <p class="control">
+                    <label class="label">Tempo de Atendimento Tarefa</label>
+                    @Html.TextBoxFor(m => m.TempoSubTarefa, null, new { @class = "input", id = "EditarTempoSubTarefa", autocomplete = "off" })
+                    <input type="hidden" name="Editarseconds" name="ValorEditar" id="Editarseconds" />
+                    @Html.ValidationMessageFor(m => m.TempoSubTarefa, null, new { style = "color:red" })
+                </p>
+            </div>
+        </div>
+        <div class="columns content">
+            <div class="control column">
+
+                <div class="field">
+                    <label class="label">Múltiplo Atendente?</label>
+                    @Html.RadioButtonFor(m => m.MultiploAtendente, "S", new { @class = "is-checkradio is-small", id = "MultiploAtensim" })
+                    <label for="MultiploAtensim">
+                        Sim
+                    </label>
+                    @Html.RadioButtonFor(m => m.MultiploAtendente, "N", new { @class = "is-checkradio is-small", id = "MultiploAtennao" })
+                    <label for="MultiploAtennao">
+                        Não
+                    </label>
+                    @Html.ValidationMessageFor(m => m.MultiploAtendente, null, new { style = "color:red" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<br />
+

@@ -16,7 +16,7 @@ namespace PortalSicoobDivicred.Controllers
         public ActionResult Parametros(string mensagemValidacao, string erro)
         {
 
-            TempData["MensagemValidacao"] = mensagemValidacao;
+            //TempData["MensagemValidacao"] = mensagemValidacao;
             TempData["Erro"] = erro;
             
             var insereDados = new QueryMysql();
@@ -309,7 +309,7 @@ namespace PortalSicoobDivicred.Controllers
             }
 
 
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usuário cadastrada com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { mensagemValidacao = "Usuário cadastrada com sucesso !" });
         }
 
         [HttpPost]
@@ -321,12 +321,12 @@ namespace PortalSicoobDivicred.Controllers
             if (cookie != null)
             {
                 TimeSpan sla = TimeSpan.FromSeconds(Convert.ToDouble(formularioSubtarefa["seconds"]));
-                insereDados.InsereSubtarefa(dados.SubtarefasDescricao, dados.idTarefaSubtarefas, dados.id,sla.ToString() );
+                insereDados.InsereSubtarefa(dados.SubtarefasDescricao, dados.idTarefaSubtarefas, dados.id,sla.ToString(),dados.MultiploAtendente );
 
             }
 
 
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "SubTarefa cadastrada com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { mensagemValidacao = "SubTarefa cadastrada com sucesso !" });
         }
 
 
@@ -340,14 +340,11 @@ namespace PortalSicoobDivicred.Controllers
             {
                 insereDados.AtualizaPermissao(dados.idPermissaoDescricaoGrupo,
                     dados.descricaoPermissao, dados.Permitido);
-
-                // insereDados.InsereUsuario(dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
-                //     dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, "123", dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
-
+               
             }
 
 
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Usu�rio cadastrada com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Permissão cadastrada com sucesso !" });
         }
 
         [HttpPost]
@@ -360,7 +357,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 insereDados.InsereGrupos(dados.DescricaoGrupos);
             }
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Grupo cadastrado com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { mensagemValidacao = "Grupo cadastrado com sucesso !" });
         }
 
         [HttpPost]
@@ -373,7 +370,7 @@ namespace PortalSicoobDivicred.Controllers
             {
                 insereDados.InsereTarefas(dados.DescricaoTarefa);
             }
-            return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Tarefa cadastrado com sucesso !" });
+            return RedirectToAction("Parametros", "Parametros", new { mensagemValidacao = "Tarefa cadastrado com sucesso !" });
         }
 
 
@@ -588,9 +585,9 @@ namespace PortalSicoobDivicred.Controllers
         {
            // TempData["id"] = dados.id;
             var atualizaFuncionario = new QueryMysqlParametros();
-            atualizaFuncionario.AtualizaUsuario(dados.id, dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
+            atualizaFuncionario.AtualizaFuncionario(dados.id, dados.NomeFuncionario, dados.Pa, dados.dataAdmissao, dados.CpfFuncionario, dados.RgFuncionario,
                 dados.PisFuncionario, dados.Estagiario, dados.LoginFuncionario, dados.Email, dados.idDescricaoGrupo, dados.Gestor, dados.Matricula);
-            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
+            return RedirectToAction("Parametros", new { mensagemValidacao = "Registro alterado com sucesso!!" });
         }
 
         public ActionResult AtualizaDadosTarefa()
@@ -604,7 +601,19 @@ namespace PortalSicoobDivicred.Controllers
             // TempData["id"] = dados.id;
             var atualizaTarefa = new QueryMysqlParametros();
             atualizaTarefa.AtualizarTarefa(dados.idTarefa.ToString(),dados.DescricaoTarefa);
-            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
+            return RedirectToAction("Parametros", new { mensagemValidacao = "Registro alterado com sucesso!!" });
+        }
+
+        [HttpPost]
+        public ActionResult AtualizaDadosSubtarefa(Parametros dados, FormCollection receberForm)
+        {
+            // TempData["id"] = dados.id;
+            var atualizaTarefa = new QueryMysqlParametros();
+
+            TimeSpan sla = TimeSpan.FromSeconds(Convert.ToDouble(receberForm["Editarseconds"]));
+
+            atualizaTarefa.AtualizarSubtarefa(dados.idSubtarefas,dados.SubtarefasDescricao, dados.idTarefaSubtarefas,dados.id,sla.ToString(),dados.MultiploAtendente);
+            return RedirectToAction("Parametros", new { mensagemValidacao = "Registro alterado com sucesso!!" });
         }
 
 
@@ -620,7 +629,7 @@ namespace PortalSicoobDivicred.Controllers
             //TempData["id"] = dados.id;
             var atualizaFuncionario = new QueryMysqlParametros();
             atualizaFuncionario.AtualizaGrupos(dados.id, dados.DescricaoGrupos);
-            return RedirectToAction("Parametros", new { Mensagem = "Registro alterado com sucesso!!" });
+            return RedirectToAction("Parametros", new { mensagemValidacao = "Registro alterado com sucesso!!" });
         }
 
 
@@ -633,12 +642,12 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirFuncionario(IdFuncionario);
                 return RedirectToAction("Parametros", "Parametros",
-                    new { Mensagem = "Funcion�rio excluido com sucesso !" });
+                    new { mensagemValidacao = "Funcionário excluido com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
         }
-
+        /*
         public ActionResult ExcluirGrupo(string IdFuncionario)
         {
             var VerificaDados = new QueryMysqlParametros();
@@ -647,12 +656,12 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirFuncionario(IdFuncionario);
                 return RedirectToAction("Parametros", "Parametros",
-                    new { Mensagem = "Funcion�rio excluido com sucesso !" });
+                    new { Mensagem = "Grupo excluido com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");
         }
-
+        */
 
         public ActionResult Tarefas()
         {
@@ -730,6 +739,38 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+
+        [HttpPost]
+        public ActionResult BuscaSubtarefa(string DescricaoSubtarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                var Subtarefa = VerificaDados.BuscaSubtarefa(DescricaoSubtarefa);
+                if (Subtarefa.Count != 0)
+                {
+                    for (var i = 0; i < Subtarefa.Count; i++)
+                    {
+                        TempData["Id" + i] = Subtarefa[i]["id"];
+                        TempData["Descricao" + i] = Subtarefa[i]["descricao"];
+                    }
+
+
+                    TempData["TotalResultado"] = Subtarefa.Count;
+
+                    TempData["id"] = Subtarefa[0]["id"];
+                    return PartialView("PesquisaSubtarefas");
+                }
+                else
+                {
+                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
+                }
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
         [HttpPost]
         public ActionResult RecuperaTarefa(string IdTarefa)
         {
@@ -756,6 +797,37 @@ namespace PortalSicoobDivicred.Controllers
             return RedirectToAction("Login", "Login");
         }
 
+        [HttpPost]
+        public ActionResult RecuperaSubtarefa(string IdSubtarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+
+               
+                var DadosSubtarefa = VerificaDados.RecuperaDadosSubtarefa(IdSubtarefa);
+                var SubtarefaRecupera = new Parametros();
+                var dadosTabelaTarefa = VerificaDados.RetornaTarefas();
+                var dadosTabelaFuncionario = VerificaDados.RetornaFuncionarios();
+
+                SubtarefaRecupera.idSubtarefas = Convert.ToInt32(DadosSubtarefa[0]["id"]);
+                SubtarefaRecupera.SubtarefasDescricao = DadosSubtarefa[0]["descricao"];
+                SubtarefaRecupera.DescricaoTarefas = dadosTabelaTarefa;
+                SubtarefaRecupera.idTarefaSubtarefas = Convert.ToInt32(DadosSubtarefa[0]["idtarefa"]);
+                SubtarefaRecupera.FuncionariosNome = dadosTabelaFuncionario;
+                SubtarefaRecupera.id = Convert.ToInt32(DadosSubtarefa[0]["idfuncionarioresponsavel"]);
+                SubtarefaRecupera.TempoSubTarefa = DadosSubtarefa[0]["tempo"];
+                SubtarefaRecupera.MultiploAtendente = DadosSubtarefa[0]["multiploatendente"];
+
+
+                return PartialView("EditarSubtarefa", SubtarefaRecupera);
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+
         public ActionResult ExcluirTarefa(string IdTarefa)
         {
             var VerificaDados = new QueryMysqlParametros();
@@ -764,7 +836,21 @@ namespace PortalSicoobDivicred.Controllers
             {
                 VerificaDados.ExcluirTarefa(IdTarefa);
                 return RedirectToAction("Parametros", "Parametros",
-                    new { Mensagem = "Tarefa excluida com sucesso !" });
+                    new { mensagemValidacao = "Tarefa excluida com sucesso !" });
+            }
+
+            return RedirectToAction("Login", "Login");
+        }
+
+        public ActionResult ExcluirSubtarefa(string IdSubtarefa)
+        {
+            var VerificaDados = new QueryMysqlParametros();
+            var Logado = VerificaDados.UsuarioLogado();
+            if (Logado)
+            {
+                VerificaDados.ExcluirSubtarefa(IdSubtarefa);
+                return RedirectToAction("Parametros", "Parametros",
+                    new { mensagemValidacao = "Tarefa excluída com sucesso !" });
             }
 
             return RedirectToAction("Login", "Login");

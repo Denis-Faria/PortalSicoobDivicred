@@ -108,6 +108,8 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor inserir um tempo da subtarefa")]
         public string TempoSubTarefa { get; set; }
 
+        public string MultiploAtendente { get; set; }
+
 
 
     }

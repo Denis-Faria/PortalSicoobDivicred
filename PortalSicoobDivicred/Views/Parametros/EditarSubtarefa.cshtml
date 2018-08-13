@@ -3,6 +3,12 @@
 
 <script>
 
+
+
+    
+    
+
+    
     $(function () {
         $('#EditarTempoSubTarefa').timeDurationPicker({
             defaultValue: function () {
@@ -47,7 +53,7 @@
                                         'close',
                                         'btn1');
 
-                                    location.href = "/Parametros/Parametros?Mensagem=Subtarefa excluída com sucesso";
+                                    location.href = "/Parametros/Parametros?mensagemValidacao=Subtarefa excluída com sucesso";
 
                                 }
                             });
@@ -133,7 +139,7 @@
                 <p class="control">
                     <label class="label">Tempo de Atendimento Tarefa</label>
                     @Html.TextBoxFor(m => m.TempoSubTarefa, null, new { @class = "input", id = "EditarTempoSubTarefa", autocomplete = "off" })
-                    <input type="hidden" name="Editarseconds" name="ValorEditar" id="Editarseconds" />
+                    <input type="hidden" name="Editarseconds" value="@TempData["Tempo"]" id="Editarseconds" />
                     @Html.ValidationMessageFor(m => m.TempoSubTarefa, null, new { style = "color:red" })
                 </p>
             </div>

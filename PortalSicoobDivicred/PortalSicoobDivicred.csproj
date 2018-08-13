@@ -359,6 +359,7 @@
     <Content Include="Assets\css\iziToast.css" />
     <Content Include="Assets\css\iziToast.min.css" />
     <Content Include="Assets\css\Login.css" />
+    <Content Include="Assets\css\multi-select.css" />
     <Content Include="Assets\css\style.css" />
     <Content Include="Assets\css\StyleSheet1.css">
       <DependentUpon>StyleSheet1.scss</DependentUpon>
@@ -946,7 +947,7 @@
     <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
     <Content Include="Views\WebDesk\FormularioAberturaChamado.cshtml" />
     <Content Include="Views\WebDesk\ParametrosFuncionario.cshtml" />
-    <Content Include="Views\Parametros\Parametros.cshtml" />
+    <Content Include="Views\Parametros\Parametros1111.cshtml" />
     <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
     <Content Include="Views\WebDesk\FormularioSetorEdicao.cshtml" />
     <Content Include="Views\WebDesk\NovaTarefa.cshtml" />
@@ -973,6 +974,7 @@
     <Content Include="Views\Parametros\PesquisaTarefas.cshtml" />
     <Content Include="Views\Parametros\PesquisaSubtarefas.cshtml" />
     <Content Include="Views\Parametros\EditarSubtarefa.cshtml" />
+    <Content Include="Views\Parametros\Parametros.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

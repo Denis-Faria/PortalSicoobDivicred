@@ -65,15 +65,15 @@ namespace PortalSicoobDivicred.Models
         [Required(ErrorMessage = "Favor informar o seu nome!")]
         public string Gestor { get; set; }
 
-        [Required(ErrorMessage = "Informe se o funcion�rio � estagi�rio")]
+        [Required(ErrorMessage = "Informe se o funcionário é estagiário")]
         public string Estagiario { get; set; }
 
-        [Required(ErrorMessage = "Informe se o n�mero da matr�cula")]
+        [Required(ErrorMessage = "Informe se o número da matrícula")]
         public string Matricula { get; set; }
 
         
 
-        [Required(ErrorMessage = "Favor informar a descri��o do Grupo!")]
+        [Required(ErrorMessage = "Favor informar a descrição do Grupo!")]
         public string DescricaoGrupos{ get; set; }
 
 
@@ -93,10 +93,12 @@ namespace PortalSicoobDivicred.Models
 
         public int idSubtarefas { get; set; }
 
+        [Required(ErrorMessage = "Favor inserir a descrição")]
         public string SubtarefasDescricao { get; set; }
 
         public int idTarefaSubtarefas { get; set; }
-        public int idTarefaDescricaoSubtarefas { get; set; }
+      
+        //  public int idTarefaDescricaoSubtarefas { get; set; }
        // public List<SelectListItem> DescricaoSubtarefas { get; set; }
 
         public int idFunRespSubtarefas { get; set; }

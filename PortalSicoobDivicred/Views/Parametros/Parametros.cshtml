@@ -1,4 +1,4 @@
-@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
+﻿@model PortalSicoobDivicred.Models.SolicitacaoWebDesk
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -136,7 +136,7 @@
         $.ajax(
             {
                 type: 'GET',
-                url: '/Parametros/Subtarefas',
+                url: '/Parametros/Tarefas',
                 dataType: 'html',
                 cache: true,
                 async: true,
@@ -239,13 +239,13 @@
                 <div class="column -is-6">
                     <nav class="panel">
                         <p class="panel-heading">
-                            Par�metros
+                            Parâmetros
                         </p>
                         <a id="PanelFuncionario" style="background-color: white" class="panel-block" href="Javascript:Funcionario();void(0);">
                             <span class="panel-icon">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            Funcion�rios
+                            Funcionários
                         </a>
                         <a id="PanelGrupo" style="background-color: white" class="panel-block" href="Javascript:Grupo();void(0);">
                             <span class="panel-icon">
@@ -257,13 +257,13 @@
                             <span class="panel-icon">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            Permiss�es(Grupos)
+                            Permissões(Grupos)
                         </a>
                         <a id="PanelPermissaoFuncionario" style="background-color: white" class="panel-block" href="Javascript:PermissaoFuncionario();void(0);">
                             <span class="panel-icon">
                                 <i class="fas fa-address-card"></i>
                             </span>
-                            Permiss�es(Funcion�rios)
+                            Permissões(Funcionários)
                         </a>
 
                         <a id="PanelTarefas" style="background-color: white" class="panel-block" href="Javascript:Tarefas();void(0);">

@@ -818,6 +818,16 @@ namespace PortalSicoobDivicred.Controllers
                 SubtarefaRecupera.FuncionariosNome = dadosTabelaFuncionario;
                 SubtarefaRecupera.id = Convert.ToInt32(DadosSubtarefa[0]["idfuncionarioresponsavel"]);
                 SubtarefaRecupera.TempoSubTarefa = DadosSubtarefa[0]["tempo"];
+
+     //           TempData["Tempo"] =  TimeSpan.FromSeconds(Convert.ToDouble(DadosSubtarefa[0]["tempo"]));
+
+                
+                TimeSpan sla1 = TimeSpan.Parse(DadosSubtarefa[0]["tempo"]);
+                TempData["Tempo"] = sla1.TotalSeconds;
+                
+
+
+
                 SubtarefaRecupera.MultiploAtendente = DadosSubtarefa[0]["multiploatendente"];
 
 

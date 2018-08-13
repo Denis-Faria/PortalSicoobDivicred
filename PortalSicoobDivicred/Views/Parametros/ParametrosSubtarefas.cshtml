@@ -6,6 +6,16 @@
 <script>
 
 
+    document.getElementById('scroll')
+        .addEventListener('scroll', function (event) {
+            console.log("Scrolling");
+            $('#EditarTempoSubTarefa').blur();
+
+        });
+
+
+
+
     $(function () {
         $('#TempoSubTarefa').timeDurationPicker({
             defaultValue: function () {
@@ -19,7 +29,7 @@
     });
 
     function Buscar() {
-        
+
         $("#ListaSubtarefas").empty();
         $.ajax(
             {
@@ -42,12 +52,10 @@
 
 
 
-<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
-<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 
 <div class="field is-grouped is-desktop">
-    <p class="control">
-        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma subtarefa existente." data-balloon-pos="down" onclick="javascript:$('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal is-active');void(0);">
+    <p class="control" style="z-index: 2">
+        <button class="button is-primary modal-button" id="NovoChamado" onmouseleave="$('#NovoChamado').removeClass('animated pulse')" onmouseover="$('#NovoChamado').addClass('animated pulse');" data-balloon="Clique para editar uma subtarefa existente." data-balloon-pos="down" onclick="javascript: $('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal is-active');void(0);">
             <span class="icon is-small">
                 <i class="fas fa-edit" aria-hidden="true"></i>
             </span>
@@ -56,6 +64,9 @@
         </button>
     </p>
 </div>
+
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type="text/javascript" />
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type="text/javascript"></script>
 @using (Html.BeginForm("SalvarSubtarefa", "Parametros", FormMethod.Post))
 {
     <div class="card">
@@ -70,6 +81,8 @@
                 <div class="column is-5" id="descricaoSubtarefas">
                     <label class="label">Descrição Subtarefas</label>
                     @Html.TextBoxFor(m => m.SubtarefasDescricao, null, new { @class = "input", type = "Text", step = "0.01" })
+                    @Html.ValidationMessageFor(m => m.SubtarefasDescricao, null, new { style = "color:red" })
+
                 </div>
 
 
@@ -107,7 +120,7 @@
 
                     <div class="field">
                         <label class="label">Múltiplo Atendente?</label>
-                        @Html.RadioButtonFor(m => m.MultiploAtendente, "S", new { @class = "is-checkradio is-small", id = "MultiploAtendentesim",@checked="checked" })
+                        @Html.RadioButtonFor(m => m.MultiploAtendente, "S", new { @class = "is-checkradio is-small", id = "MultiploAtendentesim", @checked = "checked" })
                         <label for="MultiploAtendentesim">
                             Sim
                         </label>
@@ -125,11 +138,11 @@
     <br>
     <div>
         <p class="control">
-            <button type="submit" class="button is-success " id="CadastroUsuario" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
+            <button type="submit" class="button is-success " id="CadastroSubtarefa" data-balloon="Clique para cadastrar um usuário." data-balloon-pos="down">
                 <span class="icon is-small">
                     <i class="fas fa-save" aria-hidden="true"></i>
                 </span>
-                <span class="name">Cadastrar Tarefa</span>
+                <span class="name">Cadastrar Subtarefa</span>
             </button>
         </p>
     </div>
@@ -137,6 +150,8 @@
 
 @using (Html.BeginForm("AtualizaDadosSubtarefa", "Parametros", FormMethod.Post))
 {
+
+
     <div id="ModalSubtarefa" class="modal">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -144,7 +159,7 @@
                 <p class="modal-card-title">Editar Subtarefa</p>
                 <a href="javascript:$('#ModalSubtarefa').removeClass();$('#ModalSubtarefa').addClass('modal');void(0);" class="delete"></a>
             </header>
-            <section class="modal-card-body">
+            <section class="modal-card-body" id="scroll">
                 <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">

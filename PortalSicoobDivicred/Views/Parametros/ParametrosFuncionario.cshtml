@@ -54,7 +54,7 @@
         </button>
     </p>
 </div>
-@using (Html.BeginForm("SalvarUsuario", "Parametros"))
+@using (Html.BeginForm("SalvarUsuario", "Parametros", FormMethod.Post))
 {
     <div class="card">
 
@@ -65,9 +65,11 @@
         </header>
         <div class="card-content">
             <div class="columns content">
-                <div class="column is-5" id="nome">
+                <div class="column is-5" id="nomeFunc">
                     <label class="label">Nome</label>
-                    @Html.TextBoxFor(m => m.NomeFuncionario, null, new { @class = "input", type = "Text", step = "0.01" })
+                    @Html.TextBoxFor(m => m.NomeFuncionario, null, new {@class = "input", type = "Text", step = "0.01" })
+                    @Html.ValidationMessageFor(m => m.NomeFuncionario, null, new { style = "color:red" })
+                    
                 </div>
                 <div class="column is-5">
                     <div class="control" id="idPA">

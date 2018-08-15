@@ -1,8 +1,8 @@
-using System;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace PortalSicoobDivicred.Models
 {
@@ -32,16 +32,17 @@ namespace PortalSicoobDivicred.Models
 
         public int id { get; set;}
 
-        [Required(ErrorMessage = "Favor informar o seu nome!")]
+        [Required(ErrorMessage = "Favor informar o nome!")]
         public string NomeFuncionario { get; set; }
+
         public List<SelectListItem> FuncionariosNome { get; set; }
 
 
         [Required(ErrorMessage = "Favor informar o seu PA!")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas n�meros")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Informe apenas números")]
         public int Pa { get; set; }
 
-        [Required(ErrorMessage = "Favor informar a data de Admiss�o")]
+        [Required(ErrorMessage = "Favor informar a data de Admissão")]
         public string dataAdmissao { get; set; }
 
         [Required(ErrorMessage = "Favor informar o seu CPF!")]
@@ -82,7 +83,7 @@ namespace PortalSicoobDivicred.Models
         
         public string Permitido { get; set; }
 
-        public int idPermissaoFuncionario { get; set; }
+      //  public int idPermissaoFuncionario { get; set; }
         public List<SelectListItem> PermissaoFuncionario { get; set; }
 
         public int idTarefa { get; set; }
@@ -101,11 +102,11 @@ namespace PortalSicoobDivicred.Models
         //  public int idTarefaDescricaoSubtarefas { get; set; }
        // public List<SelectListItem> DescricaoSubtarefas { get; set; }
 
-        public int idFunRespSubtarefas { get; set; }
+      //  public int idFunRespSubtarefas { get; set; }
 
         
 
-        public string multiploatendenteSubtarefas { get; set; }
+      //  public string multiploatendenteSubtarefas { get; set; }
 
         [Required(ErrorMessage = "Favor inserir um tempo da subtarefa")]
         public string TempoSubTarefa { get; set; }

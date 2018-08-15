@@ -139,6 +139,14 @@ namespace PortalSicoobDivicred.Aplicacao
             ConexaoMysql.ExecutaComando(queryInsereSubtarefa);
         }
 
+        public void InserePermissaoFuncionario(string idpermissao, string idFuncionario)
+        {
+            var queryInserePermissaoFuncionario =
+                "INSERT INTO permissoesfuncionarios (idpermissao,idfuncionario,idaplicativo,valor) values ('" +
+                idpermissao + "','" + idFuncionario + "','0','S') ";
+            ConexaoMysql.ExecutaComando(queryInserePermissaoFuncionario);
+        }
+
         public void InsereGrupos(string descricao)
         {
             var queryInsereGrupos =
@@ -183,6 +191,7 @@ namespace PortalSicoobDivicred.Aplicacao
             return Dados;
 
         }
+
         /*
         public List<SelectListItem> BuscaPermissoesFuncionario(string id)
         {
@@ -266,6 +275,13 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var queryAlteraGrupos = "UPDATE grupos SET descricao='" + descricao + "' where id='" + id + "'";
             var Dados = ConexaoMysql.ExecutaComando(queryAlteraGrupos);
+
+        }
+
+        public void ExcluiPermissaoFuncionario(string idpermissao,string idfuncionario)
+        {
+            var queryExcluiPermissao = "UPDATE permissoesfuncionarios SET valor='N' where idpermissao='" + idpermissao + "' and idfuncionario='"+idfuncionario+"'";
+            ConexaoMysql.ExecutaComando(queryExcluiPermissao);
 
         }
 

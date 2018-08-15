@@ -781,6 +781,7 @@
     <Compile Include="Models\ParecerProcesso.cs" />
     <Compile Include="Models\Pgd.cs" />
     <Compile Include="Models\RecrutamentoSelecao.cs" />
+    <Compile Include="Models\PermissaoFuncionario.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Models\SolicitacaoWebDesk.cs" />
     <Compile Include="Models\Tarefa.cs" />
@@ -947,7 +948,6 @@
     <Content Include="Views\WebDesk\FormularioSetor.cshtml" />
     <Content Include="Views\WebDesk\FormularioAberturaChamado.cshtml" />
     <Content Include="Views\WebDesk\ParametrosFuncionario.cshtml" />
-    <Content Include="Views\Parametros\Parametros1111.cshtml" />
     <Content Include="Views\Parametros\ParametrosFuncionario.cshtml" />
     <Content Include="Views\WebDesk\FormularioSetorEdicao.cshtml" />
     <Content Include="Views\WebDesk\NovaTarefa.cshtml" />

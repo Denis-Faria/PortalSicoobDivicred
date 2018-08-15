@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Nest;
 using PortalSicoobDivicred.Aplicacao;
 using PortalSicoobDivicred.Models;
+using Id = DocumentFormat.OpenXml.Office2010.Excel.Id;
 
 namespace PortalSicoobDivicred.Controllers
 {
@@ -173,45 +174,14 @@ namespace PortalSicoobDivicred.Controllers
                     TempData["TotalMenor"] = permissoes.Count;
                 }
 
-              //  TempData["TotalResultadoPermissoes"] = permissoes.Count + permissoesAtivas.Count;
+                TempData["idFuncionario"] = IdFuncionario;
+
+             
                 return PartialView("ExibirPermissoes", dadosPermissoes);
             }
             return RedirectToAction("Login", "Login");
         }
 
-
-        /*
-        [HttpPost]
-        public ActionResult BuscarFuncionarioPermissao(string NomeFuncionario)
-        {
-            var VerificaDados = new QueryMysqlParametros();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-            {
-                var Permissoes = VerificaDados.BuscaPermissoesFuncionario(NomeFuncionario);
-                if (Permissoes.Count != 0)
-                {
-                    for (var i = 0; i < Permissoes.Count; i++)
-                    {
-                        TempData["Id" + i] = Permissoes[i]["id"];
-                        TempData["Permissoes" + i] = Permissoes[i]["nome"];
-                    }
-
-
-                   // TempData["TotalResultado"] = Funcionarios.Count;
-                   // TempData["Editar"] = "EditarFuncao";
-                   // TempData["id"] = Funcionarios[0]["id"];
-                    return PartialView("PesquisaParametros");
-                }
-                else
-                {
-                    return RedirectToAction("BuscarFuncionario", new { Erro = "Nenhum registro encontrato." });
-                }
-            }
-
-            return RedirectToAction("Login", "Login");
-        }
-        */
 
         // RetonarPermissoesFuncionario
 
@@ -598,7 +568,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizaDadosTarefa(Parametros dados, FormCollection receberForm)
         {
-            // TempData["id"] = dados.id;
+           
             var atualizaTarefa = new QueryMysqlParametros();
             atualizaTarefa.AtualizarTarefa(dados.idTarefa.ToString(),dados.DescricaoTarefa);
             return RedirectToAction("Parametros", new { mensagemValidacao = "Registro alterado com sucesso!!" });
@@ -607,7 +577,7 @@ namespace PortalSicoobDivicred.Controllers
         [HttpPost]
         public ActionResult AtualizaDadosSubtarefa(Parametros dados, FormCollection receberForm)
         {
-            // TempData["id"] = dados.id;
+           
             var atualizaTarefa = new QueryMysqlParametros();
 
             TimeSpan sla = TimeSpan.FromSeconds(Convert.ToDouble(receberForm["Editarseconds"]));
@@ -647,21 +617,7 @@ namespace PortalSicoobDivicred.Controllers
 
             return RedirectToAction("Login", "Login");
         }
-        /*
-        public ActionResult ExcluirGrupo(string IdFuncionario)
-        {
-            var VerificaDados = new QueryMysqlParametros();
-            var Logado = VerificaDados.UsuarioLogado();
-            if (Logado)
-            {
-                VerificaDados.ExcluirFuncionario(IdFuncionario);
-                return RedirectToAction("Parametros", "Parametros",
-                    new { Mensagem = "Grupo excluido com sucesso !" });
-            }
-
-            return RedirectToAction("Login", "Login");
-        }
-        */
+      
 
         public ActionResult Tarefas()
         {
@@ -700,12 +656,65 @@ namespace PortalSicoobDivicred.Controllers
         }
 
 
-
+        
         [HttpPost]
-        public ActionResult EnviarDadosArrayPermissoes(Item[] TabelaPermissoes)
+        public async Task<JsonResult> EnviarDadosArrayPermissoes(PermissaoFuncionario[] tabelaPermissoesFuncionario, PermissaoFuncionario[] tabelaPermissoesInativasFuncionario, string idFuncionario)
         {
 
-            return PartialView("ExibirPermissoes");
+            var dadosPermissoes = new PermissaoFuncionario();
+            var VerificaDados = new QueryMysqlParametros();
+
+            //var permissoes = VerificaDados.BuscaPermissoesFuncionario(idFuncionario);
+            var permissoesAtivas = VerificaDados.BuscaPermissoesAtivasFuncionario(idFuncionario);
+
+            if (permissoesAtivas.Count == 0)
+            {
+                for (var m = 0; m < tabelaPermissoesFuncionario.Length; m++)
+                {
+
+                        VerificaDados.InserePermissaoFuncionario(tabelaPermissoesFuncionario[m].Permissao,
+                            idFuncionario);
+                 
+                }
+            }
+
+            if (tabelaPermissoesInativasFuncionario!= null)
+            {
+                for (var i = 0; i < permissoesAtivas.Count; i++)
+                {
+
+                    for (var m = 0; m < tabelaPermissoesInativasFuncionario.Length; m++)
+                    {
+                        if (permissoesAtivas[i]["descricao"] ==
+                            tabelaPermissoesInativasFuncionario[m].PermissaoExcluida)
+                        {
+                            VerificaDados.ExcluiPermissaoFuncionario(
+                                tabelaPermissoesInativasFuncionario[m].PermissaoExcluida, idFuncionario);
+                        }
+                    }
+                }
+            }
+
+            if (tabelaPermissoesFuncionario!=null)
+            {
+                for (var i = 0; i < permissoesAtivas.Count; i++)
+                {
+                    for (var m = 0; m < tabelaPermissoesFuncionario.Length; m++)
+                    {
+                        if (permissoesAtivas[i]["descricao"] == tabelaPermissoesFuncionario[m].Permissao)
+                        {
+                            //VerificaDados.ExcluiPermissaoFuncionario(tabelaPermissoesInativasFuncionario[m].PermissaoExcluida, idFuncionario);
+                        }
+                        else
+                        {
+                            VerificaDados.InserePermissaoFuncionario(tabelaPermissoesFuncionario[m].Permissao,
+                                idFuncionario);
+                        }
+                    }
+                }
+            }
+
+            return Json("Ok");
         }
 
         [HttpPost]

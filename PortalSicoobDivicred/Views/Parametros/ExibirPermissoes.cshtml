@@ -8,9 +8,9 @@
         {
             for (var i = 0; i < Convert.ToInt32(TempData["TotalResultados"]); i++)
             {
-        
-                    <option> @TempData["descricao" + i].ToString() </option>
-           
+
+                <option> @TempData["descricao" + i].ToString() </option>
+
                 if (i < Convert.ToInt32(TempData["TotalMenor"]))
                 {
                     <option selected> @TempData["descricaoAtivas" + i].ToString() </option>
@@ -23,12 +23,12 @@
         {
             for (var i = 0; i < Convert.ToInt32(TempData["TotalResultados"]); i++)
             {
-                    <option selected> @TempData["descricaoAtivas" + i].ToString() </option>
-                
+                <option selected> @TempData["descricaoAtivas" + i].ToString() </option>
+
                 if (i < Convert.ToInt32(TempData["TotalMenor"]))
                 {
                     <option> @TempData["descricao" + i].ToString() </option>
-                    
+
                 }
 
             }
@@ -39,37 +39,61 @@
 </body>
 
 <div class="ms-selection">
-    <ul tabindex="-1" class="ms-list">
-              
-    </ul>
+    <ul tabindex="-1" class="ms-list"></ul>
 </div>
+
 <script type="text/javascript">
-    multiFiles = [];
+    var multiFiles = [];
+    var  multiFilesSaida = [];
 
     $('#my-select').multiSelect({
         afterSelect: function (values) {
-            this.multiFiles.push(values);
-        },
-        afterDeselect: function (values) {
 
+            for (var i = 0; i < multiFilesSaida.length; i++) {
+                if (multiFilesSaida[i].PermissaoExcluida === values.toString()) {
+                    multiFilesSaida.splice(i, 1);
+                }
+            }
+
+            var item = {
+                Permissao: (values).toString()
+            };
+            multiFiles.push(item);
+        },
+
+        afterDeselect: function (values) {
+            for (var i = 0; i < multiFiles.length; i++) {
+                if (multiFiles[i].Permissao === values.toString()) {
+                    multiFiles.splice(i, 1);
+                }
+            }
+            var itemSaida = {
+                PermissaoExcluida: (values).toString()
+            };
+
+            multiFilesSaida.push(itemSaida);
         }
     });
 
     function EnviarPermissoes() {
-        alert("teste" + multiFiles[0]);
+       
         $.ajax({
-            url: '/Parametros/EnviarDadosArrayPermissoes',
-            dataType: 'html',
-            cache: true,
-            async: true,
-            data: {"TabelaPermissoes":multiFiles},
+            url: '@Url.Action("EnviarDadosArrayPermissoes", "Parametros")', //
             type: "POST",
+            dataType: "json",
+            data: JSON.stringify({
+                TabelaPermissoesFuncionario: multiFiles,
+                TabelaPermissoesInativasFuncionario: multiFilesSaida,
+                IdFuncionario: '@TempData["idFuncionario"].ToString()'
+            }), 
+            contentType: "application/json; charset=utf-8",
+
             success: function (data) {
-                
+
                 iziToast.success({
                     title: 'Sucesso',
                     position: "center",
-                    message: 'Pendências Apontada com sucesso !'
+                    message: 'Permissões alteradas com sucesso!'
                 });
 
             },
@@ -78,24 +102,33 @@
                 iziToast.error({
                     title: 'Erro',
                     position: "center",
-                    message: 'Erro ao confirmar pendencias'
+                    message: 'Erro ao atualizar Permissões'
                 });
 
             }
         });
     }
 
+
+
+
+
 </script>
-<div class="control">
+<footer class="modal-card-foot">
+    <a class="button" href="javascript:$('#ModalPermissoesFuncionario').removeClass();$('#ModalPermissoesFuncionario').addClass('modal');void(0);">Cancelar</a>
     <div class="control">
-        <a href="Javascript:EnviarPermissoes();void(0);" class="button is-success">
-            Procurar
-        </a>
+        <div class="control">
+            <a href="Javascript:EnviarPermissoes();void(0);" class="button is-success">
+                Procurar
+            </a>
+        </div>
     </div>
-</div>
+</footer>
+
+
 
 
 
 <script type="text/javascript">
-  
+
 </script>

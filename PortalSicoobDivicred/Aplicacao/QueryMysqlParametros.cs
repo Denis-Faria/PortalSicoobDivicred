@@ -192,6 +192,17 @@ namespace PortalSicoobDivicred.Aplicacao
 
         }
 
+
+        public List<Dictionary<string, string>> BuscaPermissoesCadastradasFuncionario(string id)
+        {
+            var Query =
+                "select id,descricao from permissoes where descricao in (select idpermissao from permissoesfuncionarios where idfuncionario ='" +
+                id + "')";
+            var Dados = ConexaoMysql.ExecutaComandoComRetorno(Query);
+            return Dados;
+
+        }
+
         /*
         public List<SelectListItem> BuscaPermissoesFuncionario(string id)
         {
@@ -275,6 +286,20 @@ namespace PortalSicoobDivicred.Aplicacao
         {
             var queryAlteraGrupos = "UPDATE grupos SET descricao='" + descricao + "' where id='" + id + "'";
             var Dados = ConexaoMysql.ExecutaComando(queryAlteraGrupos);
+
+        }
+
+        public void ReiniciarSenha(string id)
+        {
+            var queryReiniciarSenha = "UPDATE funcionarios SET senha=md5('123') where id='"+id+"'";
+            var Dados = ConexaoMysql.ExecutaComando(queryReiniciarSenha);
+
+        }
+
+        public void IncluiPermissaoInativa(string permissao, string idFuncionario)
+        {
+            var queryAtualizaStatusPermissao = "UPDATE permissoesfuncionarios SET valor='S' where idpermissao='" + permissao + "' and idfuncionario='" + idFuncionario + "'";
+            ConexaoMysql.ExecutaComando(queryAtualizaStatusPermissao);
 
         }
 

@@ -1,7 +1,7 @@
 ﻿@model PortalSicoobDivicred.Models.Parametros
 
-<body>
 
+<section class="modal-card-body">
     <select multiple="multiple" id="my-select" name="my-select[]">
 
         @if (TempData["Maior"].ToString() == "Permissoes")
@@ -36,12 +36,10 @@
 
     </select>
 
-</body>
-
 <div class="ms-selection">
     <ul tabindex="-1" class="ms-list"></ul>
 </div>
-
+</section>
 <script type="text/javascript">
     var multiFiles = [];
     var  multiFilesSaida = [];
@@ -114,12 +112,13 @@
 
 
 </script>
+
 <footer class="modal-card-foot">
     <a class="button" href="javascript:$('#ModalPermissoesFuncionario').removeClass();$('#ModalPermissoesFuncionario').addClass('modal');void(0);">Cancelar</a>
     <div class="control">
         <div class="control">
             <a href="Javascript:EnviarPermissoes();void(0);" class="button is-success">
-                Procurar
+                Salvar Permissão
             </a>
         </div>
     </div>

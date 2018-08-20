@@ -48,6 +48,7 @@ namespace PortalSicoobDivicred.Controllers
 
         }
 
+       
 
         public ActionResult Funcionario()
         {
@@ -315,6 +316,25 @@ namespace PortalSicoobDivicred.Controllers
 
 
             return RedirectToAction("Parametros", "Parametros", new { Mensagem = "Permissão cadastrada com sucesso !" });
+        }
+
+       
+
+        [HttpPost]
+        public void  ReinicarSenha(string IdFuncionarios)
+        {
+           
+
+            var cookie = Request.Cookies.Get("CookieFarm");
+            if (cookie != null)
+            {
+                var verificaDados = new QueryMysqlParametros();
+                verificaDados.ReiniciarSenha(IdFuncionarios);
+
+            }
+
+
+        
         }
 
         [HttpPost]
@@ -665,7 +685,7 @@ namespace PortalSicoobDivicred.Controllers
             var VerificaDados = new QueryMysqlParametros();
 
             //var permissoes = VerificaDados.BuscaPermissoesFuncionario(idFuncionario);
-            var permissoesAtivas = VerificaDados.BuscaPermissoesAtivasFuncionario(idFuncionario);
+            var permissoesAtivas = VerificaDados.BuscaPermissoesCadastradasFuncionario(idFuncionario);
 
             if (permissoesAtivas.Count == 0)
             {
@@ -703,7 +723,7 @@ namespace PortalSicoobDivicred.Controllers
                     {
                         if (permissoesAtivas[i]["descricao"] == tabelaPermissoesFuncionario[m].Permissao)
                         {
-                            //VerificaDados.ExcluiPermissaoFuncionario(tabelaPermissoesInativasFuncionario[m].PermissaoExcluida, idFuncionario);
+                            VerificaDados.IncluiPermissaoInativa(tabelaPermissoesFuncionario[m].Permissao, idFuncionario);
                         }
                         else
                         {
